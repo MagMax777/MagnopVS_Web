@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS | LA CISMA DE LA CAOSFERA</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&amp;family=Audiowide&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed": "#2c0051",
+                    "secondary-fixed": "#ffd7f5",
+                    "outline-variant": "#3c494e",
+                    "on-primary-fixed": "#001f29",
+                    "on-tertiary-container": "#6e00c0",
+                    "secondary-fixed-dim": "#ffabf3",
+                    "on-secondary": "#5b005b",
+                    "on-secondary-fixed-variant": "#810081",
+                    "tertiary-fixed": "#efdbff",
+                    "on-surface": "#e5e2e3",
+                    "outline": "#869399",
+                    "error": "#ffb4ab",
+                    "tertiary-fixed-dim": "#dcb8ff",
+                    "surface-variant": "#353436",
+                    "surface-container-low": "#1c1b1c",
+                    "on-tertiary": "#480081",
+                    "on-error": "#690005",
+                    "on-secondary-fixed": "#380038",
+                    "background": "#131314",
+                    "surface-dim": "#131314",
+                    "on-tertiary-fixed-variant": "#6700b5",
+                    "primary-container": "#00ccff",
+                    "primary-fixed-dim": "#5ed4ff",
+                    "surface-container": "#201f20",
+                    "primary-fixed": "#bbe9ff",
+                    "primary": "#9de2ff",
+                    "on-secondary-container": "#500050",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-highest": "#353436",
+                    "surface-container-lowest": "#0e0e0f",
+                    "on-primary-fixed-variant": "#004d63",
+                    "error-container": "#93000a",
+                    "surface": "#131314",
+                    "on-primary": "#003545",
+                    "inverse-primary": "#006782",
+                    "inverse-on-surface": "#313031",
+                    "surface-tint": "#5ed4ff",
+                    "surface-container-high": "#2a2a2b",
+                    "secondary-container": "#fe00fe",
+                    "on-primary-container": "#005369",
+                    "on-surface-variant": "#bbc8d0",
+                    "tertiary": "#e8ceff",
+                    "surface-bright": "#3a393a",
+                    "secondary": "#ffabf3",
+                    "on-background": "#e5e2e3",
+                    "inverse-surface": "#e5e2e3",
+                    "tertiary-container": "#d5abff",
+                    "glass-panel": "rgba(20, 20, 25, 0.7)",
+                    "glass-border": "rgba(157, 226, 255, 0.2)"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "grid-cols": "12",
+                    "margin-mobile": "24px",
+                    "margin-desktop": "64px",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Orbitron"],
+                    "display-lg": ["Audiowide"],
+                    "headline-md": ["Orbitron"],
+                    "label-sm": ["Orbitron"],
+                    "body-md": ["Orbitron"],
+                    "display-xl": ["Audiowide"],
+                    "display-lg-mobile": ["Audiowide"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.2em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "display-xl": ["72px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0e0e0f;
+            color: #e5e2e3;
+            overflow-x: hidden;
+        }
+        .glass-morphism {
+            backdrop-filter: blur(12px);
+            background: rgba(20, 20, 25, 0.6);
+            border: 1px solid rgba(157, 226, 255, 0.15);
+        }
+        .energy-border {
+            position: relative;
+        }
+        .energy-border::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: linear-gradient(90deg, transparent, #9de2ff, #fe00fe, transparent);
+            z-index: -1;
+            opacity: 0.3;
+            animation: border-flow 4s linear infinite;
+        }
+        @keyframes border-flow {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(157, 226, 255, 0.1);
+            position: absolute;
+            top: 0;
+            animation: scanline-move 8s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes scanline-move {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100vh); }
+        }
+        .glow-text-primary {
+            text-shadow: 0 0 10px rgba(157, 226, 255, 0.5);
+        }
+        .glow-text-secondary {
+            text-shadow: 0 0 10px rgba(254, 0, 254, 0.5);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #0e0e0f; }
+        ::-webkit-scrollbar-thumb { background: #3c494e; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9de2ff; }
+    </style>
+</head>
+<body class="font-body-md text-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- Background Shader -->
+
+<div class="scanline"></div>
+<!-- TopNavBar (Shared Component) -->
+<header class="fixed top-0 w-full h-16 bg-glass-panel backdrop-blur-xl border-b border-glass-border shadow-[0_0_20px_rgba(152,203,255,0.15)] flex justify-between items-center px-16 z-50">
+<div class="font-title-lg text-title-lg font-bold tracking-tighter text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary glow-text-secondary">hexagon</span>
+            MagnopVS
+        </div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-nav text-label-nav" href="#">Matrix</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-nav text-label-nav" href="#">Nexus</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-label-nav text-label-nav" href="#">Archive</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-nav text-label-nav" href="#">Marketplace</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="relative group">
+<input class="bg-surface-container-low border-b border-outline-variant text-label-sm font-label-sm px-3 py-1 focus:outline-none focus:border-primary w-40 transition-all focus:w-64" placeholder="BUSCAR ARCHIVO..." type="text"/>
+<span class="material-symbols-outlined absolute right-2 top-1 text-outline-variant">search</span>
+</div>
+<button class="material-symbols-outlined text-primary active:scale-95 transition-transform" style="font-variation-settings: 'FILL' 1;">account_circle</button>
+</div>
+</header>
+<!-- SideNavBar (Shared Component) -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-20 hover:w-64 transition-all duration-300 bg-glass-panel backdrop-blur-xl border-r border-glass-border shadow-[0_0_20px_rgba(152,203,255,0.1)] flex flex-col items-center py-6 z-40 group overflow-hidden">
+<div class="mb-8 flex flex-col items-center group-hover:items-start group-hover:px-6 w-full">
+<div class="w-10 h-10 rounded-full border border-primary p-0.5 mb-2 overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A futuristic holographic profile avatar of a synthetic intelligence, featuring glowing facial patterns and intricate circuitry overlays in blue and magenta, set against a dark tactical background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAITaFYuekXWvVOjX9wjEGDzJJfH4PQLIR1d7dUynjDPKCsAn7wJUMh_-ScYgG7dW018Y350OV3uhLdxEq1E4RBalKYAES-snQaN6cmKepUUxU51QGyLXicSkSJwejS5sz99JAFCqjY2oLDfcSBk0TxtEK5Z2SY8BJU1A3-4EmRWtQh21SK57rVf9Vs38IoESuTScTUI9DjC0dBjs_kyLrKiuQ1ryzhR-cwcREokkzIO8X-p4usNe_t5drKLYGPg3GtCM7-mA793VOD"/>
+</div>
+<div class="hidden group-hover:block transition-all">
+<div class="font-title-lg text-title-lg text-primary">OP-V1</div>
+<div class="text-[10px] text-outline-variant tracking-widest uppercase">Active Session</div>
+</div>
+</div>
+<nav class="flex flex-col w-full gap-4">
+<div class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-all cursor-pointer">
+<span class="material-symbols-outlined">analytics</span>
+<span class="hidden group-hover:block ml-4 font-label-nav text-label-nav">Telemetry</span>
+</div>
+<div class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-all cursor-pointer">
+<span class="material-symbols-outlined">hub</span>
+<span class="hidden group-hover:block ml-4 font-label-nav text-label-nav">Nodes</span>
+</div>
+<div class="flex items-center px-6 py-3 text-primary bg-primary-fixed-dim/10 transition-all cursor-pointer">
+<span class="material-symbols-outlined">explore</span>
+<span class="hidden group-hover:block ml-4 font-label-nav text-label-nav">Mission</span>
+</div>
+<div class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-all cursor-pointer">
+<span class="material-symbols-outlined">account_box</span>
+<span class="hidden group-hover:block ml-4 font-label-nav text-label-nav">Operator</span>
+</div>
+</nav>
+<div class="mt-auto w-full px-4 group-hover:block hidden">
+<button class="w-full py-2 bg-primary-container text-on-primary-container font-headline-md text-[12px] tracking-[0.2em] rounded-sm hover:brightness-110 active:scale-95 transition-all">
+                SYNC MATRIX
+            </button>
+</div>
+<div class="mt-6 flex flex-col w-full border-t border-glass-border pt-4">
+<div class="flex items-center px-6 py-2 text-on-surface-variant hover:text-primary transition-all cursor-pointer">
+<span class="material-symbols-outlined">settings</span>
+<span class="hidden group-hover:block ml-4 font-label-nav text-label-nav">Settings</span>
+</div>
+<div class="flex items-center px-6 py-2 text-on-surface-variant hover:text-primary transition-all cursor-pointer">
+<span class="material-symbols-outlined">help</span>
+<span class="hidden group-hover:block ml-4 font-label-nav text-label-nav">Support</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-20 mt-16 pb-20 px-16 min-h-screen">
+<div class="max-w-7xl mx-auto py-12">
+<!-- Breadcrumbs / Meta -->
+<div class="flex items-center gap-2 mb-6 font-label-sm text-label-sm text-outline tracking-widest uppercase">
+<span class="text-primary">ARQUIVO_NEXUS</span>
+<span class="material-symbols-outlined text-[12px]">chevron_right</span>
+<span class="text-outline-variant">TRANSMISION_0092-B</span>
+<span class="ml-auto flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+                    ESTADO: CRITICO
+                </span>
+</div>
+<div class="grid grid-cols-12 gap-8 items-start">
+<!-- Content Column -->
+<div class="col-span-12 lg:col-span-8 space-y-12">
+<!-- Hero Section -->
+<section class="relative group">
+<div class="absolute -top-4 -left-4 font-label-sm text-label-sm text-primary-fixed-dim/40 select-none">UID: 827-XRAY-ALPHA</div>
+<div class="relative overflow-hidden glass-morphism rounded-lg aspect-[21/9] border-2 border-primary/20 group-hover:border-primary/40 transition-colors">
+<img class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-1000" data-alt="A cinematic and hyper-detailed visual of a cosmic energy breach in deep space, glowing with intense violet and magenta hues. Ripples of celestial energy distort the surrounding starfield, creating a sense of sacred mystery and immense power. The lighting is dramatic, with high-contrast emissive glows and intricate particle effects floating in the void." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1MjunahuQQIYCFVwGdAZFdG4OGS7WxGc1QR5v2otAaMpOTTbVbyj40k-moqOc8oF1OX9iyYbpYnjpICUtFAUe7yhuxnGVy3BR89NC91IW11c30mvOeH7UHy-Zo3tHgH4Ow8wgZJeTOHMoNLlAmGj9ahkc6M_E_ofC3o9AkfvfhPOSPsitXkD9UkWS1-IzbwG3ipiOW2rPY_picVYoPe1gqpNw0FA8Fto65386BZkViaKEWBSuSaExgFgJQ5gzpY5zL6nEjUWbJmBw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60"></div>
+<div class="absolute bottom-6 left-8">
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary glow-text-primary uppercase leading-tight">
+                                    La Cisma de la Caosfera:<br/>Reporte de Anomalía
+                                </h1>
+</div>
+</div>
+</section>
+<!-- Article Body -->
+<section class="glass-morphism p-8 md:p-12 space-y-8 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary opacity-5 blur-[80px]"></div>
+<div class="border-l-4 border-secondary pl-6 italic font-body-lg text-body-lg text-secondary-fixed-dim">
+                            "El tejido de la realidad no solo se está estirando; se está reescribiendo bajo una frecuencia que no pertenece a nuestro espectro conocido. Los Pilares de Magnop están vibrando en una disonancia perfecta."
+                        </div>
+<div class="space-y-6 text-on-surface-variant font-body-md text-body-md leading-relaxed">
+<p>
+                                La estación de escucha <span class="text-primary font-bold">ALFA-7</span> ha detectado una fluctuación sin precedentes en la frontera de la <span class="text-secondary font-bold">Caosfera</span>. No es un simple error de sensores. Los datos sugieren una intrusión de geometría sagrada manifestándose físicamente como fracturas de energía violeta. 
+                            </p>
+<p>
+                                Los iniciados del Cónclave Nexus han denominado este fenómeno como 'La Cisma'. Los algoritmos de predicción colapsan al intentar modelar el crecimiento de la brecha. Se recomienda a todos los operadores de campo iniciar protocolos de aislamiento de datos y preparar sus núcleos de energía para una posible resonancia inminente.
+                            </p>
+</div>
+<!-- Data Module -->
+<div class="mt-12 space-y-4">
+<h3 class="font-headline-md text-headline-md text-primary flex items-center gap-3">
+<span class="material-symbols-outlined">data_object</span>
+                                MÉTRICAS DE ESTABILIDAD
+                            </h3>
+<div class="overflow-hidden border border-glass-border rounded">
+<table class="w-full text-left font-label-sm text-label-sm">
+<thead>
+<tr class="bg-surface-container-high text-primary border-b border-glass-border">
+<th class="p-4 uppercase tracking-widest">Parámetro</th>
+<th class="p-4 uppercase tracking-widest">Valor Actual</th>
+<th class="p-4 uppercase tracking-widest">Tendencia</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-glass-border">
+<tr class="hover:bg-primary/5 transition-colors">
+<td class="p-4 text-on-surface font-bold">Resonancia Cuántica</td>
+<td class="p-4 font-mono text-secondary">428.09 THz</td>
+<td class="p-4 text-error">CRÍTICA ▲ 12%</td>
+</tr>
+<tr class="hover:bg-primary/5 transition-colors">
+<td class="p-4 text-on-surface font-bold">Integridad de Campo</td>
+<td class="p-4 font-mono text-secondary">14.2%</td>
+<td class="p-4 text-error">DESCENSO ▼ 4%</td>
+</tr>
+<tr class="hover:bg-primary/5 transition-colors">
+<td class="p-4 text-on-surface font-bold">Nivel de Entropía</td>
+<td class="p-4 font-mono text-secondary">LEVEL-V</td>
+<td class="p-4 text-on-surface-variant">ESTABLE</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="flex flex-col md:flex-row gap-4 pt-8">
+<button class="flex-1 bg-transparent border border-primary text-primary hover:bg-primary/10 transition-all py-4 px-8 font-display-lg text-sm tracking-[0.3em] flex items-center justify-center gap-2 group">
+<span class="material-symbols-outlined group-hover:rotate-180 transition-transform duration-500">sync</span>
+                                SYNC DATA
+                            </button>
+<button class="flex-1 bg-surface-container-highest text-on-surface-variant border border-outline-variant hover:border-secondary transition-all py-4 px-8 font-display-lg text-sm tracking-[0.3em] flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">download</span>
+                                ARCHIVAR LOG
+                            </button>
+</div>
+</section>
+</div>
+<!-- Sidebar -->
+<div class="col-span-12 lg:col-span-4 space-y-8">
+<!-- Sidebar Module: Anomaly Map -->
+<section class="glass-morphism p-6 space-y-4">
+<div class="flex justify-between items-center">
+<h4 class="font-headline-md text-[14px] text-primary tracking-widest uppercase">Sector de Anomalía</h4>
+<span class="text-[10px] text-outline-variant">GRID-X72</span>
+</div>
+<div class="h-48 rounded bg-surface-container-lowest relative overflow-hidden border border-glass-border">
+<img class="w-full h-full object-cover opacity-60" data-alt="A tactical star map showing complex grid coordinates and glowing blue connection lines. A large, pulsing magenta circle indicates the center of a cosmic anomaly. The UI elements look like a professional military HUD from a sci-fi cockpit." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1gK8_4sIKQnT2s6Ko070UAr77ErLptx5bIH7Tx7UFPsxY_UtbK-WyO4piFQk6OsxK5_B0VVCim5cO7Ut8qnWBY6WhaIcELVsbh_96mhNJIK3bEt64z3B-73ISPlgjOiq1fsZa6u0BvS2Ap17cH76RDPouVRD0tttgGOfF2NJ9yLNn2OWW-m4UXE1AkCV0N6-dX248WCekWkRETQy9kkJ-vfP4biW0tr4AmVirC7y0w1fi8-aghHSbNkLY7FqcFvzZNtyPZLHhssFR"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-16 h-16 border-2 border-secondary rounded-full animate-ping opacity-20"></div>
+<div class="w-4 h-4 bg-secondary rounded-full shadow-[0_0_15px_#fe00fe]"></div>
+</div>
+</div>
+<div class="text-[10px] font-mono text-on-surface-variant flex justify-between">
+<span>LAT: -48.291.002</span>
+<span>LNG: +12.441.998</span>
+</div>
+</section>
+<!-- Related Sidebar -->
+<section class="glass-morphism p-6 space-y-6">
+<h4 class="font-headline-md text-[14px] text-primary tracking-widest uppercase">Transmisiones Relacionadas</h4>
+<div class="space-y-4">
+<!-- Transmission Item -->
+<div class="group cursor-pointer border-l-2 border-outline-variant hover:border-primary pl-4 transition-all">
+<div class="text-[10px] text-outline-variant uppercase mb-1">Hace 2 ciclos</div>
+<div class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">Protocolo de Emergencia 'Velo Blanco'</div>
+<div class="text-[11px] text-outline-variant mt-1">Autor: Primado Kaelen</div>
+</div>
+<!-- Transmission Item -->
+<div class="group cursor-pointer border-l-2 border-outline-variant hover:border-primary pl-4 transition-all">
+<div class="text-[10px] text-outline-variant uppercase mb-1">Hace 5 ciclos</div>
+<div class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">Análisis de Frecuencia Infrasonic-9</div>
+<div class="text-[11px] text-outline-variant mt-1">Autor: IA Central</div>
+</div>
+<!-- Transmission Item -->
+<div class="group cursor-pointer border-l-2 border-outline-variant hover:border-primary pl-4 transition-all">
+<div class="text-[10px] text-outline-variant uppercase mb-1">Hace 12 ciclos</div>
+<div class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">Restauración de Nodo Sigma-V</div>
+<div class="text-[11px] text-outline-variant mt-1">Autor: Operador V3</div>
+</div>
+</div>
+<button class="w-full py-2 text-primary font-label-sm text-label-sm border border-primary/20 hover:bg-primary/5 transition-all">VER ARCHIVO COMPLETO</button>
+</section>
+<!-- Stats / Energy Node -->
+<section class="glass-morphism p-6 bg-gradient-to-br from-glass-panel to-primary-container/5 relative overflow-hidden">
+<div class="flex items-center justify-between mb-4">
+<div class="font-headline-md text-[14px] text-secondary tracking-widest">NODO DE ENERGÍA</div>
+<span class="material-symbols-outlined text-secondary animate-spin" style="animation-duration: 4s;">settings_input_antenna</span>
+</div>
+<div class="text-center space-y-2">
+<div class="text-3xl font-display-lg text-primary glow-text-primary">98%</div>
+<div class="text-[10px] text-outline-variant tracking-widest uppercase">Capacidad de Sincronización</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="fixed bottom-0 w-full h-8 bg-surface-container-lowest border-t border-glass-border bg-scanline-blue flex justify-between items-center px-16 z-50 overflow-hidden">
+<div class="font-label-tiny text-[10px] tracking-widest uppercase text-on-surface flex items-center gap-2">
+<span class="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></span>
+            SYSTEM STATUS: NOMINAL | LATENCY: 12ms | NODE: ALPHA-7
+        </div>
+<div class="flex items-center gap-8 font-label-tiny text-[10px] tracking-widest uppercase text-outline">
+<a class="hover:text-tertiary transition-opacity" href="#">Protocol</a>
+<a class="hover:text-tertiary transition-opacity" href="#">Security</a>
+<a class="hover:text-tertiary transition-opacity" href="#">Contact</a>
+</div>
+</footer>
+<script>
+        // Micro-interactions and interactive logic
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hover effect on the sync button to simulate 'loading'
+            const syncBtn = document.querySelector('button:has(span:contains("sync"))');
+            if(syncBtn) {
+                syncBtn.addEventListener('mousedown', () => {
+                    syncBtn.classList.add('scale-95');
+                });
+                syncBtn.addEventListener('mouseup', () => {
+                    syncBtn.classList.remove('scale-95');
+                });
+            }
+
+            // Simple parallax for hero image
+            window.addEventListener('scroll', () => {
+                const scroll = window.pageYOffset;
+                const hero = document.querySelector('.aspect-\\[21\\/9\\] img');
+                if(hero) {
+                    hero.style.transform = `scale(1.05) translateY(${scroll * 0.1}px)`;
+                }
+            });
+        });
+
+        // Add "contains" selector functionality if needed or handle manually
+        const spans = document.querySelectorAll('span.material-symbols-outlined');
+        spans.forEach(span => {
+            if(span.textContent.trim() === 'sync') {
+                const btn = span.closest('button');
+                if(btn) {
+                   btn.addEventListener('click', () => {
+                        span.classList.add('animate-spin');
+                        setTimeout(() => span.classList.remove('animate-spin'), 2000);
+                   });
+                }
+            }
+        });
+    </script>
+</body></html>

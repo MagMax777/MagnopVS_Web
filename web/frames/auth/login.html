@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOPVS - Terminal de Autenticación</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700;900&amp;family=Space+Mono&amp;family=Hanken+Grotesk:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "black-mate": "#0a0a0c",
+                        "celestial-blue": "#00f5ff",
+                        "magenta": "#ff00ff",
+                        "surface": "#0e0e10",
+                        "on-surface": "#f8f7ff",
+                        "on-surface-variant": "#8c90a1"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px",
+                        "lg": "2px",
+                        "xl": "4px",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "unit": "4px",
+                        "node-gap": "24px",
+                        "gutter": "16px",
+                        "container-max": "640px",
+                        "margin-desktop": "48px",
+                        "margin-mobile": "24px"
+                    },
+                    fontFamily: {
+                        "display-xl": ["Audiowide", "cursive"],
+                        "headline-lg": ["Orbitron", "sans-serif"],
+                        "code-sm": ["Space Mono", "monospace"],
+                        "body-md": ["Hanken Grotesk", "sans-serif"]
+                    },
+                    animation: {
+                        "pulse-glow": "pulse-glow 3s ease-in-out infinite",
+                        "scanline": "scanline 12s linear infinite",
+                        "float-hologram": "float-hologram 8s ease-in-out infinite",
+                        "spin-slow": "spin 20s linear infinite",
+                        "beam-scan": "beam-scan 4s cubic-bezier(0.4, 0, 0.2, 1) infinite"
+                    },
+                    keyframes: {
+                        "pulse-glow": {
+                            '0%, 100%': { filter: 'drop-shadow(0 0 5px #00f5ff) brightness(1)' },
+                            '50%': { filter: 'drop-shadow(0 0 15px #00f5ff) brightness(1.2)' }
+                        },
+                        scanline: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(100%)' }
+                        },
+                        "float-hologram": {
+                            '0%, 100%': { transform: 'translateY(0) rotateX(0deg)' },
+                            '50%': { transform: 'translateY(-15px) rotateX(2deg)' }
+                        },
+                        "beam-scan": {
+                            '0%, 100%': { top: '0%', opacity: '0' },
+                            '10%, 90%': { opacity: '1' },
+                            '50%': { top: '100%', opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .glass-panel {
+            background: rgba(10, 10, 12, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 245, 255, 0.1);
+            box-shadow: inset 0 0 20px rgba(0, 245, 255, 0.05);
+        }
+
+        .hologram-effect {
+            position: relative;
+        }
+        .hologram-effect::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: linear-gradient(45deg, transparent, rgba(0, 245, 255, 0.1), transparent);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .grid-bg {
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(0, 245, 255, 0.05) 0%, transparent 70%),
+                linear-gradient(rgba(0, 245, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 245, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+        }
+
+        .scanline-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.05) 0px, rgba(0, 0, 0, 0.05) 1px, transparent 1px, transparent 2px);
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .premium-btn {
+            background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .premium-btn:hover {
+            border-color: rgba(0, 245, 255, 0.4);
+            background: rgba(0, 245, 255, 0.03);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.1);
+        }
+
+        .asset-sync-trigger:hover + .asset-sync-dropdown,
+        .asset-sync-dropdown:hover {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .bracket-decor::before { content: "「"; color: #00f5ff; margin-right: 8px; }
+        .bracket-decor::after { content: "」"; color: #00f5ff; margin-left: 8px; }
+
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 245, 255, 0.2); }
+    </style>
+</head>
+<body class="bg-black-mate text-on-surface font-body-md overflow-hidden selection:bg-magenta/30 selection:text-white">
+<!-- Background Layers -->
+<div class="fixed inset-0 z-0 pointer-events-none">
+<div class="absolute inset-0 grid-bg"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-celestial-blue/5 blur-[120px] rounded-full"></div>
+<div class="scanline-overlay"></div>
+<div class="absolute w-full h-px bg-celestial-blue/10 shadow-[0_0_15px_rgba(0,245,255,0.3)] animate-scanline"></div>
+</div>
+<!-- Refined Header -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-desktop h-20 bg-black-mate/20 backdrop-blur-md border-b border-white/5">
+<div class="flex items-center gap-12">
+<div class="flex items-center gap-4">
+<span class="font-display-xl text-2xl text-celestial-blue tracking-[0.2em] drop-shadow-[0_0_10px_rgba(0,245,255,0.4)]">MAGNOPVS</span>
+<div class="h-4 w-px bg-white/10 hidden md:block"></div>
+<span class="font-code-sm text-[9px] text-white/40 tracking-[0.5em] uppercase hidden md:block">System_Ready</span>
+</div>
+</div>
+<div class="flex items-center gap-8">
+<!-- Discreet Asset Sync (Slide-out Overlay) -->
+<div class="relative">
+<button class="asset-sync-trigger flex items-center gap-3 px-4 py-2 border border-white/5 bg-white/5 hover:bg-white/10 transition-all group">
+<span class="material-symbols-outlined text-celestial-blue text-lg">account_balance_wallet</span>
+<span class="font-headline-lg text-[10px] tracking-widest text-white/60">ASSETS</span>
+</button>
+<div class="asset-sync-dropdown absolute top-full right-0 mt-2 w-64 glass-panel p-5 opacity-0 -translate-y-2 pointer-events-none transition-all duration-300 z-50">
+<h4 class="font-headline-lg text-[9px] text-celestial-blue mb-4 tracking-widest uppercase">Wallet Summary</h4>
+<div class="space-y-3 font-code-sm text-[11px]">
+<div class="flex justify-between border-b border-white/5 pb-2">
+<span class="text-white/40">MP</span>
+<span>1,240.50</span>
+</div>
+<div class="flex justify-between border-b border-white/5 pb-2">
+<span class="text-magenta/60">MGC</span>
+<span class="text-magenta">85.00</span>
+</div>
+<div class="flex justify-between">
+<span class="text-white/40">uP</span>
+<span>450,000</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="text-right hidden sm:block">
+<div class="font-code-sm text-[9px] text-magenta tracking-tighter uppercase">Link: Secured</div>
+<div class="font-headline-lg text-[9px] text-white/20">LATENCY: 8MS</div>
+</div>
+<div class="w-10 h-10 border border-celestial-blue/30 p-0.5 relative group cursor-pointer overflow-hidden">
+<img class="w-full h-full object-cover transition-all duration-700 brightness-75 group-hover:brightness-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCE-M5q6R3odO9Xf5gPBGmNWdyVg3H-DFdGSTO3aDIlIFHBzL1mAn9qz3Wxwk14ewlehUwWa5I2mzHEDH9YNXqvRM5qj7X9njY4NlJClV8vUd3utk6OB7di0gUKcd_HBjcPvJhkZ89xvTgWEH8MHBv4o1knUYoGsqr_NSDuTGSXdHlphwtXdV9iZFJvn-VLahI01ZSIncBO9Uds8nhOMynMBcaez5u9utUeY8IasJRzbWAootQ34m8TsPqi9vuXEImXJ4OfDjKrmQiE"/>
+<div class="absolute inset-0 border border-white/0 group-hover:border-white/20 transition-all"></div>
+</div>
+</div>
+</div>
+</header>
+<main class="relative z-10 min-h-screen flex items-center justify-center pt-20 px-margin-mobile">
+<!-- Reduced visual weight side panels (now subtle indicators) -->
+<aside class="fixed left-margin-desktop top-1/2 -translate-y-1/2 hidden xl:flex flex-col gap-12 opacity-30 hover:opacity-100 transition-opacity duration-500">
+<div class="flex flex-col gap-2">
+<div class="w-1 h-32 bg-white/5 relative overflow-hidden">
+<div class="absolute bottom-0 left-0 w-full bg-celestial-blue/40 h-[88%]"></div>
+</div>
+<span class="font-code-sm text-[8px] rotate-90 origin-left whitespace-nowrap translate-x-1 mt-4 tracking-widest text-white/40 uppercase">System Coherence</span>
+</div>
+<div class="flex flex-col gap-2">
+<div class="w-1 h-32 bg-white/5 relative overflow-hidden">
+<div class="absolute bottom-0 left-0 w-full bg-magenta/40 h-[42%]"></div>
+</div>
+<span class="font-code-sm text-[8px] rotate-90 origin-left whitespace-nowrap translate-x-1 mt-4 tracking-widest text-white/40 uppercase">Encryption Flow</span>
+</div>
+</aside>
+<!-- Center: Holographic Primary Module -->
+<section class="animate-float-hologram w-full max-w-[580px]">
+<div class="glass-panel relative p-12 overflow-hidden hologram-effect shadow-[0_0_50px_rgba(0,245,255,0.05)]">
+<!-- Tactical Corners -->
+<div class="absolute top-0 left-0 w-16 h-16 border-t border-l border-celestial-blue/30"></div>
+<div class="absolute bottom-0 right-0 w-16 h-16 border-b border-r border-celestial-blue/30"></div>
+<div class="text-center mb-14">
+<h1 class="font-display-xl text-3xl text-celestial-blue mb-3 tracking-[0.2em] uppercase">MAGNOPVS</h1>
+<p class="font-headline-lg text-[9px] text-white/30 tracking-[0.5em] uppercase">Quantum Identity Validation</p>
+</div>
+<!-- Central "Soul Signature" Scanner -->
+<div class="flex justify-center mb-16">
+<div class="relative w-64 h-64 flex items-center justify-center">
+<!-- Rotating HUD Rings -->
+<div class="absolute inset-0 border border-celestial-blue/10 rounded-full animate-spin-slow"></div>
+<div class="absolute inset-4 border border-dashed border-magenta/10 rounded-full animate-spin-slow" style="animation-direction: reverse; animation-duration: 15s;"></div>
+<div class="absolute inset-8 border-t-2 border-celestial-blue/40 rounded-full animate-spin-slow"></div>
+<!-- Core Scanner -->
+<div class="relative w-44 h-44 flex items-center justify-center bg-black-mate/40 rounded-sm border border-celestial-blue/20 group hover:border-celestial-blue transition-colors duration-700 cursor-none">
+<div class="scanner-beam absolute inset-0 overflow-hidden pointer-events-none">
+<div class="absolute w-full h-0.5 bg-celestial-blue/50 shadow-[0_0_15px_rgba(0,245,255,0.8)] animate-beam-scan"></div>
+</div>
+<span class="material-symbols-outlined text-8xl text-celestial-blue animate-pulse-glow" style="font-variation-settings: 'FILL' 1;">fingerprint</span>
+<!-- Mini Tooltip -->
+<div class="absolute -bottom-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<span class="font-code-sm text-[9px] text-celestial-blue tracking-[0.3em] whitespace-nowrap uppercase">Biometric Link Ready</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Matrix: Elevated Minimalism -->
+<div class="space-y-6">
+<button class="w-full h-14 group relative premium-btn flex items-center justify-center gap-4">
+<span class="material-symbols-outlined text-celestial-blue text-xl group-hover:rotate-180 transition-transform duration-700">sensors</span>
+<span class="font-headline-lg text-xs tracking-[0.3em] uppercase">Sincronizar Identidad</span>
+</button>
+<div class="grid grid-cols-2 gap-4">
+<button class="h-12 premium-btn flex items-center justify-center gap-3 group">
+<span class="material-symbols-outlined text-lg text-white/30 group-hover:text-celestial-blue transition-colors">cloud_queue</span>
+<span class="font-headline-lg text-[9px] tracking-widest uppercase text-white/60">Google Cloud</span>
+</button>
+<button class="h-12 premium-btn flex items-center justify-center gap-3 group">
+<span class="material-symbols-outlined text-lg text-white/30 group-hover:text-magenta transition-colors">bolt</span>
+<span class="font-headline-lg text-[9px] tracking-widest uppercase text-white/60">Firebase Link</span>
+</button>
+</div>
+</div>
+<!-- Meta Stats -->
+<div class="mt-12 flex justify-between items-center px-2">
+<div class="flex gap-1.5">
+<div class="w-1 h-1 bg-celestial-blue/40"></div>
+<div class="w-1 h-1 bg-celestial-blue/40"></div>
+<div class="w-1 h-1 bg-celestial-blue/40"></div>
+</div>
+<span class="font-code-sm text-[8px] text-white/20 tracking-widest">ENCRYPTION: AES_256_QUANTUM</span>
+</div>
+</div>
+</section>
+<!-- Right Side Indicator -->
+<aside class="fixed right-margin-desktop top-1/2 -translate-y-1/2 hidden xl:flex flex-col gap-6 items-end opacity-20 hover:opacity-100 transition-opacity duration-500">
+<div class="text-right">
+<h5 class="font-headline-lg text-[9px] text-celestial-blue mb-2 uppercase tracking-tighter">Active Nodes</h5>
+<div class="flex flex-col gap-1 font-code-sm text-[8px] text-white/40">
+<span>● VOID_REACH_XX</span>
+<span>● CORE_AUTH_01</span>
+</div>
+</div>
+</aside>
+</main>
+<!-- Minimalist Footer -->
+<footer class="fixed bottom-0 left-0 w-full p-margin-desktop flex justify-between items-end pointer-events-none">
+<div class="pointer-events-auto">
+<p class="font-code-sm text-[9px] text-white/10 tracking-[0.4em] uppercase">
+            © 2024 MAGNOPVS • KVANTVM_CORE_V.7.2
+        </p>
+</div>
+<div class="flex gap-4 pointer-events-auto">
+<div class="px-4 py-1.5 border border-white/5 bg-white/5 rounded-sm">
+<span class="font-headline-lg text-[8px] text-white/40 uppercase tracking-[0.2em]">Tier 4 Clearance</span>
+</div>
+<button class="w-10 h-10 flex items-center justify-center border border-white/5 bg-white/5 hover:bg-white/10 hover:border-celestial-blue/30 transition-all">
+<span class="material-symbols-outlined text-white/30 text-lg">terminal</span>
+</button>
+</div>
+</footer>
+<script>
+    // Subtle mouse tracking for hologram tilt
+    const container = document.querySelector('.animate-float-hologram');
+    document.addEventListener('mousemove', (e) => {
+        const xAxis = (window.innerWidth / 2 - e.clientX) / 50;
+        const yAxis = (window.innerHeight / 2 - e.clientY) / 50;
+        container.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+    });
+
+    // Premium Interaction Ripple
+    document.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('mousedown', function(e) {
+            const ripple = document.createElement('div');
+            const rect = this.getBoundingClientRect();
+            ripple.className = 'fixed pointer-events-none w-1.5 h-1.5 bg-celestial-blue rounded-full z-[1001] shadow-[0_0_10px_#00f5ff]';
+            ripple.style.left = e.clientX + 'px';
+            ripple.style.top = e.clientY + 'px';
+            document.body.appendChild(ripple);
+            
+            ripple.animate([
+                { transform: 'scale(0)', opacity: 1 },
+                { transform: 'scale(80)', opacity: 0 }
+            ], { duration: 600, easing: 'cubic-bezier(0, 0.55, 0.45, 1)' });
+            
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+</script>
+</body></html>

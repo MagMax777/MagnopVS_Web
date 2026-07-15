@@ -1,0 +1,377 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>MagZine Studio | Chapter Architect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#ffdad6",
+                        "background": "#131313",
+                        "on-primary": "#003545",
+                        "surface-tint": "#5ed4ff",
+                        "secondary-fixed": "#ffd7f5",
+                        "primary-container": "#00ccff",
+                        "on-secondary": "#5b005b",
+                        "surface-bright": "#393939",
+                        "tertiary-container": "#4ed2aa",
+                        "primary-fixed-dim": "#5ed4ff",
+                        "on-error": "#690005",
+                        "on-primary-fixed-variant": "#004d63",
+                        "on-primary-container": "#005369",
+                        "primary": "#9de2ff",
+                        "on-background": "#e5e2e1",
+                        "on-tertiary": "#003829",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-container-highest": "#353534",
+                        "outline-variant": "#3c494e",
+                        "on-surface": "#e5e2e1",
+                        "secondary": "#ffabf3",
+                        "secondary-fixed-dim": "#ffabf3",
+                        "on-tertiary-fixed-variant": "#00513d",
+                        "error-container": "#93000a",
+                        "surface-container-lowest": "#0e0e0e",
+                        "primary-fixed": "#bbe9ff",
+                        "outline": "#869399",
+                        "secondary-container": "#fe00fe",
+                        "on-secondary-fixed": "#380038",
+                        "on-primary-fixed": "#001f29",
+                        "on-tertiary-container": "#005742",
+                        "surface-container": "#201f1f",
+                        "on-secondary-container": "#500050",
+                        "inverse-on-surface": "#313030",
+                        "surface-variant": "#353534",
+                        "tertiary-fixed-dim": "#5adcb3",
+                        "on-secondary-fixed-variant": "#810081",
+                        "surface-dim": "#131313",
+                        "surface-container-low": "#1c1b1b",
+                        "inverse-primary": "#006782",
+                        "inverse-surface": "#e5e2e1",
+                        "error": "#ffb4ab",
+                        "tertiary": "#6eefc5",
+                        "surface": "#131313",
+                        "on-surface-variant": "#bbc8d0",
+                        "on-tertiary-fixed": "#002117",
+                        "tertiary-fixed": "#79f9ce"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "container-max": "1440px",
+                        "unit": "4px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Orbitron"],
+                        "headline-lg": ["Audiowide"],
+                        "technical-sm": ["Orbitron"],
+                        "headline-lg-mobile": ["Audiowide"],
+                        "display-xl": ["Audiowide"],
+                        "body-md": ["Orbitron"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["10px", {"lineHeight": "1", "letterSpacing": "0.3em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "400"}],
+                        "technical-sm": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.2em", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "400"}],
+                        "display-xl": ["64px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0.02em", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glow-border:focus-within {
+            border-color: #9de2ff;
+            box-shadow: 0 0 15px rgba(157, 226, 255, 0.3);
+        }
+        .hex-bg {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCZ9WBf2g1wuHG65Ifs7M83RCpMLz5F6BnUsO-gd0rfvrrR2x_A-ehllRg8-FtMcWAb6sdgfGiMooSyvRZpD6v9ZsJKt2n2eY-aBCdxwiP6bDtei1ZVtk12W3EN8yBfBZjDeJmLDhdxdlov8o16IB2Gb9sOOgwVKMen-SIgAMSfRN3SZnsig9_cT9LKJpaqrZy-s5N0yYS8Q-OU3R3xEnuNRTmmRgVQyCnpFOILTqNFboCYL5H9M3clgn2uasOPvGSNYZDvygpY9CNo');
+            background-attachment: fixed;
+            background-size: cover;
+            opacity: 0.15;
+            z-index: -1;
+        }
+        .active-nav-glow {
+            text-shadow: 0 0 10px #9de2ff;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #00ccff; border-radius: 2px; }
+        .code-editor {
+            font-family: 'Courier New', Courier, monospace;
+            background: rgba(0,0,0,0.4);
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md">
+<!-- Global Background -->
+<div class="fixed inset-0 hex-bg"></div>
+<!-- SideNavBar (The Anchor) -->
+<aside class="fixed left-0 top-0 h-screen w-72 flex flex-col border-r border-outline-variant/30 bg-surface-container-lowest/80 backdrop-blur-xl z-40 shadow-[0_0_30px_rgba(0,204,255,0.1)]">
+<div class="p-6">
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-widest uppercase">MagnoScroll</h1>
+<p class="font-technical-sm text-technical-sm text-on-surface-variant opacity-70">Engine Architect</p>
+</div>
+<nav class="flex-1 overflow-y-auto custom-scrollbar py-4 space-y-1">
+<div class="px-6 mb-2">
+<span class="font-label-caps text-label-caps text-primary/50">Components</span>
+</div>
+<!-- Dynamic SideNav Items from JSON -->
+<a class="flex items-center gap-3 px-6 py-3 bg-primary-container/20 text-primary border-l-4 border-primary rounded-r-lg" href="#">
+<span class="material-symbols-outlined">title</span>
+<span class="font-body-md">FrameText</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-white/5 hover:text-primary transition-all duration-300" href="#">
+<span class="material-symbols-outlined">image</span>
+<span class="font-body-md">FrameImage</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-white/5 hover:text-primary transition-all duration-300" href="#">
+<span class="material-symbols-outlined">audiotrack</span>
+<span class="font-body-md">FrameAudio</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-white/5 hover:text-primary transition-all duration-300" href="#">
+<span class="material-symbols-outlined">videocam</span>
+<span class="font-body-md">FrameVideo</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-white/5 hover:text-primary transition-all duration-300" href="#">
+<span class="material-symbols-outlined">smart_button</span>
+<span class="font-body-md">FrameButton</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-white/5 hover:text-primary transition-all duration-300" href="#">
+<span class="material-symbols-outlined">quiz</span>
+<span class="font-body-md">FrameQuiz</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-white/5 hover:text-primary transition-all duration-300" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-body-md">FrameMission</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-white/5 hover:text-primary transition-all duration-300" href="#">
+<span class="material-symbols-outlined">pest_control_rodent</span>
+<span class="font-body-md">FrameRabbit</span>
+</a>
+</nav>
+<div class="p-6 border-t border-outline-variant/20 space-y-4">
+<button class="w-full py-3 bg-primary text-on-primary font-label-caps text-label-caps rounded-lg shadow-[0_0_20px_rgba(157,226,255,0.4)] active:scale-95 transition-all">
+                Compile Chapter
+            </button>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<img class="w-10 h-10 rounded-full border border-primary/30 object-cover" data-alt="High-tech character portrait of a digital architect, glowing ocular implants, sci-fi headset, matte black armor, blue ambient lighting, cinematic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuByyT9unb1ZGTEwjTCFoDxx4cm4_uKtfFG07RwqOJ9vD-rCKQqlnafrmNLkNvB1BREUlKlVa6Ph8lXq59Pa8Bs5sS_kHdHXupiU1qrxxRd2345ehMTu8wfICBYVpoWdahA1UTk4QLCYk60HNDMCUqtdPYaaFBFf50RpY4wRn9mzYAIAEDR3wwVbHuWqaUSKar4kmAZtqFmD-Ip7Tr3PYLL1Xp16klmprrQduy5s5SOY9UDtLIEQRygbuhEru1fYBpzbOuh7Gc4g99Dt">
+<div class="flex flex-col">
+<span class="font-technical-sm text-technical-sm text-on-surface">Architect V.01</span>
+<span class="text-[10px] opacity-50 uppercase tracking-tighter">System Admin</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 left-72 h-16 flex justify-between items-center px-gutter bg-surface-dim/90 backdrop-blur-md z-50 border-b border-primary-container/20 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+<div class="flex items-center gap-8">
+<span class="font-headline-lg text-headline-lg text-primary glow-sm">MagZine Studio</span>
+<nav class="hidden md:flex gap-6">
+<a class="font-label-caps text-label-caps text-primary border-b-2 border-primary pb-1" href="#">Drafts</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-tertiary transition-colors" href="#">Assets</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-tertiary transition-colors" href="#">Deploy</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative group">
+<input class="bg-surface-container-high/50 border-none rounded-full px-4 py-1 text-sm font-technical-sm focus:ring-1 focus:ring-primary w-48 transition-all group-hover:w-64" placeholder="Search Data..." type="text">
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-primary text-sm">search</span>
+</div>
+<button class="px-4 py-2 border border-primary/30 text-primary font-label-caps text-label-caps hover:bg-primary/10 transition-colors">Execute JSON</button>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-72 mt-16 p-gutter min-h-screen grid grid-cols-12 gap-6 relative">
+<!-- Center Column: Vertical Timeline Workspace -->
+<section class="col-span-12 lg:col-span-7 flex flex-col gap-6">
+<div class="flex justify-between items-center">
+<div>
+<h2 class="font-headline-lg text-[24px] text-primary">Chapter: EP_001_Genesis</h2>
+<p class="font-technical-sm text-technical-sm text-on-surface-variant">Active Instance: Omega-4 Cluster</p>
+</div>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-container-high text-tertiary text-[10px] font-label-caps border border-tertiary/20">INITIATION</span>
+<span class="px-3 py-1 bg-surface-container-high text-secondary text-[10px] font-label-caps border border-secondary/20">ASCENSION</span>
+</div>
+</div>
+<!-- Frame Timeline -->
+<div class="space-y-8 relative before:absolute before:left-4 before:top-0 before:bottom-0 before:w-[2px] before:bg-gradient-to-b before:from-primary/50 before:to-transparent">
+<!-- Frame 1: Image -->
+<div class="relative pl-12 group">
+<div class="absolute left-2 top-0 w-4 h-4 bg-primary rounded-full shadow-[0_0_10px_#9de2ff] z-10"></div>
+<div class="glass-panel p-4 rounded-xl border-l-4 border-primary transition-all hover:translate-x-1">
+<div class="flex justify-between items-center mb-3">
+<span class="font-label-caps text-label-caps text-primary">Frame 01: Image_Main</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm cursor-grab">drag_indicator</span>
+</div>
+<img class="w-full h-48 object-cover rounded-lg mb-3" data-alt="Cinematic wide shot of a futuristic data center with floating holographic interfaces, celestial nebula clouds swirling between servers, deep void background with aquamarine and magenta light accents, ultra-high fidelity sci-fi art." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGu3xmKOKahCzg7N3BkUIgOAJz4roZwfravEeXNYYWkGid6RRLXEou2Itzrge4FWVDi_O_Z_CyFDZc3DywIXxiZ1_pD0WBpFOf8-O-GoUIUDgMQQwLPu0uci03PslpcF4NtnUnk0IsKKOPbWuEmEtyKB5cFyxkmko8FrdHZX4Kc9NsZR4T5SVZb5f310r3cl5tsCFGHMLFNdA5a6J2apmb_RYQpz3zXp8q5tnCuPj4qeBJNs2ZyCfJMkbn2fwzcDC4GwsRueVt8YWv">
+<div class="flex gap-3">
+<span class="font-technical-sm text-[10px] text-on-surface-variant bg-white/5 px-2 py-1 rounded">id: img_001</span>
+<span class="font-technical-sm text-[10px] text-on-surface-variant bg-white/5 px-2 py-1 rounded">parallax: active</span>
+</div>
+</div>
+</div>
+<!-- Frame 2: Text -->
+<div class="relative pl-12 group">
+<div class="absolute left-2 top-0 w-4 h-4 bg-primary/30 border border-primary rounded-full z-10"></div>
+<div class="glass-panel p-4 rounded-xl border-l-4 border-on-surface-variant/30 transition-all hover:translate-x-1">
+<div class="flex justify-between items-center mb-3">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Frame 02: Narrative_Intro</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm cursor-grab">drag_indicator</span>
+</div>
+<p class="font-body-md text-on-surface/80 leading-relaxed italic">
+                            "The path to Eleusis is paved with binary stars and spectral echoes. Do you dare to decrypt the celestial machine?"
+                        </p>
+</div>
+</div>
+<!-- Frame 3: Quiz -->
+<div class="relative pl-12 group">
+<div class="absolute left-2 top-0 w-4 h-4 bg-secondary shadow-[0_0_10px_#ffabf3] rounded-full z-10"></div>
+<div class="glass-panel p-4 rounded-xl border-l-4 border-secondary transition-all hover:translate-x-1">
+<div class="flex justify-between items-center mb-3">
+<span class="font-label-caps text-label-caps text-secondary">Frame 03: Logic_Gate_Quiz</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm cursor-grab">drag_indicator</span>
+</div>
+<div class="grid grid-cols-2 gap-4 mt-2">
+<div class="p-3 border border-secondary/20 bg-secondary/5 rounded text-sm text-secondary font-technical-sm">Option A: Decrypt Path</div>
+<div class="p-3 border border-outline-variant/30 bg-white/5 rounded text-sm text-on-surface-variant font-technical-sm">Option B: Divert Flow</div>
+</div>
+</div>
+</div>
+<!-- Add New Frame Placeholder -->
+<div class="relative pl-12 py-4">
+<button class="w-full py-4 border-2 border-dashed border-outline-variant/30 rounded-xl flex items-center justify-center gap-2 text-on-surface-variant hover:border-primary/50 hover:text-primary transition-all">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="font-label-caps text-label-caps">Insert New Frame</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Right Column: JSON Editor -->
+<section class="col-span-12 lg:col-span-5 flex flex-col gap-6">
+<div class="flex justify-between items-end">
+<div>
+<h2 class="font-label-caps text-label-caps text-tertiary">Live JSON Output</h2>
+<p class="font-technical-sm text-[10px] text-on-surface-variant">Schema V.2.14-stable</p>
+</div>
+<div class="flex gap-2">
+<button class="p-2 hover:bg-white/5 rounded"><span class="material-symbols-outlined text-sm">content_copy</span></button>
+<button class="p-2 hover:bg-white/5 rounded"><span class="material-symbols-outlined text-sm">download</span></button>
+</div>
+</div>
+<div class="flex-1 glass-panel rounded-xl overflow-hidden flex flex-col min-h-[600px]">
+<!-- Tab Header -->
+<div class="flex bg-black/30 border-b border-outline-variant/20">
+<button class="px-6 py-3 font-technical-sm text-technical-sm text-primary border-b-2 border-primary bg-primary/5">chapter_data.json</button>
+<button class="px-6 py-3 font-technical-sm text-technical-sm text-on-surface-variant hover:bg-white/5">metadata.json</button>
+</div>
+<!-- Editor Area -->
+<div class="flex-1 p-6 code-editor text-sm overflow-auto custom-scrollbar">
+<pre class="text-primary-fixed leading-6"><span class="text-secondary">{</span>
+  <span class="text-tertiary">"chapter"</span>: <span class="text-primary">"EP_001_Genesis"</span>,
+  <span class="text-tertiary">"version"</span>: <span class="text-primary">"1.0.4"</span>,
+  <span class="text-tertiary">"frames"</span>: <span class="text-secondary">[</span>
+    <span class="text-secondary">{</span>
+      <span class="text-tertiary">"type"</span>: <span class="text-primary">"FrameImage"</span>,
+      <span class="text-tertiary">"id"</span>: <span class="text-primary">"img_001"</span>,
+      <span class="text-tertiary">"src"</span>: <span class="text-primary">"asset://nebula_core"</span>,
+      <span class="text-tertiary">"parallax"</span>: <span class="text-secondary">true</span>
+    <span class="text-secondary">}</span>,
+    <span class="text-secondary">{</span>
+      <span class="text-tertiary">"type"</span>: <span class="text-primary">"FrameText"</span>,
+      <span class="text-tertiary">"id"</span>: <span class="text-primary">"txt_narrative_01"</span>,
+      <span class="text-tertiary">"content"</span>: <span class="text-primary">"The path to Eleusis..."</span>
+    <span class="text-secondary">}</span>,
+    <span class="text-secondary">{</span>
+      <span class="text-tertiary">"type"</span>: <span class="text-primary">"FrameQuiz"</span>,
+      <span class="text-tertiary">"id"</span>: <span class="text-primary">"qz_logic_01"</span>,
+      <span class="text-tertiary">"config"</span>: <span class="text-secondary">{</span>
+        <span class="text-tertiary">"style"</span>: <span class="text-primary">"hud-circular"</span>,
+        <span class="text-tertiary">"difficulty"</span>: <span class="text-primary">"initiation"</span>
+      <span class="text-secondary">}</span>
+    <span class="text-secondary">}</span>
+  <span class="text-secondary">]</span>
+<span class="text-secondary">}</span></pre>
+</div>
+</div>
+<!-- Deployment Stats -->
+<div class="glass-panel p-4 rounded-xl grid grid-cols-2 gap-4">
+<div class="p-3 border border-primary/20 rounded">
+<span class="block font-label-caps text-[10px] text-on-surface-variant mb-1">DATA LOAD</span>
+<div class="flex items-end gap-2">
+<span class="font-headline-lg text-[20px] text-primary">14.2 MB</span>
+<span class="text-[10px] text-tertiary pb-1">OPTIMIZED</span>
+</div>
+</div>
+<div class="p-3 border border-secondary/20 rounded">
+<span class="block font-label-caps text-[10px] text-on-surface-variant mb-1">INTERACTIONS</span>
+<div class="flex items-end gap-2">
+<span class="font-headline-lg text-[20px] text-secondary">08 GATEWAYS</span>
+<span class="text-[10px] text-tertiary pb-1">VALIDATED</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Interactive HUD elements in background -->
+<div class="fixed bottom-10 right-10 flex flex-col items-end pointer-events-none opacity-40">
+<div class="w-48 h-48 border border-primary/20 rounded-full flex items-center justify-center animate-spin" style="animation-duration: 20s;">
+<div class="w-40 h-40 border border-secondary/10 rounded-full flex items-center justify-center animate-spin-slow" style="animation-duration: 15s; animation-direction: reverse;">
+<span class="font-technical-sm text-[8px] text-primary uppercase">Syncing...</span>
+</div>
+</div>
+<div class="mt-4 font-technical-sm text-[10px] text-primary tracking-widest text-right">
+            [ COORDINATE SYSTEM: STABLE ]<br>
+            [ SYNCING TO NEBULA HUB... ]
+        </div>
+</div>
+<script>
+        // Micro-interaction for sidebar tabs
+        document.querySelectorAll('aside nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('aside nav a').forEach(l => {
+                    l.classList.remove('bg-primary-container/20', 'text-primary', 'border-l-4', 'border-primary', 'rounded-r-lg');
+                    l.classList.add('text-on-surface-variant');
+                });
+                link.classList.add('bg-primary-container/20', 'text-primary', 'border-l-4', 'border-primary', 'rounded-r-lg');
+                link.classList.remove('text-on-surface-variant');
+            });
+        });
+
+        // Simple blink animation for "Execute JSON" button to simulate "readiness"
+        setInterval(() => {
+            const btn = document.querySelector('button:contains("Execute JSON")');
+            if (btn) btn.classList.toggle('border-primary');
+        }, 1000);
+    </script>
+</body></html>

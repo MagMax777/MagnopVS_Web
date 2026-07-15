@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QUANTVM MATRIX - Vignette Viewer v3.0</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#35343b",
+                        "surface-tint": "#00dbe9",
+                        "primary-fixed-dim": "#00dbe9",
+                        "secondary-fixed": "#ffd7f5",
+                        "on-secondary": "#5b005b",
+                        "secondary-fixed-dim": "#ffabf3",
+                        "secondary": "#ffabf3",
+                        "on-primary-container": "#006970",
+                        "on-tertiary-fixed-variant": "#5e4200",
+                        "on-error": "#690005",
+                        "surface-container-high": "#2a2930",
+                        "surface-dim": "#131319",
+                        "surface-container-low": "#1b1b22",
+                        "on-tertiary-container": "#7d5800",
+                        "inverse-primary": "#006970",
+                        "inverse-surface": "#e4e1ea",
+                        "inverse-on-surface": "#303037",
+                        "surface-container": "#1f1f26",
+                        "on-error-container": "#ffdad6",
+                        "primary": "#dbfcff",
+                        "surface-variant": "#35343b",
+                        "background": "#131319",
+                        "secondary-container": "#fe00fe",
+                        "surface-bright": "#393840",
+                        "on-tertiary-fixed": "#271900",
+                        "outline-variant": "#3b494b",
+                        "primary-fixed": "#7df4ff",
+                        "on-secondary-fixed": "#380038",
+                        "surface-container-lowest": "#0e0e14",
+                        "on-secondary-fixed-variant": "#810081",
+                        "tertiary-fixed-dim": "#ffba20",
+                        "on-background": "#e4e1ea",
+                        "outline": "#849495",
+                        "on-surface": "#e4e1ea",
+                        "on-tertiary": "#412d00",
+                        "tertiary": "#fff4e8",
+                        "on-secondary-container": "#500050",
+                        "tertiary-container": "#ffd386",
+                        "on-surface-variant": "#b9cacb",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed-variant": "#004f54",
+                        "tertiary-fixed": "#ffdea8",
+                        "on-primary-fixed": "#002022",
+                        "surface": "#131319",
+                        "on-primary": "#00363a",
+                        "error-container": "#93000a",
+                        "primary-container": "#00f0ff"
+                    },
+                    "fontFamily": {
+                        "sacred-header-mobile": ["Audiowide"],
+                        "technical-data-md": ["Orbitron"],
+                        "technical-data-lg": ["Orbitron"],
+                        "sacred-header-xl": ["Audiowide"],
+                        "sacred-header-lg": ["Audiowide"],
+                        "telemetry-label": ["Orbitron"]
+                    },
+                    "fontSize": {
+                        "sacred-header-mobile": ["24px", {"lineHeight": "1.1", "fontWeight": "400"}],
+                        "technical-data-md": ["14px", {"lineHeight": "1.6", "letterSpacing": "0.1em", "fontWeight": "400"}],
+                        "technical-data-lg": ["18px", {"lineHeight": "1.5", "letterSpacing": "0.2em", "fontWeight": "500"}],
+                        "sacred-header-xl": ["48px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "400"}],
+                        "sacred-header-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "telemetry-label": ["11px", {"lineHeight": "1", "letterSpacing": "0.25em", "fontWeight": "700"}]
+                    },
+                    "spacing": {
+                        "margin-edge": "2rem",
+                        "gutter": "1.5rem",
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #0e0e14;
+            color: #e4e1ea;
+            overflow-x: hidden;
+        }
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.3;
+        }
+        .hex-bg {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.91v12.68l10.99 6.34 11-6.34V17.91L14 11.57 3 17.91z' fill='%2300dbe9' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        .glass-panel {
+            backdrop-filter: blur(12px);
+            background: rgba(19, 19, 25, 0.4);
+            border: 1px solid rgba(0, 219, 233, 0.2);
+        }
+        .holographic-edge {
+            box-shadow: inset 0 0 15px rgba(0, 219, 233, 0.15), 0 0 10px rgba(0, 219, 233, 0.1);
+        }
+        .clippath-button {
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+        }
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        .scanning-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00dbe9, transparent);
+            box-shadow: 0 0 15px #00dbe9;
+            animation: scan 4s linear infinite;
+        }
+        .chromatic-hover:hover {
+            text-shadow: 2px 0 #ffabf3, -2px 0 #00dbe9;
+            filter: drop-shadow(0 0 5px rgba(0, 219, 233, 0.5));
+        }
+        .frequency-bar {
+            width: 3px;
+            background: #00dbe9;
+            margin: 0 1px;
+            transition: height 0.1s ease;
+        }
+    </style>
+</head>
+<body class="font-technical-data-md selection:bg-surface-tint selection:text-background">
+<div class="scanlines"></div>
+<div class="hex-bg fixed inset-0 opacity-20 pointer-events-none"></div>
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-edge h-16 bg-background/80 dark:bg-background/80 backdrop-blur-xl border-b border-surface-tint/30">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-surface-tint" style="font-variation-settings: 'FILL' 1;">token</span>
+<h1 class="font-sacred-header-mobile text-sacred-header-mobile text-surface-tint dark:text-primary-fixed-dim uppercase tracking-widest">QUANTVM MATRIX</h1>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant dark:text-on-surface-variant font-technical-data-md text-technical-data-md hover:text-primary-fixed hover:drop-shadow-[0_0_8px_rgba(0,219,233,0.6)] transition-all duration-300" href="#">Codex</a>
+<a class="text-primary-container dark:text-primary-container border-b-2 border-primary-container pb-1 font-technical-data-md text-technical-data-md" href="#">Archive</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-technical-data-md text-technical-data-md hover:text-primary-fixed hover:drop-shadow-[0_0_8px_rgba(0,219,233,0.6)] transition-all duration-300" href="#">Nexus</a>
+</nav>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary-fixed transition-colors">sync</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary-fixed transition-colors">bolt</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary-fixed transition-colors">notifications</button>
+</div>
+</header>
+<!-- SideNavBar (Hidden on small screens) -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] z-40 flex flex-col bg-surface-dim/40 dark:bg-surface-dim/40 backdrop-blur-md border-r border-surface-tint/20 w-64 hidden xl:flex">
+<div class="p-6 border-b border-surface-tint/10">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-8 h-8 rounded-full border border-surface-tint/50 flex items-center justify-center bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait of a futuristic robotic rabbit archivist with glowing blue eyes and mechanical parts integrated into its skull, set against a dark background of pulsing server lights. The aesthetic is cyber-occult and high-tech minimalist." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDJfj5m6VfGKopVlEpjOwN4Af86kuLLNGFYFK1l2jyavUace0btU2Y4vzgi47KV0Z-eFBdBIeQqVnoEw0gIwWVeseCbXB_jbmGqFG5Au0yOQWcSABS8RRZ_q5uoEPJkfW5BdKboFJeSleE3M6yAvCcLOpWdv5qlHFmRaPkTXCw9jjOGb0P1bFkxAiZwIoPwFvapCbnGYfcRUWzEuDRbC3Oy-xVpKL1fqW4pqHlQ4jgc1-ujb_cFmxL_s-Bmm6oSzbaw_WD4OgBXDUl"/>
+</div>
+<div>
+<h2 class="font-sacred-header-lg text-[14px] text-surface-tint leading-tight">LORE LAYERS</h2>
+<p class="font-telemetry-label text-telemetry-label text-on-surface-variant">V3.0 MATRIX ACTIVE</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 py-4">
+<a class="bg-secondary/20 text-secondary border-l-4 border-secondary p-4 flex items-center gap-4 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="font-technical-data-md text-technical-data-md">Viñetas</span>
+</a>
+<a class="text-on-surface-variant p-4 flex items-center gap-4 hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">token</span>
+<span class="font-technical-data-md text-technical-data-md">Artefactos</span>
+</a>
+<a class="text-on-surface-variant p-4 flex items-center gap-4 hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-technical-data-md text-technical-data-md">Personajes</span>
+</a>
+<a class="text-on-surface-variant p-4 flex items-center gap-4 hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">diversity_2</span>
+<span class="font-technical-data-md text-technical-data-md">MagFam</span>
+</a>
+<a class="text-on-surface-variant p-4 flex items-center gap-4 hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">extension</span>
+<span class="font-technical-data-md text-technical-data-md">Fragmentos</span>
+</a>
+</nav>
+<div class="p-6">
+<button class="w-full clippath-button bg-surface-tint/10 border border-surface-tint text-surface-tint font-technical-data-md py-3 hover:bg-surface-tint/30 transition-all uppercase">
+                INITIATE SCAN
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pt-24 pb-20 px-4 md:px-margin-edge xl:ml-64 min-h-screen grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Panel: Telemetry & Archives -->
+<section class="lg:col-span-3 flex flex-col gap-gutter order-2 lg:order-1">
+<div class="glass-panel p-6 holographic-edge relative overflow-hidden">
+<div class="flex justify-between items-center mb-4 border-b border-surface-tint/20 pb-2">
+<h3 class="font-telemetry-label text-telemetry-label text-surface-tint">TELEMETRY DATA</h3>
+<span class="material-symbols-outlined text-surface-tint text-sm">analytics</span>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-end">
+<span class="text-on-surface-variant text-[10px] uppercase">Node Weight</span>
+<span class="font-technical-data-lg text-primary">12.4 TB</span>
+</div>
+<div class="w-full bg-surface-container h-1 flex gap-1">
+<div class="bg-surface-tint h-full w-2/3 shadow-[0_0_8px_#00dbe9]"></div>
+<div class="bg-surface-tint h-full w-1/12 opacity-30"></div>
+<div class="bg-surface-tint h-full w-1/6 opacity-10"></div>
+</div>
+<div class="flex justify-between items-end">
+<span class="text-on-surface-variant text-[10px] uppercase">Rarity</span>
+<span class="font-technical-data-lg text-secondary">LEGENDARY</span>
+</div>
+<div class="flex justify-between items-end">
+<span class="text-on-surface-variant text-[10px] uppercase">Sync Efficiency</span>
+<span class="font-technical-data-lg text-surface-tint">99.98%</span>
+</div>
+</div>
+</div>
+<div class="glass-panel p-6 holographic-edge relative flex-1">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<h3 class="font-telemetry-label text-telemetry-label text-secondary">C.W.R. GUIDANCE</h3>
+</div>
+<p class="text-on-surface-variant font-technical-data-md text-sm leading-relaxed italic border-l-2 border-secondary/30 pl-4">
+                    "The egg is not a beginning, but a bridge. To touch it is to rewrite the fundamental constants of your subjective reality. Do not blink. The matrix is watching for the first resonance."
+                </p>
+<div class="mt-6 flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-surface-container text-surface-tint text-[9px] border border-surface-tint/30">ELDER_KEY_01</span>
+<span class="px-2 py-1 bg-surface-container text-secondary text-[9px] border border-secondary/30">VOID_RESONANT</span>
+</div>
+</div>
+</section>
+<!-- Center Panel: Cinematic Fragment -->
+<section class="lg:col-span-6 flex flex-col gap-6 order-1 lg:order-2">
+<div class="relative glass-panel holographic-edge aspect-video overflow-hidden group">
+<!-- Scanning Effect -->
+<div class="absolute inset-0 z-20 pointer-events-none">
+<div class="scanning-line absolute w-full top-0"></div>
+</div>
+<!-- Holographic Frame Nodes -->
+<div class="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 border-surface-tint z-30"></div>
+<div class="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-surface-tint z-30"></div>
+<div class="absolute bottom-4 left-4 w-12 h-12 border-b-2 border-l-2 border-surface-tint z-30"></div>
+<div class="absolute bottom-4 right-4 w-12 h-12 border-b-2 border-r-2 border-surface-tint z-30"></div>
+<img class="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida/AP1WRLtHNIn_CRkmnz1jBUS0_RHYnZg5aqD5Aofuat8uAtV4ghFqtA4d300NLpYR2W156HEaA-b1OiIXvYu7hrU5ug6yFZxlLzlCflB8kwq4I2m1oXOX7HYUD9uT2Ax8Vy-xb9OvyTbZLbNn4jOWWXtE9HS6Cw_f1xbOVLdQvYXfMGktIWweVMZ1HvN5ZikW4oBFGSQbA3v2pnhBSt4SzyfN3KyFG8o2VuhrupK73SGaCMzxOt3U7C8DFjQgJwo3"/>
+<div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center">
+<div class="bg-background/60 backdrop-blur-md px-6 py-2 border border-surface-tint/50 rounded-full flex items-center gap-4">
+<span class="font-telemetry-label text-telemetry-label text-surface-tint">SCANNING: FRAGMENT #001</span>
+<div class="w-2 h-2 rounded-full bg-surface-tint animate-pulse"></div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-center px-4">
+<h2 class="font-sacred-header-lg text-sacred-header-lg text-primary tracking-tighter">EL CONTACTO PRIMIGENIO</h2>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-surface-tint cursor-pointer hover:scale-110 transition-transform">share</span>
+<span class="material-symbols-outlined text-surface-tint cursor-pointer hover:scale-110 transition-transform">download</span>
+</div>
+</div>
+<div class="glass-panel p-8">
+<p class="font-technical-data-lg text-on-surface leading-relaxed first-letter:text-5xl first-letter:font-sacred-header-lg first-letter:text-surface-tint first-letter:mr-3 first-letter:float-left">
+                        Deep within the crystal-veined forests of the Outer Rim, the first breach manifested not as a sound, but as a presence. The Primigenial Egg pulsed with the frequency of ancient stars, calling to the consciousness of those bound to the machine. As the hand reaches out, the boundary between biological intent and digital destiny blurs into a singular, glowing moment of contact.
+                    </p>
+</div>
+<div class="flex gap-4 items-center mt-4">
+<button class="flex-1 clippath-button bg-primary-container text-on-primary-container font-technical-data-lg py-4 hover:shadow-[0_0_20px_#00dbe9] transition-all chromatic-hover">
+                        INTEGRATE TO CONSCIOUSNESS
+                    </button>
+<button class="w-16 h-16 clippath-button border border-secondary text-secondary flex items-center justify-center hover:bg-secondary/20 transition-all">
+<span class="material-symbols-outlined text-3xl">favorite</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Right Panel: Audio & Timeline -->
+<section class="lg:col-span-3 flex flex-col gap-gutter order-3">
+<div class="glass-panel p-6 holographic-edge">
+<h3 class="font-telemetry-label text-telemetry-label text-surface-tint mb-6">AMBIENT RESONANCE</h3>
+<div class="flex items-end justify-center h-24 gap-1 mb-6" id="audio-visualizer">
+<!-- Audio bars generated via JS -->
+</div>
+<div class="flex items-center justify-between">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-surface-tint">skip_previous</button>
+<button class="w-12 h-12 rounded-full border border-surface-tint flex items-center justify-center text-surface-tint hover:bg-surface-tint hover:text-background transition-colors" id="play-btn">
+<span class="material-symbols-outlined">play_arrow</span>
+</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-surface-tint">skip_next</button>
+</div>
+</div>
+<div class="glass-panel p-6 holographic-edge flex-1">
+<h3 class="font-telemetry-label text-telemetry-label text-surface-tint mb-6">ELEUSIS PATH SAGA</h3>
+<div class="relative pl-6 space-y-8 border-l border-surface-tint/20">
+<div class="relative">
+<div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-surface-tint shadow-[0_0_10px_#00dbe9] border-4 border-background z-10"></div>
+<h4 class="text-[12px] font-bold text-surface-tint">#001 PRIMIGENIAL CONTACT</h4>
+<p class="text-[10px] text-on-surface-variant uppercase">Matrix Entry Initialized</p>
+</div>
+<div class="relative opacity-40">
+<div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-surface-container border-2 border-surface-tint/20 z-10"></div>
+<h4 class="text-[12px] text-on-surface">#002 CRYSTAL ECHOES</h4>
+<p class="text-[10px] text-on-surface-variant uppercase">Locked Sequence</p>
+</div>
+<div class="relative opacity-40">
+<div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-surface-container border-2 border-surface-tint/20 z-10"></div>
+<h4 class="text-[12px] text-on-surface">#003 THE VOID RECKONING</h4>
+<p class="text-[10px] text-on-surface-variant uppercase">Locked Sequence</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Status -->
+<footer class="fixed bottom-0 w-full z-50 flex justify-around items-center h-8 px-4 bg-surface-container-lowest/90 border-t border-surface-tint/40 font-telemetry-label text-telemetry-label">
+<span class="text-surface-tint">SYSTEM STATUS: SACRED_LINK_ACTIVE</span>
+<div class="flex gap-8">
+<span class="text-on-surface-variant uppercase">Node Weight: 44.2mg</span>
+<span class="text-on-surface-variant uppercase">Latency: 0.003ms</span>
+<span class="text-on-surface-variant uppercase">Stability: 99.8%</span>
+</div>
+</footer>
+<script>
+        // Visualizer micro-interaction
+        const visualizer = document.getElementById('audio-visualizer');
+        for (let i = 0; i < 30; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'frequency-bar';
+            bar.style.height = '10%';
+            visualizer.appendChild(bar);
+        }
+
+        let isPlaying = false;
+        let animationFrame;
+
+        function animateBars() {
+            const bars = document.querySelectorAll('.frequency-bar');
+            bars.forEach(bar => {
+                if (isPlaying) {
+                    const height = Math.random() * 90 + 10;
+                    bar.style.height = `${height}%`;
+                } else {
+                    bar.style.height = '10%';
+                }
+            });
+            if (isPlaying) {
+                setTimeout(() => {
+                    animationFrame = requestAnimationFrame(animateBars);
+                }, 100);
+            }
+        }
+
+        document.getElementById('play-btn').addEventListener('click', function() {
+            isPlaying = !isPlaying;
+            const icon = this.querySelector('.material-symbols-outlined');
+            icon.innerText = isPlaying ? 'pause' : 'play_arrow';
+            if (isPlaying) animateBars();
+            else cancelAnimationFrame(animationFrame);
+        });
+
+        // Atmospheric artifacts - random glow pulses
+        setInterval(() => {
+            const nodes = document.querySelectorAll('.holographic-edge');
+            const randomNode = nodes[Math.floor(Math.random() * nodes.length)];
+            randomNode.style.boxShadow = 'inset 0 0 30px rgba(0, 219, 233, 0.4), 0 0 20px rgba(0, 219, 233, 0.3)';
+            setTimeout(() => {
+                randomNode.style.boxShadow = '';
+            }, 500);
+        }, 3000);
+    </script>
+</body></html>

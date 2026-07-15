@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOP VS | Cosmic Atlas Index</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#ffd7f5",
+                        "error-container": "#93000a",
+                        "on-primary": "#003354",
+                        "error": "#ffb4ab",
+                        "surface-tint": "#98cbff",
+                        "background": "#131313",
+                        "surface-container-high": "#2a2a2a",
+                        "primary-fixed": "#cfe5ff",
+                        "on-secondary-fixed": "#002018",
+                        "surface-container-highest": "#353534",
+                        "on-tertiary-container": "#7d3878",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-container": "#201f1f",
+                        "surface-variant": "#353534",
+                        "magenta-flare": "#ff4dfa",
+                        "violet-deep": "#8a2be2",
+                        "surface-container-lowest": "#0e0e0e",
+                        "inverse-surface": "#e5e2e1",
+                        "tertiary-fixed-dim": "#ffabf3",
+                        "surface-bright": "#393939",
+                        "surface-raised": "#2a2a2a",
+                        "on-primary-container": "#1a5683",
+                        "primary-fixed-dim": "#98cbff",
+                        "secondary-fixed": "#17ffd1",
+                        "on-tertiary-fixed": "#380038",
+                        "primary-container": "#98cbff",
+                        "surface-deep": "#0e0e0e",
+                        "on-tertiary": "#551353",
+                        "surface": "#131313",
+                        "outline": "#8b919a",
+                        "secondary-container": "#04fcce",
+                        "surface-dim": "#131313",
+                        "on-surface": "#e5e2e1",
+                        "on-tertiary-fixed-variant": "#6f2c6b",
+                        "on-secondary-container": "#00705a",
+                        "on-error": "#690005",
+                        "aquamarine-neon": "#15ffd1",
+                        "secondary-fixed-dim": "#00e0b7",
+                        "on-error-container": "#ffdad6",
+                        "pearl-white": "#ffffff",
+                        "on-primary-fixed-variant": "#034a77",
+                        "on-secondary-fixed-variant": "#005140",
+                        "outline-variant": "#41474f",
+                        "tertiary-container": "#ffabf3",
+                        "inverse-primary": "#2a6290",
+                        "on-background": "#e5e2e1",
+                        "celestial-blue": "#98cbff",
+                        "primary": "#cee5ff",
+                        "on-primary-fixed": "#001d33",
+                        "on-surface-variant": "#c1c7d0",
+                        "on-secondary": "#00382c",
+                        "inverse-on-surface": "#313030",
+                        "tertiary": "#ffd7f5",
+                        "secondary": "#f3fff9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "container-max": "1440px",
+                        "sidebar-width": "256px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Orbitron"],
+                        "technical-data": ["Orbitron"],
+                        "headline-lg": ["Audiowide"],
+                        "headline-lg-mobile": ["Audiowide"],
+                        "display-xl": ["Audiowide"],
+                        "body-md": ["Orbitron"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "1", "fontWeight": "700"}],
+                        "technical-data": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.3", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                        "display-xl": ["48px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0e0e0e;
+            color: #e5e2e1;
+            overflow-x: hidden;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .glass-panel {
+            background: rgba(19, 19, 19, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(139, 145, 154, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .neon-glow-blue {
+            box-shadow: 0 0 15px rgba(152, 203, 255, 0.4);
+        }
+
+        .neon-glow-magenta {
+            box-shadow: 0 0 15px rgba(255, 77, 250, 0.4);
+        }
+
+        .scanline {
+            background: linear-gradient(to bottom, rgba(255,255,255,0) 50%, rgba(255,255,255,0.02) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+
+        .sephirot-pulse {
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(152, 203, 255, 0.8)); opacity: 0.8; }
+            50% { filter: drop-shadow(0 0 20px rgba(152, 203, 255, 1)); opacity: 1; }
+        }
+
+        .qliphoth-pulse {
+            animation: pulse-glow-magenta 4s infinite ease-in-out;
+        }
+
+        @keyframes pulse-glow-magenta {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(255, 77, 250, 0.6)); opacity: 0.6; }
+            50% { filter: drop-shadow(0 0 15px rgba(255, 77, 250, 0.9)); opacity: 0.9; }
+        }
+
+        .daat-elevator {
+            background: linear-gradient(to bottom, transparent, #98cbff, #ffffff, #ff4dfa, transparent);
+            width: 2px;
+            box-shadow: 0 0 20px #98cbff, 0 0 40px #ff4dfa;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #41474f; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: #98cbff; }
+
+        .bracket-top-left { border-top: 2px solid #98cbff; border-left: 2px solid #98cbff; top: -2px; left: -2px; width: 12px; height: 12px; }
+        .bracket-bottom-right { border-bottom: 2px solid #98cbff; border-right: 2px solid #98cbff; bottom: -2px; right: -2px; width: 12px; height: 12px; }
+    </style>
+</head>
+<body class="dark selection:bg-celestial-blue selection:text-surface-deep">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-margin-desktop h-20 bg-surface/70 dark:bg-surface/70 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_2px_15px_rgba(0,0,0,0.5)] transition-all duration-300 ease-in-out">
+<div class="flex items-center gap-4">
+<span class="font-headline-lg text-headline-lg font-black text-pearl-white drop-shadow-[0_0_10px_rgba(152,203,255,0.8)]">MAGNOP VS</span>
+<div class="hidden md:flex gap-8 ml-12">
+<a class="font-headline-lg text-headline-lg uppercase tracking-wider text-celestial-blue border-b-2 border-celestial-blue pb-1 drop-shadow-[0_0_8px_#98cbff]" href="#">Archive</a>
+<a class="font-headline-lg text-headline-lg uppercase tracking-wider text-on-surface-variant hover:text-pearl-white transition-colors" href="#">Timeline</a>
+<a class="font-headline-lg text-headline-lg uppercase tracking-wider text-on-surface-variant hover:text-pearl-white transition-colors" href="#">Echoes</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-celestial-blue hover:bg-white/5 p-2 transition-all">notifications</button>
+<button class="material-symbols-outlined text-celestial-blue hover:bg-white/5 p-2 transition-all">settings</button>
+<div class="w-10 h-10 rounded-full border border-celestial-blue/50 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A futuristic digital avatar portrait of a cosmic operator, wearing a glowing tactical headset with light-blue interface overlays reflected on their face. The style is hyper-detailed sci-fi with a moody dark aesthetic and high-contrast blue highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZa4NuMqQ6KbdZtnu5ZOEQCXN6OuUqOZBNDreGy5vWB01lB7a9NsEp53PAKSPjwX8jLjz_O4RLdP0ZaCRyxAYVEQ9D78igHm1jViUy0TQ7qp6oqtZaeoX2okBfglesrIc0fjI_CxNMGkc-w5dR8AyhlR_PG6O6tI73T7N93P7JqNTx2vXVFS3JqHH1AFr9HTd-sTJFJ4UQt8kP4B8EuWW_8WTuW1fpLRzyeHqfppbw9MeM5UsslN3b12zs3x6mtix2UZu2QadqXe2i"/>
+</div>
+</div>
+</header>
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-20 bottom-0 z-40 flex flex-col pt-8 bg-surface-deep/80 dark:bg-surface-deep/80 backdrop-blur-2xl border-r border-outline-variant/20 w-sidebar-width hidden lg:flex">
+<div class="px-6 mb-10">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-2 h-2 bg-aquamarine-neon animate-pulse rounded-full"></div>
+<span class="font-technical-data text-technical-data uppercase text-pearl-white">OPERATOR_01</span>
+</div>
+<div class="font-technical-data text-[10px] text-on-surface-variant tracking-[0.2em]">MULTIVERSE_LEVEL_9</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-4 px-6 py-4 bg-primary-container/20 text-celestial-blue border-l-4 border-aquamarine-neon shadow-[0_0_15px_rgba(21,255,209,0.3)] transition-transform scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-technical-data text-technical-data uppercase">Soul Archive</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant opacity-70 hover:opacity-100 hover:bg-surface-variant/30 transition-all" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="font-technical-data text-technical-data uppercase">Codex Vivo</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant opacity-70 hover:opacity-100 hover:bg-surface-variant/30 transition-all" href="#">
+<span class="material-symbols-outlined">hub</span>
+<span class="font-technical-data text-technical-data uppercase">Resonance Hub</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant opacity-70 hover:opacity-100 hover:bg-surface-variant/30 transition-all" href="#">
+<span class="material-symbols-outlined">waves</span>
+<span class="font-technical-data text-technical-data uppercase">Frequency Stream</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant opacity-70 hover:opacity-100 hover:bg-surface-variant/30 transition-all" href="#">
+<span class="material-symbols-outlined">sensors</span>
+<span class="font-technical-data text-technical-data uppercase">Uplink Center</span>
+</a>
+</nav>
+<div class="mt-auto p-6 space-y-4 border-t border-outline-variant/10">
+<button class="w-full py-3 bg-celestial-blue text-on-primary font-label-caps text-label-caps tracking-widest hover:brightness-110 active:scale-95 transition-all">
+                INITIATE_SYNC
+            </button>
+<div class="flex justify-between text-on-surface-variant/50">
+<span class="material-symbols-outlined cursor-pointer hover:text-celestial-blue transition-colors">terminal</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-celestial-blue transition-colors">memory</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="lg:ml-sidebar-width pt-20 min-h-screen relative overflow-hidden bg-surface-deep">
+<div class="scanline absolute inset-0 z-10"></div>
+<!-- Interactive Cosmic Map -->
+<section class="relative w-full h-[85vh] flex items-center justify-center">
+<!-- Three Great Veils Indicators -->
+<div class="absolute inset-0 pointer-events-none z-20">
+<div class="absolute top-[15%] left-1/2 -translate-x-1/2 flex flex-col items-center">
+<span class="font-headline-lg text-pearl-white opacity-40 text-sm tracking-[1em]">CAOSFERA</span>
+<div class="w-[1px] h-20 bg-gradient-to-t from-celestial-blue to-transparent"></div>
+</div>
+<div class="absolute top-1/2 right-[10%] -translate-y-1/2 flex items-center gap-4">
+<div class="w-20 h-[1px] bg-gradient-to-r from-transparent to-celestial-blue"></div>
+<span class="font-headline-lg text-pearl-white opacity-40 text-sm tracking-[1em] [writing-mode:vertical-rl]">INFINITOSFERA</span>
+</div>
+<div class="absolute bottom-[15%] left-1/2 -translate-x-1/2 flex flex-col items-center">
+<div class="w-[1px] h-20 bg-gradient-to-b from-magenta-flare to-transparent"></div>
+<span class="font-headline-lg text-pearl-white opacity-40 text-sm tracking-[1em]">COSMOSFERA</span>
+</div>
+</div>
+<!-- Central Visualization -->
+<div class="relative z-0 scale-75 md:scale-100 flex flex-col items-center">
+<!-- Sephirot Tree Layer -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[60%] w-[600px] h-[600px] pointer-events-none opacity-80 mix-blend-screen">
+<img class="w-full h-full object-contain filter drop-shadow-[0_0_30px_rgba(152,203,255,0.4)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuDPEe5dmpRDym1CmIDhOc36X4jNGUHf7BtGevZ-MVELX_Zp4XvVpNiwxFZEcDbxkqFc_1w29LBf-M8PfHjyxddG75SHb1G4UC1MGD9pxmqA1qZM1LRO81eQ9F9txB5QJ1ZoIo7YscP-ILkAFbzX-Xzrp1TcX3G9vO7IAv4NtQvOtaJzyGw2E2Q8jNRiFa0k3qlg7__rje4TznbZFKpCknsG0vlGXu6G673iBfsTzk4M03gUFn9caxS3b6jMAkfILALT44RrSw-_yq"/>
+</div>
+<!-- Interactive Elements Over Tree -->
+<div class="relative w-[500px] h-[800px] flex flex-col justify-between">
+<!-- Daat Elevator -->
+<div class="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 daat-elevator opacity-30"></div>
+<!-- Sephirot (Top) -->
+<div class="h-1/2 grid grid-cols-3 grid-rows-4 relative pt-10">
+<div class="col-start-2 flex justify-center sephirot-pulse cursor-pointer group">
+<div class="w-12 h-12 rounded-full border-2 border-celestial-blue bg-surface-deep/80 flex items-center justify-center text-pearl-white text-xs group-hover:scale-125 transition-transform">KTR</div>
+</div>
+<div class="row-start-2 col-start-1 flex justify-center sephirot-pulse cursor-pointer group">
+<div class="w-10 h-10 rounded-full border-2 border-celestial-blue bg-surface-deep/80 flex items-center justify-center text-pearl-white text-xs group-hover:scale-125 transition-transform">CHM</div>
+</div>
+<div class="row-start-2 col-start-3 flex justify-center sephirot-pulse cursor-pointer group">
+<div class="w-10 h-10 rounded-full border-2 border-celestial-blue bg-surface-deep/80 flex items-center justify-center text-pearl-white text-xs group-hover:scale-125 transition-transform">BNH</div>
+</div>
+<div class="row-start-3 col-start-2 flex justify-center opacity-50 cursor-pointer group">
+<div class="w-8 h-8 rounded-full border border-dotted border-white bg-surface-deep/80 flex items-center justify-center text-white text-[10px] group-hover:scale-125 transition-transform">DAA</div>
+</div>
+</div>
+<!-- Qliphoth (Bottom - Mirrored) -->
+<div class="h-1/2 grid grid-cols-3 grid-rows-4 relative pb-10 content-end">
+<div class="row-start-2 col-start-1 flex justify-center qliphoth-pulse cursor-pointer group">
+<div class="w-10 h-10 rounded-full border-2 border-magenta-flare bg-surface-deep/80 flex items-center justify-center text-pearl-white text-xs group-hover:scale-125 transition-transform">GHL</div>
+</div>
+<div class="row-start-2 col-start-3 flex justify-center qliphoth-pulse cursor-pointer group">
+<div class="w-10 h-10 rounded-full border-2 border-magenta-flare bg-surface-deep/80 flex items-center justify-center text-pearl-white text-xs group-hover:scale-125 transition-transform">SAT</div>
+</div>
+<div class="row-start-4 col-start-2 flex justify-center qliphoth-pulse cursor-pointer group">
+<div class="w-12 h-12 rounded-full border-2 border-magenta-flare bg-surface-deep/80 flex items-center justify-center text-pearl-white text-xs group-hover:scale-125 transition-transform">THA</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right HUD: Search & Filters -->
+<div class="absolute right-margin-desktop top-12 z-30 w-80 space-y-6">
+<!-- Search Bar -->
+<div class="glass-panel p-4 relative">
+<div class="bracket-top-left absolute"></div>
+<div class="bracket-bottom-right absolute"></div>
+<div class="flex items-center gap-2 border-b border-outline-variant/30 pb-2">
+<span class="material-symbols-outlined text-celestial-blue">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-technical-data text-pearl-white placeholder:text-on-surface-variant/40 w-full uppercase" placeholder="Worlds, Sagas, Artifacts..." type="text"/>
+</div>
+</div>
+<!-- Filters Stack -->
+<div class="glass-panel p-6 space-y-6">
+<div>
+<div class="font-technical-data text-[10px] text-celestial-blue mb-3 tracking-widest">REALM_FILTER</div>
+<div class="space-y-2">
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="w-3 h-3 border border-celestial-blue group-hover:bg-celestial-blue transition-colors"></div>
+<span class="text-technical-data text-xs text-on-surface-variant group-hover:text-pearl-white">Celestial Peaks</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="w-3 h-3 border border-celestial-blue bg-celestial-blue"></div>
+<span class="text-technical-data text-xs text-pearl-white">Ether Voids</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="w-3 h-3 border border-celestial-blue group-hover:bg-celestial-blue transition-colors"></div>
+<span class="text-technical-data text-xs text-on-surface-variant group-hover:text-pearl-white">Deep Abyss</span>
+</label>
+</div>
+</div>
+<div>
+<div class="font-technical-data text-[10px] text-magenta-flare mb-3 tracking-widest">STATUS_STABILITY</div>
+<div class="h-2 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full w-[72%] bg-gradient-to-r from-celestial-blue to-magenta-flare"></div>
+</div>
+<div class="flex justify-between mt-2 font-technical-data text-[10px] text-on-surface-variant">
+<span>FRAGMENTED</span>
+<span>72% STABLE</span>
+</div>
+</div>
+<button class="w-full py-3 border border-celestial-blue/30 hover:bg-celestial-blue/10 text-celestial-blue font-label-caps text-[10px] tracking-[0.2em] transition-all">
+                        RESET_PARAMETERS
+                    </button>
+</div>
+<!-- Explorer Progress Widget -->
+<div class="glass-panel p-6 bg-gradient-to-br from-surface-variant/20 to-surface-deep">
+<div class="flex justify-between items-end mb-4">
+<div>
+<div class="font-headline-lg text-2xl text-pearl-white">64%</div>
+<div class="font-technical-data text-[10px] text-on-surface-variant">Discovery Rate</div>
+</div>
+<div class="text-right">
+<div class="font-headline-lg text-xl text-celestial-blue">842</div>
+<div class="font-technical-data text-[10px] text-on-surface-variant">Locations Unlocked</div>
+</div>
+</div>
+<div class="flex gap-1 h-1">
+<div class="flex-1 bg-celestial-blue"></div>
+<div class="flex-1 bg-celestial-blue"></div>
+<div class="flex-1 bg-celestial-blue"></div>
+<div class="flex-1 bg-surface-variant"></div>
+<div class="flex-1 bg-surface-variant"></div>
+</div>
+</div>
+</div>
+<!-- Bottom CTA Navigation -->
+<div class="absolute bottom-12 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-4">
+<button class="px-12 py-5 bg-pearl-white text-surface-deep font-headline-lg text-lg tracking-[0.3em] hover:scale-105 active:scale-95 transition-all neon-glow-blue relative overflow-hidden group">
+<span class="relative z-10">INITIATE NAVIGATION</span>
+<div class="absolute inset-0 bg-celestial-blue translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500 opacity-20"></div>
+</button>
+<div class="flex gap-2 items-center">
+<div class="w-1 h-1 bg-celestial-blue animate-ping"></div>
+<span class="text-[10px] font-technical-data text-celestial-blue tracking-widest">SYSTEM READY FOR JUMP</span>
+</div>
+</div>
+</section>
+<!-- Featured Realms Scroll -->
+<section class="px-margin-desktop pb-20 relative z-20">
+<div class="flex justify-between items-center mb-8">
+<h3 class="font-headline-lg text-xl text-pearl-white tracking-widest">FEATURED_REALMS</h3>
+<div class="flex gap-4">
+<button class="material-symbols-outlined border border-outline-variant/30 p-2 text-on-surface-variant hover:text-pearl-white transition-colors">arrow_back</button>
+<button class="material-symbols-outlined border border-outline-variant/30 p-2 text-on-surface-variant hover:text-pearl-white transition-colors">arrow_forward</button>
+</div>
+</div>
+<div class="flex gap-6 overflow-x-auto pb-8 snap-x">
+<!-- Realm Card 1 -->
+<div class="min-w-[340px] snap-center glass-panel group cursor-pointer hover:border-celestial-blue/50 transition-all">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A cosmic landscape showing a nebula of deep violet and cyan gases swirling around a central dying star. Floating crystalline islands are visible in the foreground. The lighting is cinematic and ethereal, with neon-blue energy veins pulsing through the dark void." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVgRW3A9FfbLxfK13Y8W35JqnmG6w7V2n4ya7lHCq67imBR8tGwN8keCYrfsk53ektO6biJG39fcaETKu3KMzEQC_I-idXIzhtsK4hhW-EKUblu6sNQ64-qCAHrZ33mh7-y9pELiQGfiqkeydr6rZlB2lOBZKvwZrPfkoQNHF66yiNuYeo_mxMOnrJsMkbB9-vPFwwlkym5hQK1LjE91FLWvZxEyAXEICQDU8T2OSUGzAyM3pBS4eLDqyWsSwrYYJNBeEHlrer-Qz0"/>
+<div class="absolute top-4 right-4 bg-surface-deep/80 px-3 py-1 text-[10px] font-technical-data text-secondary-fixed border border-secondary-fixed/30">FRAGMENT_STABLE</div>
+</div>
+<div class="p-6">
+<h4 class="font-headline-lg text-lg text-pearl-white mb-2 uppercase">Xenon Drifts</h4>
+<p class="font-body-md text-xs text-on-surface-variant mb-4 line-clamp-2">A high-density energy nexus where temporal distortions create mirrored realities within the gas clouds.</p>
+<div class="flex justify-between items-center pt-4 border-t border-outline-variant/20">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-celestial-blue">groups</span>
+<span class="text-[10px] font-technical-data">4.2K OPERATORS</span>
+</div>
+<div class="text-[10px] font-technical-data text-magenta-flare">LEVEL_REQUIRED: 12</div>
+</div>
+</div>
+</div>
+<!-- Realm Card 2 -->
+<div class="min-w-[340px] snap-center glass-panel group cursor-pointer hover:border-celestial-blue/50 transition-all">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="An advanced alien megastructure, a Dyson-ring-like metallic structure glowing with internal orange and teal energy. Countless small space vessels swarm like bioluminescent insects. The scene is set against a dark deep-space background with a distant, bright yellow star providing high-contrast lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAabjiHo56FVZ6gMxkUPZ-GEywlwxaHY6GpWpqm6egFYWMe8J2T3rXQoPKIzjbfBQchnu1KjDYNfJ_KlQ5b3N-ZmkhKqcZwhvtibF3fqU9PUZevmi4lpCNIxnm2OOySx-aJpmCFPEwXHGgnKn0VO3rlU4UawAL5tSc5mpxAIm8ZSBkexWXbv2tNlDg0D_c00Ootp76XkenZ20vdXFX_vJT040nPhu_gtkWMPP8n1kUy0CAlUGZCGA1d7Scr2Gv4DNtTqLYN6uKKQuN9"/>
+<div class="absolute top-4 right-4 bg-surface-deep/80 px-3 py-1 text-[10px] font-technical-data text-error border border-error/30">DECAY_WARNING</div>
+</div>
+<div class="p-6">
+<h4 class="font-headline-lg text-lg text-pearl-white mb-2 uppercase">The Gilded Maw</h4>
+<p class="font-body-md text-xs text-on-surface-variant mb-4 line-clamp-2">A dying Dyson sphere currently undergoing sub-atomic reconstruction by the Void Swarm.</p>
+<div class="flex justify-between items-center pt-4 border-t border-outline-variant/20">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-celestial-blue">groups</span>
+<span class="text-[10px] font-technical-data">128 OPERATORS</span>
+</div>
+<div class="text-[10px] font-technical-data text-magenta-flare">LEVEL_REQUIRED: 45</div>
+</div>
+</div>
+</div>
+<!-- Realm Card 3 -->
+<div class="min-w-[340px] snap-center glass-panel group cursor-pointer hover:border-celestial-blue/50 transition-all">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A serene cosmic forest where the trees are made of glowing white fibers and the leaves are floating shards of translucent glass. The sky is a gradient of deep indigo to emerald green, filled with slow-moving auroras. The mood is tranquil and spiritual, with soft, diffuse lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMJeUKwlkwBA2dXbC9ib6FJ_QSfLCUPtOjBcmyHlLuPZgmFggPItGSjCTFMQ8nxYNGVKh-q__RLOQGfWD056zUbj7RgMq-bBq6DPwGTL7xvygYSw96z559yiOsfXDFPmKranknyrMs-H7BtrnVt5Lndk-miwAvtIJc4UQScqt8pwpSmym1TAttekqBLu8zVOvY_DNLA-gRKhzhCYWSkyIck1W-q3uAhpqu1KHGoZE3jkRdNYZYPNyvO4UQvRHLY23cFGKF0kS5I2aZ"/>
+<div class="absolute top-4 right-4 bg-surface-deep/80 px-3 py-1 text-[10px] font-technical-data text-aquamarine-neon border border-aquamarine-neon/30">PARADISE_NODE</div>
+</div>
+<div class="p-6">
+<h4 class="font-headline-lg text-lg text-pearl-white mb-2 uppercase">Sylph Echoes</h4>
+<p class="font-body-md text-xs text-on-surface-variant mb-4 line-clamp-2">A botanical resonance chamber that amplified soul frequencies, used for advanced neural synchronization.</p>
+<div class="flex justify-between items-center pt-4 border-t border-outline-variant/20">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-celestial-blue">groups</span>
+<span class="text-[10px] font-technical-data">8.9K OPERATORS</span>
+</div>
+<div class="text-[10px] font-technical-data text-magenta-flare">LEVEL_REQUIRED: 05</div>
+</div>
+</div>
+</div>
+<!-- Realm Card 4 -->
+<div class="min-w-[340px] snap-center glass-panel group cursor-pointer hover:border-celestial-blue/50 transition-all">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A dark, storm-wracked planet with jagged black rock formations being struck by bolts of magenta lightning. The ground is cracked, revealing a glowing core of orange lava. The style is intense and tactical, with high-contrast shadows and saturated energy colors." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAk6x9DL8_2rZwSYfcpRBW2I5kD3Lys6eRKhEV4om5WU4ny4ZPXnlu4X9BZ2DYguf6c1mfTLUtHB-dDBjGCERW26JEzoJJDE5d-pGSCx1JbIOKEpzrQ4S3Rr854336v9LoSZTVedfeR04jmnlShY-IRqoKui1YvlCAbYGNQR0KL-c4Q1-zC4ygi-SWQkOBQ2g65fS1wJIfOQS4kqH1BsOfztxkaxlUifvlxyg9KcUwhVSEQAjMsNUzVip-88sXxYhzzMnr_Zc8Ihvvx"/>
+<div class="absolute top-4 right-4 bg-surface-deep/80 px-3 py-1 text-[10px] font-technical-data text-tertiary border border-tertiary/30">QLIPHOTH_BREACH</div>
+</div>
+<div class="p-6">
+<h4 class="font-headline-lg text-lg text-pearl-white mb-2 uppercase">Infernal Rift</h4>
+<p class="font-body-md text-xs text-on-surface-variant mb-4 line-clamp-2">A high-risk combat zone located in the outer shells of the Qliphoth, where reality is constantly being rewritten.</p>
+<div class="flex justify-between items-center pt-4 border-t border-outline-variant/20">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-celestial-blue">groups</span>
+<span class="text-[10px] font-technical-data">321 OPERATORS</span>
+</div>
+<div class="text-[10px] font-technical-data text-magenta-flare">LEVEL_REQUIRED: 80</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<script>
+        // Subtle Mouse Interaction for Background
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) - 0.5;
+            const y = (e.clientY / window.innerHeight) - 0.5;
+            
+            const tree = document.querySelector('.relative.scale-75');
+            if (tree) {
+                tree.style.transform = `scale(1) translate(${x * 30}px, ${y * 30}px) rotateX(${y * 10}deg) rotateY(${x * 10}deg)`;
+            }
+        });
+
+        // Toggle Active State for Sidebar
+        const navItems = document.querySelectorAll('aside nav a');
+        navItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                navItems.forEach(i => {
+                    i.classList.remove('bg-primary-container/20', 'text-celestial-blue', 'border-l-4', 'border-aquamarine-neon', 'shadow-[0_0_15px_rgba(21,255,209,0.3)]');
+                    i.classList.add('text-on-surface-variant', 'opacity-70');
+                });
+                item.classList.add('bg-primary-container/20', 'text-celestial-blue', 'border-l-4', 'border-aquamarine-neon', 'shadow-[0_0_15px_rgba(21,255,209,0.3)]');
+                item.classList.remove('text-on-surface-variant', 'opacity-70');
+            });
+        });
+
+        // Initialize HUD tooltips or micro-interactions
+        const sephirots = document.querySelectorAll('.sephirot-pulse, .qliphoth-pulse');
+        sephirots.forEach(s => {
+            s.addEventListener('mouseover', () => {
+                const label = s.textContent.trim();
+                console.log(`Analyzing Node: ${label}`);
+            });
+        });
+    </script>
+</body></html>

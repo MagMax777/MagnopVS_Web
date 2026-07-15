@@ -1,0 +1,385 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>MAGNOPVS // SAGA_PLAYBACK</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        :root {
+            --glow-cyan: rgba(91, 200, 245, 0.4);
+            --hazard-magenta: rgba(224, 64, 251, 0.5);
+        }
+
+        body {
+            background-color: #0b0e16;
+            color: #e1e1ee;
+            overflow-x: hidden;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .glass-panel {
+            background: rgba(6, 8, 16, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(136, 146, 153, 0.2);
+        }
+
+        .hex-grid {
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 0L37.32 10V30L20 40L2.68 30V10L20 0Z' fill='none' stroke='%233e484e' stroke-width='0.5' fill-opacity='0.05'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+        }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--glow-cyan), transparent);
+            opacity: 0.1;
+            position: absolute;
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+
+        .tactical-corner {
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
+        }
+
+        .glitch-hover:hover {
+            animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both;
+            box-shadow: 0 0 15px var(--glow-cyan);
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .scroll-hide::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-dim": "#11131c",
+                        "surface-container-high": "#272a33",
+                        "tertiary": "#00f3c2",
+                        "tertiary-container": "#00d4a9",
+                        "primary": "#a2e0ff",
+                        "primary-container": "#5bc8f5",
+                        "secondary": "#faabff",
+                        "secondary-container": "#bd06da",
+                        "background": "#11131c",
+                        "on-surface": "#e1e1ee",
+                        "on-surface-variant": "#bdc8cf",
+                        "surface-container-lowest": "#0b0e16",
+                        "surface-container-highest": "#32343e",
+                    },
+                    fontFamily: {
+                        "headline-lg": ["Audiowide"],
+                        "body-md": ["Orbitron"],
+                        "label-caps": ["Orbitron"],
+                        "data-mono": ["Orbitron"]
+                    },
+                    fontSize: {
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.2em", "fontWeight": "700"}],
+                        "data-mono": ["18px", {"lineHeight": "1.0", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface-container-lowest min-h-screen selection:bg-primary/30">
+<div class="fixed inset-0 hex-grid opacity-20 pointer-events-none"></div>
+<div class="fixed inset-0 overflow-hidden pointer-events-none">
+<div class="scanline"></div>
+</div>
+<!-- Predicted Component: TopAppBar -->
+<header class="bg-background/80 backdrop-blur-xl border-b border-tertiary-container/30 shadow-[0_0_20px_rgba(255,77,250,0.2)] flex justify-between items-center w-full px-8 h-20 fixed top-0 z-50">
+<div class="flex items-center gap-8">
+<h1 class="font-headline-lg text-headline-lg text-tertiary-fixed-dim tracking-widest text-primary">MAGNOPVS</h1>
+<nav class="hidden md:flex gap-6">
+<a class="font-body-md text-body-md text-primary border-b-2 border-primary pb-1" href="#">Home</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary-fixed transition-all duration-300" href="#">Explore</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary-fixed transition-all duration-300" href="#">Library</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative hidden lg:block">
+<input class="bg-surface-container-highest/30 border border-outline-variant text-label-caps font-label-caps px-4 py-2 w-64 focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="SEARCH SAGA..." type="text">
+<span class="material-symbols-outlined absolute right-3 top-2 text-on-surface-variant">search</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">settings</button>
+<div class="w-10 h-10 border border-primary/50 overflow-hidden tactical-corner">
+<img class="w-full h-full object-cover" data-alt="A high-tech digital portrait of a cybernetic commander, featuring glowing blue facial markings and sleek black tactical armor. The background shows a dimly lit netrunner terminal with flickering data streams in shades of deep cyan and magenta. Professional cinematic lighting with soft chromatic aberration on the edges." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAk4zJrtElfqbtrHlkHKHyAGZ7COo9arIHS-hTPtzMPRrb2DPaU1kK8a3k_MpjmAYJe1suAPpzWh-bYPDrbbCoykjUIzDk623myq0WECGoLE771bOvxn9t0sNXv2il-fr5IdTWr0Cb5NkQR2VAlIaq56n_dzdS7yVu9mEiAiZJzFa6MhXJB7jnLWZnBr-OzehFE73mYwCE71bKkgN0z3IxKLOkZAXabpKdwxGC50UdWR3HArANW8r83M_gEV2-_I0OwFxpuFAH7IR8V">
+</div>
+</div>
+</div>
+</header>
+<main class="pt-20 lg:pl-72 pb-24 min-h-screen">
+<!-- Predicted Component: SideNavBar -->
+<aside class="h-screen w-72 fixed left-0 top-0 hidden lg:flex flex-col bg-surface-container-lowest/90 backdrop-blur-2xl border-r border-secondary-container/20 shadow-2xl pt-24 pb-8 z-40">
+<div class="px-8 mb-10">
+<div class="text-secondary font-headline-lg mb-1">TOKYO 3000</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant opacity-60">Saga Interface v4.0</div>
+</div>
+<nav class="flex flex-col flex-1">
+<a class="bg-secondary-container/10 border-l-4 border-secondary-fixed text-secondary-fixed py-4 px-8 flex items-center gap-4 group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform" style="font-variation-settings: 'FILL' 1;">drive_video</span>
+<span class="font-label-caps text-label-caps">Series VR</span>
+</a>
+<a class="text-on-surface-variant py-4 px-8 hover:text-secondary-fixed hover:bg-surface-container-high transition-colors flex items-center gap-4" href="#">
+<span class="material-symbols-outlined">videogame_asset</span>
+<span class="font-label-caps text-label-caps">Videojuegos</span>
+</a>
+<a class="text-on-surface-variant py-4 px-8 hover:text-secondary-fixed hover:bg-surface-container-high transition-colors flex items-center gap-4" href="#">
+<span class="material-symbols-outlined">group_add</span>
+<span class="font-label-caps text-label-caps">Creadores UGC</span>
+</a>
+<a class="text-on-surface-variant py-4 px-8 hover:text-secondary-fixed hover:bg-surface-container-high transition-colors flex items-center gap-4" href="#">
+<span class="material-symbols-outlined">sensors</span>
+<span class="font-label-caps text-label-caps">Live Sagas</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<!-- Saga Telemetry Sidebar Content -->
+<div class="glass-panel p-4 tactical-corner border-secondary/30 mb-6">
+<div class="font-label-caps text-label-caps text-secondary mb-4">SAGA TELEMETRY</div>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between font-label-caps text-[10px] mb-1">
+<span>COMPLETION</span>
+<span>68%</span>
+</div>
+<div class="h-1 w-full bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-tertiary" style="width: 67.3596%;"></div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-sm">database</span>
+<span class="font-label-caps text-[10px]">RELICS</span>
+</div>
+<span class="font-data-mono text-sm text-primary">14/22</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-sm">trophy</span>
+<span class="font-label-caps text-[10px]">RANK</span>
+</div>
+<span class="font-data-mono text-sm text-primary">#402</span>
+</div>
+</div>
+</div>
+<button class="w-full bg-secondary-container text-on-secondary-container font-label-caps text-label-caps py-3 tactical-corner glitch-hover transition-all">
+                    COLLECT ARTIFACTS
+                </button>
+</div>
+</aside>
+<!-- Hero Section -->
+<section class="relative w-full h-[614px] flex items-end p-8 md:p-16 overflow-hidden">
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent z-10"></div>
+<img class="w-full h-full object-cover" data-alt="A cinematic, wide-angle concept art of Tokyo in the year 3000. Massive neon skyscrapers pierce a storm of deep magenta and electric blue clouds. Flying vehicles leave trails of light through the vertical cityscapes. The mood is dark, rainy, and hyper-technological, with a focus on high-contrast cyberpunk aesthetics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9kLcaboJHgOWE-5Vj5jt1HHB7F8eNdfT3ty9wa4_HKlX8o8VQX8KvohGYfUAIkVNlpv3ve5JzQnPC641zo2QaDtBO2J5eR4226qi8jtXunFvRVuXMmovACbKdVGZgiHiV3KPcnpc2Tt8e_m9vsLNdFpM1NVcpM6k5i9ZZkuffdai61s4Q3a7fywsoeOvQG3cgNa8FDaFQaHYORhowwVrmNDN2uRJ2AREv9jNhx3Bciqy48fuLsjYIdelq3Y3S3wl1QfBxDV2s-AU0">
+</div>
+<div class="relative z-20 max-w-4xl">
+<div class="flex items-center gap-4 mb-4">
+<span class="bg-secondary/20 text-secondary border border-secondary px-3 py-1 font-label-caps text-[10px] tracking-widest">ACTIVE SAGA</span>
+<span class="text-on-surface-variant font-label-caps text-[10px] tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-xs">hd</span> 4K NEURAL STREAM
+                    </span>
+</div>
+<h2 class="font-headline-lg text-6xl text-on-surface mb-4 leading-tight uppercase">Butsu no Baka:<br><span class="text-primary">Tokyo 3000</span></h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mb-8 leading-relaxed">
+                    In a world where memories are traded like currency, a rogue netrunner uncovers a corporate conspiracy that threatens to rewrite the history of Tokyo's last bastion. Synchronize your neural link and witness the evolution of the machine spirit.
+                </p>
+<div class="flex items-center gap-6">
+<button class="flex items-center gap-3 bg-primary text-on-primary-fixed px-8 py-4 tactical-corner font-label-caps text-sm tracking-widest hover:brightness-110 active:scale-95 transition-all group" id="syncBtn">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">sync</span>
+                        SYNC PLAYBACK
+                        <div class="w-0 group-hover:w-8 h-[2px] bg-on-primary-fixed transition-all duration-300"></div>
+</button>
+<button class="flex items-center gap-3 border border-outline-variant px-8 py-4 tactical-corner font-label-caps text-sm tracking-widest hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-xl">info</span>
+                        INTEL
+                    </button>
+</div>
+</div>
+</section>
+<!-- Season Selector -->
+<section class="px-8 md:px-16 py-12">
+<div class="flex items-center gap-1 border-b border-outline-variant/30 mb-8 scroll-hide overflow-x-auto whitespace-nowrap">
+<button class="px-8 py-4 font-label-caps text-sm text-primary border-b-2 border-primary bg-primary/5">SEASON 01</button>
+<button class="px-8 py-4 font-label-caps text-sm text-on-surface-variant hover:text-on-surface transition-colors">SEASON 02</button>
+<button class="px-8 py-4 font-label-caps text-sm text-on-surface-variant hover:text-on-surface transition-colors">SEASON 03</button>
+<button class="px-8 py-4 font-label-caps text-sm text-on-surface-variant hover:text-on-surface transition-colors">ARCHIVES</button>
+<div class="ml-auto hidden md:flex items-center gap-4 px-4">
+<span class="font-label-caps text-[10px] text-on-surface-variant">FILTER BY STATUS:</span>
+<select class="bg-transparent border-none text-primary font-label-caps text-xs focus:ring-0">
+<option>ALL EPISODES</option>
+<option>UNWATCHED</option>
+<option>IN PROGRESS</option>
+</select>
+</div>
+</div>
+<!-- Episode Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+<!-- Episode 1 -->
+<div class="group cursor-pointer">
+<div class="relative aspect-video overflow-hidden border border-outline-variant/20 mb-3 tactical-corner">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A top-down view of a neon-drenched cyberpunk alleyway with steam rising from vents and holographic signs reflecting in puddles. A lone figure in a glowing blue jacket stands at the end of the corridor. The atmosphere is dense with fog and cinematic lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBybV_JtscBJjJDWDQBMJ6OA1UWC79h0zddCj-hAmshrQQ-3xjvxWaGyKezm-8-CcmCUSWSi46rFdCe8E3Ytgq_xpL6vAYNbWh09wKcf92KwBheZaC4xdlVk8hxVfn9oE-TOoVdJDIrHObH6GbSXFt-cF1jZ894HAH2381Ye_YYbLWDTHZG9YTzdTeIfhBns-U_-aZX4nm16_cmiZVVoViWhBLtrIZnJWwqaJhe8iE4nWien_-cnOtx3xdwnf3tgtvpvkDdVbZBOCSm">
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<span class="material-symbols-outlined text-5xl text-primary">play_circle</span>
+</div>
+<div class="absolute bottom-2 left-2 bg-tertiary/80 text-on-tertiary px-2 py-0.5 font-label-caps text-[9px] tactical-corner">WATCHED</div>
+<div class="absolute top-2 right-2 font-data-mono text-[10px] text-white bg-black/60 px-2 py-1 backdrop-blur-md">24:12</div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-label-caps text-sm text-on-surface mb-1 group-hover:text-primary transition-colors">E01 // SOMBRAS DE NEÓN</h4>
+<p class="font-body-sm text-[10px] text-on-surface-variant uppercase tracking-widest">Protocol Initiation</p>
+</div>
+<span class="material-symbols-outlined text-tertiary text-lg">check_circle</span>
+</div>
+</div>
+<!-- Episode 2 -->
+<div class="group cursor-pointer">
+<div class="relative aspect-video overflow-hidden border border-outline-variant/20 mb-3 tactical-corner">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A high-fidelity visualization of a neural network being hacked, featuring cascading digital data streams in vibrant cyan and violet. Hexagonal grid patterns appear in the foreground with glitched interference patterns. The depth of field is shallow, focusing on a central cluster of glowing nodes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsm1VjEbde-e0acwxbA2D1k54HcKvyA98aAVcHbdCfXJw249vtP9hVvXIKamVarWOhhZkoqbva15QyQIX-EONzn3Ang4K6CipCLf44KYdTM9SfG1qTVme6ItplvEfMsAzjb_hAPHGU3NBvuHogTddN83zUdoUOwylm6wH9B32u36-JwvZD-9V21WpqnsKESO7iLvvhTsr-2FgUTU98qNf0FMtyfh3dv7AcVjExj-E3vTu3XdRdaHTGM6Els9jRRzOSUMRoNcPo6IcS">
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+<span class="material-symbols-outlined text-5xl text-primary opacity-0 group-hover:opacity-100 transition-opacity">play_circle</span>
+</div>
+<div class="absolute bottom-0 left-0 w-full h-1 bg-surface-container-highest">
+<div class="h-full bg-secondary shadow-[0_0_8px_var(--hazard-magenta)]" style="width: 45%"></div>
+</div>
+<div class="absolute bottom-2 left-2 bg-secondary/80 text-on-secondary-container px-2 py-0.5 font-label-caps text-[9px] tactical-corner uppercase">In Progress</div>
+<div class="absolute top-2 right-2 font-data-mono text-[10px] text-white bg-black/60 px-2 py-1 backdrop-blur-md">28:45</div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-label-caps text-sm text-on-surface mb-1 group-hover:text-primary transition-colors">E02 // ENLACE NEURAL</h4>
+<p class="font-body-sm text-[10px] text-on-surface-variant uppercase tracking-widest">The Deep Breach</p>
+</div>
+<span class="material-symbols-outlined text-secondary text-lg">pending</span>
+</div>
+</div>
+<!-- Episode 3 -->
+<div class="group cursor-pointer">
+<div class="relative aspect-video overflow-hidden border border-outline-variant/20 mb-3 tactical-corner">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A sprawling industrial megastructure at sunset, illuminated by massive orange furnaces and blue glowing coolant pipes. Heavy machinery and robotic arms move in the background. The sky is a thick smog of indigo and fiery red. High-resolution sci-fi matte painting style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjmsTt9f4RWnoJ8OzjAIVF9zb6AUEWrnQ-6ELY2peuZ_la-6IjUaBXUx6fyvTLXcWJfiCQEtsBrj7rl0Q-sWVsAJXsLnZ9rbBs7K3z0Rps62__slgt6xSniphyiesWZs9UQIm-BRoZ91HJCj2nNS9_h2tK3ze-pU-SarVfMYPA6WvMembd_5mXf4IgUEnONq555ZWCUb8j5E_Q8ghu1zliuALHztxfZY_ZOmJSxWfep73hRWyuqnEjWWCRIbwdGn_0h5igkEyUUNCg">
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-5xl text-primary">play_circle</span>
+</div>
+<div class="absolute top-2 right-2 font-data-mono text-[10px] text-white bg-black/60 px-2 py-1 backdrop-blur-md">32:00</div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-label-caps text-sm text-on-surface mb-1 group-hover:text-primary transition-colors">E03 // CIUDAD DE HIERRO</h4>
+<p class="font-body-sm text-[10px] text-on-surface-variant uppercase tracking-widest">Industry Collapse</p>
+</div>
+</div>
+</div>
+<!-- Episode 4 -->
+<div class="group relative cursor-not-allowed">
+<div class="relative aspect-video overflow-hidden border border-outline-variant/20 mb-3 tactical-corner bg-black/60">
+<div class="absolute inset-0 flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-4xl text-outline-variant">lock</span>
+</div>
+<div class="opacity-30 grayscale">
+<img class="w-full h-full object-cover" data-alt="An abstract representation of a digital void, with floating geometric debris and shattered glass fragments catching light from an unseen source. The colors are muted deep blues and charcoal grays. A sense of emptiness and inaccessible data segments." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4-0P2SLY5T2obwvsjAyULi-bQzGeBMPQz-hzIT8SZ_aJI2SXEzqC3jH8fHfVvwf23cuwFrb7VCuqebC3MHhfvsLjEPN6qEZyzCrSqkd30P7qpDm2smUxZpuDznS8ozyxmlSgaB3STUPaN7R-kf2XDgvgUJGmRATDS9fegk5UbC45kGKA-jMJj54zrKqQOMECR04dfakdjM8RpLVadi7P8dnyxy9IGdTKRi0086jLKDrKLU9LuVJpz81EHaDSnjxlqlTtINo0fNVwo">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+</div>
+<div class="flex justify-between items-start opacity-50">
+<div>
+<h4 class="font-label-caps text-sm text-on-surface mb-1">E04 // EL ÚLTIMO CÓDIGO</h4>
+<p class="font-body-sm text-[10px] text-on-surface-variant uppercase tracking-widest">Locked Archive</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Predicted Component: BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 w-full lg:hidden z-50 rounded-t-xl bg-surface-container/95 backdrop-blur-lg border-t border-tertiary-container/40 shadow-[0_-4px_24px_rgba(0,0,0,0.8)] flex justify-around items-center h-16 px-4">
+<div class="flex flex-col items-center justify-center text-tertiary bg-tertiary-container/20 rounded-xl px-4 py-1 scale-110 duration-150">
+<span class="material-symbols-outlined">auto_awesome_motion</span>
+<span class="font-label-caps text-[10px]">Sagas</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-highest">
+<span class="material-symbols-outlined">view_in_ar</span>
+<span class="font-label-caps text-[10px]">VR</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-highest">
+<span class="material-symbols-outlined">hub</span>
+<span class="font-label-caps text-[10px]">UGC</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-highest">
+<span class="material-symbols-outlined">stream</span>
+<span class="font-label-caps text-[10px]">Live</span>
+</div>
+</nav>
+<!-- Neural Sync Overlay (Interactive Effect) -->
+<div class="fixed inset-0 bg-primary/20 backdrop-blur-xl z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-all duration-700" id="syncOverlay">
+<div class="text-center">
+<div class="mb-8 flex justify-center">
+<div class="w-32 h-32 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">NEURAL SYNC IN PROGRESS</h2>
+<p class="font-label-caps text-label-caps text-white tracking-[0.5em] animate-pulse">ESTABLISHING CONNECTION...</p>
+</div>
+</div>
+<script>
+        // Micro-interactions and effects
+        const syncBtn = document.getElementById('syncBtn');
+        const syncOverlay = document.getElementById('syncOverlay');
+
+        syncBtn.addEventListener('click', () => {
+            syncOverlay.classList.remove('opacity-0', 'pointer-events-none');
+            syncOverlay.classList.add('opacity-100');
+            
+            setTimeout(() => {
+                syncOverlay.classList.remove('opacity-100');
+                syncOverlay.classList.add('opacity-0', 'pointer-events-none');
+            }, 3000);
+        });
+
+        // Add telemetry animation
+        const segments = document.querySelectorAll('.h-full.bg-tertiary');
+        segments.forEach(seg => {
+            let width = parseInt(seg.style.width);
+            setInterval(() => {
+                let jitter = (Math.random() - 0.5) * 2;
+                seg.style.width = (width + jitter) + '%';
+            }, 500);
+        });
+
+        // Cursor ripple effect for sci-fi feel
+        document.addEventListener('mousedown', (e) => {
+            const ripple = document.createElement('div');
+            ripple.className = 'fixed pointer-events-none z-[999] rounded-full border border-primary/50 animate-ping';
+            ripple.style.left = e.clientX - 20 + 'px';
+            ripple.style.top = e.clientY - 20 + 'px';
+            ripple.style.width = '40px';
+            ripple.style.height = '40px';
+            document.body.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 1000);
+        });
+    </script>
+</body></html>

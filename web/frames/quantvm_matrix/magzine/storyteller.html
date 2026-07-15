@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagZine | Lore Reader</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed": "#380038",
+                    "secondary": "#ffabf3",
+                    "on-secondary": "#5b005b",
+                    "on-surface": "#e5e2e3",
+                    "on-tertiary-fixed-variant": "#004f52",
+                    "surface-container-low": "#1c1b1c",
+                    "secondary-fixed-dim": "#ffabf3",
+                    "surface-bright": "#3a393a",
+                    "inverse-surface": "#e5e2e3",
+                    "on-secondary-container": "#500050",
+                    "on-tertiary": "#003739",
+                    "surface-variant": "#353436",
+                    "error-container": "#93000a",
+                    "surface-container-high": "#2a2a2b",
+                    "on-primary-container": "#006970",
+                    "outline-variant": "#3b494b",
+                    "secondary-container": "#fe00fe",
+                    "surface-container-lowest": "#0e0e0f",
+                    "surface": "#131314",
+                    "secondary-fixed": "#ffd7f5",
+                    "on-primary-fixed-variant": "#004f54",
+                    "on-error": "#690005",
+                    "error": "#ffb4ab",
+                    "inverse-primary": "#006970",
+                    "on-tertiary-container": "#006a6e",
+                    "primary-fixed-dim": "#00dbe9",
+                    "primary-container": "#00f0ff",
+                    "on-primary-fixed": "#002022",
+                    "on-primary": "#00363a",
+                    "surface-container-highest": "#353436",
+                    "primary-fixed": "#7df4ff",
+                    "tertiary-fixed": "#79f5fb",
+                    "tertiary": "#d7fdff",
+                    "tertiary-container": "#6fecf2",
+                    "on-surface-variant": "#b9cacb",
+                    "tertiary-fixed-dim": "#59d8de",
+                    "on-tertiary-fixed": "#002021",
+                    "on-background": "#e5e2e3",
+                    "on-error-container": "#ffdad6",
+                    "surface-dim": "#131314",
+                    "surface-container": "#201f20",
+                    "on-secondary-fixed-variant": "#810081",
+                    "outline": "#849495",
+                    "inverse-on-surface": "#313031",
+                    "surface-tint": "#00dbe9",
+                    "background": "#131314",
+                    "primary": "#dbfcff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-desktop": "64px",
+                    "margin-mobile": "16px",
+                    "max-width": "1440px",
+                    "gutter": "24px",
+                    "grid-unit": "8px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Audiowide"],
+                    "data-mono": ["Orbitron"],
+                    "display-xl": ["Audiowide"],
+                    "label-caps": ["Orbitron"],
+                    "headline-lg-mobile": ["Audiowide"],
+                    "headline-md": ["Audiowide"],
+                    "body-lg": ["Orbitron"],
+                    "body-md": ["Orbitron"]
+            },
+            "fontSize": {
+                    "headline-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                    "data-mono": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "display-xl": ["72px", {"lineHeight": "80px", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.2em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "400"}],
+                    "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0e0e0f;
+            color: #e5e2e3;
+            overflow-x: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(32, 31, 32, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(132, 148, 149, 0.2);
+        }
+        .neon-border-active {
+            border-color: #00dbe9;
+            box-shadow: 0 0 15px rgba(0, 219, 233, 0.3);
+        }
+        .glitch-hover:hover {
+            text-shadow: 2px 0 #fe00fe, -2px 0 #00f0ff;
+            animation: glitch 0.3s infinite;
+        }
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-1px, 1px); }
+            40% { transform: translate(-1px, -1px); }
+            60% { transform: translate(1px, 1px); }
+            80% { transform: translate(1px, -1px); }
+            100% { transform: translate(0); }
+        }
+        .lore-link {
+            color: #ffabf3;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            font-weight: 600;
+        }
+        .lore-link::after {
+            content: ' ✦';
+            font-size: 0.7em;
+            vertical-align: top;
+            opacity: 0.6;
+        }
+        .lore-link:hover {
+            color: #fe00fe;
+            text-shadow: 0 0 8px #ffabf3;
+        }
+        .rabbit-comment {
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .rabbit-comment:hover {
+            transform: scale(1.05) translateX(-8px);
+        }
+        .hex-bg {
+            mask-image: radial-gradient(circle at center, black, transparent 80%);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #0e0e0f; }
+        ::-webkit-scrollbar-thumb { background: #004f54; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00dbe9; }
+
+        .perspective-view {
+            perspective: 1200px;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- Hex Matrix Background -->
+<div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none opacity-20">
+
+</div>
+<!-- Floating Particles -->
+<div class="fixed inset-0 z-[-1] pointer-events-none">
+<div class="w-full h-full" id="particle-container"></div>
+</div>
+<!-- Top Navigation Bar (Shared Component Implementation) -->
+<header class="fixed top-0 left-0 w-full z-50 transition-all duration-500 bg-surface/80 dark:bg-surface/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(0,219,233,0.1)]">
+<nav class="flex justify-between items-center w-full px-margin-desktop py-4 max-w-max-width mx-auto">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-headline-md text-primary tracking-tighter cursor-pointer">MagZine</span>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-on-surface-variant font-medium hover:text-secondary transition-colors duration-300" href="#">Sagas</a>
+<a class="text-on-surface-variant font-medium hover:text-secondary transition-colors duration-300" href="#">Artifacts</a>
+</div>
+</div>
+<!-- Spoiler Slider (New Contextual Feature) -->
+<div class="hidden lg:flex flex-col items-center gap-1 flex-1 max-w-xs px-8">
+<div class="flex justify-between w-full text-[10px] font-label-caps text-primary/60">
+<span>INITIATE</span>
+<span>LEVEL 5 LOREMASTER</span>
+</div>
+<input class="w-full h-1 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-primary-fixed-dim" max="5" min="1" type="range" value="2"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary hover:text-secondary transition-colors p-2 rounded-full hover:bg-surface-variant/40">notifications</button>
+<button class="material-symbols-outlined text-primary hover:text-secondary transition-colors p-2 rounded-full hover:bg-surface-variant/40" style="font-variation-settings: 'FILL' 1;">flare</button>
+<div class="h-8 w-8 rounded-full border border-primary/30 flex items-center justify-center overflow-hidden bg-surface-container">
+<span class="material-symbols-outlined text-primary text-xl">account_circle</span>
+</div>
+</div>
+</nav>
+</header>
+<main class="pt-32 pb-40 px-margin-desktop max-w-max-width mx-auto grid grid-cols-12 gap-gutter relative">
+<!-- Left Margin: Rabbit Comments (CBC Guide) -->
+<aside class="hidden xl:flex col-span-2 flex-col gap-12 sticky top-32 h-fit">
+<div class="rabbit-comment glass-panel p-4 rounded-xl border-l-4 border-primary relative">
+<div class="absolute -top-4 -left-4 w-10 h-10 bg-surface rounded-full border border-primary flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-primary scale-75">pets</span>
+</div>
+<p class="font-data-mono text-[11px] leading-relaxed text-on-surface-variant italic">
+                    "Observe the refraction on the Chromatic Prism. It isn't glass; it's frozen temporal data. Don't touch the edges."
+                </p>
+<div class="mt-2 flex justify-end">
+<span class="font-label-caps text-[9px] text-primary/40">— CBC-Unit 041</span>
+</div>
+</div>
+<div class="rabbit-comment glass-panel p-4 rounded-xl border-l-4 border-secondary relative">
+<div class="absolute -top-4 -left-4 w-10 h-10 bg-surface rounded-full border border-secondary flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-secondary scale-75">visibility</span>
+</div>
+<p class="font-data-mono text-[11px] leading-relaxed text-on-surface-variant italic">
+                    "The Archivist's signature is hidden within the hex-grid. Look closer at paragraph three."
+                </p>
+</div>
+</aside>
+<!-- Center: Article Content -->
+<article class="col-span-12 lg:col-span-7 xl:col-span-6 flex flex-col gap-8 perspective-view">
+<header class="mb-12">
+<div class="flex items-center gap-2 mb-4">
+<span class="px-3 py-1 bg-primary/10 border border-primary/30 text-primary font-label-caps text-[10px] rounded-full">QUANTVM ARCHIVE</span>
+<span class="text-on-surface-variant font-data-mono text-[12px]">SYNC_DATE: 2049.03.15</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg leading-tight mb-4 glitch-hover">The Collapse of the Neon Web</h1>
+<p class="font-body-lg text-body-lg text-secondary/80 italic border-l-2 border-secondary pl-6">
+                    Exploring the metaphysical residue left behind by the Great Desynchronization of the Neo-Tokyo Grid.
+                </p>
+</header>
+<div class="content-section flex flex-col gap-6 text-on-surface/90 leading-loose">
+<h2 class="font-headline-md text-headline-md text-primary mt-8">The First Anomaly</h2>
+<p class="font-body-md text-body-md">
+                    It began not with a bang, but with a slight flicker in the <span class="lore-link" onclick="toggleContext('artifact-prism')">Chromatic Prism</span>. High-tier curators first noticed the drift in the 12th sector, where the logic of the <span class="lore-link" onclick="toggleContext('loc-neo-grid')">Neo-Tokyo Grid</span> usually held firm. For centuries, the matrix had been an unshakable pillar of our digital existence, maintained by the elusive <span class="lore-link" onclick="toggleContext('char-archivist')">The Archivist</span>.
+                </p>
+<div class="my-10 relative overflow-hidden rounded-2xl aspect-video glass-panel group">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="A sprawling futuristic cityscape at dusk, featuring towering skyscrapers with glowing neon pink and cyan lights. Rain streaks across a glass window in the foreground, reflecting the vibrant city lights. The overall atmosphere is moody, cinematic, and quintessentially cyberpunk, with deep blacks and sharp highlight contrasts." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuADy0fQRgCGT0_Ubtuk8PkrPxHOyj55cJhjsWjxxWezIpIIzaz2KYf3Fy_OHI4_FGAg6jZ3Hhb7GTSJdxCCJ5PcFrUtQLQ5l11QsknZBltvfMcxystTMGSQ-QyvIy-W-1A4i5sbIngr291oVvgkB7yrqfjheM8D26z5rrMhOT5uyvCWsHxbUyvP_YNcKBtoMp5ueQdLhcqEMpDDeD1-EviD1IQBt486Z1-uztqXouumf6UQS_7NRQwJUscdTV7qv63B6TzKvFf-c2JB')">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-8">
+<div class="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+<p class="font-label-caps text-primary mb-1">DATA FRAGMENT 09-B</p>
+<h3 class="font-headline-md text-headline-md text-white">Grid Drift Analysis</h3>
+</div>
+</div>
+</div>
+<p class="font-body-md text-body-md">
+                    Witnesses describe the "Void Leak" as a shimmering curtain of absolute zero. It didn't just delete data; it rewrote the history of the objects it touched. An antique hover-bike might suddenly become a <span class="lore-link">Mechanical Steed</span> from a previous epoch. The chaos was infectious. As the desync spread, the very architecture of the sprawl began to fold into non-Euclidean shapes.
+                </p>
+<blockquote class="my-12 p-8 glass-panel border-r-2 border-primary rounded-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-10">
+<span class="material-symbols-outlined text-7xl">format_quote</span>
+</div>
+<p class="font-headline-md text-[24px] text-primary-fixed mb-4">"The Matrix is not a cage, it is a canvas that has forgotten its painter."</p>
+<cite class="font-label-caps text-secondary/60 block text-right">— Anonymous Fragment</cite>
+</blockquote>
+<p class="font-body-md text-body-md">
+                    The question remains: who triggered the sequence? Some point to the <span class="lore-link">Quantum Rabbit Cult</span>, while others believe it was a natural evolution of a saturated network. Regardless of the cause, the Artifacts recovered from the site—like the <span class="lore-link">Obsidian Key</span>—now possess properties that defy our current understanding of the Matrix.
+                </p>
+</div>
+<!-- Interaction Prompt -->
+<div class="mt-20 p-1 bg-gradient-to-r from-primary/40 to-secondary/40 rounded-xl">
+<div class="bg-surface-container p-8 rounded-[11px] text-center">
+<span class="material-symbols-outlined text-primary text-4xl mb-4" style="font-variation-settings: 'FILL' 1;">history_edu</span>
+<h4 class="font-headline-md text-headline-md mb-2">Sync Your Narrative</h4>
+<p class="text-on-surface-variant font-body-md mb-6">Contribute your observations to the Lore Network and earn Quantum Credits.</p>
+<button class="bg-primary text-on-primary font-label-caps px-8 py-3 rounded-full hover:bg-primary-container transition-all active:scale-95">LOG DATA ENTRY</button>
+</div>
+</div>
+</article>
+<!-- Right Side: Context Panel -->
+<aside class="hidden lg:flex lg:col-span-5 xl:col-span-4 flex-col gap-6 sticky top-32 h-[calc(100vh-160px)] overflow-y-auto pr-4">
+<div class="h-full flex flex-col items-center justify-center text-center opacity-40 border-2 border-dashed border-outline-variant/30 rounded-3xl p-12" id="context-empty">
+<span class="material-symbols-outlined text-6xl mb-4">info</span>
+<p class="font-data-mono uppercase tracking-widest text-xs">Awaiting Data Selection...<br/>Click highlighted lore links for insights.</p>
+</div>
+<!-- Context Card: Artifact (Hidden by default) -->
+<div class="hidden flex-col gap-6 animate-in slide-in-from-right duration-500" id="artifact-prism">
+<div class="glass-panel rounded-2xl overflow-hidden border-primary/40">
+<div class="relative h-48 bg-surface-container-highest overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A macro shot of a complex geometric prism made of glass and glowing energy fibers. Inside the prism, miniature galaxies and digital code seem to swirl. The lighting is high-tech, with sharp azure and violet highlights against a dark background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtPOvg4lk34rjhzO_37qaPlhq0-s_TOAGm4L4ZS23aqRM-nq3AXKmD91A_5yYXkZWs5wNvbfLCPVO_syyftWlgSVAGp5YnDXpodBE7F-JVaqs4tm5zhCxDnWNUId4sGKmD2U1WMf78qNWGY2gJcv90bOiIB9hPxTmZRpQgRlb8MeFMignfgoy6sX0OedLj7ZM-z0MGu8yYQ00z7A2QFayxAO41TdjOK9sJZoQA3I27m5p1gTJCMywawSiT5hWhYrexzYfNW8edf0mp"/>
+<div class="absolute top-4 right-4 px-2 py-1 bg-black/60 backdrop-blur-md rounded text-[10px] font-data-mono text-primary border border-primary/40">LVL 2 ARTIFACT</div>
+</div>
+<div class="p-6">
+<h3 class="font-headline-md text-headline-md text-primary mb-1">Chromatic Prism</h3>
+<p class="font-label-caps text-[10px] text-secondary mb-4">Type: Reality Anchor</p>
+<p class="text-on-surface-variant text-sm font-body-md leading-relaxed mb-6">
+                            A crystallized fragment of the 2049 Desynchronization Event. Curators use this to stabilize local logic loops within volatile sectors of the Neon Web.
+                        </p>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface/50 p-3 rounded-lg border border-outline-variant/30">
+<span class="block font-label-caps text-[9px] text-primary/60">STABILITY</span>
+<span class="font-data-mono text-primary text-sm">94.2%</span>
+</div>
+<div class="bg-surface/50 p-3 rounded-lg border border-outline-variant/30">
+<span class="block font-label-caps text-[9px] text-primary/60">RESONANCE</span>
+<span class="font-data-mono text-primary text-sm">ACTIVE</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Related Links -->
+<div class="glass-panel p-6 rounded-2xl">
+<h4 class="font-label-caps text-xs text-on-surface-variant mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">share</span> Related Entities
+                    </h4>
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-4 p-2 hover:bg-surface-variant/40 rounded-lg cursor-pointer transition-all">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center border border-primary/30">
+<span class="material-symbols-outlined text-primary">person</span>
+</div>
+<div>
+<p class="text-sm font-data-mono text-on-surface">The Archivist</p>
+<p class="text-[10px] text-on-surface-variant">Primary Custodian</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</main>
+<!-- Bottom Bar (Shared Component Implementation) -->
+<footer class="fixed bottom-0 left-0 w-full z-50 rounded-t-xl bg-surface-container-highest/80 dark:bg-surface-container-highest/80 backdrop-blur-2xl border-t border-primary/20 shadow-[0_-5px_20px_rgba(0,0,0,0.5)]">
+<div class="max-w-max-width mx-auto flex justify-between items-center px-8 py-3">
+<!-- Left: Progress -->
+<div class="flex items-center gap-6">
+<div class="flex flex-col">
+<span class="font-label-caps text-[10px] text-primary/70">READING PROGRESS</span>
+<div class="flex items-center gap-3">
+<div class="w-32 h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="w-[65%] h-full bg-primary shadow-[0_0_8px_#00dbe9]"></div>
+</div>
+<span class="font-data-mono text-xs text-primary">65%</span>
+</div>
+</div>
+<div class="h-8 w-px bg-outline-variant/30"></div>
+<div class="flex items-center gap-2 text-on-surface-variant hover:text-secondary cursor-pointer transition-all">
+<span class="material-symbols-outlined text-xl">bookmark</span>
+<span class="font-label-caps text-[10px]">SAVE FRAGMENT</span>
+</div>
+</div>
+<!-- Center: Interactive Game Element -->
+<div class="flex items-center gap-4 group cursor-help" id="carrot-game">
+<div class="relative">
+<div class="absolute inset-0 bg-primary/20 rounded-full blur-lg animate-pulse group-hover:bg-primary/40"></div>
+<span class="material-symbols-outlined text-primary relative transition-transform duration-500 group-hover:rotate-12 group-hover:scale-125" style="font-variation-settings: 'FILL' 1;">nutrition</span>
+</div>
+<span class="font-label-caps text-[11px] text-on-surface-variant group-hover:text-primary transition-colors">HIDDEN CARROT DETECTED IN MARGINS</span>
+</div>
+<!-- Right: Navigation (BottomNavBar Items) -->
+<div class="flex items-center gap-8">
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-secondary cursor-pointer group">
+<span class="material-symbols-outlined">library_books</span>
+<span class="font-label-caps text-[10px]">LIBRARY</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-secondary cursor-pointer">
+<span class="material-symbols-outlined">map</span>
+<span class="font-label-caps text-[10px]">EXPLORER</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary filter drop-shadow-[0_0_8px_#00dbe9] scale-110">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-label-caps text-[10px]">DISCOVERIES</span>
+</div>
+</div>
+</div>
+</footer>
+<!-- Interactive Layer for particles -->
+<script>
+        function toggleContext(id) {
+            const empty = document.getElementById('context-empty');
+            const target = document.getElementById(id);
+            
+            // Hide all context cards
+            document.querySelectorAll('[id^="artifact-"], [id^="char-"], [id^="loc-"]').forEach(el => {
+                el.classList.add('hidden');
+            });
+
+            if (target && target.classList.contains('hidden')) {
+                empty.classList.add('hidden');
+                target.classList.remove('hidden');
+                target.classList.add('flex');
+            } else {
+                empty.classList.remove('hidden');
+            }
+        }
+
+        // Simple Particle Generator
+        const container = document.getElementById('particle-container');
+        for (let i = 0; i < 20; i++) {
+            const p = document.createElement('div');
+            p.className = 'absolute rounded-full pointer-events-none opacity-20';
+            const size = Math.random() * 4 + 2;
+            p.style.width = size + 'px';
+            p.style.height = size + 'px';
+            p.style.backgroundColor = Math.random() > 0.5 ? '#00dbe9' : '#ffabf3';
+            p.style.top = Math.random() * 100 + '%';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.boxShadow = '0 0 10px currentColor';
+            
+            // Simple animation via keyframes in style
+            const duration = Math.random() * 10 + 10;
+            p.style.animation = `float ${duration}s linear infinite`;
+            
+            container.appendChild(p);
+        }
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0% { transform: translateY(0) translateX(0); opacity: 0; }
+                10% { opacity: 0.2; }
+                90% { opacity: 0.2; }
+                100% { transform: translateY(-200px) translateX(50px); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Click interaction for carrot game
+        document.getElementById('carrot-game').addEventListener('click', () => {
+            alert("QUEST UPDATED: You've initiated the Carrot Search protocol. Look for subtle shifts in the text depth...");
+        });
+    </script>
+</body></html>

@@ -1,0 +1,354 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>MagZine | Saga Explorer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed": "#bee9ff",
+                    "error": "#ffb4ab",
+                    "surface-container-high": "#262b2e",
+                    "error-container": "#93000a",
+                    "inverse-on-surface": "#2c3134",
+                    "surface-container-lowest": "#0a0f11",
+                    "inverse-primary": "#006685",
+                    "surface-tint": "#6bd3ff",
+                    "surface": "#0f1417",
+                    "surface-container": "#1b2023",
+                    "on-tertiary": "#570066",
+                    "tertiary-container": "#f69aff",
+                    "on-primary": "#003546",
+                    "secondary-fixed": "#24ffcd",
+                    "tertiary-fixed": "#ffd6fe",
+                    "on-primary-container": "#00526b",
+                    "primary-container": "#5bc8f5",
+                    "on-background": "#dfe3e7",
+                    "inverse-surface": "#dfe3e7",
+                    "on-error-container": "#ffdad6",
+                    "outline": "#889299",
+                    "secondary-container": "#24ffcd",
+                    "surface-container-highest": "#303538",
+                    "on-tertiary-fixed": "#35003f",
+                    "on-secondary-fixed-variant": "#00513f",
+                    "background": "#0f1417",
+                    "on-primary-fixed": "#001f2a",
+                    "on-tertiary-fixed-variant": "#7b008f",
+                    "surface-bright": "#353a3d",
+                    "primary": "#a2e0ff",
+                    "tertiary": "#fec5ff",
+                    "surface-variant": "#303538",
+                    "secondary": "#ffffff",
+                    "on-error": "#690005",
+                    "tertiary-fixed-dim": "#faabff",
+                    "on-secondary-container": "#00725a",
+                    "on-surface-variant": "#bdc8cf",
+                    "outline-variant": "#3e484e",
+                    "surface-dim": "#0f1417",
+                    "on-tertiary-container": "#820097",
+                    "on-surface": "#dfe3e7",
+                    "primary-fixed-dim": "#6bd3ff",
+                    "on-secondary": "#00382b",
+                    "surface-container-low": "#171c1f",
+                    "on-primary-fixed-variant": "#004d65",
+                    "secondary-fixed-dim": "#00e0b3",
+                    "on-secondary-fixed": "#002118"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-desktop": "64px",
+                    "unit": "8px",
+                    "margin-mobile": "20px",
+                    "container-max": "1440px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "display-lg": ["Audiowide"],
+                    "label-md": ["Orbitron"],
+                    "display-lg-mobile": ["Audiowide"],
+                    "headline-lg": ["Audiowide"],
+                    "label-caps": ["Orbitron"],
+                    "display-md": ["Audiowide"],
+                    "body-sm": ["Inter"],
+                    "headline-md": ["Audiowide"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "1.1", "fontWeight": "400"}],
+                    "headline-lg": ["30px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                    "label-caps": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                    "display-md": ["36px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        .scanline-effect::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(to right, transparent, rgba(107, 211, 255, 0.5), transparent);
+            animation: scanline 4s linear infinite;
+        }
+        .hex-bg {
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='35' viewBox='0 0 40 35' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 17.32L10 0h20l10 17.32L30 34.64H10L0 17.32z' fill='none' stroke='%233e484e' stroke-width='0.5' opacity='0.1'/%3E%3C/svg%3E");
+        }
+        .glow-primary:hover {
+            box-shadow: 0 0 20px rgba(162, 224, 255, 0.4);
+        }
+        .tactical-corner {
+            clip-path: polygon(0 0, 85% 0, 100% 15%, 100% 100%, 15% 100%, 0 85%);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary/30 min-h-screen hex-bg overflow-x-hidden">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 z-50 w-full h-20 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/30 flex justify-between items-center px-margin-desktop shadow-[0_0_15px_rgba(107,211,255,0.2)]">
+<div class="flex items-center gap-8">
+<span class="font-display-md text-display-md text-primary tracking-wider">MagZine</span>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="font-headline-md text-headline-md text-primary border-b-2 border-primary pb-1 transition-colors duration-300" href="#">Home</a>
+<a class="font-headline-md text-headline-md text-on-surface-variant hover:text-secondary-fixed transition-colors duration-300" href="#">Sagas</a>
+<a class="font-headline-md text-headline-md text-on-surface-variant hover:text-secondary-fixed transition-colors duration-300" href="#">Codex</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="bg-surface-container border border-outline-variant/50 rounded-lg pl-10 pr-4 py-2 text-body-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all w-64" placeholder="Search Archive..." type="text">
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:glow-primary transition-all p-2 rounded-full">notifications</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:glow-primary transition-all p-2 rounded-full">psychology</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:glow-primary transition-all p-2 rounded-full">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Side Navigation (Assistant) -->
+<aside class="fixed right-0 top-20 h-[calc(100vh-80px)] w-72 bg-surface-container-low/90 backdrop-blur-md border-l border-outline-variant/20 shadow-2xl flex flex-col py-8 gap-4 z-40">
+<div class="px-6 mb-4">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center border border-primary/40">
+<span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings: 'FILL' 1;">cabin</span>
+</div>
+<div>
+<h3 class="font-label-caps text-label-caps text-primary leading-tight">CBC Assistant</h3>
+<p class="text-[10px] text-secondary-fixed tracking-widest uppercase">Quantum Link Active</p>
+</div>
+</div>
+<button class="w-full mt-4 py-2 border border-primary/50 bg-primary/10 font-label-caps text-label-caps text-primary hover:bg-primary/20 transition-all rounded">
+                Summon Assistant
+            </button>
+</div>
+<div class="flex-grow">
+<div class="bg-tertiary-container/20 text-tertiary-fixed border-r-4 border-tertiary flex items-center gap-4 px-6 py-3 font-label-caps text-label-caps cursor-pointer">
+<span class="material-symbols-outlined">fort</span> Home
+            </div>
+<div class="text-on-surface-variant hover:bg-surface-container-high transition-all flex items-center gap-4 px-6 py-3 font-label-caps text-label-caps cursor-pointer hover:translate-x-[-4px]">
+<span class="material-symbols-outlined">auto_stories</span> Sagas
+            </div>
+<div class="text-on-surface-variant hover:bg-surface-container-high transition-all flex items-center gap-4 px-6 py-3 font-label-caps text-label-caps cursor-pointer hover:translate-x-[-4px]">
+<span class="material-symbols-outlined">menu_book</span> Codex
+            </div>
+<div class="text-on-surface-variant hover:bg-surface-container-high transition-all flex items-center gap-4 px-6 py-3 font-label-caps text-label-caps cursor-pointer hover:translate-x-[-4px]">
+<span class="material-symbols-outlined">shopping_cart</span> Marketplace
+            </div>
+<div class="text-on-surface-variant hover:bg-surface-container-high transition-all flex items-center gap-4 px-6 py-3 font-label-caps text-label-caps cursor-pointer hover:translate-x-[-4px]">
+<span class="material-symbols-outlined">event</span> Events
+            </div>
+</div>
+<!-- Global HUD Mini -->
+<div class="px-6 border-t border-outline-variant/30 pt-6 space-y-3">
+<div class="flex justify-between items-center text-[10px] tracking-widest text-outline uppercase">
+<span>MagnoEggs</span>
+<span class="text-primary">12/40</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-primary" style="width: 30%"></div>
+</div>
+<div class="flex justify-between items-center text-[10px] tracking-widest text-outline uppercase">
+<span>Sync Status</span>
+<span class="text-secondary-fixed">OPTIMAL</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="mr-72 mt-20 p-margin-desktop min-h-screen">
+<!-- Header & Filters -->
+<section class="mb-12">
+<div class="flex flex-col md:flex-row justify-between items-end gap-6 mb-8 border-l-4 border-primary pl-6">
+<div>
+<h1 class="font-display-lg text-display-lg text-primary uppercase mb-2">Saga Explorer</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Navigate through the chronological archives of the multiverse. Select a saga to begin your journey through high-fidelity historical simulations.</p>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="bg-primary/20 text-primary border border-primary/30 px-4 py-1 font-label-caps text-label-caps cursor-pointer hover:bg-primary hover:text-on-primary transition-all">Chaos Era</span>
+<span class="bg-surface-container-high text-outline border border-outline-variant px-4 py-1 font-label-caps text-label-caps cursor-pointer hover:border-primary hover:text-primary transition-all">Source Era</span>
+<span class="bg-surface-container-high text-outline border border-outline-variant px-4 py-1 font-label-caps text-label-caps cursor-pointer hover:border-primary hover:text-primary transition-all">Void Era</span>
+</div>
+</div>
+</section>
+<!-- Bento Grid Gallery -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-gutter">
+<!-- Eleusis Path (Highlighted) -->
+<div class="md:col-span-2 xl:col-span-2 group relative h-[500px] bg-surface-container-low border border-outline-variant/30 rounded-xl overflow-hidden scanline-effect hover:border-primary/50 transition-all duration-500">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="A cinematic scene from Eleusis Path featuring a giant domed temple with glowing purple lightning and mystical pillars. A central female figure stands regally in the foreground. The lighting is dramatic with deep violets, warm golds, and high-prestige cinematic glows. The atmosphere is mystical and ancient yet high-tech." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAQlCmYUNI-wW1SQclWzLzT4KT0hCmzrdqItJ1ynq3OOk4W05cgy3AsFiwf6NoxgLcAoDXUZ9ACXe90atF8HqXfRGpznXBQXOZbDtI3HXh-e9mM7QA5PAVrXtudBx-9S9XGuGERe_vhrYyeF8trqsecUnYLQZWutZN3QsjmE98D_F2mC5-60Bl_NIVUoWWJ05Jh43ASH2ECNfuBH_NTpyNImsFf9HsjUME0v3A1BOIYs3HAMcR18NnCJJ4tIG0ukkFdFzS1QFoy6PsK')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-transparent"></div>
+<div class="absolute top-6 left-6 flex items-center gap-3">
+<span class="bg-tertiary text-on-tertiary px-3 py-1 font-label-caps text-[10px] tracking-tighter uppercase font-bold">Active Simulation</span>
+<span class="bg-black/60 backdrop-blur-md text-secondary-fixed border border-secondary-fixed/30 px-3 py-1 font-label-caps text-[10px] tracking-tighter uppercase">High Fidelity</span>
+</div>
+<div class="absolute bottom-0 left-0 w-full p-8 flex flex-col md:flex-row items-end justify-between gap-6">
+<div class="flex-grow">
+<h2 class="font-display-md text-display-md text-tertiary-fixed mb-2">ELEUSIS PATH</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl mb-6">Enter the path. Ascend the mystery. Wisdom is the gate, choice is the path, and destiny is the reward. Experience the transformation of the initiates.</p>
+<div class="flex gap-8 border-t border-outline-variant/30 pt-6">
+<div class="flex flex-col">
+<span class="text-[10px] font-label-caps text-outline uppercase mb-1">Collected</span>
+<span class="font-headline-md text-headline-md text-primary">08 MagnoEggs</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] font-label-caps text-outline uppercase mb-1">Access</span>
+<span class="font-headline-md text-headline-md text-secondary-fixed">Level 4 Key</span>
+</div>
+</div>
+</div>
+<button class="bg-primary hover:bg-secondary-fixed text-on-primary hover:text-on-secondary-fixed px-10 py-4 font-display-md text-label-caps transition-all glow-primary flex items-center gap-3 whitespace-nowrap">
+                        Explore <span class="material-symbols-outlined">double_arrow</span>
+</button>
+</div>
+</div>
+<!-- MLH Card -->
+<div class="group h-[500px] bg-surface-container-low border border-outline-variant/30 rounded-xl overflow-hidden hover:border-primary/50 transition-all">
+<div class="h-1/2 overflow-hidden relative">
+<div class="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition-transform duration-500" data-alt="A dark, tactical cyberpunk laboratory with cold blue lighting. Scientific monitors display DNA strands and glowing magno-biological blueprints. The mood is clinical and advanced. The color palette features celestial blue, deep obsidian, and sharp white highlights." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuASlSmmC-U9Ck_OgrtMXzeIJEsreIZjbxaj44zwOGG3mIRKdRGaDwbvNrsvN-8IwGYaxxm2JWXUnnpCAH9dRE5UqpucfQHi7GZQwEhar5rZ8wOCXixrxrVsHPeLNMIWL7h46b6suOqOo47P41tjkW7x3sHGHiXyP7f-1GJBdUsGwX__4seEdG-NAiIgTSpsvdf48TJU2SZI3Ecgd6r6_6yJ196XaKYnrdhT0Rnc3aZDX-X5gCHU8XgVDDAnymLkkXYDi1roS9ma42XG')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low to-transparent"></div>
+</div>
+<div class="p-6 flex flex-col h-1/2">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-headline-md text-headline-md text-primary">MLH ARC</h3>
+<span class="text-[10px] font-label-caps bg-outline-variant/20 px-2 py-1 text-primary">SYNCING (88%)</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 line-clamp-3">The Meta-Laboratory Hierarchy simulation explores the boundaries of magno-genetic engineering and the core origins of the Matrix.</p>
+<div class="mt-auto flex flex-col gap-3">
+<div class="flex justify-between text-label-md text-outline">
+<span>RECORDS FOUND</span>
+<span class="text-on-surface">142/200</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest">
+<div class="h-full bg-primary" style="width: 71%"></div>
+</div>
+<button class="w-full mt-4 py-3 border border-outline-variant hover:border-primary text-primary font-label-caps text-label-caps hover:bg-primary/10 transition-all">
+                            Initialize Sync
+                        </button>
+</div>
+</div>
+</div>
+<!-- Golden Apple -->
+<div class="group h-[450px] bg-surface-container-low border border-outline-variant/30 rounded-xl overflow-hidden hover:border-primary/50 transition-all">
+<div class="h-3/5 overflow-hidden relative">
+<div class="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition-transform duration-500" data-alt="A lush, golden mythological garden with floating islands and radiant light. In the center sits a majestic tree with glowing golden fruit. The sky is a gradient of deep gold and amber. The visual style is ethereal and legendary, blending ancient Greek aesthetics with futuristic energy flows." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDAY1nFPvHSXG4bgDcklNYIbHUDulByajE4NhBA3Zl1nMuPrbGPDAc2YTx-1_9V7yooFTHQwrO6pWZNRN7khJusW2vUQLzm36mz79xV_eS9eL9C9izBgRzy7nY6yPyIyjz5pa5x3x9cM9zoUbIfwC2Vo00O_2xHPp4rENz9w2eSMjpW-S5aSdIK7Hyo5N5i9D34758sRLsoOPBoPo3t_3sFmib3u7aP3n_tD-hPYVX9ZhQnKFIp4ieMJlmThImd2sNV3Lb9idnw_-UE')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low to-transparent"></div>
+<div class="absolute bottom-4 left-4 font-display-md text-display-md text-secondary-fixed drop-shadow-md">GOLDEN APPLE</div>
+</div>
+<div class="p-6">
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4">A high-fidelity odyssey into the Source Era legends. Recover the fruits of knowledge before the system purge.</p>
+<div class="flex items-center gap-4 text-primary">
+<span class="material-symbols-outlined text-xl">key</span>
+<span class="text-label-caps">Required: Level 2 Sync</span>
+</div>
+<button class="w-full mt-6 py-3 bg-surface-container-highest/50 text-outline border border-outline-variant/30 font-label-caps text-label-caps cursor-not-allowed">
+                        LOCKED
+                    </button>
+</div>
+</div>
+<!-- White Brotherhood -->
+<div class="group h-[450px] bg-surface-container-low border border-outline-variant/30 rounded-xl overflow-hidden hover:border-primary/50 transition-all">
+<div class="h-3/5 overflow-hidden relative">
+<div class="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition-transform duration-500" data-alt="A minimalist architectural sanctuary made of white marble and transparent glass, set in a snowy mountain peak. Beams of pure white light intersect in a central hall. The mood is peaceful, enlightened, and intellectually elite. The color palette is strictly white, grey, and soft cyan." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCtIK5cjsjxzuD76597R84dalcU6uBVhyvKSuKKjEDBrQNEqA-4fl0_zRMErRtEf6FHvTxUI7k44jIRU23mo0r-ijHJckxd9hmzKLnwvBsSa_m3AOKgSB1gvIXN1qVm2kxvIoqrlmkaxwE0axZ7FgYXUJ2sn4CvFzAk_hsXuCbMQnd1M2FjNYyQvYsaiIhBonyK0WlyJwC4QFUgD6YDEk54XWYIZEduDIHyKjzqyHRbNL3Tf_bP-inUOPZsOowXb9dK1RAJc4_krZfV')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low to-transparent"></div>
+<div class="absolute bottom-4 left-4 font-display-md text-display-md text-primary drop-shadow-md">WHITE BROTHERHOOD</div>
+</div>
+<div class="p-6">
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4">Study the architects of the first Great Peace. A tactical social simulation focused on diplomacy and logic.</p>
+<div class="flex justify-between items-center">
+<span class="text-label-caps text-primary">COMPLETED: 100%</span>
+<button class="py-2 px-4 bg-primary/10 border border-primary/40 text-primary font-label-caps text-[12px] hover:bg-primary hover:text-on-primary transition-all">Replay</button>
+</div>
+</div>
+</div>
+<!-- Lords of Sumer -->
+<div class="group h-[450px] bg-surface-container-low border border-outline-variant/30 rounded-xl overflow-hidden hover:border-primary/50 transition-all">
+<div class="h-3/5 overflow-hidden relative">
+<div class="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition-transform duration-500" data-alt="A massive ziggurat in a sprawling Mesopotamian city under a binary star system. Flying crafts with copper hulls glide between stone towers. The environment glows with orange heat and teal artificial energy. The style is 'Sumerian-Futurism' with intricate stone carvings and neon glyphs." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD-Wed0va3PCGFE1REWWwxzOC2m8XaSF83pilHfkR6cZ-1rN5xt0mmXzKSwR5CE7dq-4sNEKp2r8irE0KUc0ghh2qB5I8nmQBeUgbaYI7VVhr8zW4b5cF3XlObQLBOSRoHEY0fiuWRNoIhHBqp4BUQSqvUqHXT5zfVkJm4ITvzZ8yXqKNggLQcWQv6-tFQWPWTSznECjHiZrIzJUZWUoEGrb174Gf4SN-_roPUNNQ5OWZTe--qEuaOKczZvjecch8xdjgyZpw4b5hmI')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low to-transparent"></div>
+<div class="absolute bottom-4 left-4 font-display-md text-display-md text-error drop-shadow-md">LORDS OF SUMER</div>
+</div>
+<div class="p-6">
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4">The origins of the Great Schism. Engage in large-scale strategic conflict simulations across the desert plains.</p>
+<button class="w-full mt-2 py-3 border border-error/50 text-error font-label-caps text-label-caps hover:bg-error/10 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">warning</span> System Unstable
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full h-12 bg-surface-container-lowest border-t border-primary/20 px-margin-desktop flex justify-between items-center font-label-md text-label-md text-secondary-fixed z-50">
+<div class="flex items-center gap-6">
+<span class="text-outline">© 2142 QUANTVM MATRIX INTERFACE</span>
+<span class="hidden md:block text-outline">|</span>
+<span class="hidden md:block hover:text-primary transition-colors cursor-default">Sync Status: OPTIMAL</span>
+<span class="hidden md:block hover:text-primary transition-colors cursor-default">Latency: 0.04ms</span>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">egg</span>
+<span>MagnoEggs: 12/40</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">nutrition</span>
+<span>Carrots: 5</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">vpn_key</span>
+<span>Keys: 2</span>
+</div>
+</div>
+</footer>
+<!-- Ambient Grid Overlay for Depth -->
+<div class="fixed inset-0 pointer-events-none z-[-1] opacity-20">
+
+</div>
+<script>
+        // Micro-interaction for cards
+        document.querySelectorAll('.group').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                // Potential for adding data-stream sounds or localized glow follows
+            });
+        });
+    </script>
+</body></html>

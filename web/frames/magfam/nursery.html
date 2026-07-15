@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOPVS // NURSERY COMMAND</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#4ed2aa",
+                    "on-secondary-fixed": "#380038",
+                    "inverse-primary": "#006782",
+                    "error-container": "#93000a",
+                    "tertiary": "#6eefc5",
+                    "surface-container": "#1f1f1f",
+                    "inverse-on-surface": "#303030",
+                    "on-secondary": "#5b005b",
+                    "secondary-fixed-dim": "#ffabf3",
+                    "surface-variant": "#353535",
+                    "primary": "#9de2ff",
+                    "on-tertiary-container": "#005742",
+                    "on-primary-fixed": "#001f29",
+                    "on-surface": "#e2e2e2",
+                    "surface-tint": "#5ed4ff",
+                    "on-error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#5adcb3",
+                    "surface-dim": "#131313",
+                    "surface-container-low": "#1b1b1b",
+                    "surface-container-highest": "#353535",
+                    "on-primary-fixed-variant": "#004d63",
+                    "surface-container-high": "#2a2a2a",
+                    "on-background": "#e2e2e2",
+                    "on-surface-variant": "#bbc8d0",
+                    "primary-fixed-dim": "#5ed4ff",
+                    "on-secondary-fixed-variant": "#810081",
+                    "background": "#131313",
+                    "secondary-container": "#fe00fe",
+                    "error": "#ffb4ab",
+                    "on-tertiary-fixed-variant": "#00513d",
+                    "on-primary": "#003545",
+                    "secondary-fixed": "#ffd7f5",
+                    "on-primary-container": "#005369",
+                    "surface-container-lowest": "#0e0e0e",
+                    "on-error": "#690005",
+                    "outline": "#869399",
+                    "on-tertiary": "#003829",
+                    "surface-bright": "#393939",
+                    "primary-fixed": "#bbe9ff",
+                    "on-tertiary-fixed": "#002117",
+                    "on-secondary-container": "#500050",
+                    "secondary": "#ffabf3",
+                    "outline-variant": "#3c494e",
+                    "tertiary-fixed": "#79f9ce",
+                    "surface": "#131313",
+                    "inverse-surface": "#e2e2e2",
+                    "primary-container": "#00ccff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "panel-padding": "32px",
+                    "gutter": "24px",
+                    "margin-desktop": "64px",
+                    "margin-mobile": "16px",
+                    "unit": "8px"
+            },
+            "fontFamily": {
+                    "body-md": ["Orbitron"],
+                    "data-readout": ["Orbitron"],
+                    "headline-md": ["Audiowide"],
+                    "body-lg": ["Orbitron"],
+                    "headline-sm": ["Audiowide"],
+                    "headline-lg": ["Audiowide"],
+                    "label-caps": ["Orbitron"]
+            },
+            "fontSize": {
+                    "body-md": ["14px", {"lineHeight": "1.6", "letterSpacing": "0.08em", "fontWeight": "400"}],
+                    "data-readout": ["24px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-md": ["28px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0.1em", "fontWeight": "400"}],
+                    "headline-sm": ["20px", {"lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                    "headline-lg": ["42px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.2em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #000000;
+            color: #e2e2e2;
+            overflow-x: hidden;
+        }
+
+        .scanline-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 9999;
+            pointer-events: none;
+            background-size: 100% 4px, 3px 100%;
+            opacity: 0.05;
+        }
+
+        .hex-grid {
+            background-image: 
+                linear-gradient(30deg, #1a1a1a 12%, transparent 12.5%, transparent 87%, #1a1a1a 87.5%, #1a1a1a),
+                linear-gradient(150deg, #1a1a1a 12%, transparent 12.5%, transparent 87%, #1a1a1a 87.5%, #1a1a1a),
+                linear-gradient(30deg, #1a1a1a 12%, transparent 12.5%, transparent 87%, #1a1a1a 87.5%, #1a1a1a),
+                linear-gradient(150deg, #1a1a1a 12%, transparent 12.5%, transparent 87%, #1a1a1a 87.5%, #1a1a1a),
+                linear-gradient(60deg, #222 25%, transparent 25.5%, transparent 75%, #222 75%, #222),
+                linear-gradient(60deg, #222 25%, transparent 25.5%, transparent 75%, #222 75%, #222);
+            background-size: 80px 140px;
+            background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+            opacity: 0.1;
+        }
+
+        .glass-panel {
+            background: rgba(14, 14, 14, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(94, 212, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .resonance-ring {
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .pulse-glow {
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(94, 212, 255, 0.5)); }
+            50% { filter: drop-shadow(0 0 20px rgba(94, 212, 255, 0.8)); }
+        }
+
+        .holographic-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .holographic-card::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05), transparent);
+            transform: rotate(45deg);
+            animation: sweep 6s ease-in-out infinite;
+        }
+
+        @keyframes sweep {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .sacred-geometry {
+            mask-image: radial-gradient(circle, black, transparent 70%);
+            opacity: 0.08;
+            pointer-events: none;
+        }
+
+        .status-flicker {
+            animation: flicker 0.2s infinite;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md selection:bg-primary/30">
+<div class="scanline-overlay"></div>
+<div class="fixed inset-0 hex-grid pointer-events-none"></div>
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl border-b border-primary/30 shadow-[0_0_15px_rgba(94,212,255,0.2)] flex justify-between items-center px-64 h-20">
+<div class="flex items-center gap-8">
+<h1 class="font-headline-md text-headline-md text-primary tracking-widest uppercase">MAGNOPVS // NURSERY</h1>
+<div class="hidden md:flex gap-6 items-center">
+<span class="font-label-caps text-label-caps text-primary font-bold">MC: 1,240</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">MBANK: 45.8k</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-primary hover:text-tertiary transition-colors scale-95 active:scale-90" data-icon="notifications"></button>
+<button class="material-symbols-outlined text-primary hover:text-tertiary transition-colors scale-95 active:scale-90" data-icon="settings"></button>
+<div class="w-10 h-10 rounded-full border border-primary/40 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A stylized portrait of a futuristic cosmic pilot, wearing a high-tech translucent helmet with glowing blue circuitry and dark obsidian armor. The background is a deep space nebula with shimmering particles, reflecting the sacred science fiction aesthetic of Magnopvs industries. The lighting is cold, focused, and dramatic, emphasizing textures of glass and metal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBss84ApwtW2SwEw-D_CyFFq1A4n0Zcg17t_wKukdKIa_9ZiNnEmnuDwiksCyKgICac9A6mDmMBCE5BlnVb8o7QnyjPsKgOFTKcDBztpqp3WCfqS8vxNzrXM5AkyAzEClYdLQUYkNdeNSkNHVPS7jW8bGByvio5FmD-iUgz7yfLnFG0-GyUg4HknreNs-1AGgrYQ75b2F4UO6g_exigs84GK9UWlkwR6AtHtDno3MFBjaa5thKHihngiOiNtAPnWZGDZyEUYDVOSOZm"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-20 bottom-0 w-64 bg-surface-container-lowest/40 backdrop-blur-lg border-r border-secondary/20 flex flex-col py-8 z-40">
+<div class="px-6 mb-10">
+<h2 class="font-headline-sm text-headline-sm text-secondary">Sector 7G</h2>
+<p class="font-body-md text-body-md text-on-surface/60">Incubation Lead</p>
+</div>
+<div class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface/60 hover:bg-surface-variant/30 hover:text-secondary transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="language"></span>
+<span class="font-body-md">All Sectors</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-secondary border-r-2 border-secondary bg-secondary/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="egg"></span>
+<span class="font-body-md">Incubator Alpha</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface/60 hover:bg-surface-variant/30 hover:text-secondary transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="history"></span>
+<span class="font-body-md">Hatching Log</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface/60 hover:bg-surface-variant/30 hover:text-secondary transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="Waves"></span>
+<span class="font-body-md">Resonance</span>
+</a>
+</div>
+<div class="px-6 py-4">
+<button class="w-full py-2 border border-secondary text-secondary font-label-caps text-label-caps hover:bg-secondary/10 transition-colors uppercase tracking-widest">SYNC ALL</button>
+</div>
+<div class="mt-auto border-t border-secondary/10 pt-4">
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface/60 hover:text-secondary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="security"></span>
+<span class="font-body-md">System Status</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface/60 hover:text-secondary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="logout"></span>
+<span class="font-body-md">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Canvas -->
+<main class="ml-64 pt-20 pb-16 px-gutter flex flex-col md:flex-row gap-gutter h-screen overflow-hidden">
+<!-- Left: Incubator Status -->
+<section class="w-full md:w-1/4 flex flex-col gap-6 py-8">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase border-l-4 border-primary pl-4">Incubator Status</h3>
+<span class="text-primary/40 text-xs font-body-md">S7G-LOG</span>
+</div>
+<div class="flex flex-col gap-4 overflow-y-auto pr-2 custom-scrollbar">
+<!-- Glitched Fragment -->
+<div class="glass-panel p-4 flex gap-4 holographic-card border-l-2 border-l-secondary">
+<div class="w-16 h-16 bg-black rounded flex-shrink-0 border border-secondary/30 overflow-hidden relative">
+<img class="w-full h-full object-cover grayscale brightness-125" data-alt="A highly detailed 3D glitch-style egg with fragmented geometric obsidian-like surfaces. Violent magenta energy cracks through the shell, emitting digital distortion and code-like particles. The scene is set in a dark, high-contrast digital void with vibrant magenta and purple highlights reflecting the chaotic instability of the specimen." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHXPZVwrj2cUMX_TovKw3_qTZjs2W8ysmZ_1lK4FW6fZIM0lSr6vNDL-sJ8S0OGWzYiInT_Ubh5eY4Cuq6rstsl0iV9_p9lW95lyK0nQ6njK_O0LpGm6OgpTBASyPmMKcTLTlL9iMQrPn2UKJZsQ9WVIeYrytkQ-yQ8aqQtfhl7ghHVHLPtd_LYR8o8C4jpIGV2COcT6oJAYgX2Bx_B5-H_bEA1q6nzCugc53AD3xWFAe6hHRi1tvUKBIHvGYwPLmwD-TSj7M2qvEU"/>
+<div class="absolute inset-0 bg-secondary/10 mix-blend-color"></div>
+</div>
+<div class="flex flex-col justify-center flex-1">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-[10px] text-secondary border border-secondary px-1 uppercase mb-1">Forbidden</span>
+</div>
+<h4 class="font-body-md text-white text-sm">Glitched Fragment</h4>
+<div class="flex items-center gap-2 mt-2">
+<div class="h-1 flex-1 bg-surface-variant overflow-hidden">
+<div class="h-full bg-secondary w-[34%] pulse-glow"></div>
+</div>
+<span class="text-[10px] font-data-readout text-secondary status-flicker">UNSTABLE (34%)</span>
+</div>
+</div>
+</div>
+<!-- Eleusian Seed -->
+<div class="glass-panel p-4 flex gap-4 holographic-card border-l-2 border-l-tertiary">
+<div class="w-16 h-16 bg-black rounded flex-shrink-0 border border-tertiary/30 overflow-hidden">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AP1WRLvzbnC2Hy-pBus4QWFvmBbngvlcavyJYX6kudhp-Er9KSIFGqY3vALynXWtZ5fwXkkTWGta494APGb_RKUmCKC_GeoAPE8N2vNq2ekYOhE5u4v4xQeyRQvKZzmsBTxT6FmqPvdCXY6DWd9KKVd8TEwUUyCu6WkHbhd_1k5uBsNR4BlT3S11BVoG4iuBR6EKfoP_mWBoByTkv-RMafksVhjnLepBxpqC1m3QgdCi7QWv7MVIwrrur3KlgtlO"/>
+</div>
+<div class="flex flex-col justify-center flex-1">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-[10px] text-tertiary border border-tertiary px-1 uppercase mb-1">Rare</span>
+</div>
+<h4 class="font-body-md text-white text-sm">Eleusian Seed</h4>
+<div class="flex items-center gap-2 mt-2">
+<div class="h-1 flex-1 bg-surface-variant overflow-hidden">
+<div class="h-full bg-tertiary w-full"></div>
+</div>
+<span class="text-[10px] font-data-readout text-tertiary">READY (100%)</span>
+</div>
+</div>
+</div>
+<!-- Stardust Shard -->
+<div class="glass-panel p-4 flex gap-4 holographic-card border-l-2 border-l-primary">
+<div class="w-16 h-16 bg-black rounded flex-shrink-0 border border-primary/30 overflow-hidden">
+<div class="w-full h-full bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="auto_awesome"></span>
+</div>
+</div>
+<div class="flex flex-col justify-center flex-1">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-[10px] text-primary border border-primary px-1 uppercase mb-1">Common</span>
+</div>
+<h4 class="font-body-md text-white text-sm">Stardust Shard</h4>
+<div class="flex items-center gap-2 mt-2">
+<div class="h-1 flex-1 bg-surface-variant overflow-hidden">
+<div class="h-full bg-primary w-[52%]"></div>
+</div>
+<span class="text-[10px] font-data-readout text-primary">INCUBATING (52%)</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Center: Primordial Soul-Core View -->
+<section class="flex-1 flex flex-col items-center justify-center relative py-8">
+<!-- Background Sacred Geometry -->
+<div class="absolute inset-0 flex items-center justify-center sacred-geometry">
+<svg class="resonance-ring text-primary fill-none stroke-current stroke-[0.2]" height="600" viewbox="0 0 100 100" width="600">
+<circle cx="50" cy="50" r="45"></circle>
+<circle cx="50" cy="50" r="35"></circle>
+<circle cx="50" cy="50" r="25"></circle>
+<path d="M50 5 L50 95 M5 50 L95 50 M18 18 L82 82 M18 82 L82 18"></path>
+</svg>
+</div>
+<!-- Main Incubation Chamber -->
+<div class="relative z-10 w-full max-w-2xl flex flex-col items-center">
+<div class="relative w-full aspect-square flex items-center justify-center">
+<!-- Glass Cylinder effect -->
+<div class="absolute w-80 h-[500px] bg-primary/5 rounded-full border-x-2 border-primary/20 blur-sm pointer-events-none"></div>
+<!-- Main Egg Placeholder -->
+<div class="relative z-20 w-80 h-80 rounded-full flex items-center justify-center p-4">
+<img class="w-full h-full object-contain filter drop-shadow-[0_0_50px_rgba(94,212,255,0.4)]" data-alt="A massive, translucent 'Primordial Soul-Core' egg suspended in a vertical cylinder of shimmering aquamarine energy. The egg's surface is like polished celestial ice with a swirling galaxy visible inside its core. Bioluminescent fibers glow within the shell, and the entire structure is bathed in volumetric light beams of deep blue and vibrant cyan. Sacred geometric shapes float around it as faint holographic watermarks." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKLiYM0My4T2OGqp7oN-Fjfe7e3zjkoCkF9TrKCfdReZE27QQSmrPa1hBU0QnbHhkBVrUT-InJWNpduKIzhWZGjlJlbHT69FXFjH0d3i6e2rU5oJjltIbxyvlM2irkHylaqBKyYv5Da79CoI4PEHYBCjZivPkPOLYL7-Lyf3HUtWZndPeP30JfcjCTW5sPqj6Si6SVefivOsX8tcXeUip17AbejpvvVZUg366WczND8OFa4BY__Uh9eGxQLKipBWVHadAoLvoMd-d3"/>
+</div>
+<!-- Floating Holographic Data -->
+<div class="absolute top-0 left-0 glass-panel p-3 border-l-4 border-primary">
+<p class="font-label-caps text-[10px] text-primary/60">SYNC RATE</p>
+<p class="font-data-readout text-primary text-3xl">88%</p>
+</div>
+<div class="absolute bottom-20 right-0 glass-panel p-3 border-r-4 border-tertiary text-right">
+<p class="font-label-caps text-[10px] text-tertiary/60">RESONANCE</p>
+<p class="font-data-readout text-tertiary text-3xl">432Hz</p>
+</div>
+<div class="absolute top-1/2 -right-12 -translate-y-1/2 rotate-90 origin-center text-primary/20 font-label-caps tracking-[1em]">STABILITY: OPTIMAL</div>
+</div>
+<div class="mt-12 flex gap-12">
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined text-primary mb-2 text-3xl" data-icon="thermostat"></span>
+<span class="font-label-caps text-[10px] text-primary/60">TEMP</span>
+<span class="font-data-readout text-white">310.15K</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined text-primary mb-2 text-3xl" data-icon="air"></span>
+<span class="font-label-caps text-[10px] text-primary/60">O2 LEVEL</span>
+<span class="font-data-readout text-white">19.5%</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined text-primary mb-2 text-3xl" data-icon="bolt"></span>
+<span class="font-label-caps text-[10px] text-primary/60">POWER</span>
+<span class="font-data-readout text-white">1.21 GW</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Right: Growth Telemetry -->
+<section class="w-full md:w-1/4 flex flex-col gap-6 py-8">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-secondary uppercase border-l-4 border-secondary pl-4">Growth Telemetry</h3>
+<span class="material-symbols-outlined text-secondary/40 text-sm" data-icon="insights"></span>
+</div>
+<!-- Waveform Dashboard -->
+<div class="glass-panel p-6 flex flex-col gap-4 relative overflow-hidden">
+<div class="flex justify-between items-center mb-4">
+<span class="font-label-caps text-[10px] text-on-surface/60">ENERGY OSCILLATIONS</span>
+<span class="font-data-readout text-xs text-secondary">ACTIVE</span>
+</div>
+<div class="h-32 w-full flex items-end gap-[2px]">
+<!-- Simulated graph bars -->
+<div class="flex-1 bg-secondary/20 h-1/2"></div>
+<div class="flex-1 bg-secondary/40 h-2/3"></div>
+<div class="flex-1 bg-secondary/60 h-1/2"></div>
+<div class="flex-1 bg-secondary/80 h-3/4 pulse-glow"></div>
+<div class="flex-1 bg-primary/40 h-1/2"></div>
+<div class="flex-1 bg-primary/60 h-1/3"></div>
+<div class="flex-1 bg-primary/80 h-2/3"></div>
+<div class="flex-1 bg-primary h-5/6 pulse-glow"></div>
+<div class="flex-1 bg-secondary/30 h-1/4"></div>
+<div class="flex-1 bg-secondary/50 h-1/2"></div>
+</div>
+<div class="flex justify-between font-label-caps text-[9px] text-primary/40 mt-2">
+<span>0ms</span>
+<span>500ms</span>
+<span>1000ms</span>
+</div>
+</div>
+<!-- Radial Hatching Bonus -->
+<div class="glass-panel p-6 flex flex-col items-center">
+<span class="font-label-caps text-[10px] text-on-surface/60 self-start mb-4">GLOBAL HATCHING BONUS</span>
+<div class="relative w-32 h-32 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90">
+<circle class="text-surface-variant" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-secondary pulse-glow" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-dasharray="364.4" stroke-dashoffset="109.3" stroke-width="4"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-data-readout text-white text-xl">x2.4</span>
+<span class="font-label-caps text-[8px] text-secondary">BOOST</span>
+</div>
+</div>
+</div>
+<!-- Log Feed -->
+<div class="flex-1 glass-panel p-4 flex flex-col gap-2 font-body-md text-[11px] overflow-hidden">
+<span class="font-label-caps text-[10px] text-primary mb-2">SYSTEM LOGS</span>
+<div class="flex-1 flex flex-col gap-2 custom-scrollbar overflow-y-auto">
+<div class="flex gap-2 text-tertiary">
+<span class="opacity-50 text-[9px]">[14:02]</span>
+<span>[OK] Bio-Signature Authenticated</span>
+</div>
+<div class="flex gap-2 text-primary">
+<span class="opacity-50 text-[9px]">[14:03]</span>
+<span class="status-flicker">[SCAN] Fragment #004 detected</span>
+</div>
+<div class="flex gap-2 text-on-surface/60">
+<span class="opacity-50 text-[9px]">[14:05]</span>
+<span>[SYNC] Link stable - Signal 98%</span>
+</div>
+<div class="flex gap-2 text-secondary">
+<span class="opacity-50 text-[9px]">[14:08]</span>
+<span>[WARN] Resonance drift detected in Sector 7G</span>
+</div>
+<div class="flex gap-2 text-tertiary">
+<span class="opacity-50 text-[9px]">[14:10]</span>
+<span>[LOG] Seed #157 ready for transmutation</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="fixed bottom-0 w-full z-50 bg-black/50 backdrop-blur border-t border-outline-variant/10 flex justify-between items-center px-64 py-4">
+<p class="font-label-caps text-label-caps text-tertiary opacity-80">© 2142 MAGNOPVS INDUSTRIES. SYSTEM NOMINAL.</p>
+<div class="flex gap-8">
+<span class="font-label-caps text-label-caps text-tertiary opacity-80 hover:opacity-100 transition-opacity cursor-default">LATENCY: 14MS</span>
+<span class="font-label-caps text-label-caps text-tertiary opacity-80 hover:opacity-100 transition-opacity cursor-default">UPTIME: 99.9%</span>
+</div>
+</footer>
+<script>
+        // Micro-interactions and atmospheric effects
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mousemove', (e) => {
+                const rect = panel.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                panel.style.setProperty('--mouse-x', `${x}px`);
+                panel.style.setProperty('--mouse-y', `${y}px`);
+                
+                // Subtle tilt effect
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 50;
+                const rotateY = (centerX - x) / 50;
+                
+                panel.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+            
+            panel.addEventListener('mouseleave', () => {
+                panel.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+            });
+        });
+
+        // Flickering effects for status indicators
+        setInterval(() => {
+            const flickers = document.querySelectorAll('.status-flicker');
+            flickers.forEach(f => {
+                if(Math.random() > 0.8) {
+                    f.style.opacity = Math.random() * 0.5 + 0.5;
+                    setTimeout(() => f.style.opacity = 1, 50);
+                }
+            });
+        }, 100);
+    </script>
+</body></html>

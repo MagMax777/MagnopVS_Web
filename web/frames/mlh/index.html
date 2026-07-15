@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;600;700&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        try {
+            tailwind.config = {
+                darkMode: "class",
+                theme: {
+                    extend: {
+                        "colors": {
+                            "primary": "#7fd0ff",
+                            "secondary": "#48ddc1",
+                            "tertiary": "#ff64ba",
+                            "accent-violet": "#8b005d",
+                            "background": "#050505",
+                            "surface": "#0f1417",
+                            "surface-container": "#1b2024",
+                            "surface-container-low": "#171c20",
+                            "surface-container-high": "#262b2e",
+                            "surface-container-highest": "#303539",
+                            "outline-variant": "#3e484f",
+                            "on-surface": "#dfe3e8",
+                            "on-surface-variant": "#bec8d0",
+                            "error": "#ffb4ab",
+                            "surface-dim": "#0f1417",
+                        },
+                        "borderRadius": {
+                            "DEFAULT": "0.15rem",
+                            "lg": "0.35rem",
+                            "xl": "0.5rem",
+                            "full": "9999px"
+                        },
+                        "spacing": {
+                            "unit": "4px",
+                            "panel-gap": "12px",
+                            "margin-mobile": "20px",
+                            "gutter": "16px",
+                            "margin-desktop": "40px"
+                        },
+                        "fontFamily": {
+                            "display-lg": ["Audiowide", "cursive"],
+                            "label-caps": ["Orbitron", "sans-serif"],
+                            "headline-md": ["Audiowide", "cursive"],
+                            "data-point": ["Orbitron", "sans-serif"],
+                            "body-md": ["Orbitron", "sans-serif"],
+                            "mono-data": ["Orbitron", "sans-serif"],
+                            "display-lg-mobile": ["Audiowide", "cursive"]
+                        },
+                        "fontSize": {
+                            "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.08em", "fontWeight": "400"}],
+                            "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.2em", "fontWeight": "500"}],
+                            "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                            "data-point": ["20px", {"lineHeight": "28px", "letterSpacing": "0.15em", "fontWeight": "700"}],
+                            "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                            "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                            "display-lg-mobile": ["28px", {"lineHeight": "36px", "letterSpacing": "0.08em", "fontWeight": "400"}]
+                        }
+                    },
+                },
+            }
+        } catch (_e) {}
+    </script>
+<style>
+        .hud-card { transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .corner-bracket { position: relative; }
+        .corner-bracket::before { content: ''; position: absolute; top: -2px; left: -2px; width: 12px; height: 12px; border-top: 2px solid var(--tw-primary); border-left: 2px solid var(--tw-primary); opacity: 0.5; }
+        .corner-bracket::after { content: ''; position: absolute; bottom: -2px; right: -2px; width: 12px; height: 12px; border-bottom: 2px solid var(--tw-primary); border-right: 2px solid var(--tw-primary); opacity: 0.5; }
+        .tab-active { color: #7fd0ff; border-bottom: 2px solid #7fd0ff; background: rgba(127, 208, 255, 0.05); }
+        .layer-content { display: none; }
+        .layer-content.active { display: block; animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .hex-clip { clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); }
+        .mandala-point { filter: drop-shadow(0 0 5px currentColor); }
+        .sofia-glow { filter: drop-shadow(0 0 15px rgba(127, 208, 255, 0.4)); }
+        .message-bubble { position: relative; border-radius: 1rem; border-bottom-left-radius: 0; }
+        .message-bubble::after { content: ''; position: absolute; bottom: 0; left: -10px; width: 20px; height: 20px; background: inherit; clip-path: polygon(100% 0, 100% 100%, 0 100%); }
+    </style>
+</head>
+<body class="selection:bg-primary selection:text-black min-h-screen text-on-surface bg-fixed bg-center bg-cover" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBHSSo-famoEAsX2XerfpwKEUvEcBoz_6K-F9G2P1WrAwLobX-NS2TdKwPgo104j11VdcfHhyXLkiN3cWqLH1phgLhs_Cio1RlDi3qtU7xZwkHFY03eyZw6ypgskiKM_gA0Cd2yDuNylZjqT2pi2TSeb6PCDXiVX44K2VHxMvkjXg2EeQKIjQbQ1S75b-AlGbQWdLHqNyxdcwnfBnDDvxdT8aYh8iCeoiDKjWY9S0wN1Q-s76nNF5LfXWPuhfckU6wrMnujWg-qYCIT');">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 h-16 backdrop-blur-xl border-b border-outline-variant/20 bg-surface/80">
+<div class="max-w-[1600px] mx-auto h-full flex justify-between items-center px-margin-mobile md:px-margin-desktop">
+<div class="flex items-center gap-6">
+<h1 class="font-display-lg text-2xl md:text-3xl text-primary tracking-widest uppercase drop-shadow-[0_0_12px_rgba(127,208,255,0.4)]">mlh portal</h1>
+</div>
+<nav class="flex h-full items-center">
+<button class="h-full px-6 font-label-caps text-xs tracking-widest transition-all hover:text-primary tab-active" id="tab-hoy" onclick="switchLayer('hoy')">HOY</button>
+<button class="h-full px-6 font-label-caps text-xs tracking-widest transition-all hover:text-primary" id="tab-heroe" onclick="switchLayer('heroe')">TU HÉROE</button>
+<button class="h-full px-6 font-label-caps text-xs tracking-widest transition-all hover:text-primary" id="tab-sistema" onclick="switchLayer('sistema')">MUNDO</button>
+</nav>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex flex-col items-end border-r border-primary/20 pr-4">
+<span class="font-label-caps text-[10px] text-on-surface-variant/60">CONOCER</span>
+<span class="font-label-caps text-xs text-primary" id="calibration-pct">12.05%</span>
+</div>
+<div class="w-10 h-10 hex-clip bg-primary/10 border border-primary/30 flex items-center justify-center overflow-hidden">
+<img alt="Héroe Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCN6me4jX7VPf6-r4-q1qtcFx3Z0yu1RQC6I-sMtesFBAWFTq2vxP2IpGlpAQxA7dUWbewZTgkW5NoQqNFpAUzt30NonUnBxX6yV9rZcCATTVIHOCcEcLJakazFuPweNnDJLw8ySUq1lZYJ9huAWzGt7IghzvmE5TzIgd6c3ZQTCRFB7vTKIFFpUmpDGkLZZ5ey6MTmNfjce3koHaJrJw8WUTfhmXtt_vLmGQIxKekfaT_5mXlXNJGi8G6D7nqxapYnwCISC0on6gT"/>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-20">
+<div class="max-w-[1400px] mx-auto px-margin-mobile md:px-margin-desktop">
+<!-- Capa 1: HOY (Living Adventure Redesign) -->
+<div class="layer-content active space-y-12" id="layer-hoy">
+<!-- Sof.IA Welcome Section -->
+<div class="flex flex-col md:flex-row items-center gap-8 bg-surface-container/40 p-8 rounded-xl border border-outline-variant/10 backdrop-blur-md">
+<div class="relative group">
+<div class="absolute -inset-1 bg-gradient-to-r from-primary to-accent-violet rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+<img alt="Sof.IA" class="relative w-32 h-32 md:w-40 md:h-40 rounded-full object-cover sofia-glow border-2 border-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBesNxj9FnGOPkWQGXFQOhvS__Fb6z2xRsPNzD3ytTuBewz_ooEYGeivtk2_FxDwbpAQ64e8f12TjTnh-OYZjxcS-i7cOkUE8qC7ELluwos7wR6I-j2rRvrImB2D9kDyg1rkFR0onrPqUvOOYhL3t7O68gAV3Jof6BhAEM2VhcVbfuf3qtZmQB-_dDcWX_KQtzUUCMlFCbPChvs3VoCBgnLXyozlFBTNfmZwk8GDhirUgHIXJCMV0nOrB3TViJ8U09s3f-P3b0xq-6O"/>
+</div>
+<div class="flex-1 space-y-4">
+<div class="inline-block bg-primary/10 border border-primary/20 px-3 py-1 rounded-full">
+<span class="font-label-caps text-[10px] text-primary tracking-widest">IA GUÍA: SOF.IA</span>
+</div>
+<div class="message-bubble bg-surface-container-high/80 p-6 border border-outline-variant/20 max-w-2xl">
+<p class="font-body-md text-lg text-on-surface leading-relaxed">
+                                Jean, hoy detecté una oportunidad para fortalecer tu cuerpo. ¿Comenzamos?
+                            </p>
+</div>
+<div class="flex gap-4">
+<span class="font-label-caps text-xs text-secondary">NIVEL 01</span>
+<span class="text-on-surface-variant/30">|</span>
+<span class="font-label-caps text-xs text-tertiary">1,240 PUNTOS</span>
+</div>
+</div>
+</div>
+<!-- Epic Mission -->
+<div class="space-y-6">
+<h3 class="font-label-caps text-sm text-primary tracking-[0.3em] pl-2 border-l-2 border-primary">MISIÓN PRINCIPAL</h3>
+<div class="hud-card group relative p-10 bg-gradient-to-br from-surface-container/90 to-surface-container-high/90 border border-primary/30 corner-bracket overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-8xl text-primary">fitness_center</span>
+</div>
+<div class="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="text-center md:text-left">
+<h4 class="font-display-lg text-3xl md:text-4xl text-on-surface mb-2">Entrena 30 minutos</h4>
+<p class="font-body-md text-on-surface-variant text-lg">Fortalece tu templo físico para las batallas venideras.</p>
+</div>
+<button class="px-12 py-5 bg-primary text-black font-label-caps text-sm tracking-widest hover:bg-white transition-all shadow-[0_0_30px_rgba(127,208,255,0.3)] hover:scale-105">COMENZAR</button>
+</div>
+</div>
+</div>
+<!-- Secondary Missions -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="hud-card p-6 bg-surface-container/60 border border-outline-variant/20 hover:border-secondary/40 transition-colors">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center border border-secondary/20">
+<span class="material-symbols-outlined text-secondary">restaurant</span>
+</div>
+<span class="font-label-caps text-[11px] text-secondary tracking-wider">SECUNDARIA</span>
+</div>
+<h5 class="font-headline-md text-lg mb-1">Comer saludable</h5>
+<p class="text-xs text-on-surface-variant font-body-md">Nutre tu sistema con pureza.</p>
+</div>
+<div class="hud-card p-6 bg-surface-container/60 border border-outline-variant/20 hover:border-primary/40 transition-colors">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20">
+<span class="material-symbols-outlined text-primary">water_drop</span>
+</div>
+<span class="font-label-caps text-[11px] text-primary tracking-wider">SECUNDARIA</span>
+</div>
+<h5 class="font-headline-md text-lg mb-1">Hidratación</h5>
+<p class="text-xs text-on-surface-variant font-body-md">Sincroniza tus niveles de agua.</p>
+</div>
+<div class="hud-card p-6 bg-surface-container/60 border border-outline-variant/20 hover:border-tertiary/40 transition-colors">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center border border-tertiary/20">
+<span class="material-symbols-outlined text-tertiary">book</span>
+</div>
+<span class="font-label-caps text-[11px] text-tertiary tracking-wider">SECUNDARIA</span>
+</div>
+<h5 class="font-headline-md text-lg mb-1">Lectura</h5>
+<p class="text-xs text-on-surface-variant font-body-md">Expande tu biblioteca neural.</p>
+</div>
+</div>
+</div>
+<!-- Capa 2: TU HÉROE (Cosmic Protagonist Redesign) -->
+<div class="layer-content space-y-12" id="layer-heroe">
+<div class="relative py-12 flex flex-col items-center justify-center min-h-[600px]">
+<!-- Central Hero -->
+<div class="relative z-20 w-48 h-48 md:w-64 md:h-64 mb-12">
+<div class="absolute inset-0 bg-primary/10 rounded-full animate-pulse border border-primary/20"></div>
+<div class="absolute inset-4 border-2 border-dashed border-primary/30 rounded-full animate-[spin_10s_linear_infinite]"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-40 h-40 md:w-52 md:h-52 hex-clip bg-gradient-to-b from-primary/20 to-accent-violet/20 border border-primary/40 flex items-center justify-center overflow-hidden">
+<img alt="Hero" class="w-full h-full object-cover scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCN6me4jX7VPf6-r4-q1qtcFx3Z0yu1RQC6I-sMtesFBAWFTq2vxP2IpGlpAQxA7dUWbewZTgkW5NoQqNFpAUzt30NonUnBxX6yV9rZcCATTVIHOCcEcLJakazFuPweNnDJLw8ySUq1lZYJ9huAWzGt7IghzvmE5TzIgd6c3ZQTCRFB7vTKIFFpUmpDGkLZZ5ey6MTmNfjce3koHaJrJw8WUTfhmXtt_vLmGQIxKekfaT_5mXlXNJGi8G6D7nqxapYnwCISC0on6gT"/>
+</div>
+</div>
+</div>
+<!-- Brújula Cósmica (Mandala of Life) -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<svg class="w-full max-w-2xl h-auto opacity-30" viewbox="0 0 200 200">
+<defs>
+<radialgradient cx="50%" cy="50%" fx="50%" fy="50%" id="grad1" r="50%">
+<stop offset="0%" style="stop-color:rgb(127,208,255);stop-opacity:0.2"></stop>
+<stop offset="100%" style="stop-color:rgb(127,208,255);stop-opacity:0"></stop>
+</radialgradient>
+</defs>
+<circle cx="100" cy="100" fill="url(#grad1)" r="80"></circle>
+<g class="text-primary/40" stroke="currentColor" stroke-width="0.5">
+<!-- 13 Petals/Points -->
+<circle cx="100" cy="100" fill="none" r="70"></circle>
+<circle cx="100" cy="100" fill="none" r="50" stroke-dasharray="2 2"></circle>
+<script>
+                                    for(let i=0; i<13; i++) {
+                                        let angle = (i * 360 / 13) * Math.PI / 180;
+                                        let x = 100 + 70 * Math.cos(angle);
+                                        let y = 100 + 70 * Math.sin(angle);
+                                        document.write(`<circle class="mandala-point text-primary" cx="${x}" cy="${y}" fill="currentColor" r="1.5"></circle>`);
+                                        document.write(`<line opacity="0.3" x1="100" x2="${x}" y1="100" y2="${y}"></line>`);
+                                    }
+                                </script>
+</g>
+</svg>
+</div>
+<!-- Sphere Labels (Around Hero) -->
+<div class="grid grid-cols-2 md:grid-cols-5 gap-4 w-full max-w-5xl z-30">
+<div class="flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-secondary/10 border border-secondary/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-secondary">favorite</span>
+</div>
+<span class="font-label-caps text-[10px] text-on-surface-variant">VITAL</span>
+</div>
+<div class="flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary">psychology</span>
+</div>
+<span class="font-label-caps text-[10px] text-on-surface-variant">MENTAL</span>
+</div>
+<div class="flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-tertiary/10 border border-tertiary/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-tertiary">account_balance</span>
+</div>
+<span class="font-label-caps text-[10px] text-on-surface-variant">MATERIAL</span>
+</div>
+<div class="flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-accent-violet/10 border border-accent-violet/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-accent-violet">groups</span>
+</div>
+<span class="font-label-caps text-[10px] text-on-surface-variant">SOCIAL</span>
+</div>
+<div class="flex flex-col items-center gap-2 group cursor-pointer col-span-2 md:col-span-1">
+<div class="w-12 h-12 rounded-full bg-white/5 border border-white/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-white">auto_awesome</span>
+</div>
+<span class="font-label-caps text-[10px] text-on-surface-variant">ESPÍRITU</span>
+</div>
+</div>
+</div>
+<div class="hud-card p-10 bg-surface-container/95 border border-primary/20 corner-bracket text-center mx-auto max-w-3xl">
+<div class="font-label-caps text-[10px] text-primary/60 mb-2">BRÚJULA DE LA VERDAD</div>
+<h2 class="font-display-lg text-2xl mb-6">EL PROPÓSITO</h2>
+<p class="font-body-md italic text-xl text-on-surface leading-relaxed mb-6">
+                        "Forjar una realidad donde el bienestar neural y la soberanía material converjan en el Avatar Supremo."
+                    </p>
+<div class="font-label-caps text-xs text-secondary">ESTADO: BUSCANDO SENTIDO</div>
+</div>
+</div>
+<!-- Capa 3: SISTEMA (Organized Explorer Redesign) -->
+<div class="layer-content" id="layer-sistema">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Navigation / Santuario -->
+<aside class="md:col-span-4 space-y-gutter">
+<div class="hud-card p-8 bg-surface-container-high/90 backdrop-blur-xl border border-outline-variant/30 space-y-8">
+<div>
+<div class="font-label-caps text-[10px] text-on-surface-variant/40 mb-1">TU SANTUARIO</div>
+<div class="font-display-lg text-primary text-xl tracking-wider">ARCHIVO_MUNDO</div>
+</div>
+<div class="flex flex-col gap-2">
+<button class="group flex items-center justify-between px-5 py-4 border-l-2 border-primary bg-primary/5 hover:bg-primary/10 transition-all text-left">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">person</span>
+<span class="font-label-caps text-xs tracking-widest text-on-surface">Avatar</span>
+</div>
+<span class="material-symbols-outlined text-xs text-primary/40">chevron_right</span>
+</button>
+<button class="group flex items-center justify-between px-5 py-4 border-l-2 border-transparent hover:border-primary/40 hover:bg-white/5 transition-all text-left">
+<div class="flex items-center gap-4 text-on-surface-variant group-hover:text-on-surface">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">home</span>
+<span class="font-label-caps text-xs tracking-widest">Casas</span>
+</div>
+<span class="material-symbols-outlined text-xs opacity-0 group-hover:opacity-100">chevron_right</span>
+</button>
+<button class="group flex items-center justify-between px-5 py-4 border-l-2 border-transparent hover:border-primary/40 hover:bg-white/5 transition-all text-left">
+<div class="flex items-center gap-4 text-on-surface-variant group-hover:text-on-surface">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">inventory_2</span>
+<span class="font-label-caps text-xs tracking-widest">Inventario</span>
+</div>
+<span class="material-symbols-outlined text-xs opacity-0 group-hover:opacity-100">chevron_right</span>
+</button>
+<button class="group flex items-center justify-between px-5 py-4 border-l-2 border-transparent hover:border-primary/40 hover:bg-white/5 transition-all text-left">
+<div class="flex items-center gap-4 text-on-surface-variant group-hover:text-on-surface">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">smart_toy</span>
+<span class="font-label-caps text-xs tracking-widest">IA Sof.IA</span>
+</div>
+<span class="material-symbols-outlined text-xs opacity-0 group-hover:opacity-100">chevron_right</span>
+</button>
+<button class="group flex items-center justify-between px-5 py-4 border-l-2 border-transparent hover:border-primary/40 hover:bg-white/5 transition-all text-left">
+<div class="flex items-center gap-4 text-on-surface-variant group-hover:text-on-surface">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">history_edu</span>
+<span class="font-label-caps text-xs tracking-widest">Historia</span>
+</div>
+<span class="material-symbols-outlined text-xs opacity-0 group-hover:opacity-100">chevron_right</span>
+</button>
+<button class="group flex items-center justify-between px-5 py-4 border-l-2 border-transparent hover:border-primary/40 hover:bg-white/5 transition-all text-left">
+<div class="flex items-center gap-4 text-on-surface-variant group-hover:text-on-surface">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">military_tech</span>
+<span class="font-label-caps text-xs tracking-widest">Logros</span>
+</div>
+<span class="material-symbols-outlined text-xs opacity-0 group-hover:opacity-100">chevron_right</span>
+</button>
+<button class="group flex items-center justify-between px-5 py-4 border-l-2 border-transparent hover:border-primary/40 hover:bg-white/5 transition-all text-left">
+<div class="flex items-center gap-4 text-on-surface-variant group-hover:text-on-surface">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">settings</span>
+<span class="font-label-caps text-xs tracking-widest">Configuración</span>
+</div>
+<span class="material-symbols-outlined text-xs opacity-0 group-hover:opacity-100">chevron_right</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- Content Area -->
+<section class="md:col-span-8 space-y-gutter">
+<div class="hud-card p-10 bg-surface-container/90 border border-outline-variant/20 corner-bracket min-h-[400px] flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-7xl text-primary/20 mb-6">explore</span>
+<h3 class="font-display-lg text-2xl text-on-surface mb-2 tracking-widest">EXPLORADOR DEL MUNDO</h3>
+<p class="font-body-md text-on-surface-variant max-w-md">Selecciona un módulo del Santuario para profundizar en los registros de tu aventura.</p>
+</div>
+<!-- Stats Quickview -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="p-4 bg-surface-container-low border border-outline-variant/10 rounded text-center">
+<div class="font-label-caps text-[8px] text-on-surface-variant/60">ANÁLISIS NEURAL</div>
+<div class="font-data-point text-primary">ESTABLE</div>
+</div>
+<div class="p-4 bg-surface-container-low border border-outline-variant/10 rounded text-center">
+<div class="font-label-caps text-[8px] text-on-surface-variant/60">DÍAS_DE_VIAJE</div>
+<div class="font-data-point text-secondary">14</div>
+</div>
+<div class="p-4 bg-surface-container-low border border-outline-variant/10 rounded text-center">
+<div class="font-label-caps text-[8px] text-on-surface-variant/60">RESONANCIA</div>
+<div class="font-data-point text-tertiary">4.2hz</div>
+</div>
+<div class="p-4 bg-surface-container-low border border-outline-variant/10 rounded text-center">
+<div class="font-label-caps text-[8px] text-on-surface-variant/60">EQUILIBRIO</div>
+<div class="font-data-point text-white">ÓPTIMO</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="fixed bottom-0 left-0 w-full bg-surface-container-lowest/90 backdrop-blur-md border-t border-outline-variant/10 py-4 z-50">
+<div class="max-w-[1600px] mx-auto flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-margin-desktop opacity-60">
+<div class="flex gap-10 mb-2 md:mb-0">
+<span class="font-label-caps text-[9px] text-on-surface-variant uppercase tracking-widest">Red: <span class="text-secondary">CONECTADA</span></span>
+<span class="font-label-caps text-[9px] text-on-surface-variant uppercase tracking-widest">Protocolo: AVATAR_v4.2</span>
+</div>
+<p class="font-label-caps text-[9px] text-on-surface-variant uppercase tracking-widest">© 2142 MLH ADVENTURE // NARRATIVA VIVA</p>
+</div>
+</footer>
+<script>
+        function switchLayer(layerId) {
+            document.querySelectorAll('.layer-content').forEach(layer => {
+                layer.classList.remove('active');
+            });
+            document.getElementById('layer-' + layerId).classList.add('active');
+
+            document.querySelectorAll('nav button').forEach(btn => {
+                btn.classList.remove('tab-active');
+            });
+            document.getElementById('tab-' + layerId).classList.add('tab-active');
+        }
+
+        const hudCards = document.querySelectorAll('.hud-card');
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 4;
+            const y = (e.clientY / window.innerHeight - 0.5) * 4;
+            
+            hudCards.forEach(card => {
+                card.style.transform = `perspective(1000px) rotateX(${-y * 0.1}deg) rotateY(${x * 0.1}deg)`;
+            });
+        });
+    </script>
+</body></html>

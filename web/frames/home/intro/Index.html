@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOPVS CORE | Sacred Myth Architecture</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#d4bfe2",
+                        "surface-container-high": "#2a2a2a",
+                        "primary-fixed-dim": "#d4bfe2",
+                        "on-tertiary-container": "#d200d2",
+                        "error-container": "#93000a",
+                        "tertiary": "#ffabf3",
+                        "outline-variant": "#4a454c",
+                        "on-secondary": "#003739",
+                        "on-error-container": "#ffdad6",
+                        "surface-variant": "#353535",
+                        "inverse-primary": "#695876",
+                        "secondary-fixed": "#63f7ff",
+                        "surface-dim": "#131313",
+                        "on-background": "#e2e2e2",
+                        "secondary-container": "#00f4fe",
+                        "outline": "#958e97",
+                        "on-primary": "#392a46",
+                        "secondary": "#e6feff",
+                        "on-error": "#690005",
+                        "on-surface-variant": "#ccc4cd",
+                        "tertiary-container": "#0c000c",
+                        "tertiary-fixed": "#ffd7f5",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed": "#231530",
+                        "primary-fixed": "#f1dbff",
+                        "on-tertiary": "#5b005b",
+                        "on-secondary-fixed-variant": "#004f53",
+                        "surface-container-low": "#1b1b1b",
+                        "on-secondary-container": "#006c71",
+                        "inverse-surface": "#e2e2e2",
+                        "secondary-fixed-dim": "#00dce5",
+                        "on-tertiary-fixed": "#380038",
+                        "background": "#131313",
+                        "on-surface": "#e2e2e2",
+                        "primary-container": "#080015",
+                        "on-tertiary-fixed-variant": "#810081",
+                        "on-primary-container": "#827090",
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface-bright": "#393939",
+                        "surface-container-highest": "#353535",
+                        "tertiary-fixed-dim": "#ffabf3",
+                        "on-secondary-fixed": "#002021",
+                        "surface-container": "#1f1f1f",
+                        "surface-tint": "#d4bfe2",
+                        "surface": "#131313",
+                        "inverse-on-surface": "#303030",
+                        "on-primary-fixed-variant": "#50405e",
+                        "celestial-blue": "#00CCFF",
+                        "magenta-portal": "#FF00FF",
+                        "void-black": "#050505",
+                        "star-dust": "#D4AF37"
+                    },
+                    spacing: {
+                        "void-md": "8rem",
+                        "constellation-gap": "1px",
+                        "void-lg": "16rem",
+                        "void-xs": "2rem",
+                        "void-sm": "4rem"
+                    },
+                    fontFamily: {
+                        "monument-lg": ["Audiowide"],
+                        "monument-md": ["Audiowide"],
+                        "monument-lg-mobile": ["Audiowide"],
+                        "rune-sm": ["Orbitron"],
+                        "rune-md": ["Orbitron"],
+                        "data-label": ["Orbitron"]
+                    },
+                    fontSize: {
+                        "monument-lg-mobile": ["40px", { "lineHeight": "44px", "letterSpacing": "0.05em", "fontWeight": "400" }],
+                        "rune-sm": ["12px", { "lineHeight": "24px", "letterSpacing": "0.5em", "fontWeight": "400" }],
+                        "monument-lg": ["80px", { "lineHeight": "90px", "letterSpacing": "0.1em", "fontWeight": "400" }],
+                        "monument-md": ["48px", { "lineHeight": "56px", "letterSpacing": "0.05em", "fontWeight": "400" }],
+                        "rune-md": ["16px", { "lineHeight": "28px", "letterSpacing": "0.3em", "fontWeight": "500" }],
+                        "data-label": ["10px", { "lineHeight": "12px", "letterSpacing": "0.8em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #050505;
+            color: #e2e2e2;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        
+        .atmospheric-blur {
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+        }
+
+        .volumetric-light {
+            background: linear-gradient(to bottom, transparent, rgba(0, 204, 255, 0.1), transparent);
+            mask-image: linear-gradient(to right, transparent, black, transparent);
+        }
+
+        .pulse-celestial {
+            animation: pulse-celestial 4s infinite ease-in-out;
+        }
+
+        @keyframes pulse-celestial {
+            0%, 100% { filter: drop-shadow(0 0 5px #00CCFF); opacity: 0.8; }
+            50% { filter: drop-shadow(0 0 20px #00CCFF); opacity: 1; }
+        }
+
+        .monad-interaction:active {
+            transform: scale(0.95);
+            color: #FF00FF;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .z-celestial { z-index: 100; }
+        .z-void { z-index: 0; }
+
+        .scrolling-content section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .scrolling-content section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .relic-mask {
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        }
+
+        .stardust-particles {
+            background-image: radial-gradient(circle, #fff 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.1;
+        }
+    </style>
+</head>
+<body class="dark font-rune-md">
+<!-- Global Background Elements -->
+<div class="fixed inset-0 pointer-events-none z-0">
+<div class="absolute inset-0 stardust-particles"></div>
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full volumetric-light opacity-30"></div>
+</div>
+<!-- Navigation Shell (TopAppBar) -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-6 md:px-12 h-16 bg-glass-surface/10 backdrop-blur-md border-b border-white/5">
+<div class="font-monument-lg-mobile text-[24px] text-celestial-blue drop-shadow-[0_0_10px_#00CCFF]">MAGNOPVS</div>
+<div class="flex items-center gap-8">
+<button class="text-on-surface-variant font-label-mono text-[10px] tracking-[0.3em] hover:text-magenta-portal transition-all duration-500 flex items-center gap-2 group">
+<span class="material-symbols-outlined text-sm">sync</span>
+<span class="hidden md:inline">CHRONOS</span>
+</button>
+<button class="text-on-surface-variant font-label-mono text-[10px] tracking-[0.3em] hover:text-magenta-portal transition-all duration-500 flex items-center gap-2 group">
+<span class="material-symbols-outlined text-sm">account_circle</span>
+<span class="hidden md:inline">ENTITY</span>
+</button>
+</div>
+</nav>
+<main class="scrolling-content relative z-10">
+<!-- 1. Hero Section -->
+<section class="relative h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden visible" id="hero">
+<!-- Immersive Background -->
+<div class="absolute inset-0 z-0">
+<img alt="Hero background of a monumental cosmic gate" class="w-full h-full object-cover scale-110 opacity-70" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlJQa_p2LciNynePwavLBROQ7j0giNAsrFa8RzDgvI1YReGpAthgPbdhvmE5QJ1Msy_juQg35ohNIwOT7xQGUQYL9M6YFW0vERIoUQzIA6ea6Yrm0651BVxQjYz2jL_Sp6YlSQYKIkKMEapQUoyDeXnPcSVB0hy-XxAaaT2FYsfCQgfyQ15a-aTFfnLl0IluGjZoo7BrGCQarczADu1PuiBVEOGbnQmRs7DhCwJMz8yxW76okYoMWgcJ2Pz2O_4qBjO8h-axFRze6F"/>
+<div class="absolute inset-0 bg-gradient-to-b from-void-black/80 via-transparent to-void-black"></div>
+</div>
+<div class="relative z-10 space-y-8 max-w-4xl">
+<h1 class="font-monument-lg text-monument-lg-mobile md:text-monument-lg text-white drop-shadow-[0_0_40px_rgba(255,255,255,0.3)] animate-pulse">
+                    MAGNOPVS
+                </h1>
+<p class="font-rune-md text-rune-sm md:text-rune-md text-celestial-blue/80 tracking-[0.5em] italic">
+                    "El juego comenzó mucho antes de que nacieras."
+                </p>
+<div class="pt-12">
+<button class="monad-interaction group relative px-12 py-4 border-l border-r border-celestial-blue/40 text-white font-rune-md text-rune-sm tracking-[0.4em] transition-all hover:bg-celestial-blue/5" onclick="scrollToNext()">
+<span class="absolute inset-y-0 left-0 w-[1px] bg-celestial-blue pulse-celestial"></span>
+<span class="absolute inset-y-0 right-0 w-[1px] bg-celestial-blue pulse-celestial"></span>
+                        CRUZAR EL UMBRAL
+                    </button>
+</div>
+</div>
+</section>
+<!-- 2. The Eye (Oracle) -->
+<section class="relative min-h-screen flex flex-col items-center justify-center bg-void-black py-void-lg" id="oracle">
+<div class="container mx-auto grid md:grid-cols-2 items-center gap-void-md px-12">
+<div class="relative group order-2 md:order-1">
+<div class="absolute inset-0 bg-celestial-blue/10 blur-[100px] rounded-full scale-75 group-hover:scale-100 transition-transform duration-1000"></div>
+<img alt="A cosmic eye representing the Oracle" class="relative z-10 w-full max-w-md mx-auto drop-shadow-[0_0_30px_rgba(0,204,255,0.2)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJHjHJg3TU9LCiwqUB0HeVhFdUwy4TVOJBd_a74Z8RS4GMM9LQCtLzpVlO_E5kWs5x488qJaW0mRijlqTABp0qfMZPEPxBBty8cwUsU-ju5a977pnInCDWLgk4KtHlW2Nv57t9WUhEZA35esIH2ZH571zGNzdcx8ZCNJg6djthykKdwcSUKCniQgqZsbZcGVYrkYKDNk9UxFzlxN8s7ImPRJ8UdOZVK7fjfQqrCAReRraWqda1ZlLaSCPBZC2rrG16wud4PhbxWz0M"/>
+</div>
+<div class="text-center md:text-left space-y-6 order-1 md:order-2">
+<div class="font-data-label text-star-dust mb-2">| TRANSMISIÓN EN CURSO |</div>
+<h2 class="font-monument-md text-monument-md text-white">ORACLE</h2>
+<p class="font-rune-md text-rune-md text-on-surface-variant max-w-lg leading-relaxed">
+                        La Realidad ha detectado tu presencia. <br/>
+<span class="text-magenta-portal opacity-80">El Matrix respira.</span>
+</p>
+</div>
+</div>
+</section>
+<!-- 3. The Artifacts (Sacred Relics) -->
+<section class="relative min-h-screen bg-void-black py-void-lg flex flex-col items-center" id="artifacts">
+<div class="font-data-label text-star-dust mb-void-sm tracking-[1em]">RELICS OF ETERNITY</div>
+<div class="w-full max-w-6xl flex flex-col md:flex-row items-center justify-center gap-12 px-12">
+<div class="flex-1 flex flex-col items-center group">
+<div class="relative w-72 h-72 mb-8 flex items-center justify-center">
+<div class="absolute inset-0 border border-white/5 rotate-45 scale-90 group-hover:scale-100 transition-transform duration-700"></div>
+<img alt="A collection of floating mystical artifacts in a museum void" class="w-56 h-56 object-contain z-10 transition-transform duration-700 group-hover:translate-y-[-10px]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjxiucRR4rSs4f6HUz7TbV6cfY8u4nxFVUtgony-znnCT9Wx_E0U52nDl5IeGnwdM7WlW4meHB8A-BSnutZdQMmo8B_g3o3Sv681HNtBY8JN_5msVoDcTy4qM4MiaBWBqgCiDg1VRD1thiPUsNkR-AES2k2AsEdR_WYE-eAkTu46uMQJabLXsjDUx0sbcTyYzNw2oeYK_4dapgwHb0guYUHHZiDostIM_KAFyNJBc9YnZrhS8D5aXcANm36Shmg-WL44X5XuuLITZJ"/>
+</div>
+<p class="font-rune-sm text-center text-on-surface-variant max-w-[250px] opacity-60 group-hover:opacity-100 transition-opacity">
+                        Fragmentos de una civilización que aún no ha existido.
+                    </p>
+</div>
+<div class="hidden md:block w-px h-64 bg-gradient-to-b from-transparent via-celestial-blue/20 to-transparent"></div>
+<div class="flex-1 flex flex-col items-center group">
+<div class="relative w-72 h-72 mb-8 flex items-center justify-center">
+<div class="absolute inset-0 border border-white/5 rounded-full scale-75 group-hover:scale-90 transition-transform duration-700 border-dashed"></div>
+<div class="w-56 h-56 bg-gradient-to-br from-celestial-blue/10 to-transparent rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[64px] text-star-dust/40">language</span>
+</div>
+</div>
+<p class="font-rune-sm text-center text-on-surface-variant max-w-[250px] opacity-60 group-hover:opacity-100 transition-opacity">
+                        Sincronización del Atlas con las coordenadas del Vacío.
+                    </p>
+</div>
+</div>
+</section>
+<!-- 4. Final Choice (The Singularity) -->
+<section class="relative h-screen flex flex-col items-center justify-center bg-black overflow-hidden" id="singularity">
+<div class="absolute inset-0 z-0">
+<!-- Atmospheric pulse -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-magenta-portal/5 blur-[120px] animate-pulse"></div>
+</div>
+<div class="relative z-10 flex flex-col items-center space-y-16">
+<!-- Pulsing Rune -->
+<div class="w-24 h-24 flex items-center justify-center">
+<span class="material-symbols-outlined text-[80px] text-white pulse-celestial" style="font-variation-settings: 'FILL' 0;">sensors</span>
+</div>
+<h3 class="font-monument-md text-monument-md text-center text-white/90">
+                    ¿ACEPTAS RECORDAR QUIÉN ERES?
+                </h3>
+<div class="flex flex-col md:flex-row gap-12">
+<button class="monad-interaction px-16 py-3 border border-celestial-blue/20 hover:border-celestial-blue text-celestial-blue font-rune-md tracking-[0.5em] transition-all">
+                        DESPERTAR
+                    </button>
+<button class="monad-interaction px-16 py-3 text-on-surface-variant/40 hover:text-on-surface-variant font-rune-md tracking-[0.5em] transition-all">
+                        VOLVER AL SUEÑO
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation (Shared Component) -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center h-20 pb-safe px-6 bg-void-black/95 backdrop-blur-xl border-t border-primary/20 shadow-[0_-4px_20px_rgba(0,204,255,0.1)]">
+<a class="flex flex-col items-center justify-center text-celestial-blue drop-shadow-[0_0_10px_#00CCFF] scale-110 active:translate-y-[-2px] transition-all duration-300" href="#hero">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">language</span>
+<span class="font-label-mono text-[10px] mt-1">Atlas</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-muted opacity-60 hover:opacity-100 hover:text-tertiary transition-opacity" href="#oracle">
+<span class="material-symbols-outlined">sensors</span>
+<span class="font-label-mono text-[10px] mt-1">Portal</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-muted opacity-60 hover:opacity-100 hover:text-tertiary transition-opacity" href="#artifacts">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-mono text-[10px] mt-1">Inventory</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-muted opacity-60 hover:opacity-100 hover:text-tertiary transition-opacity" href="#singularity">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-mono text-[10px] mt-1">Chronology</span>
+</a>
+</nav>
+<script>
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.2
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Simple smooth scroll function
+        function scrollToNext() {
+            document.getElementById('oracle').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Active state navigation logic
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav.bottom-0 a');
+            
+            let current = "";
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('text-celestial-blue', 'drop-shadow-[0_0_10px_#00CCFF]', 'scale-110', 'opacity-100');
+                link.classList.add('text-outline-muted', 'opacity-60');
+                
+                const href = link.getAttribute('href').substring(1);
+                if (href === current) {
+                    link.classList.remove('text-outline-muted', 'opacity-60');
+                    link.classList.add('text-celestial-blue', 'drop-shadow-[0_0_10px_#00CCFF]', 'scale-110', 'opacity-100');
+                }
+            });
+        });
+    </script>
+</body></html>

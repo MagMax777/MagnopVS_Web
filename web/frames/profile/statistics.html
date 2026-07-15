@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS | Multiversal Analytics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&amp;family=Audiowide&amp;family=Sora:wght@400;600;800&amp;family=Hanken+Grotesk:wght@400;600&amp;family=Space+Mono&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-high": "#2a2a2a",
+                        "surface-tint": "#b3c5ff",
+                        "primary-fixed-dim": "#b3c5ff",
+                        "tertiary-container": "#ca00ca",
+                        "primary-container": "#0066ff",
+                        "on-tertiary-fixed": "#380038",
+                        "on-secondary-fixed": "#2c0051",
+                        "on-primary-fixed-variant": "#003fa4",
+                        "primary": "#b3c5ff",
+                        "surface-container": "#1f2020",
+                        "on-secondary": "#480081",
+                        "tertiary-fixed": "#ffd7f5",
+                        "surface": "#131314",
+                        "on-tertiary-fixed-variant": "#810081",
+                        "surface-bright": "#393939",
+                        "on-error-container": "#ffdad6",
+                        "outline-variant": "#424656",
+                        "tertiary-fixed-dim": "#ffabf3",
+                        "outline": "#8c90a1",
+                        "primary-fixed": "#dae1ff",
+                        "inverse-primary": "#0054d6",
+                        "tertiary": "#ffabf3",
+                        "on-secondary-container": "#dcb7ff",
+                        "on-tertiary-container": "#fff6f9",
+                        "background": "#050505",
+                        "on-background": "#e4e2e2",
+                        "on-surface": "#e4e2e2",
+                        "on-secondary-fixed-variant": "#6700b5",
+                        "on-surface-variant": "#c2c6d8",
+                        "on-primary-container": "#f8f7ff",
+                        "surface-container-low": "#1b1c1c",
+                        "inverse-surface": "#e4e2e2",
+                        "on-tertiary": "#5b005b",
+                        "secondary-container": "#7701d0",
+                        "on-error": "#690005",
+                        "secondary-fixed": "#efdbff",
+                        "error-container": "#93000a",
+                        "on-primary-fixed": "#001849",
+                        "error": "#ffb4ab",
+                        "inverse-on-surface": "#303030",
+                        "surface-variant": "#343535",
+                        "surface-dim": "#131314",
+                        "surface-container-highest": "#343535",
+                        "secondary": "#dcb8ff"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "2px",
+                        "lg": "4px",
+                        "xl": "8px",
+                        "full": "12px"
+                    },
+                    spacing: {
+                        "unit": "4px",
+                        "gutter": "16px",
+                        "container-max": "640px",
+                        "node-gap": "24px",
+                        "margin-desktop": "40px"
+                    },
+                    fontFamily: {
+                        "display-xl": ["Audiowide", "sans-serif"],
+                        "technical": ["Orbitron", "sans-serif"],
+                        "code-sm": ["Space Mono", "monospace"],
+                        "body-md": ["Hanken Grotesk", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        .scanline-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, transparent 50%, rgba(179, 197, 255, 0.02) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 100;
+        }
+        .glitch-border {
+            position: relative;
+        }
+        .glitch-border::before, .glitch-border::after {
+            content: '';
+            position: absolute;
+            width: 8px; height: 8px;
+            border: 1px solid #b3c5ff;
+        }
+        .glitch-border::before { top: -2px; left: -2px; border-right: 0; border-bottom: 0; }
+        .glitch-border::after { bottom: -2px; right: -2px; border-left: 0; border-top: 0; }
+
+        .energy-pulse {
+            animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; filter: blur(8px); }
+            50% { opacity: 0.6; filter: blur(12px); }
+        }
+
+        .matrix-grid {
+            background-image: linear-gradient(rgba(179, 197, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(179, 197, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary selection:text-on-primary">
+<div class="scanline-overlay"></div>
+<!-- Navigation -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop py-4 bg-background/80 backdrop-blur-xl border-b border-outline-variant/20 shadow-[0_0_20px_rgba(161,201,255,0.1)]">
+<div class="font-display-xl text-[24px] text-primary tracking-tighter cursor-pointer active:scale-95 transition-all">
+            MAGNOPVS
+        </div>
+<div class="hidden md:flex items-center gap-8">
+<span class="font-code-sm text-secondary-fixed-dim border-b-2 border-secondary-fixed-dim py-1 cursor-pointer">TERMINAL</span>
+<span class="font-code-sm text-on-surface-variant hover:text-primary transition-colors cursor-pointer">NEBULA</span>
+<span class="font-code-sm text-on-surface-variant hover:text-primary transition-colors cursor-pointer">SATELLITE</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden lg:flex flex-col items-end">
+<span class="font-technical text-[10px] text-outline">LIQUIDITY_INDEX</span>
+<span class="font-technical text-primary text-[14px]">$24,500.80 MBANK</span>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-all active:scale-95">account_balance_wallet</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-all active:scale-95">notifications_active</span>
+<span class="material-symbols-outlined text-primary cursor-pointer transition-all active:scale-95" style="font-variation-settings: 'FILL' 1;">settings</span>
+</div>
+</div>
+</nav>
+<!-- Main Content Container -->
+<main class="relative pt-24 pb-32 px-6 max-w-[1200px] mx-auto min-h-screen">
+<!-- Header Section -->
+<header class="mb-12 text-center md:text-left">
+<div class="flex items-center gap-3 mb-2">
+<span class="font-code-sm text-tertiary bg-tertiary/10 px-2 py-0.5 rounded border border-tertiary/30 animate-pulse">[ SYSTEM_ONLINE ]</span>
+<span class="font-code-sm text-outline">NODE_ID: MAG-77-DELTA</span>
+</div>
+<h1 class="font-display-xl text-[32px] md:text-[48px] text-on-background leading-tight">
+                MULTIVERSAL PERFORMANCE <br/>
+<span class="text-primary-fixed-dim">ANALYTICS ENGINE</span>
+</h1>
+</header>
+<!-- Analytics Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Soul Resonance Graph (Large Module) -->
+<section class="md:col-span-8 bg-surface-container-lowest/90 backdrop-blur-xl p-6 border border-outline-variant/20 glitch-border">
+<div class="flex justify-between items-center mb-8">
+<h2 class="font-display-xl text-[18px] tracking-wider text-primary">SOUL RESONANCE</h2>
+<div class="flex gap-4">
+<span class="font-code-sm text-outline flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-tertiary"></span> MAGENTA_VIBE</span>
+<span class="font-code-sm text-outline flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-primary"></span> CELESTIAL_OSC</span>
+</div>
+</div>
+<div class="h-64 relative overflow-hidden matrix-grid border border-outline-variant/10 rounded">
+<!-- Energy Wave Simulation -->
+<svg class="absolute inset-0 w-full h-full opacity-60" preserveaspectratio="none">
+<path d="M0 80 Q 150 20 300 80 T 600 80 T 900 80" fill="none" stroke="#ca00ca" stroke-width="2">
+<animate attributename="d" dur="5s" repeatcount="indefinite" values="M0 80 Q 150 20 300 80 T 600 80 T 900 80;
+                                        M0 80 Q 150 140 300 80 T 600 80 T 900 80;
+                                        M0 80 Q 150 20 300 80 T 600 80 T 900 80"></animate>
+</path>
+<path d="M0 100 Q 200 40 400 100 T 800 100" fill="none" stroke="#b3c5ff" stroke-width="3">
+<animate attributename="d" dur="7s" repeatcount="indefinite" values="M0 100 Q 200 40 400 100 T 800 100;
+                                        M0 100 Q 200 160 400 100 T 800 100;
+                                        M0 100 Q 200 40 400 100 T 800 100"></animate>
+</path>
+</svg>
+<!-- Tactical UI Details -->
+<div class="absolute bottom-4 right-4 text-right">
+<div class="font-technical text-[10px] text-outline">FREQ_SYNC</div>
+<div class="font-technical text-[20px] text-tertiary">432.11 Hz</div>
+</div>
+</div>
+<div class="grid grid-cols-4 gap-4 mt-6">
+<div class="border-l border-outline-variant/40 pl-3">
+<div class="font-code-sm text-outline text-[10px]">PEAK_EXP</div>
+<div class="font-technical text-primary text-[14px]">0.98</div>
+</div>
+<div class="border-l border-outline-variant/40 pl-3">
+<div class="font-code-sm text-outline text-[10px]">SYNC_RATE</div>
+<div class="font-technical text-primary text-[14px]">88%</div>
+</div>
+<div class="border-l border-outline-variant/40 pl-3">
+<div class="font-code-sm text-outline text-[10px]">JITTER</div>
+<div class="font-technical text-primary text-[14px]">0.02ms</div>
+</div>
+<div class="border-l border-outline-variant/40 pl-3">
+<div class="font-code-sm text-outline text-[10px]">STABILITY</div>
+<div class="font-technical text-primary text-[14px]">NOMINAL</div>
+</div>
+</div>
+</section>
+<!-- MagnoBank (Small Module) -->
+<section class="md:col-span-4 bg-surface-container-lowest/90 backdrop-blur-xl p-6 border border-outline-variant/20 glitch-border overflow-hidden relative">
+<div class="absolute -top-10 -right-10 w-32 h-32 bg-primary/10 rounded-full blur-3xl energy-pulse"></div>
+<h2 class="font-display-xl text-[18px] tracking-wider text-secondary mb-6 flex items-center justify-between">
+                    MAGNOBANK
+                    <span class="material-symbols-outlined text-secondary text-[20px]">account_balance</span>
+</h2>
+<div class="space-y-6">
+<div>
+<div class="font-code-sm text-outline mb-1">REAL-TIME_CREDITS</div>
+<div class="font-technical text-[28px] text-on-surface">$24,500.80 <span class="text-[14px] text-secondary">MV</span></div>
+</div>
+<div class="p-3 bg-surface-variant/20 border border-outline-variant/10 rounded">
+<div class="flex justify-between items-center mb-2">
+<span class="font-code-sm text-on-surface-variant text-[11px]">TOKEN_STABILITY</span>
+<span class="font-technical text-primary text-[11px]">+4.2%</span>
+</div>
+<div class="w-full bg-outline-variant/20 h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[85%] transition-all duration-1000 shadow-[0_0_8px_#b3c5ff]"></div>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between font-code-sm text-[11px]">
+<span class="text-outline">GAS_FEE (VOID)</span>
+<span class="text-on-surface">0.00041 ETH</span>
+</div>
+<div class="flex justify-between font-code-sm text-[11px]">
+<span class="text-outline">YIELD_VELOCITY</span>
+<span class="text-on-surface">HIGH</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Sector Activity Map -->
+<section class="md:col-span-5 bg-surface-container-lowest/90 backdrop-blur-xl p-6 border border-outline-variant/20 glitch-border">
+<h2 class="font-display-xl text-[18px] tracking-wider text-primary-fixed-dim mb-6">SECTOR_ACTIVITY</h2>
+<div class="relative group cursor-crosshair">
+<div class="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors duration-500 rounded"></div>
+<div class="aspect-square rounded border border-outline-variant/10 overflow-hidden relative">
+<div class="absolute inset-0 matrix-grid opacity-20"></div>
+<!-- Holographic Mockup -->
+<div class="absolute top-1/4 left-1/3 w-2 h-2 bg-primary rounded-full shadow-[0_0_10px_#b3c5ff] animate-ping"></div>
+<div class="absolute bottom-1/3 right-1/4 w-2 h-2 bg-tertiary rounded-full shadow-[0_0_10px_#ca00ca] animate-pulse"></div>
+<div class="absolute inset-0 flex flex-col justify-center items-center opacity-30 pointer-events-none">
+<div class="w-48 h-48 border border-primary/20 rounded-full animate-[spin_20s_linear_infinite]"></div>
+<div class="absolute w-32 h-32 border border-tertiary/20 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
+</div>
+</div>
+</div>
+<div class="mt-6 space-y-3">
+<div class="flex items-center justify-between p-2 hover:bg-surface-variant/30 transition-colors rounded">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-[18px]">location_on</span>
+<span class="font-technical text-[12px]">TOKYO 3000</span>
+</div>
+<span class="font-code-sm text-[12px] text-outline">14.2 hrs</span>
+</div>
+<div class="flex items-center justify-between p-2 hover:bg-surface-variant/30 transition-colors rounded border-t border-outline-variant/10">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary text-[18px]">blur_on</span>
+<span class="font-technical text-[12px]">ELEUSIS PATH</span>
+</div>
+<span class="font-code-sm text-[12px] text-outline">08.5 hrs</span>
+</div>
+</div>
+</section>
+<!-- XP Distribution (Radial Charts) -->
+<section class="md:col-span-7 bg-surface-container-lowest/90 backdrop-blur-xl p-6 border border-outline-variant/20 glitch-border">
+<div class="flex justify-between items-center mb-8">
+<h2 class="font-display-xl text-[18px] tracking-wider text-on-surface">SHIDDIS_DISTRIBUTION</h2>
+<span class="font-code-sm text-tertiary text-[10px]">LVL 84 ASCENDANT</span>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<!-- Body -->
+<div class="flex flex-col items-center">
+<div class="relative w-24 h-24 mb-3 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90">
+<circle class="text-outline-variant/20" cx="48" cy="48" fill="none" r="40" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-primary" cx="48" cy="48" fill="none" r="40" stroke="currentColor" stroke-dasharray="251" stroke-dashoffset="60" stroke-width="4" style="filter: drop-shadow(0 0 4px #b3c5ff)"></circle>
+</svg>
+<span class="absolute font-technical text-[14px]">76%</span>
+</div>
+<div class="font-code-sm text-[11px] text-outline">BODY</div>
+</div>
+<!-- Mind -->
+<div class="flex flex-col items-center">
+<div class="relative w-24 h-24 mb-3 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90">
+<circle class="text-outline-variant/20" cx="48" cy="48" fill="none" r="40" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-tertiary" cx="48" cy="48" fill="none" r="40" stroke="currentColor" stroke-dasharray="251" stroke-dashoffset="30" stroke-width="4" style="filter: drop-shadow(0 0 4px #ca00ca)"></circle>
+</svg>
+<span class="absolute font-technical text-[14px]">88%</span>
+</div>
+<div class="font-code-sm text-[11px] text-outline">MIND</div>
+</div>
+<!-- Soul -->
+<div class="flex flex-col items-center">
+<div class="relative w-24 h-24 mb-3 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90">
+<circle class="text-outline-variant/20" cx="48" cy="48" fill="none" r="40" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-primary-fixed-dim" cx="48" cy="48" fill="none" r="40" stroke="currentColor" stroke-dasharray="251" stroke-dashoffset="120" stroke-width="4" style="filter: drop-shadow(0 0 4px #b3c5ff)"></circle>
+</svg>
+<span class="absolute font-technical text-[14px]">52%</span>
+</div>
+<div class="font-code-sm text-[11px] text-outline">SOUL</div>
+</div>
+<!-- Spirit -->
+<div class="flex flex-col items-center">
+<div class="relative w-24 h-24 mb-3 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90">
+<circle class="text-outline-variant/20" cx="48" cy="48" fill="none" r="40" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-secondary" cx="48" cy="48" fill="none" r="40" stroke="currentColor" stroke-dasharray="251" stroke-dashoffset="180" stroke-width="4" style="filter: drop-shadow(0 0 4px #dcb8ff)"></circle>
+</svg>
+<span class="absolute font-technical text-[14px]">28%</span>
+</div>
+<div class="font-code-sm text-[11px] text-outline">SPIRIT</div>
+</div>
+</div>
+<div class="mt-8 p-4 border border-primary/20 bg-primary/5 rounded">
+<p class="font-body-md text-on-surface-variant text-[13px] leading-relaxed">
+<span class="text-primary font-bold">INSIGHT:</span> Neural pathways in Sector Tokyo 3000 have accelerated <span class="text-on-surface">Mind Sync</span> efficiency by 12% in the last rotation. Recommend Soul calibration at Eleusis Path.
+                    </p>
+</div>
+</section>
+</div>
+<!-- Floating Decorative Element -->
+<div class="fixed bottom-10 left-10 pointer-events-none hidden xl:block">
+<div class="flex flex-col gap-1">
+<div class="h-[1px] w-24 bg-gradient-to-r from-primary to-transparent"></div>
+<div class="font-technical text-[9px] text-outline tracking-[0.3em]">TELEMETRY_LINK_ACTIVE</div>
+<div class="font-technical text-[9px] text-primary/50 tracking-[0.2em]">0X-88-FF-D02</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-8 bg-surface-container-lowest/90 backdrop-blur-md border-t border-outline-variant/10 px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-gutter relative z-10">
+<div class="font-display-xl text-[20px] text-secondary">MAGNOPVS</div>
+<div class="flex gap-8 font-code-sm text-[11px] tracking-widest text-outline">
+<a class="hover:text-tertiary transition-all duration-200" href="#">CORE ENGINE</a>
+<a class="hover:text-tertiary transition-all duration-200" href="#">NEBULA PROTOCOL</a>
+<a class="hover:text-tertiary transition-all duration-200" href="#">SATELLITE STATUS</a>
+</div>
+<div class="font-code-sm text-[10px] text-outline-variant opacity-60">
+            © 2024 MAGNOPVS MULTIVERSE - SYSTEM TELEMETRY: ACTIVE
+        </div>
+</footer>
+<!-- Micro-interactions Script -->
+<script>
+        document.addEventListener('mousemove', (e) => {
+            const glow = document.createElement('div');
+            glow.className = 'fixed w-32 h-32 bg-primary/5 rounded-full blur-[100px] pointer-events-none z-[-1]';
+            glow.style.left = e.clientX - 64 + 'px';
+            glow.style.top = e.clientY - 64 + 'px';
+            document.body.appendChild(glow);
+            setTimeout(() => glow.remove(), 100);
+        });
+
+        // Simulating data updates
+        setInterval(() => {
+            const credits = document.querySelector('.font-technical.text-\\[28px\\]');
+            if (credits) {
+                const current = 24500.80;
+                const jitter = (Math.random() * 0.05).toFixed(2);
+                credits.innerHTML = `$${(current + parseFloat(jitter)).toLocaleString()} <span class="text-[14px] text-secondary">MV</span>`;
+            }
+        }, 2000);
+    </script>
+</body></html>

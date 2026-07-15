@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagZine Studio | Command Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(19, 19, 20, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(59, 73, 75, 0.3);
+        }
+        .glow-border:hover {
+            border-color: #00dbe9;
+            box-shadow: 0 0 15px rgba(0, 219, 233, 0.2);
+        }
+        .hex-bg {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60 4.02 45V15z' fill-opacity='0.03' fill='%2300dbe9' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 5px rgba(0, 219, 233, 0.2); }
+            50% { box-shadow: 0 0 15px rgba(0, 219, 233, 0.4); }
+            100% { box-shadow: 0 0 5px rgba(0, 219, 233, 0.2); }
+        }
+        .active-glow {
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#380038",
+                        "secondary": "#ffabf3",
+                        "on-secondary": "#5b005b",
+                        "on-surface": "#e5e2e3",
+                        "on-tertiary-fixed-variant": "#004f52",
+                        "surface-container-low": "#1c1b1c",
+                        "secondary-fixed-dim": "#ffabf3",
+                        "surface-bright": "#3a393a",
+                        "inverse-surface": "#e5e2e3",
+                        "on-secondary-container": "#500050",
+                        "on-tertiary": "#003739",
+                        "surface-variant": "#353436",
+                        "error-container": "#93000a",
+                        "surface-container-high": "#2a2a2b",
+                        "on-primary-container": "#006970",
+                        "outline-variant": "#3b494b",
+                        "secondary-container": "#fe00fe",
+                        "surface-container-lowest": "#0e0e0f",
+                        "surface": "#131314",
+                        "secondary-fixed": "#ffd7f5",
+                        "on-primary-fixed-variant": "#004f54",
+                        "on-error": "#690005",
+                        "error": "#ffb4ab",
+                        "inverse-primary": "#006970",
+                        "on-tertiary-container": "#006a6e",
+                        "primary-fixed-dim": "#00dbe9",
+                        "primary-container": "#00f0ff",
+                        "on-primary-fixed": "#002022",
+                        "on-primary": "#00363a",
+                        "surface-container-highest": "#353436",
+                        "primary-fixed": "#7df4ff",
+                        "tertiary-fixed": "#79f5fb",
+                        "tertiary": "#d7fdff",
+                        "tertiary-container": "#6fecf2",
+                        "on-surface-variant": "#b9cacb",
+                        "tertiary-fixed-dim": "#59d8de",
+                        "on-tertiary-fixed": "#002021",
+                        "on-background": "#e5e2e3",
+                        "on-error-container": "#ffdad6",
+                        "surface-dim": "#131314",
+                        "surface-container": "#201f20",
+                        "on-secondary-fixed-variant": "#810081",
+                        "outline": "#849495",
+                        "inverse-on-surface": "#313031",
+                        "surface-tint": "#00dbe9",
+                        "background": "#131314",
+                        "primary": "#dbfcff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "margin-mobile": "16px",
+                        "max-width": "1440px",
+                        "gutter": "24px",
+                        "grid-unit": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Audiowide"],
+                        "data-mono": ["Orbitron"],
+                        "display-xl": ["Audiowide"],
+                        "label-caps": ["Orbitron"],
+                        "headline-lg-mobile": ["Audiowide"],
+                        "headline-md": ["Audiowide"],
+                        "body-lg": ["Orbitron"],
+                        "body-md": ["Orbitron"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                        "data-mono": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "display-xl": ["72px", {"lineHeight": "80px", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.2em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "400"}],
+                        "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background hex-bg selection:bg-primary-container selection:text-on-primary-container min-h-screen">
+<!-- TopNavBar -->
+<header class="fixed top-0 z-50 w-full bg-surface/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(0,219,233,0.1)]">
+<div class="flex justify-between items-center w-full px-margin-desktop py-4 max-w-max-width mx-auto">
+<div class="font-headline-md text-headline-md text-primary tracking-tighter">MagZine</div>
+<nav class="hidden md:flex items-center space-gap-gutter gap-8">
+<a class="font-body-md text-body-md text-primary font-bold border-b-2 border-primary pb-1 hover:text-secondary transition-colors duration-300" href="#">Sagas</a>
+<a class="font-body-md text-body-md text-on-surface-variant font-medium hover:text-secondary transition-colors duration-300" href="#">Artifacts</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<input class="bg-surface-container-highest/50 border border-outline-variant/50 rounded-full px-4 py-1 text-sm focus:border-primary-fixed focus:ring-0 w-48 text-on-surface-variant" placeholder="Search Matrix..." type="text"/>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 active:scale-95 transition-all">notifications</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 active:scale-95 transition-all">flare</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 active:scale-95 transition-all">account_circle</span>
+</div>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 z-40 flex-col py-grid-unit bg-surface-container-low/90 backdrop-blur-lg border-r border-outline-variant/20 shadow-2xl pt-24">
+<div class="px-6 mb-8">
+<h2 class="font-headline-md text-headline-md text-secondary leading-none">Studio</h2>
+<p class="font-data-mono text-data-mono text-on-surface-variant opacity-60">Quantvm Matrix</p>
+</div>
+<nav class="flex-1 px-2 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-primary bg-primary-container/20 border-r-4 border-primary transition-all active:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-data-mono text-data-mono uppercase tracking-wider">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 transition-all active:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">edit_note</span>
+<span class="font-data-mono text-data-mono uppercase tracking-wider">Article Editor</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 transition-all active:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="font-data-mono text-data-mono uppercase tracking-wider">Lore Editor</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 transition-all active:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-data-mono text-data-mono uppercase tracking-wider">MagFam Editor</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 transition-all active:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-data-mono text-data-mono uppercase tracking-wider">Quest Builder</span>
+</a>
+</nav>
+<div class="mt-auto p-4 flex items-center gap-3 border-t border-outline-variant/10">
+<div class="w-10 h-10 rounded-full border border-secondary p-0.5 overflow-hidden">
+<img class="w-full h-full object-cover rounded-full" data-alt="A futuristic portrait of a cybernetic rabbit character with neon cyan glowing eyes, wearing a sleek matte black high-tech bodysuit. The rabbit is set against a dark void background with faint floating data particles and purple ambient light trails, reflecting a sophisticated sc-fi aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjJcHgTaba-_VkK_YoAOksZ48fe3r3QEcodPI52i9azRLt7a5gptBe0lSTLQxWXeyDOxtbxVtUBFAc-tFLnm8chKuQAPkYILjMie4rGiX1TOoMmFATRlCFVEgedd6t2Ze0q8KgAVDFmKUWhBhYK7_cbFf4bFIJ_x0VGmyCJlRzt_-SwbOZAvU1V2MVKbdRRtdtqyEJreWCuZ00Sz-GbkGJBlGeOB2YSgeX2gNqWvvOpJOtY9xR0Jqyw4NJCHOuzEZ-QQlRg2qd5xAH"/>
+</div>
+<div>
+<p class="font-data-mono text-[12px] text-on-surface">Cosmic Rabbit</p>
+<p class="font-data-mono text-[10px] text-primary opacity-70">ADMIN_LVL_01</p>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="md:pl-64 pt-24 min-h-screen px-margin-mobile md:px-margin-desktop pb-24">
+<div class="max-w-max-width mx-auto space-y-12">
+<!-- Hero Stats Row -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Stat Card 1 -->
+<div class="glass-panel p-6 rounded-xl border-l-4 border-primary hover:active-glow transition-all">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-2">QUANTVM METRICS</p>
+<div class="flex items-end gap-2">
+<span class="font-display-xl text-headline-lg text-primary">84.2</span>
+<span class="font-data-mono text-data-mono text-primary mb-2">THz</span>
+</div>
+<div class="h-1 w-full bg-surface-variant mt-4 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[84%] shadow-[0_0_10px_#00dbe9]"></div>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="glass-panel p-6 rounded-xl border-l-4 border-secondary hover:active-glow transition-all">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-2">ARTICLE VIEWS</p>
+<div class="flex items-end gap-2">
+<span class="font-display-xl text-headline-lg text-secondary">12.5k</span>
+<span class="font-data-mono text-data-mono text-secondary mb-2">+12%</span>
+</div>
+<div class="flex items-center gap-1 mt-4">
+<div class="h-4 w-2 bg-secondary opacity-30"></div>
+<div class="h-6 w-2 bg-secondary opacity-50"></div>
+<div class="h-3 w-2 bg-secondary opacity-40"></div>
+<div class="h-8 w-2 bg-secondary"></div>
+<div class="h-5 w-2 bg-secondary opacity-60"></div>
+<span class="font-data-mono text-[10px] ml-2">LIVE_SYNC</span>
+</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="glass-panel p-6 rounded-xl border-l-4 border-tertiary-fixed-dim hover:active-glow transition-all">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-2">MAGNOEGGS FOUND</p>
+<div class="flex items-end gap-2">
+<span class="font-display-xl text-headline-lg text-tertiary-fixed-dim">42</span>
+<span class="material-symbols-outlined text-tertiary-fixed-dim mb-2" data-weight="fill">egg</span>
+</div>
+<p class="font-data-mono text-[12px] text-on-surface-variant mt-4">3 pending verification</p>
+</div>
+<!-- Stat Card 4 -->
+<div class="glass-panel p-6 rounded-xl border-l-4 border-error hover:active-glow transition-all">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-2">ACTIVE QUESTS</p>
+<div class="flex items-end gap-2">
+<span class="font-display-xl text-headline-lg text-error">07</span>
+<span class="font-data-mono text-data-mono text-error mb-2">RUNNING</span>
+</div>
+<div class="mt-4 flex -space-x-2">
+<div class="w-6 h-6 rounded-full bg-surface-bright border border-outline-variant"></div>
+<div class="w-6 h-6 rounded-full bg-surface-bright border border-outline-variant"></div>
+<div class="w-6 h-6 rounded-full bg-surface-bright border border-outline-variant"></div>
+<div class="w-6 h-6 rounded-full flex items-center justify-center bg-primary text-[10px] text-on-primary font-bold border border-outline-variant">+22</div>
+</div>
+</div>
+</section>
+<!-- Main Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Project Management Column -->
+<section class="lg:col-span-8 space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-primary">System Feed</h3>
+<div class="flex gap-2">
+<button class="px-4 py-1 font-data-mono text-[12px] bg-primary-container text-on-primary-container rounded-full uppercase tracking-tighter">Published</button>
+<button class="px-4 py-1 font-data-mono text-[12px] text-on-surface-variant hover:text-on-surface transition-colors uppercase tracking-tighter">Drafts</button>
+</div>
+</div>
+<!-- Article List -->
+<div class="glass-panel rounded-xl overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant/30 font-data-mono text-[12px] text-on-surface-variant">
+<th class="px-6 py-4 font-normal">PROJECT_ID</th>
+<th class="px-6 py-4 font-normal">STORY_BEAT</th>
+<th class="px-6 py-4 font-normal">METRIC</th>
+<th class="px-6 py-4 font-normal">STATUS</th>
+</tr>
+</thead>
+<tbody class="font-data-mono text-sm">
+<tr class="border-b border-outline-variant/10 hover:bg-surface-variant/20 transition-colors group">
+<td class="px-6 py-6 text-primary">#SAG-0922</td>
+<td class="px-6 py-6">
+<p class="text-on-surface font-bold group-hover:text-secondary transition-colors">The Neon Genesis Protocol</p>
+<p class="text-[10px] text-on-surface-variant opacity-60">Published 2h ago by CBC_AI</p>
+</td>
+<td class="px-6 py-6">4.2k <span class="material-symbols-outlined text-[14px] align-middle">visibility</span></td>
+<td class="px-6 py-6">
+<span class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary active-glow shadow-[0_0_8px_#00dbe9]"></span>
+                                            LIVE
+                                        </span>
+</td>
+</tr>
+<tr class="border-b border-outline-variant/10 hover:bg-surface-variant/20 transition-colors group">
+<td class="px-6 py-6 text-primary">#LOR-4105</td>
+<td class="px-6 py-6">
+<p class="text-on-surface font-bold group-hover:text-secondary transition-colors">Fragment of the Void Star</p>
+<p class="text-[10px] text-on-surface-variant opacity-60">Last edit: 12m ago</p>
+</td>
+<td class="px-6 py-6">--</td>
+<td class="px-6 py-6">
+<span class="flex items-center gap-2 text-on-surface-variant italic">
+<span class="w-2 h-2 rounded-full bg-surface-variant"></span>
+                                            DRAFT
+                                        </span>
+</td>
+</tr>
+<tr class="border-b border-outline-variant/10 hover:bg-surface-variant/20 transition-colors group">
+<td class="px-6 py-6 text-primary">#QST-8821</td>
+<td class="px-6 py-6">
+<p class="text-on-surface font-bold group-hover:text-secondary transition-colors">The Emerald Labyrinth Hunt</p>
+<p class="text-[10px] text-on-surface-variant opacity-60">Published 1d ago by Studio_Admin</p>
+</td>
+<td class="px-6 py-6">18.9k <span class="material-symbols-outlined text-[14px] align-middle">visibility</span></td>
+<td class="px-6 py-6">
+<span class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary active-glow shadow-[0_0_8px_#00dbe9]"></span>
+                                            LIVE
+                                        </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Actions & Schedule Sidebar -->
+<aside class="lg:col-span-4 space-y-8">
+<!-- Quick Actions -->
+<div class="space-y-4">
+<h4 class="font-label-caps text-label-caps text-on-surface-variant tracking-[0.3em]">QUICK ACTIONS</h4>
+<div class="grid grid-cols-2 gap-3">
+<button class="flex flex-col items-center justify-center gap-2 p-4 glass-panel rounded-xl border border-outline-variant/30 hover:border-primary group transition-all">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:scale-110 transition-transform">post_add</span>
+<span class="font-data-mono text-[10px] uppercase">New Article</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-2 p-4 glass-panel rounded-xl border border-outline-variant/30 hover:border-secondary group transition-all">
+<span class="material-symbols-outlined text-secondary text-3xl group-hover:scale-110 transition-transform">history_edu</span>
+<span class="font-data-mono text-[10px] uppercase">New Lore</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-2 p-4 glass-panel rounded-xl border border-outline-variant/30 hover:border-tertiary-fixed-dim group transition-all">
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-3xl group-hover:scale-110 transition-transform">pets</span>
+<span class="font-data-mono text-[10px] uppercase">New MagFam</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-2 p-4 glass-panel rounded-xl border border-outline-variant/30 hover:border-error group transition-all">
+<span class="material-symbols-outlined text-error text-3xl group-hover:scale-110 transition-transform">rocket_launch</span>
+<span class="font-data-mono text-[10px] uppercase">New Quest</span>
+</button>
+</div>
+</div>
+<!-- Scheduled Content -->
+<div class="space-y-4">
+<h4 class="font-label-caps text-label-caps text-on-surface-variant tracking-[0.3em]">SCHEDULED RELEASES</h4>
+<div class="relative pl-6 space-y-6 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-px before:bg-outline-variant/50">
+<!-- Timeline Item 1 -->
+<div class="relative">
+<span class="absolute -left-5 top-1 w-2 h-2 rounded-full bg-secondary ring-4 ring-background"></span>
+<p class="font-data-mono text-[10px] text-secondary">TODAY | 18:00 UTC</p>
+<p class="font-body-md text-on-surface font-bold">Lunar Shift Event Alpha</p>
+<p class="font-data-mono text-[11px] text-on-surface-variant">Global multiversal update</p>
+</div>
+<!-- Timeline Item 2 -->
+<div class="relative">
+<span class="absolute -left-5 top-1 w-2 h-2 rounded-full bg-outline ring-4 ring-background"></span>
+<p class="font-data-mono text-[10px] text-on-surface-variant">TOMORROW | 09:30 UTC</p>
+<p class="font-body-md text-on-surface font-bold">Artifact Dossier #042</p>
+<p class="font-data-mono text-[11px] text-on-surface-variant">Automated archive sync</p>
+</div>
+<!-- Timeline Item 3 -->
+<div class="relative opacity-60">
+<span class="absolute -left-5 top-1 w-2 h-2 rounded-full bg-outline ring-4 ring-background"></span>
+<p class="font-data-mono text-[10px] text-on-surface-variant">JUL 24 | 12:00 UTC</p>
+<p class="font-body-md text-on-surface font-bold">MagFam Evolution Batch</p>
+<p class="font-data-mono text-[11px] text-on-surface-variant">Genetic data deployment</p>
+</div>
+</div>
+</div>
+<!-- Ambient Decoration / CBC Guide -->
+<div class="p-6 rounded-xl bg-gradient-to-br from-primary/10 to-transparent border border-primary/20 relative overflow-hidden group">
+<div class="absolute -right-4 -bottom-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-9xl">pets</span>
+</div>
+<h5 class="font-data-mono text-primary font-bold mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">tips_and_updates</span>
+                            CBC_INTEL
+                        </h5>
+<p class="font-body-md text-[13px] text-on-surface-variant leading-relaxed">
+                            "The quantum signal is fluctuating. I recommend deploying the Lunar Saga before the 18:00 threshold to maximize user resonance."
+                        </p>
+</div>
+</aside>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 bg-surface-container-highest/80 backdrop-blur-2xl border-t border-primary/20 shadow-[0_-5px_20px_rgba(0,0,0,0.5)] z-50 rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-primary filter drop-shadow-[0_0_8px_#00dbe9]" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-caps text-[10px] uppercase">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">library_books</span>
+<span class="font-label-caps text-[10px] uppercase">Library</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-label-caps text-[10px] uppercase">Explorer</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">pets</span>
+<span class="font-label-caps text-[10px] uppercase">MagFams</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-label-caps text-[10px] uppercase">Discoveries</span>
+</a>
+</nav>
+<script>
+        // Simple interactive pulse for metric bars
+        const bars = document.querySelectorAll('.bg-primary');
+        setInterval(() => {
+            bars.forEach(bar => {
+                const currentWidth = parseFloat(bar.style.width) || 84;
+                const variance = (Math.random() - 0.5) * 2;
+                bar.style.width = Math.min(100, Math.max(0, currentWidth + variance)) + '%';
+            });
+        }, 2000);
+
+        // Hover Glitch Effect for display text
+        const headlines = document.querySelectorAll('.font-headline-md');
+        headlines.forEach(h => {
+            h.addEventListener('mouseover', () => {
+                h.style.textShadow = `2px 0 #ffabf3, -2px 0 #00dbe9`;
+            });
+            h.addEventListener('mouseout', () => {
+                h.style.textShadow = 'none';
+            });
+        });
+    </script>
+</body></html>

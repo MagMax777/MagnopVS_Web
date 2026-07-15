@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · Game Handbook</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@300;400;700&amp;family=Audiowide&amp;family=Orbitron:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --primary-glow: #7fd0ff;
+            --secondary-glow: #48ddc1;
+            --tertiary-glow: #ffafd4;
+        }
+
+        body {
+            background-color: #0a0b12;
+            color: #dfe3e8;
+            overflow-x: hidden;
+            font-family: 'Hanken Grotesk', sans-serif;
+        }
+
+        .font-audiowide { font-family: 'Audiowide', cursive; }
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(45, 168, 224, 0.2);
+            position: relative;
+        }
+
+        .hex-clip {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        .corner-bracket::before, .corner-bracket::after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-color: var(--primary-glow);
+            border-style: solid;
+        }
+
+        .corner-bracket-tl::before { top: -2px; left: -2px; border-width: 2px 0 0 2px; }
+        .corner-bracket-br::after { bottom: -2px; right: -2px; border-width: 0 2px 2px 0; }
+
+        .cyber-grid {
+            background-image: radial-gradient(circle at 2px 2px, rgba(127, 208, 255, 0.05) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+
+        .neon-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 10px var(--primary-glow)); }
+            50% { opacity: 0.7; filter: drop-shadow(0 0 2px var(--primary-glow)); }
+        }
+
+        .segmented-progress span {
+            display: inline-block;
+            height: 8px;
+            width: calc(10% - 2px);
+            margin-right: 2px;
+            background: rgba(127, 208, 255, 0.1);
+        }
+        .segmented-progress span.active {
+            background: var(--primary-glow);
+            box-shadow: 0 0 8px var(--primary-glow);
+        }
+
+        .hero-mask {
+            mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-fixed": "#3d0026",
+                      "tertiary-fixed-dim": "#ffafd4",
+                      "on-secondary": "#00382e",
+                      "inverse-primary": "#00658c",
+                      "surface-container-low": "#171c20",
+                      "surface-variant": "#303539",
+                      "surface-bright": "#353a3e",
+                      "outline-variant": "#3e484f",
+                      "secondary-fixed-dim": "#48ddc1",
+                      "on-tertiary": "#620041",
+                      "on-error-container": "#ffdad6",
+                      "surface-tint": "#7fd0ff",
+                      "secondary-fixed": "#6af9dc",
+                      "primary-fixed-dim": "#7fd0ff",
+                      "background": "#0f1417",
+                      "tertiary-container": "#ff64ba",
+                      "on-tertiary-container": "#6a0046",
+                      "surface": "#0f1417",
+                      "on-background": "#dfe3e8",
+                      "surface-container": "#1b2024",
+                      "secondary": "#48ddc1",
+                      "on-surface": "#dfe3e8",
+                      "outline": "#88929a",
+                      "on-secondary-fixed": "#00201a",
+                      "error": "#ffb4ab",
+                      "inverse-on-surface": "#2c3135",
+                      "tertiary": "#ffafd4",
+                      "on-primary-fixed-variant": "#004c6a",
+                      "on-primary-fixed": "#001e2d",
+                      "on-secondary-container": "#004439",
+                      "secondary-container": "#00bba0",
+                      "primary-fixed": "#c5e7ff",
+                      "primary-container": "#2da8e0",
+                      "on-error": "#690005",
+                      "surface-container-highest": "#303539",
+                      "on-primary-container": "#003951",
+                      "surface-container-high": "#262b2e",
+                      "error-container": "#93000a",
+                      "on-secondary-fixed-variant": "#005144",
+                      "primary": "#7fd0ff",
+                      "on-tertiary-fixed-variant": "#8b005d",
+                      "tertiary-fixed": "#ffd8e7",
+                      "surface-container-lowest": "#0a0f12",
+                      "surface-dim": "#0f1417",
+                      "inverse-surface": "#dfe3e8",
+                      "on-primary": "#00344a",
+                      "on-surface-variant": "#bec8d0"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "gutter": "16px",
+                      "margin-mobile": "20px",
+                      "margin-desktop": "40px",
+                      "panel-gap": "12px"
+              },
+              "fontFamily": {
+                      "mono-data": ["JetBrains Mono"],
+                      "headline-md": ["Space Grotesk"],
+                      "data-point": ["Hanken Grotesk"],
+                      "label-caps": ["JetBrains Mono"],
+                      "display-lg": ["Space Grotesk"],
+                      "body-md": ["Hanken Grotesk"],
+                      "display-lg-mobile": ["Space Grotesk"]
+              },
+              "fontSize": {
+                      "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                      "data-point": ["20px", {"lineHeight": "28px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                      "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "0.05em", "fontWeight": "700"}]
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="cyber-grid selection:bg-primary selection:text-on-primary">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/30 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="font-display-lg-mobile text-display-lg-mobile text-primary tracking-widest uppercase md:font-display-lg md:text-display-lg">
+            MAGNOPVS
+        </div>
+<nav class="hidden md:flex gap-8 font-label-caps text-label-caps uppercase">
+<a class="text-outline hover:text-secondary transition-all duration-300" href="#">Hoy</a>
+<a class="text-outline hover:text-secondary transition-all duration-300" href="#">Héroe</a>
+<a class="text-primary drop-shadow-[0_0_8px_#7fd0ff] font-bold" href="#">Handbook</a>
+<a class="text-outline hover:text-secondary transition-all duration-300" href="#">Sistema</a>
+</nav>
+<div class="flex gap-4 items-center">
+<span class="material-symbols-outlined text-primary scale-95 active:scale-90 transition-transform cursor-pointer">stars</span>
+<span class="material-symbols-outlined text-primary scale-95 active:scale-90 transition-transform cursor-pointer">bolt</span>
+<span class="material-symbols-outlined text-primary scale-95 active:scale-90 transition-transform cursor-pointer">account_circle</span>
+</div>
+</header>
+<!-- Side Navigation Bar (Hidden on Mobile) -->
+<aside class="hidden lg:flex flex-col fixed left-0 top-0 h-full z-40 w-64 bg-surface-container-low/50 backdrop-blur-2xl border-r border-primary/20 pt-24 px-6 shadow-2xl shadow-primary/5">
+<div class="mb-10">
+<h2 class="font-label-caps text-label-caps text-primary tracking-widest">OPERATOR_01</h2>
+<p class="font-mono-data text-mono-data text-outline-variant opacity-60">LVL 42 // TITAN</p>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="group flex items-center gap-4 py-3 px-4 text-outline-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<a class="group flex items-center gap-4 py-3 px-4 text-outline-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label-caps text-label-caps">13 Houses</span>
+</a>
+<a class="group flex items-center gap-4 py-3 px-4 text-primary border-l-2 border-primary bg-primary/5 font-bold shadow-[inset_4px_0_10px_rgba(127,208,255,0.1)] translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="font-label-caps text-label-caps">Handbook</span>
+</a>
+<a class="group flex items-center gap-4 py-3 px-4 text-outline-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps text-label-caps">Missions</span>
+</a>
+<a class="group flex items-center gap-4 py-3 px-4 text-outline-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">vitals</span>
+<span class="font-label-caps text-label-caps">Alchemy</span>
+</a>
+</nav>
+</aside>
+<main class="lg:ml-64 pt-20 pb-20 md:pb-0">
+<!-- Hero Section -->
+<section class="relative min-h-[921px] flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+<div class="absolute inset-0 z-0 opacity-40">
+
+</div>
+<div class="relative z-10 space-y-4">
+<div class="inline-block px-4 py-1 border border-primary/40 bg-primary/5 font-mono-data text-[10px] tracking-[0.3em] uppercase text-primary mb-4">
+                    System_Log // Init_Protocol_01
+                </div>
+<h1 class="font-audiowide text-5xl md:text-8xl text-primary drop-shadow-[0_0_20px_rgba(127,208,255,0.5)] uppercase leading-none">
+                    Game<br/>Handbook
+                </h1>
+<p class="font-orbitron text-outline-variant max-w-2xl mx-auto text-lg mt-6 tracking-widest">
+                    LA REALIDAD ES LA INTERFAZ. TU VIDA ES EL SOFTWARE.
+                </p>
+<div class="mt-12 animate-bounce">
+<span class="material-symbols-outlined text-primary text-4xl">expand_more</span>
+</div>
+</div>
+<!-- Floating Hex Background Elements from prompt image context -->
+<div class="absolute top-1/2 left-4 w-40 h-40 border border-primary/20 hex-clip bg-surface/40 backdrop-blur-lg -translate-y-1/2 hidden md:block"></div>
+<div class="absolute top-1/2 right-4 w-40 h-40 border border-secondary/20 hex-clip bg-surface/40 backdrop-blur-lg -translate-y-1/2 hidden md:block"></div>
+</section>
+<!-- Section: Premisa -->
+<section class="py-32 px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto">
+<div class="grid md:grid-cols-2 gap-12 items-center">
+<div class="relative">
+<div class="glass-panel p-8 corner-bracket corner-bracket-tl">
+<div class="font-mono-data text-[10px] text-secondary mb-4 tracking-[0.2em]">DATA_EXTRACT // 001</div>
+<h2 class="font-audiowide text-4xl text-secondary mb-6">Tu Vida es un RPG</h2>
+<div class="space-y-6 font-body-md text-body-md text-on-surface-variant leading-relaxed">
+<p><span class="text-secondary font-bold">AVATAR:</span> Eres el portador de la conciencia en este simulacro. Tus acciones definen tus parámetros físicos y mentales.</p>
+<p><span class="text-primary font-bold">SISTEMA:</span> MagnopVS procesa tus hábitos, metas y sombras, transformándolos en XP y recursos alquímicos.</p>
+<p><span class="text-tertiary font-bold">ESCENARIO:</span> El mundo físico es tu zona de misiones. Cada interacción es un trigger para la progresión.</p>
+</div>
+</div>
+</div>
+<div class="relative flex justify-center">
+<div class="w-full aspect-square max-w-md hex-clip relative overflow-hidden shadow-[0_0_50px_rgba(72,221,196,0.2)]">
+<img class="w-full h-full object-cover" data-alt="A highly detailed cybernetic goddess or digital avatar figure glowing with teal and magenta energy lines, set against a backdrop of complex sacred geometry and celestial constellations. The lighting is dramatic and futuristic, with a sleek high-tech RPG interface aesthetic that feels both mystical and advanced. Global colors include neon cyan, deep space black, and vibrant violet." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWg1XlIUYXyXvNmPppBHseV4h3ypzrYNGZRGpyiedEwivfvoHugG0TApDWkvQVOxbEDjc2TN0CB93HKECmhvnogqT_4Aj2bhYMUysw5EkJ0zniH8ZL9bWmTJh2otujivslPwJ4JsXJay-lXmON0KGN_YCdR7TXEoeMgJowwkfYFUN4nJJTb6iurEus9jjzZCaCjTjCyVKRuyyL-0yG-bWOXl4eIGDUow3UlJsMdGW5LFW0JgaXRsK0CmIiTWbGLr0AS_PdwM-NVQN-"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Planos y Casas -->
+<section class="py-32 bg-surface-container-lowest relative overflow-hidden">
+<div class="px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto relative z-10">
+<div class="text-center mb-20">
+<h2 class="font-audiowide text-4xl text-primary mb-4">Los 5 Planos y las 13 Casas</h2>
+<p class="font-mono-data text-outline">DISTRIBUCIÓN GEOMÉTRICA DE LA EXISTENCIA</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+<!-- Plano 1 -->
+<div class="glass-panel p-6 text-center group hover:border-secondary transition-all duration-500">
+<span class="material-symbols-outlined text-5xl text-secondary mb-4 neon-pulse">temple_hindu</span>
+<h3 class="font-orbitron text-sm mb-2 text-primary">Plano Material</h3>
+<p class="font-mono-data text-[10px] text-outline-variant">Casas: Salud, Finanzas, Hogar</p>
+</div>
+<!-- Plano 2 -->
+<div class="glass-panel p-6 text-center group hover:border-secondary transition-all duration-500">
+<span class="material-symbols-outlined text-5xl text-secondary mb-4">psychology</span>
+<h3 class="font-orbitron text-sm mb-2 text-primary">Plano Mental</h3>
+<p class="font-mono-data text-[10px] text-outline-variant">Casas: Conocimiento, Lógica</p>
+</div>
+<!-- Plano 3 -->
+<div class="glass-panel p-6 text-center group hover:border-secondary transition-all duration-500">
+<span class="material-symbols-outlined text-5xl text-secondary mb-4">favorite</span>
+<h3 class="font-orbitron text-sm mb-2 text-primary">Plano Social</h3>
+<p class="font-mono-data text-[10px] text-outline-variant">Casas: Tribu, Alianzas, Legado</p>
+</div>
+<!-- Plano 4 -->
+<div class="glass-panel p-6 text-center group hover:border-secondary transition-all duration-500">
+<span class="material-symbols-outlined text-5xl text-secondary mb-4">auto_awesome</span>
+<h3 class="font-orbitron text-sm mb-2 text-primary">Plano Astral</h3>
+<p class="font-mono-data text-[10px] text-outline-variant">Casas: Creatividad, Sueños</p>
+</div>
+<!-- Plano 5 -->
+<div class="glass-panel p-6 text-center group hover:border-secondary transition-all duration-500">
+<span class="material-symbols-outlined text-5xl text-secondary mb-4">all_inclusive</span>
+<h3 class="font-orbitron text-sm mb-2 text-primary">Plano Divino</h3>
+<p class="font-mono-data text-[10px] text-outline-variant">Casa 13: El Vacío</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Progresión -->
+<section class="py-32 px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row gap-16">
+<div class="flex-1 space-y-12">
+<div>
+<h2 class="font-audiowide text-4xl text-tertiary mb-8">Estatus del Avatar</h2>
+<div class="space-y-6">
+<!-- Health Bar -->
+<div class="space-y-2">
+<div class="flex justify-between font-label-caps text-label-caps text-outline">
+<span>Vitalidad (VIT)</span>
+<span>84%</span>
+</div>
+<div class="segmented-progress">
+<span class="active"></span><span class="active"></span><span class="active"></span><span class="active"></span><span class="active"></span><span class="active"></span><span class="active"></span><span class="active"></span><span></span><span></span>
+</div>
+</div>
+<!-- Mana Bar -->
+<div class="space-y-2">
+<div class="flex justify-between font-label-caps text-label-caps text-outline">
+<span>Poder (POW)</span>
+<span>60%</span>
+</div>
+<div class="segmented-progress">
+<span class="active !bg-secondary"></span><span class="active !bg-secondary"></span><span class="active !bg-secondary"></span><span class="active !bg-secondary"></span><span class="active !bg-secondary"></span><span class="active !bg-secondary"></span><span></span><span></span><span></span><span></span>
+</div>
+</div>
+<!-- Lives -->
+<div class="flex gap-4 mt-8">
+<div class="flex flex-col items-center p-4 glass-panel border-tertiary/30">
+<span class="material-symbols-outlined text-tertiary mb-2">favorite</span>
+<span class="font-mono-data text-xl text-tertiary">03</span>
+<span class="text-[8px] uppercase tracking-widest text-outline">Vidas</span>
+</div>
+<div class="flex flex-col items-center p-4 glass-panel">
+<span class="material-symbols-outlined text-primary mb-2">hotel_class</span>
+<span class="font-mono-data text-xl text-primary">42</span>
+<span class="text-[8px] uppercase tracking-widest text-outline">Nivel</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex-1 glass-panel p-10 relative overflow-hidden border-tertiary/20">
+<div class="absolute top-0 right-0 p-4 font-mono-data text-[10px] text-tertiary opacity-40">ALCH_MODULE // V.4</div>
+<h3 class="font-audiowide text-2xl text-tertiary mb-6">La Gran Obra</h3>
+<p class="font-body-md text-on-surface-variant leading-relaxed mb-8">
+                        El ciclo alquímico de transmutación personal se divide en cuatro fases críticas. Cada fase requiere la quema de recursos específicos para ascender al siguiente estado de conciencia.
+                    </p>
+<div class="space-y-4">
+<div class="flex items-center gap-4 p-3 border-l-2 border-outline-variant bg-surface/20">
+<div class="w-8 h-8 rounded-full border border-outline-variant flex items-center justify-center font-mono-data text-xs">01</div>
+<span class="font-orbitron text-xs tracking-widest">NIGREDO (Putrefacción)</span>
+</div>
+<div class="flex items-center gap-4 p-3 border-l-2 border-on-surface-variant bg-surface/20">
+<div class="w-8 h-8 rounded-full border border-on-surface-variant flex items-center justify-center font-mono-data text-xs">02</div>
+<span class="font-orbitron text-xs tracking-widest">ALBEDO (Purificación)</span>
+</div>
+<div class="flex items-center gap-4 p-3 border-l-2 border-secondary bg-surface/20">
+<div class="w-8 h-8 rounded-full border border-secondary flex items-center justify-center font-mono-data text-xs">03</div>
+<span class="font-orbitron text-xs tracking-widest">CITRINITAS (Despertar)</span>
+</div>
+<div class="flex items-center gap-4 p-3 border-l-2 border-tertiary bg-tertiary/10">
+<div class="w-8 h-8 rounded-full border border-tertiary flex items-center justify-center font-mono-data text-xs">04</div>
+<span class="font-orbitron text-xs tracking-widest">RUBEDO (Consumación)</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Misiones -->
+<section class="py-32 px-margin-mobile md:px-margin-desktop bg-[rgba(15,20,23,0.8)] border-y border-primary/10">
+<div class="max-w-7xl mx-auto">
+<div class="flex justify-between items-end mb-12">
+<div>
+<h2 class="font-audiowide text-4xl text-primary mb-2">Log de Misiones</h2>
+<p class="font-mono-data text-outline">OPERACIONES DE CAMPO DISPONIBLES</p>
+</div>
+<button class="hidden md:block py-2 px-6 border border-primary text-primary font-orbitron text-xs hover:bg-primary hover:text-black transition-all">SISTEMA_COMPLETO</button>
+</div>
+<div class="grid md:grid-cols-3 gap-6">
+<!-- Mission 1 -->
+<div class="glass-panel p-6 border-l-4 border-l-secondary">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-secondary">assignment_late</span>
+<span class="font-mono-data text-[10px] text-outline">DIARIA</span>
+</div>
+<h4 class="font-orbitron text-lg mb-2">Calibración Mental</h4>
+<p class="text-sm text-on-surface-variant font-body-md">15 minutos de meditación profunda sin interrupciones.</p>
+<div class="mt-6 flex justify-between items-center text-xs font-mono-data text-secondary">
+<span>RECOMPENSA</span>
+<span>+50 XP / +5 POW</span>
+</div>
+</div>
+<!-- Mission 2 -->
+<div class="glass-panel p-6 border-l-4 border-l-primary">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary">military_tech</span>
+<span class="font-mono-data text-[10px] text-outline">SEMANAL</span>
+</div>
+<h4 class="font-orbitron text-lg mb-2">Fortaleza Física</h4>
+<p class="text-sm text-on-surface-variant font-body-md">Completar 4 sesiones de entrenamiento de alta intensidad.</p>
+<div class="mt-6 flex justify-between items-center text-xs font-mono-data text-primary">
+<span>RECOMPENSA</span>
+<span>+200 XP / +10 VIT</span>
+</div>
+</div>
+<!-- Mission 3 -->
+<div class="glass-panel p-6 border-l-4 border-l-tertiary animate-pulse border-opacity-50">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-tertiary">skull</span>
+<span class="font-mono-data text-[10px] text-tertiary">BOSS BATTLE</span>
+</div>
+<h4 class="font-orbitron text-lg mb-2">Enfrentar la Sombra</h4>
+<p class="text-sm text-on-surface-variant font-body-md">Superar una adicción o hábito tóxico por 21 días consecutivos.</p>
+<div class="mt-6 flex justify-between items-center text-xs font-mono-data text-tertiary">
+<span>RECOMPENSA</span>
+<span>SUBIDA DE NIVEL / ITEM ALQUÍMICO</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Alineación y Apoteosis -->
+<section class="py-40 px-margin-mobile md:px-margin-desktop relative">
+<div class="absolute inset-0 z-0">
+
+</div>
+<div class="max-w-3xl mx-auto text-center relative z-10">
+<div class="inline-block p-1 border border-secondary mb-8">
+<div class="w-16 h-16 hex-clip bg-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-black text-3xl">offline_bolt</span>
+</div>
+</div>
+<h2 class="font-audiowide text-5xl text-on-surface mb-8">El Camino a la Apoteosis</h2>
+<p class="font-body-md text-xl text-on-surface-variant leading-relaxed mb-12">
+                    Tu alineación moral (Luz, Sombra o Neutral) no es solo estética. Determina las habilidades finales y el desenlace de tu narrativa personal. La Apoteosis es el estado donde el Avatar y el Operador se vuelven uno solo, trascendiendo las limitaciones del sistema original.
+                </p>
+<div class="flex flex-wrap justify-center gap-6">
+<div class="px-8 py-3 bg-primary text-black font-audiowide text-sm tracking-widest cursor-pointer hover:scale-105 transition-transform" style="clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);">
+                        ASCENDER AHORA
+                    </div>
+<div class="px-8 py-3 border border-secondary text-secondary font-audiowide text-sm tracking-widest cursor-pointer hover:bg-secondary/10 transition-all" style="clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);">
+                        CONOCER MÁS
+                    </div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-12 flex flex-col items-center gap-4 opacity-40 hover:opacity-100 transition-opacity duration-500 border-t border-outline-variant/10">
+<div class="font-display-lg text-primary text-xl tracking-widest">MAGNOPVS OS</div>
+<div class="font-mono-data text-mono-data text-outline text-center">
+                MAGNOPVS OS v4.2.0 // SYSTEM_STABLE<br/>
+<span class="opacity-50">© 2024 LIFE HERO PROTOCOL</span>
+</div>
+<nav class="flex gap-6 mt-4">
+<a class="font-mono-data text-[10px] text-outline-variant hover:text-primary transition-colors uppercase" href="#">System Reset</a>
+<a class="font-mono-data text-[10px] text-outline-variant hover:text-primary transition-colors uppercase" href="#">Log Export</a>
+<a class="font-mono-data text-[10px] text-outline-variant hover:text-primary transition-colors uppercase" href="#">Protocol-9</a>
+</nav>
+</footer>
+</main>
+<!-- Bottom Navigation Bar (Mobile) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 bg-surface-container/80 backdrop-blur-lg border-t border-primary/30 pb-safe px-4 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">space_dashboard</span>
+<span class="font-label-caps text-[10px] uppercase">Dash</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">temple_hindu</span>
+<span class="font-label-caps text-[10px] uppercase">Houses</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-110 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="font-label-caps text-[10px] uppercase">Guía</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-caps text-[10px] uppercase">Stats</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">autorenew</span>
+<span class="font-label-caps text-[10px] uppercase">Cycle</span>
+</a>
+</nav>
+<!-- Atmospheric Overlay -->
+<div class="fixed inset-0 pointer-events-none z-[100] border-[20px] border-primary/5 hidden md:block"></div>
+<div class="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/30 to-transparent z-[60]"></div>
+<script>
+        // Micro-interactions and parallax effect
+        document.addEventListener('mousemove', (e) => {
+            const panels = document.querySelectorAll('.glass-panel');
+            const mouseX = e.clientX / window.innerWidth - 0.5;
+            const mouseY = e.clientY / window.innerHeight - 0.5;
+            
+            panels.forEach(panel => {
+                const depth = 15;
+                const moveX = mouseX * depth;
+                const moveY = mouseY * depth;
+                panel.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+            });
+        });
+
+        // Intersection observer for section animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('transition-all', 'duration-1000', 'opacity-0', 'translate-y-10');
+            observer.observe(section);
+        });
+    </script>
+</body></html>

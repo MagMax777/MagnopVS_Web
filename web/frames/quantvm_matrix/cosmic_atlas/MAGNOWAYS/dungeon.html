@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>DUNGEON ALPHA: THE VOID BREACH</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#ffdad6",
+                        "on-primary-container": "#005369",
+                        "on-surface-variant": "#bbc8d0",
+                        "on-tertiary-fixed": "#270057",
+                        "on-primary-fixed-variant": "#004d63",
+                        "inverse-on-surface": "#2b3135",
+                        "surface-container": "#1a2124",
+                        "on-primary": "#003545",
+                        "surface-container-high": "#242b2e",
+                        "outline": "#869399",
+                        "on-background": "#dde3e7",
+                        "on-secondary-container": "#500050",
+                        "tertiary-fixed": "#ecdcff",
+                        "secondary-fixed-dim": "#ffabf3",
+                        "tertiary-fixed-dim": "#d5baff",
+                        "on-tertiary-container": "#6500cd",
+                        "on-secondary-fixed-variant": "#810081",
+                        "on-error": "#690005",
+                        "error": "#ffb4ab",
+                        "primary-container": "#00ccff",
+                        "on-secondary": "#5b005b",
+                        "primary-fixed-dim": "#5ed4ff",
+                        "on-tertiary": "#42008a",
+                        "secondary": "#ffabf3",
+                        "on-surface": "#dde3e7",
+                        "surface-bright": "#343a3d",
+                        "on-tertiary-fixed-variant": "#5e00c1",
+                        "tertiary-container": "#cdaeff",
+                        "tertiary": "#e4d0ff",
+                        "on-primary-fixed": "#001f29",
+                        "error-container": "#93000a",
+                        "background": "#0e1417",
+                        "secondary-fixed": "#ffd7f5",
+                        "inverse-primary": "#006782",
+                        "outline-variant": "#3c494e",
+                        "surface-tint": "#5ed4ff",
+                        "surface-container-lowest": "#090f12",
+                        "primary-fixed": "#bbe9ff",
+                        "surface-dim": "#0e1417",
+                        "inverse-surface": "#dde3e7",
+                        "secondary-container": "#fe00fe",
+                        "surface": "#0e1417",
+                        "on-secondary-fixed": "#380038",
+                        "primary": "#9de2ff",
+                        "surface-container-low": "#161d20",
+                        "surface-variant": "#2f3639",
+                        "surface-container-highest": "#2f3639"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "safe-margin": "40px",
+                        "telemetry-gap": "4px",
+                        "panel-padding": "16px",
+                        "grid-unit": "8px",
+                        "combat-gutter": "2px"
+                    },
+                    "fontFamily": {
+                        "tactical-display": ["Audiowide"],
+                        "combat-feed": ["Orbitron"],
+                        "data-label": ["Orbitron"],
+                        "telemetry-md": ["Orbitron"],
+                        "telemetry-lg": ["Orbitron"],
+                        "monumental-header": ["Audiowide"]
+                    },
+                    "fontSize": {
+                        "tactical-display": ["24px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "combat-feed": ["12px", {"lineHeight": "1.5", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "data-label": ["10px", {"lineHeight": "1.2", "letterSpacing": "0.15em", "fontWeight": "900"}],
+                        "telemetry-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "telemetry-lg": ["18px", {"lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "700"}],
+                        "monumental-header": ["48px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+        .glitch-text {
+            animation: glitch 1s infinite linear alternate-reverse;
+            text-shadow: 2px 0 #fe00fe, -2px 0 #00ccff;
+        }
+        .energy-stroke {
+            box-shadow: 0 0 10px rgba(0, 204, 255, 0.5), inset 0 0 5px rgba(0, 204, 255, 0.2);
+        }
+        .scanline {
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 204, 255, 0.05) 50%);
+            background-size: 100% 4px;
+        }
+        .glass-panel {
+            background: rgba(14, 20, 23, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(157, 226, 255, 0.2);
+        }
+        .rune-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 8px #00ccff); }
+            50% { opacity: 0.7; filter: drop-shadow(0 0 2px #00ccff); }
+        }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #00ccff; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background text-on-surface overflow-hidden select-none">
+<!-- THE VOID BACKGROUND (SIMULATED GAME WORLD) -->
+<div class="fixed inset-0 z-0">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A cinematic third-person view of a high-tech warrior in sleek carbon-fiber armor standing in a dark, wet cyberpunk alleyway. Brilliant neon signs in cyan and magenta illuminate the rainy pavement, casting sharp reflections. In the air, swirling magenta void energy glitches and floating dust particles create a sense of atmospheric tension. The horizon shows massive futuristic skyscrapers reaching into a starry, purple-tinged sky." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDis4IlYeLkTyfU4oBF-BZJB3HC7JS6BZjTOaIeMPcMs6UE8MIFlxxBrjghvRZARNNWgzWLVyFqBgwH5zHFLSr3UWjcJSBkZpohLV3QZSNjB16GNnbsJf4bZpXGdmK-_DKF1_8ta8Pkl0LJ7BjglGtUcDC-rxz0l0IS2arDeGk-DAWV6V530am-Jzyeh8uT7qdJGuiPbTHR4faS13RSkxQMJdWM30iNYQmSGc_FZ-Oub6xUQyLhm5zZUAHw3lnJa9xvKmyGK7KznED5')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60"></div>
+<div class="absolute inset-0 scanline pointer-events-none opacity-20"></div>
+<!-- Particle Overlay Simulation -->
+<div class="absolute inset-0 overflow-hidden pointer-events-none" id="particle-field"></div>
+</div>
+<!-- TOP BAR (SHARED COMPONENT DERIVED) -->
+<header class="fixed top-0 left-0 right-0 h-16 flex justify-between items-center px-safe-margin z-50 bg-surface-container/60 backdrop-blur-xl border-b border-primary/30">
+<div class="flex items-center gap-4">
+<h1 class="font-monumental-header text-[32px] text-primary tracking-tighter uppercase">DUNGEON ALPHA</h1>
+<div class="h-6 w-[2px] bg-primary/30 mx-2"></div>
+<div class="flex gap-6 font-telemetry-md text-on-surface-variant uppercase">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span> SYNC: 98.4%</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary"></span> CORE: 42°C</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-error"></span> PWR: 88%</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary hover:bg-primary/10 p-2 rounded transition-all">settings</button>
+<button class="material-symbols-outlined text-primary hover:bg-primary/10 p-2 rounded transition-all">notifications_active</button>
+</div>
+</header>
+<!-- SIDE NAVIGATION (ACTIVE: ARSENALS) -->
+<nav class="fixed left-0 top-16 h-[calc(100vh-128px)] w-64 glass-panel border-r border-secondary/20 z-40 hidden md:flex flex-col py-grid-unit">
+<div class="px-6 py-4 mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full border-2 border-primary overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close up portrait of a futuristic soldier wearing a high-tech tactical helmet with a glowing cyan visor, cinematic lighting, dark metal textures, sci-fi aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB86Kk4PtPKZGjVHa67CSXhnS8JzVPaxnpt3mimtjU-EqQZ5wF2OCYw_-PgLBfn1Nd1_kiWcl8kC2wnq5nN_5Hrni9WLfEcQmCJzp4BiY_y-_KGvxO7slsRdkg-D341MMUo--9HgvJ-HKzT-RxvkCoM2tTOqYHeyNRHwyY88jNkgDFLc-kl1-39U7cKfT1nQCsHP9qBrR9e5Xcfwyvngu3QZ4CC1pUS7swF-zz5659c8EWepA1kmLenPo2ooWzs63Qu-DlBQQi1Xaj-"/>
+</div>
+<div>
+<p class="font-tactical-display text-primary leading-none">ALPHA-01</p>
+<p class="font-data-label text-on-surface-variant text-[8px]">TACTICAL OVERRIDE</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-4 bg-secondary/20 text-secondary border-l-4 border-secondary px-6 py-4 font-telemetry-md" href="#">
+<span class="material-symbols-outlined">swords</span> Arsenals
+            </a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 opacity-70 hover:bg-secondary/10 hover:opacity-100 transition-all font-telemetry-md" href="#">
+<span class="material-symbols-outlined">magic_button</span> Rune Arts
+            </a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 opacity-70 hover:bg-secondary/10 hover:opacity-100 transition-all font-telemetry-md" href="#">
+<span class="material-symbols-outlined">architecture</span> Stance Tuning
+            </a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 opacity-70 hover:bg-secondary/10 hover:opacity-100 transition-all font-telemetry-md" href="#">
+<span class="material-symbols-outlined">settings_input_antenna</span> Squad Comms
+            </a>
+</div>
+</nav>
+<!-- MAIN COMBAT CANVAS -->
+<main class="relative w-full h-screen flex items-center justify-center pointer-events-none">
+<!-- CENTER RETICLE / HUD FOCUS -->
+<div class="absolute w-[400px] h-[400px] border border-primary/10 rounded-full flex items-center justify-center opacity-40">
+<div class="w-[300px] h-[300px] border border-primary/20 rounded-full flex items-center justify-center">
+<div class="w-[100px] h-[100px] border border-primary/40 rounded-full flex items-center justify-center relative">
+<div class="absolute w-full h-full border-t-2 border-primary rounded-full animate-[spin_4s_linear_infinite]"></div>
+<div class="absolute w-4 h-1 bg-primary left-0"></div>
+<div class="absolute w-4 h-1 bg-primary right-0"></div>
+</div>
+</div>
+</div>
+<!-- LEFT OVERLAY: HEALTH & MINIMAP -->
+<div class="absolute left-72 top-24 w-80 flex flex-col gap-6 pointer-events-auto">
+<!-- VITAL STATUS -->
+<div class="glass-panel p-panel-padding energy-stroke rounded-lg">
+<div class="flex justify-between items-end mb-2">
+<span class="font-data-label text-primary">INTEGRITY</span>
+<span class="font-telemetry-lg text-primary">942 <span class="text-[10px] opacity-60">/ 1000</span></span>
+</div>
+<div class="h-4 w-full bg-surface-container flex gap-1 p-[2px]">
+<!-- Segmented Health Bar -->
+<div class="h-full w-full bg-gradient-to-r from-primary to-secondary flex gap-[1px]">
+<div class="flex-1 bg-primary-container h-full"></div>
+<div class="flex-1 bg-primary-container h-full"></div>
+<div class="flex-1 bg-primary-container h-full"></div>
+<div class="flex-1 bg-primary-container h-full"></div>
+<div class="flex-1 bg-primary-container h-full"></div>
+<div class="flex-1 bg-primary-container h-full"></div>
+<div class="flex-1 bg-primary-container h-full"></div>
+<div class="flex-1 bg-primary-container h-full"></div>
+<div class="flex-1 bg-primary-container h-full"></div>
+<div class="flex-1 bg-primary/20 h-full"></div>
+</div>
+</div>
+<div class="flex justify-between items-end mt-4 mb-2">
+<span class="font-data-label text-secondary">RESONANCE</span>
+<span class="font-telemetry-lg text-secondary">75%</span>
+</div>
+<div class="h-3 w-full bg-surface-container-low flex gap-[2px]">
+<div class="h-full w-3/4 bg-secondary shadow-[0_0_8px_rgba(255,171,243,0.5)]"></div>
+</div>
+</div>
+<!-- MINIMAP -->
+<div class="glass-panel p-panel-padding energy-stroke aspect-square rounded-lg relative overflow-hidden">
+<div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at center, transparent 30%, #00ccff 200%), url('https://www.transparenttextures.com/patterns/carbon-fibre.png');"></div>
+<div class="relative z-10 w-full h-full">
+<div class="flex justify-between items-start mb-2">
+<span class="font-data-label">SECTOR: OMEGA-4</span>
+<span class="material-symbols-outlined text-[14px]">my_location</span>
+</div>
+<!-- Hex Grid Map simulation -->
+<div class="grid grid-cols-6 gap-1 mt-4 opacity-40">
+<script>
+                            for(let i=0; i<36; i++){
+                                document.write('<div class="aspect-square border border-primary/20 rounded-sm"></div>');
+                            }
+                        </script>
+</div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-primary rotate-45 border-2 border-background shadow-[0_0_10px_#00ccff] animate-pulse"></div>
+<!-- Anomaly Indicator -->
+<div class="absolute top-1/4 right-1/4 w-3 h-3 bg-secondary rounded-full animate-ping"></div>
+</div>
+</div>
+<!-- SKILL HOTBAR -->
+<div class="flex gap-4">
+<div class="skill-slot glass-panel w-16 h-16 rounded-full border border-primary flex items-center justify-center relative group">
+<span class="material-symbols-outlined text-primary text-3xl rune-pulse">change_history</span>
+<div class="absolute -bottom-1 right-0 bg-primary text-on-primary text-[8px] font-bold px-1 rounded">Q</div>
+</div>
+<div class="skill-slot glass-panel w-16 h-16 rounded-full border border-primary flex items-center justify-center relative">
+<span class="material-symbols-outlined text-primary text-3xl rune-pulse">pentagon</span>
+<div class="absolute -bottom-1 right-0 bg-primary text-on-primary text-[8px] font-bold px-1 rounded">E</div>
+</div>
+<div class="skill-slot glass-panel w-16 h-16 rounded-full border border-primary flex items-center justify-center relative opacity-50">
+<span class="material-symbols-outlined text-primary text-3xl opacity-50">hexagon</span>
+<div class="absolute inset-0 border-r-2 border-secondary/40 rounded-full animate-[spin_2s_linear_infinite]"></div>
+<div class="absolute -bottom-1 right-0 bg-primary text-on-primary text-[8px] font-bold px-1 rounded">R</div>
+</div>
+<div class="skill-slot glass-panel w-16 h-16 rounded-full border border-primary flex items-center justify-center relative">
+<span class="material-symbols-outlined text-primary text-3xl rune-pulse">auto_awesome</span>
+<div class="absolute -bottom-1 right-0 bg-primary text-on-primary text-[8px] font-bold px-1 rounded">F</div>
+</div>
+</div>
+</div>
+<!-- RIGHT OVERLAY: AI PATHS & COMBAT LOG -->
+<div class="absolute right-safe-margin top-24 w-96 flex flex-col gap-6 pointer-events-auto">
+<!-- AI DECISION PATHS -->
+<div class="glass-panel p-panel-padding energy-stroke rounded-lg">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-data-label text-primary">AI DECISION PATHS</h3>
+<span class="text-[10px] text-on-surface-variant font-mono">ACTIVE: OPTIMAL</span>
+</div>
+<div class="space-y-4 relative">
+<div class="flex flex-col items-center">
+<div class="px-3 py-1 border border-primary bg-primary/10 text-primary text-[10px] font-bold">THREAT_DETECTION</div>
+<div class="h-4 w-[1px] bg-primary/40"></div>
+<div class="w-full flex justify-between px-8">
+<div class="flex flex-col items-center">
+<div class="h-4 w-[1px] bg-primary/40"></div>
+<div class="px-2 py-1 border border-secondary bg-secondary/10 text-secondary text-[8px]">PATHFINDING</div>
+</div>
+<div class="flex flex-col items-center">
+<div class="h-4 w-[1px] bg-primary/40"></div>
+<div class="px-2 py-1 border border-primary bg-primary/10 text-primary text-[8px]">DATA_QUERY</div>
+</div>
+</div>
+<div class="mt-4 w-full flex justify-center">
+<div class="px-4 py-2 border-2 border-error bg-error/10 text-error font-combat-feed text-[12px] animate-pulse">COMBAT_MANEUVER_INITIATED</div>
+</div>
+</div>
+</div>
+</div>
+<!-- TARGET INFO -->
+<div class="glass-panel p-panel-padding border-l-4 border-error rounded-r-lg">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-12 h-12 bg-error/20 border border-error flex items-center justify-center">
+<span class="material-symbols-outlined text-error text-3xl">psychology_alt</span>
+</div>
+<div>
+<p class="font-tactical-display text-error text-lg">VOID STALKER</p>
+<p class="font-data-label text-on-surface-variant">LEVEL 42 // SPECTRAL CLASS</p>
+</div>
+</div>
+<div class="space-y-2 mt-4">
+<div class="flex justify-between text-[10px] font-bold">
+<span>ENTITY CORE</span>
+<span class="text-error">12%</span>
+</div>
+<div class="h-1 w-full bg-surface-container">
+<div class="h-full w-[12%] bg-error"></div>
+</div>
+<div class="grid grid-cols-2 gap-2 text-[9px] font-bold">
+<div class="p-1 border border-on-surface-variant/20 flex justify-between">
+<span>ARMOR</span>
+<span class="text-primary">ULTRA</span>
+</div>
+<div class="p-1 border border-secondary/40 flex justify-between bg-secondary/10">
+<span>WEAKNESS</span>
+<span class="text-secondary">VOID RUNE</span>
+</div>
+</div>
+</div>
+</div>
+<!-- DEBUG CONSOLE / COMBAT LOG -->
+<div class="glass-panel h-48 flex flex-col rounded-lg">
+<div class="bg-primary/20 px-3 py-1 flex justify-between items-center">
+<span class="font-data-label text-[8px]">DEBUG CONSOLE v2.0.4</span>
+<div class="flex gap-1">
+<div class="w-2 h-2 rounded-full bg-primary/40"></div>
+<div class="w-2 h-2 rounded-full bg-primary/40"></div>
+</div>
+</div>
+<div class="p-3 font-combat-feed text-[10px] space-y-1 overflow-y-auto flex-1">
+<p class="text-on-surface-variant">DEBUG: Loading asset... <span class="text-primary">OK</span></p>
+<p class="text-on-surface-variant">DEBUG: Loading tactical_mesh... <span class="text-primary">OK</span></p>
+<p class="text-error uppercase">ERROR: Missing collider on sector 7-B.</p>
+<p class="text-primary">INFO: Player connected. ID: ALPHA-01</p>
+<p class="text-primary">INFO: Syncing neural patterns...</p>
+<p class="text-secondary">ALERT: Void breach detected in local cluster.</p>
+<p class="text-error animate-pulse">WARNING: Memory usage high. Core temperature critical.</p>
+<p class="text-primary">SYSTEM: Optimal combat sequence calculated.</p>
+<div class="inline-block w-2 h-3 bg-primary animate-pulse" id="cursor"></div>
+</div>
+</div>
+</div>
+<!-- BOTTOM ALERTS (CENTER) -->
+<div class="absolute bottom-24 flex flex-col items-center gap-4">
+<h2 class="font-monumental-header text-error glitch-text text-4xl opacity-90 tracking-widest uppercase">BREACH DETECTED</h2>
+<div class="flex gap-2">
+<div class="w-3 h-3 border border-primary rotate-45"></div>
+<div class="w-3 h-3 border border-primary rotate-45 bg-primary"></div>
+<div class="w-3 h-3 border border-primary rotate-45"></div>
+</div>
+</div>
+</main>
+<!-- FOOTER (SHARED COMPONENT DERIVED) -->
+<footer class="fixed bottom-0 w-full h-8 flex justify-between items-center px-safe-margin z-50 bg-background/90 border-t border-error/20">
+<div class="font-combat-feed text-data-label text-error/60">
+            SYSTEM STATUS: NOMINAL // LATENCY: 14ms // ENCRYPT: AES-VOID
+        </div>
+<div class="flex gap-6 font-combat-feed text-data-label">
+<a class="text-on-surface-variant opacity-60 hover:text-error hover:opacity-100 transition-opacity" href="#">LOGS</a>
+<a class="text-on-surface-variant opacity-60 hover:text-error hover:opacity-100 transition-opacity" href="#">REBOOT</a>
+<a class="text-error font-bold hover:scale-105 transition-transform" href="#">DISCONNECT</a>
+</div>
+</footer>
+<!-- INTERACTION SCRIPTS -->
+<script>
+        // Simple particle system for floating stardust
+        const field = document.getElementById('particle-field');
+        const particleCount = 40;
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'absolute bg-primary rounded-full opacity-30 pointer-events-none';
+            const size = Math.random() * 3 + 1;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+            
+            const duration = Math.random() * 10 + 10;
+            const delay = Math.random() * 5;
+            
+            particle.style.animation = `float ${duration}s linear ${delay}s infinite`;
+            
+            // Inline keyframes for each particle to drift differently
+            const xDrift = (Math.random() - 0.5) * 200;
+            const yDrift = (Math.random() - 0.5) * 200;
+            
+            const styleSheet = document.createElement("style");
+            styleSheet.innerText = `
+                @keyframes float-${i} {
+                    0% { transform: translate(0, 0); opacity: 0; }
+                    20% { opacity: 0.4; }
+                    80% { opacity: 0.4; }
+                    100% { transform: translate(${xDrift}px, ${yDrift}px); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(styleSheet);
+            particle.style.animationName = `float-${i}`;
+            
+            field.appendChild(particle);
+        }
+
+        // Micro-interaction for skill slots
+        document.querySelectorAll('.skill-slot').forEach(slot => {
+            slot.addEventListener('mousedown', () => {
+                slot.style.transform = 'scale(0.9)';
+            });
+            slot.addEventListener('mouseup', () => {
+                slot.style.transform = 'scale(1)';
+                // Trigger a "flash" effect
+                const flash = document.createElement('div');
+                flash.className = 'absolute inset-0 bg-primary/40 rounded-full animate-ping';
+                slot.appendChild(flash);
+                setTimeout(() => flash.remove(), 500);
+            });
+        });
+
+        // Auto-scrolling debug console effect
+        const consoleEl = document.querySelector('.overflow-y-auto');
+        setInterval(() => {
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+        }, 1000);
+    </script>
+</body></html>

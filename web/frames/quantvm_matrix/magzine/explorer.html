@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagZine Explorer | Quantvm Matrix Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #131314;
+            color: #e5e2e3;
+            overflow-x: hidden;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(28, 27, 28, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(132, 148, 149, 0.2);
+        }
+        .cyber-glow-primary {
+            box-shadow: 0 0 15px rgba(0, 219, 233, 0.15);
+        }
+        .cyber-glow-secondary {
+            box-shadow: 0 0 15px rgba(255, 171, 243, 0.15);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.05;
+            pointer-events: none;
+            background-image: radial-gradient(#00dbe9 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<div class="matrix-bg"></div>
+<!-- TopNavBar -->
+<nav class="bg-surface/80 dark:bg-surface/80 backdrop-blur-xl font-body-md text-body-md docked full-width top-0 z-50 border-b border-outline-variant/30 shadow-[0_0_15px_rgba(0,219,233,0.1)] fixed w-full">
+<div class="flex justify-between items-center w-full px-margin-desktop py-4 max-w-max-width mx-auto">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-headline-md text-primary tracking-tighter">MagZine</span>
+<div class="hidden md:flex gap-6 items-center">
+<a class="text-on-surface-variant font-medium hover:text-secondary transition-colors duration-300" href="#">Sagas</a>
+<a class="text-on-surface-variant font-medium hover:text-secondary transition-colors duration-300" href="#">Artifacts</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 hover:text-secondary transition-colors duration-300" href="#">Explorer</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center bg-surface-container border border-outline-variant/50 rounded-full px-4 py-1.5 gap-2 group focus-within:border-primary transition-all">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 placeholder:text-on-surface-variant/50" placeholder="Terminal Search..." type="text"/>
+<span class="text-[10px] bg-surface-variant px-1.5 py-0.5 rounded border border-outline-variant/30 text-on-surface-variant">CMD + K</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" data-icon="flare">flare</span>
+<div class="w-8 h-8 rounded-full border border-primary/30 flex items-center justify-center bg-surface-container overflow-hidden">
+<span class="material-symbols-outlined text-primary" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<main class="pt-24 pb-32 max-w-max-width mx-auto px-margin-mobile md:px-margin-desktop space-y-12">
+<!-- Hero Header -->
+<section class="relative py-8">
+<div class="absolute -top-12 -left-12 w-64 h-64 bg-primary/10 rounded-full blur-[100px]"></div>
+<div class="relative z-10 space-y-2">
+<div class="flex items-center gap-3 text-secondary">
+<span class="material-symbols-outlined text-sm" data-icon="terminal">terminal</span>
+<span class="font-label-caps text-label-caps uppercase tracking-[0.3em]">Quantvm Matrix Research Node</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg md:text-display-xl tracking-tight text-primary">Explorer Terminal</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Access the definitive repository of multiversal knowledge. Query the matrix, navigate the eras, and reveal the hidden connections between realms.</p>
+</div>
+</section>
+<!-- Command Search Bar -->
+<section class="max-w-4xl mx-auto">
+<div class="glass-panel p-1 rounded-xl cyber-glow-primary">
+<div class="bg-surface-container-lowest rounded-lg p-4 flex items-center gap-4 border border-primary/20">
+<span class="text-primary font-bold">~</span>
+<span class="text-secondary font-data-mono">matrix_query:</span>
+<input class="bg-transparent border-none focus:ring-0 text-primary-fixed-dim font-data-mono w-full placeholder:text-outline/50" placeholder="enter saga name, artifact ID, or character entity..." type="text"/>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant animate-pulse" data-icon="adjust">adjust</span>
+<span class="text-[10px] text-outline font-data-mono">SYNCING...</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Multiversal Timeline -->
+<section class="space-y-6">
+<div class="flex justify-between items-end">
+<div class="space-y-1">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="history_toggle_off">history_toggle_off</span>
+                        Temporal Eras
+                    </h2>
+<p class="text-on-surface-variant font-data-mono text-sm">Chronological navigation of the Quantvm continuity</p>
+</div>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full glass-panel flex items-center justify-center hover:bg-primary-container/20 transition-all border border-primary/20">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-full glass-panel flex items-center justify-center hover:bg-primary-container/20 transition-all border border-primary/20">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="flex overflow-x-auto gap-6 no-scrollbar pb-4 -mx-4 px-4">
+<!-- Chaos Era -->
+<div class="flex-shrink-0 w-80 glass-panel p-6 rounded-xl space-y-4 hover:border-primary/50 transition-all group cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
+<span class="material-symbols-outlined text-6xl" data-icon="cyclone">cyclone</span>
+</div>
+<div class="space-y-1">
+<span class="text-xs font-label-caps text-secondary">0000 - 1500 AE</span>
+<h3 class="font-headline-md text-2xl text-on-surface">Chaos</h3>
+</div>
+<p class="text-sm text-on-surface-variant font-body-md line-clamp-3">The primordial surge. Before the matrix stabilized, energy was raw and narratives were fluid, constantly collapsing under their own weight.</p>
+<div class="pt-4 border-t border-outline-variant/30 flex justify-between items-center">
+<span class="text-[10px] font-data-mono text-primary">12 SAGAS</span>
+<span class="material-symbols-outlined text-primary" data-icon="arrow_forward">arrow_forward</span>
+</div>
+</div>
+<!-- Source Era -->
+<div class="flex-shrink-0 w-80 glass-panel p-6 rounded-xl space-y-4 hover:border-primary/50 transition-all group cursor-pointer relative overflow-hidden bg-primary-container/5 border-primary/30">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
+<span class="material-symbols-outlined text-6xl" data-icon="hub">hub</span>
+</div>
+<div class="space-y-1">
+<span class="text-xs font-label-caps text-secondary">1501 - 2800 AE</span>
+<h3 class="font-headline-md text-2xl text-primary">Source</h3>
+</div>
+<p class="text-sm text-on-surface-variant font-body-md line-clamp-3">The Great Anchor. Discovery of the central nexus. First recording of the Cosmic White Rabbit in the digital archives.</p>
+<div class="pt-4 border-t border-outline-variant/30 flex justify-between items-center">
+<span class="text-[10px] font-data-mono text-primary">48 SAGAS</span>
+<span class="material-symbols-outlined text-primary" data-icon="arrow_forward">arrow_forward</span>
+</div>
+</div>
+<!-- Synthesis Era -->
+<div class="flex-shrink-0 w-80 glass-panel p-6 rounded-xl space-y-4 hover:border-primary/50 transition-all group cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
+<span class="material-symbols-outlined text-6xl" data-icon="join_inner">join_inner</span>
+</div>
+<div class="space-y-1">
+<span class="text-xs font-label-caps text-secondary">2801 - 3500 AE</span>
+<h3 class="font-headline-md text-2xl text-on-surface">Synthesis</h3>
+</div>
+<p class="text-sm text-on-surface-variant font-body-md line-clamp-3">The merging of biological and digital narratives. High-fidelity lore networks began to overlap, creating the first multi-realm conflicts.</p>
+<div class="pt-4 border-t border-outline-variant/30 flex justify-between items-center">
+<span class="text-[10px] font-data-mono text-primary">92 SAGAS</span>
+<span class="material-symbols-outlined text-primary" data-icon="arrow_forward">arrow_forward</span>
+</div>
+</div>
+<!-- Quantvm Era -->
+<div class="flex-shrink-0 w-80 glass-panel p-6 rounded-xl space-y-4 hover:border-primary/50 transition-all group cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
+<span class="material-symbols-outlined text-6xl" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div class="space-y-1">
+<span class="text-xs font-label-caps text-secondary">3501 - PRESENT</span>
+<h3 class="font-headline-md text-2xl text-on-surface">Quantvm</h3>
+</div>
+<p class="text-sm text-on-surface-variant font-body-md line-clamp-3">Current temporal state. Total synchronization of all known realms. The interface itself has become sentient.</p>
+<div class="pt-4 border-t border-outline-variant/30 flex justify-between items-center">
+<span class="text-[10px] font-data-mono text-primary">156 SAGAS</span>
+<span class="material-symbols-outlined text-primary" data-icon="arrow_forward">arrow_forward</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Knowledge Graph & World Map (Asymmetric Grid) -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Knowledge Graph (Bento Large) -->
+<div class="lg:col-span-7 glass-panel rounded-2xl overflow-hidden flex flex-col h-[600px] border border-outline-variant/30 cyber-glow-secondary">
+<div class="p-6 border-b border-outline-variant/20 flex justify-between items-center bg-surface-container-high/50">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" data-icon="account_tree">account_tree</span>
+<h3 class="font-headline-md text-xl">Entity Nexus</h3>
+</div>
+<div class="flex gap-4 font-data-mono text-[10px]">
+<span class="text-primary flex items-center gap-1"><span class="w-1.5 h-1.5 bg-primary rounded-full"></span> CHARACTERS</span>
+<span class="text-secondary flex items-center gap-1"><span class="w-1.5 h-1.5 bg-secondary rounded-full"></span> FACTIONS</span>
+<span class="text-on-surface-variant flex items-center gap-1"><span class="w-1.5 h-1.5 bg-on-surface-variant rounded-full"></span> EVENTS</span>
+</div>
+</div>
+<div class="flex-grow relative overflow-hidden bg-[#0a0a0b]">
+
+<!-- Simulated Nodes -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="relative w-full h-full">
+<div class="absolute top-1/4 left-1/3 p-2 glass-panel rounded border border-primary/40 pointer-events-auto cursor-move">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+<span class="text-[10px] font-data-mono">Neo-Prime</span>
+</div>
+</div>
+<div class="absolute bottom-1/3 right-1/4 p-2 glass-panel rounded border border-secondary/40 pointer-events-auto cursor-move">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-secondary rounded-full"></div>
+<span class="text-[10px] font-data-mono">Vortex Order</span>
+</div>
+</div>
+<div class="absolute top-1/2 right-1/3 p-2 glass-panel rounded border border-on-surface-variant/40 pointer-events-auto cursor-move">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-on-surface-variant rounded-full"></div>
+<span class="text-[10px] font-data-mono">The Rift Incident</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Graph Controls -->
+<div class="absolute bottom-4 left-4 flex flex-col gap-2">
+<button class="w-8 h-8 glass-panel rounded flex items-center justify-center hover:text-primary"><span class="material-symbols-outlined text-sm" data-icon="add">add</span></button>
+<button class="w-8 h-8 glass-panel rounded flex items-center justify-center hover:text-primary"><span class="material-symbols-outlined text-sm" data-icon="remove">remove</span></button>
+<button class="w-8 h-8 glass-panel rounded flex items-center justify-center hover:text-primary"><span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span></button>
+</div>
+</div>
+</div>
+<!-- World Map (Bento Sidebar) -->
+<div class="lg:col-span-5 flex flex-col gap-gutter">
+<div class="glass-panel rounded-2xl flex-grow border border-outline-variant/30 overflow-hidden group">
+<div class="p-6 pb-2">
+<h3 class="font-headline-md text-xl flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="map">map</span>
+                            Realm Tactical Map
+                        </h3>
+</div>
+<div class="h-64 relative bg-surface-container-highest m-4 rounded-xl overflow-hidden border border-outline-variant/20">
+<img class="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700" data-alt="A high-fidelity digital tactical map of a sprawling sci-fi multiverse, featuring glowing ley lines in celestial blue and purple nodes. The visual style is isometric and technical, with dark matte surfaces and bright neon UI overlays including coordinate data and realm names like 'The Aether' and 'Void Spire'. High-contrast lighting emphasizes the topographical depth and futuristic architectural structures scattered across the floating islands." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3uKx7lm_v7Chci88dmS0owHx3vJebzJMyLo_7iuU7gfS0-QMnuIfCR5945ci6OfGXU9eoRCpk4aQBn60RZuod6xR0BC8rSk2hPVFp0G7VIN0AR2yMd7fUVQtmN-h_iuhLzlQeTcMwqAYv0rVcBIuJA00AcVu_7aciWCMMgB8f17zUEeHxNiNI4ngXUnD6IK1VoJTneH-g1bAjA62QMN0FVn38UiM2RwnRumUNr7bLl3srrSig0BFdsWGaDoc5neMADx4GIdidnVsz"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-60"></div>
+<div class="absolute top-4 right-4 flex items-center gap-2 bg-surface/80 backdrop-blur p-2 rounded border border-primary/30">
+<span class="w-2 h-2 bg-primary rounded-full animate-ping"></span>
+<span class="font-data-mono text-[10px]">REAL-TIME SCAN</span>
+</div>
+<div class="absolute bottom-4 left-4 space-y-1">
+<p class="font-data-mono text-[12px] text-primary">COORD: 45.02 // 119.88</p>
+<p class="font-data-mono text-[10px] text-on-surface-variant">SECTOR: OMEGA-7 (THE VOID)</p>
+</div>
+</div>
+<div class="px-6 pb-6 space-y-4">
+<div class="flex items-center justify-between text-xs font-data-mono">
+<span class="text-on-surface-variant uppercase">Current Expedition</span>
+<span class="text-secondary">ACTIVE</span>
+</div>
+<div class="bg-surface-container-low border border-outline-variant/20 p-3 rounded-lg flex items-center gap-4">
+<div class="w-10 h-10 bg-primary/20 rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="explore">explore</span>
+</div>
+<div>
+<p class="text-sm font-bold">The Obsidian Gate</p>
+<p class="text-[10px] text-on-surface-variant">Investigating Synthesis Era anomalies</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Stats / Sensors -->
+<div class="glass-panel rounded-2xl p-6 border border-outline-variant/30 flex justify-around">
+<div class="text-center">
+<p class="text-xs font-label-caps text-on-surface-variant">REALMS</p>
+<p class="text-2xl font-headline-md text-primary">12</p>
+</div>
+<div class="w-px h-10 bg-outline-variant/30 my-auto"></div>
+<div class="text-center">
+<p class="text-xs font-label-caps text-on-surface-variant">ENTITIES</p>
+<p class="text-2xl font-headline-md text-secondary">1.4k</p>
+</div>
+<div class="w-px h-10 bg-outline-variant/30 my-auto"></div>
+<div class="text-center">
+<p class="text-xs font-label-caps text-on-surface-variant">SYNC</p>
+<p class="text-2xl font-headline-md text-on-surface">99%</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Sagas Index -->
+<section class="space-y-8">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="space-y-1">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" data-icon="auto_stories">auto_stories</span>
+                        Sagas Index
+                    </h2>
+<p class="text-on-surface-variant font-data-mono text-sm">Categorized directory of all narrative universes</p>
+</div>
+<div class="flex gap-2 p-1 bg-surface-container rounded-lg border border-outline-variant/20 overflow-x-auto no-scrollbar">
+<button class="px-4 py-1.5 rounded-md bg-primary text-on-primary font-data-mono text-xs whitespace-nowrap">ALL</button>
+<button class="px-4 py-1.5 rounded-md hover:bg-surface-variant text-on-surface-variant font-data-mono text-xs whitespace-nowrap">CYBERPUNK</button>
+<button class="px-4 py-1.5 rounded-md hover:bg-surface-variant text-on-surface-variant font-data-mono text-xs whitespace-nowrap">ETHEREAL</button>
+<button class="px-4 py-1.5 rounded-md hover:bg-surface-variant text-on-surface-variant font-data-mono text-xs whitespace-nowrap">VOID-BORN</button>
+<button class="px-4 py-1.5 rounded-md hover:bg-surface-variant text-on-surface-variant font-data-mono text-xs whitespace-nowrap">GALACTIC</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Saga Card 1 -->
+<div class="glass-panel group rounded-xl overflow-hidden hover:scale-[1.02] transition-transform duration-300">
+<div class="h-48 relative">
+<img class="w-full h-full object-cover" data-alt="A cinematic cinematic wide shot of a futuristic neon-drenched city built into a gargantuan crystal geode. Deep teals and electric magentas illuminate the complex walkways and flying vehicles. The atmosphere is thick with digital haze and floating data streams, evoking a high-stakes narrative of corporate espionage and ancient magic. Sharp architectural details and high-contrast shadows create a feeling of immense scale and depth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrJ-ZCVEYNmGIE43cmwbKUPim1rWLGsLFAuWQALclr10SwIgQ3d9Ss7WLo4j63ocH7BHUzXATuwCvo_FEwhtwsLvNIYU2fguCymbFx5AnheYE9bV-BJEMSkaavqNGAhLfiTS9OPcRAbAsJVes67BsdjRn4mS2iRg8AOZm8-b0I88Ro6PZszpvy4tyWMldx2jyQRmuGGM5LogkPH0HZIbavWC4d4mfROGrk2u1U3mpDLrjomb0nLRFT2zaqvr0IrS4Bm0SgAxQ722jO"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent"></div>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="bg-primary/20 backdrop-blur text-primary text-[10px] font-label-caps px-2 py-0.5 rounded border border-primary/30">CANON</span>
+</div>
+</div>
+<div class="p-6 space-y-3">
+<h4 class="font-headline-md text-xl text-primary">Chromium Spirits</h4>
+<p class="text-xs text-on-surface-variant font-body-md line-clamp-2">Where rogue AI fragments inhabit abandoned ceremonial vessels of the old world.</p>
+<div class="flex justify-between items-center pt-4 border-t border-outline-variant/20">
+<span class="text-[10px] font-data-mono text-secondary">REALM: NEXUS-12</span>
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full border border-background bg-primary/20 flex items-center justify-center"><span class="material-symbols-outlined text-[12px]" data-icon="person">person</span></div>
+<div class="w-6 h-6 rounded-full border border-background bg-secondary/20 flex items-center justify-center"><span class="material-symbols-outlined text-[12px]" data-icon="groups">groups</span></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Saga Card 2 -->
+<div class="glass-panel group rounded-xl overflow-hidden hover:scale-[1.02] transition-transform duration-300">
+<div class="h-48 relative">
+<img class="w-full h-full object-cover" data-alt="A mystical forest where the trees are made of translucent white coral emitting a soft cyan glow. Gravity-defying water droplets float upwards toward a massive ringed planet visible in the starry nebula sky. The lighting is ethereal and dreamlike, dominated by shades of aquamarine, pale violet, and deep void-black. The scene represents a sacred archive of memories within a forgotten sector of the multiverse." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeTKeBxG9sekMwcs70jpgWvsZRXy5YK0Lb9pH5blrCuYQ_lkws_CV6KVik2ogZyMm0pofhkQhjZv1BgCs_M5CVtHQt1kHGlV8nEEj8lFYKbgjEG96976sSr_nBRG3eoBbW8YacMe-Yb6_cWsauxHDD9bPg3tL_4F371__wYv948DJIjkSyzNki2ESbffaiFjxGZYYMbi_OdF6xNlcwy-PFYl2lWldQGZjT__aNdL35xdHBfdW3rK7FQ4Y2M2uTUj-CQZ49HTzdaEvU"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent"></div>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="bg-secondary/20 backdrop-blur text-secondary text-[10px] font-label-caps px-2 py-0.5 rounded border border-secondary/30">LEGACY</span>
+</div>
+</div>
+<div class="p-6 space-y-3">
+<h4 class="font-headline-md text-xl text-primary">The Coral Spires</h4>
+<p class="text-xs text-on-surface-variant font-body-md line-clamp-2">Ancient memory banks crystallized into vast underwater ecosystems. Not for the faint of lung.</p>
+<div class="flex justify-between items-center pt-4 border-t border-outline-variant/20">
+<span class="text-[10px] font-data-mono text-secondary">REALM: ABYSS-9</span>
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full border border-background bg-primary/20 flex items-center justify-center"><span class="material-symbols-outlined text-[12px]" data-icon="pets">pets</span></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Saga Card 3 -->
+<div class="glass-panel group rounded-xl overflow-hidden hover:scale-[1.02] transition-transform duration-300">
+<div class="h-48 relative">
+<img class="w-full h-full object-cover" data-alt="An industrial fortress forged in the heart of a dying sun, with molten gold rivers flowing through obsidian corridors. Intense orange and deep shadow lighting create a high-contrast, epic atmosphere. Massive gears and celestial machinery are visible in the background, suggesting a world governed by cosmic engineering and brutal survival. The aesthetic is gritty, sophisticated sci-fi with heavy metallic textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuCaZ6nPhR6rW9s5opl9mKXC76j_2q57mnWpcdkN2N7J3HF7FgjF18p3YJY_NR9gbY4MRN6JJta8lVCHtOXlhvzxH8cmntvXtMHVsu49sazgAVp35EXPtox0YbIZgVjKWdXBKvFwSGXUjcuxrDAU_fuLRFjHR2Njrhrx0sYM8zLMBy2ZxkM59ProMt1hZgD-6tKUyH7aJCRWQU7CheOE-NR04hhf8w6CnazIrXxN7fRGKBS5tIuvk_MXxlqHdkU1tI9YGTTzvW60qA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent"></div>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="bg-on-surface-variant/20 backdrop-blur text-on-surface-variant text-[10px] font-label-caps px-2 py-0.5 rounded border border-outline-variant/30">ARCHIVED</span>
+</div>
+</div>
+<div class="p-6 space-y-3">
+<h4 class="font-headline-md text-xl text-primary">Iron Sun Protocols</h4>
+<p class="text-xs text-on-surface-variant font-body-md line-clamp-2">A dying solar system where nations war over the last remaining packets of thermal energy.</p>
+<div class="flex justify-between items-center pt-4 border-t border-outline-variant/20">
+<span class="text-[10px] font-data-mono text-secondary">REALM: CORE-0</span>
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full border border-background bg-primary/20 flex items-center justify-center"><span class="material-symbols-outlined text-[12px]" data-icon="military_tech">military_tech</span></div>
+<div class="w-6 h-6 rounded-full border border-background bg-secondary/20 flex items-center justify-center"><span class="material-symbols-outlined text-[12px]" data-icon="precision_manufacturing">precision_manufacturing</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="bg-surface-container-highest/80 dark:bg-surface-container-highest/80 backdrop-blur-2xl font-label-caps text-label-caps fixed bottom-0 w-full z-50 rounded-t-xl border-t border-primary/20 shadow-[0_-5px_20px_rgba(0,0,0,0.5)] md:hidden">
+<div class="flex justify-around items-center px-4 py-3">
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-secondary">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="mt-1">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-secondary">
+<span class="material-symbols-outlined" data-icon="library_books">library_books</span>
+<span class="mt-1">Library</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary filter drop-shadow-[0_0_8px_#00dbe9] scale-110">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="mt-1">Explorer</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-secondary">
+<span class="material-symbols-outlined" data-icon="pets">pets</span>
+<span class="mt-1">MagFams</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-secondary">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+<span class="mt-1">Discoveries</span>
+</div>
+</div>
+</nav>
+<!-- Footer for Desktop -->
+<footer class="hidden md:block py-12 border-t border-outline-variant/10 max-w-max-width mx-auto px-margin-desktop opacity-50">
+<div class="flex justify-between items-center font-data-mono text-[10px]">
+<p>© 3024 QUANTVM MATRIX ARCHIVES. ALL RIGHTS RESERVED.</p>
+<div class="flex gap-8">
+<a class="hover:text-primary" href="#">CORE PROTOCOLS</a>
+<a class="hover:text-primary" href="#">PRIVACY ENCRYPTION</a>
+<a class="hover:text-primary" href="#">NODE STATUS: OPTIMAL</a>
+</div>
+</div>
+</footer>
+<script>
+        // Terminal Search Command Simulation
+        document.addEventListener('keydown', function(e) {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                document.querySelector('input[placeholder="Terminal Search..."]').focus();
+            }
+        });
+
+        // Simple Glitch Effect for Title
+        const title = document.querySelector('h1');
+        setInterval(() => {
+            if(Math.random() > 0.95) {
+                title.style.transform = `translate(${Math.random()*4-2}px, ${Math.random()*2-1}px)`;
+                title.style.filter = 'hue-rotate(90deg)';
+                setTimeout(() => {
+                    title.style.transform = 'none';
+                    title.style.filter = 'none';
+                }, 100);
+            }
+        }, 1000);
+    </script>
+</body></html>

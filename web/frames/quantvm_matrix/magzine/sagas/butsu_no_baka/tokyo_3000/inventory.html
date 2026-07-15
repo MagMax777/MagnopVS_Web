@@ -1,0 +1,511 @@
+<!DOCTYPE html><html class="dark" lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>MAGNOPVS: TOKYO 3000 - Tactical Inventory</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "hazard-magenta": "rgba(224, 64, 251, 0.5)",
+                    "on-primary": "#003546",
+                    "outline-variant": "#3e484e",
+                    "surface-tint": "#6bd3ff",
+                    "surface-container-highest": "#32343e",
+                    "inverse-surface": "#e1e1ee",
+                    "surface-bright": "#373942",
+                    "surface-container-high": "#272a33",
+                    "tertiary-fixed": "#24ffcd",
+                    "surface-container-low": "#191b24",
+                    "on-surface": "#e1e1ee",
+                    "surface-container-lowest": "#0b0e16",
+                    "surface-variant": "#32343e",
+                    "tertiary-container": "#00d4a9",
+                    "primary": "#a2e0ff",
+                    "on-primary-container": "#00526b",
+                    "on-error-container": "#ffdad6",
+                    "on-background": "#e1e1ee",
+                    "on-tertiary-container": "#005643",
+                    "on-secondary-fixed": "#35003f",
+                    "surface-container": "#1d1f28",
+                    "accent-violet": "#7C4DFF",
+                    "secondary-fixed": "#ffd6fe",
+                    "secondary-container": "#bd06da",
+                    "primary-fixed-dim": "#6bd3ff",
+                    "on-tertiary-fixed-variant": "#00513f",
+                    "glow-cyan": "rgba(91, 200, 245, 0.4)",
+                    "inverse-primary": "#006685",
+                    "tertiary-fixed-dim": "#00e0b3",
+                    "on-secondary-fixed-variant": "#7b008f",
+                    "tertiary": "#00f3c2",
+                    "primary-container": "#5bc8f5",
+                    "background": "#11131c",
+                    "interface-surface": "rgba(6, 8, 16, 0.7)",
+                    "on-primary-fixed": "#001f2a",
+                    "on-error": "#690005",
+                    "error-container": "#93000a",
+                    "surface": "#11131c",
+                    "on-tertiary-fixed": "#002118",
+                    "error": "#ffb4ab",
+                    "surface-dim": "#11131c",
+                    "on-secondary-container": "#fff0fb",
+                    "secondary-fixed-dim": "#faabff",
+                    "secondary": "#faabff",
+                    "on-tertiary": "#00382b",
+                    "outline": "#889299",
+                    "on-surface-variant": "#bdc8cf",
+                    "inverse-on-surface": "#2e3039",
+                    "on-primary-fixed-variant": "#004d65",
+                    "primary-fixed": "#bee9ff",
+                    "on-secondary": "#570066"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "panel-padding": "12px",
+                    "gutter": "16px",
+                    "unit": "4px",
+                    "margin-safe": "32px"
+            },
+            "fontFamily": {
+                    "body-md": ["Orbitron"],
+                    "body-sm": ["Orbitron"],
+                    "label-caps": ["Orbitron"],
+                    "headline-xl": ["Audiowide"],
+                    "headline-lg": ["Audiowide"],
+                    "data-mono": ["Orbitron"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "1.5", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.2em", "fontWeight": "700"}],
+                    "headline-xl": ["48px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                    "data-mono": ["18px", {"lineHeight": "1.0", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0b0e16;
+            color: #e1e1ee;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .hex-grid {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(162, 224, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(162, 224, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .hex-pattern {
+            position: fixed;
+            inset: 0;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg width='24' height='42' viewBox='0 0 24 42' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 0l12 6.928v13.856L12 27.712 0 20.784V6.928L12 0zm0 41.568l12-6.928V20.784L12 27.712l-12-6.928v13.856l12 6.928z' fill='%23a2e0ff' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            z-index: -1;
+        }
+
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 100;
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(162, 224, 255, 0.02) 50%, rgba(0, 0, 0, 0) 100%);
+            opacity: 0.1;
+            position: fixed;
+            bottom: 100%;
+            animation: scanline 8s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scanline {
+            0% { bottom: 100%; }
+            100% { bottom: -100px; }
+        }
+
+        .glass-panel {
+            background: rgba(17, 19, 28, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(162, 224, 255, 0.1);
+        }
+
+        .angled-corner {
+            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
+        }
+
+        .status-segment {
+            height: 6px;
+            width: 8px;
+            margin-right: 2px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .status-segment.active-cyan { background-color: #00f3c2; box-shadow: 0 0 10px rgba(0, 243, 194, 0.5); }
+        .status-segment.active-magenta { background-color: #faabff; box-shadow: 0 0 10px rgba(250, 171, 255, 0.5); }
+        .status-segment.active-violet { background-color: #7C4DFF; box-shadow: 0 0 10px rgba(124, 77, 255, 0.5); }
+
+        .inventory-slot {
+            width: 100%;
+            aspect-ratio: 1;
+            background: rgba(162, 224, 255, 0.03);
+            border: 1px solid rgba(162, 224, 255, 0.1);
+            transition: all 0.2s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .inventory-slot:hover {
+            background: rgba(162, 224, 255, 0.1);
+            border-color: #a2e0ff;
+            box-shadow: inset 0 0 15px rgba(162, 224, 255, 0.2);
+        }
+
+        .inventory-slot::after {
+            content: "";
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 4px;
+            height: 4px;
+            background: rgba(162, 224, 255, 0.3);
+        }
+
+        .glitch-hover:hover {
+            animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(162, 224, 255, 0.2); border-radius: 2px; }
+    </style>
+</head>
+<body class="font-body-md">
+<div class="hex-grid"></div>
+<div class="hex-pattern"></div>
+<div class="scanline"></div>
+<!-- Top AppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-safe py-panel-padding bg-interface-surface backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(162,224,255,0.2)] h-16">
+<div class="flex items-center gap-8">
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-widest uppercase">MAGNOPVS: TOKYO 3000</h1>
+<nav class="hidden md:flex items-center gap-6">
+<a class="font-label-caps text-label-caps text-primary font-bold border-b-2 border-primary pb-1" href="#">LOADOUT</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant font-medium opacity-70 hover:text-tertiary hover:glow-cyan transition-all" href="#">DATABASE</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant font-medium opacity-70 hover:text-tertiary hover:glow-cyan transition-all" href="#">NET-LINK</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden lg:flex flex-col items-end px-4 border-r border-primary/20">
+<span class="font-label-caps text-[10px] text-primary/60">SYSTEM LATENCY</span>
+<span class="font-data-mono text-xs text-tertiary">0.02ms</span>
+</div>
+<button class="font-label-caps text-label-caps text-primary border border-primary/40 px-4 py-1 hover:bg-primary/10 transition-colors">SYNC STATUS</button>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:text-tertiary">settings</span>
+<span class="material-symbols-outlined text-secondary cursor-pointer hover:opacity-80">power_settings_new</span>
+</div>
+</header>
+<main class="pt-20 px-margin-safe h-screen grid grid-cols-12 gap-gutter pb-8 overflow-hidden">
+<!-- Left Panel: Operator Profile -->
+<div class="col-span-3 h-full flex flex-col gap-gutter overflow-hidden">
+<div class="glass-panel p-panel-padding angled-corner flex-shrink-0">
+<div class="relative w-full aspect-square mb-4 border border-secondary/30">
+<img alt="Operator Portrait" class="w-full h-full object-cover grayscale contrast-125 brightness-75 hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida/AP1WRLueQOes3KxMNtp-TJWeRHQeG4DtdjMj73BxxT-d9L-yFsNXZu6dU5HAfCbd3K06xWFzkFHQh2l6CMj2ewy2931Y6jlQy5svGhHKYg6z_IgfOEMH6AHv3e__LyTf0HWACmd_4k0xU6sMGBaOVnqj8iaTgyaHYqeS27o9aOTS92oC5G8S2Wluhv35y45OoKLOGIUZ0bXUbbaRro5aCfzPT3r8UZ9I0bRL5-AaB159-w2rxaL110koqPZl_bHE">
+<div class="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div>
+<div class="absolute bottom-2 left-2">
+<p class="font-label-caps text-[10px] text-secondary">ACTIVE PROTOCOL</p>
+<p class="font-headline-lg text-xl text-secondary">KAEL-UMBRA</p>
+</div>
+<!-- Telemetry Overlay -->
+<div class="absolute top-2 right-2 flex flex-col items-end gap-1">
+<div class="w-8 h-1 bg-tertiary shadow-[0_0_5px_#00f3c2]"></div>
+<div class="w-4 h-1 bg-primary/40"></div>
+</div>
+</div>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-caps text-[10px] text-primary/60">RESONANCE</span>
+<span class="font-data-mono text-xs text-primary">88%</span>
+</div>
+<div class="flex">
+<div class="status-segment active-cyan"></div><div class="status-segment active-cyan"></div><div class="status-segment active-cyan"></div><div class="status-segment active-cyan"></div><div class="status-segment active-cyan"></div><div class="status-segment active-cyan"></div><div class="status-segment active-cyan"></div><div class="status-segment active-cyan"></div><div class="status-segment"></div><div class="status-segment"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-caps text-[10px] text-accent-violet/60">ESCUDO</span>
+<span class="font-data-mono text-xs text-accent-violet">42%</span>
+</div>
+<div class="flex">
+<div class="status-segment active-violet"></div><div class="status-segment active-violet"></div><div class="status-segment active-violet"></div><div class="status-segment active-violet"></div><div class="status-segment"></div><div class="status-segment"></div><div class="status-segment"></div><div class="status-segment"></div><div class="status-segment"></div><div class="status-segment"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-caps text-[10px] text-secondary/60">ESTAMINA</span>
+<span class="font-data-mono text-xs text-secondary">65%</span>
+</div>
+<div class="flex">
+<div class="status-segment active-magenta"></div><div class="status-segment active-magenta"></div><div class="status-segment active-magenta"></div><div class="status-segment active-magenta"></div><div class="status-segment active-magenta"></div><div class="status-segment active-magenta"></div><div class="status-segment"></div><div class="status-segment"></div><div class="status-segment"></div><div class="status-segment"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Rank and Status -->
+<div class="glass-panel p-4 angled-corner flex flex-col justify-between flex-grow">
+<div>
+<h3 class="font-label-caps text-label-caps text-primary/60 border-b border-primary/20 pb-1 mb-2">OPERATOR STATUS</h3>
+<div class="flex items-center gap-3 py-2">
+<div class="w-10 h-10 border border-secondary/40 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-xl">military_tech</span>
+</div>
+<div>
+<p class="font-label-caps text-[11px] text-secondary">RANK</p>
+<p class="font-body-sm text-on-surface">ELITE NETRUNNER</p>
+</div>
+</div>
+<div class="mt-4 p-2 bg-hazard-magenta/10 border-l-2 border-secondary">
+<p class="font-label-caps text-[9px] text-secondary/80">SYSTEM ALERT</p>
+<p class="font-body-sm text-xs text-on-surface/80">Quantum fluctuation detected in Sector 7G. Recommend Net-Link sync.</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 mt-4">
+<div class="border border-primary/10 p-2">
+<span class="font-label-caps text-[9px] text-primary/60">XP</span>
+<p class="font-data-mono text-sm">45,200</p>
+</div>
+<div class="border border-primary/10 p-2">
+<span class="font-label-caps text-[9px] text-primary/60">CREDITS</span>
+<p class="font-data-mono text-sm text-tertiary">9,999+</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Central Area: Inventory Grid and Loadout -->
+<div class="col-span-6 h-full flex flex-col gap-gutter">
+<!-- Equipment Slots -->
+<div class="grid grid-cols-3 gap-4 flex-shrink-0">
+<div class="glass-panel p-3 border-t-2 border-primary relative">
+<span class="absolute top-1 right-2 font-label-caps text-[8px] text-primary/40">PRIM-WPN</span>
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">swords</span>
+</div>
+<div>
+<p class="font-label-caps text-[10px] text-primary">AETHER BLADE</p>
+<p class="font-body-sm text-[11px] text-on-surface-variant">MK. IV TACTICAL</p>
+</div>
+</div>
+</div>
+<div class="glass-panel p-3 border-t-2 border-secondary relative">
+<span class="absolute top-1 right-2 font-label-caps text-[8px] text-secondary/40">FLT-MOD</span>
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 bg-secondary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">flight</span>
+</div>
+<div>
+<p class="font-label-caps text-[10px] text-secondary">ION THRUSTER</p>
+<p class="font-body-sm text-[11px] text-on-surface-variant">EXO-SKELETON</p>
+</div>
+</div>
+</div>
+<div class="glass-panel p-3 border-t-2 border-tertiary relative">
+<span class="absolute top-1 right-2 font-label-caps text-[8px] text-tertiary/40">NEU-AUG</span>
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 bg-tertiary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary">psychology</span>
+</div>
+<div>
+<p class="font-label-caps text-[10px] text-tertiary">NEURAL LINK</p>
+<p class="font-body-sm text-[11px] text-on-surface-variant">LEVEL 4 SYNC</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Inventory Grid -->
+<div class="glass-panel flex-grow p-panel-padding overflow-hidden flex flex-col">
+<div class="flex justify-between items-center mb-4 border-b border-primary/20 pb-2">
+<h2 class="font-headline-lg text-lg text-primary uppercase">Tactical Inventory</h2>
+<div class="flex gap-2">
+<button class="px-2 py-1 bg-primary/20 text-primary font-label-caps text-[10px]">ALL</button>
+<button class="px-2 py-1 hover:bg-primary/10 text-on-surface-variant font-label-caps text-[10px]">RELICS</button>
+<button class="px-2 py-1 hover:bg-primary/10 text-on-surface-variant font-label-caps text-[10px]">MODS</button>
+</div>
+</div>
+<div class="grid grid-cols-4 gap-4 overflow-y-auto custom-scrollbar pr-2">
+<!-- Slot 1: Chronos Shard -->
+<div class="inventory-slot p-2 border-primary group">
+<div class="w-full h-full bg-cover bg-center" data-alt="Close up of a glowing amber crystal floating in a dark tactical interface. The crystal has internal electric fractures of cyan light and is surrounded by floating data particles in a futuristic cyberpunk aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida/AP1WRLvtRLCDh6RME9FkLR7wTi-Y-tWnH3woIsPwerTDZfkJ7TRDm3rG6lu7PsBXHnHj74gfFQg5s7BdMVdlLUwx9cMaTEIgJUPuit8zTGslKs254ZxhoB4FnvWIEuUU4OsIGk0Oz8mhEfyOUc3KTYn2XJmBvwWVqklw91w5eOlfxWVYOVcEHJnhVLLwwsJMl5id3U5AqCgmmJeBSHgFM7PxtK4KcOo3QDBMQuosuVVV4s0Jt45Q7qF8OVZho1HP')"></div>
+<div class="absolute bottom-0 left-0 w-full h-1 bg-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<!-- Slot 2: Void Engine -->
+<div class="inventory-slot p-2 border-hazard-magenta/30 group">
+<div class="w-full h-full bg-cover bg-center" data-alt="A dark metallic orb with swirling purple energy core and floating outer rings. The object is rendered in a high-fidelity cyber-mystic style with glowing neon magenta accents and cinematic light leaks against a void-black technical background." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC0CkdzETo375vKvecRDE9dTs8UmfSafHeY7n3LhEwZVl9oPlGCrUdwP5frfUh9ekMBvsecGLHInDnoG5IdJ850nEWKXNvifyni4HZZgIQYj1QXOHweMBYwbeeu0QqJnS4yAp30ybIbqKgDe0fAi6yx04VyBxKWCyxQrJOLAuEsj7IlR7qEYedgTcCwJ70aVGrjh13OK6E4wBenMWaBb6iJ10OpxTo1jJymffA1HOUYkoNUSx8f_McsvGAarg4mONJLXErTMYfTCvQn')"></div>
+</div>
+<!-- Slot 3: Mirror Key -->
+<div class="inventory-slot p-2 border-tertiary/30 group">
+<div class="w-full h-full bg-cover bg-center" data-alt="An intricate crystal key with prismatic surfaces reflecting neon cyan and deep blue light. Hexagonal grid patterns are projected from its center, shimmering with a digital glass texture in a futuristic warehouse setting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCTpbV1lLZk1xDY7nkfPsg9ZGGSzMquMCbgof0_tElud8QMH0SffB65Pe_1ZMRnBPcrDNdXhn9dWTgF8ptnc1w8Xpn5ClXwBAvYj_fgvCzMRuW_2pE2kO-Dxro0g9pVUhDeUMmKgTF28ifYqxDH9nsQJmn_EaEKDI7avwPc_otrIx3oDuf9PfM5Vro22qDqGX6JVTYgizoP_6OvB4TTNYl8yF3hVaBrzKA_mqO0aTmwy_XCU0ozd-KqCU6ioIm-tf2gzzxc_vtHrOdt')"></div>
+</div>
+<!-- Slot 4 -->
+<div class="inventory-slot border-primary/20"></div>
+<!-- Row 2 -->
+<div class="inventory-slot border-primary/20"></div>
+<div class="inventory-slot border-primary/20"></div>
+<div class="inventory-slot border-primary/20"></div>
+<div class="inventory-slot border-primary/20"></div>
+<!-- Row 3 -->
+<div class="inventory-slot border-primary/20"></div>
+<div class="inventory-slot border-primary/20"></div>
+<div class="inventory-slot border-primary/20"></div>
+<div class="inventory-slot border-primary/20"></div>
+<!-- Row 4 -->
+<div class="inventory-slot border-primary/20"></div>
+<div class="inventory-slot border-primary/20"></div>
+<div class="inventory-slot border-primary/20"></div>
+<div class="inventory-slot border-primary/20"></div>
+</div>
+</div>
+</div>
+<!-- Right Panel: Item Analysis -->
+<div class="col-span-3 h-full flex flex-col gap-gutter overflow-hidden">
+<div class="glass-panel p-panel-padding angled-corner flex-grow flex flex-col">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h2 class="font-headline-lg text-xl text-primary mb-1">CHRONOS SHARD</h2>
+<span class="font-label-caps text-[10px] text-tertiary px-2 py-0.5 bg-tertiary/10 border border-tertiary/30">ARTIFACT CLASS-A</span>
+</div>
+<span class="material-symbols-outlined text-primary/40">info</span>
+</div>
+<!-- Detailed View -->
+<div class="relative w-full aspect-video bg-interface-surface mb-4 border border-primary/20 overflow-hidden group">
+<img alt="Chronos Shard Detail" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[20s]" src="https://lh3.googleusercontent.com/aida/AP1WRLua9jdibFFj6PfMN-HLtC8LEUwZQ6wNh-vZj_MLHj3OCYH1rOLzVWGYQ5-jfnzcaC86UVnKB6H1neiHs1B7zzaWSGvfgEJBKx3HPrckVbFgxcb5W_3HqbuEf4yD290OVJz5pr-U81Q6vsDl7ttJ6mmUQSTfQTVAl1bEFA3fHN15ftfMsTF_DDmX3PnLQFlst2uNFZLxt1VVGdbcqrwR3kVIf7cV9zN_QZBgAjqm0qt5tCdtP3Fh_q_rTiqF">
+<!-- HUD Overlays -->
+<div class="absolute inset-0 p-4 flex flex-col justify-between pointer-events-none">
+<div class="flex justify-between">
+<div class="w-8 h-8 border-t border-l border-primary"></div>
+<div class="w-8 h-8 border-t border-r border-primary"></div>
+</div>
+<div class="flex justify-center">
+<div class="w-16 h-1 bg-primary/20 animate-pulse" style="opacity: 0.2;"></div>
+</div>
+<div class="flex justify-between">
+<div class="w-8 h-8 border-b border-l border-primary"></div>
+<div class="w-8 h-8 border-b border-r border-primary"></div>
+</div>
+</div>
+</div>
+<div class="flex-grow overflow-y-auto custom-scrollbar space-y-4">
+<div>
+<h3 class="font-label-caps text-[11px] text-primary/60 mb-2">TECHNICAL LORE</h3>
+<p class="font-body-sm text-xs leading-relaxed text-on-surface/80">
+                            A fragment of localized space-time density recovered from the Shinjuku Ruins. 
+                            Capable of generating a temporal dilation field of up to 4.2 seconds within a 5m radius.
+                        </p>
+</div>
+<div>
+<h3 class="font-label-caps text-[11px] text-primary/60 mb-2">DATA TELEMETRY</h3>
+<div class="grid grid-cols-2 gap-2 text-[10px]">
+<div class="p-2 border border-primary/10">
+<span class="block opacity-40">STABILITY</span>
+<span class="font-data-mono text-tertiary">98.42%</span>
+</div>
+<div class="p-2 border border-primary/10">
+<span class="block opacity-40">RADIATION</span>
+<span class="font-data-mono text-secondary">LOW</span>
+</div>
+<div class="p-2 border border-primary/10">
+<span class="block opacity-40">SYNC_LVL</span>
+<span class="font-data-mono text-primary">DELTA</span>
+</div>
+<div class="p-2 border border-primary/10">
+<span class="block opacity-40">USE_LIMIT</span>
+<span class="font-data-mono">2/5</span>
+</div>
+</div>
+</div>
+<!-- Small Sparkline visualization -->
+<div class="h-12 w-full flex items-end gap-[2px]">
+<div class="bg-primary/20 w-full" style="height: 30%"></div>
+<div class="bg-primary/30 w-full" style="height: 45%"></div>
+<div class="bg-primary/40 w-full" style="height: 70%"></div>
+<div class="bg-primary/30 w-full" style="height: 50%"></div>
+<div class="bg-primary/60 w-full" style="height: 80%"></div>
+<div class="bg-tertiary w-full" style="height: 100%"></div>
+<div class="bg-primary/40 w-full" style="height: 60%"></div>
+<div class="bg-primary/20 w-full" style="height: 35%"></div>
+</div>
+</div>
+<div class="mt-6 space-y-2">
+<button class="w-full py-3 bg-primary text-on-primary font-label-caps text-label-caps tracking-[0.3em] hover:bg-tertiary transition-colors glitch-hover active:scale-95 shadow-[0_0_20px_rgba(162,224,255,0.3)]">
+                        EQUIPAR RELIQUIA
+                    </button>
+<button class="w-full py-2 border border-secondary/40 text-secondary font-label-caps text-[10px] hover:bg-secondary/10 transition-colors">
+                        ANALIZAR FRAGMENTO
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Telemetry Bar -->
+<footer class="fixed bottom-0 left-0 w-full h-8 bg-surface-container-lowest border-t border-primary/10 px-margin-safe flex items-center justify-between z-50">
+<div class="flex gap-4">
+<span class="font-data-mono text-[9px] text-primary/40">LAT: 35.6895° N</span>
+<span class="font-data-mono text-[9px] text-primary/40">LON: 139.6917° E</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></div>
+<span class="font-label-caps text-[9px] text-tertiary">CORE_SYNC: ONLINE</span>
+</div>
+<span class="font-data-mono text-[9px] text-secondary">ENCRYPT_KEY: X099-H77-TK</span>
+<span class="font-data-mono text-[9px] text-primary/60">© 2101 MAGNOPVS CORP</span>
+</div>
+</footer>
+<script>
+        // Micro-interactions and subtle effects
+        document.querySelectorAll('.inventory-slot').forEach(slot => {
+            slot.addEventListener('click', () => {
+                // Tactical audio simulation (silent but triggers visual)
+                slot.style.transform = 'scale(0.95)';
+                setTimeout(() => slot.style.transform = 'scale(1)', 100);
+            });
+        });
+
+        // Periodic "flicker" effect on some elements
+        setInterval(() => {
+            const elements = document.querySelectorAll('.animate-pulse');
+            elements.forEach(el => {
+                if(Math.random() > 0.95) {
+                    el.style.opacity = '0.2';
+                    setTimeout(() => el.style.opacity = '1', 50);
+                }
+            });
+        }, 1000);
+    </script>
+</body></html>

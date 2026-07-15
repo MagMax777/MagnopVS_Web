@@ -1,0 +1,487 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>MagnopVS - Saga Node: The Primordial Contact</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&amp;family=Audiowide&amp;family=Space+Mono&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#dcb8ff",
+                    "inverse-on-surface": "#2a3232",
+                    "on-primary-container": "#005c62",
+                    "on-primary-fixed-variant": "#004f55",
+                    "background": "#0d1515",
+                    "on-surface": "#dce4e4",
+                    "on-error-container": "#ffdad6",
+                    "primary-container": "#00dbe9",
+                    "primary": "#7cf4ff",
+                    "primary-fixed": "#7ef4ff",
+                    "on-primary-fixed": "#002022",
+                    "surface-container-lowest": "#080f10",
+                    "secondary-fixed": "#ffd7f5",
+                    "inverse-surface": "#dce4e4",
+                    "outline": "#849395",
+                    "surface-container-highest": "#2f3637",
+                    "surface-tint": "#01dbe9",
+                    "surface-variant": "#2f3637",
+                    "tertiary-fixed-dim": "#dcb8ff",
+                    "on-secondary-fixed": "#380038",
+                    "on-tertiary-fixed": "#290947",
+                    "inverse-primary": "#006970",
+                    "on-surface-variant": "#bac9cb",
+                    "on-secondary-container": "#500050",
+                    "on-secondary-fixed-variant": "#810081",
+                    "on-tertiary-fixed-variant": "#573976",
+                    "tertiary": "#f0dbff",
+                    "surface": "#0d1515",
+                    "on-tertiary-container": "#634583",
+                    "primary-fixed-dim": "#01dbe9",
+                    "surface-bright": "#333b3b",
+                    "surface-container-low": "#161d1e",
+                    "error": "#ffb4ab",
+                    "on-secondary": "#5b005b",
+                    "secondary-fixed-dim": "#ffabf3",
+                    "on-tertiary": "#3f225e",
+                    "secondary-container": "#fe00fe",
+                    "surface-dim": "#0d1515",
+                    "on-error": "#690005",
+                    "surface-container": "#1a2122",
+                    "on-primary": "#00363b",
+                    "surface-container-high": "#242b2c",
+                    "tertiary-fixed": "#efdbff",
+                    "on-background": "#dce4e4",
+                    "outline-variant": "#3b494b",
+                    "error-container": "#93000a",
+                    "secondary": "#ffabf3"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding": "24px",
+                    "unit": "8px",
+                    "hex-grid-size": "64px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "label-caps": ["Orbitron"],
+                    "display-md": ["Audiowide"],
+                    "headline-lg": ["Audiowide"],
+                    "mono-data": ["Space Mono"],
+                    "body-md": ["Orbitron"],
+                    "headline-lg-mobile": ["Audiowide"],
+                    "display-lg": ["Audiowide"],
+                    "body-lg": ["Orbitron"]
+            },
+            "fontSize": {
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.2em", "fontWeight": "700"}],
+                    "display-md": ["48px", {"lineHeight": "56px", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                    "mono-data": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "body-md": ["14px", {"lineHeight": "22px", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "400"}],
+                    "display-lg": ["72px", {"lineHeight": "80px", "letterSpacing": "0.1em", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.05em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0d1515;
+            color: #dce4e4;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .hex-grid-overlay {
+            background-image: radial-gradient(circle, rgba(1, 219, 233, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .resonance-string {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #01dbe9, transparent);
+            position: relative;
+        }
+
+        .resonance-string::before, .resonance-string::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: inherit;
+            opacity: 0.5;
+        }
+
+        .resonance-string::before { top: -4px; }
+        .resonance-string::after { top: 4px; }
+
+        .scanline {
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 219, 233, 0.05) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+
+        .glitch-hover:hover {
+            animation: glitch 0.2s infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .octagonal-clip {
+            clip-path: polygon(10% 0, 90% 0, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0 90%, 0 10%);
+        }
+
+        .fade-mask {
+            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #080f10; }
+        ::-webkit-scrollbar-thumb { background: #01dbe9; }
+    </style>
+</head>
+<body class="font-body-md text-body-md selection:bg-primary/30 selection:text-primary">
+<!-- Global Background Elements -->
+<div class="fixed inset-0 z-0 bg-background pointer-events-none">
+<div class="absolute inset-0 hex-grid-overlay opacity-30"></div>
+<div class="absolute inset-0 scanline"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background"></div>
+</div>
+<!-- TopNavBar (Shared Component) -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-container-padding h-16 bg-background/70 backdrop-blur-xl border-b border-primary/30 shadow-[0_0_15px_rgba(0,219,233,0.3)]">
+<div class="flex items-center gap-4">
+<h1 class="font-display-md text-headline-lg text-primary drop-shadow-[0_0_10px_rgba(1,219,233,0.5)]">MagnopVS</h1>
+<span class="font-mono-data text-mono-data text-on-surface-variant bg-surface-container px-2 py-0.5 rounded border border-outline-variant">SAGA_NODE://0x77AF</span>
+</div>
+<nav class="hidden md:flex space-x-8 font-label-caps text-label-caps">
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 px-2 py-1" href="#">Album Vivo</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 px-2 py-1" href="#">Archive</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-bold" href="#">Lore</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 px-2 py-1" href="#">Artifacts</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 px-2 py-1" href="#">Profile</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="text-primary hover:rotate-180 transition-transform duration-500">
+<span class="material-symbols-outlined text-[24px]">sync</span>
+</button>
+<div class="w-8 h-8 rounded bg-primary/20 border border-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[18px]">person</span>
+</div>
+</div>
+</header>
+<!-- SideNavBar (Shared Component) -->
+<aside class="fixed left-0 top-0 h-full z-40 flex flex-col p-unit space-y-4 bg-surface-container/80 backdrop-blur-2xl border-r border-secondary/30 shadow-[5px_0_20px_rgba(255,0,255,0.2)] w-80 pt-20 animate-pulse-slow hidden xl:flex">
+<div class="px-4 py-2 border-l-4 border-secondary">
+<p class="font-display-md text-secondary text-lg">CBC ORACLE</p>
+<p class="font-label-caps text-[10px] text-on-surface-variant">V.09 SYNCED</p>
+</div>
+<div class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-secondary hover:bg-secondary/20 transition-all" href="#">
+<span class="material-symbols-outlined">lightbulb</span>
+<span class="font-body-md">Hints</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container rounded-lg font-bold" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="font-body-md">Lore</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-secondary hover:bg-secondary/20 transition-all" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-body-md">Guidance</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-secondary hover:bg-secondary/20 transition-all" href="#">
+<span class="material-symbols-outlined">assignment_turned_in</span>
+<span class="font-body-md">Quests</span>
+</a>
+</div>
+<button class="w-full py-4 bg-secondary text-on-secondary font-label-caps text-label-caps tracking-widest hover:brightness-125 transition-all octagonal-clip">
+            INITIATE PROTOCOL
+        </button>
+</aside>
+<main class="relative z-10 xl:ml-80">
+<!-- 1. Hero Frame -->
+<section class="relative h-screen flex flex-col items-center justify-center text-center px-container-padding overflow-hidden" id="hero-frame">
+<div class="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBhZN7CHKu0AdfDvQHcumvvQyJ5aC8xNIJAaaLiXGMWL7XLypQj-JXYz1DXKTdztipNdbbmObrLSeCUbCyUfLjHRKnnWtar8x0OZxNS9tzi42WXLXBap0l6KlZg5etp_p8TCpK9h1qTam9ptiQc0U3XKouW3L6keRz-69whzkJtCKmrvFMF0kpMnpzs-r3vGdm6_w3gV0frZBCbg9USzXi8M89PFuD_x8yIhupmmKsoaUXIYOTSqv7_qsqXHEnBdgl2wedYs-wCMI-m')">
+<div class="absolute inset-0 bg-background/40 backdrop-blur-[2px]"></div>
+</div>
+<div class="max-w-4xl space-y-6">
+<p class="font-mono-data text-primary animate-pulse">MAGNOSCROLL V3.0 // ACTIVE_NODE</p>
+<h2 class="font-display-lg text-[64px] md:text-[80px] leading-tight text-white drop-shadow-[0_0_30px_rgba(1,219,233,0.8)] uppercase">
+                    The Chronicle of <br> The Arcane Egg
+                </h2>
+<div class="resonance-string w-64 mx-auto mb-8"></div>
+<button class="group relative inline-flex items-center justify-center px-12 py-5 font-label-caps text-label-caps tracking-[0.4em] text-primary border-2 border-primary overflow-hidden transition-all duration-300 hover:shadow-[0_0_40px_rgba(1,219,233,0.6)] glitch-hover">
+<span class="relative z-10">ENTER NODE</span>
+<div class="absolute inset-0 bg-primary/20 -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
+</button>
+</div>
+<div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined animate-bounce">keyboard_double_arrow_down</span>
+<span class="font-mono-data text-[10px] tracking-widest">DESCEND TO SYNC</span>
+</div>
+</section>
+<!-- 2. Synchronization Frame -->
+<section class="py-20 px-container-padding border-y border-primary/20 bg-surface-container-low/50 backdrop-blur-md">
+<div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+<div class="md:col-span-3 space-y-4">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-label-caps text-primary">Synchronization Process</span>
+<span class="font-mono-data text-headline-lg text-primary">89.5%</span>
+</div>
+<div class="h-4 bg-surface-container-highest border border-primary/30 flex p-0.5 overflow-hidden">
+<!-- Hexagonal Segments Logic Simulation -->
+<div class="h-full w-[89.5%] bg-primary shadow-[0_0_15px_rgba(1,219,233,0.8)] relative flex">
+<div class="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.2)_50%,transparent_75%)] bg-[length:40px_40px] animate-[pulse_2s_infinite]"></div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-1 gap-4 font-mono-data text-[11px]">
+<div class="bg-surface-container p-3 border-l-2 border-tertiary">
+<p class="text-on-surface-variant">NODE WEIGHT</p>
+<p class="text-tertiary text-lg">1.24 YB</p>
+</div>
+<div class="bg-surface-container p-3 border-l-2 border-error">
+<p class="text-on-surface-variant">STABILITY</p>
+<p class="text-error text-lg animate-pulse">CRITICAL</p>
+</div>
+<div class="bg-surface-container p-3 border-l-2 border-secondary">
+<p class="text-on-surface-variant">LATENCY</p>
+<p class="text-secondary text-lg">0.02 MS</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Narrative Frame -->
+<section class="py-32 px-container-padding relative overflow-hidden">
+<div class="max-w-6xl mx-auto flex flex-col lg:flex-row gap-16 items-center">
+<div class="w-full lg:w-1/2 relative">
+<div class="aspect-[4/3] rounded-lg overflow-hidden border border-primary/30 shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+<img class="w-full h-full object-cover" data-alt="A detailed digital illustration from a cyberpunk perspective, showing a mysterious metallic and glowing artifact or egg held by a mechanical or high-tech gloved hand. The lighting is dominated by bioluminescent cyan and magenta rays reflecting off gears and wires. The background is a dense, magical forest with crystalline tree structures and a heavy, atmospheric mist. The aesthetic is pulp-comic meets futuristic sci-fi." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtFRPkbfVhlLa4QGZHFCdNcfOxR9IMf3D8efVOAIHnjwtAMgcbhmIWSlRI7BXFu0VWjdrlR7XjSXgoJlV67LK7gszFc65YMx9lepWh5CDmxxoQtNQEoZKWAvnyjs1JWYcZ6T_ix4KDUWFR2WFeNn4tH-fL8b0f2_UvuGpZ2sg9aTARk5kZn7KROhYtR5HZpVo66CCEbQQSXXQT0LfR-S9zOwous9kX9lFapK1fXVaaBqXxoaxH9d2KKIabZwj5P-refauxuJDKR7T_">
+</div>
+<!-- Frame Accents -->
+<div class="absolute -top-4 -left-4 w-12 h-12 border-t-2 border-l-2 border-primary"></div>
+<div class="absolute -bottom-4 -right-4 w-12 h-12 border-b-2 border-r-2 border-secondary"></div>
+</div>
+<div class="w-full lg:w-1/2 space-y-8">
+<div class="space-y-2">
+<span class="font-label-caps text-secondary">DATA STREAM RECORD // ARCHIVE_01</span>
+<h3 class="font-headline-lg text-white">Crystalline Convergence</h3>
+</div>
+<div class="resonance-string w-full"></div>
+<p class="font-body-lg text-on-surface leading-relaxed first-letter:text-5xl first-letter:font-display-md first-letter:text-primary first-letter:float-left first-letter:mr-3">
+                        Beneath the crystalline canopy of the forest, the artifact hummed with a frequency that resonated directly in the marrow of your bones. It was not a physical meeting, but a synchronization of data streams spanning eons. The egg pulsed with an ancient logic, re-mapping the very reality of your perception into a higher dimensional framework.
+                    </p>
+<!-- Audio Visualizer Component -->
+<div class="bg-surface-container-highest p-6 border border-outline-variant rounded-lg space-y-4">
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 rounded-full border border-primary flex items-center justify-center text-primary hover:bg-primary/20 transition-all">
+<span class="material-symbols-outlined">play_arrow</span>
+</button>
+<div class="flex-1 space-y-1">
+<p class="font-mono-data text-[10px] text-on-surface-variant">AMBIENT_RESONANCE.MAG</p>
+<div class="flex items-end gap-1 h-8">
+<div class="w-1 bg-primary/40 animate-[bounce_1.2s_infinite]"></div>
+<div class="w-1 bg-primary/60 h-4 animate-[bounce_0.8s_infinite]"></div>
+<div class="w-1 bg-primary h-6 animate-[bounce_1.5s_infinite]"></div>
+<div class="w-1 bg-primary/80 h-3 animate-[bounce_1s_infinite]"></div>
+<div class="w-1 bg-primary h-7 animate-[bounce_0.5s_infinite]"></div>
+<div class="w-1 bg-primary/40 h-2 animate-[bounce_1.3s_infinite]"></div>
+<div class="w-1 bg-primary h-5 animate-[bounce_0.9s_infinite]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. Artifact Frame -->
+<section class="py-20 px-container-padding bg-gradient-to-b from-transparent to-surface-container-lowest">
+<div class="max-w-4xl mx-auto text-center space-y-12">
+<div class="inline-block px-6 py-2 bg-yellow-500/10 border border-yellow-500 text-yellow-500 font-label-caps text-[10px] rounded-full animate-pulse">
+                    UNLOCKED: LEGENDARY ARTIFACT
+                </div>
+<div class="relative group">
+<div class="absolute inset-0 bg-yellow-500/20 blur-[100px] group-hover:bg-yellow-500/40 transition-all"></div>
+<div class="relative w-48 h-48 mx-auto bg-surface-container-low border-2 border-yellow-500 rounded-2xl flex items-center justify-center transform rotate-45 overflow-hidden group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[80px] text-yellow-500 transform -rotate-45" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div class="mt-16">
+<h4 class="font-display-md text-white text-3xl">Chronos Shard</h4>
+<p class="font-mono-data text-yellow-500">RARITY: EXOTIC_DIVINE</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="p-4 border border-outline-variant bg-surface-container/50 backdrop-blur octagonal-clip">
+<p class="font-label-caps text-[10px] text-on-surface-variant">TIME COMPRESSION</p>
+<p class="font-headline-lg text-primary text-xl">+42%</p>
+</div>
+<div class="p-4 border border-outline-variant bg-surface-container/50 backdrop-blur octagonal-clip">
+<p class="font-label-caps text-[10px] text-on-surface-variant">LORE RESIDUE</p>
+<p class="font-headline-lg text-secondary text-xl">INF</p>
+</div>
+<div class="p-4 border border-outline-variant bg-surface-container/50 backdrop-blur octagonal-clip">
+<p class="font-label-caps text-[10px] text-on-surface-variant">SYNC COST</p>
+<p class="font-headline-lg text-error text-xl">NULL</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. Bifurcation Frame -->
+<section class="py-32 px-container-padding relative">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-1 bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
+<div class="max-w-6xl mx-auto relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12">
+<!-- Path of Logos -->
+<button class="group p-10 border border-primary/40 bg-primary/5 hover:bg-primary/20 transition-all duration-500 text-left space-y-6 relative overflow-hidden octagonal-clip">
+<div class="absolute top-0 right-0 p-4 opacity-20 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[64px] text-primary">hub</span>
+</div>
+<span class="font-label-caps text-primary tracking-widest">BRANCH_A</span>
+<h5 class="font-display-md text-white text-2xl">Path of Logos</h5>
+<p class="font-body-md text-on-surface-variant">Choose the absolute certainty of logic. Prioritize systemic stability and data integrity over the chaos of raw narrative.</p>
+<div class="flex gap-4">
+<span class="px-2 py-1 bg-primary/10 border border-primary/30 text-primary font-mono-data text-[10px]">STABILITY +15%</span>
+<span class="px-2 py-1 bg-primary/10 border border-primary/30 text-primary font-mono-data text-[10px]">ORDER MODIFIER</span>
+</div>
+</button>
+<!-- Path of Mythos -->
+<button class="group p-10 border border-secondary/40 bg-secondary/5 hover:bg-secondary/20 transition-all duration-500 text-left space-y-6 relative overflow-hidden octagonal-clip">
+<div class="absolute top-0 right-0 p-4 opacity-20 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[64px] text-secondary">flare</span>
+</div>
+<span class="font-label-caps text-secondary tracking-widest">BRANCH_B</span>
+<h5 class="font-display-md text-white text-2xl">Path of Mythos</h5>
+<p class="font-body-md text-on-surface-variant">Embrace the sublime horror of the unknown. Find beauty in the chaotic fragments of eons-old narratives.</p>
+<div class="flex gap-4">
+<span class="px-2 py-1 bg-secondary/10 border border-secondary/30 text-secondary font-mono-data text-[10px]">CHAOS +22%</span>
+<span class="px-2 py-1 bg-secondary/10 border border-secondary/30 text-secondary font-mono-data text-[10px]">BEAUTY SCALING</span>
+</div>
+</button>
+</div>
+</section>
+<!-- 6. Reward Summary -->
+<section class="py-20 px-container-padding bg-surface-container-highest/30">
+<div class="max-w-4xl mx-auto border-t-2 border-b-2 border-primary/10 py-12">
+<h6 class="font-label-caps text-center mb-12 text-primary">SESSION_YIELD://DATA_PACK_0x01</h6>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+<div class="text-center group">
+<div class="w-16 h-16 mx-auto mb-4 bg-primary/10 border border-primary flex items-center justify-center rounded-lg group-hover:rotate-12 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl">trending_up</span>
+</div>
+<p class="font-mono-data text-white">+1500 XP</p>
+<p class="font-label-caps text-[9px] text-on-surface-variant">LEVEL UP IN 200</p>
+</div>
+<div class="text-center group">
+<div class="w-16 h-16 mx-auto mb-4 bg-secondary/10 border border-secondary flex items-center justify-center rounded-lg group-hover:-rotate-12 transition-transform">
+<span class="material-symbols-outlined text-secondary text-3xl">psychology</span>
+</div>
+<p class="font-mono-data text-white">Resonance</p>
+<p class="font-label-caps text-[9px] text-on-surface-variant">NEW SHIDDI UNLOCKED</p>
+</div>
+<div class="text-center group">
+<div class="w-16 h-16 mx-auto mb-4 bg-tertiary/10 border border-tertiary flex items-center justify-center rounded-lg group-hover:rotate-12 transition-transform">
+<span class="material-symbols-outlined text-tertiary text-3xl">toll</span>
+</div>
+<p class="font-mono-data text-white">120 MagnoCoins</p>
+<p class="font-label-caps text-[9px] text-on-surface-variant">CREDITS TRANSFERRED</p>
+</div>
+<div class="text-center group">
+<div class="w-16 h-16 mx-auto mb-4 bg-error/10 border border-error flex items-center justify-center rounded-lg group-hover:-rotate-12 transition-transform">
+<span class="material-symbols-outlined text-error text-3xl">shield</span>
+</div>
+<p class="font-mono-data text-white">Rank: Silver</p>
+<p class="font-label-caps text-[9px] text-on-surface-variant">STATUS UPDATED</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 7. Chapter Recap -->
+<section class="py-32 px-container-padding text-center">
+<div class="max-w-2xl mx-auto space-y-12">
+<div class="space-y-4">
+<h2 class="font-display-md text-white text-4xl">Node Finalized</h2>
+<p class="font-body-md text-on-surface-variant">Your contribution to the Saga has been hashed into the Void-Core.</p>
+</div>
+<div class="flex justify-center gap-12">
+<div class="space-y-1">
+<p class="font-display-md text-primary text-3xl">100%</p>
+<p class="font-label-caps text-[10px] text-on-surface-variant">SYNC STATUS</p>
+</div>
+<div class="space-y-1">
+<p class="font-display-md text-secondary text-3xl">18%</p>
+<p class="font-label-caps text-[10px] text-on-surface-variant">LORE RECOVERY</p>
+</div>
+<div class="space-y-1">
+<p class="font-display-md text-white text-3xl">2/30</p>
+<p class="font-label-caps text-[10px] text-on-surface-variant">VIÑETAS COLLECTED</p>
+</div>
+</div>
+<div class="resonance-string w-48 mx-auto"></div>
+<button class="relative group px-16 py-6 bg-primary text-on-primary font-display-md text-xl octagonal-clip hover:scale-105 transition-all shadow-[0_0_30px_rgba(1,219,233,0.4)]">
+<span class="relative z-10">CONTINUE SAGA</span>
+<div class="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</button>
+<p class="font-mono-data text-[10px] text-on-surface-variant mt-8">NEXT_NODE://THE_WITHERED_GATEWAY_DETECTED</p>
+</div>
+</section>
+<!-- Footer (Shared Component) -->
+<footer class="w-full bg-surface-container-lowest/90 border-t border-tertiary/20 flex flex-col md:flex-row justify-around items-center py-8 px-8 space-y-4 md:space-y-0 transition-opacity duration-500">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+<p class="font-mono-data text-mono-data text-tertiary">SYSTEM STATUS: ONLINE</p>
+</div>
+<div class="flex gap-8">
+<a class="font-label-caps text-tertiary hover:text-white transition-all" href="#">Node Weight</a>
+<a class="font-label-caps text-tertiary hover:text-white transition-all" href="#">Stability</a>
+<a class="font-label-caps text-tertiary hover:text-white transition-all" href="#">Latency</a>
+<a class="font-label-caps text-tertiary hover:text-white transition-all" href="#">Resonance</a>
+</div>
+<div class="text-on-surface-variant/40 font-mono-data text-[10px]">
+                © 2024 MAGNOPVS ENTERTAINMENT // ALL DATA ARCHIVED
+            </div>
+</footer>
+</main>
+<!-- FAB Logic Check: Transactional screen, omit FAB -->
+<script>
+        // Micro-interactions and atmospheric effects
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+            const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+            
+            // Subtle parallax for hero section background if needed
+            const heroBg = document.querySelector('#hero-frame div');
+            if(heroBg) {
+                heroBg.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.1)`;
+            }
+        });
+
+        // Simulating loading states for certain interactions
+        const enterBtn = document.querySelector('button');
+        if(enterBtn) {
+            enterBtn.addEventListener('click', () => {
+                enterBtn.innerHTML = "SYNCING...";
+                setTimeout(() => {
+                    window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+                }, 800);
+            });
+        }
+    </script>
+</body></html>

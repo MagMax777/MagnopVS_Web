@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOP VS | TERMINAL DEL ALMA</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#131313",
+                        "on-primary-container": "#00375a",
+                        "on-primary-fixed-variant": "#004a77",
+                        "on-background": "#e5e2e1",
+                        "outline": "#88919d",
+                        "primary-container": "#00a3ff",
+                        "inverse-on-surface": "#313030",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-tertiary-fixed-variant": "#810081",
+                        "on-surface": "#e5e2e1",
+                        "secondary-container": "#15ffd1",
+                        "tertiary-fixed": "#ffd7f5",
+                        "primary-fixed-dim": "#98cbff",
+                        "on-error": "#690005",
+                        "surface-container-highest": "#353534",
+                        "on-surface-variant": "#bec7d4",
+                        "on-secondary-fixed-variant": "#005141",
+                        "surface-container-low": "#1c1b1b",
+                        "on-secondary-fixed": "#002019",
+                        "on-primary-fixed": "#001d33",
+                        "inverse-surface": "#e5e2e1",
+                        "tertiary": "#ffabf3",
+                        "surface": "#131313",
+                        "outline-variant": "#3f4852",
+                        "on-tertiary-fixed": "#380038",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#ffabf3",
+                        "surface-bright": "#3a3939",
+                        "surface-tint": "#98cbff",
+                        "surface-container-high": "#2a2a2a",
+                        "inverse-primary": "#00629d",
+                        "on-secondary": "#00382c",
+                        "on-tertiary": "#5b005b",
+                        "on-tertiary-container": "#620061",
+                        "secondary-fixed-dim": "#00e0b7",
+                        "background": "#131313",
+                        "surface-variant": "#353534",
+                        "error": "#ffb4ab",
+                        "primary-fixed": "#cfe5ff",
+                        "on-primary": "#003354",
+                        "secondary-fixed": "#15ffd1",
+                        "surface-container": "#201f1f",
+                        "tertiary-container": "#ff4dfa",
+                        "on-secondary-container": "#00725c",
+                        "error-container": "#93000a",
+                        "secondary": "#ffffff",
+                        "primary": "#98cbff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max": "1440px",
+                        "margin-desktop": "64px",
+                        "unit": "8px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "display-xl": ["Audiowide"],
+                        "technical-data": ["Orbitron"],
+                        "headline-lg": ["Audiowide"],
+                        "label-caps": ["Orbitron"],
+                        "body-md": ["Orbitron"],
+                        "headline-lg-mobile": ["Audiowide"]
+                    },
+                    "fontSize": {
+                        "display-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "technical-data": ["14px", {"lineHeight": "1.5", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1.0", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #0e0e0e;
+            color: #e5e2e1;
+            overflow-x: hidden;
+        }
+
+        .tactile-hex-bg {
+            background-image: radial-gradient(circle at 2px 2px, rgba(152, 203, 255, 0.05) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+
+        .glass-panel {
+            background: rgba(19, 19, 19, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(63, 72, 82, 0.3);
+        }
+
+        .neon-border-magenta {
+            border: 1px solid #ff4dfa;
+            box-shadow: 0 0 10px rgba(255, 77, 250, 0.3);
+        }
+
+        .neon-border-blue {
+            border: 1px solid #00a3ff;
+            box-shadow: 0 0 10px rgba(0, 163, 255, 0.3);
+        }
+
+        .neon-border-green {
+            border: 1px solid #15ffd1;
+            box-shadow: 0 0 10px rgba(21, 255, 209, 0.3);
+        }
+
+        .bracket-corner::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            width: 10px;
+            height: 10px;
+            border-top: 2px solid #ff4dfa;
+            border-left: 2px solid #ff4dfa;
+        }
+
+        .bracket-corner::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            width: 10px;
+            height: 10px;
+            border-bottom: 2px solid #ff4dfa;
+            border-right: 2px solid #ff4dfa;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="tactile-hex-bg font-body-md">
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile h-16 bg-surface-dim/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-md md:px-margin-desktop">
+<div class="flex items-center gap-4">
+<h1 class="font-display-xl text-headline-lg-mobile uppercase tracking-tighter text-on-surface">MAGNOP<span class="text-primary">VS</span></h1>
+<div class="hidden md:flex flex-col ml-8 border-l border-outline-variant/30 pl-4">
+<div class="flex items-center gap-2">
+<div class="h-1 w-12 bg-outline-variant/30 rounded-full overflow-hidden">
+<div class="h-full w-2/3 bg-primary"></div>
+</div>
+<span class="font-technical-data text-[10px] uppercase text-on-surface-variant tracking-widest">STORYTELLER</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined p-2 text-on-surface-variant hover:text-primary transition-colors transition-transform active:scale-90" data-icon="account_balance_wallet">account_balance_wallet</button>
+<button class="material-symbols-outlined p-2 text-on-surface-variant hover:text-primary transition-colors transition-transform active:scale-90" data-icon="satellite_alt">satellite_alt</button>
+<button class="material-symbols-outlined p-2 text-on-surface-variant hover:text-primary transition-colors transition-transform active:scale-90" data-icon="settings">settings</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-primary/30 ml-2">
+<img alt="User Storyteller Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2Cr7V_o6MIw8y02eHcewmsolcUHHxoVdA8TZaB63wEiEARKeKB-n0HdDVnYitGvEF08wMVysFIac_qYUd0Pdf6ZTQj29y5BaNxQ-IhZuaQqLRxLTgo7Q80VZCw2Qzso_HW-Xrd1Tm36rfE57HMhBpRWtNjiK4mzXly1RqGN1VJ2_l3LJ54nnbVaQM2xd3rXYRItvBCYH6hl2lKU0MVt5U13cQt_yFC94Tj7DeE2urbMAEd33-JcEGhT89xYKnaY0OxuNkBsjeTRpu"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar Shell (Desktop) -->
+<aside class="hidden lg:flex flex-col fixed left-0 top-16 bottom-0 z-40 bg-surface-container-lowest/90 backdrop-blur-2xl border-r border-outline-variant/20 w-64 p-6">
+<div class="mb-8">
+<h2 class="font-display-xl text-primary text-sm tracking-widest uppercase">Terminal del Alma</h2>
+<p class="font-technical-data text-[10px] text-on-surface-variant">Quantum Level 4</p>
+</div>
+<nav class="flex-1 flex flex-col gap-2">
+<a class="bg-primary-container/20 text-primary border-l-4 border-primary px-4 py-3 font-technical-data text-technical-data flex items-center gap-3 transition-all translate-x-1" href="#">
+<span class="material-symbols-outlined text-sm">subscriptions</span> SERIES VR
+            </a>
+<a class="text-on-surface-variant hover:bg-surface-variant/10 px-4 py-3 font-technical-data text-technical-data flex items-center gap-3 transition-all hover:text-secondary" href="#">
+<span class="material-symbols-outlined text-sm">sports_esports</span> Videojuegos
+            </a>
+<a class="text-on-surface-variant hover:bg-surface-variant/10 px-4 py-3 font-technical-data text-technical-data flex items-center gap-3 transition-all hover:text-secondary" href="#">
+<span class="material-symbols-outlined text-sm">auto_awesome</span> Creadores UGC
+            </a>
+<a class="text-on-surface-variant hover:bg-surface-variant/10 px-4 py-3 font-technical-data text-technical-data flex items-center gap-3 transition-all hover:text-secondary" href="#">
+<span class="material-symbols-outlined text-sm">sensors</span> Live Sagas
+            </a>
+</nav>
+<div class="mt-auto pt-6 border-t border-outline-variant/20">
+<button class="w-full bg-primary text-on-primary font-label-caps py-3 rounded-sm mb-4 hover:brightness-110 active:scale-95 transition-all uppercase">
+                Enter Saga
+            </button>
+<div class="flex flex-col gap-2 text-on-surface-variant font-technical-data text-[10px]">
+<a class="flex items-center gap-2 hover:text-primary" href="#"><span class="material-symbols-outlined text-xs">help_outline</span> Support</a>
+<a class="flex items-center gap-2 hover:text-primary" href="#"><span class="material-symbols-outlined text-xs">analytics</span> Quantum Status</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:pl-64 pt-16 pb-24 lg:pb-0">
+<!-- Hero Section: TOKYO 3000 -->
+<section class="relative h-[80vh] w-full overflow-hidden">
+<img alt="Tokyo 3000 Backdrop" class="absolute inset-0 w-full h-full object-cover brightness-50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1Vrqfy1G4ta9AmYhOrl03IqTlax0pxIZuuRKAH9tEjoO6c7ZDkcBmmknySpR8bMmx2OiZhu3E00wbEStx-c6Z8SUReyI47S7ZBhvOFkkOHebAKyXsMkcz86yRoL563gqMFmA8fLW-JSNtOKwkK3AqQYdXfvqS0rO_yIpb2cDSE9gQgAPFyAdMNpuFTvaLGWRH9yXWC3S2_TcrCGnCSVOOi96Kz7XP8eAPAB1i3Qj4R4kpT3SiDAFUHIzED2M7RYE3IHhYzGldlv7p"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent"></div>
+<div class="absolute inset-0 flex flex-col justify-end p-margin-mobile md:p-margin-desktop lg:pb-16">
+<div class="max-w-3xl animate-fade-in-up">
+<span class="font-label-caps text-secondary-fixed bg-surface-container-high/60 backdrop-blur-md px-3 py-1 mb-4 inline-block border border-secondary-fixed/30">VISUAL NOVEL</span>
+<h2 class="font-display-xl text-display-xl-mobile md:text-display-xl uppercase text-secondary tracking-tighter mb-4">TOKYO 3000</h2>
+<p class="font-body-md text-on-surface-variant italic mb-8 border-l-2 border-primary pl-4 max-w-xl">
+                        "LAS ESPECIES ANTIGUAS GOBIERNAN EL FUTURO DE TOKIO."
+                    </p>
+<div class="relative inline-block bracket-corner">
+<button class="bg-primary/10 hover:bg-primary/20 text-primary font-label-caps px-12 py-4 border border-primary/50 transition-all uppercase tracking-widest active:scale-95">
+                            Enter Saga
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<div class="px-margin-mobile md:px-margin-desktop space-y-12 py-12">
+<!-- Content Row 1: SERIES VR -->
+<section>
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline-lg-mobile md:font-headline-lg uppercase flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">subscriptions</span> SERIES VR
+                    </h3>
+<a class="font-technical-data text-primary text-xs uppercase hover:underline" href="#">Ver Todo</a>
+</div>
+<div class="flex gap-gutter overflow-x-auto pb-4 scrollbar-hide">
+<!-- Glass Cards -->
+<div class="flex-shrink-0 w-64 md:w-80 aspect-video glass-panel relative group cursor-pointer overflow-hidden rounded-sm hover:scale-[1.02] transition-transform duration-300">
+<img class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" data-alt="A futuristic virtual reality headset glowing with neon blue and magenta lights against a dark, tech-focused background. The atmosphere is clinical yet energetic, representing a high-end cinematic VR experience in a deep space setting. Sharp reflections and 1px energy strokes accentuate the metallic surfaces of the hardware." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-OoKDsQixpcO_o7jEcgGDCbeJKaumLD-gQQLYLfE7iShB6sE118xVJi1-LdrsPHSDbAabPz_MparLOSojAonuax6etMX_gMTF61hLKq12tJUrR2oEp02KgqsJATpoM1hxOBBqpCM2zygJwJSUvUYsjLO8Nc5YNTXHh42CLzpaFZ6kkHGb2GmUVPCJA_K1lLzc8NfdV4L2LA5jZadyw-ZM3wITPOSP6dE4BQG0k7KiYJtpJqcQ_Qcnp_3Moz_nTidOmjuoHzZLBVkf"/>
+<div class="absolute bottom-0 left-0 w-full p-4">
+<h4 class="font-headline-lg-mobile text-sm mb-1">CYBER-GEISHA PROTOCOL</h4>
+<p class="font-technical-data text-[10px] text-on-surface-variant">EPISODE 01: THE RITUAL</p>
+</div>
+<div class="absolute top-2 right-2 flex gap-1">
+<span class="bg-primary text-on-primary text-[8px] font-bold px-1 py-0.5 rounded-sm">4K</span>
+</div>
+</div>
+<!-- Repeat Card 2 -->
+<div class="flex-shrink-0 w-64 md:w-80 aspect-video glass-panel relative group cursor-pointer overflow-hidden rounded-sm hover:scale-[1.02] transition-transform duration-300">
+<img class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" data-alt="A dark, atmospheric hallway in Neo-Tokyo illuminated by flickering holographic signs and pink neon light. The style is gritty cyberpunk with high-fidelity textures and cinematic lighting. Rain falls softly through the light beams, creating a sense of mystery and narrative depth within a futuristic urban setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWngKGxXtyS-jrzv0vS4xvPyecGGxt5_LqSRT81orXTdhz4skWhdBvn2scKJ3EzmyF4SFBfKgrzOdb6ozsP_Z8VjxRIO9MEcnJkK3gWqSmDJX61GHmtGYMYc-N4kmaSeUKTg2VFGKIvXYcR9iEwclSidxaVy3GVV-ukP0uOuQtW-J28SIWXNJh4iJRY00HfpePRK1IHb9S3MfgxEEn9VrtfMoRkF1vIo5Sw8N9VN45VYnI7yvx3WXlYBbBDHL_0l0vtZYK_60g3_n6"/>
+<div class="absolute bottom-0 left-0 w-full p-4">
+<h4 class="font-headline-lg-mobile text-sm mb-1">NEON YAKUZA NET</h4>
+<p class="font-technical-data text-[10px] text-on-surface-variant">EPISODE 04: INFECTED</p>
+</div>
+</div>
+<!-- Repeat Card 3 -->
+<div class="flex-shrink-0 w-64 md:w-80 aspect-video glass-panel relative group cursor-pointer overflow-hidden rounded-sm hover:scale-[1.02] transition-transform duration-300">
+<img class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" data-alt="Abstract digital landscape featuring glowing celestial blue nodes connected by vibrant magenta energy strands. The background is a deep matte black void, and the entire scene feels like a tactical HUD data visualization. High-fidelity backdrop blur and glassmorphism elements create a multi-layered sense of technical performance and cosmic scale." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDW_0E-q-YEtO42E-C0O_3XaLU6sxpXS1I8jztf-arXm7lC3txfroEsCaQc-mRcN8PicizlCjltoO6rIjoY6Mumyk7EGYBsFak7mCj5DnoDCHga7SLISk7nWgQxoDGqF1SvjJ3GdkmUxSuuzB4VnL1oFcxsWpAwgruD-NKDeHssBwWjN0gtGfheVIPXHiHVVr9NkD93r3qqcTq1P2r6q-zA4YKa15UjYvvyz-pU1TzUUl5ldG0_4y1ofxO4RjB6vSQcMXk2F3eIOsRB"/>
+<div class="absolute bottom-0 left-0 w-full p-4">
+<h4 class="font-headline-lg-mobile text-sm mb-1">VOID RUNNERS</h4>
+<p class="font-technical-data text-[10px] text-on-surface-variant">SEASON FINALE</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Content Row 2: VIDEOJUEGOS -->
+<section>
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline-lg-mobile md:font-headline-lg uppercase flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">sports_esports</span> VIDEOJUEGOS
+                    </h3>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+<!-- Game Cover -->
+<div class="aspect-[3/4] bg-surface-container rounded-sm overflow-hidden relative group cursor-pointer border border-outline-variant/30 hover:border-primary/50 transition-all">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Action-packed gaming illustration of a futuristic soldier in tactical armor with a celestial blue visor. The style is detailed digital concept art with dynamic lighting and explosive energy effects in magenta and teal. The scene is set in a high-tech combat environment with HUD overlays framing the composition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVJkJAPNR_87VLtBQRhH-V9UffBG-pNEMURgN2ZSEy_aXVUzSsaAJ277UCU60JAbMnggEK3eBtnUZqaczlhAVaID1CWiCuPd655NnueNutW3YM8J4aMiRb8dTSMtQmOHm1qlCRiajm6O4ZNofF5D90JD9s0WmH37KKsJX7PCqRwotHWUU8Rv1qtCM5_6A76pkYAykuOxrXmLHoOdqh-aBRNhzkRGhtQP0bwI6dvYt02h5z7DaJzNXvfszsJzwEPgN4O2SCjxTUVMk0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+<div class="absolute bottom-0 p-3 w-full">
+<h4 class="font-label-caps text-xs mb-1">STRIKE TEAM: ZERO</h4>
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed animate-pulse"></span>
+<span class="font-technical-data text-[8px] text-on-surface-variant uppercase">14.2k Online</span>
+</div>
+</div>
+</div>
+<!-- Repeat for more games -->
+<div class="aspect-[3/4] bg-surface-container rounded-sm overflow-hidden relative group cursor-pointer border border-outline-variant/30 hover:border-primary/50 transition-all">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A tactical top-down view of a futuristic city map rendered in glowing blue wireframe. High-fidelity HUD elements like targeting reticles and data streams are layered over the scene, creating a pro command center aesthetic. The palette is dominated by deep blacks and vibrant neon accents, emphasizing technical precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkHOiQqCas4QGPhK4f_6282ylgnxlOCSdgSrkSryr8L4jYLTsKr2gKgiQq8PH1LY-KDLkMTqQtRc39pCeowsAwZzkCCRETKPClOakIYvb6C93FtHrgks0SuwYHebmw74-MQCSw1U2S4wZmuH9-ciBE-Uls_yvUpaqGQGs6Q02cDdcfT8lOTthkuNTldTqLBuGiCDbus63v-FKA6lehkwVjcxxKlr6SzReJL3hCoSWnLoZ9coh1DmoJcAx4lEegI5iNYdTQTetmyBCG"/>
+<div class="absolute bottom-0 p-3 w-full">
+<h4 class="font-label-caps text-xs mb-1">NEO-COMMANDER</h4>
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed animate-pulse"></span>
+<span class="font-technical-data text-[8px] text-on-surface-variant uppercase">8.9k Online</span>
+</div>
+</div>
+</div>
+<div class="aspect-[3/4] bg-surface-container rounded-sm overflow-hidden relative group cursor-pointer border border-outline-variant/30 hover:border-primary/50 transition-all">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A stylized portrait of a cyborg character with intricate mechanical implants glowing with magenta light. The background is a minimalist matte black space. The character has a determined expression, and the artwork uses high-contrast cinematic lighting to highlight the metallic textures and energy flows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzCMixhwEUuFYJVEq_ahAX29xl-LzfYJd_6ihDsx2NlEmADaeEfSVSy0td9xImwgWe3k8nLw0aDWRuLi-lL_bcDhMdxAVv3eHI8jH_ZlDY_VMQI95frZueOBCqolaFnGUIt1rBY-HMvVnRIc2h9cS3PRLvdiO6VrVvfhQZHlBIFrIDDCYRqd-PsxzBY1uTz2mmLODOgl1Lw0JaESsd3wfJpcHXlMQx4zNY5QyR2RK9fCPlwxeNOEt0IGTCyXuLenCZcJhtSIgRmmPl"/>
+<div class="absolute bottom-0 p-3 w-full">
+<h4 class="font-label-caps text-xs mb-1">VAMPIRE GEISHA</h4>
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed animate-pulse"></span>
+<span class="font-technical-data text-[8px] text-on-surface-variant uppercase">22k Online</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Content Row 3: CREADORES (UGC) -->
+<section>
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline-lg-mobile md:font-headline-lg uppercase flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">auto_awesome</span> CREADORES (UGC)
+                    </h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- IA GENERATIVA -->
+<div class="h-64 rounded-xl relative overflow-hidden group cursor-pointer neon-border-green transition-all hover:scale-[1.01]">
+<img alt="AI Generator BG" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaub35Z-TcAqwQiy6e6ImRDDjs16Bhg2WKocRHbqZt-vRAcbLJ58S1oc57R6PvtMdjixDC_l6NxVzED-QTV1ul0Sti93NqJeWbUKvbxHPJOSf-8wGvEMt8Ac-9qthHfIX2JbI8yTV-dHD-0SVM4IEkQOTPgSCe9ijl0IpnHVOt1Ttw5-4t4lofKzqBljDkTBC7fWmqg74yqNitWNHpiOKTIwOqNKNMW_6GANXkDnd9FbBQXHZjfvijnnNcBQw2rPJAM7vd880cmaoT"/>
+<div class="absolute inset-0 bg-gradient-to-br from-[#15ffd1]/20 to-transparent"></div>
+<div class="absolute inset-0 p-8 flex flex-col justify-end">
+<h4 class="font-display-xl text-secondary text-2xl uppercase mb-2">IA GENERATIVA</h4>
+<p class="font-technical-data text-xs text-secondary-fixed uppercase tracking-widest">Crear desde el alma</p>
+</div>
+</div>
+<!-- CONSTRUCTOR DE HISTORIAS -->
+<div class="h-64 rounded-xl relative overflow-hidden group cursor-pointer neon-border-blue transition-all hover:scale-[1.01]">
+<img class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity" data-alt="A complex network of interconnected glass panels and glowing fiber-optic cables representing a neural narrative engine. The style is tactical and data-rich, with a primary celestial blue color palette and sharp neon accents. The mood is one of infinite creative potential and technical mastery within a digital command center." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8kJ2dFS8DToUIE5vQxeDHvtaOOfjEiseHDizep8kxXVTzdk7VSvANB2bwStLp_TJANoalcpuBqbzfLGJn2FxF0M1tNdufczs2hv9KKuxh6CmT5Mw6vOK6TxsXULWz8w23BKsaWQSPlOv0WAjyODWY9hkfiUXubdahTUqVf_rjWfBzsA3J6jKrcDKkE2uedQyGzexXjhaQgm-6Q6jQi8l_WxbE3syTIUjCT4aj824WihBPAcz8Xm6oLTSPPs7MtezAmTBDlG-82uvq"/>
+<div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent"></div>
+<div class="absolute inset-0 p-8 flex flex-col justify-end">
+<h4 class="font-display-xl text-secondary text-2xl uppercase mb-2">CONSTRUCTOR DE HISTORIAS</h4>
+<p class="font-technical-data text-xs text-primary uppercase tracking-widest">Nodos Narrativos Activos</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Content Row 4: UNIVERSOS NARRATIVOS -->
+<section class="pb-24 lg:pb-12">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline-lg-mobile md:font-headline-lg uppercase flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">hub</span> UNIVERSOS NARRATIVOS
+                    </h3>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-gutter">
+<!-- MLH -->
+<div class="aspect-video glass-panel relative p-8 group cursor-pointer overflow-hidden border-b-4 border-tertiary">
+<div class="relative z-10">
+<h4 class="font-display-xl text-secondary text-4xl mb-4 tracking-tighter">MLH</h4>
+<p class="font-technical-data text-on-surface-variant max-w-xs mb-8">MULTIVERSAL LEGACY HUB: Accede a los archivos de clanes milenarios.</p>
+<span class="font-label-caps text-tertiary border border-tertiary/40 px-4 py-2 hover:bg-tertiary hover:text-on-tertiary transition-colors">EXPLORAR ARCHIVOS</span>
+</div>
+<div class="absolute right-0 top-0 w-1/2 h-full opacity-20 group-hover:opacity-40 transition-opacity">
+<img alt="MLH Abstract" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBUqThPypkJttQzoHqnDvUE1mTFJuYgGyFfI1GF7l4kWHWFBhZBLm-AO1jkHhcTfQwT070NokmNvO8LCZxwU0GLAmXqGyVY-d1FVTEMema4LZ-eIMokolDkhhEua-aiCmj6thCH8Z2OlTU9pt8tMY4BujsC42aZZHva7Oo0TXGggZb0xwtD2KcfIxqAch_desPP-JN2UnKzAZ4XE4efhYuPhMuhWLP0qWcGTzP2EkYoLI0VJ2oSYvqVGQ7LpTTzdjO5DA3ZNRHEYeR"/>
+</div>
+</div>
+<!-- WHITE BROTHERHOOD -->
+<div class="aspect-video glass-panel relative p-8 group cursor-pointer overflow-hidden border-b-4 border-primary">
+<div class="relative z-10">
+<h4 class="font-display-xl text-secondary text-4xl mb-4 tracking-tighter">WHITE BROTHERHOOD</h4>
+<p class="font-technical-data text-primary max-w-xs mb-8 uppercase text-xs tracking-widest">HORROR CÓSMICO / CONSPIRACIÓN</p>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="play_circle">play_circle</span>
+<div class="flex flex-col justify-center">
+<span class="font-label-caps text-xs">VER TRAILER</span>
+<span class="font-technical-data text-[10px] text-on-surface-variant">2.4M VISTAS</span>
+</div>
+</div>
+</div>
+<div class="absolute inset-0 opacity-10">
+<img alt="White Brotherhood BG" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuIyFQwynUxOPoXmY3-pLtX6mVxqtueSNUJUenBnglKVLGC_XCX-nATtcodMmUJFrVhsEryWEiMyWKJPEK9fBrV_aZf0EgY3emVxqKLEFMVLK0zkWormC1XXfggl9duzJaywgaJrqApCWllb8S86FgcZB1Zq9OyT_j2l9J_hW21wfedAzCDFmJDGk29aq_07AtTpvjfz29Yq6hrBKVT4kDjjiLmw7lZVdq7BH4lSEwj-fbdh91l3l7HpynBXH3DBfn-RNvOkT9E3Pk"/>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer -->
+<footer class="hidden lg:flex w-full mt-auto justify-between px-margin-desktop items-center h-16 bg-surface-dim border-t border-outline-variant/10">
+<span class="font-technical-data text-label-caps text-on-surface-variant">© 3000 MAGNOP VS TERMINAL</span>
+<div class="flex gap-8">
+<span class="font-technical-data text-label-caps text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Quantum Latency: 0.02ms</span>
+<span class="font-technical-data text-label-caps text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Network: Multi-Node Stable</span>
+<span class="font-technical-data text-label-caps text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Privacy Protocol</span>
+</div>
+</footer>
+</main>
+<!-- BottomNavBar Shell (Mobile Only) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 px-4 pb-safe bg-surface-container-high/95 backdrop-blur-lg border-t border-tertiary-container/30 shadow-[0_-4px_20px_rgba(21,255,209,0.1)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-secondary-fixed fill-weight active:scale-110 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">hub</span>
+<span class="font-label-caps text-[10px] mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-white active:scale-110 transition-transform" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps text-[10px] mt-1">Library</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-white active:scale-110 transition-transform" href="#">
+<span class="material-symbols-outlined">forum</span>
+<span class="font-label-caps text-[10px] mt-1">Social</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-white active:scale-110 transition-transform" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-caps text-[10px] mt-1">Profile</span>
+</a>
+</nav>
+<!-- Floating Action Button Contextual (Chat/Assistant) -->
+<button class="fixed bottom-24 right-6 lg:bottom-10 lg:right-10 w-16 h-16 bg-secondary-container text-on-secondary-container rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95 z-50">
+<span class="material-symbols-outlined text-3xl">chat_bubble</span>
+</button>
+<script>
+        // Micro-interaction for cards
+        const cards = document.querySelectorAll('.group');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                const glow = card.querySelector('.absolute.inset-0');
+                if (glow) glow.style.opacity = '0.4';
+            });
+            card.addEventListener('mouseleave', () => {
+                const glow = card.querySelector('.absolute.inset-0');
+                if (glow) glow.style.opacity = '0.2';
+            });
+        });
+
+        // Atmospheric parallax on scroll for hero
+        window.addEventListener('scroll', () => {
+            const heroImg = document.querySelector('section img');
+            const scrolled = window.pageYOffset;
+            if (heroImg) {
+                heroImg.style.transform = `translateY(${scrolled * 0.4}px)`;
+            }
+        });
+    </script>
+</body></html>

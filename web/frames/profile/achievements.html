@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS | Logros Globales</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;700&amp;family=Sora:wght@400;600;800&amp;family=Hanken+Grotesk:wght@400;600&amp;family=Space+Mono&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-primary-fixed-variant": "#003fa4",
+                "on-error-container": "#ffdad6",
+                "on-secondary-fixed": "#2c0051",
+                "surface-tint": "#b3c5ff",
+                "surface-container-highest": "#343535",
+                "surface-variant": "#343535",
+                "error": "#ffb4ab",
+                "surface-container-low": "#1b1c1c",
+                "on-tertiary-fixed-variant": "#810081",
+                "tertiary-fixed-dim": "#ffabf3",
+                "tertiary-fixed": "#ffd7f5",
+                "inverse-on-surface": "#303030",
+                "primary": "#b3c5ff",
+                "surface-container-lowest": "#0e0e0e",
+                "on-tertiary": "#5b005b",
+                "on-secondary-fixed-variant": "#6700b5",
+                "outline": "#8c90a1",
+                "secondary-fixed": "#efdbff",
+                "on-tertiary-container": "#fff6f9",
+                "secondary-fixed-dim": "#dcb8ff",
+                "on-primary-container": "#f8f7ff",
+                "inverse-primary": "#0054d6",
+                "primary-container": "#0066ff",
+                "on-secondary": "#480081",
+                "inverse-surface": "#e4e2e2",
+                "primary-fixed": "#dae1ff",
+                "on-primary-fixed": "#001849",
+                "on-primary": "#002b75",
+                "surface-dim": "#131314",
+                "surface-container-high": "#2a2a2a",
+                "secondary-container": "#7701d0",
+                "secondary": "#dcb8ff",
+                "on-background": "#e4e2e2",
+                "on-error": "#690005",
+                "tertiary": "#ffabf3",
+                "surface-container": "#1f2020",
+                "surface-bright": "#393939",
+                "outline-variant": "#424656",
+                "primary-fixed-dim": "#b3c5ff",
+                "tertiary-container": "#ca00ca",
+                "surface": "#131314",
+                "on-tertiary-fixed": "#380038",
+                "on-surface-variant": "#c2c6d8",
+                "on-surface": "#e4e2e2",
+                "on-secondary-container": "#dcb7ff",
+                "error-container": "#93000a",
+                "background": "#131314",
+                "glass-panel": "rgba(19, 19, 20, 0.7)",
+                "glass-border": "rgba(179, 197, 255, 0.2)"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+            },
+            "spacing": {
+                "unit": "4px",
+                "node-gap": "24px",
+                "gutter-desktop": "48px",
+                "component-gap": "32px",
+                "container-max": "640px"
+            },
+            "fontFamily": {
+                "headline-lg": ["Sora", "sans-serif"],
+                "display-xl": ["Sora", "sans-serif"],
+                "body-md": ["Hanken Grotesk", "sans-serif"],
+                "code-sm": ["Space Mono", "monospace"],
+                "audiowide": ["Audiowide", "cursive"],
+                "orbitron": ["Orbitron", "sans-serif"]
+            },
+            "fontSize": {
+                "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                "display-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                "label-nav": ["12px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "600"}],
+                "label-tiny": ["10px", {"lineHeight": "12px", "letterSpacing": "0.15em", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-color: #050505;
+            background-image: 
+                linear-gradient(rgba(0, 102, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 102, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            overflow-x: hidden;
+        }
+
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 99;
+            background: linear-gradient(0deg, rgba(179, 197, 255, 0) 0%, rgba(179, 197, 255, 0.05) 50%, rgba(179, 197, 255, 0) 100%);
+            opacity: 0.1;
+            position: fixed;
+            pointer-events: none;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            from { top: -100px; }
+            to { top: 100%; }
+        }
+
+        .glitch-border {
+            position: relative;
+        }
+        .glitch-border::before, .glitch-border::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 1px;
+            background: #b3c5ff;
+            box-shadow: 0 0 10px #0066ff;
+        }
+        .glitch-border::before { top: -1px; left: -1px; }
+        .glitch-border::after { bottom: -1px; right: -1px; }
+
+        .luminous-glow {
+            box-shadow: 0 0 25px rgba(0, 102, 255, 0.15), inset 0 0 15px rgba(0, 102, 255, 0.05);
+        }
+
+        .hover-magenta:hover {
+            border-color: #ffabf3 !important;
+            box-shadow: 0 0 20px rgba(255, 171, 243, 0.3) !important;
+            transform: translateY(-2px) scale(1.01);
+        }
+
+        .matrix-bg {
+            mask-image: linear-gradient(to bottom, transparent, black, transparent);
+            opacity: 0.05;
+        }
+        
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="text-on-background font-body-md selection:bg-primary selection:text-on-primary">
+<div class="scanline"></div>
+<!-- Top Navigation Shell -->
+<nav class="fixed top-0 w-full h-16 bg-glass-panel backdrop-blur-xl border-b border-glass-border shadow-[0_0_20px_rgba(152,203,255,0.15)] flex justify-between items-center px-gutter-desktop z-50">
+<div class="flex items-center gap-4">
+<span class="font-headline-lg font-bold tracking-tighter text-primary">MagnopVS</span>
+<div class="hidden md:flex items-center gap-8 ml-12">
+<a class="font-label-nav text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Matrix</a>
+<a class="font-label-nav text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Nexus</a>
+<a class="font-label-nav text-primary border-b-2 border-primary pb-1" href="#">Archive</a>
+<a class="font-label-nav text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Marketplace</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative group hidden md:block">
+<input class="bg-transparent border-b border-outline-variant focus:border-tertiary focus:ring-0 text-code-sm uppercase px-2 py-1 w-48 transition-all" placeholder="QUERY ARCHIVE..." type="text"/>
+<span class="absolute top-[-14px] right-0 text-[8px] font-code-sm text-tertiary opacity-0 group-focus-within:opacity-100 transition-opacity">SCANNIN_LOGS...</span>
+</div>
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95 transition-transform" data-icon="account_circle">account_circle</span>
+</div>
+</nav>
+<!-- Side Navigation Shell -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-20 hover:w-64 bg-glass-panel backdrop-blur-xl border-r border-glass-border shadow-[0_0_20px_rgba(152,203,255,0.1)] transition-all duration-300 flex flex-col items-center py-component-gap z-40 group">
+<div class="flex flex-col gap-8 w-full px-4">
+<div class="flex items-center gap-4 group-hover:px-4">
+<div class="w-12 h-12 rounded-full border border-primary p-1 bg-surface-container">
+<img class="w-full h-full object-cover rounded-full" data-alt="A futuristic circular avatar of a cybernetic warrior with glowing blue circuit lines on their face, wearing a sleek matte black tactical helmet, cinematic lighting with magenta rim light, high fidelity digital art style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWMuKNWc-wmWleVesx8eQnsah7yj1LFtRpaGf8H_hz1goJ7225zjjLFPu7mCYZeNSAufPVtG9goHjtQpwUwxq8caXHjGyKBuwiS3TPARWIx6hOlN4GoYZn2lFWlp16x6nOVmSbmNDTapwAA8oSyANLIWrvi8gEsQP8Ii6E6-jutKufljqlzXwoX2MV2V5WGcH6yu7zJ2IyKKrKoTsbMTsd7LNuYUG8F77fkut-_iEW1l8jzzW4kr5v8PvBhh0DIgt9SCRMfLCJFfSG"/>
+</div>
+<div class="hidden group-hover:block transition-all overflow-hidden whitespace-nowrap">
+<div class="font-headline-lg text-primary text-sm uppercase">OP-V1</div>
+<div class="text-[10px] text-tertiary font-code-sm">[ ACTIVE SESSION ]</div>
+</div>
+</div>
+<div class="flex flex-col gap-2 mt-4">
+<div class="flex items-center gap-4 p-3 rounded hover:bg-surface-container-high hover:text-primary text-on-surface-variant transition-all cursor-pointer">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="hidden group-hover:block font-label-nav">Telemetry</span>
+</div>
+<div class="flex items-center gap-4 p-3 rounded hover:bg-surface-container-high hover:text-primary text-on-surface-variant transition-all cursor-pointer">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span class="hidden group-hover:block font-label-nav">Nodes</span>
+</div>
+<div class="flex items-center gap-4 p-3 rounded bg-primary-fixed-dim/10 text-primary transition-all cursor-pointer">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="hidden group-hover:block font-label-nav">Mission</span>
+</div>
+<div class="flex items-center gap-4 p-3 rounded hover:bg-surface-container-high hover:text-primary text-on-surface-variant transition-all cursor-pointer">
+<span class="material-symbols-outlined" data-icon="account_box">account_box</span>
+<span class="hidden group-hover:block font-label-nav">Operator</span>
+</div>
+</div>
+</div>
+<div class="mt-auto w-full px-4 flex flex-col gap-2 border-t border-glass-border pt-4">
+<button class="hidden group-hover:flex items-center justify-center bg-primary-container text-on-primary-container py-2 rounded font-orbitron text-xs tracking-widest hover:brightness-125 transition-all mb-4">
+                SYNC MATRIX
+            </button>
+<div class="flex items-center gap-4 p-3 text-outline hover:text-tertiary cursor-pointer">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="hidden group-hover:block font-label-nav">Settings</span>
+</div>
+<div class="flex items-center gap-4 p-3 text-outline hover:text-tertiary cursor-pointer">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="hidden group-hover:block font-label-nav">Support</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-20 mt-16 p-component-gap min-h-screen">
+<div class="max-w-[1440px] mx-auto space-y-12 pb-24">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row justify-between items-end gap-6 border-b border-glass-border pb-8">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="text-tertiary font-code-sm text-label-tiny px-2 py-0.5 border border-tertiary/30 rounded-sm">TERMINAL // ACHIEVEMENTS</span>
+<span class="w-12 h-[1px] bg-outline-variant"></span>
+</div>
+<h1 class="font-audiowide text-5xl text-primary tracking-wider uppercase">Logros Globales</h1>
+<p class="font-orbitron text-on-surface-variant mt-2 tracking-widest text-sm">QUANTUM SYNCHRONIZATION: 88% COMPLETE</p>
+</div>
+<div class="flex gap-4">
+<div class="text-right">
+<div class="text-[10px] text-outline font-code-sm uppercase">Total MGC Earned</div>
+<div class="font-audiowide text-2xl text-tertiary">42,850</div>
+</div>
+<div class="w-px h-10 bg-glass-border"></div>
+<div class="text-right">
+<div class="text-[10px] text-outline font-code-sm uppercase">Prestige Level</div>
+<div class="font-audiowide text-2xl text-primary">IX-OMEGA</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Prestige Rank & Recent -->
+<div class="lg:col-span-4 space-y-8">
+<!-- Prestige Rank Section -->
+<section class="bg-glass-panel backdrop-blur-md rounded-lg p-8 border border-glass-border glitch-border luminous-glow relative overflow-hidden group">
+<div class="absolute inset-0 matrix-bg pointer-events-none"></div>
+<div class="relative z-10 flex flex-col items-center">
+<div class="font-orbitron text-xs text-tertiary tracking-[0.3em] mb-6 uppercase">Current Standing</div>
+<div class="w-64 h-64 relative">
+<div class="absolute inset-0 bg-primary/10 blur-3xl rounded-full"></div>
+<img class="w-full h-full object-contain drop-shadow-[0_0_40px_#0066ff] animate-pulse" data-alt="A magnificent holographic medal centered on the screen, resembling a crown made of violet and cyan light threads, suspended in a dark void with floating data fragments, multiversal legend aesthetic, high gloss 3D render, celestial blue glow." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmFAG-ZkolMj-9fHGKn_bHuEPH41JEk6PDUQFoxY2o7Z7sPxOrzMSxiPogefc7sbKl2ukGseSNEFV9ZnqKFA_WBUiWadpSwD7YNxXxpjyU94_rbXzlSabqK6fSj9q6KtWdD5KrszE-agILUH0Q5Xe4ggS-hmAgW5t-l4VsJDgcdE_g8UFvhnrkaRQYP4cgM83YIpWeT5Sm_XK7Jnwl0JgLCOyrndVRXMlg0jJhQT8uLp3DqF3jkP03QK37p-kr9-SB1NbpcjD_mjsb"/>
+</div>
+<div class="mt-6 text-center">
+<h3 class="font-audiowide text-2xl text-primary mb-1">MULTIVERSAL LEGEND</h3>
+<p class="text-xs text-outline font-orbitron tracking-widest uppercase">Ranked #12 Global Node</p>
+</div>
+<div class="w-full mt-8 bg-surface-container-low rounded-full h-1 overflow-hidden border border-glass-border">
+<div class="bg-gradient-to-r from-primary to-tertiary h-full w-[92%] shadow-[0_0_10px_#b3c5ff]"></div>
+</div>
+<div class="flex justify-between w-full mt-2 font-code-sm text-[10px]">
+<span class="text-on-surface-variant">NEXT: VOID MASTER</span>
+<span class="text-tertiary">92.4%</span>
+</div>
+</div>
+</section>
+<!-- Hall of Heroes Preview -->
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h4 class="font-orbitron text-xs text-primary tracking-widest uppercase">Hall of Heroes</h4>
+<span class="text-[10px] text-outline font-code-sm">RECENT MILESTONES</span>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-4 p-4 bg-surface-container rounded-lg border-l-2 border-primary hover:translate-x-2 transition-transform cursor-pointer">
+<div class="w-10 h-10 shrink-0 bg-surface-bright flex items-center justify-center rounded">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="military_tech">military_tech</span>
+</div>
+<div>
+<div class="font-audiowide text-xs text-on-surface">CYBER-TSAR ASCENSION</div>
+<div class="text-[10px] text-outline">04.22.2124 // 23:12</div>
+</div>
+</div>
+<div class="flex items-center gap-4 p-4 bg-surface-container rounded-lg border-l-2 border-tertiary hover:translate-x-2 transition-transform cursor-pointer">
+<div class="w-10 h-10 shrink-0 bg-surface-bright flex items-center justify-center rounded">
+<span class="material-symbols-outlined text-tertiary text-xl" data-icon="star">star</span>
+</div>
+<div>
+<div class="font-audiowide text-xs text-on-surface">GALAXY WEAVER UNLOCK</div>
+<div class="text-[10px] text-outline">04.19.2124 // 09:45</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Achievements Grid -->
+<div class="lg:col-span-8 space-y-12">
+<!-- Categories -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<button class="bg-primary/10 border border-primary/40 p-3 rounded-lg text-primary font-orbitron text-[10px] tracking-widest uppercase hover:bg-primary/20 transition-all">Saga Discoveries</button>
+<button class="bg-surface-container border border-outline-variant p-3 rounded-lg text-outline font-orbitron text-[10px] tracking-widest uppercase hover:text-primary hover:border-primary transition-all">Combat Prowess</button>
+<button class="bg-surface-container border border-outline-variant p-3 rounded-lg text-outline font-orbitron text-[10px] tracking-widest uppercase hover:text-primary hover:border-primary transition-all">Social Resonance</button>
+<button class="bg-surface-container border border-outline-variant p-3 rounded-lg text-outline font-orbitron text-[10px] tracking-widest uppercase hover:text-primary hover:border-primary transition-all">Artifacts</button>
+</div>
+<!-- Achievement Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Card 1 -->
+<div class="bg-glass-panel border border-glass-border p-6 rounded-lg hover-magenta group transition-all">
+<div class="flex gap-4">
+<div class="w-20 h-20 bg-surface-container-high rounded border border-glass-border p-2 flex items-center justify-center shrink-0">
+<img class="w-full h-full object-contain" data-alt="A detailed digital icon of a quantum voyager emblem, featuring a glowing celestial sphere with orbit rings in vibrant neon blue and purple, sharp vector style with digital artifacts, high technology cyberpunk design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBprZPB89xCosl8lwOHr8TMAwz-jMQ91duY-riLCW4qvAHHrHl1Aqs0T0gxXaT5q9n7TD9ji0iFBqz2xrFNT0q-gqjwylDckoNtuJC_JoLhYJB8HVMjz4l7K9erNWim1u-Ek7hr8NWFfC1BnB0xkOKMPtLtpY9yXPgIqj3uKsCBWVUK2Nm0KK3nKy6ps59iEoCOuPb7_BZ2V_S8mnc0waHH5Zrl9g0xdSwn_xQXAB4pAOAo1AAW-ZEp9M-0k64cxFmaQ1ScyPaka0Ge"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h5 class="font-audiowide text-primary text-sm tracking-wide">QUANTUM VOYAGER</h5>
+<span class="text-[10px] text-tertiary font-code-sm">COMPLETED</span>
+</div>
+<p class="font-orbitron text-[11px] text-on-surface-variant mt-2 leading-relaxed uppercase">Successfully navigated 50 unstable paradox zones in the Nexus Core.</p>
+<div class="mt-4 flex items-center gap-3">
+<div class="px-2 py-1 bg-surface-container-lowest border border-glass-border rounded text-[10px] font-code-sm text-primary">+500 MGC</div>
+<div class="px-2 py-1 bg-surface-container-lowest border border-tertiary/20 rounded text-[10px] font-code-sm text-tertiary">RARE SHARD</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2 (In Progress) -->
+<div class="bg-glass-panel border border-glass-border p-6 rounded-lg hover-magenta group transition-all opacity-80">
+<div class="flex gap-4">
+<div class="w-20 h-20 bg-surface-container-high rounded border border-glass-border p-2 flex items-center justify-center shrink-0 grayscale group-hover:grayscale-0 transition-all">
+<img class="w-full h-full object-contain" data-alt="Digital badge of a system breaker, featuring a glowing skull composed of intricate circuit patterns and glitching neon magenta lines, set against a dark brushed metal background, high-fidelity game achievement art." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDV_tmGdWnT67YWUQlkvd38Btn_td7ab8HaK6KLydjoa82-oPoLQ9dyNAwDjeWFPqzonjaxXgSKfMnwGf-yGbOKGWOs2pAFgq7eUXPI03A4LufcoBaQJfvj0wYMC4YCfUujZ0460osgCf1mOTbiYyvOAJozDQnmAwead6K9nsJHwLGR4SFCkP_IDhgE_0y9KAi-MhFmJd5JUB1GCxNTBCxBe2TKYZrErxnO5QsqmZhZw_diGs23lVfCyEgZx6XBIbDapzW4Ahls1ePl"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h5 class="font-audiowide text-on-surface-variant group-hover:text-primary text-sm tracking-wide transition-colors">SYSTEM BREAKER</h5>
+<span class="text-[10px] text-outline font-code-sm">45/100</span>
+</div>
+<p class="font-orbitron text-[11px] text-outline mt-2 leading-relaxed uppercase">Disable the security mainframe of the Void Sanctum without detection.</p>
+<div class="mt-4 w-full bg-surface-container-lowest h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[45%]"></div>
+</div>
+<div class="mt-3 flex items-center gap-3">
+<div class="px-2 py-1 bg-surface-container-lowest border border-glass-border rounded text-[10px] font-code-sm text-outline">+1,200 MGC</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-glass-panel border border-glass-border p-6 rounded-lg hover-magenta group transition-all">
+<div class="flex gap-4">
+<div class="w-20 h-20 bg-surface-container-high rounded border border-glass-border p-2 flex items-center justify-center shrink-0">
+<img class="w-full h-full object-contain" data-alt="Holographic icon of a data architect emblem, showing a glowing 3D isometric cube composed of layered data matrices in electric blue and magenta, laser-etched precision details, futuristic interface style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkRUk4VLoq5-GDvzG0wExkJsPv2Kh2hqaMwsdZ5ET90C95qcL8pcZ0I19EOe9IVbHhxQAjhJkCForW6WYrewNsvDnKaRqi05PXh6MosiNdDIvrd8E_P19oOVQHLtc6RRvmJMq0DLzKMTc6S4je7GEYOLoKBSRyvEMB6O0c_j_BpQfQQOcmu1MqgFzFRzWFC-G2lhfMHBgIOm1PVxo0AM1sQ14BhnU-993J6-5TzinwcQ27yvRLueuPxzGcy9QuY6LUi4kZhj46Dsfo"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h5 class="font-audiowide text-primary text-sm tracking-wide">DATA ARCHITECT</h5>
+<span class="text-[10px] text-tertiary font-code-sm">COMPLETED</span>
+</div>
+<p class="font-orbitron text-[11px] text-on-surface-variant mt-2 leading-relaxed uppercase">Organize and decodify 10,000 fragmented neural packets from the Archive.</p>
+<div class="mt-4 flex items-center gap-3">
+<div class="px-2 py-1 bg-surface-container-lowest border border-glass-border rounded text-[10px] font-code-sm text-primary">+800 MGC</div>
+<div class="px-2 py-1 bg-surface-container-lowest border border-primary/20 rounded text-[10px] font-code-sm text-primary">LEGENDARY BLUEPRINT</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-glass-panel border border-glass-border p-6 rounded-lg hover-magenta group transition-all">
+<div class="flex gap-4">
+<div class="w-20 h-20 bg-surface-container-high rounded border border-glass-border p-2 flex items-center justify-center shrink-0">
+<img class="w-full h-full object-contain" data-alt="Icon of a cosmic warrior badge, featuring a flaming neon sword made of concentrated plasma energy, piercing a dark digital portal, vibrant pink and cyan glowing sparks, tactical military futuristic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDMn_XqBON9Xi0iRfm33ZlOwUID7rXeb-jG2PcNEjOAWFbet7c6E0EnI_IZi0Pm2IvN3jHbt6Lh6qHWnCeyFnOurc-CuTkBFQLDqByu682zvVMRSMwqdR5bJqmxV9j0PtpzWyZwBBscLEp7VTxGRML9yRo6rfX5vIbQ9_gSu4PzWbeO0j2ppe19VRjbgWqFngPQfVfxixQzEEuNcosCVfBMmwAn1SYkYZ2zfwqjYLRj8CRarFrTq2EIISTWCAnOEIlmati6pPz1Tt6"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h5 class="font-audiowide text-primary text-sm tracking-wide">COSMIC WARRIOR</h5>
+<span class="text-[10px] text-tertiary font-code-sm">COMPLETED</span>
+</div>
+<p class="font-orbitron text-[11px] text-on-surface-variant mt-2 leading-relaxed uppercase">Defeat 5 high-ranking sentinels in a single planetary deployment.</p>
+<div class="mt-4 flex items-center gap-3">
+<div class="px-2 py-1 bg-surface-container-lowest border border-glass-border rounded text-[10px] font-code-sm text-primary">+2,500 MGC</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 5 (Rare) -->
+<div class="bg-surface-container-high border border-tertiary/40 p-6 rounded-lg hover-magenta group transition-all col-span-1 md:col-span-2 relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-tertiary/10 blur-3xl"></div>
+<div class="flex flex-col md:flex-row gap-6">
+<div class="w-full md:w-32 h-32 bg-surface-bright rounded border border-tertiary/30 p-2 flex items-center justify-center shrink-0 shadow-[0_0_20px_rgba(255,171,243,0.2)]">
+<img class="w-full h-full object-contain" data-alt="Grand achievement icon of a neural link, showing a human brain glowing with millions of connected nodes and firing electric pulses in violet and cyan, detailed neuro-mesh visual, epic celestial scale." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBByFANykpCxIr06eLt2pNOgQJTB1Tc_1j_Qzusps62pPJ55xOelyKE7sDPOrfQ7pumCqaqtgiXzPSG0j5bHIjji_Oh8NfA94MgeujXezcheWF1PTLU4m7A2SKrlV318YpKsDXIqoeehfFW_BSlAT7Js4_iuwhdULnL3Tchd9iYEnbcXkiRcmV35MeEpSS_XR1_A0R84T4JLZrvdjwY4pr69fZxuKbgSGb4ox1nRl0MEli5gqCLv5DEo0M90h4baeEwpZR5dYGBlQ2O"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h5 class="font-audiowide text-tertiary text-lg tracking-widest uppercase">ULTIMATE NEURAL LINK</h5>
+<div class="text-[8px] font-code-sm text-outline tracking-[0.4em] mt-1 uppercase">Achievement Class: Singularity</div>
+</div>
+<div class="bg-tertiary text-on-tertiary px-3 py-1 rounded text-[10px] font-orbitron font-bold">LEGENDARY</div>
+</div>
+<p class="font-orbitron text-[12px] text-on-surface-variant mt-4 leading-relaxed uppercase">Forge a perfect synchronization with the global hive mind across all sectors.</p>
+<div class="mt-6 flex flex-wrap items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="token">token</span>
+<span class="text-xs font-audiowide text-primary">15,000 MGC</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-sm" data-icon="workspace_premium">workspace_premium</span>
+<span class="text-xs font-audiowide text-tertiary">OMEGA ACCESS KEY</span>
+</div>
+<div class="ml-auto flex items-center gap-2 text-outline">
+<span class="material-symbols-outlined text-xs" data-icon="groups">groups</span>
+<span class="text-[10px] font-code-sm">OWNED BY 0.1% PLAYERS</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- System Footer Shell -->
+<footer class="fixed bottom-0 w-full h-8 bg-surface-container-lowest border-t border-glass-border flex justify-between items-center px-gutter-desktop z-50 overflow-hidden">
+<div class="flex items-center gap-6">
+<span class="font-label-tiny text-on-surface font-bold">SYSTEM STATUS: NOMINAL</span>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="font-label-tiny text-outline uppercase tracking-widest">Latency: 12ms</span>
+</div>
+<span class="font-label-tiny text-outline uppercase tracking-widest">Node: Alpha-7</span>
+</div>
+<div class="flex gap-8 items-center">
+<a class="font-label-tiny text-outline hover:text-tertiary transition-opacity" href="#">Protocol</a>
+<a class="font-label-tiny text-outline hover:text-tertiary transition-opacity" href="#">Security</a>
+<a class="font-label-tiny text-outline hover:text-tertiary transition-opacity" href="#">Contact</a>
+<div class="font-label-tiny text-outline uppercase tracking-widest border-l border-glass-border pl-6">
+                © MAGNOPVS_CORE_2124
+            </div>
+</div>
+</footer>
+<script>
+        // Micro-interaction for buttons
+        document.querySelectorAll('button, .cursor-pointer').forEach(el => {
+            el.addEventListener('mousedown', () => {
+                el.style.transform = 'scale(0.95)';
+            });
+            el.addEventListener('mouseup', () => {
+                el.style.transform = 'scale(1)';
+            });
+        });
+
+        // Ambient Glitch Effect Trigger
+        setInterval(() => {
+            const glitchCards = document.querySelectorAll('.glitch-border');
+            const randomCard = glitchCards[Math.floor(Math.random() * glitchCards.length)];
+            if(randomCard) {
+                randomCard.classList.add('translate-x-[1px]', 'brightness-125');
+                setTimeout(() => {
+                    randomCard.classList.remove('translate-x-[1px]', 'brightness-125');
+                }, 100);
+            }
+        }, 3000);
+    </script>
+</body></html>

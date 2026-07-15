@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOP_VS | Multiverse Visor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;700;900&amp;family=Space+Mono&amp;family=Sora:wght@400;600;800&amp;family=Hanken+Grotesk:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-error": "#690005",
+                "surface-container-high": "#2a2a2a",
+                "secondary-container": "#7701d0",
+                "secondary": "#dcb8ff",
+                "on-background": "#e4e2e2",
+                "surface-dim": "#131314",
+                "on-primary": "#002b75",
+                "on-primary-fixed": "#001849",
+                "primary-fixed": "#dae1ff",
+                "inverse-surface": "#e4e2e2",
+                "primary-container": "#0066ff",
+                "on-secondary": "#480081",
+                "on-secondary-container": "#dcb7ff",
+                "error-container": "#93000a",
+                "background": "#050505",
+                "on-surface-variant": "#c2c6d8",
+                "on-surface": "#e4e2e2",
+                "on-tertiary-fixed": "#380038",
+                "tertiary-container": "#ca00ca",
+                "surface": "#131314",
+                "primary-fixed-dim": "#b3c5ff",
+                "surface-bright": "#393939",
+                "outline-variant": "#424656",
+                "tertiary": "#ffabf3",
+                "surface-container": "#1f2020",
+                "on-tertiary": "#5b005b",
+                "on-secondary-fixed-variant": "#6700b5",
+                "surface-container-lowest": "#0e0e0e",
+                "primary": "#b3c5ff",
+                "tertiary-fixed-dim": "#ffabf3",
+                "tertiary-fixed": "#ffd7f5",
+                "inverse-on-surface": "#303030",
+                "surface-container-low": "#1b1c1c",
+                "on-tertiary-fixed-variant": "#810081",
+                "error": "#ffb4ab",
+                "surface-variant": "#343535",
+                "surface-container-highest": "#343535",
+                "surface-tint": "#b3c5ff",
+                "on-secondary-fixed": "#2c0051",
+                "on-primary-fixed-variant": "#003fa4",
+                "on-error-container": "#ffdad6",
+                "on-primary-container": "#f8f7ff",
+                "inverse-primary": "#0054d6",
+                "secondary-fixed-dim": "#dcb8ff",
+                "on-tertiary-container": "#fff6f9",
+                "secondary-fixed": "#efdbff",
+                "outline": "#8c90a1"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+            },
+            "spacing": {
+                "container-max": "640px",
+                "unit": "4px",
+                "node-gap": "24px",
+                "gutter": "16px"
+            },
+            "fontFamily": {
+                "code-sm": ["Space Mono"],
+                "display-xl-mobile": ["Sora"],
+                "body-md": ["Hanken Grotesk"],
+                "headline-lg": ["Sora"],
+                "display-xl": ["Sora"],
+                "audiowide": ["Audiowide"],
+                "orbitron": ["Orbitron"]
+            },
+            "fontSize": {
+                "code-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "400"}],
+                "display-xl-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                "display-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-color: #050505;
+            color: #e4e2e2;
+            overflow-x: hidden;
+            font-family: 'Hanken Grotesk', sans-serif;
+        }
+
+        .scan-line {
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 102, 255, 0.05) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+
+        .hex-grid {
+            mask-image: radial-gradient(circle at center, black, transparent 80%);
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='104' viewBox='0 0 60 104' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M60 104V102H58V104H60ZM58 104V102H58V104H58ZM30 52L60 104V104L30 52ZM0 104V102H2V104H0ZM2 104V102H2V104H2ZM30 52L0 104V104L30 52ZM30 52L30 0L30 52ZM0 0V2H2V0H0ZM2 0V2H2V0H2ZM30 52L0 0V0L30 52ZM60 0V2H58V0H60ZM58 0V2H58V0H58ZM30 52L60 0V0L30 52Z' fill='%23b3c5ff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+
+        .glitch-border {
+            position: relative;
+        }
+        .glitch-border::before, .glitch-border::after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 1px;
+            background: #b3c5ff;
+        }
+        .glitch-border::before { top: -2px; left: -2px; }
+        .glitch-border::after { bottom: -2px; right: -2px; }
+
+        .glow-text {
+            text-shadow: 0 0 15px rgba(179, 197, 255, 0.8), 0 0 30px rgba(179, 197, 255, 0.4);
+        }
+
+        .pulse-logo {
+            animation: pulse-glow 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.4)); }
+            50% { transform: scale(1.05); filter: drop-shadow(0 0 40px rgba(0, 255, 255, 0.7)); }
+        }
+
+        .matrix-bg {
+            mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+        }
+
+        .particle {
+            position: absolute;
+            background: #b3c5ff;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            animation: rise 10s infinite linear;
+        }
+
+        @keyframes rise {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-100px) scale(1); opacity: 0; }
+        }
+
+        .hover-glitch:active {
+            animation: glitch-anim 0.05s linear;
+        }
+
+        @keyframes glitch-anim {
+            0% { transform: translate(0); }
+            20% { transform: translate(-3px, 2px); color: #ffabf3; }
+            40% { transform: translate(3px, -2px); color: #00ffff; }
+            60% { transform: translate(-3px, -2px); }
+            80% { transform: translate(3px, 2px); }
+            100% { transform: translate(0); }
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="relative min-h-screen flex flex-col items-center justify-center bg-background overflow-hidden">
+<!-- Cinematic Background Elements -->
+<div class="fixed inset-0 z-0">
+<!-- Nebula Atmosphere -->
+<div class="absolute inset-0 opacity-40 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary-container/20 via-background to-background"></div>
+<div class="absolute -top-1/4 -right-1/4 w-[1000px] h-[1000px] bg-secondary-container/10 rounded-full blur-[120px]"></div>
+<div class="absolute -bottom-1/4 -left-1/4 w-[1000px] h-[1000px] bg-tertiary-container/10 rounded-full blur-[120px]"></div>
+<!-- Tactical Grid Overlay -->
+<div class="absolute inset-0 hex-grid"></div>
+<!-- Scanline Overlay -->
+<div class="absolute inset-0 scan-line opacity-20"></div>
+<!-- Particles (Generated by JS) -->
+<div class="absolute inset-0 pointer-events-none" id="particle-container"></div>
+</div>
+<!-- Navigation Shell (TopAppBar) -->
+<header class="w-full fixed top-0 left-0 z-50 backdrop-blur-md bg-surface-container-lowest/10 flex justify-between items-center px-gutter py-4">
+<div class="font-headline-lg text-headline-lg font-bold text-primary tracking-tighter glow-text">
+            MAGNOP_VS
+        </div>
+<div class="hidden md:flex gap-8 items-center">
+<span class="font-code-sm text-code-sm uppercase tracking-widest text-primary border-b border-primary cursor-pointer hover:text-tertiary transition-colors duration-300">Nexus</span>
+<span class="font-code-sm text-code-sm uppercase tracking-widest text-on-surface-variant cursor-pointer hover:text-tertiary transition-colors duration-300">Sync</span>
+<span class="font-code-sm text-code-sm uppercase tracking-widest text-on-surface-variant cursor-pointer hover:text-tertiary transition-colors duration-300">Void</span>
+</div>
+<div class="flex items-center gap-4 text-primary">
+<span class="material-symbols-outlined cursor-pointer hover:text-tertiary transition-colors">qr_code_scanner</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-tertiary transition-colors">account_circle</span>
+</div>
+</header>
+<!-- Main Success Canvas -->
+<main class="relative z-10 w-full max-w-container-max px-gutter text-center space-y-node-gap py-32 flex flex-col items-center">
+<!-- Identity Verified Badge -->
+<div class="animate-pulse">
+<span class="font-code-sm text-code-sm text-tertiary px-4 py-1 border border-tertiary rounded-full backdrop-blur-md bg-tertiary/10">
+                [ IDENTITY_VERIFIED_SUCCESSFUL ]
+            </span>
+</div>
+<!-- Title Section -->
+<div class="space-y-4">
+<h1 class="font-audiowide text-display-xl-mobile md:text-display-xl text-primary glow-text tracking-widest uppercase">
+                WELCOME OPERATOR
+            </h1>
+<p class="font-orbitron text-on-surface-variant max-w-lg mx-auto leading-relaxed text-sm md:text-base">
+                Your Soul Signature has been synchronized with the <span class="text-primary-fixed">Quantvm Matrix</span>.
+            </p>
+</div>
+<!-- Central Holographic Logo -->
+<div class="relative py-12 group">
+<div class="absolute inset-0 bg-primary/20 blur-[60px] rounded-full scale-50 group-hover:scale-75 transition-transform duration-700"></div>
+<img class="relative z-10 w-64 md:w-80 h-auto pulse-logo mx-auto drop-shadow-[0_0_30px_rgba(179,197,255,0.6)]" data-alt="A cinematic, high-fidelity glowing holographic logo of MAGNOP VS floating in a dark tactical environment. The logo is composed of energetic blue and cyan plasma, with digital particles orbiting its center. High-speed shutter effects and scanning lines cut through the image. The lighting is cold, technological, and atmospheric, set against a dark void background with a subtle hexagonal grid visible in the peripheral shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWII1GAQnULhRmByK-XwHw7doCaiXgUgcfDcW2IPj9_o-J354baC_qs5NX9aauW4v69pIcRXvBXwS3VoEoe__oVBIXljhW0Ej9lRjxo0skQ_45CNwLUJYYWNwRCtATtJpvPk56A2FNJ_aR0ok8GKGd6kls5rQxeTUHNq4Dyam6l9mPP5-s_saU7C8DLFvXiEHl9bYWHDHrDcq19x8-WIDXIvZq69SRg6Qb610sVLM0r0pjf0f7yk4hAwuGNPYqSFPpKF0ivfzYAC8w"/>
+</div>
+<!-- Action Section -->
+<div class="w-full flex flex-col items-center space-y-8">
+<button class="group relative px-12 py-5 bg-primary-container/20 border border-primary/50 backdrop-blur-xl hover-glitch transition-all duration-300 overflow-hidden active:scale-95">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+<div class="relative flex items-center gap-3">
+<span class="font-orbitron font-bold tracking-[0.2em] text-primary text-lg">ENTER THE MATRIX</span>
+<span class="material-symbols-outlined text-primary group-hover:translate-x-2 transition-transform">bolt</span>
+</div>
+<!-- Glitch Corners -->
+<div class="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-primary"></div>
+<div class="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-primary"></div>
+</button>
+<!-- System Status -->
+<div class="flex flex-wrap justify-center gap-6">
+<div class="flex items-center gap-2 font-code-sm text-code-sm text-on-surface-variant/60">
+<span class="w-2 h-2 bg-primary rounded-full animate-ping"></span>
+                    CORE_ACTIVE
+                </div>
+<div class="flex items-center gap-2 font-code-sm text-code-sm text-on-surface-variant/60">
+<span class="w-2 h-2 bg-secondary rounded-full"></span>
+                    SYNC_READY
+                </div>
+<div class="flex items-center gap-2 font-code-sm text-code-sm text-on-surface-variant/60">
+<span class="material-symbols-outlined text-xs">terminal</span>
+                    LOGS_ENCRYPTED
+                </div>
+</div>
+</div>
+</main>
+<!-- Side Navigation (Operator Info) - Visible on Desktop -->
+<aside class="hidden lg:flex flex-col h-full fixed left-0 top-0 w-64 bg-surface-container-lowest/80 border-r border-primary/20 backdrop-blur-xl py-8 z-40 transform transition-transform duration-500 shadow-[10px_0_20px_rgba(0,102,255,0.1)]">
+<div class="px-8 mb-12">
+<div class="w-16 h-16 rounded-full border-2 border-primary/40 p-1 mb-4">
+<div class="w-full h-full rounded-full bg-cover bg-center" data-alt="A stylized futuristic portrait of a cybernetic operator with digital circuitry glowing on their face. The image features a cool blue and magenta lighting scheme, with a high-contrast dark background. The subject wears tactical gear and a translucent visor, embodying the cyber-mystic aesthetic with a focus on high-technology and esoteric digital energy." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCRjawmp7MvED8n67o9mrqQkR90a_H1sQ7tQjk7aLom7_3Lbj1jVLwEdBLNvse3y1nFTUo7BqCwyi9jYxU1_PLvAi32U64_8xiY4nllvyw6Dw1Em6n_QMBr4r7TPkcZq5ab-AcU2ku9O-_79CQrQZ-ACxcg0SrRQ5MWxeBaqzl810IAhsClWtzBTgbOnfuQi6hns_F-u04SvnksXVuB89AI-ELJZ2XV9zl26gdeFAQQLT7SrPXY5IFZJB4wqWHriwwjbWm9WPX_cP18')"></div>
+</div>
+<div class="font-code-sm text-primary text-xs tracking-widest mb-1">OPERATOR_01</div>
+<div class="font-code-sm text-on-surface-variant text-[10px] opacity-60">Verified Identity</div>
+</div>
+<nav class="flex-1 space-y-1">
+<div class="flex items-center gap-4 bg-primary-container/20 text-primary border-l-4 border-primary px-6 py-4 font-code-sm cursor-pointer">
+<span class="material-symbols-outlined">radar</span>
+<span>Core</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant px-6 py-4 font-code-sm hover:bg-secondary-container/10 hover:text-secondary transition-all cursor-pointer">
+<span class="material-symbols-outlined">bolt</span>
+<span>Flux</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant px-6 py-4 font-code-sm hover:bg-secondary-container/10 hover:text-secondary transition-all cursor-pointer">
+<span class="material-symbols-outlined">visibility_off</span>
+<span>Void</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant px-6 py-4 font-code-sm hover:bg-secondary-container/10 hover:text-secondary transition-all cursor-pointer">
+<span class="material-symbols-outlined">sync_alt</span>
+<span>Sync</span>
+</div>
+</nav>
+<div class="mt-auto px-6 space-y-4">
+<button class="w-full py-3 border border-primary/30 font-code-sm text-xs text-primary hover:bg-primary hover:text-on-primary transition-all duration-300">
+                INITIATE_UPGRADE
+            </button>
+<div class="flex justify-between text-on-surface-variant opacity-40">
+<span class="material-symbols-outlined cursor-pointer hover:opacity-100">settings</span>
+<span class="material-symbols-outlined cursor-pointer hover:opacity-100">terminal</span>
+</div>
+</div>
+</aside>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 backdrop-blur-lg border-t border-outline-variant/30 bg-surface-container-lowest/40 flex justify-around items-center h-20 pb-safe px-4 shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
+<div class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_8px_rgba(179,197,255,0.8)] scale-110">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">grid_view</span>
+<span class="font-code-sm text-[10px]">Nexus</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant opacity-60">
+<span class="material-symbols-outlined">language</span>
+<span class="font-code-sm text-[10px]">Grid</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant opacity-60">
+<span class="material-symbols-outlined">sensors</span>
+<span class="font-code-sm text-[10px]">Stream</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant opacity-60">
+<span class="material-symbols-outlined">person</span>
+<span class="font-code-sm text-[10px]">Profile</span>
+</div>
+</nav>
+<script>
+        // Particle System for Atmospheric Effect
+        const container = document.getElementById('particle-container');
+        const particleCount = 30;
+
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            const size = Math.random() * 3 + 1;
+            const left = Math.random() * 100;
+            const duration = 5 + Math.random() * 10;
+            const delay = Math.random() * 10;
+
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${left}%`;
+            particle.style.animationDuration = `${duration}s`;
+            particle.style.animationDelay = `-${delay}s`;
+
+            container.appendChild(particle);
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            createParticle();
+        }
+
+        // Interactive mouse parallax for glow effects
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 20;
+            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+            
+            const logo = document.querySelector('.pulse-logo');
+            if(logo) {
+                logo.style.transform = `translate(${x}px, ${y}px) scale(1)`;
+            }
+        });
+
+        // Click interaction for the "Enter" button
+        const enterBtn = document.querySelector('button');
+        enterBtn.addEventListener('click', () => {
+            document.body.style.animation = 'glitch-anim 0.2s infinite';
+            setTimeout(() => {
+                document.body.style.animation = 'none';
+                alert('ACCESS_GRANTED: Redirecting to Nexus Core...');
+            }, 500);
+        });
+    </script>
+</body></html>

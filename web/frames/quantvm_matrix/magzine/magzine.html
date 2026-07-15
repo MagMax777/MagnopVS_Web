@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS Quantvm Matrix | MagZine Terminal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed-variant": "#005140",
+                      "on-secondary": "#00382c",
+                      "pearl-white": "#ffffff",
+                      "celestial-blue": "#98cbff",
+                      "surface-bright": "#393939",
+                      "on-tertiary-fixed": "#380038",
+                      "tertiary-container": "#ffabf3",
+                      "surface-raised": "#2a2a2a",
+                      "aquamarine-neon": "#15ffd1",
+                      "error": "#ffb4ab",
+                      "on-secondary-fixed": "#002018",
+                      "on-tertiary": "#551353",
+                      "outline": "#8b919a",
+                      "tertiary-fixed-dim": "#ffabf3",
+                      "surface-container-lowest": "#0e0e0e",
+                      "primary-container": "#98cbff",
+                      "surface-container": "#201f1f",
+                      "inverse-surface": "#e5e2e1",
+                      "on-tertiary-container": "#7d3878",
+                      "inverse-on-surface": "#313030",
+                      "error-container": "#93000a",
+                      "on-primary-container": "#1a5683",
+                      "secondary-fixed-dim": "#00e0b7",
+                      "primary-fixed-dim": "#98cbff",
+                      "tertiary-fixed": "#ffd7f5",
+                      "on-primary-fixed-variant": "#034a77",
+                      "on-secondary-container": "#00705a",
+                      "primary": "#cee5ff",
+                      "on-surface-variant": "#c1c7d0",
+                      "violet-deep": "#8a2be2",
+                      "secondary": "#f3fff9",
+                      "on-tertiary-fixed-variant": "#6f2c6b",
+                      "magenta-flare": "#ff4dfa",
+                      "secondary-container": "#04fcce",
+                      "background": "#131313",
+                      "on-primary-fixed": "#001d33",
+                      "surface-deep": "#0e0e0e",
+                      "on-error": "#690005",
+                      "on-primary": "#003354",
+                      "surface-container-low": "#1c1b1b",
+                      "on-error-container": "#ffdad6",
+                      "surface-dim": "#131313",
+                      "surface-variant": "#353534",
+                      "outline-variant": "#41474f",
+                      "surface-container-highest": "#353534",
+                      "on-background": "#e5e2e1",
+                      "surface": "#131313",
+                      "inverse-primary": "#2a6290",
+                      "on-surface": "#e5e2e1",
+                      "surface-tint": "#98cbff",
+                      "tertiary": "#ffd7f5",
+                      "surface-container-high": "#2a2a2a",
+                      "secondary-fixed": "#17ffd1",
+                      "primary-fixed": "#cfe5ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "2px",
+                      "lg": "4px",
+                      "xl": "8px",
+                      "full": "12px"
+              },
+              "spacing": {
+                      "sidebar-width": "256px",
+                      "base": "8px",
+                      "margin-mobile": "16px",
+                      "gutter": "24px",
+                      "margin-desktop": "64px",
+                      "container-max": "1440px"
+              },
+              "fontFamily": {
+                      "display-xl": ["Audiowide"],
+                      "body-md": ["Orbitron"],
+                      "technical-data": ["Orbitron"],
+                      "headline-lg": ["Audiowide"],
+                      "label-caps": ["Orbitron"],
+                      "headline-lg-mobile": ["Audiowide"]
+              },
+              "fontSize": {
+                      "display-xl": ["48px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "technical-data": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.3", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                      "label-caps": ["12px", {"lineHeight": "1", "fontWeight": "700"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        .scanline-effect::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent, rgba(152, 203, 255, 0.05) 50%, transparent);
+            height: 20%;
+            width: 100%;
+            animation: scanline 8s linear infinite;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .tactical-border {
+            position: relative;
+        }
+        .tactical-border::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: -1px; width: 10px; height: 10px;
+            border-top: 2px solid currentColor;
+            border-left: 2px solid currentColor;
+        }
+        .tactical-border::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; right: -1px; width: 10px; height: 10px;
+            border-bottom: 2px solid currentColor;
+            border-right: 2px solid currentColor;
+        }
+        .glass-panel {
+            background: rgba(19, 19, 19, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(65, 71, 79, 0.5);
+        }
+        .scroll-hide::-webkit-scrollbar { display: none; }
+        .scroll-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary/30 overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="w-full top-0 sticky bg-surface/70 dark:bg-surface/70 backdrop-blur-xl border-b border-outline-variant shadow-[0_0_15px_rgba(152,203,255,0.1)] z-50 flex justify-between items-center px-margin-desktop py-base">
+<div class="flex items-center gap-gutter">
+<h1 class="font-display-xl text-headline-lg text-primary tracking-widest">MAGZINE</h1>
+<div class="hidden md:flex items-center bg-surface-deep border border-outline-variant px-4 py-1 gap-2 rounded-lg">
+<span class="material-symbols-outlined text-primary text-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-technical-data font-technical-data text-on-surface w-64" placeholder="QUERY MULTIVERSE..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-gutter">
+<div class="hidden md:flex gap-gutter items-center">
+<a class="text-primary font-bold font-technical-data text-technical-data hover:text-primary transition-all" href="#">CORE_HUB</a>
+<a class="text-on-surface-variant opacity-70 font-technical-data text-technical-data hover:text-primary transition-all" href="#">LORE_SYNC</a>
+<a class="text-on-surface-variant opacity-70 font-technical-data text-technical-data hover:text-primary transition-all" href="#">TERMINAL</a>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">settings</span>
+<div class="relative">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">notifications</span>
+<span class="absolute -top-1 -right-1 w-2 h-2 bg-secondary-fixed rounded-full animate-pulse"></span>
+</div>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Main Container -->
+<main class="flex min-h-screen">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col h-full py-gutter px-base z-40 w-sidebar-width fixed left-0 bg-surface-deep border-r border-outline-variant font-technical-data text-technical-data">
+<div class="mb-10 px-4">
+<div class="text-primary font-display-xl tracking-tighter">QUANTVM MATRIX</div>
+<div class="text-xs text-secondary-fixed opacity-60 tracking-widest">TELEMTRY ACTIVE</div>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-primary border-l-2 border-primary bg-primary/10 shadow-[0_0_10px_rgba(21,255,209,0.2)] transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">folder_managed</span>
+<span>Soul Archive</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant opacity-70 hover:bg-surface-container-high hover:text-secondary-fixed transition-all" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span>Codex Vivo</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant opacity-70 hover:bg-surface-container-high hover:text-secondary-fixed transition-all" href="#">
+<span class="material-symbols-outlined">movie</span>
+<span>Resonance Hub</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant opacity-70 hover:bg-surface-container-high hover:text-secondary-fixed transition-all" href="#">
+<span class="material-symbols-outlined">audiotrack</span>
+<span>Frequency Stream</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant opacity-70 hover:bg-surface-container-high hover:text-secondary-fixed transition-all" href="#">
+<span class="material-symbols-outlined">cloud_download</span>
+<span>Uplink Center</span>
+</a>
+</nav>
+<div class="mt-auto space-y-2 border-t border-outline-variant/30 pt-6">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant opacity-70 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined text-sm">terminal</span>
+<span>System Log</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant opacity-70 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined text-sm">dns</span>
+<span>Terminal</span>
+</a>
+</div>
+</aside>
+<!-- Content Canvas -->
+<div class="flex-1 ml-0 md:ml-sidebar-width p-4 md:p-gutter max-w-container-max mx-auto space-y-gutter">
+<!-- Section 1: Featured Chronicles (Hero) -->
+<section class="relative w-full aspect-[21/9] rounded-xl overflow-hidden glass-panel group scanline-effect">
+<div class="absolute inset-0 bg-gradient-to-r from-background via-background/20 to-transparent z-20"></div>
+<div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-1000" data-alt="A sprawling futuristic megacity cinematic landscape under a binary star system, with floating glass skyscrapers and neon energy paths flowing like rivers. The atmosphere is high-contrast cyan and magenta, with deep obsidian shadows and holographic lens flares. Epic sci-fi digital art style." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBEkfT6JvpHkdx6wDSM2gcbYdrzQVFzJq0r1TRnWgh_GqSMnEIS0-9SPCm9msXPCgT4o8KybLZj3v90zenaVhuv89WHQKS5DDoy4YR0l4n8BzD2fKQWhKSsOa-nIlPbgvzhRHOQObQN4QxCn4-scvMcnZlh8fnioNFhQboyWdKkg1A84f9G5uhAgPLrMVwn8qfkKAuZGxnUbGH-zuBkcgoejxBeEUBvYUeTdnFKBngQvyKOxPHd3A_u6cNH4y9ukwxXNNEpWM6FxDV1')"></div>
+<div class="relative z-30 h-full flex flex-col justify-end p-margin-mobile md:p-12 space-y-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 bg-secondary-fixed rounded-full animate-pulse"></span>
+<span class="text-secondary-fixed font-technical-data text-xs tracking-widest uppercase">Live Transmission</span>
+</div>
+<h2 class="font-display-xl text-display-xl max-w-2xl leading-none text-primary">THE SINGULARITY OF SECTOR 4</h2>
+<p class="text-on-surface-variant max-w-xl text-body-md line-clamp-2">Decrypting the recursive memory loops found in the abandoned data-spires. An investigative odyssey into the digital afterlife.</p>
+<div class="flex gap-4 pt-4">
+<button class="px-gutter py-3 bg-primary text-on-primary font-bold text-technical-data rounded-sm hover:scale-95 hover:shadow-[0_0_20px_rgba(206,229,255,0.4)] transition-all">ACCESS CHRONICLE</button>
+<button class="px-gutter py-3 border border-secondary text-secondary font-bold text-technical-data rounded-sm hover:bg-secondary/10 transition-all">VIEW TELEMETRY</button>
+</div>
+</div>
+<!-- Floating Data Widgets -->
+<div class="absolute top-8 right-8 z-30 hidden lg:flex flex-col gap-4 text-right">
+<div class="glass-panel p-4 border-l-4 border-magenta-flare tactical-border text-magenta-flare">
+<div class="text-[10px] font-technical-data opacity-70">RESONANCE_FREQ</div>
+<div class="text-2xl font-display-xl">104.4 MHz</div>
+</div>
+<div class="glass-panel p-4 border-l-4 border-celestial-blue tactical-border text-celestial-blue">
+<div class="text-[10px] font-technical-data opacity-70">UPLINK_STABILITY</div>
+<div class="text-2xl font-display-xl">98.92%</div>
+</div>
+</div>
+</section>
+<!-- Layout Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left: Multiverse News Feed (Lore Patches) -->
+<section class="lg:col-span-4 space-y-4">
+<div class="flex items-center justify-between border-b border-outline-variant pb-2">
+<h3 class="font-headline-lg text-lg text-primary flex items-center gap-2 uppercase tracking-tighter">
+<span class="material-symbols-outlined text-sm">hub</span>
+                            Lore Patches
+                        </h3>
+<span class="text-xs font-technical-data text-on-surface-variant opacity-50">v4.0.2</span>
+</div>
+<div class="space-y-4 h-[600px] overflow-y-auto scroll-hide pr-2">
+<!-- News Item 1 -->
+<div class="glass-panel p-4 hover:border-primary transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<span class="px-2 py-0.5 bg-error-container text-error text-[10px] font-bold rounded-full">CRITICAL</span>
+<span class="text-[10px] font-technical-data text-on-surface-variant">14:22:01</span>
+</div>
+<h4 class="font-technical-data text-sm text-primary group-hover:underline">NEURAL_DRIFT_DETECTED</h4>
+<p class="text-xs text-on-surface-variant mt-1 opacity-80">Ghost packets identified in Sector 7's relay towers. Quarantine measures active.</p>
+</div>
+<!-- News Item 2 -->
+<div class="glass-panel p-4 hover:border-aquamarine-neon transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<span class="px-2 py-0.5 bg-on-secondary-fixed-variant text-aquamarine-neon text-[10px] font-bold rounded-full">STABLE</span>
+<span class="text-[10px] font-technical-data text-on-surface-variant">12:10:44</span>
+</div>
+<h4 class="font-technical-data text-sm text-primary group-hover:underline">HYPER-BRIDGE_INITIALIZED</h4>
+<p class="text-xs text-on-surface-variant mt-1 opacity-80">New route to the Neo-Kyoto archives has been successfully mapped.</p>
+</div>
+<!-- News Item 3 -->
+<div class="glass-panel p-4 border-magenta-flare/30 hover:border-magenta-flare transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<span class="px-2 py-0.5 bg-on-tertiary-container text-tertiary-container text-[10px] font-bold rounded-full">ANOMALY</span>
+<span class="text-[10px] font-technical-data text-on-surface-variant">09:15:30</span>
+</div>
+<h4 class="font-technical-data text-sm text-primary group-hover:underline">VOID_READ_RESTORED</h4>
+<p class="text-xs text-on-surface-variant mt-1 opacity-80">Ancient encrypted manuscripts from the Void Era are now semi-legible.</p>
+</div>
+<!-- News Item 4 (Repeated for scrolling effect) -->
+<div class="glass-panel p-4 opacity-60">
+<div class="flex justify-between items-start mb-2">
+<span class="px-2 py-0.5 bg-surface-container-high text-on-surface-variant text-[10px] font-bold rounded-full">LOGGED</span>
+<span class="text-[10px] font-technical-data text-on-surface-variant">04:00:12</span>
+</div>
+<h4 class="font-technical-data text-sm text-primary">BATCH_SYNC_COMPLETE</h4>
+<p class="text-xs text-on-surface-variant mt-1">Bio-data leak addressed in the southern quadrant. No data loss reported.</p>
+</div>
+</div>
+</section>
+<!-- Center/Right: Interactive Archive (Grid) -->
+<section class="lg:col-span-8 space-y-gutter">
+<div class="flex items-center justify-between border-b border-outline-variant pb-2">
+<h3 class="font-headline-lg text-lg text-primary uppercase tracking-tighter">MagZine Chronicles</h3>
+<div class="flex gap-2">
+<button class="material-symbols-outlined text-primary bg-surface-container border border-outline-variant p-1">grid_view</button>
+<button class="material-symbols-outlined text-on-surface-variant p-1">list</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Saga Cover 1 -->
+<div class="glass-panel p-2 flex flex-col group cursor-pointer tactical-border hover:border-primary transition-all">
+<div class="relative aspect-[3/4] overflow-hidden mb-3">
+<div class="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition-transform duration-700" data-alt="Cyberpunk Tokyo 3000 landscape with layered translucent skyscrapers, raining neon digital symbols, and a lone figure overlooking the abyss from a high balcony. Dark atmosphere with sharp teal and orange light accents." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAG197_JfmHmZ8MW5RUm4eADJshG9hno6pKXlcpnhiN596gWnYQpi4PgXO8rVEyWGlY1-tfAWAL_R3zc3dmfVx7AEhx4M3VMqwkiCmKmvN2ET1vHx3REicSXumq7ZbwJLZziuLdIBZrMk5Oi1SFV99WQMJcKyGY4HCn7bCvP53fTqd9TXZD41LCEUh7JojHjaehr8GIu-9QqjZQwrN8CZnIE7zSjU0rbtUQGGbOwtD3lUQAhwJbrquBQAkQqYXM3FEQ6_Gfs9eZSB_Q')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60"></div>
+<div class="absolute top-2 left-2 px-2 py-1 bg-primary text-on-primary text-[10px] font-bold">MAGZINE: TOKYO 3000</div>
+</div>
+<div class="px-2 pb-2 space-y-2">
+<h5 class="text-primary font-technical-data text-sm">NEON_PULSE_PROTOCOL</h5>
+<div class="flex justify-between text-[10px] font-technical-data text-on-surface-variant">
+<span>SYNC_PROGRESS</span>
+<span>88%</span>
+</div>
+<div class="w-full h-1 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary shadow-[0_0_8px_#98cbff]" style="width: 88%"></div>
+</div>
+</div>
+</div>
+<!-- Saga Cover 2 -->
+<div class="glass-panel p-2 flex flex-col group cursor-pointer tactical-border hover:border-aquamarine-neon transition-all">
+<div class="relative aspect-[3/4] overflow-hidden mb-3">
+<div class="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition-transform duration-700" data-alt="Ancient Greek ruins reimagined in a futuristic space station, with glowing marble pillars, holographic statues of philosophers, and a nebula sky visible through giant circular portals. Aesthetic mix of white stone and blue laser light." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBr29zO0wvYuftsJGPFqUPqYnYT2Dz8BGOj5lrFCeMtuIsROZJEODmdfEUrIXGodMMLVfextkG9Q2wEfw4LNvqHhpQQ6p7kT4RpN5AeeynjH2y_cFN8hHY2k-COdwcH_0o7TguIG1xkQCRXryShjk5fv8q2EK9UkcP1trfih8kA8GaIWH1J0zKm4_UA1vcajdrM7tseGlVQr_fUQYDTXtTzvMxL5frHxJrJdRg_k1CJj6OAxrVBv-yteaMViXnvaiZTdtjQ6pifVUkI')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60"></div>
+<div class="absolute top-2 left-2 px-2 py-1 bg-aquamarine-neon text-on-secondary-fixed text-[10px] font-bold">MAGZINE: ELEUSIS PATH</div>
+</div>
+<div class="px-2 pb-2 space-y-2">
+<h5 class="text-primary font-technical-data text-sm">ARCHAIC_UPLOAD_ERROR</h5>
+<div class="flex justify-between text-[10px] font-technical-data text-on-surface-variant">
+<span>SYNC_PROGRESS</span>
+<span>42%</span>
+</div>
+<div class="w-full h-1 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-aquamarine-neon shadow-[0_0_8px_#15ffd1]" style="width: 42%"></div>
+</div>
+</div>
+</div>
+<!-- Saga Cover 3 -->
+<div class="glass-panel p-2 flex flex-col group cursor-pointer tactical-border hover:border-magenta-flare transition-all">
+<div class="relative aspect-[3/4] overflow-hidden mb-3">
+<div class="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition-transform duration-700" data-alt="A massive crystalline derelict spaceship drifting near a dying red giant sun. Solaris drift vibes with solar flares, cosmic dust, and silhouettes of floating structures. Atmospheric lighting with deep purples and burning oranges." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAZx_wshpD_MH0SVscwFJGzrz4MKzh8Y5GfXTptHSkuuKtH2JnKauQN1nb7Ew4T-EA6lWusa_b9EhmJUGbV73YFJh6D2QJKRms5s8YRwYJmCysFq8XuiqaqUbuSmbZ4wFhEkqKlDwyBzM_ekt3tOwM3qWLMS_OaN8XGuB7NBTLgHl6dGY1xFoNBfN6ae83zFAMscJ6cN1rhSo4r7sCMhg2xZWemK5vhNcnqrO0TyKs5vktKP3_jkp3_nu5lF8uqdWNt94Y6JhRZS__o')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60"></div>
+<div class="absolute top-2 left-2 px-2 py-1 bg-magenta-flare text-on-tertiary-fixed text-[10px] font-bold">MAGZINE: SOLARIS DRIFT</div>
+</div>
+<div class="px-2 pb-2 space-y-2">
+<h5 class="text-primary font-technical-data text-sm">EXTINCTION_CHORUS</h5>
+<div class="flex justify-between text-[10px] font-technical-data text-on-surface-variant">
+<span>SYNC_PROGRESS</span>
+<span>100%</span>
+</div>
+<div class="w-full h-1 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-magenta-flare shadow-[0_0_8px_#ff4dfa]" style="width: 100%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Editorial Telemetry (Dashboard Widgets) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="glass-panel p-gutter tactical-border border-primary/20">
+<div class="text-[10px] font-technical-data text-on-surface-variant mb-2 flex items-center justify-between">
+                                LORE_INTEGRITY
+                                <span class="material-symbols-outlined text-sm">verified</span>
+</div>
+<div class="text-3xl font-display-xl text-primary">0.992</div>
+<div class="mt-4 flex items-center gap-1 text-[10px] text-secondary-fixed">
+<span class="material-symbols-outlined text-[10px]">trending_up</span>
+                                +0.004 INCREASE
+                            </div>
+</div>
+<div class="glass-panel p-gutter tactical-border border-aquamarine-neon/20">
+<div class="text-[10px] font-technical-data text-on-surface-variant mb-2 flex items-center justify-between">
+                                ACTIVE_READERS
+                                <span class="material-symbols-outlined text-sm">group</span>
+</div>
+<div class="text-3xl font-display-xl text-aquamarine-neon">12.4k</div>
+<div class="mt-4 flex items-center gap-2">
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full border border-background bg-surface-container-high"></div>
+<div class="w-6 h-6 rounded-full border border-background bg-surface-variant"></div>
+<div class="w-6 h-6 rounded-full border border-background bg-outline-variant"></div>
+</div>
+<span class="text-[10px] text-on-surface-variant">ONLINE NOW</span>
+</div>
+</div>
+<div class="glass-panel p-gutter tactical-border border-magenta-flare/20">
+<div class="text-[10px] font-technical-data text-on-surface-variant mb-2 flex items-center justify-between">
+                                QUANTVM_RESONANCE
+                                <span class="material-symbols-outlined text-sm">bolt</span>
+</div>
+<div class="text-3xl font-display-xl text-magenta-flare">High</div>
+<div class="mt-4 h-2 w-full bg-surface-container-high rounded-full relative">
+<div class="absolute inset-0 bg-gradient-to-r from-violet-deep to-magenta-flare animate-pulse rounded-full" style="width: 75%"></div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Creative Tools Uplink (FAB/Dock) -->
+<div class="fixed bottom-gutter right-gutter z-50 flex gap-4 pointer-events-none">
+<button class="pointer-events-auto flex items-center gap-2 px-6 py-3 bg-background border border-primary text-primary font-bold font-technical-data text-xs rounded-sm hover:bg-primary/20 hover:scale-105 transition-all shadow-[0_0_20px_rgba(152,203,255,0.2)] tactical-border">
+<span class="material-symbols-outlined text-sm">edit_note</span>
+            WRITE CHRONICLE
+        </button>
+<button class="pointer-events-auto flex items-center gap-2 px-6 py-3 bg-primary text-on-primary font-bold font-technical-data text-xs rounded-sm hover:scale-105 transition-all shadow-[0_0_30px_rgba(152,203,255,0.4)] tactical-border">
+<span class="material-symbols-outlined text-sm">qr_code_scanner</span>
+            SCAN ARTIFACT
+        </button>
+</div>
+<!-- Background Atmospheric Elements -->
+<div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden opacity-30">
+<div class="absolute top-1/4 -right-20 w-96 h-96 bg-primary/10 blur-[150px] rounded-full"></div>
+<div class="absolute bottom-1/4 -left-20 w-[500px] h-[500px] bg-magenta-flare/5 blur-[200px] rounded-full"></div>
+<!-- Animated Particles / Grid -->
+<svg class="absolute inset-0 w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<pattern height="60" id="grid" patternunits="userSpaceOnUse" width="60">
+<path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(152, 203, 255, 0.2)" stroke-width="0.5"></path>
+</pattern>
+</defs>
+<rect fill="url(#grid)" height="100%" width="100%"></rect>
+</svg>
+</div>
+<script>
+        // Micro-interactions and atmospheric effects
+        document.addEventListener('mousemove', (e) => {
+            const panels = document.querySelectorAll('.glass-panel');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            panels.forEach(panel => {
+                const rect = panel.getBoundingClientRect();
+                const panelX = (rect.left + rect.width/2) / window.innerWidth;
+                const panelY = (rect.top + rect.height/2) / window.innerHeight;
+                
+                const distanceX = x - panelX;
+                const distanceY = y - panelY;
+                const distance = Math.sqrt(distanceX**2 + distanceY**2);
+                
+                if (distance < 0.2) {
+                    panel.style.borderColor = `rgba(152, 203, 255, ${0.5 + (0.2 - distance) * 2})`;
+                } else {
+                    panel.style.borderColor = 'rgba(65, 71, 79, 0.5)';
+                }
+            });
+        });
+
+        // Add small hover SFX logic (silent for now, visual only)
+        const tacticalItems = document.querySelectorAll('.tactical-border');
+        tacticalItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.filter = 'brightness(1.2)';
+            });
+            item.addEventListener('mouseleave', () => {
+                item.style.filter = 'none';
+            });
+        });
+    </script>
+</body></html>

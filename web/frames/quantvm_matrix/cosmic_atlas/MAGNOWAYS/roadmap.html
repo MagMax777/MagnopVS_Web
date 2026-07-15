@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnoWays | The Grand Odyssey</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+        }
+        
+        .glass-panel {
+            background: rgba(19, 19, 19, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(91, 200, 245, 0.2);
+        }
+
+        .node-pulse {
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(91, 200, 245, 0.2); transform: scale(1); }
+            50% { box-shadow: 0 0 20px rgba(91, 200, 245, 0.5); transform: scale(1.05); }
+        }
+
+        .scan-line {
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, rgba(91, 200, 245, 0.1), transparent);
+            animation: scan 8s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { top: -100%; }
+            100% { top: 200%; }
+        }
+
+        .hex-grid-overlay {
+            background-image: radial-gradient(circle at 2px 2px, rgba(91, 200, 245, 0.05) 1px, transparent 0);
+            background-size: 32px 32px;
+        }
+
+        .energy-stroke-h {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(91, 200, 245, 0.3), transparent);
+        }
+
+        .energy-stroke-v {
+            width: 1px;
+            background: linear-gradient(180deg, transparent, rgba(91, 200, 245, 0.3), transparent);
+        }
+
+        /* Custom scrollbar for tactical feel */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        ::-webkit-scrollbar-thumb { background: rgba(91, 200, 245, 0.3); border-radius: 2px; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md overflow-hidden selection:bg-primary/30">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ffb4ab",
+                        "on-tertiary-fixed": "#20005f",
+                        "error-container": "#93000a",
+                        "primary-container": "#5bc8f5",
+                        "on-surface": "#e5e2e1",
+                        "surface-container": "#201f1f",
+                        "surface-bright": "#3a3939",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-container": "#c3b1ff",
+                        "on-secondary-fixed-variant": "#7b008f",
+                        "on-primary-container": "#00526b",
+                        "on-primary": "#003546",
+                        "tertiary": "#ddd1ff",
+                        "surface": "#131313",
+                        "secondary-fixed-dim": "#faabff",
+                        "primary": "#a2e0ff",
+                        "tertiary-fixed": "#e8deff",
+                        "on-primary-fixed": "#001f2a",
+                        "on-tertiary-fixed-variant": "#4f00d0",
+                        "on-surface-variant": "#bdc8cf",
+                        "surface-container-low": "#1c1b1b",
+                        "on-error": "#690005",
+                        "outline": "#889299",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-background": "#e5e2e1",
+                        "on-tertiary-container": "#540dd7",
+                        "tertiary-fixed-dim": "#cdbdff",
+                        "on-secondary-fixed": "#35003f",
+                        "background": "#131313",
+                        "primary-fixed": "#bee9ff",
+                        "on-secondary-container": "#fff0fb",
+                        "secondary": "#faabff",
+                        "outline-variant": "#3e484e",
+                        "surface-container-highest": "#353534",
+                        "on-secondary": "#570066",
+                        "surface-tint": "#6bd3ff",
+                        "inverse-surface": "#e5e2e1",
+                        "on-tertiary": "#370096",
+                        "surface-variant": "#353534",
+                        "surface-dim": "#131313",
+                        "primary-fixed-dim": "#6bd3ff",
+                        "secondary-container": "#bd06da",
+                        "inverse-primary": "#006685",
+                        "on-primary-fixed-variant": "#004d65",
+                        "secondary-fixed": "#ffd6fe",
+                        "surface-container-high": "#2a2a2a",
+                        "inverse-on-surface": "#313030"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "gutter": "16px",
+                        "margin-desktop": "64px",
+                        "grid-hex-size": "32px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Audiowide"],
+                        "body-md": ["Orbitron"],
+                        "data-display": ["Orbitron"],
+                        "headline-xl": ["Audiowide"],
+                        "headline-lg": ["Audiowide"],
+                        "label-sm": ["Orbitron"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "1.6", "letterSpacing": "0.05em", "fontWeight": "400" }],
+                        "data-display": ["18px", { "lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "headline-xl": ["48px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "400" }],
+                        "label-sm": ["11px", { "lineHeight": "1", "letterSpacing": "0.15em", "fontWeight": "500" }]
+                    }
+                },
+            },
+        }
+    </script>
+<!-- Top Navigation Shell -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 bg-surface/60 dark:bg-surface/60 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(91,200,245,0.2)]">
+<div class="flex items-center gap-4">
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tighter uppercase">MagnoWays</span>
+<div class="hidden md:flex h-6 w-px bg-outline-variant/50 mx-2"></div>
+<div class="hidden md:flex gap-6">
+<a class="text-primary font-bold font-label-sm text-label-sm hover:text-primary hover:bg-primary/10 transition-all duration-300 px-3 py-1 rounded" href="#">Roadmap</a>
+<a class="text-on-surface-variant font-medium font-label-sm text-label-sm hover:text-primary hover:bg-primary/10 transition-all duration-300 px-3 py-1 rounded" href="#">Terminal</a>
+<a class="text-on-surface-variant font-medium font-label-sm text-label-sm hover:text-primary hover:bg-primary/10 transition-all duration-300 px-3 py-1 rounded" href="#">Journal</a>
+</div>
+</div>
+<div class="flex items-center gap-4 text-primary">
+<button class="p-2 hover:bg-primary/10 transition-colors rounded-full"><span class="material-symbols-outlined">account_tree</span></button>
+<button class="p-2 hover:bg-primary/10 transition-colors rounded-full"><span class="material-symbols-outlined">sensors</span></button>
+<button class="p-2 hover:bg-primary/10 transition-colors rounded-full"><span class="material-symbols-outlined">settings</span></button>
+</div>
+</header>
+<!-- Side Navigation Shell -->
+<nav class="hidden lg:flex flex-col fixed left-0 top-0 h-screen z-40 bg-surface-container-lowest/80 dark:bg-surface-container-lowest/80 backdrop-blur-2xl border-r border-outline-variant/20 shadow-2xl w-64 pt-20">
+<div class="px-6 py-8 flex flex-col gap-2">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-lg border border-primary/50 overflow-hidden relative">
+<img class="object-cover" data-alt="A futuristic holographic portrait of a cybernetic entity with glowing blue circuits embedded in a translucent face, dark matte metal background, mystical sci-fi aesthetic with soft volumetric lighting and alchemical violet tints." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1VG5qGO6PPNvpX4nA1ymrdx9379awVJ0_Ly9cvT28xk4mblrmZLTZAbGMqakCXGBlCP9e3NZ22Ot_EdsG9fqZzyai11FeJ0KLtRFNsXe1s4q0c_riWHR7TGYA-9T20HbNdzeUpd7dFfKVRm_aXZHmKmJMJHWHYCjkSjpNy8O3YsZxHV4y0qYWpUUTV8Jc3F2EmjmlV44q7kTut2oFnc84peVYrxoxIUw1kU1G4Fwj2VWtEvWakLomvOchXTyLmpBjUtbTMYHHoQbc"/>
+</div>
+<div>
+<h2 class="font-label-sm text-label-sm text-primary">MAGNO_UNIT_01</h2>
+<p class="text-[9px] text-on-surface-variant uppercase tracking-widest font-label-sm">SYNC_STATUS: 88%</p>
+</div>
+</div>
+<div class="w-full bg-surface-variant h-1 rounded-full overflow-hidden mb-8">
+<div class="bg-primary h-full w-[88%] shadow-[0_0_10px_rgba(91,200,245,0.8)]"></div>
+</div>
+</div>
+<div class="flex-1">
+<a class="flex items-center gap-4 bg-primary-container/20 text-primary border-l-4 border-primary px-6 py-4 transition-all hover:bg-surface-bright/10 group" href="#">
+<span class="material-symbols-outlined group-active:scale-95 transition-transform">map</span>
+<span class="font-label-sm text-label-sm">Roadmap</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-surface-bright/10 hover:text-primary transition-all group" href="#">
+<span class="material-symbols-outlined group-active:scale-95 transition-transform">terminal</span>
+<span class="font-label-sm text-label-sm">Terminal</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-surface-bright/10 hover:text-primary transition-all group" href="#">
+<span class="material-symbols-outlined group-active:scale-95 transition-transform">history_edu</span>
+<span class="font-label-sm text-label-sm">Journal</span>
+</a>
+</div>
+<div class="p-6">
+<button class="w-full py-3 border border-primary text-primary font-body-md text-body-md uppercase tracking-widest hover:bg-primary/10 transition-all duration-300 shadow-[0_0_15px_rgba(91,200,245,0.2)]">
+                INITIATE_WARP
+            </button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="ml-0 lg:ml-64 pt-16 h-screen relative overflow-hidden">
+<!-- Background Animation -->
+
+<div class="absolute inset-0 hex-grid-overlay opacity-20 pointer-events-none"></div>
+<div class="scan-line"></div>
+<!-- The Grand Odyssey Header -->
+<div class="relative z-10 px-margin-mobile md:px-margin-desktop pt-12">
+<div class="flex flex-col gap-2">
+<span class="font-label-sm text-label-sm text-primary tracking-[0.3em] uppercase">Sector_04 // Path to Singularity</span>
+<h1 class="font-headline-xl text-headline-xl text-primary-fixed uppercase leading-none drop-shadow-2xl">The Grand Odyssey</h1>
+<div class="flex items-center gap-4 mt-2">
+<div class="px-3 py-1 bg-primary/10 border border-primary/30 rounded font-label-sm text-[10px] text-primary">88% SYNCHRONIZED</div>
+<div class="px-3 py-1 bg-surface-container-highest border border-outline-variant/30 rounded font-label-sm text-[10px] text-on-surface-variant">4 NODES REMAINING</div>
+</div>
+</div>
+</div>
+<!-- Horizontal Map Path -->
+<div class="absolute top-1/2 left-0 w-full -translate-y-1/2 overflow-x-auto overflow-y-hidden no-scrollbar px-margin-desktop py-32 flex items-center min-w-max cursor-grab active:cursor-grabbing" id="nodeMap">
+<!-- Connecting Path Background -->
+<div class="absolute left-0 top-1/2 w-full h-[2px] bg-gradient-to-r from-transparent via-primary/30 to-transparent -z-10"></div>
+<!-- Nodes -->
+<div class="flex items-center gap-64 relative">
+<!-- Milestone 1: Completed -->
+<div class="relative group">
+<div class="w-16 h-16 bg-surface-container-highest border-2 border-primary rounded-lg flex items-center justify-center transform rotate-45 node-pulse relative z-10 overflow-hidden">
+<div class="absolute inset-0 bg-primary/10 group-hover:bg-primary/20 transition-colors"></div>
+<span class="material-symbols-outlined -rotate-45 text-primary text-3xl">token</span>
+</div>
+<div class="absolute top-20 left-1/2 -translate-x-1/2 w-48 text-center">
+<p class="font-label-sm text-label-sm text-primary mb-1">STORY_01</p>
+<h3 class="font-data-display text-data-display text-on-surface leading-tight uppercase">The Awakening</h3>
+<p class="text-[10px] text-primary mt-1 uppercase tracking-tighter">COMPLETE // SYNC: 100%</p>
+</div>
+</div>
+<!-- Milestone 2: Active -->
+<div class="relative group">
+<div class="w-20 h-20 bg-surface-container border-2 border-primary-fixed rounded-lg flex items-center justify-center transform rotate-45 shadow-[0_0_30px_rgba(91,200,245,0.4)] relative z-10 overflow-hidden">
+<div class="absolute inset-0 bg-primary/5 animate-pulse"></div>
+<span class="material-symbols-outlined -rotate-45 text-primary-fixed text-4xl" style="font-variation-settings: 'FILL' 1;">explore</span>
+</div>
+<div class="absolute top-24 left-1/2 -translate-x-1/2 w-48 text-center scale-110">
+<p class="font-label-sm text-label-sm text-primary-fixed mb-1">STORY_02</p>
+<h3 class="font-data-display text-data-display text-white leading-tight uppercase">Nebula Protocol</h3>
+<p class="text-[10px] text-secondary mt-1 uppercase tracking-tighter animate-pulse">IN PROGRESS // ACTIVE SAGA</p>
+</div>
+</div>
+<!-- Milestone 3: Locked -->
+<div class="relative group opacity-40 hover:opacity-100 transition-opacity">
+<div class="w-16 h-16 bg-surface-container-lowest border border-outline-variant rounded-lg flex items-center justify-center transform rotate-45 relative z-10">
+<span class="material-symbols-outlined -rotate-45 text-on-surface-variant text-3xl">lock</span>
+</div>
+<div class="absolute top-20 left-1/2 -translate-x-1/2 w-48 text-center">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">STORY_03</p>
+<h3 class="font-data-display text-data-display text-on-surface-variant leading-tight uppercase">Void Gate</h3>
+<p class="text-[10px] text-on-surface-variant mt-1 uppercase tracking-tighter">LOCKED // PREREQUISITE REQ.</p>
+</div>
+<!-- Branching Line -->
+<div class="absolute -top-32 left-1/2 w-32 h-[1px] bg-outline-variant/30 -rotate-45 -z-20"></div>
+</div>
+<!-- Milestone 4: Portal -->
+<div class="relative group opacity-30">
+<div class="w-24 h-24 bg-tertiary-container/10 border-2 border-tertiary rounded-full flex items-center justify-center relative z-10 overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-tr from-secondary/20 to-tertiary/20 animate-spin"></div>
+<span class="material-symbols-outlined text-tertiary text-5xl">auto_awesome</span>
+</div>
+<div class="absolute top-28 left-1/2 -translate-x-1/2 w-48 text-center">
+<p class="font-label-sm text-label-sm text-tertiary mb-1">SINGULARITY</p>
+<h3 class="font-data-display text-data-display text-tertiary leading-tight uppercase">The Zenith</h3>
+<p class="text-[10px] text-outline-variant mt-1 uppercase tracking-tighter">ERROR: DATA CORRUPT</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Console: Filters & Status -->
+<aside class="absolute right-0 top-0 h-full w-80 bg-surface-container/30 backdrop-blur-3xl border-l border-outline-variant/20 p-8 z-20 flex flex-col gap-8 transform translate-x-full md:translate-x-0 transition-transform">
+<div class="flex items-center justify-between">
+<h3 class="font-label-sm text-label-sm text-primary tracking-widest uppercase">System Control</h3>
+<span class="text-[10px] font-label-sm text-on-surface-variant">SYS_MNP_04</span>
+</div>
+<!-- Difficulty Filters -->
+<div class="flex flex-col gap-4">
+<span class="text-[9px] font-label-sm text-outline tracking-widest uppercase">Select Frequency</span>
+<div class="flex flex-col gap-2">
+<button class="flex items-center justify-between px-4 py-3 border border-primary/40 bg-primary/5 hover:bg-primary/10 transition-colors group">
+<div class="flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#5bc8f5]"></span>
+<span class="font-label-sm text-label-sm text-primary uppercase">Aetheric</span>
+</div>
+<span class="material-symbols-outlined text-primary text-sm">radio_button_checked</span>
+</button>
+<button class="flex items-center justify-between px-4 py-3 border border-outline-variant bg-transparent hover:bg-surface-bright/20 transition-colors group">
+<div class="flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-on-tertiary-fixed-variant"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Void</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant text-sm">radio_button_unchecked</span>
+</button>
+<button class="flex items-center justify-between px-4 py-3 border border-outline-variant bg-transparent hover:bg-surface-bright/20 transition-colors group">
+<div class="flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-on-surface-variant"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Mortal</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant text-sm">radio_button_unchecked</span>
+</button>
+</div>
+</div>
+<!-- Active Saga -->
+<div class="flex flex-col gap-4">
+<span class="text-[9px] font-label-sm text-outline tracking-widest uppercase">Active Saga Tracker</span>
+<div class="glass-panel p-4 rounded-lg relative overflow-hidden">
+<div class="absolute top-0 right-0 w-16 h-16 opacity-10">
+<span class="material-symbols-outlined text-6xl">blur_on</span>
+</div>
+<p class="font-label-sm text-[10px] text-primary uppercase mb-2">Current Objective:</p>
+<p class="font-body-md text-sm text-white mb-4">Initialize the Nebula Protocol at the edge of the Magno-void. High interference detected.</p>
+<div class="flex justify-between items-end">
+<div class="flex flex-col">
+<span class="text-[10px] text-on-surface-variant uppercase">Time Remaining</span>
+<span class="font-data-display text-primary text-sm">04:12:45:09</span>
+</div>
+<button class="px-4 py-2 bg-primary text-on-primary font-label-sm text-[10px] uppercase font-bold tracking-widest">RESUME</button>
+</div>
+</div>
+</div>
+<!-- Legend Section -->
+<div class="mt-auto pt-8 border-t border-outline-variant/20">
+<span class="text-[9px] font-label-sm text-outline tracking-widest uppercase mb-4 block">Influence Overlay</span>
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-3">
+<div class="w-4 h-4 bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)] flex items-center justify-center">
+<div class="w-2 h-2 bg-black"></div>
+</div>
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">White Brotherhood Alignment</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-4 h-4 bg-surface-container-lowest border border-primary/50 shadow-[0_0_10px_rgba(0,0,0,1)] relative">
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-2 h-2 bg-primary"></div>
+</div>
+</div>
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Black Cube Influence</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Legend Floating Overlay (Mobile Only) -->
+<div class="md:hidden absolute bottom-24 right-4 z-30">
+<button class="w-12 h-12 rounded-full bg-primary/20 border border-primary backdrop-blur-xl flex items-center justify-center text-primary shadow-lg">
+<span class="material-symbols-outlined">legend_toggle</span>
+</button>
+</div>
+<!-- Horizontal/Vertical Grid Connectors -->
+<div class="absolute top-0 left-1/4 h-full energy-stroke-v opacity-20 pointer-events-none"></div>
+<div class="absolute top-0 left-3/4 h-full energy-stroke-v opacity-20 pointer-events-none"></div>
+<div class="absolute top-1/4 left-0 w-full energy-stroke-h opacity-20 pointer-events-none"></div>
+<div class="absolute top-3/4 left-0 w-full energy-stroke-h opacity-20 pointer-events-none"></div>
+</main>
+<!-- Bottom Navigation Shell (Mobile) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin-mobile pb-safe h-20 bg-surface-container-low/90 dark:bg-surface-container-low/90 backdrop-blur-lg border-t border-primary/20 shadow-[0_-5px_20px_rgba(91,200,245,0.15)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-primary bg-primary/10 rounded-xl p-2" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-label-sm text-label-sm">Roadmap</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary-fixed-dim" href="#">
+<span class="material-symbols-outlined">gps_fixed</span>
+<span class="font-label-sm text-label-sm">Terminal</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary-fixed-dim" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="font-label-sm text-label-sm">Journal</span>
+</a>
+</nav>
+<!-- Interactive Layer -->
+<script>
+        // Simple drag scroll for the roadmap
+        const slider = document.getElementById('nodeMap');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            slider.classList.add('active');
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+        });
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+        });
+        slider.addEventListener('mousemove', (e) => {
+            if(!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+
+        // Haptic feedback simulation for buttons
+        document.querySelectorAll('button, a').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    btn.style.transform = 'scale(1)';
+                }, 150);
+            });
+        });
+
+        // Initialize progress bar width animation
+        window.addEventListener('load', () => {
+            console.log('MagnoWays Terminal Initialized...');
+        });
+    </script>
+</body></html>

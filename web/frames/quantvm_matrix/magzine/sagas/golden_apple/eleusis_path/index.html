@@ -1,0 +1,352 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>MagnopVS - Eleusis Path</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#1c1b1b",
+                        "outline-variant": "#3c494e",
+                        "inverse-on-surface": "#313030",
+                        "on-tertiary-container": "#005742",
+                        "surface-container-high": "#2a2a2a",
+                        "primary-container": "#00ccff",
+                        "on-error-container": "#ffdad6",
+                        "inverse-primary": "#006782",
+                        "on-secondary": "#5b005b",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-error": "#690005",
+                        "primary-fixed-dim": "#5ed4ff",
+                        "surface-container-highest": "#353534",
+                        "tertiary-container": "#4ed2aa",
+                        "secondary-fixed-dim": "#ffabf3",
+                        "primary-fixed": "#bbe9ff",
+                        "on-surface-variant": "#bbc8d0",
+                        "secondary": "#ffabf3",
+                        "on-secondary-fixed": "#380038",
+                        "secondary-fixed": "#ffd7f5",
+                        "secondary-container": "#fe00fe",
+                        "on-background": "#e5e2e1",
+                        "on-secondary-fixed-variant": "#810081",
+                        "on-surface": "#e5e2e1",
+                        "surface-tint": "#5ed4ff",
+                        "error-container": "#93000a",
+                        "surface": "#131313",
+                        "on-primary": "#003545",
+                        "outline": "#869399",
+                        "surface-bright": "#393939",
+                        "inverse-surface": "#e5e2e1",
+                        "on-primary-fixed": "#001f29",
+                        "on-primary-container": "#005369",
+                        "on-primary-fixed-variant": "#004d63",
+                        "tertiary-fixed": "#79f9ce",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed-dim": "#5adcb3",
+                        "primary": "#9de2ff",
+                        "surface-dim": "#131313",
+                        "surface-variant": "#353534",
+                        "surface-container": "#201f1f",
+                        "on-tertiary-fixed": "#002117",
+                        "background": "#131313",
+                        "on-tertiary": "#003829",
+                        "on-secondary-container": "#500050",
+                        "on-tertiary-fixed-variant": "#00513d",
+                        "tertiary": "#6eefc5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "container-max": "1440px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Orbitron"],
+                        "headline-lg": ["Audiowide"],
+                        "display-xl": ["Audiowide"],
+                        "headline-lg-mobile": ["Audiowide"],
+                        "technical-sm": ["Orbitron"],
+                        "label-caps": ["Orbitron"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "1.6", "letterSpacing": "0.02em", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "400" }],
+                        "display-xl": ["64px", { "lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "400" }],
+                        "technical-sm": ["12px", { "lineHeight": "1.4", "letterSpacing": "0.2em", "fontWeight": "600" }],
+                        "label-caps": ["10px", { "lineHeight": "1", "letterSpacing": "0.3em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        @keyframes pulse-energy {
+            0%, 100% { box-shadow: 0 0 15px rgba(0, 204, 255, 0.4), inset 0 0 10px rgba(0, 204, 255, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(254, 0, 254, 0.6), inset 0 0 20px rgba(254, 0, 254, 0.3); }
+        }
+        .energy-pulse { animation: pulse-energy 4s infinite ease-in-out; }
+        .glass-panel {
+            background: rgba(14, 14, 14, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .text-glow-quantum {
+            text-shadow: 0 0 10px rgba(0, 204, 255, 0.8), 0 0 20px rgba(254, 0, 254, 0.5);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .floating { animation: float 6s ease-in-out infinite; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<!-- Top Navigation Anchor -->
+<header class="flex justify-between items-center px-margin-desktop py-4 w-full z-[100] fixed top-0 bg-background/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_20px_rgba(0,219,233,0.1)]">
+<div class="font-display-xl text-headline-md tracking-widest text-primary-fixed-dim">
+            MagnopVS
+        </div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="font-label-caps text-label-caps text-primary-fixed-dim border-b-2 border-primary-fixed-dim pb-1" href="#">Saga</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary-fixed transition-colors" href="#">Lore</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary-fixed transition-colors" href="#">Artifacts</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary-fixed transition-colors" href="#">Network</a>
+</nav>
+<div class="flex gap-4">
+<button class="bg-surface-container-highest/50 border border-outline px-6 py-2 rounded font-label-caps text-label-caps hover:bg-surface-container-high transition-all text-on-surface scale-95 active:scale-90 transition-transform">
+                Connect Identity
+            </button>
+<button class="bg-primary-container text-on-primary-container px-6 py-2 rounded font-label-caps text-label-caps energy-pulse scale-95 active:scale-90 transition-transform">
+                Enter Saga
+            </button>
+</div>
+</header>
+<!-- Side Navigation Shell -->
+<aside class="fixed left-0 top-0 h-full flex flex-col pt-24 pb-8 w-64 bg-surface-container-lowest/90 backdrop-blur-2xl border-r border-primary-container/20 shadow-[5px_0_15px_rgba(0,0,0,0.5)] z-50">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full border border-secondary bg-surface-container-high flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+</div>
+<div>
+<h3 class="font-headline-md text-secondary-fixed-dim text-[14px]">ELEUSIS PATH</h3>
+<p class="font-data-mono text-data-mono text-on-surface-variant text-[9px]">Quantum Initiation Protocol</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 flex flex-col">
+<a class="flex items-center px-6 py-4 bg-primary-container/10 text-primary-fixed-dim border-r-4 border-primary-fixed-dim group" href="#">
+<span class="material-symbols-outlined mr-3 group-hover:translate-x-1 duration-200">account_balance</span>
+<span class="font-label-caps text-label-caps">The Temple</span>
+</a>
+<a class="flex items-center px-6 py-4 text-on-surface-variant hover:bg-surface-container-high hover:text-tertiary-container transition-all group" href="#">
+<span class="material-symbols-outlined mr-3 group-hover:translate-x-1 duration-200">visibility</span>
+<span class="font-label-caps text-label-caps">Mysteries</span>
+</a>
+<a class="flex items-center px-6 py-4 text-on-surface-variant hover:bg-surface-container-high hover:text-tertiary-container transition-all group" href="#">
+<span class="material-symbols-outlined mr-3 group-hover:translate-x-1 duration-200">military_tech</span>
+<span class="font-label-caps text-label-caps">Initiation</span>
+</a>
+<a class="flex items-center px-6 py-4 text-on-surface-variant hover:bg-surface-container-high hover:text-tertiary-container transition-all group" href="#">
+<span class="material-symbols-outlined mr-3 group-hover:translate-x-1 duration-200">cyclone</span>
+<span class="font-label-caps text-label-caps">Transformation</span>
+</a>
+<a class="flex items-center px-6 py-4 text-on-surface-variant hover:bg-surface-container-high hover:text-tertiary-container transition-all group" href="#">
+<span class="material-symbols-outlined mr-3 group-hover:translate-x-1 duration-200">auto_awesome</span>
+<span class="font-label-caps text-label-caps">Ascension</span>
+</a>
+</nav>
+<div class="px-6 pt-6 border-t border-outline-variant/20">
+<button class="w-full bg-secondary-fixed-dim/20 border border-secondary-fixed-dim text-secondary-fixed-dim py-3 rounded font-label-caps text-label-caps hover:bg-secondary-fixed-dim/30 transition-all">
+                View Lore
+            </button>
+<div class="mt-4 flex flex-col gap-2">
+<a class="flex items-center text-on-surface-variant text-[10px] uppercase font-bold hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px] mr-2">settings</span> Settings
+                </a>
+<a class="flex items-center text-on-surface-variant text-[10px] uppercase font-bold hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px] mr-2">help_center</span> Support
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-64 min-h-screen relative pt-24 pb-16 overflow-hidden">
+<!-- Hero Background -->
+<div class="absolute inset-0 z-0">
+<img alt="Background" class="w-full h-full object-cover opacity-60 mix-blend-screen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDl1Bzkh4D_iZqk8kZbFjFOOvQdd7o0Xy-PjdC-JhO4JPaH_8ORj0qJq1TAq2Oa46war3R-8WDCXTBpp8SbAgFh4y2hlKcz7V-zCrQUcmOBS5aWqRWBNvIJ7UsdiM0eVFGjUW1E9vHY_HcB-epaWua_csQosP7zhh0TyiWD0IpGzcwThwio1nTrYTi3N6QXwIvt4xIdodA5bthNNV1GrCHUpsq0bhwjVePbzAnH8eXx3Y7EAgo0E4mU1VsfwYxYwsFyRg1UquUrGclv">
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-background via-transparent to-transparent"></div>
+</div>
+<div class="relative z-10 px-margin-desktop max-w-container-max mx-auto h-full grid grid-cols-12 gap-gutter">
+<!-- Hero Content -->
+<section class="col-span-12 lg:col-span-7 flex flex-col justify-center py-20">
+<div class="mb-4 inline-flex items-center bg-primary-container/10 border border-primary-container/30 px-3 py-1 rounded-full w-fit">
+<span class="text-primary font-technical-sm text-technical-sm">PRECISION PROTOCOL // 001</span>
+</div>
+<h2 class="font-label-caps text-label-caps tracking-[0.5em] text-secondary-fixed-dim mb-2">ENTER THE PATH. ASCEND THE MYSTERY.</h2>
+<h1 class="font-display-xl text-display-xl md:text-[80px] text-white leading-tight mb-6 text-glow-quantum">
+                    Eleusis Path
+                </h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl mb-10 leading-relaxed">
+                    Welcome to the initiation protocol of the Golden Apple. Explore the convergence of ancient Greek mythology and quantum reality. Hades awaits in the abyss, while Persephone blooms in the void.
+                </p>
+<div class="flex flex-wrap gap-6">
+<button class="bg-primary-container text-on-primary-container font-label-caps text-label-caps px-10 py-5 rounded-sm energy-pulse hover:scale-105 transition-transform duration-300">
+                        ENTER SAGA
+                    </button>
+<button class="border border-outline font-label-caps text-label-caps px-10 py-5 rounded-sm hover:bg-white/5 transition-colors backdrop-blur-md">
+                        VIEW LORE ARCHIVE
+                    </button>
+</div>
+</section>
+<!-- Tactical Widgets Column -->
+<section class="col-span-12 lg:col-span-5 flex flex-col gap-6 py-20">
+<!-- Saga Status Widget -->
+<div class="glass-panel p-6 rounded-lg relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-20">
+<span class="material-symbols-outlined text-[60px] text-primary">data_thresholding</span>
+</div>
+<h3 class="font-label-caps text-label-caps text-primary-fixed mb-6 flex items-center">
+<span class="material-symbols-outlined mr-2 text-[14px]">sensors</span> Saga Status
+                    </h3>
+<div class="grid grid-cols-3 gap-4">
+<div class="text-center">
+<div class="text-on-surface-variant font-technical-sm text-technical-sm mb-1 uppercase">Season</div>
+<div class="text-2xl font-headline-lg text-white">01</div>
+</div>
+<div class="text-center border-x border-outline-variant/30">
+<div class="text-on-surface-variant font-technical-sm text-technical-sm mb-1 uppercase">Chapter</div>
+<div class="text-2xl font-headline-lg text-white">01</div>
+</div>
+<div class="text-center">
+<div class="text-on-surface-variant font-technical-sm text-technical-sm mb-1 uppercase">Resonance</div>
+<div class="text-2xl font-headline-lg text-primary-fixed-dim">78%</div>
+</div>
+</div>
+<div class="mt-6 h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary-container to-secondary-container w-[78%]"></div>
+</div>
+</div>
+<!-- Mystery Grid -->
+<div class="grid grid-cols-3 gap-4">
+<div class="glass-panel p-4 rounded-lg flex flex-col items-center justify-center text-center hover:bg-primary-container/5 cursor-pointer transition-all border-b-2 border-transparent hover:border-primary-container">
+<span class="material-symbols-outlined text-primary-fixed-dim mb-2">military_tech</span>
+<span class="font-label-caps text-[9px] text-on-surface-variant">Initiation</span>
+</div>
+<div class="glass-panel p-4 rounded-lg flex flex-col items-center justify-center text-center hover:bg-secondary-container/5 cursor-pointer transition-all border-b-2 border-transparent hover:border-secondary-container">
+<span class="material-symbols-outlined text-secondary mb-2">cyclone</span>
+<span class="font-label-caps text-[9px] text-on-surface-variant">Transformation</span>
+</div>
+<div class="glass-panel p-4 rounded-lg flex flex-col items-center justify-center text-center hover:bg-tertiary-container/5 cursor-pointer transition-all border-b-2 border-transparent hover:border-tertiary-container">
+<span class="material-symbols-outlined text-tertiary mb-2">auto_awesome</span>
+<span class="font-label-caps text-[9px] text-on-surface-variant">Ascension</span>
+</div>
+</div>
+<!-- Active Nodes Panel -->
+<div class="glass-panel p-6 rounded-lg flex-1">
+<h3 class="font-label-caps text-label-caps text-secondary-fixed-dim mb-4 flex items-center justify-between">
+<div class="flex items-center">
+<span class="material-symbols-outlined mr-2 text-[14px]">hub</span> Active Nodes
+                        </div>
+<span class="text-[8px] animate-pulse text-error">LIVE SIGNAL</span>
+</h3>
+<ul class="space-y-4">
+<li class="flex items-center justify-between p-3 bg-surface-container-highest/30 rounded border-l-2 border-primary-container">
+<div class="flex flex-col">
+<span class="font-technical-sm text-technical-sm text-white">Underworld Gateway</span>
+<span class="text-[9px] text-on-surface-variant uppercase">Sector A-9</span>
+</div>
+<div class="w-2 h-2 rounded-full bg-primary-container shadow-[0_0_8px_#00ccff]"></div>
+</li>
+<li class="flex items-center justify-between p-3 bg-surface-container-highest/30 rounded border-l-2 border-secondary">
+<div class="flex flex-col">
+<span class="font-technical-sm text-technical-sm text-white">Persephone's Garden</span>
+<span class="text-[9px] text-on-surface-variant uppercase">Bio-Loom</span>
+</div>
+<div class="w-2 h-2 rounded-full bg-secondary shadow-[0_0_8px_#fe00fe]"></div>
+</li>
+<li class="flex items-center justify-between p-3 bg-surface-container-highest/30 rounded border-l-2 border-outline opacity-50">
+<div class="flex flex-col">
+<span class="font-technical-sm text-technical-sm text-white">The Void Throne</span>
+<span class="text-[9px] text-on-surface-variant uppercase">Locked</span>
+</div>
+<span class="material-symbols-outlined text-[14px]">lock</span>
+</li>
+</ul>
+</div>
+</section>
+</div>
+<!-- Atmospheric HUD Elements -->
+<div class="fixed bottom-10 right-10 z-50 pointer-events-none">
+<div class="relative w-48 h-48 border border-primary/20 rounded-full flex items-center justify-center">
+<div class="absolute inset-0 border-t-2 border-primary/40 rounded-full animate-[spin_10s_linear_infinite]"></div>
+<div class="absolute inset-4 border-b border-secondary/30 rounded-full animate-[spin_7s_linear_infinite_reverse]"></div>
+<div class="text-center opacity-40">
+<div class="font-label-caps text-[8px]">QUANTUM LATENCY</div>
+<div class="font-technical-sm text-technical-sm text-primary">0.024ms</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="ml-64 w-full py-8 px-margin-desktop flex justify-between items-center border-t border-outline-variant/20 bg-surface-container-lowest font-label-caps text-label-caps text-on-surface-variant">
+<div class="flex items-center gap-4">
+<div class="font-headline-md text-on-surface text-[14px]">MAGNOPVS</div>
+<div class="w-px h-4 bg-outline-variant/40"></div>
+<span class="opacity-60">© 2024 MagnopVS. Transmedia Saga Protocol enabled.</span>
+</div>
+<div class="flex gap-8">
+<a class="hover:text-secondary-fixed-dim transition-colors transition-all opacity-80 hover:opacity-100" href="#">Privacy Matrix</a>
+<a class="hover:text-secondary-fixed-dim transition-colors transition-all opacity-80 hover:opacity-100" href="#">Terms of Path</a>
+<a class="hover:text-secondary-fixed-dim transition-colors transition-all opacity-80 hover:opacity-100" href="#">Contact Curator</a>
+</div>
+</footer>
+<script>
+        // Atmospheric floating particles
+        const main = document.querySelector('main');
+        for (let i = 0; i < 20; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'absolute bg-primary/20 rounded-full pointer-events-none floating';
+            const size = Math.random() * 4 + 2;
+            dot.style.width = `${size}px`;
+            dot.style.height = `${size}px`;
+            dot.style.left = `${Math.random() * 100}%`;
+            dot.style.top = `${Math.random() * 100}%`;
+            dot.style.animationDelay = `${Math.random() * 5}s`;
+            dot.style.animationDuration = `${Math.random() * 4 + 4}s`;
+            main.appendChild(dot);
+        }
+
+        // Mouse trail interaction (Lightweight)
+        document.addEventListener('mousemove', (e) => {
+            const glow = document.createElement('div');
+            glow.className = 'fixed w-32 h-32 rounded-full pointer-events-none opacity-20 blur-3xl z-[9999]';
+            glow.style.background = 'radial-gradient(circle, #00ccff 0%, transparent 70%)';
+            glow.style.left = `${e.clientX - 64}px`;
+            glow.style.top = `${e.clientY - 64}px`;
+            document.body.appendChild(glow);
+            setTimeout(() => glow.remove(), 500);
+        });
+    </script>
+</body></html>

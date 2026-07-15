@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnoEggs | MagnopVS Index</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;700&amp;family=Sora:wght@400;600;800&amp;family=Hanken+Grotesk:wght@400;600&amp;family=Space+Mono&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary": "#ffabf3",
+                        "surface-container-high": "#2a2a2a",
+                        "outline-variant": "#424656",
+                        "error": "#ffb4ab",
+                        "on-surface": "#e4e2e2",
+                        "secondary": "#dcb8ff",
+                        "secondary-fixed": "#efdbff",
+                        "on-surface-variant": "#c2c6d8",
+                        "on-error-container": "#ffdad6",
+                        "on-error": "#690005",
+                        "secondary-fixed-dim": "#dcb8ff",
+                        "on-primary": "#002b75",
+                        "surface-container": "#1f2020",
+                        "primary-fixed-dim": "#b3c5ff",
+                        "surface-dim": "#131314",
+                        "on-secondary-fixed-variant": "#6700b5",
+                        "inverse-on-surface": "#303030",
+                        "tertiary-fixed": "#ffd7f5",
+                        "outline": "#8c90a1",
+                        "surface": "#131314",
+                        "error-container": "#93000a",
+                        "on-primary-container": "#f8f7ff",
+                        "secondary-container": "#7701d0",
+                        "primary-container": "#0066ff",
+                        "on-secondary-fixed": "#2c0051",
+                        "on-secondary": "#480081",
+                        "on-background": "#e4e2e2",
+                        "surface-container-lowest": "#0e0e0e",
+                        "primary-fixed": "#dae1ff",
+                        "tertiary-container": "#ca00ca",
+                        "surface-bright": "#393939",
+                        "surface-variant": "#343535",
+                        "inverse-surface": "#e4e2e2",
+                        "primary": "#b3c5ff",
+                        "inverse-primary": "#0054d6",
+                        "on-tertiary-container": "#fff6f9",
+                        "on-primary-fixed-variant": "#003fa4",
+                        "surface-tint": "#b3c5ff",
+                        "surface-container-low": "#1b1c1c",
+                        "background": "#131314",
+                        "tertiary-fixed-dim": "#ffabf3",
+                        "surface-container-highest": "#343535",
+                        "on-tertiary-fixed-variant": "#810081",
+                        "on-tertiary": "#5b005b",
+                        "on-secondary-container": "#dcb7ff",
+                        "on-primary-fixed": "#001849",
+                        "on-tertiary-fixed": "#380038"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    spacing: {
+                        "unit": "4px",
+                        "node-gap": "24px",
+                        "container-max": "640px",
+                        "gutter": "16px"
+                    },
+                    fontFamily: {
+                        "code-sm": ["Space Mono", "monospace"],
+                        "display-xl": ["Audiowide", "cursive"],
+                        "headline-lg": ["Orbitron", "sans-serif"],
+                        "body-md": ["Hanken Grotesk", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #050505;
+            background-image: 
+                linear-gradient(rgba(179, 197, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(179, 197, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            color: #e4e2e2;
+            overflow-x: hidden;
+        }
+
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 99;
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(179, 197, 255, 0.1) 50%, rgba(0, 0, 0, 0) 100%);
+            opacity: 0.1;
+            position: absolute;
+            bottom: 100%;
+            animation: scanline 10s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { bottom: 100%; }
+            100% { bottom: -100px; }
+        }
+
+        .cyber-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(179, 197, 255, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .cyber-card::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: -1px;
+            width: 10px; height: 10px;
+            border-top: 2px solid #b3c5ff;
+            border-left: 2px solid #b3c5ff;
+        }
+
+        .cyber-card::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; right: -1px;
+            width: 10px; height: 10px;
+            border-bottom: 2px solid #ffabf3;
+            border-right: 2px solid #ffabf3;
+        }
+
+        .cyber-card:hover {
+            border-color: #b3c5ff;
+            box-shadow: 0 0 20px rgba(179, 197, 255, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .glitch-text:hover {
+            animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .hologram-effect {
+            background: linear-gradient(135deg, rgba(179, 197, 255, 0.1) 0%, rgba(255, 171, 243, 0.1) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hologram-effect::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(179, 197, 255, 0.05) 2px);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="font-body-md selection:bg-primary selection:text-on-primary">
+<div class="scanline"></div>
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-gutter h-16 max-w-container-max mx-auto bg-background/80 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_20px_rgba(179,197,255,0.2)]">
+<div class="flex items-center gap-4">
+<span class="font-display-xl text-primary drop-shadow-[0_0_10px_rgba(179,197,255,0.5)]">MagnoEggs</span>
+</div>
+<nav class="hidden lg:flex items-center gap-8">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-body-md text-label-sm" href="#">Index</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-label-sm" href="#">Incubator</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-label-sm" href="#">Hatched</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-label-sm" href="#">Multiverse</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-primary/10 hover:text-primary transition-all duration-300 rounded-full">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+<button class="p-2 hover:bg-primary/10 hover:text-primary transition-all duration-300 rounded-full">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full z-40 flex flex-col pt-20 w-64 hidden md:flex bg-surface-container-high/95 backdrop-blur-2xl border-r border-primary/20 shadow-2xl">
+<div class="px-6 py-4 border-b border-outline-variant">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/40">
+<span class="material-symbols-outlined text-primary">person</span>
+</div>
+<div>
+<h3 class="font-headline-lg text-[14px] leading-tight text-primary">ARCHIVE_01</h3>
+<p class="font-code-sm text-code-sm text-secondary opacity-70">[ SYSTEM_ONLINE ]</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 py-4">
+<a class="flex items-center gap-4 text-primary font-bold bg-primary/10 border-l-4 border-primary px-6 py-3 font-code-sm text-code-sm transition-transform hover:translate-x-2" href="#">
+<span class="material-symbols-outlined">language</span>
+                All Realms
+            </a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-3 hover:bg-surface-variant/50 font-code-sm text-code-sm transition-transform hover:translate-x-2" href="#">
+<span class="material-symbols-outlined">hub</span>
+                Quantum Core
+            </a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-3 hover:bg-surface-variant/50 font-code-sm text-code-sm transition-transform hover:translate-x-2" href="#">
+<span class="material-symbols-outlined">dark_mode</span>
+                Void Sector
+            </a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-3 hover:bg-surface-variant/50 font-code-sm text-code-sm transition-transform hover:translate-x-2" href="#">
+<span class="material-symbols-outlined">grain</span>
+                Nebula Grid
+            </a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-3 hover:bg-surface-variant/50 font-code-sm text-code-sm transition-transform hover:translate-x-2" href="#">
+<span class="material-symbols-outlined">change_history</span>
+                Sacred Geometry
+            </a>
+</nav>
+<div class="p-6">
+<button class="w-full py-3 bg-primary text-on-primary font-headline-lg text-[14px] rounded-sm shadow-[0_0_15px_rgba(0,102,255,0.4)] hover:brightness-110 active:scale-95 transition-all">
+                Initialize Scan
+            </button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="md:pl-64 pt-16 min-h-screen">
+<div class="max-w-[1200px] mx-auto px-6 py-8">
+<!-- Hero Section -->
+<section class="relative h-[500px] rounded-xl overflow-hidden mb-12 shadow-2xl">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A cinematic, high-fidelity panoramic shot of several celestial MagnoEggs floating in deep space amidst a nebula of violet and blue energy. Glowing geometric constellations and ancient star maps shimmer in the background while beams of light radiate from the eggs. The scene is epic, mystical, and technologically advanced, featuring deep blacks and vibrant neon plasma highlights." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBdnw7bYuWVaJlfax9mUdzSSqEF0xIUp-F81IJXjrpVV4b0cGS8Tq7r1BBkqmZ1TaaUbD5CMp4EaFnSYBvJT9nMBUa8K05c9MagAw2PJsgPafR9pKiEwSZJtWbLb_efopjnXfozsny0Akzf21E6bTFVDpQedq6e7pGuZ7hNcNnFUW6YwFWYLhZuVltNiCoyzhRrEVt_7qFg1RiDxzH69l6WeXzkqnR7HYwGhMZrqi-0A0-dF6sIX-1yL-sp0XwmExYi_F8lexfb6GJG')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="absolute bottom-12 left-12 max-w-2xl">
+<h1 class="font-display-xl text-display-xl-mobile md:text-display-xl text-white mb-4 drop-shadow-[0_0_20px_rgba(179,197,255,0.8)]">MagnoEggs</h1>
+<p class="font-headline-lg text-secondary text-[20px] mb-6">Every hidden secret can hatch into a new MagFam.</p>
+<div class="flex gap-4">
+<button class="px-8 py-3 bg-primary text-on-primary font-bold rounded-lg hover:shadow-[0_0_25px_rgba(0,102,255,0.6)] transition-all">Explore Secrets</button>
+<button class="px-8 py-3 border border-primary text-primary font-bold rounded-lg hover:bg-primary/10 transition-all">Tutorial</button>
+</div>
+</div>
+</section>
+<!-- Player Progress Module -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<div class="hologram-effect cyber-card p-6 rounded-xl flex items-center justify-between">
+<div>
+<p class="font-code-sm text-secondary opacity-60 uppercase mb-1">Discovered</p>
+<h2 class="font-headline-lg text-white text-[32px]">47</h2>
+</div>
+<span class="material-symbols-outlined text-4xl text-primary opacity-50">visibility</span>
+</div>
+<div class="hologram-effect cyber-card p-6 rounded-xl flex items-center justify-between">
+<div>
+<p class="font-code-sm text-secondary opacity-60 uppercase mb-1">Incubating</p>
+<h2 class="font-headline-lg text-white text-[32px]">12</h2>
+</div>
+<span class="material-symbols-outlined text-4xl text-tertiary opacity-50">egg</span>
+</div>
+<div class="hologram-effect cyber-card p-6 rounded-xl flex items-center justify-between">
+<div>
+<p class="font-code-sm text-secondary opacity-60 uppercase mb-1">Hatched</p>
+<h2 class="font-headline-lg text-white text-[32px]">128</h2>
+</div>
+<span class="material-symbols-outlined text-4xl text-secondary opacity-50">auto_awesome</span>
+</div>
+</section>
+<!-- Tactical Control Bar -->
+<section class="cyber-card p-4 rounded-xl mb-12 flex flex-col md:flex-row gap-4 items-center">
+<div class="relative flex-1 w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-lowest border-none focus:ring-1 focus:ring-primary rounded-lg pl-12 py-3 font-code-sm text-on-surface" placeholder="Search Archives..." type="text"/>
+</div>
+<div class="flex gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
+<select class="bg-surface-container-low border border-outline-variant text-on-surface rounded-lg px-4 py-2 font-code-sm focus:ring-primary">
+<option>Rarity: All</option>
+<option>Ancient</option>
+<option>Forbidden</option>
+<option>Rare</option>
+</select>
+<select class="bg-surface-container-low border border-outline-variant text-on-surface rounded-lg px-4 py-2 font-code-sm focus:ring-primary">
+<option>Status: All</option>
+<option>Ready</option>
+<option>Hatching</option>
+<option>Locked</option>
+</select>
+<button class="bg-primary/20 text-primary border border-primary/40 px-4 py-2 rounded-lg hover:bg-primary/30">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+</section>
+<!-- Roadmap Section -->
+<section class="mb-16">
+<div class="flex items-center gap-4 mb-8">
+<h2 class="font-display-xl text-white text-[24px]">Lifecycle Roadmap</h2>
+<div class="h-px flex-1 bg-gradient-to-r from-primary/50 to-transparent"></div>
+</div>
+<div class="grid grid-cols-2 lg:grid-cols-5 gap-4 relative">
+<div class="absolute top-1/2 left-0 w-full h-[2px] bg-primary/10 -translate-y-1/2 hidden lg:block"></div>
+<div class="relative z-10 text-center">
+<div class="w-12 h-12 bg-background border-2 border-primary rounded-full mx-auto flex items-center justify-center mb-3 shadow-[0_0_15px_rgba(0,102,255,0.3)]">
+<span class="material-symbols-outlined text-primary">search</span>
+</div>
+<p class="font-headline-lg text-[12px] text-white">Discover Secret</p>
+</div>
+<div class="relative z-10 text-center">
+<div class="w-12 h-12 bg-background border-2 border-primary/40 rounded-full mx-auto flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-primary/60">workspaces</span>
+</div>
+<p class="font-headline-lg text-[12px] text-on-surface-variant">Obtain MagnoEgg</p>
+</div>
+<div class="relative z-10 text-center">
+<div class="w-12 h-12 bg-background border-2 border-primary/40 rounded-full mx-auto flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-primary/60">task_alt</span>
+</div>
+<p class="font-headline-lg text-[12px] text-on-surface-variant">Requirements</p>
+</div>
+<div class="relative z-10 text-center">
+<div class="w-12 h-12 bg-background border-2 border-primary/40 rounded-full mx-auto flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-primary/60">egg</span>
+</div>
+<p class="font-headline-lg text-[12px] text-on-surface-variant">Hatch</p>
+</div>
+<div class="relative z-10 text-center">
+<div class="w-12 h-12 bg-background border-2 border-tertiary/40 rounded-full mx-auto flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-tertiary/60">lock_open</span>
+</div>
+<p class="font-headline-lg text-[12px] text-on-surface-variant">Unlock MagFam</p>
+</div>
+</div>
+</section>
+<!-- Egg Grid -->
+<section class="mb-16">
+<div class="flex items-center justify-between mb-8">
+<h2 class="font-display-xl text-white text-[24px]">Recent Discoveries</h2>
+<span class="font-code-sm text-secondary px-3 py-1 bg-secondary/10 border border-secondary/20 rounded">[ LIVE_FEED ]</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Card 1 -->
+<div class="cyber-card rounded-xl overflow-hidden group">
+<div class="h-64 overflow-hidden relative">
+<div class="absolute top-4 right-4 z-20 font-code-sm text-white bg-black/60 px-2 py-1 rounded backdrop-blur">Ancient</div>
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A close-up of a glowing, translucent crystalline egg with a pulsing golden vortex at its core. The shell consists of iridescent shards that reflect soft blue and amber light. It is encased in a metallic frame inscribed with glowing cyan runes, floating in a dark, atmospheric void with shattered glass fragments." src="https://lh3.googleusercontent.com/aida-public/AB6AXuArx0EvB1EylwM9LeGHMkRl92J4v3q27Gna0ubOa7nNibXkvFuHloIKh5K6I_id0JcrDZoQjzNWsB88ZW-XZIDcc6zrFNUHOZtWzw9fRZgu-HFUNQT1qKCcWkenW_P9bUEK52ExHNsSC2KFzNvgMUMWWv6oUP4yBscBi4LYKyvWjUItn8rLABEGxmvhoaAbH-HPv44O2jUIrML__oRh3lCzqQ6mVKbZPZtBUSWKvvVQk5B43PlTBdrlkOH8He0v0Yjmm7V8U5dFVKHz"/>
+</div>
+<div class="p-6">
+<h3 class="font-headline-lg text-primary text-[18px] mb-2 group-hover:text-white transition-colors">Primordial Soul-Core</h3>
+<div class="flex justify-between font-code-sm text-on-surface-variant text-[12px] mb-4">
+<span>Origin: The Source</span>
+<span class="text-secondary">88% SYNC</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full mb-4 overflow-hidden">
+<div class="h-full bg-primary shadow-[0_0_10px_rgba(0,102,255,1)]" style="width: 88%"></div>
+</div>
+<p class="font-code-sm text-tertiary text-[11px] mb-6">REQ: 3x Source Shards</p>
+<button class="w-full py-2 border border-primary/40 text-primary hover:bg-primary hover:text-on-primary transition-all font-bold rounded">Analyze Node</button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="cyber-card rounded-xl overflow-hidden group border-tertiary/20">
+<div class="h-64 overflow-hidden relative">
+<div class="absolute top-4 right-4 z-20 font-code-sm text-white bg-black/60 px-2 py-1 rounded backdrop-blur">Forbidden</div>
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A dark, angular, obsidian-like egg composed of jagged polygonal segments. Vibrant magenta plasma and digital glitch artifacts leak from the cracks between the shards. Holographic binary code strings float around it, creating a sense of chaotic energy and technological forbiddenness against a circuit-patterned background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWrckZhf_MLv7V3OzrpwIQhxTIH6uy5uzFqReNwXu8pi6dAzURQHRoLwgP6TdKnO8EEZG9Bu5-IgPU_AN7RTjIzF2mCM05hWrmHpTq-KSzY9yZwgDCApm4aPBkeN0jQfy9u6tpErlYCbhexnemQtyLgAJ7Jkq-W7m1RVHe-O188ogVuPuSIEEVucg-W9IYIAsQhVl_L5MI5Ayvg3jgfTQQFkg75jpoWLCSUxAW5phDvKvmrzAFM6C0ZD5YMJs5SeIyauCntNvpC0sr"/>
+</div>
+<div class="p-6">
+<h3 class="font-headline-lg text-tertiary text-[18px] mb-2 group-hover:text-white transition-colors">Glitched Fragment</h3>
+<div class="flex justify-between font-code-sm text-on-surface-variant text-[12px] mb-4">
+<span>Origin: Black Cube Corp</span>
+<span class="text-tertiary">34% SYNC</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full mb-4 overflow-hidden">
+<div class="h-full bg-tertiary shadow-[0_0_10px_rgba(255,171,243,1)]" style="width: 34%"></div>
+</div>
+<p class="font-code-sm text-tertiary text-[11px] mb-6">REQ: System Overload Sequence</p>
+<button class="w-full py-2 border border-tertiary/40 text-tertiary hover:bg-tertiary hover:text-on-primary transition-all font-bold rounded">Decrypt Fragment</button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="cyber-card rounded-xl overflow-hidden group">
+<div class="h-64 overflow-hidden relative">
+<div class="absolute top-4 right-4 z-20 font-code-sm text-white bg-primary px-2 py-1 rounded">Rare</div>
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A textured stone-like egg covered in glowing purple runic inscriptions and wrapped in shimmering violet vines with small glowing flowers. A soft ethereal purple aura surrounds the egg, hinting at ancient magical power. The background features subtle electronic circuit paths merged with organic patterns, representing a blend of nature and tech." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC23SZ1j3XcRARiA_X5_E0s_wMMU72kYOthGV9NLmdu4borRSyKiXFwlGrCLTmLofd4shVEuTxVYG0ZgE4YDSYayik_McSTUN56wfPKGKnSVNxKOTNyRLPwgodMpQMEXVdmWRUCLUdsS-BK8HsMXZCeEdvOPXCV447Ha3Bb37QJOdxnRmIXMBkMk6n1JNwK2vzf4AOh72n-wZoWmz78IQzHhZ9wRG7J-yxD6Gwd6buBk1jmACZ3k31UgOpL9EVqof31v56xQq_b4Hoi"/>
+</div>
+<div class="p-6">
+<h3 class="font-headline-lg text-secondary text-[18px] mb-2 group-hover:text-white transition-colors">Eleusian Seed</h3>
+<div class="flex justify-between font-code-sm text-on-surface-variant text-[12px] mb-4">
+<span>Origin: Eleusis Path</span>
+<span class="text-green-400">READY</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full mb-4 overflow-hidden">
+<div class="h-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,1)] animate-pulse" style="width: 100%"></div>
+</div>
+<p class="font-code-sm text-secondary text-[11px] mb-6">REQ: Completed Act I</p>
+<button class="w-full py-2 bg-secondary text-on-secondary hover:brightness-110 transition-all font-bold rounded">Initiate Hatching</button>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="cyber-card p-12 rounded-2xl text-center relative overflow-hidden group">
+<div class="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-all"></div>
+<div class="relative z-10">
+<h2 class="font-display-xl text-white text-[36px] mb-4">Ready for the Deep Scan?</h2>
+<p class="font-headline-lg text-on-surface-variant text-[16px] mb-8 max-w-xl mx-auto">Explore deeper layers of the multiverse to find more secrets and rare MagnoEggs.</p>
+<button class="px-12 py-4 bg-primary text-on-primary font-headline-lg text-[18px] rounded-lg shadow-[0_0_30px_rgba(0,102,255,0.4)] hover:scale-105 active:scale-95 transition-all">
+                        Enter the Quantvm Matrix
+                    </button>
+</div>
+</section>
+</div>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-safe h-20 md:hidden bg-surface-container-lowest/90 backdrop-blur-md border-t border-outline-variant">
+<button class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 p-2">
+<span class="material-symbols-outlined">auto_awesome_motion</span>
+<span class="text-[10px] font-code-sm">Bestiary</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full p-2 scale-110 shadow-[0_0_15px_rgba(0,102,255,0.4)] animate-pulse">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">egg</span>
+<span class="text-[10px] font-code-sm">Incubate</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 p-2">
+<span class="material-symbols-outlined">history_edu</span>
+<span class="text-[10px] font-code-sm">Archive</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 p-2">
+<span class="material-symbols-outlined">biotech</span>
+<span class="text-[10px] font-code-sm">Scanner</span>
+</button>
+</footer>
+<script>
+        // Micro-interactions and atmospheric effects
+        document.querySelectorAll('.cyber-card').forEach(card => {
+            card.addEventListener('mousedown', () => {
+                card.style.transform = 'scale(0.98) skewX(2deg)';
+            });
+            card.addEventListener('mouseup', () => {
+                card.style.transform = 'translateY(-4px)';
+            });
+        });
+
+        // Simulating a "glitch" effect periodically
+        setInterval(() => {
+            const elements = document.querySelectorAll('.glitch-text');
+            if(elements.length > 0) {
+                const randomElement = elements[Math.floor(Math.random() * elements.length)];
+                randomElement.classList.add('animate-glitch');
+                setTimeout(() => randomElement.classList.remove('animate-glitch'), 300);
+            }
+        }, 5000);
+    </script>
+</body></html>

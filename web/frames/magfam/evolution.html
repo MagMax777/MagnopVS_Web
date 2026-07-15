@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagFam Evolution Lab - Transmutation Terminal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Audiowide&amp;family=Orbitron:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-high": "#272a33",
+                        "surface-container": "#1d1f28",
+                        "inverse-on-surface": "#2e3039",
+                        "secondary-fixed-dim": "#00e0b3",
+                        "outline-variant": "#3e484e",
+                        "primary-container": "#5bc8f5",
+                        "inverse-primary": "#006685",
+                        "error-container": "#93000a",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-fixed": "#001f2a",
+                        "on-primary-container": "#00526b",
+                        "surface-variant": "#32343e",
+                        "on-primary-fixed-variant": "#004d65",
+                        "on-tertiary-fixed-variant": "#7b008f",
+                        "surface-container-lowest": "#0b0e16",
+                        "tertiary-fixed-dim": "#faabff",
+                        "tertiary": "#fec5ff",
+                        "primary-fixed-dim": "#6bd3ff",
+                        "on-secondary": "#00382b",
+                        "on-tertiary": "#570066",
+                        "secondary-fixed": "#24ffcd",
+                        "tertiary-fixed": "#ffd6fe",
+                        "on-surface": "#e1e1ee",
+                        "surface-container-highest": "#32343e",
+                        "surface-tint": "#6bd3ff",
+                        "on-secondary-fixed-variant": "#00513f",
+                        "primary": "#a2e0ff",
+                        "on-surface-variant": "#bdc8cf",
+                        "on-background": "#e1e1ee",
+                        "on-secondary-container": "#00725a",
+                        "outline": "#889299",
+                        "on-primary": "#003546",
+                        "inverse-surface": "#e1e1ee",
+                        "on-tertiary-container": "#820097",
+                        "tertiary-container": "#f69aff",
+                        "on-secondary-fixed": "#002118",
+                        "background": "#11131c",
+                        "secondary": "#ffffff",
+                        "error": "#ffb4ab",
+                        "secondary-container": "#24ffcd",
+                        "surface-bright": "#373942",
+                        "on-tertiary-fixed": "#35003f",
+                        "surface-container-low": "#191b24",
+                        "surface-dim": "#11131c",
+                        "on-error": "#690005",
+                        "surface": "#11131c",
+                        "primary-fixed": "#bee9ff"
+                    },
+                    spacing: {
+                        "sacred-ratio": "1.618",
+                        "margin-mobile": "16px",
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px"
+                    },
+                    fontFamily: {
+                        "command-title-lg": ["Space Grotesk"],
+                        "command-title-xl": ["Space Grotesk"],
+                        "body-standard": ["Geist"],
+                        "label-mono": ["JetBrains Mono"],
+                        "tactical-readout-md": ["JetBrains Mono"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #0b0e16;
+            color: #e1e1ee;
+            overflow: hidden;
+            font-family: 'Geist', sans-serif;
+        }
+
+        .hex-grid-bg {
+            background-image: radial-gradient(circle at 2px 2px, rgba(162, 224, 255, 0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+
+        .sacred-glow {
+            box-shadow: 0 0 40px -10px rgba(107, 211, 255, 0.3);
+            border: 0.5px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-panel {
+            background: rgba(17, 19, 28, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .magfam-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .magfam-card:hover {
+            transform: translateY(-8px) scale(1.05);
+            border-color: rgba(0, 224, 179, 0.5);
+            box-shadow: 0 10px 30px -5px rgba(0, 224, 179, 0.2);
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        .scanline::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to bottom, transparent 50%, rgba(107, 211, 255, 0.05) 50.5%, transparent 51%);
+            background-size: 100% 4px;
+            animation: scanline 10s linear infinite;
+            pointer-events: none;
+        }
+
+        .title-audiowide { font-family: 'Audiowide', cursive; }
+        .data-orbitron { font-family: 'Orbitron', sans-serif; }
+    </style>
+</head>
+<body class="hex-grid-bg h-screen w-screen relative select-none">
+<!-- Background Volumetric Effects -->
+<div class="fixed inset-0 pointer-events-none overflow-hidden">
+<div class="absolute -top-[20%] -left-[10%] w-[60%] h-[60%] bg-primary/10 blur-[120px] rounded-full"></div>
+<div class="absolute -bottom-[20%] -right-[10%] w-[60%] h-[60%] bg-tertiary-container/10 blur-[120px] rounded-full"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full opacity-10">
+<!-- Simplified Sacred Geometry Pattern via CSS -->
+<div class="w-full h-full" style="background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 100px 100px;"></div>
+</div>
+</div>
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface/30 backdrop-blur-xl border-b border-white/10 flex justify-between items-center px-margin-desktop h-20 shadow-[0_0_20px_rgba(107,211,255,0.1)]">
+<div class="flex items-center gap-8">
+<div class="font-command-title-lg text-command-title-lg text-primary tracking-widest uppercase">
+                MagFam <span class="text-secondary-fixed-dim">Evolution Lab</span>
+</div>
+<nav class="hidden md:flex gap-6 items-center"><a class="text-primary drop-shadow-[0_0_8px_rgba(162,224,255,0.8)] title-audiowide text-label-mono tracking-widest uppercase" href="#">Terminal</a><a class="text-on-surface-variant hover:text-secondary-fixed-dim hover:bg-white/5 transition-all px-3 py-1 rounded title-audiowide text-label-mono tracking-widest uppercase" href="#">Vault</a><a class="text-on-surface-variant hover:text-secondary-fixed-dim hover:bg-white/5 transition-all px-3 py-1 rounded title-audiowide text-label-mono tracking-widest uppercase" href="#">Telemetry</a></nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-secondary-fixed-dim scale-95 active:scale-90 transition-transform">fingerprint</button>
+<button class="material-symbols-outlined text-secondary-fixed-dim scale-95 active:scale-90 transition-transform">notifications</button>
+<div class="w-10 h-10 rounded-full border border-primary/30 flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Side Navigation -->
+<aside class="fixed left-0 top-0 h-screen w-64 z-40 bg-surface-container-low/40 backdrop-blur-2xl border-r border-white/5 flex flex-col gap-6 py-8 px-4 shadow-2xl">
+<div class="px-2 mb-4">
+<div class="font-command-title-lg text-primary mb-1">Command Core</div>
+<div class="font-tactical-readout-md text-tactical-readout-md uppercase text-primary">Sector 7 Resonance</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-primary-container/10 transition-colors group">
+<span class="material-symbols-outlined group-hover:translate-x-1 duration-300">menu_book</span>
+<span class="font-tactical-readout-md text-tactical-readout-md uppercase">Bestiary</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-primary-container/10 transition-colors group">
+<span class="material-symbols-outlined group-hover:translate-x-1 duration-300">auto_fix_high</span>
+<span class="font-tactical-readout-md text-tactical-readout-md uppercase">Forge</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary-fixed-dim bg-secondary-container/20 border-r-2 border-secondary-fixed-dim group">
+<span class="material-symbols-outlined group-hover:translate-x-1 duration-300">biotech</span>
+<span class="font-tactical-readout-md text-tactical-readout-md uppercase">Evolution Lab</span>
+</div>
+</div>
+<div class="mt-auto flex flex-col gap-6">
+<button class="w-full py-3 bg-primary/10 border border-primary/30 rounded-lg font-tactical-readout-md text-primary hover:bg-primary/20 transition-all uppercase tracking-widest">Initiate Evolution</button>
+<div class="flex flex-col gap-1 text-[11px] font-label-mono text-outline px-2">
+<div class="flex items-center gap-2 hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[14px]">security</span> Diagnostics
+            </div>
+<div class="flex items-center gap-2 hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[14px]">terminal</span> Terminal
+            </div>
+</div>
+</div>
+</aside>
+<!-- Main Workspace -->
+<main class="pl-64 pt-20 h-full w-full flex flex-col overflow-hidden relative">
+<!-- Header Section -->
+<div class="px-8 pt-8 flex justify-between items-end">
+<div>
+<h1 class="title-audiowide text-primary text-4xl tracking-tighter uppercase drop-shadow-[0_0_15px_rgba(162,224,255,0.4)]">Evolution Lab</h1>
+<p class="font-label-mono text-on-surface-variant/60 text-xs mt-1 tracking-[0.2em] uppercase">High-Fidelity Transmutation Terminal // Nexus-09</p>
+</div>
+<div class="flex gap-4">
+<div class="text-right">
+<div class="text-[10px] text-outline font-label-mono uppercase tracking-widest">Chronos Synced</div>
+<div class="data-orbitron text-secondary-fixed-dim text-lg">24:00:15:02</div>
+</div>
+</div>
+</div>
+<!-- Terminal Layout Grid -->
+<div class="flex-1 p-8 grid grid-cols-12 gap-6 overflow-hidden">
+<!-- Left: Stats & Readouts -->
+<div class="col-span-3 flex flex-col gap-6 overflow-y-auto pr-2 custom-scrollbar">
+<!-- Quantum Resonance Gauge -->
+<div class="glass-panel sacred-glow rounded-xl p-5 relative overflow-hidden scanline">
+<div class="text-[11px] text-primary/70 uppercase tracking-widest mb-4 data-orbitron">Quantum Resonance Level</div>
+<div class="flex justify-center py-4 relative">
+<!-- Custom Radial Component -->
+<div class="w-32 h-32 rounded-full border-2 border-white/5 flex items-center justify-center relative">
+<div class="absolute inset-0 rounded-full border-t-2 border-primary animate-[spin_4s_linear_infinite]"></div>
+<div class="absolute inset-2 rounded-full border-b-2 border-secondary-fixed-dim animate-[spin_3s_linear_infinite_reverse]"></div>
+<div class="data-orbitron text-2xl text-primary">87<span class="text-xs opacity-50">%</span></div>
+</div>
+</div>
+<div class="flex justify-between text-[10px] font-label-mono text-outline mt-2">
+<span>MIN_THRESHOLD</span>
+<span>MAX_LIMIT</span>
+</div>
+</div>
+<!-- Probabilities & Index -->
+<div class="glass-panel sacred-glow rounded-xl p-5 space-y-4 scanline">
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="text-[11px] font-label-mono text-primary/70 uppercase">Evolution Probability</span>
+<span class="data-orbitron text-primary">64.2%</span>
+</div>
+<div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary to-secondary-fixed-dim w-[64.2%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="text-[11px] font-label-mono text-primary/70 uppercase">Stability Index</span>
+<span class="data-orbitron text-secondary-fixed-dim">OPTIMIZED</span>
+</div>
+<div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-secondary-fixed-dim w-[92%]"></div>
+</div>
+</div>
+</div>
+<!-- Soul Alignment Matrix -->
+<div class="glass-panel sacred-glow rounded-xl p-5 scanline">
+<div class="text-[11px] data-orbitron text-primary/70 uppercase tracking-widest mb-4">Soul Alignment Matrix</div>
+<div class="flex items-center gap-4">
+<div class="flex-1">
+<div class="text-[9px] font-label-mono text-outline uppercase mb-1">LOGOS</div>
+<div class="h-32 w-2 bg-white/5 rounded-full relative flex flex-col justify-end">
+<div class="w-full bg-primary h-[70%] rounded-full shadow-[0_0_10px_rgba(162,224,255,0.5)]"></div>
+</div>
+</div>
+<div class="flex-[3] relative h-32 flex items-center justify-center">
+<!-- Geometric Center -->
+<svg class="w-24 h-24 text-primary/20" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="40" stroke="currentColor" stroke-width="0.5"></circle>
+<polygon fill="none" points="50,10 90,50 50,90 10,50" stroke="currentColor" stroke-width="0.5"></polygon>
+<rect fill="none" height="40" stroke="currentColor" stroke-width="0.5" transform="rotate(45 50 50)" width="40" x="30" y="30"></rect>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-2 h-2 bg-white rounded-full shadow-[0_0_15px_white]"></div>
+</div>
+</div>
+<div class="flex-1 flex flex-col items-end">
+<div class="text-[9px] font-label-mono text-outline uppercase mb-1">MYTHOS</div>
+<div class="h-32 w-2 bg-white/5 rounded-full relative flex flex-col justify-end">
+<div class="w-full bg-tertiary-container h-[45%] rounded-full shadow-[0_0_10px_rgba(246,154,255,0.5)]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Center: Viewport -->
+<div class="col-span-6 flex flex-col gap-6 relative">
+<!-- Main Chamber Viewport -->
+<div class="flex-1 glass-panel sacred-glow rounded-2xl relative overflow-hidden group">
+<!-- Image Placeholder for Evolution Chamber -->
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" data-alt="A futuristic evolution laboratory chamber with a central obsidian platform. A robotic mechanical dragon with glowing orange circuits stands at the center, surrounded by ethereal blue and magenta energy wisps swirling in a DNA-like double helix. Holographic translucent panels float in the air displaying ancient sacred geometry patterns and complex tactical data in a dark, atmospheric sci-fi setting with volumetric spotlighting from above." style="background-image: url('https://lh3.googleusercontent.com/aida/AP1WRLshuSKz-VzbIGA9aPE1rS1-Bf9qxiVlP86SIv5zFn10ujO7-JWNTHDr0TAdxODogD9e8VH6kD5ZsKOJ3uR_iO3e6Akb4VcIbYhwiZtrQKnUBD_RgnrvDuFgwEHkUKpFgiQm7PtQsSFUqVRtfuH5QqUGGHt2R6niTvl94UR3fCmXmW1ddKuT5BmN7lpWX7-VLczcewsl-_KAttOSqkRqR_U_SK2ioO0XCjAu9jSJaV7kdpvw8M8AUMeIBuT2')">
+</div>
+<!-- Viewport Overlays -->
+<div class="absolute inset-0 pointer-events-none border-[12px] border-surface-container/20 rounded-2xl"></div>
+<div class="absolute top-4 left-4 flex gap-2">
+<div class="bg-black/60 backdrop-blur-md px-3 py-1 rounded-sm border border-primary/20 flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-secondary-fixed-dim animate-pulse"></div>
+<span class="data-orbitron text-[10px] text-primary">LIVE_FEED::CAM_01</span>
+</div>
+</div>
+<!-- Selection Carousel Overlay -->
+<div class="absolute bottom-4 left-4 right-4 h-24 flex gap-4 items-center">
+<div class="flex-1 h-full bg-black/40 backdrop-blur-xl border border-white/5 rounded-xl flex items-center px-4 gap-4 overflow-x-auto custom-scrollbar no-scrollbar">
+<!-- Card 1 (Active) -->
+<div class="magfam-card h-16 min-w-[64px] rounded-lg border-2 border-secondary-fixed-dim p-1 bg-surface-container-high/60 cursor-pointer">
+<img class="w-full h-full object-cover rounded" data-alt="A small cybernetic dragon familiar with glowing mechanical wings, designed in a sleek sci-fi aesthetic with neon teal highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3GuNybsOgwVovkPR56berLWrRhQf0BBzVpJC4ZZJXeWsBFxZ_B9P4rmOfLX3UvtoCcCSXVl9jjzzDL0fgB2ASOxJBFrg5wNjzhGSZpvHitZezXorztZXr5zrRaR66NWb5xm5cBReIgINnok2ypMz0ZY0inla3vLc1PwPcQaNXnDWCP2hMLHnla-p-tflwgEs2z8jgRBuIvFyjy4Laaw3H3RKHMMQV14x7JK5DmeyT99HxtL2UNK8cnDwS7bn-UaLjFOH9lprkEj-I"/>
+</div>
+<!-- Card 2 -->
+<div class="magfam-card h-16 min-w-[64px] rounded-lg border border-white/10 p-1 bg-surface-container-high/40 opacity-60 hover:opacity-100 cursor-pointer">
+<img class="w-full h-full object-cover rounded" data-alt="A floating crystalline orb companion containing a miniature galaxy, emitting soft purple light in a modern tech-fantasy style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCInF3Z4vWuzIu9wbhoKMAWI4Y4_Al44UfCzWJt8pAZ7tHHL8NMGJvtgIwPhOq_05D6umo6JG0hRhWNksUYVZQJ-SuyBLR5aS66FOjvGGF9S1E8gevKxmHeljG4Pl4zD0NxcKIT_0gg5-1Sz7wQneyRgn9oi2m4zDN3CphcTu9qRrGb1Es52BqP-ZS8PKbTRuyasqvSVSAdnlesCXcmB9MLqmPWAjU1WEpARp6mDnfdBGsJXYxmLBJjhnFPrMeujgBzjiCuLLjQYMZJ"/>
+</div>
+<!-- Card 3 -->
+<div class="magfam-card h-16 min-w-[64px] rounded-lg border border-white/10 p-1 bg-surface-container-high/40 opacity-60 hover:opacity-100 cursor-pointer">
+<img class="w-full h-full object-cover rounded" data-alt="A mechanical phoenix bird made of white ceramic plating and gold internal wiring, designed in a high-tech luxury aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqqG5Ym7M6x4nfLgfAE9NbQqMGukEdQtd64jUlMvOtgi9Nw1z8X3huDGrJ014GH-Ha3l0Wz55obRMkVi_lmBooQ_Qjtt0SYN4duhFLG9S9-ZMCyguo6qn2wZy6_2U8d4VzzCDFWvi9YJYhpaj5Wp9Qxq7a21MGQitj9XF5YUNhm0qkIEpJZ_-KIFu8rdA2VWL-g-V_wh__tEXFELfODrK9vikJp5PjjjXK9b8hFV9qV7ygOu8vuMUfHJdRWXGH7A9WuByRSIYvO3rg"/>
+</div>
+<!-- Card 4 -->
+<div class="magfam-card h-16 min-w-[64px] rounded-lg border border-white/10 p-1 bg-surface-container-high/40 opacity-60 hover:opacity-100 cursor-pointer">
+<img class="w-full h-full object-cover rounded" data-alt="A small obsidian golem with floating runic stones for arms, glowing with ancient alchemical blue energy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkuQyN1bzXvJnJOvS4pI35mlHJtznLULgn9RSfMTN7ZKXvua8qVUOFHtDbDkQ5MERiXsUIKPUZ6cHMRA2t9Rs6f1yb6vHDL5neWDXArjzlmZlR0vkbK3TvNLRULh7-rv-eOSPH68NLmHx6JbCfrjTPlDCsAdB_ftcXJ_aDoRTDLbmYWWrAhd_oauihP2kKaVAyImelOv6Wvv7Un8RC_9jHdx-F4xAteHo2NxsitB0yViuoRtnwUGr8rRO1kmXA-gmTdcqKWY-Oh6v3"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Initiate Evolution Button Area -->
+<div class="h-24 flex items-center justify-center">
+<button class="group relative px-12 py-4 rounded-full overflow-hidden transition-all active:scale-95 shadow-[0_0_30px_rgba(107,211,255,0.2)]">
+<!-- Animated Border/Gradient -->
+<div class="absolute inset-0 bg-gradient-to-r from-primary via-secondary-fixed-dim to-tertiary-container animate-[gradient_3s_linear_infinite] opacity-80"></div>
+<div class="absolute inset-[1px] bg-black rounded-full flex items-center justify-center group-hover:bg-transparent transition-colors">
+<span class="relative z-10 data-orbitron text-lg font-bold tracking-[0.2em] text-primary group-hover:text-black transition-colors uppercase">Initiate Evolution</span>
+</div>
+<!-- Outer Glow -->
+<div class="absolute inset-0 rounded-full blur-xl bg-primary/30 group-hover:bg-primary/50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</button>
+</div>
+</div>
+<!-- Right: Controls & Requirements -->
+<div class="col-span-3 flex flex-col gap-6 overflow-y-auto pl-2 custom-scrollbar">
+<!-- Required Materials -->
+<div class="glass-panel sacred-glow rounded-xl p-5 scanline">
+<div class="text-[11px] data-orbitron text-primary/70 uppercase tracking-widest mb-4">Required Materials</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between p-3 rounded bg-white/5 border border-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">diamond</span>
+<div>
+<div class="text-xs font-tactical-readout-md">3x Chronos Shards</div>
+<div class="text-[9px] text-outline">TEMPORAL RESONATOR</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary-fixed-dim">check_circle</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded bg-white/5 border border-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary-container" style="font-variation-settings: 'FILL' 1;">rocket</span>
+<div>
+<div class="text-xs font-tactical-readout-md">1x Void Engine</div>
+<div class="text-[9px] text-outline">ZERO-POINT CORE</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary-fixed-dim">check_circle</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded bg-white/5 border border-white/5 border-dashed opacity-50">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-error">priority_high</span>
+<div class="text-xs font-tactical-readout-md italic">Awaiting Input...</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Terminal Configuration Toggles -->
+<div class="glass-panel sacred-glow rounded-xl p-5 space-y-6 scanline">
+<div class="text-[11px] data-orbitron text-primary/70 uppercase tracking-widest">Resonance Configuration</div>
+<!-- Frequency Slider -->
+<div>
+<div class="flex justify-between text-[10px] font-label-mono text-outline uppercase mb-2">
+<span>Resonance Frequency</span>
+<span class="text-primary">432.0 Hz</span>
+</div>
+<input class="w-full h-1 bg-white/10 rounded-full appearance-none cursor-pointer accent-primary" type="range" value="70"/>
+</div>
+<!-- Chaos Slider -->
+<div>
+<div class="flex justify-between text-[10px] font-label-mono text-outline uppercase mb-2">
+<span>Chaos Input (Δ)</span>
+<span class="text-tertiary-container">0.023</span>
+</div>
+<input class="w-full h-1 bg-white/10 rounded-full appearance-none cursor-pointer accent-tertiary-container" type="range" value="23"/>
+</div>
+<!-- Toggles -->
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-2">
+<span class="text-[9px] font-label-mono text-outline uppercase">Neural Link</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary/40"></div>
+</label>
+</div>
+<div class="flex flex-col gap-2">
+<span class="text-[9px] font-label-mono text-outline uppercase">Cryo-Brake</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary-fixed-dim/40"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- System Logs -->
+<div class="flex-1 glass-panel rounded-xl p-4 overflow-hidden flex flex-col gap-2">
+<div class="text-[11px] data-orbitron text-primary/70 uppercase tracking-widest mb-4">Soul Alignment Matrix</div>
+<div class="flex-1 font-label-mono text-[10px] space-y-1 text-on-surface-variant/80 overflow-y-auto no-scrollbar">
+<div class="text-secondary-fixed-dim">[OK] Bio-Signature Authenticated</div>
+<div>[..] Calculating Quantum Flux...</div>
+<div>[OK] Void Engine Initialized</div>
+<div class="text-primary">[INFO] Resonance at 432Hz Stable</div>
+<div class="animate-pulse">_ Waiting for Commander...</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Global Status Footer -->
+<footer class="fixed bottom-0 w-full z-30 bg-surface-container-lowest/60 backdrop-blur-md border-t border-white/5 flex justify-between items-center px-margin-desktop py-2 h-10">
+<div class="flex items-center gap-6">
+<div class="font-label-mono text-[10px] text-primary">
+<span class="text-outline">SYSTEM:</span> ONLINE
+                </div>
+<div class="font-label-mono text-[10px] text-primary">
+<span class="text-outline">RESONANCE:</span> OPTIMIZED
+                </div>
+</div>
+<div class="font-label-mono text-label-mono tracking-tighter text-secondary-fixed-dim uppercase">
+                STABILITY: 98.4% | RESONANCE: OPTIMIZED | [SYSTEM SECURED]
+            </div>
+<div class="flex gap-4 font-label-mono text-[10px] text-outline">
+<a class="hover:text-secondary-fixed transition-opacity" href="#">Manual</a>
+<a class="hover:text-secondary-fixed transition-opacity" href="#">Telemetry</a>
+<a class="hover:text-secondary-fixed transition-opacity" href="#">Support</a>
+</div>
+</footer>
+</main>
+<!-- Floating UI Decorations (Sacred Geometry Elements) -->
+<div class="fixed bottom-20 right-10 pointer-events-none opacity-20">
+<svg class="w-48 h-48 text-primary animate-[spin_20s_linear_infinite]" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="45" stroke="currentColor" stroke-width="0.2"></circle>
+<circle cx="50" cy="50" fill="none" r="35" stroke="currentColor" stroke-dasharray="2,2" stroke-width="0.1"></circle>
+<path d="M50 5 L95 50 L50 95 L5" fill="none" stroke="currentColor" stroke-width="0.2"></path>
+</svg>
+</div>
+<script>
+        // Micro-interactions and real-time feel
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            // Subtle parallax for some background elements
+            document.querySelector('.hex-grid-bg').style.backgroundPosition = `${x * 10}px ${y * 10}px`;
+        });
+
+        // Toggle state simulations
+        const progressBars = document.querySelectorAll('.h-1.5 div, .h-1 div');
+        setInterval(() => {
+            progressBars.forEach(bar => {
+                if (Math.random() > 0.8) {
+                    const currentWidth = parseFloat(bar.style.width) || 50;
+                    const change = (Math.random() - 0.5) * 2;
+                    bar.style.width = `${Math.min(100, Math.max(0, currentWidth + change))}%`;
+                }
+            });
+        }, 1000);
+    </script>
+</body></html>

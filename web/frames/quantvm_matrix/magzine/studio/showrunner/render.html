@@ -1,0 +1,409 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>MagZine Web - MagnoScroll Engine</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error-container": "#ffdad6",
+                    "background": "#131313",
+                    "on-primary": "#003545",
+                    "surface-tint": "#5ed4ff",
+                    "secondary-fixed": "#ffd7f5",
+                    "primary-container": "#00ccff",
+                    "on-secondary": "#5b005b",
+                    "surface-bright": "#393939",
+                    "tertiary-container": "#4ed2aa",
+                    "primary-fixed-dim": "#5ed4ff",
+                    "on-error": "#690005",
+                    "on-primary-fixed-variant": "#004d63",
+                    "on-primary-container": "#005369",
+                    "primary": "#9de2ff",
+                    "on-background": "#e5e2e1",
+                    "on-tertiary": "#003829",
+                    "surface-container-high": "#2a2a2a",
+                    "surface-container-highest": "#353534",
+                    "outline-variant": "#3c494e",
+                    "on-surface": "#e5e2e1",
+                    "secondary": "#ffabf3",
+                    "secondary-fixed-dim": "#ffabf3",
+                    "on-tertiary-fixed-variant": "#00513d",
+                    "error-container": "#93000a",
+                    "surface-container-lowest": "#0e0e0e",
+                    "primary-fixed": "#bbe9ff",
+                    "outline": "#869399",
+                    "secondary-container": "#fe00fe",
+                    "on-secondary-fixed": "#380038",
+                    "on-primary-fixed": "#001f29",
+                    "on-tertiary-container": "#005742",
+                    "surface-container": "#201f1f",
+                    "on-secondary-container": "#500050",
+                    "inverse-on-surface": "#313030",
+                    "surface-variant": "#353534",
+                    "tertiary-fixed-dim": "#5adcb3",
+                    "on-secondary-fixed-variant": "#810081",
+                    "surface-dim": "#131313",
+                    "surface-container-low": "#1c1b1b",
+                    "inverse-primary": "#006782",
+                    "inverse-surface": "#e5e2e1",
+                    "error": "#ffb4ab",
+                    "tertiary": "#6eefc5",
+                    "surface": "#131313",
+                    "on-surface-variant": "#bbc8d0",
+                    "on-tertiary-fixed": "#002117",
+                    "tertiary-fixed": "#79f9ce"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "gutter": "24px",
+                    "container-max": "1440px",
+                    "unit": "4px",
+                    "margin-desktop": "64px"
+            },
+            "fontFamily": {
+                    "label-caps": ["Orbitron"],
+                    "headline-lg": ["Audiowide"],
+                    "technical-sm": ["Orbitron"],
+                    "headline-lg-mobile": ["Audiowide"],
+                    "display-xl": ["Audiowide"],
+                    "body-md": ["Orbitron"]
+            },
+            "fontSize": {
+                    "label-caps": ["10px", {"lineHeight": "1", "letterSpacing": "0.3em", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "400"}],
+                    "technical-sm": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.2em", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "400"}],
+                    "display-xl": ["64px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0.02em", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .glow-primary { text-shadow: 0 0 10px rgba(157, 226, 255, 0.6); }
+        .glow-sm { filter: drop-shadow(0 0 4px rgba(157, 226, 255, 0.4)); }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .hud-scanline {
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 204, 255, 0.05) 50%);
+            background-size: 100% 4px;
+        }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #0e0e0e; }
+        ::-webkit-scrollbar-thumb { background: #00ccff; border-radius: 10px; }
+        
+        .animated-resonance {
+            animation: pulse-resonance 4s infinite ease-in-out;
+        }
+        @keyframes pulse-resonance {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+        .eleusis-vignette {
+            box-shadow: inset 0 0 150px rgba(0,0,0,0.8);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden selection:bg-primary-container/30">
+<!-- MagnoScroll Engine Layout Shell -->
+<div class="flex h-screen overflow-hidden">
+<!-- SideNavBar: Authority Source JSON -->
+<aside class="fixed left-0 top-0 h-full z-40 h-screen w-72 flex flex-col border-r border-outline-variant/30 bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_0_30px_rgba(0,204,255,0.1)]">
+<div class="p-6 flex flex-col gap-6 h-full">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full border border-primary/40 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A cinematic, high-definition digital painting of a mysterious engine architect. The figure wears an intricate HUD-style visor, with glowing blue data streams reflecting off its surface. Dark, tactical attire with subtle golden accents under atmospheric, cinematic lighting with a deep space cosmic background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYyvASlMoKKq3rHgf9QhYmTJ6gccaxnTInbzGbbn-VHojQs49M28-9ZNlFSUUYmWoLRbAbRZqkDos3SysvLc66hXIWmDcUQtVP1El-8i9P_g93skM83ktaXAsytJEU8SJQCm9eWgApCPaMfgQCybNuwCE6bFjxxWj3tmfBqT1a_4mHSC-ZHQvm7Br-2s6_3tEhms-heKRAp2vxfOo0HknU5tGQs7MiCBI9HOZaJZJ5qEYoCSEf3CvBzzYmiQVdz29j3vAFTR5SKnl3">
+</div>
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary tracking-widest uppercase">MagnoScroll</h2>
+<p class="font-technical-sm text-technical-sm text-on-surface-variant opacity-70">Engine Architect</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1 overflow-y-auto pr-2">
+<!-- Nav items from JSON -->
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container/20 text-primary border-l-4 border-primary rounded-r-lg group duration-200 ease-out" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">title</span>
+<span class="font-technical-sm text-technical-sm">FrameText</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-white/5 hover:text-primary transition-all duration-300 group" href="#">
+<span class="material-symbols-outlined">image</span>
+<span class="font-technical-sm text-technical-sm">FrameImage</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-white/5 hover:text-primary transition-all duration-300 group" href="#">
+<span class="material-symbols-outlined">audiotrack</span>
+<span class="font-technical-sm text-technical-sm">FrameAudio</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-white/5 hover:text-primary transition-all duration-300 group" href="#">
+<span class="material-symbols-outlined">videocam</span>
+<span class="font-technical-sm text-technical-sm">FrameVideo</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-white/5 hover:text-primary transition-all duration-300 group" href="#">
+<span class="material-symbols-outlined">smart_button</span>
+<span class="font-technical-sm text-technical-sm">FrameButton</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-white/5 hover:text-primary transition-all duration-300 group" href="#">
+<span class="material-symbols-outlined">quiz</span>
+<span class="font-technical-sm text-technical-sm">FrameQuiz</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-white/5 hover:text-primary transition-all duration-300 group" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-technical-sm text-technical-sm">FrameMission</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-white/5 hover:text-primary transition-all duration-300 group" href="#">
+<span class="material-symbols-outlined">pest_control_rodent</span>
+<span class="font-technical-sm text-technical-sm">FrameRabbit</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-white/5 hover:text-primary transition-all duration-300 group" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-technical-sm text-technical-sm">FrameReward</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-white/5 hover:text-primary transition-all duration-300 group" href="#">
+<span class="material-symbols-outlined">egg</span>
+<span class="font-technical-sm text-technical-sm">FrameEgg</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-outline-variant/20 flex flex-col gap-4">
+<button class="w-full bg-primary-container text-on-primary-container py-3 rounded-lg font-label-caps text-label-caps tracking-widest hover:brightness-110 active:scale-95 transition-all">
+                        Compile Chapter
+                    </button>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 text-on-surface-variant font-technical-sm text-technical-sm hover:text-primary" href="#"><span class="material-symbols-outlined">settings</span>Engine Settings</a>
+<a class="flex items-center gap-3 text-on-surface-variant font-technical-sm text-technical-sm hover:text-primary" href="#"><span class="material-symbols-outlined">terminal</span>Documentation</a>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-72 flex flex-col relative h-full">
+<!-- TopNavBar: Authority Source JSON -->
+<header class="fixed top-0 right-0 left-72 z-50 flex justify-between items-center px-gutter h-16 bg-surface-dim/90 backdrop-blur-md border-b border-primary-container/20 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+<div class="flex items-center gap-8">
+<h1 class="font-headline-lg text-headline-lg text-primary glow-sm uppercase">MagZine Studio</h1>
+<nav class="hidden md:flex gap-6">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-tertiary" href="#">Drafts</a>
+<a class="font-label-caps text-label-caps text-primary border-b-2 border-primary pb-1" href="#">Assets</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-tertiary" href="#">Deploy</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 border-r border-outline-variant/30 pr-6">
+<button class="font-label-caps text-label-caps text-secondary-container hover:brightness-125 transition-all">Live Sync</button>
+<button class="bg-primary-container/10 border border-primary/30 px-4 py-1.5 rounded font-label-caps text-label-caps text-primary hover:bg-primary-container/20 transition-all">Execute JSON</button>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">notifications</span>
+<div class="w-8 h-8 rounded-full border border-outline/30 overflow-hidden cursor-pointer">
+<img class="w-full h-full object-cover" data-alt="Close-up avatar of a digital operator, featuring high-contrast cinematic lighting with sharp magenta and cyan rim lights. The style is futuristic tech-wear with geometric mesh details. The background is a soft-focus bokeh of terminal screens and cosmic light particles." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvbiGGHUnUR9JYEArPPtoKnVSdSvvcBfPFpWxyi4WRHhdFTBavqWUAYX6noJdka4q0ceGPULDZnGKfuK_6Pl_75gwU7RY1ZqoeSUrm5KchPdPzgQ1euRig7FriBdFcCMzDZhmRGbf6lmB4gBS8fdFm82DlnnfkyAnmIVWs5Gbi7nMaxtdawTsEld4Vv6V7SMaNadYBYadzAEcJo-5oZe1IS1DGU3yjgj8exPtX6CJPW56WsFYHOgbVYPWsGDNnhAr8kxbRfyYLkC8l">
+</div>
+</div>
+</div>
+</header>
+<!-- Scrollable Canvas: The MagnoScroll Engine Visual Output -->
+<div class="mt-16 flex-1 overflow-y-auto hud-scanline relative bg-background">
+<!-- Tactical HUD Overlay (Fixed within scroll area) -->
+<div class="fixed top-20 right-8 z-30 flex flex-col gap-4 pointer-events-none">
+<div class="glass-panel p-4 rounded-xl border-l-4 border-primary animated-resonance">
+<p class="font-label-caps text-[9px] text-primary mb-1">SYNC STATUS</p>
+<div class="flex items-center gap-2">
+<div class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></div>
+<span class="font-technical-sm text-xs text-on-surface uppercase tracking-widest">Connected</span>
+</div>
+</div>
+<div class="glass-panel p-4 rounded-xl border-l-4 border-secondary">
+<p class="font-label-caps text-[9px] text-secondary mb-1">RESONANCE</p>
+<div class="flex items-end gap-1 h-4">
+<div class="bg-secondary w-1 h-2"></div>
+<div class="bg-secondary w-1 h-3"></div>
+<div class="bg-secondary w-1 h-4"></div>
+<div class="bg-secondary w-1 h-2.5"></div>
+<span class="font-technical-sm text-xs text-on-surface ml-2">84.2%</span>
+</div>
+</div>
+</div>
+<!-- Frame Blocks Container -->
+<div class="max-w-4xl mx-auto py-12 px-gutter space-y-24 relative z-10">
+<!-- 1. FrameImage (https://lh3.googleusercontent.com/aida-public/AB6AXuCWJ4xX0Ci7bkp40oYGbrZ_LH86zUoxFfSn5sgnhxRQi1PXj_EcVEOtp2wPaqxFpPjwCK61C1u0S69go0kWT_XXRAdGuUli-ZdupyaEVbqDUp6GvEn1Nj5U01fMKgYJef9R87zD5iVMnRagczboMTk7C0_jxBHUkPOM91Jb61zBrPOILdG32GZgr3fc9iozcflnsBdfIenNy7x-I1gdMBQBIzQClWrO5to-LYfeKuNpYf8t0u9XjLR08HSYqKGSL4xz0bv2G_CP4CAs) -->
+<section class="group relative">
+<div class="absolute -inset-4 bg-primary/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+<div class="relative overflow-hidden rounded-xl aspect-video glass-panel border border-primary-container/20 group-hover:border-primary/50 transition-all duration-700">
+<img class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-[2000ms]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWJ4xX0Ci7bkp40oYGbrZ_LH86zUoxFfSn5sgnhxRQi1PXj_EcVEOtp2wPaqxFpPjwCK61C1u0S69go0kWT_XXRAdGuUli-ZdupyaEVbqDUp6GvEn1Nj5U01fMKgYJef9R87zD5iVMnRagczboMTk7C0_jxBHUkPOM91Jb61zBrPOILdG32GZgr3fc9iozcflnsBdfIenNy7x-I1gdMBQBIzQClWrO5to-LYfeKuNpYf8t0u9XjLR08HSYqKGSL4xz0bv2G_CP4CAs">
+<div class="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent flex flex-col justify-end p-8">
+<div class="flex items-center gap-2 mb-2">
+<span class="w-8 h-[1px] bg-primary"></span>
+<span class="font-label-caps text-label-caps text-primary">FRAME_IMAGE_001</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg-mobile text-on-surface glow-sm">The Astral Gateway</h3>
+</div>
+</div>
+</section>
+<!-- 2. FrameText (Narrative Lore) -->
+<section class="relative">
+<div class="max-w-2xl mx-auto space-y-6">
+<div class="flex gap-4 items-start">
+<span class="material-symbols-outlined text-primary text-4xl opacity-50">auto_stories</span>
+<div class="h-px bg-outline-variant/30 flex-1 mt-5"></div>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed first-letter:text-5xl first-letter:font-headline-lg first-letter:text-primary first-letter:mr-3 first-letter:float-left">
+                                In the heart of the Eleusis Path, the silence is not an absence of sound, but a presence of potential. The ancients didn't build these structures for worship; they built them for navigation. To enter the Path is to surrender the linear perception of time, allowing the MagnoScroll Engine to recompile your destiny in real-time. Every scroll is a step through a dimension where wisdom is the only valid currency.
+                            </p>
+<p class="font-body-md text-body-md text-on-surface-variant/80 border-l-2 border-primary/20 pl-6 italic">
+                                "Wisdom is the gate. Choice is the path. Destiny is the reward." - Sacred Inscription found at the Threshold.
+                            </p>
+</div>
+</section>
+<!-- 3. FrameRabbit (CBC Rabbit intervention) -->
+<section class="group">
+<div class="glass-panel p-8 rounded-2xl flex flex-col md:flex-row gap-8 items-center border border-secondary/20 hover:border-secondary/40 transition-all duration-500">
+<div class="w-64 h-64 flex-shrink-0 relative">
+<div class="absolute inset-0 bg-secondary/10 rounded-full blur-3xl animated-resonance"></div>
+<img class="w-full h-full object-contain relative z-10 drop-shadow-[0_0_25px_rgba(254,0,254,0.4)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuApj2LK_BvmA5dfDY9cG6nw6IWwEgpIwyV5oM73EfIcEqvfRgc2WbuXD13nvzq_iIVXlq5kBKF6Gp8ClN_2uc4jN0GuZR2Y3byFNveQiGXpiGOVG0D30dQqE3feOmQgS9q2P2cGzJlN1smI22xg325iG2DPsd2aWFBlDTQkTbe-PvuR0m4UQ8uxaeYQPsCqX6iOfP7CJ_P5w41oTAmFL-JWfkmM8NvWAZt6Xcp8kziAQGh3tWYBSHCkOD9r7vAGf3O33pKPe_dZodWV">
+</div>
+<div class="flex-1 space-y-4">
+<div class="inline-block px-3 py-1 bg-secondary/10 border border-secondary/30 rounded text-secondary font-label-caps text-[10px]">CRITICAL INTERVENTION</div>
+<h4 class="font-headline-lg text-2xl text-on-surface uppercase tracking-wider">CBC Rabbit Protocol</h4>
+<p class="font-body-md text-on-surface-variant">
+                                    Operator, the CBC Rabbit has manifested. This is a non-linear event. The resonance levels are peaking at 112%. The rabbit offers a cryptic redirection. Ignore the path ahead; look within the data shards.
+                                </p>
+<div class="flex gap-4 pt-4">
+<button class="flex-1 bg-secondary text-on-secondary font-label-caps text-label-caps py-3 rounded hover:brightness-110 active:scale-95 transition-all">FOLLOW RABBIT</button>
+<button class="flex-1 border border-secondary text-secondary font-label-caps text-label-caps py-3 rounded hover:bg-secondary/10 transition-all">MAINTAIN PATH</button>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. FrameQuiz (A decision point) -->
+<section class="space-y-8">
+<div class="text-center">
+<span class="font-label-caps text-label-caps text-primary block mb-2 opacity-60">OPERATOR DECISION POINT</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface glow-sm uppercase">Ascension Challenge</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Quiz Option A -->
+<div class="glass-panel p-8 rounded-xl border border-outline-variant/30 hover:border-primary/60 cursor-pointer group transition-all">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-center text-primary font-headline-lg text-2xl">A</div>
+<span class="material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transition-opacity">verified</span>
+</div>
+<h5 class="font-headline-lg text-lg text-on-surface mb-3 uppercase tracking-tighter">The Path of Logic</h5>
+<p class="font-body-md text-sm text-on-surface-variant leading-relaxed">
+                                    Rely on tactical data and historical engine patterns to navigate the upcoming celestial rift.
+                                </p>
+</div>
+<!-- Quiz Option B -->
+<div class="glass-panel p-8 rounded-xl border border-outline-variant/30 hover:border-tertiary/60 cursor-pointer group transition-all">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 rounded-lg bg-tertiary/10 border border-tertiary/30 flex items-center justify-center text-tertiary font-headline-lg text-2xl">B</div>
+<span class="material-symbols-outlined text-tertiary opacity-0 group-hover:opacity-100 transition-opacity">explore</span>
+</div>
+<h5 class="font-headline-lg text-lg text-on-surface mb-3 uppercase tracking-tighter">The Path of Intuition</h5>
+<p class="font-body-md text-sm text-on-surface-variant leading-relaxed">
+                                    Surrender to the engine's cosmic flow and allow the subconscious resonance to lead the way.
+                                </p>
+</div>
+</div>
+<div class="pt-8 text-center">
+<button class="px-12 py-4 bg-primary-container text-on-primary-container font-label-caps text-label-caps tracking-widest rounded shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all">
+                                COMMIT DECISION
+                            </button>
+</div>
+</section>
+</div>
+<!-- Atmospheric Particles (Custom script for floating dots) -->
+<canvas class="fixed inset-0 pointer-events-none z-0 opacity-40" id="atmosphere-canvas"></canvas>
+</div>
+</main>
+</div>
+<script>
+        // Atmospheric Effect
+        const canvas = document.getElementById('atmosphere-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+            }
+            draw() {
+                ctx.fillStyle = `rgba(157, 226, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            for (let i = 0; i < 100; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+
+        // Interaction Mock
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mousemove', (e) => {
+                const rect = panel.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                panel.style.setProperty('--mouse-x', `${x}px`);
+                panel.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body></html>

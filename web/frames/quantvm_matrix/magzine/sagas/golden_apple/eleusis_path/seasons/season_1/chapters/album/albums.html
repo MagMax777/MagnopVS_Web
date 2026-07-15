@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ALBUM VIVO V3.0 | QUANTVM MATRIX</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-highest": "#35343b",
+                    "surface-tint": "#00dbe9",
+                    "primary-fixed-dim": "#00dbe9",
+                    "secondary-fixed": "#ffd7f5",
+                    "on-secondary": "#5b005b",
+                    "secondary-fixed-dim": "#ffabf3",
+                    "secondary": "#ffabf3",
+                    "on-primary-container": "#006970",
+                    "on-tertiary-fixed-variant": "#5e4200",
+                    "on-error": "#690005",
+                    "surface-container-high": "#2a2930",
+                    "surface-dim": "#131319",
+                    "surface-container-low": "#1b1b22",
+                    "on-tertiary-container": "#7d5800",
+                    "inverse-primary": "#006970",
+                    "inverse-surface": "#e4e1ea",
+                    "inverse-on-surface": "#303037",
+                    "surface-container": "#1f1f26",
+                    "on-error-container": "#ffdad6",
+                    "primary": "#dbfcff",
+                    "surface-variant": "#35343b",
+                    "background": "#131319",
+                    "secondary-container": "#fe00fe",
+                    "surface-bright": "#393840",
+                    "on-tertiary-fixed": "#271900",
+                    "outline-variant": "#3b494b",
+                    "primary-fixed": "#7df4ff",
+                    "on-secondary-fixed": "#380038",
+                    "surface-container-lowest": "#0e0e14",
+                    "on-secondary-fixed-variant": "#810081",
+                    "tertiary-fixed-dim": "#ffba20",
+                    "on-background": "#e4e1ea",
+                    "outline": "#849495",
+                    "on-surface": "#e4e1ea",
+                    "on-tertiary": "#412d00",
+                    "tertiary": "#fff4e8",
+                    "on-secondary-container": "#500050",
+                    "tertiary-container": "#ffd386",
+                    "on-surface-variant": "#b9cacb",
+                    "error": "#ffb4ab",
+                    "on-primary-fixed-variant": "#004f54",
+                    "tertiary-fixed": "#ffdea8",
+                    "on-primary-fixed": "#002022",
+                    "surface": "#131319",
+                    "on-primary": "#00363a",
+                    "error-container": "#93000a",
+                    "primary-container": "#00f0ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-edge": "2rem",
+                    "gutter": "1.5rem",
+                    "hex-unit": "1rem",
+                    "overlay-padding": "1rem"
+            },
+            "fontFamily": {
+                    "sacred-header-mobile": ["Audiowide"],
+                    "technical-data-md": ["Orbitron"],
+                    "technical-data-lg": ["Orbitron"],
+                    "sacred-header-xl": ["Audiowide"],
+                    "sacred-header-lg": ["Audiowide"],
+                    "telemetry-label": ["Orbitron"]
+            },
+            "fontSize": {
+                    "sacred-header-mobile": ["24px", {"lineHeight": "1.1", "fontWeight": "400"}],
+                    "technical-data-md": ["14px", {"lineHeight": "1.6", "letterSpacing": "0.1em", "fontWeight": "400"}],
+                    "technical-data-lg": ["18px", {"lineHeight": "1.5", "letterSpacing": "0.2em", "fontWeight": "500"}],
+                    "sacred-header-xl": ["48px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "400"}],
+                    "sacred-header-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                    "telemetry-label": ["11px", {"lineHeight": "1", "letterSpacing": "0.25em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0e0e14;
+            color: #e4e1ea;
+            overflow-x: hidden;
+        }
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.15;
+        }
+        .hex-bg {
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60 4.02 45V15z' fill-opacity='0.05' fill='%2300dbe9' fill-rule='evenodd' stroke='%2300dbe9' stroke-width='0.5' stroke-opacity='0.1'/%3E%3C/svg%3E");
+            z-index: -1;
+        }
+        .cliptrigger {
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+        }
+        .glitch-noise {
+            animation: glitch 2s infinite;
+        }
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); filter: hue-rotate(90deg); }
+            40% { transform: translate(2px, -1px); }
+            60% { transform: translate(-1px, 1px); filter: contrast(150%); }
+            100% { transform: translate(0); }
+        }
+        .pulse-glow {
+            animation: pulse-glow 4s ease-in-out infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 10px rgba(0, 219, 233, 0.2); border-color: rgba(0, 219, 233, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(0, 219, 233, 0.5); border-color: rgba(0, 219, 233, 0.8); }
+        }
+        .energy-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: dash 5s linear infinite;
+        }
+        @keyframes dash {
+            to { stroke-dashoffset: 0; }
+        }
+    </style>
+</head>
+<body class="font-technical-data-md selection:bg-surface-tint/30">
+<div class="scanlines"></div>
+<div class="hex-bg"></div>
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-edge h-16 bg-background/80 dark:bg-background/80 backdrop-blur-xl border-b border-surface-tint/30">
+<div class="flex items-center gap-6">
+<span class="font-sacred-header-mobile text-sacred-header-mobile text-surface-tint dark:text-primary-fixed-dim uppercase tracking-widest">QUANTVM MATRIX</span>
+<nav class="hidden md:flex gap-8">
+<a class="text-on-surface-variant dark:text-on-surface-variant font-technical-data-md text-technical-data-md hover:text-primary-fixed hover:drop-shadow-[0_0_8px_rgba(0,219,233,0.6)] transition-all duration-300" href="#">Codex</a>
+<a class="text-primary-container dark:text-primary-container border-b-2 border-primary-container pb-1 font-technical-data-md text-technical-data-md" href="#">Archive</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-technical-data-md text-technical-data-md hover:text-primary-fixed hover:drop-shadow-[0_0_8px_rgba(0,219,233,0.6)] transition-all duration-300" href="#">Nexus</a>
+</nav>
+</div>
+<div class="flex items-center gap-4 text-surface-tint">
+<span class="material-symbols-outlined cursor-pointer hover:scale-110 transition-transform">sync</span>
+<span class="material-symbols-outlined cursor-pointer hover:scale-110 transition-transform">bolt</span>
+<span class="material-symbols-outlined cursor-pointer hover:scale-110 transition-transform">notifications</span>
+<div class="w-8 h-8 rounded-full border border-surface-tint flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A sophisticated digital avatar of a futuristic cosmic explorer, glowing with neon circuitry and surrounded by floating holographic data shards. The style is hyper-detailed glassmorphism with deep obsidian blacks and electric cyan highlights, reflecting the dark sci-fantasy mood of the interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-CriIwtVl55fTakQT-lCGjEGImFS_wPh0hTGsO7Uc2C4vvFF1H9v1G5ll0Sn3WiJhxjVq3Q4lu31C2g9QNlxkvu_kNKrj6lbikzjV46UgE_zoSWTSW2ZpdLKfX0CsxSix2I-tv4lHVjP5hdu_dRP-oFyOU6pZeVNS8cFjSB1y1NQpHqaRTjCe0wXaUV8Yu3liLdSgpJNNbS10nFD6q_CBdC2_8IKk95QfRrVdJjLZWHzfV27ryNreBNwGwioVXYh14mxCzJ-6eL2K"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] z-40 flex flex-col bg-surface-dim/40 dark:bg-surface-dim/40 backdrop-blur-md border-r border-surface-tint/20 w-64 hidden lg:flex">
+<div class="p-6 border-b border-surface-tint/10">
+<h2 class="font-sacred-header-lg text-sacred-header-lg text-surface-tint">LORE LAYERS</h2>
+<p class="font-telemetry-label text-telemetry-label text-on-surface-variant/70 mt-1 uppercase">V3.0 MATRIX ACTIVE</p>
+</div>
+<nav class="flex-1 overflow-y-auto py-4">
+<div class="bg-secondary/20 text-secondary border-l-4 border-secondary p-4 flex items-center gap-4 cursor-pointer scale-95 transition-transform">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="font-technical-data-md text-technical-data-md">Viñetas</span>
+</div>
+<div class="text-on-surface-variant p-4 flex items-center gap-4 hover:bg-surface-container-high transition-colors cursor-pointer">
+<span class="material-symbols-outlined">token</span>
+<span class="font-technical-data-md text-technical-data-md">Artefactos</span>
+</div>
+<div class="text-on-surface-variant p-4 flex items-center gap-4 hover:bg-surface-container-high transition-colors cursor-pointer">
+<span class="material-symbols-outlined">group</span>
+<span class="font-technical-data-md text-technical-data-md">Personajes</span>
+</div>
+<div class="text-on-surface-variant p-4 flex items-center gap-4 hover:bg-surface-container-high transition-colors cursor-pointer">
+<span class="material-symbols-outlined">diversity_2</span>
+<span class="font-technical-data-md text-technical-data-md">MagFam</span>
+</div>
+<div class="text-on-surface-variant p-4 flex items-center gap-4 hover:bg-surface-container-high transition-colors cursor-pointer">
+<span class="material-symbols-outlined">extension</span>
+<span class="font-technical-data-md text-technical-data-md">Fragmentos</span>
+</div>
+</nav>
+<div class="p-6">
+<button class="w-full py-3 bg-primary-container/20 border border-primary-container text-primary-container cliptrigger font-technical-data-md text-technical-data-md hover:bg-primary-container/40 transition-all">
+                INITIATE SCAN
+            </button>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="lg:ml-64 pt-20 px-8 pb-12 min-h-screen">
+<!-- Dashboard Header -->
+<div class="flex justify-between items-end mb-12">
+<div>
+<span class="font-telemetry-label text-telemetry-label text-secondary tracking-[0.3em] uppercase">Active Filter: Eleusis Path</span>
+<h1 class="font-sacred-header-xl text-sacred-header-xl text-primary mt-2">ALBUM VIVO v3.0</h1>
+</div>
+<div class="grid grid-cols-3 gap-6">
+<div class="flex flex-col items-end">
+<span class="font-telemetry-label text-telemetry-label text-on-surface-variant uppercase">Synchronization</span>
+<span class="font-technical-data-lg text-technical-data-lg text-surface-tint">84.2%</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-telemetry-label text-telemetry-label text-on-surface-variant uppercase">Resonance Level</span>
+<span class="font-technical-data-lg text-technical-data-lg text-secondary">LVL 09</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-telemetry-label text-telemetry-label text-on-surface-variant uppercase">Node Weight</span>
+<span class="font-technical-data-lg text-technical-data-lg text-primary">44.2mg</span>
+</div>
+</div>
+</div>
+<!-- Central Constellation Feature -->
+<div class="relative w-full h-[500px] mb-16 rounded-xl overflow-hidden bg-surface-container-lowest/50 border border-surface-tint/20 backdrop-blur-lg">
+
+<svg class="absolute inset-0 w-full h-full pointer-events-none" viewbox="0 0 1200 500">
+<path class="energy-line" d="M150 250 Q 300 50, 600 250 T 1050 250" fill="none" opacity="0.3" stroke="#00dbe9" stroke-width="1"></path>
+<circle class="pulse-glow" cx="150" cy="250" fill="#00dbe9" r="4"></circle>
+<circle class="pulse-glow" cx="600" cy="250" fill="#ffabf3" r="8"></circle>
+<circle class="pulse-glow" cx="1050" cy="250" fill="#00dbe9" r="4"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="w-96 h-96 border border-surface-tint/10 rounded-full flex items-center justify-center relative">
+<div class="absolute inset-0 border-2 border-dashed border-secondary/20 rounded-full animate-[spin_20s_linear_infinite]"></div>
+<div class="w-80 h-80 rounded-full overflow-hidden border-2 border-surface-tint relative pointer-events-auto cursor-pointer group">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A cinematic, otherworldly egg artifact glowing with a vibrant magenta core, suspended in an ancient crystalline forest. Ethereal energy ribbons and glowing runes swirl around it, illuminated by ethereal moonlight and cosmic particles. The atmosphere is filled with a sense of high-fidelity sci-fantasy wonder and ancient power." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4DHgf5ldXR0ZX15TR9V24ua-JBhl-FMh1vQmycw4d0CzoFNHybdWI6slgUYX1oO7iAawPaQAD39441DydKnD-4l-DAG9DUZh6ig5DrT86yQZUR_lkpL8SXj5Jpkjf-_1kXuNRbmN0FlrzDaGjDVU4FEnSiDgIqU4iIFN8wJpV-_jeO96Mdk3X6ohpFvdEGO7vUqGaNnr2Vk0mp68SuB56bD_qELcgDw2V5hfHv9wAcPDJ2H9oY4R-n9K6xA1aq1uBrBNVLX3TalPj"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent flex flex-col justify-end p-6">
+<span class="font-telemetry-label text-telemetry-label text-surface-tint uppercase">Active Vignette</span>
+<h3 class="font-sacred-header-lg text-sacred-header-lg text-primary">EL CONTACTO PRIMIGENIO</h3>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Metrics in Visor -->
+<div class="absolute top-4 left-4 p-4 border-l border-surface-tint bg-surface-dim/60 backdrop-blur-md">
+<span class="font-telemetry-label text-telemetry-label text-on-surface-variant">SECTOR 7G-ALPHA</span>
+<div class="flex gap-1 mt-2">
+<div class="w-4 h-2 bg-primary"></div>
+<div class="w-4 h-2 bg-primary"></div>
+<div class="w-4 h-2 bg-primary"></div>
+<div class="w-4 h-2 bg-primary/20"></div>
+<div class="w-4 h-2 bg-primary/20"></div>
+</div>
+</div>
+</div>
+<!-- Collectible Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Unlocked Card -->
+<div class="relative p-1 bg-surface-variant/20 border border-surface-tint/30 rounded-lg group transition-all hover:bg-surface-variant/40">
+<div class="aspect-[3/4] rounded overflow-hidden relative">
+<img class="w-full h-full object-cover" data-alt="A stylized digital representation of two cosmic entities representing Destiny and Free Will, balanced on a glowing celestial scale. One figure is composed of blue starlight networks, the other of chaotic multicolored nebula matter. The background is a vast space coliseum under a galactic sky. Dark sci-fantasy aesthetic with neon accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJecbfZKQDoZNnGNMvNBd-55rq7jsx075lPxb0thoxI4yomIiAJvrsclwiSW_mSYa59OrxBOcq0RCg4NkM_WxBPp2tC8W9QONGkQnBAvYPzFLa7qwx4lAN-TCgP7yrRbH04lZlYcuY-Unr7-cNQLlNTnwSsdBr9xmbD4i4eDJMIYejnMdaLpHnfrxIvqjkpiCclTSCbfRP5OVcioQiY7y4qkbESxTHbhtnTz0qDys9FpfKpMmeNbHDtaTihsWIqsZ8G0l2vtIQpJzR"/>
+<div class="absolute inset-0 bg-background/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+<span class="font-telemetry-label text-telemetry-label text-primary border border-primary px-4 py-2 cliptrigger">EXPAND DATA</span>
+</div>
+</div>
+<div class="mt-4 p-2">
+<div class="flex justify-between items-center mb-1">
+<span class="font-telemetry-label text-telemetry-label text-surface-tint uppercase">Vignette 012</span>
+<span class="font-telemetry-label text-telemetry-label text-on-surface-variant">SYNC: 100%</span>
+</div>
+<h4 class="font-technical-data-lg text-technical-data-lg text-primary uppercase">The Choice</h4>
+</div>
+</div>
+<!-- Legendary Card -->
+<div class="relative p-1 bg-gradient-to-br from-secondary/40 to-surface-variant/20 border-2 border-secondary rounded-lg group overflow-hidden pulse-glow">
+<div class="absolute inset-0 pointer-events-none opacity-20">
+
+</div>
+<div class="aspect-[3/4] rounded overflow-hidden relative">
+<img class="w-full h-full object-cover" data-alt="A high-contrast neon-colored temporal map showing multiple timelines and dimensional fractures in deep space. Glowing pink and blue lines interconnect floating crystalline shards and ancient technological structures. Detailed telemetry overlays and glowing glyphs enhance the futuristic operatic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvWAgEdYEBRmsY_Uz21DaA67bOeSfxlCSBmKOjN7qMpTpb_VoC92tcnPvAPNXUWjg4P1zYhN0jh-pqP60RApcgsQS71BtFYCHrm5CDkaP1JgC0ubTfYFt0i3mLOlbP2Mj0DESsjkBoD80VG_2dge2bd9mFTdp8QS8MTy0NzyjkwrX5BH6ig55c4q88d4b1qt_FLeLIzP658y2-TN-gG2v189kVHZLCWdv4B4sWdLLWKDl3v5-3Oep3qiQhFnD4p6EOLX6wuf0VCqOK"/>
+<div class="absolute top-2 right-2 bg-secondary text-on-secondary px-2 py-0.5 rounded-sm font-telemetry-label text-[9px] uppercase font-bold">Legendary</div>
+</div>
+<div class="mt-4 p-2">
+<div class="flex justify-between items-center mb-1">
+<span class="font-telemetry-label text-telemetry-label text-secondary uppercase">Temporal Node</span>
+<span class="material-symbols-outlined text-secondary text-sm">stars</span>
+</div>
+<h4 class="font-technical-data-lg text-technical-data-lg text-secondary uppercase">Omega Point</h4>
+</div>
+</div>
+<!-- Locked Card -->
+<div class="relative p-1 bg-surface-dim border border-white/5 rounded-lg overflow-hidden flex flex-col grayscale group cursor-not-allowed">
+<div class="aspect-[3/4] rounded bg-black/40 relative flex flex-col items-center justify-center overflow-hidden">
+<div class="absolute inset-0 glitch-noise opacity-30 bg-center bg-cover" data-alt="A shadowy silhouette of an ancient robotic deity hidden behind a thick veil of digital noise and corrupted data artifacts. Static textures and flickering scanlines suggest a hidden secret waiting to be decoded. The palette is muted blacks and dark purples with occasional sharp magenta glitches." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBEnpBXmnuLCam7425cXRL3DOgKCmvQO-pvDibGHoL_u8jD3lRbfwQeN-yN8TnDU7Ui1xBBBWnMk2OJx-n4MtQQkXBYs4xBa5rni7AOUjWs4AvEXN-rI3CMkxjNxyjI1--eCNBuHUfNYJ1NflGv--tgfXvnVPoh9sxTTJfG57lBMtOKKHBBz1N78ZjS6qSbP4jUvhDgK5iDdsnxrirZJ-1kOj-rHr7E2BLStw7Vt3nMVsf9HyNJWSY6XeZKVj8CVetx4kVATMh6H0at')"></div>
+<span class="material-symbols-outlined text-surface-tint/40 text-5xl animate-pulse">lock</span>
+<span class="font-telemetry-label text-telemetry-label text-surface-tint mt-4 uppercase">Sync Required</span>
+</div>
+<div class="mt-4 p-2 opacity-40">
+<div class="w-24 h-2 bg-white/10 rounded mb-2"></div>
+<div class="w-full h-4 bg-white/10 rounded"></div>
+</div>
+</div>
+<!-- Unlocked Card 2 -->
+<div class="relative p-1 bg-surface-variant/20 border border-surface-tint/30 rounded-lg group transition-all hover:bg-surface-variant/40">
+<div class="aspect-[3/4] rounded overflow-hidden relative">
+<img class="w-full h-full object-cover" data-alt="A first-person perspective of a gloved hand reaching toward a levitating mystical object in a dense forest of crystalline trees. The forest glows with ambient bioluminescent light in shades of teal and violet. Glowing runes are etched into the trees and appear as floating holographic displays. The style is detailed cinematic illustration with a dark fantasy feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFouOsCxn4A942xV-UQSUt_TOB0vlEvFlM7ciybFL74z_viBup054OUny1_h85MGp-d_qwx9PEtV4-_hGeAzM0pzXnwRGDXQZEd4mgzvZWLUlwAX7srDV-yaybEBlOEOHDZHCA9kkn27m4TvDxSlIb18n8-kZ-bX4vbdHBD3R3f7r-e-ZK3NEihKaWe769nSLrRy1CoQYLJu-8sq-vlWW1vMLxa2kgWf04CrXaxcsC8HoVQZw5guhtnsfb015_8gaksxB_xw6MbK7-"/>
+</div>
+<div class="mt-4 p-2">
+<div class="flex justify-between items-center mb-1">
+<span class="font-telemetry-label text-telemetry-label text-surface-tint uppercase">Fragment 089</span>
+<span class="font-telemetry-label text-telemetry-label text-on-surface-variant">SYNC: 92%</span>
+</div>
+<h4 class="font-technical-data-lg text-technical-data-lg text-primary uppercase">Primal Reach</h4>
+</div>
+</div>
+</div>
+</main>
+<!-- CBC Floating Panel -->
+<div class="fixed bottom-12 right-12 w-80 z-50 transition-all duration-500 hover:translate-y-[-4px]">
+<div class="bg-surface-dim/90 backdrop-blur-2xl border border-primary/40 p-6 rounded-xl cliptrigger shadow-[0_0_30px_rgba(0,219,233,0.2)]">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-full border border-primary flex-shrink-0 overflow-hidden bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl">cruelty_free</span>
+</div>
+<div>
+<span class="font-telemetry-label text-telemetry-label text-primary uppercase">Cosmic White Rabbit</span>
+<p class="font-technical-data-md text-technical-data-md text-on-surface mt-2 italic leading-relaxed">
+                        "El sendero se está reconstruyendo, buscador. Las líneas de energía vibran con la memoria del primer contacto."
+                    </p>
+<div class="mt-3 flex gap-4">
+<button class="font-telemetry-label text-telemetry-label text-primary hover:underline uppercase">Decode</button>
+<button class="font-telemetry-label text-telemetry-label text-on-surface-variant hover:underline uppercase">Dismiss</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="fixed bottom-0 w-full z-50 flex justify-around items-center h-8 px-4 bg-surface-container-lowest/90 dark:bg-surface-container-lowest/90 border-t border-surface-tint/40 text-surface-tint dark:text-surface-tint">
+<span class="font-telemetry-label text-telemetry-label uppercase">SYSTEM STATUS: SACRED_LINK_ACTIVE</span>
+<div class="flex gap-8">
+<span class="font-telemetry-label text-telemetry-label text-on-surface-variant uppercase">Latency: 0.003ms</span>
+<span class="font-telemetry-label text-telemetry-label text-on-surface-variant uppercase">Stability: 99.8%</span>
+</div>
+</footer>
+<script>
+        // Micro-interactions and atmospheric effects
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            // Subtle parallax for some elements
+            const cards = document.querySelectorAll('.group');
+            cards.forEach((card, index) => {
+                const depth = (index + 1) * 0.05;
+                const moveX = (x - 0.5) * 20 * depth;
+                const moveY = (y - 0.5) * 20 * depth;
+                card.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+        });
+
+        // Simulating random glitches for 'Locked' content
+        setInterval(() => {
+            const lockedImg = document.querySelector('.glitch-noise');
+            if (lockedImg) {
+                lockedImg.style.opacity = Math.random() > 0.9 ? '0.8' : '0.3';
+                lockedImg.style.filter = Math.random() > 0.95 ? 'hue-rotate(180deg) invert(1)' : 'none';
+            }
+        }, 150);
+    </script>
+</body></html>

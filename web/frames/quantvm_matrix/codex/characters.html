@@ -1,0 +1,431 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>CODEX | QUANTVM MATRIX</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;family=Inter:wght@300;400;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-container": "#00526b",
+                    "primary-fixed-dim": "#6bd3ff",
+                    "tertiary-fixed-dim": "#faabff",
+                    "on-error": "#690005",
+                    "surface-tint": "#6bd3ff",
+                    "on-secondary": "#00382b",
+                    "secondary-fixed-dim": "#00e0b3",
+                    "on-tertiary": "#570066",
+                    "on-tertiary-fixed-variant": "#7b008f",
+                    "surface-dim": "#0f1417",
+                    "secondary": "#ffffff",
+                    "on-surface": "#dfe3e7",
+                    "surface-container-highest": "#303538",
+                    "outline-variant": "#3e484e",
+                    "outline": "#889299",
+                    "on-tertiary-fixed": "#35003f",
+                    "on-primary": "#003546",
+                    "on-background": "#dfe3e7",
+                    "error": "#ffb4ab",
+                    "on-primary-fixed": "#001f2a",
+                    "secondary-fixed": "#24ffcd",
+                    "secondary-container": "#24ffcd",
+                    "tertiary": "#fec5ff",
+                    "surface-variant": "#303538",
+                    "on-tertiary-container": "#820097",
+                    "on-primary-fixed-variant": "#004d65",
+                    "inverse-surface": "#dfe3e7",
+                    "surface-container-lowest": "#0a0f11",
+                    "surface": "#0f1417",
+                    "on-error-container": "#ffdad6",
+                    "error-container": "#93000a",
+                    "background": "#0f1417",
+                    "surface-bright": "#353a3d",
+                    "tertiary-container": "#f69aff",
+                    "primary": "#a2e0ff",
+                    "on-secondary-fixed": "#002118",
+                    "primary-fixed": "#bee9ff",
+                    "tertiary-fixed": "#ffd6fe",
+                    "inverse-on-surface": "#2c3134",
+                    "surface-container-low": "#171c1f",
+                    "on-secondary-container": "#00725a",
+                    "primary-container": "#5bc8f5",
+                    "on-secondary-fixed-variant": "#00513f",
+                    "on-surface-variant": "#bdc8cf",
+                    "inverse-primary": "#006685",
+                    "surface-container-high": "#262b2e",
+                    "surface-container": "#1b2023"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "unit": "8px",
+                    "margin-desktop": "64px",
+                    "gutter": "24px",
+                    "margin-mobile": "20px",
+                    "container-max": "1440px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Audiowide"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Orbitron"],
+                    "label-caps": ["Orbitron"],
+                    "headline-md": ["Audiowide"],
+                    "display-md": ["Audiowide"],
+                    "display-lg-mobile": ["Audiowide"],
+                    "display-lg": ["Audiowide"],
+                    "body-sm": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg": ["30px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "label-caps": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                    "display-md": ["36px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "1.1", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #060810;
+            color: #dfe3e7;
+            overflow-x: hidden;
+        }
+
+        .hex-bg {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cpath fill='%236bd3ff' fill-opacity='0.05' d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9z'/%3E%3C/svg%3E");
+        }
+
+        .glass-panel {
+            background: rgba(15, 20, 23, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(107, 211, 255, 0.1);
+        }
+
+        .glow-primary {
+            box-shadow: 0 0 20px rgba(107, 211, 255, 0.15);
+        }
+
+        .glow-accent {
+            box-shadow: 0 0 15px rgba(250, 171, 255, 0.3);
+        }
+
+        .mask-gradient {
+            mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+        }
+
+        .tactical-border {
+            position: relative;
+        }
+        .tactical-border::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px;
+            width: 10px; height: 10px;
+            border-top: 2px solid #a2e0ff;
+            border-left: 2px solid #a2e0ff;
+        }
+        .tactical-border::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; right: -2px;
+            width: 10px; height: 10px;
+            border-bottom: 2px solid #a2e0ff;
+            border-right: 2px solid #a2e0ff;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        .scanline::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: rgba(162, 224, 255, 0.2);
+            animation: scanline 4s linear infinite;
+        }
+    </style>
+</head>
+<body class="hex-bg font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- SIDE NAVIGATION -->
+<nav class="fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-lowest/90 backdrop-blur-md border-r border-outline-variant/10 flex flex-col py-8 px-4 hidden md:flex">
+<div class="mb-12 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-primary/30">
+<img class="w-full h-full object-cover" data-alt="A portrait of a mysterious, futuristic white rabbit wearing glowing tactical goggles and a high-tech collar, set against a deep cosmic background with faint nebula clouds and blue neon accents. The rabbit appears as a digital guide or hologram, sleek and authoritative." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAm9Im_0_ena2ErisNeQ3kNaLpS7lotYn5yrPaHlGitLPxpBWLXxSpQOlG0vM6-DLDlh-LJIGlCecON7_ZrS-Vn-fDx9vyla9Vjra54wCNNwITFKYbfV09PcPtjA9BDeLgV4h5xCKS8jvLH9UP8J9GJ5EmGl9haabLVc4_xU6zkS27zmpdxGAAi9l8mQpQU13SX1RGpBpKXvUeiAHta6ty75jbAgy3xxdvO4gZvpIdaZmkcZ8ZAcuhyNd-1Lzi50wvMYYC1QDnJmSK7">
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md text-primary leading-tight">CBC GUIDE</h1>
+<p class="font-label-caps text-label-caps text-primary-fixed-dim/60 text-[10px]">Protocol Active</p>
+</div>
+</div>
+<div class="space-y-2 flex-grow">
+<!-- Navigation Items -->
+<a class="flex items-center gap-4 py-3 px-4 transition-all duration-200 ease-in-out text-on-surface-variant/70 hover:bg-surface-variant/50 hover:text-primary group" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 transition-all duration-200 ease-in-out bg-primary/10 text-primary border-r-4 border-primary group" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">groups</span>
+<span class="font-label-caps text-label-caps">Characters</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 transition-all duration-200 ease-in-out text-on-surface-variant/70 hover:bg-surface-variant/50 hover:text-primary group" href="#">
+<span class="material-symbols-outlined">auto_fix_high</span>
+<span class="font-label-caps text-label-caps">Artifacts</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 transition-all duration-200 ease-in-out text-on-surface-variant/70 hover:bg-surface-variant/50 hover:text-primary group" href="#">
+<span class="material-symbols-outlined">pets</span>
+<span class="font-label-caps text-label-caps">Bestiary</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 transition-all duration-200 ease-in-out text-on-surface-variant/70 hover:bg-surface-variant/50 hover:text-primary group" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-caps text-label-caps">Archive</span>
+</a>
+</div>
+<div class="mt-auto space-y-2 pt-6 border-t border-outline-variant/10">
+<button class="w-full bg-primary text-on-primary py-3 px-4 font-label-caps text-label-caps tracking-widest transition-all duration-300 hover:glow-primary hover:scale-[1.02] active:scale-95 mb-4">
+                SYNC DATA
+            </button>
+<a class="flex items-center gap-4 py-2 px-4 text-on-surface-variant/70 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-label-caps text-[12px]">Settings</span>
+</a>
+<a class="flex items-center gap-4 py-2 px-4 text-on-surface-variant/70 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">contact_support</span>
+<span class="font-label-caps text-[12px]">Support</span>
+</a>
+</div>
+</nav>
+<!-- MAIN CONTENT AREA -->
+<main class="md:ml-64 min-h-screen flex flex-col relative">
+<!-- TOP NAV BAR -->
+<header class="fixed top-0 right-0 left-0 md:left-64 z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20 shadow-[0_0_15px_rgba(107,211,255,0.1)] h-20">
+<div class="flex justify-between items-center px-6 md:px-margin-desktop w-full max-w-container-max mx-auto h-full">
+<div class="flex items-center gap-8">
+<span class="font-headline-lg text-headline-lg tracking-wider text-primary">CODEX</span>
+<nav class="hidden lg:flex gap-6">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors uppercase" href="#">CHARACTERS</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors uppercase" href="#">ARTIFACTS</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors uppercase" href="#">TIMELINES</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors uppercase" href="#">MAPS</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+<input class="bg-surface-container-high/50 border border-outline-variant/30 rounded-full pl-10 pr-4 py-1.5 text-label-md font-label-md text-primary focus:outline-none focus:border-primary/50 focus:glow-primary transition-all w-64" placeholder="QUERY ENTITY..." type="text">
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary hover:scale-110 active:scale-95 transition-transform">account_circle</button>
+<button class="material-symbols-outlined text-primary hover:scale-110 active:scale-95 transition-transform">menu_open</button>
+</div>
+</div>
+</div>
+</header>
+<!-- CONTENT CANVAS -->
+<div class="mt-20 px-6 md:px-margin-desktop py-12 flex-grow max-w-container-max mx-auto w-full">
+<!-- FEATURED CHARACTER HERO -->
+<section class="relative w-full rounded-xl overflow-hidden mb-16 h-[500px] glass-panel glow-primary group">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="A cinematic, high-detail hero portrait of 'Aetheria Prime', a celestial character with skin like polished obsidian and glowing cyan circuit patterns. She wears intricate glassmorphic armor and is surrounded by floating crystalline artifacts in a dark cosmic void with magenta nebula clouds and sharp light rays. The style is epic and high-prestige retro-futurism." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCjMSWFtXMnrNwGAPbbffUvSoL0BSrOxzZkQIlJJgpTQuVIf2RLWImysAs8G0kSRqAByxramNNsZxBxQEJf_hKOd9NHIetO0jWcsG7Mqy583dJuhEMWkQA_8br4mN7M6t7ggsp_onFmozPpSW31NGrOslsNg0dEqzaVgcKLgwtMp75QHRgtUsM6AIpxNH_Csk8rAwxNZ9NWBX89bSUVnRXYxSabzOkK5-AMbdSOGME9hY0I6ydrcT3imcU0zZg2CV79zYz0En87-reA')">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-[#060810] via-transparent to-transparent"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-[#060810]/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-12 left-12 max-w-2xl">
+<div class="inline-block px-3 py-1 bg-tertiary/20 border border-tertiary/40 rounded-full mb-4">
+<span class="font-label-caps text-[10px] text-tertiary tracking-widest">LEGENDARY ENTITY</span>
+</div>
+<h2 class="font-display-lg text-display-lg text-primary mb-2 uppercase tracking-tighter">AETHERIA PRIME</h2>
+<p class="font-headline-md text-headline-md text-secondary-fixed-dim mb-6 italic opacity-80">The Weaver of Void Currents</p>
+<div class="flex gap-4">
+<button class="px-8 py-3 bg-primary text-on-primary font-headline-md text-headline-md hover:glow-primary transition-all duration-300 uppercase">ACCESS DATA</button>
+<button class="px-8 py-3 border border-primary text-primary font-headline-md text-headline-md hover:bg-primary/10 transition-all duration-300 uppercase">LOCATE</button>
+</div>
+</div>
+<div class="absolute top-8 right-8 tactical-border p-4 glass-panel bg-surface-container-lowest/40">
+<div class="font-label-caps text-label-caps text-outline text-[10px] mb-1">MATRIX_COORDS</div>
+<div class="font-label-md text-label-md text-primary tracking-widest">QX-449 // TZ-12</div>
+</div>
+</section>
+<!-- CHARACTER GRID SECTION -->
+<div class="flex justify-between items-end mb-8">
+<h3 class="font-headline-lg text-headline-lg text-primary flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary">grid_view</span>
+                    ACTIVE ENTITIES
+                </h3>
+<div class="flex gap-4">
+<button class="font-label-caps text-label-caps text-outline hover:text-primary flex items-center gap-2">
+                        FILTER <span class="material-symbols-outlined text-[18px]">filter_list</span>
+</button>
+<button class="font-label-caps text-label-caps text-outline hover:text-primary flex items-center gap-2">
+                        SORT <span class="material-symbols-outlined text-[18px]">sort</span>
+</button>
+</div>
+</div>
+<!-- GRID -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter">
+<!-- Card 1 -->
+<div class="group relative aspect-[2/3] glass-panel overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:glow-primary">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="A detailed character portrait of 'Kael-Umbra', a rogue hacker type with a sleek metallic prosthetic arm and high-tech visor glowing violet. He is standing in a rainy, neon-lit cyberpunk alleyway with deep blue and magenta lighting. The aesthetic is dark, moody, and intricate, with tactical HUD elements overlaid on the scene." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCS8x6ru91D6Rp88dK-DJhbMH22VhtC5KFaLQeJFa7rqm84Vspt6qH1yyK222tLjXQQbJeBoXT41unsTY1KhLnVi0tvn0mWfjGL4LxZHmkGgsIFvdQ0IWHOEh3f5SVAxPARMF5NhhiN8aJ5MqQ1GjXw-wDtBAeiF3maeThuU_cj3JervcJMV3q6_DMw_FcqIdb-13cydtxNRgg0hNbAafuZtrB3mqgj0exIbhOcTpyIy04nW7O7RfV5KXwUzK1cqfKoqZYrtoxGPF_I')">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent opacity-90"></div>
+<div class="absolute inset-x-0 bottom-0 p-6">
+<div class="font-label-caps text-[10px] text-tertiary-fixed-dim tracking-[0.2em] mb-1">SHADOW WALKER</div>
+<h4 class="font-headline-md text-headline-md text-primary mb-3">KAEL-UMBRA</h4>
+<div class="flex justify-between items-center border-t border-outline-variant/30 pt-3">
+<div class="text-left">
+<p class="font-label-caps text-[10px] text-outline">LORE LEVEL</p>
+<p class="font-label-md text-label-md text-secondary-fixed-dim">V-III</p>
+</div>
+<div class="w-12 h-1 bg-outline-variant/30 overflow-hidden relative">
+<div class="absolute left-0 top-0 h-full bg-primary w-2/3 glow-primary"></div>
+</div>
+</div>
+</div>
+<div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-primary bg-surface/80 p-2 rounded-full border border-primary/30">add_circle</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group relative aspect-[2/3] glass-panel overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:glow-accent">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="A portrait of 'Persephone', an ethereal figure with long flowing white hair that glows at the tips. She is wearing a robe made of captured starlight and holding a floating obsidian sphere. The background is a swirling cosmic vortex in shades of deep violet and gold. The style is majestic, cinematic, and mystical." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCsRK_LVaMspUpb9t7cBDtfOtObtQcNVDPyiexayuMjr5w9y8PZ2jQqaO9ZHDW9OJ1Yoir_CrKTpkcJmYP_19mcgnFWFmhSJIVa0oaL65qEy_1TFNWMDvdQnBcdV5MUT5eNg3meszIuQpihfNAbTY4n5HozfDcL4yZfRfGC_VqrIP8qluz6yCODx6wiXL_dEnM3_rBGf9apIn15ITsPnkzwD-seBLYJax35ZdV8ox8Q8OMaUVeiFApNEGz7TzCyvCbbxcj_PHsDJoth')">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent opacity-90"></div>
+<div class="absolute inset-x-0 bottom-0 p-6">
+<div class="font-label-caps text-[10px] text-tertiary tracking-[0.2em] mb-1">DATA ARCHON</div>
+<h4 class="font-headline-md text-headline-md text-primary mb-3">PERSEPHONE</h4>
+<div class="flex justify-between items-center border-t border-outline-variant/30 pt-3">
+<div class="text-left">
+<p class="font-label-caps text-[10px] text-outline">LORE LEVEL</p>
+<p class="font-label-md text-label-md text-secondary-fixed-dim">X-IX</p>
+</div>
+<div class="w-12 h-1 bg-outline-variant/30 overflow-hidden relative">
+<div class="absolute left-0 top-0 h-full bg-tertiary w-[90%] glow-accent"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group relative aspect-[2/3] glass-panel overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:glow-primary">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="A powerful warrior figure named 'Titan-9', a massive bipedal mech-human hybrid with heavy ceramic plating and glowing orange vents. He is depicted in a desolate lunar crater with Earth hanging large in the black sky. The aesthetic is industrial, tactical, and high-tech, using heavy textures and dramatic rim lighting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBdSo1VaJ71QsWKW4R4aAOuj8Mc_P0K9ngNNyC3xsHT0U1495Kh-06TyFTdUDxtvymDq03x_JKp3rVdkNSVHVv2SfuqZsRcvSGdQb7-fd8h4stZoKzffUb02caWRPqEKSRpHVqPJB8gMcfkMJgqzInhyb-Bom1wUgpv1snR1CEErwn2AMU5jLUPS_oFzKGhAnxvk-qjaWsed3mrHWu0Oq1Gj6ev4rgRzu33DIfiWviuI8krDKNo-OdEwB015aUsPTqPrzwVkludvsjp')">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent opacity-90"></div>
+<div class="absolute inset-x-0 bottom-0 p-6">
+<div class="font-label-caps text-[10px] text-secondary-fixed-dim tracking-[0.2em] mb-1">HEAVY CLASS</div>
+<h4 class="font-headline-md text-headline-md text-primary mb-3">TITAN-9</h4>
+<div class="flex justify-between items-center border-t border-outline-variant/30 pt-3">
+<div class="text-left">
+<p class="font-label-caps text-[10px] text-outline">LORE LEVEL</p>
+<p class="font-label-md text-label-md text-secondary-fixed-dim">IV-I</p>
+</div>
+<div class="w-12 h-1 bg-outline-variant/30 overflow-hidden relative">
+<div class="absolute left-0 top-0 h-full bg-primary w-1/2 glow-primary"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group relative aspect-[2/3] glass-panel overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:glow-accent">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="A portrait of 'Nova-Kali', a vibrant character with hair like burning plasma and skin covered in shifting bioluminescent patterns. She is surrounded by floating geometric light panels in a sleek, white high-key laboratory environment. The aesthetic is high-tech, energetic, and clean, with accents of bright magenta and cyan." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAoRyQLRwboJXryDzZO-8ENUkX8pjLFwIXVq0wiTXp64w-ERQuNDSYeL3YogtPN5SYYEgSwwLauaU7PSygG8Wv5nF0pJao5rhbC3Bznx-or40zrRruPQW7j-OIgMzf8EGQF8M-79qDrwiSPvp_U0b79n9z--5DESRb1QWnTha9gjA-RiRwNEEIWx2CTDkDNEpFknL4J9KDRtcmTpZ5OK_80X7ICu_bD1ymV_kghKm6uk65Vl4eQ6G1iKmMhwwZlmgFS4Uc8ARZhT6ul')">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent opacity-90"></div>
+<div class="absolute inset-x-0 bottom-0 p-6">
+<div class="font-label-caps text-[10px] text-tertiary-fixed-dim tracking-[0.2em] mb-1">PULSE REAPER</div>
+<h4 class="font-headline-md text-headline-md text-primary mb-3">NOVA-KALI</h4>
+<div class="flex justify-between items-center border-t border-outline-variant/30 pt-3">
+<div class="text-left">
+<p class="font-label-caps text-[10px] text-outline">LORE LEVEL</p>
+<p class="font-label-md text-label-md text-secondary-fixed-dim">VII-V</p>
+</div>
+<div class="w-12 h-1 bg-outline-variant/30 overflow-hidden relative">
+<div class="absolute left-0 top-0 h-full bg-tertiary w-3/4 glow-accent"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- FOOTER -->
+<footer class="w-full mt-auto bg-surface-dim border-t border-outline-variant/30 py-8">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop w-full max-w-container-max mx-auto gap-6">
+<div class="text-center md:text-left">
+<span class="font-headline-sm text-headline-sm text-outline uppercase">CODEX PROTOCOL</span>
+<p class="font-body-sm text-body-sm text-outline/50 mt-1 uppercase">© 2142 MAGZINE MULTIVERSE</p>
+</div>
+<div class="flex gap-8">
+<a class="font-label-md text-label-md text-outline hover:text-tertiary-fixed-dim transition-colors uppercase" href="#">Privacy</a>
+<a class="font-label-md text-label-md text-outline hover:text-tertiary-fixed-dim transition-colors uppercase" href="#">Terms</a>
+<a class="font-label-md text-label-md text-outline hover:text-tertiary-fixed-dim transition-colors uppercase" href="#">API</a>
+<a class="font-label-md text-label-md text-outline hover:text-tertiary-fixed-dim transition-colors uppercase" href="#">Feedback</a>
+</div>
+</div>
+</footer>
+</main>
+<!-- CBC GUIDE FLOATING PANEL -->
+<div class="fixed bottom-8 right-8 z-[60] glass-panel w-72 rounded-xl border border-primary/20 glow-primary transform translate-y-0 opacity-100 transition-all duration-500 scale-100 scanline overflow-hidden" id="guide-panel">
+<div class="p-4 flex gap-4">
+<div class="flex-shrink-0">
+<div class="w-12 h-12 rounded-full border border-primary/40 bg-surface-container-highest flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A small avatar of a sleek white rabbit with glowing blue cybernetic eyes and a tiny tactical headset, looking directly at the viewer with a neutral, professional expression." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNgVjY9T4030J5Prkx0HSnGcTCi3mM8EoE7ZqVPnEhqPiunqEm4tUcjp2iF5i_zvXJ0Z-nOTd0WK5yY8pfpOtXhCSBVrsAyY0tc-w2-sTwr5i_pW69L8dCIx6uuQ2CFJo11ibS0bdATwna2l2vrIGO0fnoNp14Hc9-qbI2ppzNRpWTZIZklS3m7PlDKt52L0fXPDS3oxeJI5i2Gje65_Xkp_xVIxVl69jZS_SiQ3zUMT5nZLwzYMgOGQDkZSGXNzeY-7BaFMFBHJqX">
+</div>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-caps text-[10px] text-primary">CBC_GUIDE</span>
+<button class="material-symbols-outlined text-outline text-[14px] hover:text-primary" onclick="document.getElementById('guide-panel').classList.add('opacity-0', 'translate-y-12', 'scale-90')">close</button>
+</div>
+<p class="font-body-sm text-[12px] text-on-surface leading-snug">
+                    "Detected high-density lore nodes in the <span class="text-tertiary">Aetheria Prime</span> dossier. Synchronize your neural link before proceeding."
+                </p>
+<div class="mt-3 h-1 w-full bg-surface-container-low rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[45%]" id="load-bar" style="width: 48.4%;"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Micro-interactions Script -->
+<script>
+        // Simple loading bar animation for the guide
+        let width = 45;
+        const bar = document.getElementById('load-bar');
+        setInterval(() => {
+            width = (width + 0.2) % 100;
+            bar.style.width = width + '%';
+        }, 100);
+
+        // Hover tilt effect for cards
+        const cards = document.querySelectorAll('.glass-panel');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)`;
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,529 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>MagnoBank | Multiversal Financial Terminal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#003829",
+                        "on-surface-variant": "#c1c7d0",
+                        "outline-variant": "#41474f",
+                        "primary-fixed": "#cee5ff",
+                        "surface-bright": "#393939",
+                        "secondary-fixed": "#79f9ce",
+                        "error-container": "#93000a",
+                        "surface-container-lowest": "#0e0e0e",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed": "#001d32",
+                        "aquamarine": "#7FFFD4",
+                        "on-secondary-container": "#003326",
+                        "inverse-surface": "#e5e2e1",
+                        "celestial-blue": "#6FA8DC",
+                        "surface": "#131313",
+                        "on-primary": "#003353",
+                        "black-mate": "#1C1C1C",
+                        "on-surface": "#e5e2e1",
+                        "surface-tint": "#96ccff",
+                        "secondary": "#5adcb3",
+                        "on-background": "#e5e2e1",
+                        "tertiary": "#ffabf3",
+                        "outline": "#8b919a",
+                        "tertiary-fixed": "#ffd7f5",
+                        "primary-fixed-dim": "#96ccff",
+                        "on-tertiary": "#5b005b",
+                        "surface-container-high": "#2a2a2a",
+                        "secondary-container": "#00a782",
+                        "tertiary-container": "#ff61f8",
+                        "obsidian-grey": "#2D2D2D",
+                        "on-error-container": "#ffdad6",
+                        "inverse-on-surface": "#313030",
+                        "on-tertiary-fixed": "#380038",
+                        "background": "#131313",
+                        "primary-container": "#6fa8dc",
+                        "surface-dim": "#131313",
+                        "on-tertiary-container": "#6a006a",
+                        "surface-container-highest": "#353535",
+                        "surface-variant": "#353535",
+                        "inverse-primary": "#216393",
+                        "magenta-resonance": "#FF00FF",
+                        "pearl-white": "#F9F9F9",
+                        "on-error": "#690005",
+                        "deep-violet": "#8F00FF",
+                        "surface-container-low": "#1b1b1b",
+                        "secondary-fixed-dim": "#5adcb3",
+                        "surface-container": "#20201f",
+                        "primary": "#96ccff",
+                        "on-secondary-fixed-variant": "#00513d",
+                        "on-primary-container": "#003c61",
+                        "on-tertiary-fixed-variant": "#810081",
+                        "on-secondary-fixed": "#002117",
+                        "on-primary-fixed-variant": "#004a76",
+                        "tertiary-fixed-dim": "#ffabf3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "1.5rem",
+                        "stack-md": "1.5rem",
+                        "stack-xs": "0.5rem",
+                        "panel-padding": "1.5rem",
+                        "grid-margin": "2rem",
+                        "stack-lg": "3rem"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Audiowide"],
+                        "headline-lg": ["Audiowide"],
+                        "data-display": ["Orbitron"],
+                        "headline-lg-mobile": ["Audiowide"],
+                        "body-lg": ["Orbitron"],
+                        "label-caps": ["Orbitron"],
+                        "body-md": ["Orbitron"],
+                        "headline-md": ["Audiowide"],
+                        "technical-sm": ["Orbitron"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                        "headline-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "data-display": ["36px", {"lineHeight": "1.1", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.2em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-md": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                        "technical-sm": ["10px", {"lineHeight": "1.2", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+            overflow-x: hidden;
+        }
+        .hex-overlay {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60 4.02 45V15z' fill-opacity='0.03' fill='%236FA8DC' fill-rule='evenodd' stroke='%236FA8DC' stroke-opacity='0.05'/%3E%3C/svg%3E");
+            background-attachment: fixed;
+        }
+        .scanline {
+            background: linear-gradient(to bottom, rgba(255,255,255,0) 50%, rgba(111,168,220,0.05) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+        .energy-glow {
+            box-shadow: inset 0 0 15px rgba(111, 168, 220, 0.1);
+        }
+        .kinetic-resonance {
+            animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .reactor-spin {
+            animation: rotate 10s linear infinite;
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.1);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #6FA8DC;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md selection:bg-celestial-blue selection:text-black-mate">
+<div class="fixed inset-0 hex-overlay pointer-events-none z-0"></div>
+<div class="fixed inset-0 scanline z-50 opacity-20 pointer-events-none"></div>
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-grid-margin h-20 sticky top-0 z-40 bg-black-mate/90 backdrop-blur-2xl border-b border-pearl-white/5">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-headline-md font-bold text-celestial-blue drop-shadow-[0_0_5px_#6FA8DC] tracking-wider">MagnoBank</span>
+<nav class="hidden md:flex gap-6">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-aquamarine hover:drop-shadow-[0_0_8px_#7FFFD4] transition-all" href="#">Matrix</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-aquamarine hover:drop-shadow-[0_0_8px_#7FFFD4] transition-all" href="#">Nexus</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-aquamarine hover:drop-shadow-[0_0_8px_#7FFFD4] transition-all" href="#">Archive</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-aquamarine hover:drop-shadow-[0_0_8px_#7FFFD4] transition-all" href="#">Marketplace</a>
+<a class="font-label-caps text-label-caps text-magenta-resonance border-b-2 border-magenta-resonance pb-1 transition-all" href="#">Bank</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative group hidden lg:block">
+<input class="bg-obsidian-grey/40 border-b border-celestial-blue/30 focus:border-celestial-blue transition-all outline-none px-4 py-1 font-technical-sm text-technical-sm text-pearl-white w-48 focus:w-64" placeholder="SYS.SEARCH_DATA..." type="text">
+<span class="material-symbols-outlined absolute right-2 top-1 text-celestial-blue text-sm">search</span>
+</div>
+<button class="bg-celestial-blue/10 border border-celestial-blue text-celestial-blue px-4 py-2 font-label-caps text-label-caps hover:bg-celestial-blue hover:text-black-mate transition-all active:scale-95">
+                Vault Transfer
+            </button>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-celestial-blue cursor-pointer">notifications_active</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-celestial-blue cursor-pointer">account_tree</span>
+</div>
+<div class="w-10 h-10 border border-celestial-blue/30 rounded-full p-0.5">
+<img class="w-full h-full rounded-full object-cover grayscale brightness-125 contrast-125" data-alt="A futuristic holographic profile avatar of a tech commander, glowing with soft blue cyan lines against a dark obsidian background. The character wears a sleek cybernetic interface mask with glowing ocular elements. High-fidelity glassmorphic lighting and digital noise textures enhance the futuristic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnh4CvLZsk0qO5zIf8SEIShIqsZa9F5xtcRHbPXQFA9AWI-sv21DL9ieO8oJSbSA6rPhBGiMaPmYNOT-R2LC20q84annAITu2rP8efyaAnhhu4yb6facu6gYRXLdRlpMeT8AjhDp0v5xKB-rBo-50JjeUWxCwfAF2Af5yayRY4M4hC69bFKYiEZpCYoww0HO4Sn3wTDrVN5P9of0XyZ92_oxsbw22Mmm6jmPwXH-MaPJ7J98Jp8966pa2PoUAXChzgGqEKHpvgOfHm">
+</div>
+</div>
+</header>
+<div class="flex min-h-screen">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full z-30 flex flex-col p-gutter mt-20 w-64 bg-surface/80 backdrop-blur-xl border-r border-pearl-white/10 hidden md:flex">
+<div class="mb-10">
+<div class="font-technical-sm text-technical-sm text-on-surface-variant mb-1">TERMINAL_ID</div>
+<div class="font-headline-sm text-headline-sm text-celestial-blue tracking-tighter">SYS.VER_V2.04</div>
+</div>
+<nav class="flex flex-col gap-2 flex-grow">
+<a class="flex items-center gap-4 p-3 text-celestial-blue font-bold border-l-2 border-magenta-resonance bg-celestial-blue/5 transition-all" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps text-label-caps">Total Assets</span>
+</a>
+<a class="flex items-center gap-4 p-3 text-on-surface-variant font-medium hover:bg-celestial-blue/10 hover:text-aquamarine transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">hub</span>
+<span class="font-label-caps text-label-caps">Currency Vaults</span>
+</a>
+<a class="flex items-center gap-4 p-3 text-on-surface-variant font-medium hover:bg-celestial-blue/10 hover:text-aquamarine transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">inventory_2</span>
+<span class="font-label-caps text-label-caps">Exchange</span>
+</a>
+<a class="flex items-center gap-4 p-3 text-on-surface-variant font-medium hover:bg-celestial-blue/10 hover:text-aquamarine transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">storefront</span>
+<span class="font-label-caps text-label-caps">Ledger</span>
+</a>
+<a class="flex items-center gap-4 p-3 text-on-surface-variant font-medium hover:bg-celestial-blue/10 hover:text-aquamarine transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">account_balance</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-pearl-white/10 pt-4 flex flex-col gap-2">
+<button class="w-full text-left flex items-center gap-4 p-3 text-on-surface-variant font-medium hover:text-aquamarine transition-all">
+<span class="material-symbols-outlined text-sm">verified_user</span>
+<span class="font-technical-sm text-technical-sm uppercase tracking-widest">Security</span>
+</button>
+<div class="p-3 bg-magenta-resonance/5 border border-magenta-resonance/20 rounded-lg">
+<div class="font-technical-sm text-technical-sm text-magenta-resonance mb-2 tracking-widest">NETWORK_STATUS</div>
+<div class="h-1 bg-black-mate rounded-full overflow-hidden">
+<div class="h-full bg-magenta-resonance w-3/4 animate-pulse"></div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 p-8 relative z-10">
+<!-- Top Summary Card -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+<div class="lg:col-span-2 bg-obsidian-grey/40 backdrop-blur-md border border-pearl-white/10 p-panel-padding energy-glow relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-64 h-64 bg-celestial-blue/5 rounded-full blur-3xl -mr-20 -mt-20 group-hover:bg-celestial-blue/10 transition-all duration-700"></div>
+<div class="relative z-10">
+<header class="flex justify-between items-start mb-6">
+<div>
+<h2 class="font-label-caps text-label-caps text-on-surface-variant tracking-[0.3em] uppercase">Total Multiversal Value</h2>
+<p class="font-technical-sm text-technical-sm text-celestial-blue">REF_ID: MAGNO_CORE_001</p>
+</div>
+<span class="bg-aquamarine/10 text-aquamarine border border-aquamarine/30 px-3 py-1 font-technical-sm text-technical-sm rounded-full">0.03ms</span>
+</header>
+<div class="flex items-baseline gap-4 mb-8">
+<span class="font-data-display text-headline-lg text-pearl-white drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">142,500.80</span>
+<span class="font-headline-sm text-headline-sm text-celestial-blue">MVS</span>
+</div>
+<div class="w-full h-32 relative">
+<!-- Visual Resonance Chart Mockup -->
+<div class="absolute inset-0 flex items-end gap-1 opacity-40">
+<div class="w-full bg-celestial-blue h-12 animate-[bounce_3s_infinite_0ms]"></div>
+<div class="w-full bg-celestial-blue h-20 animate-[bounce_3.5s_infinite_200ms]"></div>
+<div class="w-full bg-celestial-blue h-16 animate-[bounce_2.8s_infinite_400ms]"></div>
+<div class="w-full bg-magenta-resonance h-28 animate-[bounce_4s_infinite_600ms]"></div>
+<div class="w-full bg-celestial-blue h-24 animate-[bounce_3.2s_infinite_800ms]"></div>
+<div class="w-full bg-celestial-blue h-14 animate-[bounce_3.6s_infinite_1000ms]"></div>
+</div>
+<div class="absolute bottom-0 w-full h-px bg-celestial-blue/30 shadow-[0_0_5px_#6FA8DC]"></div>
+</div>
+</div>
+</div>
+<!-- Security Protocol Widget -->
+<div class="bg-obsidian-grey/40 backdrop-blur-md border border-pearl-white/10 p-panel-padding energy-glow flex flex-col justify-between">
+<div>
+<h3 class="font-label-caps text-label-caps text-magenta-resonance mb-4 tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">security</span> Security Protocol
+                        </h3>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between font-technical-sm text-technical-sm mb-1">
+<span>AES-X8 LATENCY</span>
+<span class="text-aquamarine">0.02ms</span>
+</div>
+<div class="h-1 bg-black-mate rounded-full overflow-hidden">
+<div class="h-full bg-aquamarine w-[98%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-technical-sm text-technical-sm mb-1">
+<span>HOLOGRAPHIC ENCRYPTION</span>
+<span class="text-celestial-blue">ACTIVE</span>
+</div>
+<div class="h-1 bg-black-mate rounded-full overflow-hidden">
+<div class="h-full bg-celestial-blue w-[85%]"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-6">
+<div class="text-center font-technical-sm text-technical-sm text-on-surface-variant/60 mb-2">SCANNING FOR ANOMALIES...</div>
+<button class="w-full border border-magenta-resonance/40 text-magenta-resonance font-label-caps text-label-caps py-2 hover:bg-magenta-resonance/10 transition-all">
+                            [ ROTATE_KEYS ]
+                        </button>
+</div>
+</div>
+</section>
+<!-- Currency Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+<!-- MagnoPoints -->
+<div class="bg-obsidian-grey/40 backdrop-blur-md border border-deep-violet/30 p-5 group hover:border-deep-violet transition-all relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-16 h-16 border border-deep-violet/20 rounded-full group-hover:scale-150 transition-transform"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-deep-violet/10 border border-deep-violet/30">
+<span class="material-symbols-outlined text-deep-violet" style="font-variation-settings: 'FILL' 1;">token</span>
+</div>
+<div class="text-right">
+<span class="font-technical-sm text-technical-sm text-on-surface-variant">+4.2%</span>
+<div class="h-0.5 w-8 bg-deep-violet ml-auto mt-1"></div>
+</div>
+</div>
+<h4 class="font-headline-sm text-[20px] text-pearl-white mb-1">MagnoPoints</h4>
+<p class="font-technical-sm text-technical-sm text-on-surface-variant mb-4 uppercase tracking-widest">Prestige Assets</p>
+<div class="font-data-display text-[24px] text-deep-violet mb-2">48,290.00</div>
+<div class="flex items-center gap-2">
+<div class="flex-grow h-1 bg-black-mate rounded-full overflow-hidden">
+<div class="h-full bg-deep-violet w-1/3"></div>
+</div>
+<span class="font-technical-sm text-technical-sm text-deep-violet">LQD_03</span>
+</div>
+</div>
+<!-- MagnoCoins -->
+<div class="bg-obsidian-grey/40 backdrop-blur-md border border-aquamarine/30 p-5 group hover:border-aquamarine transition-all relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-16 h-16 border border-aquamarine/20 rounded-full group-hover:scale-150 transition-transform"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-aquamarine/10 border border-aquamarine/30">
+<span class="material-symbols-outlined text-aquamarine" style="font-variation-settings: 'FILL' 1;">monetization_on</span>
+</div>
+<div class="text-right">
+<span class="font-technical-sm text-technical-sm text-on-surface-variant">-0.8%</span>
+<div class="h-0.5 w-8 bg-aquamarine ml-auto mt-1"></div>
+</div>
+</div>
+<h4 class="font-headline-sm text-[20px] text-pearl-white mb-1">MagnoCoins</h4>
+<p class="font-technical-sm text-technical-sm text-on-surface-variant mb-4 uppercase tracking-widest">Economic Base</p>
+<div class="font-data-display text-[24px] text-aquamarine mb-2">12,440.12</div>
+<div class="flex items-center gap-2">
+<div class="flex-grow h-1 bg-black-mate rounded-full overflow-hidden">
+<div class="h-full bg-aquamarine w-4/5"></div>
+</div>
+<span class="font-technical-sm text-technical-sm text-aquamarine">LQD_MAX</span>
+</div>
+</div>
+<!-- MicroCoins -->
+<div class="bg-obsidian-grey/40 backdrop-blur-md border border-celestial-blue/30 p-5 group hover:border-celestial-blue transition-all relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-16 h-16 border border-celestial-blue/20 rounded-full group-hover:scale-150 transition-transform"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-celestial-blue/10 border border-celestial-blue/30">
+<span class="material-symbols-outlined text-celestial-blue" style="font-variation-settings: 'FILL' 1;">diamond</span>
+</div>
+<div class="text-right">
+<span class="font-technical-sm text-technical-sm text-on-surface-variant">+12.4%</span>
+<div class="h-0.5 w-8 bg-celestial-blue ml-auto mt-1"></div>
+</div>
+</div>
+<h4 class="font-headline-sm text-[20px] text-pearl-white mb-1">MicroCoins</h4>
+<p class="font-technical-sm text-technical-sm text-on-surface-variant mb-4 uppercase tracking-widest">Shard Equity</p>
+<div class="font-data-display text-[24px] text-celestial-blue mb-2">75,320.00</div>
+<div class="flex items-center gap-2">
+<div class="flex-grow h-1 bg-black-mate rounded-full overflow-hidden">
+<div class="h-full bg-celestial-blue w-1/2"></div>
+</div>
+<span class="font-technical-sm text-technical-sm text-celestial-blue">LQD_05</span>
+</div>
+</div>
+<!-- MicroPoints -->
+<div class="bg-obsidian-grey/40 backdrop-blur-md border border-magenta-resonance/30 p-5 group hover:border-magenta-resonance transition-all relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-16 h-16 border border-magenta-resonance/20 rounded-full group-hover:scale-150 transition-transform"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-magenta-resonance/10 border border-magenta-resonance/30">
+<span class="material-symbols-outlined text-magenta-resonance" style="font-variation-settings: 'FILL' 1;">offline_bolt</span>
+</div>
+<div class="text-right">
+<span class="font-technical-sm text-technical-sm text-on-surface-variant">+1.1%</span>
+<div class="h-0.5 w-8 bg-magenta-resonance ml-auto mt-1"></div>
+</div>
+</div>
+<h4 class="font-headline-sm text-[20px] text-pearl-white mb-1">MicroPoints</h4>
+<p class="font-technical-sm text-technical-sm text-on-surface-variant mb-4 uppercase tracking-widest">Utility Power</p>
+<div class="font-data-display text-[24px] text-magenta-resonance mb-2">6,450.68</div>
+<div class="flex items-center gap-2">
+<div class="flex-grow h-1 bg-black-mate rounded-full overflow-hidden">
+<div class="h-full bg-magenta-resonance w-[15%]"></div>
+</div>
+<span class="font-technical-sm text-technical-sm text-magenta-resonance">LQD_LOW</span>
+</div>
+</div>
+</section>
+<!-- Bottom Panels: Ledger & Sync -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Ledger Table -->
+<div class="lg:col-span-2 bg-obsidian-grey/40 backdrop-blur-md border border-pearl-white/10 p-panel-padding energy-glow">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-label-caps text-label-caps text-pearl-white tracking-widest uppercase">Encrypted Transaction Ledger</h3>
+<button class="font-technical-sm text-technical-sm text-celestial-blue hover:underline">EXPORT_DATA.XLS</button>
+</div>
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left font-technical-sm">
+<thead>
+<tr class="text-on-surface-variant/60 border-b border-pearl-white/5 uppercase tracking-widest">
+<th class="pb-3 font-medium">Timestamp</th>
+<th class="pb-3 font-medium">Origin_Node</th>
+<th class="pb-3 font-medium">Value</th>
+<th class="pb-3 font-medium">Status_Bit</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-pearl-white/5">
+<tr class="group hover:bg-celestial-blue/5 transition-colors">
+<td class="py-4 text-pearl-white">2024.08.12 14:32:05</td>
+<td class="py-4">NEXUS_ALPHA_GATE</td>
+<td class="py-4 text-aquamarine">+2,500.00 MC</td>
+<td class="py-4">
+<span class="px-2 py-0.5 bg-aquamarine/10 text-aquamarine border border-aquamarine/30 rounded text-[9px]">STABLE</span>
+</td>
+</tr>
+<tr class="group hover:bg-celestial-blue/5 transition-colors">
+<td class="py-4 text-pearl-white">2024.08.12 11:20:41</td>
+<td class="py-4">MARKETPLACE_OUTFLOW</td>
+<td class="py-4 text-magenta-resonance">-450.00 MP</td>
+<td class="py-4">
+<span class="px-2 py-0.5 bg-magenta-resonance/10 text-magenta-resonance border border-magenta-resonance/30 rounded text-[9px]">QUANTUM_LOCKED</span>
+</td>
+</tr>
+<tr class="group hover:bg-celestial-blue/5 transition-colors">
+<td class="py-4 text-pearl-white">2024.08.11 23:59:59</td>
+<td class="py-4">STAKING_REWARD_BOT</td>
+<td class="py-4 text-aquamarine">+1,200.50 MC</td>
+<td class="py-4">
+<span class="px-2 py-0.5 bg-aquamarine/10 text-aquamarine border border-aquamarine/30 rounded text-[9px]">STABLE</span>
+</td>
+</tr>
+<tr class="group hover:bg-celestial-blue/5 transition-colors">
+<td class="py-4 text-pearl-white">2024.08.11 18:12:00</td>
+<td class="py-4">VAULT_TRANSFER_TX</td>
+<td class="py-4 text-celestial-blue">+15,000.00 UB</td>
+<td class="py-4">
+<span class="px-2 py-0.5 bg-celestial-blue/10 text-celestial-blue border border-celestial-blue/30 rounded text-[9px]">PROCESSING</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Interactive Sync Widget -->
+<div class="flex flex-col gap-6">
+<div class="bg-obsidian-grey/40 backdrop-blur-md border border-pearl-white/10 p-panel-padding energy-glow flex-grow">
+<h3 class="font-label-caps text-label-caps text-pearl-white mb-6 tracking-widest uppercase">Asset Synchronization</h3>
+<div class="flex flex-col items-center justify-center py-4">
+<div class="relative w-32 h-32 mb-6">
+<div class="absolute inset-0 border-2 border-celestial-blue/20 rounded-full"></div>
+<div class="absolute inset-0 border-2 border-t-celestial-blue border-transparent rounded-full reactor-spin"></div>
+<div class="absolute inset-4 border border-magenta-resonance/20 rounded-full reactor-spin" style="animation-direction: reverse; animation-duration: 5s;"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-celestial-blue animate-pulse">sync</span>
+</div>
+</div>
+<div class="text-center w-full">
+<div class="font-technical-sm text-technical-sm text-on-surface-variant mb-1">SYNC_PROGRESS</div>
+<div class="font-data-display text-2xl text-pearl-white mb-4">84%</div>
+<button class="w-full bg-celestial-blue text-black-mate font-label-caps text-label-caps py-3 hover:bg-aquamarine transition-all">
+                                    INITIALIZE SYNC
+                                </button>
+</div>
+</div>
+</div>
+<div class="bg-black-mate/60 backdrop-blur-md border border-celestial-blue/20 p-5 rounded-lg">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-celestial-blue/10 flex items-center justify-center border border-celestial-blue/30">
+<span class="material-symbols-outlined text-celestial-blue">hub</span>
+</div>
+<div>
+<div class="font-label-caps text-label-caps text-pearl-white text-[10px]">Node Connection</div>
+<div class="font-technical-sm text-technical-sm text-aquamarine">MAGNO_PRIMARY_88</div>
+</div>
+<div class="ml-auto">
+<div class="w-2 h-2 rounded-full bg-aquamarine animate-ping"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Reference Visual Row -->
+<section class="mt-12">
+<header class="mb-6 flex items-center gap-4">
+<div class="h-px bg-pearl-white/10 flex-grow"></div>
+<h2 class="font-label-caps text-label-caps text-on-surface-variant tracking-[0.5em] uppercase">Visual Artifact Registry</h2>
+<div class="h-px bg-pearl-white/10 flex-grow"></div>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-700 cursor-crosshair">
+<div class="h-32 border border-pearl-white/5 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A macro close-up of a holographic MagnoPoint crystal, glowing with intense violet plasma energy inside a glass containment cube. The background is a dark, starlit nebula of the MagnopVS universe. The style is hyper-detailed technical minimalism with light-mode refractions." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKxMJTRxFTDkuYaRWL9C4WxiZb1p_2sOGBjdO_do-fmeu5h4XxY0vpDmo6QElS3cLP-AipYae3aqLNeos469okExj-j0_1w_bU8XtyNHgeHaWNu-CPUw2GjtLJNY80h0hHwR1cb-kDslL24XZGbQseGMM2hyWPxGdyglNjm5IiQq0C9TF7T7Pd_20POdOFwAgkOwCXPxUtbV-sbRDJA4lfef5YyO4k2Q998WxDn0dGYRQY8CdiodJOEQi6EC61EQi0v0lT8AxPIgDp">
+</div>
+<div class="h-32 border border-pearl-white/5 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A sleek, hexagonal metallic coin with a glowing cyan infinity symbol etched into its surface. Subtle electronic circuits pulse with aquamarine light around the edges. High-performance financial hardware aesthetic, obsidian-grey material with glossy reflections." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDs0aEWsrHt1rH_Si0azxHBOXf863QPwkQP0YdXEGjt_3-SQAMXyAYEMmk7i7VcRhx5Q8k6ue_POl1TVvBBcMf6sgIDggs7NUYXiOOvgqnpFajYLpGlOlEnMbE--2-DxbfwJhKIAnK6ECUIVQNTkmM5Rqj7XCgI4qNt_j1-R0Pv21dQ0k97FRILcyT_irK1Hw7B0YSbjqPv2CCYKapV8X-ZKPVJ-9Y-jqq8YkKqGjzk70u2wyCDJcyJ4AluuGgMwkjYSIsMuf5Mn3O7">
+</div>
+<div class="h-32 border border-pearl-white/5 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A levitating, sharp shard-like crystal made of celestial blue glass, containing a swirling galaxy of data particles. It sits atop a glowing glass pedestal in a dark interstellar vault. Sophisticated, formidable, and immersive financial tech visualization." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXCnt01ZdGIj-nZpkXgvyelP1UFE3YyN33I9mn6wRau3UOwd_bydcn5d1Z3W2XajAoadNo9igLgI3IRQ8hnczQJi1Suuh7o4GTJyp7QhMv0SPng0QntCpq-3NuWxPeZciouYQ_06fpornQUHY3DsiVzRRtlCFmTBl2ejBrXlAudVlJwF-1Cx56Xs7DA47uIYuxiwWTjOxt01a6Ohi7iNfUngpFZ0m8l3IvmKIKDvyAKDAWId7AeYaihlbk8nbapNfzXjHOXzKxDVnC">
+</div>
+<div class="h-32 border border-pearl-white/5 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A glowing sphere of magenta energy lightning trapped within a glass orb, representing a MicroPoint utility unit. Kinetic energy resonance effects and light trails emerge from the center. Pro-command cockpit interface style with tactical HUD overlays." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdh71p_y_iG42IWdTLbhMWzwXNUjflj48JTI5vRnQz1FU5UCrhu5y_1gJYaqp-tgyXi2ARuCGfXTR9tMMOidfZSAJBDLin3gCG_y97wuvuJowYbDYYmgehedFOBMNn51tWsdgne6rCmvJ3KGrTpQ3cGW4r-GAnGs3CdJouzzmKFxapNNtlg3krbwI_8nx5w_lsfJWkof4LVEHVl7qTbKhCGTDLNlgLXmNHzNFsfhnbcW1-gAwZFuRqafQNIHtQdRMO0RAluatfdQDv">
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- Interactive micro-interactions script -->
+<script>
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => {
+                btn.style.transform = 'scale(0.95)';
+            });
+            btn.addEventListener('mouseup', () => {
+                btn.style.transform = 'scale(1)';
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'scale(1)';
+            });
+        });
+
+        // Simulating live data updates
+        setInterval(() => {
+            const latency = document.querySelector('.text-aquamarine');
+            if (latency) {
+                const val = (Math.random() * 0.05 + 0.01).toFixed(2);
+                latency.textContent = val + 'ms';
+            }
+        }, 3000);
+    </script>
+</body></html>

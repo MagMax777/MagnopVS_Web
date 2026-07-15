@@ -1,0 +1,416 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>MagZine | Codex - Ancient Memory Bank</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Inter:wght@400;500;700&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#bee9ff",
+                        "error": "#ffb4ab",
+                        "surface-container-high": "#262b2e",
+                        "error-container": "#93000a",
+                        "inverse-on-surface": "#2c3134",
+                        "surface-container-lowest": "#0a0f11",
+                        "inverse-primary": "#006685",
+                        "surface-tint": "#6bd3ff",
+                        "surface": "#0f1417",
+                        "surface-container": "#1b2023",
+                        "on-tertiary": "#570066",
+                        "tertiary-container": "#f69aff",
+                        "on-primary": "#003546",
+                        "secondary-fixed": "#24ffcd",
+                        "tertiary-fixed": "#ffd6fe",
+                        "on-primary-container": "#00526b",
+                        "primary-container": "#5bc8f5",
+                        "on-background": "#dfe3e7",
+                        "inverse-surface": "#dfe3e7",
+                        "on-error-container": "#ffdad6",
+                        "outline": "#889299",
+                        "secondary-container": "#24ffcd",
+                        "surface-container-highest": "#303538",
+                        "on-tertiary-fixed": "#35003f",
+                        "on-secondary-fixed-variant": "#00513f",
+                        "background": "#0f1417",
+                        "on-primary-fixed": "#001f2a",
+                        "on-tertiary-fixed-variant": "#7b008f",
+                        "surface-bright": "#353a3d",
+                        "primary": "#a2e0ff",
+                        "tertiary": "#fec5ff",
+                        "surface-variant": "#303538",
+                        "secondary": "#ffffff",
+                        "on-error": "#690005",
+                        "tertiary-fixed-dim": "#faabff",
+                        "on-secondary-container": "#00725a",
+                        "on-surface-variant": "#bdc8cf",
+                        "outline-variant": "#3e484e",
+                        "surface-dim": "#0f1417",
+                        "on-tertiary-container": "#820097",
+                        "on-surface": "#dfe3e7",
+                        "primary-fixed-dim": "#6bd3ff",
+                        "on-secondary": "#00382b",
+                        "surface-container-low": "#171c1f",
+                        "on-primary-fixed-variant": "#004d65",
+                        "secondary-fixed-dim": "#00e0b3",
+                        "on-secondary-fixed": "#002118"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "unit": "8px",
+                        "margin-mobile": "20px",
+                        "container-max": "1440px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "display-lg": ["Audiowide"],
+                        "label-md": ["Orbitron"],
+                        "display-lg-mobile": ["Audiowide"],
+                        "headline-lg": ["Audiowide"],
+                        "label-caps": ["Orbitron"],
+                        "display-md": ["Audiowide"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Audiowide"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                        "display-lg-mobile": ["32px", {"lineHeight": "1.1", "fontWeight": "400"}],
+                        "headline-lg": ["30px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                        "label-caps": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                        "display-md": ["36px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .hex-grid {
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 0l17.32 10v20L20 40l-17.32-10V10z' fill='none' stroke='%233e484e' stroke-width='0.5' opacity='0.2'/%3E%3C/svg%3E");
+        }
+        .glow-primary {
+            box-shadow: 0 0 15px rgba(107, 211, 255, 0.4);
+        }
+        .text-glow-primary {
+            text-shadow: 0 0 8px rgba(107, 211, 255, 0.6);
+        }
+        .lore-link {
+            border-bottom: 1px dashed #6bd3ff;
+            cursor: help;
+            transition: all 0.3s ease;
+        }
+        .lore-link:hover {
+            background: rgba(107, 211, 255, 0.1);
+            color: #6bd3ff;
+        }
+        .knowledge-sidebar {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .carrot-hide {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .carrot-hide:hover {
+            opacity: 1;
+        }
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(107, 211, 255, 0.1);
+            position: absolute;
+            animation: scan 8s linear infinite;
+        }
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md overflow-x-hidden selection:bg-primary/30">
+<div class="fixed inset-0 hex-grid pointer-events-none opacity-40"></div>
+<div class="scanline z-[100] pointer-events-none"></div>
+<header class="bg-surface/80 backdrop-blur-xl dark:bg-surface/80 text-primary dark:text-primary border-b border-outline-variant/30 shadow-[0_0_15px_rgba(107,211,255,0.2)] docked full-width top-0 z-50 flex justify-between items-center px-margin-desktop h-20 w-full fixed">
+<div class="flex items-center gap-8">
+<h1 class="font-display-md text-display-md text-primary tracking-wider">MagZine</h1>
+<nav class="hidden md:flex gap-6 items-center font-headline-md text-headline-md">
+<a class="text-on-surface-variant hover:text-secondary-fixed transition-colors duration-300 hover:glow-primary" href="#">Home</a>
+<a class="text-on-surface-variant hover:text-secondary-fixed transition-colors duration-300 hover:glow-primary" href="#">Sagas</a>
+<a class="text-primary border-b-2 border-primary pb-1" href="#">Codex</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden lg:block">
+<input class="bg-surface-container border border-outline-variant rounded-full px-6 py-2 w-64 focus:outline-none focus:ring-1 focus:ring-primary font-body-sm transition-all" placeholder="Search Archives..." type="text">
+<span class="material-symbols-outlined absolute right-4 top-2 text-outline">search</span>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined hover:text-secondary-fixed cursor-pointer transition-colors">notifications</span>
+<span class="material-symbols-outlined hover:text-secondary-fixed cursor-pointer transition-colors">psychology</span>
+<span class="material-symbols-outlined hover:text-secondary-fixed cursor-pointer transition-colors">account_circle</span>
+</div>
+</div>
+</header>
+<aside class="bg-surface-container-low/90 backdrop-blur-md dark:bg-surface-container-low/90 text-tertiary dark:text-tertiary-fixed border-l border-outline-variant/20 shadow-2xl fixed right-0 top-20 h-[calc(100vh-80px)] w-72 flex flex-col py-8 gap-4 z-40 hidden md:flex">
+<div class="px-6 mb-4 flex flex-col items-center">
+<div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center border border-primary/30 mb-2 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A stylized portrait of a robotic white rabbit with glowing blue cybernetic eyes, wearing a Victorian-style tactical vest, set against a dark starry nebula with neon purple and cyan lighting. Cyber-mystic editorial aesthetic with high contrast and sharp focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsTajv4-0oKyl-3yv9giQLx8__n3yi3uSlkqyQnMXnf5PqcMOQP_F6pkq6-1OIS0OSjjsOHkpxhNjKuGCQrlG67kFcrt26sf3sMMfzW9Sfcjw6Qz8K5wAhYBWsZ-oDtO1nRUezuPzM8cOcVuTy5nLtSYwkSFQiS9oVoyqFdhZ54kcJC0qY8HcCpPSSo6ks18kVdsLI8VL_BqWp6NtRVwDhO5kWDpmME2Yy9ysSOBO7laH5SqSwGcTtQ_e2JKztJfJ_h4BLXIB8NkZ8">
+</div>
+<h3 class="font-label-caps text-label-caps text-on-surface tracking-widest">CBC Assistant</h3>
+<p class="text-[10px] font-label-md text-tertiary-fixed uppercase opacity-60">Quantum Link Active</p>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-4 px-8 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all hover:translate-x-[-4px]" href="#">
+<span class="material-symbols-outlined">fort</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</a>
+<a class="flex items-center gap-4 px-8 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all hover:translate-x-[-4px]" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="font-label-caps text-label-caps">Sagas</span>
+</a>
+<a class="flex items-center gap-4 px-8 py-3 bg-tertiary-container/20 text-tertiary-fixed border-r-4 border-tertiary transition-all" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-caps text-label-caps">Codex</span>
+</a>
+<a class="flex items-center gap-4 px-8 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all hover:translate-x-[-4px]" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-caps text-label-caps">Marketplace</span>
+</a>
+<a class="flex items-center gap-4 px-8 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all hover:translate-x-[-4px]" href="#">
+<span class="material-symbols-outlined">event</span>
+<span class="font-label-caps text-label-caps">Events</span>
+</a>
+</nav>
+<div class="mt-auto px-6">
+<button class="w-full py-4 bg-tertiary-fixed text-on-tertiary-fixed font-headline-md rounded-lg flex items-center justify-center gap-2 hover:glow-primary transition-all active:scale-95">
+<span class="material-symbols-outlined">magic_button</span>
+                Summon Assistant
+            </button>
+</div>
+</aside>
+<main class="md:mr-72 pt-20 pb-12">
+<section class="relative w-full h-[614px] overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A cinematic space nebula scene featuring swirling deep purple and gold interstellar clouds. Geometric translucent icons of triangles, circles, and constellations are faintly glowing and overlaid across the starry backdrop. The mood is mysterious and encyclopedic, resembling a high-tech astrological map from an advanced ancient civilization." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBzzxt8gCQppjuKJv8oS6WfUw92xW_ek_OvGJOekgn8O7dk0VbpyOotdjUDftmB0c7wcJYDuIsi3CKhlTCvMz2wycdHUfz4VKVzzGIbxYtBd4DBHSIoYNJ3cw1hXhAF7h2GqUZ9RlgjzELLzIUXPgNp5U2BYD2gQ3kU2SofXMcF3wSPs8upgJ-ZM9W8qgpXNubowlHMNu6fT6mfSX4uM5j4nBhPf7FCD2neU7QGSDbvRwKFPElff0wse-mYMXDN9JBi-CBrM6Qc9O56')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
+<div class="absolute bottom-12 left-margin-desktop max-w-4xl">
+<div class="flex items-center gap-4 mb-4">
+<span class="px-3 py-1 bg-secondary-fixed text-on-secondary-fixed font-label-caps text-label-caps rounded-sm">REDACTED</span>
+<span class="text-primary font-label-md">Sector ID: 77-GAMMA</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-secondary mb-4 leading-tight">The Ethereal Shards &amp; The Ancient Memory Bank</h1>
+<div class="flex items-center gap-6 text-on-surface-variant font-label-md">
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">timer</span> 12 Min Read</div>
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">notes</span> 2,400 Words</div>
+</div>
+</div>
+</section>
+<article class="max-w-4xl mx-auto px-margin-mobile md:px-0 py-16 relative">
+<div class="absolute -left-32 top-32 flex flex-col gap-12 text-outline opacity-30 select-none">
+<div class="rotate-90 font-label-caps text-[10px] tracking-[0.5em]">00110101 01010010</div>
+<div class="flex flex-col items-center gap-2 carrot-hide cursor-pointer" onclick="alert('You found a Carrot! Data Sync +5')">
+<span class="material-symbols-outlined text-secondary-fixed">nutrition</span>
+<span class="font-label-md">HIDDEN_CARROT_01</span>
+</div>
+</div>
+<div class="flex justify-between items-center mb-12 py-4 border-y border-outline-variant/30">
+<div class="flex items-center gap-4">
+<span class="font-label-caps text-label-caps text-outline">Spoiler Level</span>
+<div class="flex bg-surface-container rounded-full p-1 border border-outline-variant">
+<button class="px-4 py-1 rounded-full text-[10px] font-label-caps bg-primary text-on-primary">Safe</button>
+<button class="px-4 py-1 rounded-full text-[10px] font-label-caps text-on-surface-variant">Novice</button>
+<button class="px-4 py-1 rounded-full text-[10px] font-label-caps text-on-surface-variant">Adept</button>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">share</span></button>
+<button class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">bookmark</span></button>
+</div>
+</div>
+<div class="prose prose-invert prose-lg max-w-none space-y-8 text-on-surface-variant leading-relaxed font-body-lg">
+<p>
+                    In the heart of the <span class="lore-link" onclick="toggleSidebar('The Quantum Matrix')">Quantum Matrix</span>, there exists a repository of collective consciousness known as the <span class="lore-link" onclick="toggleSidebar('Ancient Memory Bank')">Ancient Memory Bank</span>. It is not a place of stone and mortar, but a shimmering lattice of <span class="lore-link" onclick="toggleSidebar('Ethereal Data Shards')">Ethereal Data Shards</span>, each pulsating with the resonance of a billion forgotten lives.
+                </p>
+<div class="relative my-16 group">
+<div class="absolute -inset-4 bg-primary/5 rounded-xl blur-2xl group-hover:bg-primary/10 transition-all"></div>
+<div class="relative bg-surface-container/60 backdrop-blur-md p-8 rounded-xl border border-outline-variant/30 flex gap-6 items-start">
+<div class="w-16 h-16 rounded-full bg-primary/20 flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">psychology</span>
+</div>
+<div>
+<h4 class="font-headline-md text-primary mb-2">CBC Observation #402</h4>
+<p class="font-body-md italic text-primary-fixed/80">"Wait! Before you dig deeper, observe the chromatic shift in the peripheral shards. That's not data corruption—it's a temporal leak. Keep your paws clear of the glowing edges."</p>
+<p class="text-[10px] font-label-caps mt-4 text-outline">-- TRANSMISSION_END --</p>
+</div>
+</div>
+</div>
+<h2 class="font-headline-lg text-secondary border-l-4 border-secondary-fixed pl-6 mb-6">The Shard Architectures</h2>
+<p>
+                    The shards are categorized by their geometric frequency. Tri-form shards contain mechanical memories—the blueprints of dead cities and the rhythms of ancient engines. Icosahedron shards, however, are far more volatile. These house the <span class="lore-link" onclick="toggleSidebar('Soul Archives')">Soul Archives</span>, the raw emotional data of the era before the Great Silence.
+                </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 my-12">
+<div class="aspect-square relative overflow-hidden rounded-xl group">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Close-up shot of a glowing translucent blue geometric crystal, an icosahedron floating in deep space. Internal fractures glow with vibrant magenta light, representing soul data. Detailed micro-textures of digital energy flow across its surfaces. Cyber-mystic high-fidelity art style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWsg6yuSMExerar7AeQw-DGNuYbHO70a51WcHJXhdUYjq1iSbfhiFqcwcilhFmjofs9kefR2pVlApi_6YncNGJ86bvj4lfTxJbH9fsAH0ORCwQKcGWXserSLKIo-m-wfulW5x4umkPUXLx_0wt8tCpNuImTM-8gBkOq046FcPcCvOdeZiwn3NlcEI2aNJdZ6tqA__K7QZ4WauGPEH0wNmyVKL9aKDh7U2Cu4nBXlj2V0JrYNgkR1yUhdUekoE_ZXj7Adx3LXNI52Kw">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+<div class="absolute bottom-6 left-6">
+<p class="font-label-caps text-primary text-[12px]">Type 04</p>
+<p class="font-headline-md text-secondary">Soul Archive Shard</p>
+</div>
+</div>
+<div class="aspect-square relative overflow-hidden rounded-xl group">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A complex mechanical relic consisting of golden clockwork gears and floating cyan holographic circuits. The object is suspended in a dark, atmospheric archive room with dusty light rays cutting through. Intricate tactical HUD elements and coordinate numbers overlay the scene. Retro-futuristic cinematic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoVQ_VUauxDRD3WTrpbCkburqnsoUEBDGwaIANW5t1iYiPaPuJX7YG-Ix6-VNOh7S03KJ1go4lMHCnlidntYsrJhAKyxGNhiI3mAnINYOvpK3L2NAJeRHh-0BTDZ0_y1wN4GYgP3W9-i7y9RFVvWRsEt6PaFeTWxTouhLQr6TxaRdl4YuwLg4bvoUAnJ-HHs0H5A6wauUlAlNCXDXfENbWZFNgmi3KQ3w3v7eu5RpfdjSExjEV9h9FlP0tnM7l1ERo6q_UYImUcsHG">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+<div class="absolute bottom-6 left-6">
+<p class="font-label-caps text-secondary-fixed text-[12px]">Type 09</p>
+<p class="font-headline-md text-secondary">Tri-form Construct</p>
+</div>
+</div>
+</div>
+<p>
+                    Accessing these memories requires a <span class="lore-link" onclick="toggleSidebar('Sync Key')">Sync Key</span>, a specialized cryptographic tool maintained by the rabbit assistants. Without it, the matrix rejects the seeker, often leading to a permanent state of cognitive dissonance known as 'The Static'.
+                </p>
+</div>
+</article>
+<section class="max-w-6xl mx-auto px-margin-mobile md:px-0 py-24 border-t border-outline-variant/30">
+<h3 class="font-display-md text-display-md text-primary mb-12">Continue Exploring</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<a class="group relative aspect-[16/9] overflow-hidden rounded-lg bg-surface-container border border-outline-variant/30 hover:border-primary/50 transition-all" href="#">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="A dark forest on an alien moon with towering bioluminescent mushrooms that glow in shades of neon violet and cyan. A single robotic figure is standing in a clearing, illuminated by a giant ringed planet in the sky. Cinematic editorial concept art with deep shadows and vibrant glow effects." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBX2tAZ1P1VhEmSh714HHHlmM4-zDVhwsjALD5U2cLPkYFNOmHvSi2ja0d3eaL7O3qPR9Y1psuTdqv-Vlm6uDn1jL5INhEfWM0kr0eksnRczcqlje-mQgQTyxCPB3DxJV2FPv5ocgG_rl7OHMW1WhD4euPyMylVJFsAQ1maBZHy-tX8lth_3gP6qsYNHz0yBdcshp8_zThApUFLJjF8nSbp_wTZDIo-YdAKzRTwtTxr8PXJ5s6myr1mEDcyXaVFWbaSEGFeYxO7v9Re">
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-transparent"></div>
+<div class="absolute bottom-6 left-6 right-6">
+<p class="font-label-caps text-on-surface-variant text-[10px] mb-1">Previous Entry</p>
+<h4 class="font-headline-md text-secondary group-hover:text-primary transition-colors">The Bioluminescent Void</h4>
+</div>
+</a>
+<a class="group relative aspect-[16/9] overflow-hidden rounded-lg bg-surface-container border border-outline-variant/30 hover:border-primary/50 transition-all" href="#">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="Aerial view of a sprawling cybernetic megacity built into the side of a massive canyon. The city is a dense grid of glowing blue and orange lights, with flying vehicles creating streaks of neon across the dark atmosphere. High-tech infrastructure and tactical geometry dominate the landscape. Cinematic 8k rendering." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPUpE-8rHM8K34-ctZGvhZOyd87e_qOenA5623YncQsK3sb4M-zfc6q-_j8hwNMnRZGbmBq2ZouOmhvNtos-eFNagLc2EEwB-TsRyWVsMg3LQEc5WiFdWVb_fCyz7DL6yShsv2Yuy_aDZbt5Ek-bEsxWANSM6uqOUb9Zo-79GADIZUNqBQlM6ueeZXukZMq5bJqCWt0JjBGN8K2xdjKXz3o2we6E1SOLQnVXvzIqv6WkS-UbL91MIO55SBkHQ7DcXmF07Wi2m-UbZr">
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-transparent"></div>
+<div class="absolute bottom-6 left-6 right-6">
+<p class="font-label-caps text-on-surface-variant text-[10px] mb-1">Next Entry</p>
+<h4 class="font-headline-md text-secondary group-hover:text-primary transition-colors">City of the Silicon Winds</h4>
+</div>
+</a>
+<div class="bg-surface-container-high/50 p-8 rounded-lg border border-primary/20 flex flex-col justify-center">
+<div class="mb-4">
+<span class="material-symbols-outlined text-secondary-fixed text-4xl">database</span>
+</div>
+<h4 class="font-headline-md text-secondary mb-2">Sync Progress</h4>
+<div class="w-full h-1 bg-surface-variant rounded-full overflow-hidden">
+<div class="w-[65%] h-full bg-secondary-fixed shadow-[0_0_8px_#24ffcd]"></div>
+</div>
+<p class="font-label-md text-outline mt-3">65% Fragments Recovered</p>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest text-secondary-fixed dark:text-secondary-fixed border-t border-primary/20 h-12 w-full flex justify-between items-center px-margin-desktop py-unit fixed bottom-0 z-50">
+<div class="font-label-md text-label-md text-outline">
+            © 2142 QUANTVM MATRIX INTERFACE
+        </div>
+<div class="flex gap-8 font-label-md text-label-md">
+<span class="text-secondary-fixed font-bold">Sync Status: OPTIMAL</span>
+<span class="text-outline">Latency: 0.04ms</span>
+<span class="text-outline">MagnoEggs: 12/40</span>
+<span class="text-outline">Carrots: 5</span>
+<span class="text-outline">Keys: 2</span>
+</div>
+</footer>
+<div class="fixed top-20 right-0 h-[calc(100vh-80px)] w-[400px] bg-surface-container-highest/95 backdrop-blur-2xl border-l border-primary/30 z-[60] knowledge-sidebar translate-x-full shadow-[-20px_0_40px_rgba(0,0,0,0.5)]" id="knowledgeSidebar">
+<div class="p-8">
+<div class="flex justify-between items-start mb-12">
+<div>
+<span class="font-label-caps text-primary text-[10px] tracking-widest block mb-2 uppercase">Knowledge Node</span>
+<h2 class="font-headline-lg text-secondary" id="nodeTitle">Term Analysis</h2>
+</div>
+<button class="text-outline hover:text-primary transition-colors" onclick="closeSidebar()">
+<span class="material-symbols-outlined text-4xl">close</span>
+</button>
+</div>
+<div class="space-y-8">
+<div class="p-6 bg-surface-container border border-outline-variant/30 rounded-lg">
+<h4 class="font-label-caps text-secondary-fixed mb-3">Core Definition</h4>
+<p class="text-on-surface-variant font-body-md" id="nodeDesc">Select a lore link to decrypt tactical data and entity relationships within this sector.</p>
+</div>
+<div class="relative py-8">
+<div class="absolute inset-0 flex items-center justify-center opacity-10">
+<span class="material-symbols-outlined text-[120px]">account_tree</span>
+</div>
+<h4 class="font-label-caps text-tertiary mb-4 relative">Sector Relationships</h4>
+<ul class="space-y-3 relative">
+<li class="flex items-center gap-3 text-on-surface">
+<span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
+<span>The Celestial Architect (Creator)</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface">
+<span class="w-1.5 h-1.5 bg-tertiary rounded-full"></span>
+<span>Project Genesis (Precursor)</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface">
+<span class="w-1.5 h-1.5 bg-secondary-fixed rounded-full"></span>
+<span>Void Echoes (Residual Output)</span>
+</li>
+</ul>
+</div>
+<div class="pt-8 border-t border-outline-variant/30">
+<h4 class="font-label-caps text-outline mb-4">Node Timeline</h4>
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-4">
+<span class="font-label-md text-primary shrink-0">ER-102</span>
+<span class="h-px bg-outline-variant grow"></span>
+<span class="font-label-md text-on-surface-variant">Discovery</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-label-md text-primary shrink-0">ER-440</span>
+<span class="h-px bg-outline-variant grow"></span>
+<span class="font-label-md text-on-surface-variant">First Sync</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+        const sidebar = document.getElementById('knowledgeSidebar');
+        const nodeTitle = document.getElementById('nodeTitle');
+        const nodeDesc = document.getElementById('nodeDesc');
+
+        const loreData = {
+            'Quantum Matrix': 'A multi-dimensional computational substrate that facilitates the instantaneous transfer of data across stellar systems. It is the backbone of the MagZine ecosystem.',
+            'Ancient Memory Bank': 'A vault of historical data-constructs found in Sector 77-GAMMA. It is believed to pre-date the current cycle by approximately three million solar rotations.',
+            'Ethereal Data Shards': 'Crystalline memory structures that store holographic data. They require precise thermal calibration to read without causing cognitive feedback.',
+            'Soul Archives': 'High-density memory clusters that replicate the emotional state of biological entities at the time of data extraction. Highly regulated content.',
+            'Sync Key': 'A cryptographic artifact required to align the user\'s neural patterns with the frequency of the Ancient Memory Bank.'
+        };
+
+        function toggleSidebar(term) {
+            nodeTitle.textContent = term;
+            nodeDesc.textContent = loreData[term] || 'Additional data for this node is currently restricted. Upgrade clearance to Adept.';
+            sidebar.classList.remove('translate-x-full');
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add('translate-x-full');
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && !e.target.classList.contains('lore-link')) {
+                closeSidebar();
+            }
+        });
+    </script>
+</body></html>

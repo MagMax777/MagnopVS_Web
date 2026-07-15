@@ -1,0 +1,499 @@
+<!DOCTYPE html><html class="dark" lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Eleusis Path: El Primer Umbral | Gamified Narrative Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#2e5bff",
+                        "on-secondary-fixed": "#002117",
+                        "inverse-on-surface": "#313030",
+                        "on-surface": "#e5e2e1",
+                        "error-container": "#93000a",
+                        "tertiary-fixed-dim": "#ffabf3",
+                        "on-tertiary-fixed-variant": "#810081",
+                        "on-tertiary-container": "#ffebf7",
+                        "secondary-fixed-dim": "#5adcb3",
+                        "secondary-container": "#00a782",
+                        "surface-container-high": "#2a2a2a",
+                        "on-background": "#e5e2e1",
+                        "on-primary-container": "#efefff",
+                        "on-primary-fixed": "#001356",
+                        "inverse-surface": "#e5e2e1",
+                        "tertiary": "#ffabf3",
+                        "primary": "#b8c3ff",
+                        "primary-fixed-dim": "#b8c3ff",
+                        "on-error": "#690005",
+                        "error": "#ffb4ab",
+                        "outline": "#8e90a2",
+                        "outline-variant": "#434656",
+                        "on-tertiary": "#5b005b",
+                        "surface": "#131313",
+                        "surface-container": "#201f1f",
+                        "on-primary": "#002388",
+                        "secondary-fixed": "#79f9ce",
+                        "on-secondary-fixed-variant": "#00513d",
+                        "on-secondary": "#003829",
+                        "tertiary-container": "#c200c2",
+                        "surface-container-highest": "#353534",
+                        "tertiary-fixed": "#ffd7f5",
+                        "surface-dim": "#131313",
+                        "surface-container-lowest": "#0e0e0e",
+                        "primary-fixed": "#dde1ff",
+                        "secondary": "#5adcb3",
+                        "on-tertiary-fixed": "#380038",
+                        "background": "#131313",
+                        "on-secondary-container": "#003326",
+                        "on-primary-fixed-variant": "#0035be",
+                        "on-error-container": "#ffdad6",
+                        "inverse-primary": "#124af0",
+                        "surface-variant": "#353534",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-tint": "#b8c3ff",
+                        "surface-bright": "#393939",
+                        "on-surface-variant": "#c4c5d9",
+                        "glass-panel": "rgba(20, 20, 20, 0.7)",
+                        "glass-border": "rgba(184, 195, 255, 0.2)"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "16px",
+                        "margin-mobile": "16px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "margin-desktop": "48px",
+                        "gutter": "24px",
+                        "unit": "4px",
+                        "gutter-desktop": "48px",
+                        "component-gap": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Audiowide"],
+                        "body-md": ["Orbitron"],
+                        "title-lg": ["Orbitron"],
+                        "title-md": ["Orbitron"],
+                        "display-hero": ["Audiowide"],
+                        "label-caps": ["Orbitron"],
+                        "label-nav": ["Orbitron"],
+                        "label-tiny": ["Orbitron"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                        "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "title-lg": ["24px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                        "title-md": ["20px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "display-hero": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.2em", "fontWeight": "900"}],
+                        "label-nav": ["13px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "label-tiny": ["10px", {"lineHeight": "1", "letterSpacing": "0.1em"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #131313; color: #e5e2e1; scroll-behavior: smooth; overflow-x: hidden; }
+        .bg-scanline-blue { background: linear-gradient(to bottom, transparent 50%, rgba(46, 91, 255, 0.05) 50%); background-size: 100% 4px; }
+        .energy-glow { filter: drop-shadow(0 0 15px rgba(184, 195, 255, 0.6)); }
+        .magenta-flicker:hover { animation: flicker 0.2s infinite; }
+        @keyframes flicker { 0% { opacity: 0.8; } 50% { opacity: 1; text-shadow: 0 0 10px #ffabf3; } 100% { opacity: 0.9; } }
+        .glass-blur { backdrop-filter: blur(40px); }
+        .progress-segment { height: 4px; width: 30px; background: #353534; border-radius: 2px; }
+        .progress-segment.active { background: #ffabf3; box-shadow: 0 0 8px #ffabf3; }
+        .perspective-card { perspective: 1000px; }
+        .inner-card { transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
+        .is-unlocked .inner-card { transform: rotateY(180deg); }
+        .card-face { backface-visibility: hidden; }
+        .card-back { transform: rotateY(180deg); }
+        
+        @keyframes pulse-album { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.8; color: #ffabf3; } }
+        .album-pulse { animation: pulse-album 2s infinite; }
+        
+        .visualizer-bar { width: 3px; background: #b8c3ff; border-radius: 4px; animation: visualize 1s ease-in-out infinite alternate; }
+        @keyframes visualize { 0% { height: 4px; } 100% { height: 20px; } }
+        
+        .choice-feedback { animation: slideUpFade 0.5s forwards; }
+        @keyframes slideUpFade { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .particle-burst { pointer-events: none; position: absolute; }
+    </style>
+</head>
+<body class="font-body-md text-body-md">
+<!-- CBC COMPANION -->
+<div class="fixed right-6 bottom-12 z-[60] flex flex-col items-end gap-3 group">
+<div class="hidden group-hover:block bg-glass-panel border border-glass-border p-4 rounded-xl max-w-[200px] shadow-2xl backdrop-blur-xl mb-2 choice-feedback">
+<p class="font-label-tiny text-label-tiny text-primary mb-1 uppercase">Consejo del Conejo</p>
+<p class="text-xs text-on-surface leading-snug">"El portal respira, iniciado. Escucha los armónicos de la Perséfone digital."</p>
+</div>
+<button class="w-14 h-14 bg-surface-container-high rounded-full border border-primary flex items-center justify-center shadow-[0_0_15px_rgba(184,195,255,0.3)] hover:scale-110 transition-transform relative">
+<span class="material-symbols-outlined text-primary text-3xl">rabbit</span>
+<div class="absolute -top-1 -right-1 w-4 h-4 bg-tertiary rounded-full animate-ping"></div>
+<div class="absolute -top-1 -right-1 w-4 h-4 bg-tertiary rounded-full"></div>
+</button>
+<span class="font-label-caps text-[10px] text-primary tracking-widest bg-black/40 px-2 py-0.5 rounded">CBC ONLINE</span>
+</div>
+<!-- TOP NAV BAR -->
+<nav class="fixed top-0 w-full h-16 bg-glass-panel backdrop-blur-xl border-b border-glass-border shadow-[0_0_20px_rgba(152,203,255,0.15)] flex justify-between items-center px-gutter-desktop w-full z-50">
+<div class="font-title-lg text-title-lg font-bold tracking-tighter text-primary">MagnopVS</div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="font-label-nav text-label-nav text-primary border-b-2 border-primary pb-1" href="#">Matrix</a>
+<a class="font-label-nav text-label-nav text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Nexus</a>
+<div class="flex items-center gap-2 px-3 py-1 bg-surface-container-low border border-glass-border rounded-full album-pulse">
+<span class="material-symbols-outlined text-sm text-tertiary">collections_bookmark</span>
+<span class="font-label-caps text-[10px] text-tertiary tracking-widest">ÁLBUM (1/30)</span>
+</div>
+<a class="font-label-nav text-label-nav text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Marketplace</a>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95 transition-transform">account_circle</span>
+</div>
+</nav>
+<!-- 1. TRAILER HERO -->
+<section class="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img alt="Eleusis Path Saga Trailer Hero" class="w-full h-full object-cover opacity-60 scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVHKkUr1QtfFZIRC4ppfPOTME863vFYFNj1DfZ7FN-fWkDjtr3c3jexxcngedeRPSlBkTPQ_FK8itFm0jifQPuz4BfJ-dcqbHA1n-lMkUO91SUVJUI5Bp7k9be4Um_rn567-vKnxqaSSTkYcdZttXa06YMVdGSD-1HEiMGj9NfLEDk4Um9qVdcQPKyA297byGhImDDFVenevvrvzrmPtlewT2s-FK3TkT77ZoOK9BYfiuAXKbuKZHrcN6Bwe5u75isVAVehff1HT5r">
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50"></div>
+</div>
+<div class="z-10 text-center px-4">
+<p class="font-label-caps text-label-caps text-primary tracking-[0.5em] mb-4 opacity-80">CHAPTER I: THE AWAKENING</p>
+<h1 class="font-display-hero text-6xl md:text-8xl text-on-surface mb-2 drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">ELEUSIS PATH</h1>
+<h2 class="font-headline-lg text-headline-lg text-tertiary mb-12 uppercase tracking-[0.2em]">El Primer Umbral</h2>
+<div class="flex flex-col items-center gap-8">
+<button class="group relative px-12 py-5 bg-primary/10 border-2 border-primary rounded-none font-label-caps text-label-caps text-primary overflow-hidden hover:bg-primary hover:text-on-primary transition-all duration-500 magenta-flicker" onclick="startSync()">
+<span class="relative z-10 tracking-[0.3em] font-bold">[ INGRESAR AL NODO ]</span>
+<div class="absolute inset-0 bg-primary opacity-0 group-hover:opacity-20 blur-xl transition-opacity"></div>
+</button>
+<div class="flex gap-1">
+<div class="progress-segment active"></div>
+<div class="progress-segment"></div>
+<div class="progress-segment"></div>
+<div class="progress-segment"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. NODE SYNCING RITUAL OVERLAY -->
+<div class="fixed inset-0 z-[100] bg-background flex flex-col items-center justify-center hidden opacity-0 transition-opacity duration-700" id="sync-overlay">
+<div class="w-full max-w-md text-center space-y-8 px-6">
+<div class="relative w-24 h-24 mx-auto">
+<div class="absolute inset-0 border-4 border-t-primary border-r-transparent border-b-tertiary border-l-transparent rounded-full animate-spin"></div>
+<div class="absolute inset-4 border-2 border-t-transparent border-r-secondary border-b-transparent border-l-secondary rounded-full animate-reverse-spin" style="animation-direction: reverse; animation-duration: 1.5s;"></div>
+<span class="material-symbols-outlined absolute inset-0 flex items-center justify-center text-primary text-4xl">sensors</span>
+</div>
+<div class="space-y-2">
+<h3 class="font-label-caps text-label-caps text-on-surface tracking-[0.4em]">SINCRONIZANDO REALIDAD...</h3>
+<div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary via-tertiary to-secondary w-0 transition-all duration-300" id="sync-bar"></div>
+</div>
+<div class="flex justify-between font-label-tiny text-label-tiny text-outline-variant">
+<span id="sync-status">CARGANDO ARCHIVOS DEL VACÍO...</span>
+<span id="sync-percent">0%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 3. SINOPSIS & TRAILER -->
+<section class="py-stack-lg px-gutter-desktop max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center" id="synopsis-section">
+<div class="space-y-stack-md">
+<div class="flex items-center gap-4 border-l-4 border-tertiary pl-4">
+<h3 class="font-title-lg text-title-lg text-tertiary">SINOPSIS</h3>
+<button class="flex items-center gap-2 bg-tertiary/10 border border-tertiary/30 px-3 py-1 rounded hover:bg-tertiary/20 transition-all group">
+<span class="material-symbols-outlined text-tertiary text-sm">play_circle</span>
+<span class="font-label-tiny text-[10px] text-tertiary uppercase">NARRACIÓN ACTIVA</span>
+<div class="flex gap-0.5 items-end h-3 ml-1">
+<div class="visualizer-bar" style="animation-delay: 0.1s"></div>
+<div class="visualizer-bar" style="animation-delay: 0.3s"></div>
+<div class="visualizer-bar" style="animation-delay: 0.2s"></div>
+<div class="visualizer-bar" style="animation-delay: 0.4s"></div>
+</div>
+</button>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+            En los confines del Vacío Sagrado, el primer umbral se manifiesta ante aquellos que poseen la voluntad de desafiar el destino. No es solo una puerta, sino un espejo de la propia alma que aguarda el despertar del iniciado.
+        </p>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed italic border-l-2 border-primary/30 pl-6">
+            "La oscuridad no es la ausencia de luz, sino la cuna donde se gestan los nuevos soles."
+        </p>
+</div>
+<div class="relative aspect-video rounded-lg overflow-hidden border border-glass-border bg-surface-container shadow-2xl group">
+<div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBO6ZV13uDAMwYTRUIj48eYXBVp_H2YOMviseSEtyx2rXct2EX1t1_abhh0degSCxJs3WqJselsxyLoahGF--B_ZqVsLhsqXvlNz7Nk-xINGH_ggtIXE5G2faqu2oH3nGAzi2GonmQDxHacX7U4xUUu4PIQ2NeFuqvXc7G7ObE7ohA2yFoe4ZedfQM84Fmnv9AdZ2C6g9FTL85nB_2gbVrfjsXzAr5Pjjqia_zOw93e7S2hYmw42cM2pexTrnweaB4t2Rwp4TIK6gq5')"></div>
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/20 transition-all">
+<div class="w-20 h-20 rounded-full border-2 border-primary flex items-center justify-center cursor-pointer hover:scale-110 transition-transform active:scale-95">
+<span class="material-symbols-outlined text-primary text-5xl translate-x-1" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. NARRATIVE SCENE WITH VISUALIZER -->
+<section class="relative min-h-[600px] flex items-center justify-center py-stack-lg my-stack-lg">
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-cover bg-fixed bg-center opacity-20" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDXLzaqi70r1_sEM2OkpYixREo-IvPxHreTnbz_xYuDELZOpkbHvuYhKORAUQKBCP4ZB-tHML3ydCTxf4V95G3ry12HRy_-7RMzUAk1SXbUy1LfG_gSXCP7sNViSqwnWNp1jgp9NjOEmUXDqYV2q84s61Lp601m-AO8h2DtbyC8OzjYzQUzLdD-EmMjPG3pjq7xY0gN2KcFUYlFHtbWbWSYYt8Dt0w003hgBaDclpN95dz4Ziv7WajMGdgqqqtrCTHVMhPiKERNtAVD')"></div>
+</div>
+<div class="relative z-10 max-w-3xl mx-auto px-6 py-12 bg-glass-panel backdrop-blur-2xl border-y border-glass-border">
+<div class="flex items-center justify-between mb-8">
+<span class="material-symbols-outlined text-tertiary text-4xl">auto_awesome</span>
+<button class="flex items-center gap-3 bg-primary/10 border border-primary/30 px-4 py-2 rounded-full hover:bg-primary/20 transition-all">
+<span class="material-symbols-outlined text-primary">volume_up</span>
+<div class="flex gap-1 items-end h-4">
+<div class="visualizer-bar w-1" style="animation-duration: 0.8s"></div>
+<div class="visualizer-bar w-1" style="animation-duration: 1.2s"></div>
+<div class="visualizer-bar w-1" style="animation-duration: 1s"></div>
+<div class="visualizer-bar w-1" style="animation-duration: 0.7s"></div>
+<div class="visualizer-bar w-1" style="animation-duration: 1.1s"></div>
+</div>
+</button>
+</div>
+<p class="font-body-lg text-body-lg leading-loose text-on-surface italic first-letter:text-5xl first-letter:font-bold first-letter:text-primary first-letter:mr-3 first-letter:float-left">
+            El aire se sentía cargado de una estática ancestral mientras me aproximaba al primer pilar. No eran simples piedras talladas; eran nodos de una red que existía antes de que el primer sol fuera concebido. Cada paso en el suelo de obsidiana pulsaba con un eco plateado, recordándome que en Eleusis, la distancia no se mide en metros, sino en grados de iluminación. Al final del pasillo, la Gran Puerta permanecía cerrada...
+        </p>
+</div>
+</section>
+<!-- 5. VIGNETTE UNLOCK FLOW -->
+<section class="py-stack-lg px-gutter-desktop text-center bg-scanline-blue">
+<h3 class="font-label-caps text-label-caps text-outline tracking-widest mb-12">REGISTRO CRONOLÓGICO DESBLOQUEADO</h3>
+<div class="max-w-3xl mx-auto perspective-card" id="vignette-container">
+<div class="inner-card relative w-full aspect-video cursor-pointer is-unlocked" id="vignette-card">
+<!-- Front (Locked) -->
+<div class="card-face absolute inset-0 bg-surface-container-highest border-2 border-dashed border-outline-variant flex flex-col items-center justify-center gap-6 rounded-xl shadow-xl">
+<span class="material-symbols-outlined text-6xl text-outline-variant">lock</span>
+<p class="font-label-caps text-label-caps text-error opacity-70">[ DESBLOQUEANDO... ]</p>
+</div>
+<!-- Back (Unlocked) -->
+<div class="card-face card-back absolute inset-0 rounded-xl overflow-hidden border-2 border-primary shadow-[0_0_50px_rgba(46,91,255,0.4)]">
+<img alt="El Contacto Primigenio Vignette" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAk_zlAH3ktw30eyo7wJAFGldeIkhDV3lTvOzXzdExL63-Z_967cYAuDvnOSpTUhL3nnbp1XZCp9j_r09eLV8ZNX7KQ9twlJgbwaUSbjlV9ou0lTSJUDtA1zzvPGOUwDPPMjci1WFPvAXUL2ZY15magIZUqDWYBhbh39GyFPdWi43U3Iz_nd-9Q-3oHQHjSWDxulltFja4tBugboEjnaeBSp_5SQW85oOtJXM8ALsbWpSIKZq-wIKXeGo84iM4yHe6_ykmMq34sE3oM">
+<div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+<div class="absolute bottom-6 left-6 text-left">
+<div class="flex items-center gap-2 mb-2">
+<span class="w-2 h-2 bg-secondary rounded-full animate-pulse"></span>
+<p class="font-label-caps text-label-caps text-secondary text-[10px]">REVELACIÓN #001</p>
+</div>
+<h4 class="font-headline-lg text-2xl text-white">EL CONTACTO PRIMIGENIO</h4>
+<p class="font-label-tiny text-label-tiny text-outline-variant mt-1 uppercase">Sincronización de Memoria completada</p>
+</div>
+</div>
+</div>
+</div>
+<p class="mt-8 font-label-tiny text-label-tiny text-outline-variant">La verdad ha sido fragmentada; tú has recuperado el primer trozo.</p>
+</section>
+<!-- 6. CHOICES WITH CONSEQUENCES -->
+<section class="py-stack-lg px-gutter-desktop border-y border-glass-border">
+<div class="max-w-4xl mx-auto text-center space-y-stack-lg">
+<div>
+<span class="font-label-caps text-label-caps text-primary mb-2 block">EL DILEMA DEL INICIADO</span>
+<h3 class="font-headline-lg text-on-surface">¿Qué existió primero?</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 relative">
+<button class="group p-8 border border-glass-border bg-glass-panel hover:bg-primary-container/10 hover:border-primary transition-all duration-300 rounded-lg text-left relative overflow-hidden" onclick="handleChoice('logos')">
+<div class="mb-4">
+<span class="material-symbols-outlined text-4xl text-primary group-hover:scale-110 transition-transform">sensor_door</span>
+</div>
+<h4 class="font-title-md text-title-md text-on-surface mb-2">La Puerta</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">La estructura preexiste al observador. El destino está trazado y solo espera ser descubierto.</p>
+<div class="hidden absolute top-4 right-4 bg-primary/20 text-primary border border-primary px-3 py-1 rounded font-label-caps text-[10px] choice-feedback" id="feedback-logos">
+                    +5 LOGOS / RUTA DE DESTINO
+                </div>
+</button>
+<button class="group p-8 border border-glass-border bg-glass-panel hover:bg-tertiary-container/10 hover:border-tertiary transition-all duration-300 rounded-lg text-left relative overflow-hidden" onclick="handleChoice('mythos')">
+<div class="mb-4">
+<span class="material-symbols-outlined text-4xl text-tertiary group-hover:scale-110 transition-transform">directions_walk</span>
+</div>
+<h4 class="font-title-md text-title-md text-on-surface mb-2">El Viajero</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">El camino se crea al andar. Sin la mirada del iniciado, el universo es una posibilidad silente.</p>
+<div class="hidden absolute top-4 right-4 bg-tertiary/20 text-tertiary border border-tertiary px-3 py-1 rounded font-label-caps text-[10px] choice-feedback" id="feedback-mythos">
+                    +5 MYTHOS / RUTA DEL CAOS
+                </div>
+</button>
+</div>
+</div>
+</section>
+<!-- 9. CINEMATIC 2 -->
+<section class="relative h-[600px] w-full overflow-hidden">
+<div class="absolute inset-0">
+<video autoplay="" class="w-full h-full object-cover opacity-50" loop="" muted="" poster="https://lh3.googleusercontent.com/aida-public/AB6AXuBO6ZV13uDAMwYTRUIj48eYXBVp_H2YOMviseSEtyx2rXct2EX1t1_abhh0degSCxJs3WqJselsxyLoahGF--B_ZqVsLhsqXvlNz7Nk-xINGH_ggtIXE5G2faqu2oH3nGAzi2GonmQDxHacX7U4xUUu4PIQ2NeFuqvXc7G7ObE7ohA2yFoe4ZedfQM84Fmnv9AdZ2C6g9FTL85nB_2gbVrfjsXzAr5Pjjqia_zOw93e7S2hYmw42cM2pexTrnweaB4t2Rwp4TIK6gq5">
+<!-- Simulated cinematic clip -->
+</video>
+<div class="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background"></div>
+</div>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
+<div class="space-y-4 max-w-2xl">
+<span class="font-label-caps text-label-caps text-secondary tracking-[0.4em]">FRAGMENTO CINEMÁTICO #02</span>
+<h2 class="font-headline-lg text-4xl text-on-surface uppercase">La Fractura del Logos</h2>
+<div class="w-16 h-1 bg-tertiary mx-auto"></div>
+</div>
+</div>
+</section>
+<!-- 10. PHILOSOPHICAL BOSS -->
+<section class="py-stack-lg px-gutter-desktop bg-surface-container-lowest">
+<div class="max-w-6xl mx-auto space-y-12">
+<div class="text-center">
+<p class="font-label-caps text-label-caps text-error mb-2 tracking-widest uppercase">¡ENCUENTRO CRÍTICO!</p>
+<h3 class="font-display-hero text-3xl text-on-surface">DESTINY VS FREE WILL</h3>
+</div>
+<div class="relative rounded-2xl overflow-hidden border-2 border-glass-border shadow-[0_0_40px_rgba(0,0,0,0.8)] aspect-video">
+<img alt="Philosophical Boss Battle" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhGxrhNji0e_3OJsKo4ZItyFtAPOgfX6a-U9zboLjB2ctPxvnbf6L4NoBzGmQzB8IMCp7FZMYt-kQxgjWyWMzejKz1HunBxFlWoZ6Oo_QcUZmvM0vocTk6pfUzhzSRygOTHzVOE29Q62RL1WFlm2sL9osvGvKEgfYB8CC8NsVmv1yRxR_0k7m_gZMJJghjc94LN_RjtAoY0Y_3-JnHKMdUQp3bg6qm9rpcddRPZUDUv6zuac6eNH7HEHFdvlMmcqX2GTJmy6U53riA">
+<div class="absolute inset-0 bg-black/20"></div>
+<div class="absolute top-8 left-8 right-8 flex justify-between items-start">
+<div class="bg-black/60 backdrop-blur-md border border-primary/40 p-4 rounded-lg space-y-2">
+<p class="font-label-caps text-[10px] text-primary">ENTIDAD: DESTINO</p>
+<div class="w-48 h-2 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[75%] shadow-[0_0_10px_#b8c3ff]"></div>
+</div>
+</div>
+<div class="bg-black/60 backdrop-blur-md border border-tertiary/40 p-4 rounded-lg space-y-2 text-right">
+<p class="font-label-caps text-[10px] text-tertiary">ENTIDAD: VOLUNTAD</p>
+<div class="w-48 h-2 bg-surface-variant rounded-full overflow-hidden flex justify-end">
+<div class="h-full bg-tertiary w-[60%] shadow-[0_0_10px_#ffabf3]"></div>
+</div>
+</div>
+</div>
+<div class="absolute bottom-8 left-1/2 -translate-x-1/2 w-full max-w-lg">
+<div class="bg-black/80 backdrop-blur-xl border border-glass-border p-6 text-center space-y-4">
+<p class="font-title-md text-sm text-on-surface">"Si el fin está escrito, ¿por qué sigues luchando?"</p>
+<div class="flex gap-4">
+<button class="flex-1 py-3 border border-primary text-primary font-label-caps text-[10px] hover:bg-primary/20 transition-all">RECONOCER EL ORDEN</button>
+<button class="flex-1 py-3 border border-tertiary text-tertiary font-label-caps text-[10px] hover:bg-tertiary/20 transition-all">RECLAMAR EL CAOS</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 7. SHIDDIS SYSTEM REWARD -->
+<section class="py-stack-lg px-gutter-desktop">
+<div class="max-w-4xl mx-auto bg-gradient-to-br from-surface-container-high to-surface-container-low border border-glass-border rounded-2xl p-8 flex flex-col md:flex-row items-center gap-12 relative overflow-hidden">
+<div class="absolute inset-0 bg-scanline-blue opacity-20"></div>
+<div class="relative w-64 h-64 shrink-0">
+<img alt="Shiddis Mastery Icons" class="w-full h-full object-cover rounded-xl energy-glow border border-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLbUbFHVq2Sx8dmWcpNzjNZp_dE5zz_oUrg0BFIOJrJWqLiegAQ8uK8tdvxZyRiwRW3QncFQTcYQP8jYSCtHrblcALZpev14l2nJUi3kbA01C6ygI76OBQbr6UKCzKBhRYUplfWmc0EsRanFp-XleHfp7oJ_WM4vx58gslwILcl2Av4a1T8GDlMfcseQy8rECTcfsJMKlyQZpIqJfCXcajYZzBCFve0g-zXe1xq4ksyqBwFCSHl9LoWBgqlfDlQosuJO-KeDAWVZUS">
+<div class="absolute -top-4 -right-4 bg-secondary text-on-secondary-container px-3 py-1 rounded font-bold text-xs shadow-lg">NEW MASTERED</div>
+</div>
+<div class="space-y-6 relative z-10 text-center md:text-left">
+<div>
+<span class="font-label-caps text-label-caps text-secondary mb-1 block">MLH SYSTEM ENHANCEMENT</span>
+<h3 class="font-headline-lg text-3xl text-on-surface">SHIDDI DESBLOQUEADO: CLARIVIDENCIA I</h3>
+</div>
+<p class="font-body-md text-on-surface-variant leading-relaxed">
+                Tus decisiones han resonado con la red neuronal de Eleusis. El Shiddi de la Clarividencia te permite ahora detectar fragmentos de realidad antes de que se manifiesten físicamente.
+            </p>
+<div class="flex flex-wrap gap-4 justify-center md:justify-start">
+<div class="flex items-center gap-2 bg-black/40 border border-secondary/30 px-4 py-2 rounded-full">
+<span class="material-symbols-outlined text-secondary text-sm">visibility</span>
+<span class="font-label-tiny text-[10px] text-white">RANGO I: DESPERTAR</span>
+</div>
+<div class="flex items-center gap-2 bg-black/40 border border-secondary/30 px-4 py-2 rounded-full">
+<span class="material-symbols-outlined text-secondary text-sm">bolt</span>
+<span class="font-label-tiny text-[10px] text-white">+15 PERCEPCIÓN</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 11. EPIC FINALE / STATS -->
+<section class="relative min-h-screen flex items-center justify-center py-24 overflow-hidden">
+<div class="absolute inset-0 bg-background">
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent"></div>
+</div>
+<div class="relative z-10 max-w-4xl w-full px-6 text-center space-y-12">
+<div class="space-y-4">
+<div class="inline-flex items-center gap-4 bg-secondary/10 border border-secondary px-8 py-3 rounded-full mb-4">
+<span class="material-symbols-outlined text-secondary text-3xl" style="font-variation-settings: 'FILL' 1;">stars</span>
+<h2 class="font-headline-lg text-2xl text-secondary uppercase tracking-[0.2em]">Capítulo Completado</h2>
+</div>
+<p class="font-label-caps text-label-caps text-outline tracking-widest">HAS CRUZADO EL PRIMER UMBRAL</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-surface-container p-6 border border-glass-border rounded-xl space-y-4">
+<p class="font-label-caps text-[10px] text-outline">SINCRONIZACIÓN</p>
+<div class="text-4xl font-display-hero text-primary">100%</div>
+<p class="text-[10px] text-on-surface-variant uppercase">Nodo Alpha-7 Seguro</p>
+</div>
+<div class="bg-surface-container p-6 border border-glass-border rounded-xl space-y-4">
+<p class="font-label-caps text-[10px] text-outline">VIÑETAS</p>
+<div class="text-4xl font-display-hero text-tertiary">2 / 30</div>
+<p class="text-[10px] text-on-surface-variant uppercase">Fragmentos Hallados</p>
+</div>
+<div class="bg-surface-container p-6 border border-glass-border rounded-xl space-y-4">
+<p class="font-label-caps text-[10px] text-outline">ALINEACIÓN</p>
+<div class="text-4xl font-display-hero text-secondary">LOGOS</div>
+<p class="text-[10px] text-on-surface-variant uppercase">Predominio de Orden</p>
+</div>
+</div>
+<div class="pt-12">
+<button class="group relative px-16 py-6 border-2 border-tertiary text-tertiary font-label-caps text-label-caps overflow-hidden hover:bg-tertiary hover:text-on-tertiary transition-all duration-500 magenta-flicker">
+<span class="relative z-10 tracking-[0.5em] font-black">[ CONTINUAR SAGA ]</span>
+<div class="absolute inset-0 bg-tertiary opacity-0 group-hover:opacity-20 blur-2xl transition-opacity"></div>
+</button>
+</div>
+</div>
+</section>
+<!-- FOOTER -->
+<footer class="fixed bottom-0 w-full h-8 bg-surface-container-lowest border-t border-glass-border bg-scanline-blue flex justify-between items-center px-gutter-desktop w-full z-50 overflow-hidden font-label-tiny text-label-tiny tracking-widest uppercase text-tertiary">
+<div class="text-on-surface">SYSTEM STATUS: NOMINAL | NODE: ALPHA-7 | MAGNO_OS v2.4.0</div>
+<div class="flex gap-6">
+<a class="text-outline hover:text-tertiary transition-opacity" href="#">REGLAMENTO</a>
+<a class="text-outline hover:text-tertiary transition-opacity" href="#">SEGURIDAD</a>
+<a class="text-outline hover:text-tertiary transition-opacity" href="#">TERMINAL</a>
+</div>
+</footer>
+<script>
+    function startSync() {
+        const overlay = document.getElementById('sync-overlay');
+        const bar = document.getElementById('sync-bar');
+        const percent = document.getElementById('sync-percent');
+        const status = document.getElementById('sync-status');
+        
+        overlay.classList.remove('hidden');
+        setTimeout(() => overlay.classList.add('opacity-100'), 10);
+        
+        let progress = 0;
+        const statuses = [
+            "DECODIFICANDO RUNAS DIGITALES...",
+            "ESTABILIZANDO CASCADA CUÁNTICA...",
+            "CONECTANDO CON EL NODO ALPHA-7...",
+            "SINCRONIZANDO CONSCIENCIA..."
+        ];
+        
+        const interval = setInterval(() => {
+            progress += Math.random() * 5;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(interval);
+                setTimeout(() => {
+                    overlay.classList.remove('opacity-100');
+                    setTimeout(() => {
+                        overlay.classList.add('hidden');
+                        document.getElementById('synopsis-section').scrollIntoView({ behavior: 'smooth' });
+                    }, 700);
+                }, 500);
+            }
+            bar.style.width = progress + '%';
+            percent.innerText = Math.floor(progress) + '%';
+            status.innerText = statuses[Math.floor((progress/100) * statuses.length)];
+        }, 100);
+    }
+
+    function handleChoice(type) {
+        const logoFeedback = document.getElementById('feedback-logos');
+        const mythosFeedback = document.getElementById('feedback-mythos');
+        
+        logoFeedback.classList.add('hidden');
+        mythosFeedback.classList.add('hidden');
+        
+        if(type === 'logos') {
+            logoFeedback.classList.remove('hidden');
+        } else {
+            mythosFeedback.classList.remove('hidden');
+        }
+    }
+</script>
+</body></html>

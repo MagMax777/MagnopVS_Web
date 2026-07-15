@@ -1,0 +1,818 @@
+/*=========================================================
+RESET
+=========================================================*/
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,
+body{
+
+    width:100%;
+    height:100%;
+
+    overflow:hidden;
+
+    background:#000;
+
+    font-family:Segoe UI,Arial,sans-serif;
+
+}
+
+/*=========================================================
+ESCENA
+=========================================================*/
+
+.hero-scene{
+
+    position:relative;
+
+    width:100vw;
+    height:100vh;
+
+    overflow:hidden;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:
+    radial-gradient(circle at center,
+    #07192b 0%,
+    #02070d 45%,
+    #000 100%);
+
+}
+
+/*=========================================================
+PORTAL
+=========================================================*/
+
+.portal{
+
+    position:relative;
+
+    width:700px;
+    height:700px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+}
+
+/*=========================================================
+NEBULOSA
+=========================================================*/
+
+.portal-nebula{
+
+    position:absolute;
+
+    width:700px;
+    height:700px;
+
+    border-radius:50%;
+
+    background:
+
+    radial-gradient(circle,
+
+    rgba(0,210,255,.35),
+
+    rgba(0,210,255,.12),
+
+    transparent 70%);
+
+    filter:blur(55px);
+
+    animation:nebulaPulse 6s ease-in-out infinite;
+
+}
+
+/*=========================================================
+AURA
+=========================================================*/
+
+.portal-aura{
+
+    position:absolute;
+
+    width:500px;
+    height:500px;
+
+    border-radius:50%;
+
+    box-shadow:
+
+    0 0 40px rgba(0,210,255,.35),
+
+    0 0 120px rgba(0,210,255,.25),
+
+    inset 0 0 60px rgba(0,210,255,.15);
+
+}
+
+/*=========================================================
+ANILLOS
+=========================================================*/
+
+.portal-ring{
+
+    position:absolute;
+
+    border-radius:50%;
+
+    border:1px solid rgba(255,255,255,.08);
+
+}
+
+.ring-1{
+
+    width:470px;
+    height:470px;
+
+    animation:spinSlow 40s linear infinite;
+
+}
+
+.ring-2{
+
+    width:560px;
+    height:560px;
+
+    animation:spinReverse 65s linear infinite;
+
+}
+
+/*=========================================================
+PARTICULAS
+=========================================================*/
+
+.portal-particles{
+
+    position:absolute;
+
+    inset:0;
+
+}
+
+/*=========================================================
+PERSONAJES
+=========================================================*/
+
+.characters{
+
+    position:absolute;
+
+    width:100%;
+    height:100%;
+
+}
+
+/*=========================================================
+TODOS LOS PERSONAJES
+=========================================================*/
+    .hero-character{
+
+        position:absolute;
+
+        top:50%;
+        left:50%;
+
+        transform:translate(-50%,-50%);
+
+        max-width:260px;
+        max-height:320px;
+
+        object-fit:contain;
+
+        opacity:0;
+        visibility:hidden;
+
+        pointer-events:none;
+
+        transition:
+            opacity .5s ease,
+            transform .5s ease;
+
+        z-index:20;
+
+    }
+    
+
+    .hero-character.active{
+
+        opacity:1;
+
+        visibility:visible;
+
+        pointer-events:auto;
+
+    }
+
+/*=========================================================
+HUEVO
+=========================================================*/
+    #egg{
+
+        width:220px;
+
+        filter:drop-shadow(0 0 40px rgba(0,220,255,.6));
+
+        animation:float 3s ease-in-out infinite;
+
+    }
+/*=========================================================
+ECLOSION
+=========================================================*/
+
+    #egg-crack{
+
+width:230px;
+
+animation:eggShake .4s ease;
+
+@keyframes eggShake 
+
+0%{
+
+transform:translate(-50%,-50%) rotate(0deg);
+
+}
+
+20%{
+
+transform:translate(-50%,-50%) rotate(-6deg);
+
+}
+
+40%{
+
+transform:translate(-50%,-50%) rotate(6deg);
+
+}
+
+60%{
+
+transform:translate(-50%,-50%) rotate(-4deg);
+
+}
+
+80%{
+
+transform:translate(-50%,-50%) rotate(4deg);
+
+}
+
+100%{
+
+transform:translate(-50%,-50%) rotate(0deg);
+
+}
+
+}
+/*=========================================================
+CONEJO BEBE
+=========================================================*/
+
+    #rabbit{
+
+        width:260px;
+
+    }
+
+/*=========================================================
+ADULTO
+=========================================================*/
+
+#adult{
+
+    width:320px;
+
+}
+
+/*=========================================================
+OBJETOS
+=========================================================*/
+
+.objects{
+
+    position:absolute;
+
+    inset:0;
+
+}
+
+/*=========================================================
+ZANAHORIA
+=========================================================*/
+
+#carrot{
+
+    position:absolute;
+
+    width:95px;
+
+    left:40px;
+    bottom:70px;
+
+    cursor:grab;
+
+    user-select:none;
+
+    z-index:100;
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:.35s;
+
+}
+
+#carrot.active{
+
+    opacity:1;
+
+    visibility:visible;
+
+}
+
+#carrot:hover{
+
+    transform:scale(1.1);
+
+}
+
+#carrot:active{
+
+    cursor:grabbing;
+
+}
+
+/*=========================================================
+DIALOGOS
+=========================================================*/
+
+.dialog-box{
+
+    width:650px;
+
+    max-width:90vw;
+
+    padding:18px;
+
+    border-radius:18px;
+
+    font-size:17px;
+
+    backdrop-filter:blur(10px);
+
+}
+
+
+
+#dialog-name{
+
+    color:#63f3ff;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    margin-bottom:10px;
+
+}
+
+#dialog-text{
+
+    color:white;
+
+    line-height:1.6;
+
+    font-size:17px;
+
+}
+
+#dialog-answer{
+
+    width:100%;
+
+    padding:14px;
+
+    background:#07121d;
+
+    color:white;
+
+    border:2px solid cyan;
+
+    border-radius:12px;
+
+    font-size:18px;
+
+    outline:none;
+
+}
+
+#dialog-send{
+
+    margin-top:10px;
+
+    padding:12px 22px;
+
+    border:none;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    background:#00d8ff;
+
+    color:#021018;
+
+    font-weight:bold;
+
+    transition:.25s;
+
+}
+
+#dialog-send:hover{
+
+    transform:scale(1.05);
+
+}
+
+/*=========================================================
+BOTONES
+=========================================================*/
+
+.ui{
+
+    position:absolute;
+
+    top:25px;
+    right:25px;
+
+    display:flex;
+
+    gap:10px;
+
+}
+
+.ui button{
+
+    padding:12px 20px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#0cb9ff;
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.ui button:hover{
+
+    transform:scale(1.05);
+
+}
+
+/*=========================================================
+ANIMACIONES
+=========================================================*/
+
+@keyframes float{
+
+    0%{
+
+        transform:translate(-50%,-50%) translateY(0px);
+
+    }
+
+    50%{
+
+        transform:translate(-50%,-50%) translateY(-16px);
+
+    }
+
+    100%{
+
+        transform:translate(-50%,-50%) translateY(0px);
+
+    }
+
+}  
+
+@keyframes eggFloat{
+
+    0%,100%{
+
+        transform:translateX(-50%) translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateX(-50%) translateY(-18px);
+
+    }
+
+}
+
+@keyframes nebulaPulse{
+
+    0%,100%{
+
+        transform:scale(.95);
+
+        opacity:.6;
+
+    }
+
+    50%{
+
+        transform:scale(1.08);
+
+        opacity:1;
+
+    }
+
+}
+
+@keyframes spinSlow{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+@keyframes spinReverse{
+
+    from{
+
+        transform:rotate(360deg);
+
+    }
+
+    to{
+
+        transform:rotate(0deg);
+
+    }
+
+}
+/*=========================================
+CAPA DE EFECTOS
+=========================================*/
+
+#fx-layer{
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+    overflow:hidden;
+
+}
+
+/*=========================================
+DESTELLO
+=========================================*/
+
+.portal.flash{
+
+    animation:portalFlash .8s ease;
+
+}
+
+@keyframes portalFlash{
+
+0%{
+
+filter:brightness(1);
+
+}
+
+30%{
+
+filter:brightness(2.5);
+
+}
+
+100%{
+
+filter:brightness(1);
+
+}
+
+}
+
+/*=========================================
+EVOLUCIÓN
+=========================================*/
+
+.hero-character.evolving{
+
+    animation:evolve .9s ease;
+
+}
+
+@keyframes evolve{
+
+0%{
+
+transform:translate(-50%,-50%) scale(1);
+
+}
+
+25%{
+
+transform:translate(-50%,-50%) scale(1.15);
+
+}
+
+50%{
+
+transform:translate(-50%,-50%) scale(.9);
+
+}
+
+100%{
+
+transform:translate(-50%,-50%) scale(1);
+
+}
+
+}
+
+/*=========================================
+BRILLO
+=========================================*/
+
+.glow{
+
+filter:
+
+drop-shadow(0 0 20px cyan)
+
+drop-shadow(0 0 40px cyan)
+
+drop-shadow(0 0 80px white);
+
+}
+/*=================================================
+DIALOG UI
+=================================================*/
+
+#dialog-ui{
+
+position:absolute;
+
+left:50%;
+
+bottom:40px;
+
+transform:translateX(-50%);
+
+width:900px;
+
+display:flex;
+
+gap:20px;
+
+opacity:0;
+
+pointer-events:none;
+
+transition:.4s;
+
+z-index:500;
+
+}
+
+#dialog-ui.show{
+
+opacity:1;
+
+pointer-events:auto;
+
+}
+
+#portrait{
+
+width:180px;
+
+height:180px;
+
+background:#08141d;
+
+border:2px solid #00e5ff;
+
+border-radius:20px;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+box-shadow:
+
+0 0 25px cyan;
+
+}
+
+#portrait img{
+
+width:150px;
+
+}
+
+#dialog-window{
+
+flex:1;
+
+background:
+
+rgba(5,15,25,.88);
+
+border:
+
+2px solid rgba(0,220,255,.4);
+
+border-radius:18px;
+
+padding:25px;
+
+color:white;
+
+backdrop-filter:blur(10px);
+
+}
+
+#dialog-name{
+
+font-size:24px;
+
+font-weight:bold;
+
+color:#5ee8ff;
+
+margin-bottom:15px;
+
+}
+
+#dialog-text{
+
+font-size:22px;
+
+line-height:1.5;
+
+min-height:90px;
+
+}
+
+#dialog-next{
+
+margin-top:15px;
+
+font-size:16px;
+
+opacity:.5;
+
+text-align:right;
+
+animation:blink 1s infinite;
+
+}
+
+@keyframes blink{
+
+50%{
+
+opacity:1;
+
+}
+
+}

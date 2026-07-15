@@ -1,0 +1,282 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>MagnopVS - Eleusis Path</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary": "#9de2ff",
+            "primary-container": "#00ccff",
+            "secondary-fixed-dim": "#ffabf3",
+            "on-primary-fixed-variant": "#004d63",
+            "primary-fixed": "#bbe9ff",
+            "on-tertiary-fixed": "#002117",
+            "error": "#ffb4ab",
+            "tertiary-container": "#4ed2aa",
+            "on-primary-container": "#005369",
+            "surface-variant": "#353534",
+            "on-background": "#e5e2e1",
+            "on-surface-variant": "#bbc8d0",
+            "outline-variant": "#3c494e",
+            "background": "#131313",
+            "on-tertiary-fixed-variant": "#00513d",
+            "on-primary-fixed": "#001f29",
+            "surface-container-lowest": "#0e0e0e",
+            "surface-bright": "#393939",
+            "secondary": "#ffabf3",
+            "on-secondary-fixed": "#380038",
+            "primary-fixed-dim": "#5ed4ff",
+            "secondary-fixed": "#ffd7f5",
+            "on-surface": "#e5e2e1",
+            "error-container": "#93000a",
+            "on-tertiary-container": "#005742",
+            "tertiary-fixed-dim": "#5adcb3",
+            "tertiary-fixed": "#79f9ce",
+            "secondary-container": "#fe00fe",
+            "on-primary": "#003545",
+            "on-secondary-fixed-variant": "#810081",
+            "inverse-primary": "#006782",
+            "inverse-on-surface": "#313030",
+            "surface-dim": "#131313",
+            "surface": "#131313",
+            "on-secondary": "#5b005b",
+            "surface-container-high": "#2a2a2a",
+            "surface-container-highest": "#353534",
+            "inverse-surface": "#e5e2e1",
+            "on-error-container": "#ffdad6",
+            "surface-container": "#201f1f",
+            "surface-tint": "#5ed4ff",
+            "surface-container-low": "#1c1b1b",
+            "outline": "#869399",
+            "tertiary": "#6eefc5",
+            "on-tertiary": "#003829",
+            "on-secondary-container": "#500050",
+            "on-error": "#690005"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-mobile": "16px",
+            "unit": "4px",
+            "margin-desktop": "64px",
+            "container-max": "1440px",
+            "gutter": "24px"
+          },
+          "fontFamily": {
+            "body-md": ["Orbitron"],
+            "technical-sm": ["Orbitron"],
+            "label-caps": ["Orbitron"],
+            "headline-lg-mobile": ["Audiowide"],
+            "headline-lg": ["Audiowide"],
+            "display-xl": ["Audiowide"]
+          },
+          "fontSize": {
+            "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0.02em", "fontWeight": "400"}],
+            "technical-sm": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.2em", "fontWeight": "600"}],
+            "label-caps": ["10px", {"lineHeight": "1", "letterSpacing": "0.3em", "fontWeight": "700"}],
+            "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "400"}],
+            "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "400"}],
+            "display-xl": ["64px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "400"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    @keyframes pulse-energy {
+      0%, 100% { opacity: 0.3; filter: blur(2px); }
+      50% { opacity: 0.7; filter: blur(4px); }
+    }
+    .energy-pulse {
+      animation: pulse-energy 4s ease-in-out infinite;
+    }
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .scan-line {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #9de2ff, transparent);
+      width: 100%;
+      position: absolute;
+      animation: scan 3s linear infinite;
+    }
+    @keyframes scan {
+      0% { top: 0%; }
+      100% { top: 100%; }
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col overflow-x-hidden">
+<!-- TOP APP BAR (Shared Component) -->
+<header class="flex justify-between items-center px-margin-desktop py-4 w-full z-[100] docked full-width top-0 bg-background/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_20px_rgba(0,219,233,0.1)] sticky">
+<div class="font-display-xl text-headline-md tracking-widest text-primary-fixed-dim">
+      MagnopVS
+    </div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="font-label-caps text-label-caps text-primary-fixed-dim border-b-2 border-primary-fixed-dim pb-1" href="#">Saga</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary-fixed transition-colors" href="#">Lore</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary-fixed transition-colors" href="#">Artifacts</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary-fixed transition-colors" href="#">Network</a>
+</nav>
+<div class="flex gap-4">
+<button class="font-label-caps text-label-caps px-6 py-2 border border-outline-variant/50 text-on-surface-variant hover:bg-surface-container-highest/50 transition-all scale-95 active:scale-90">
+        Connect Identity
+      </button>
+<button class="font-label-caps text-label-caps px-6 py-2 bg-primary-container text-on-primary-container shadow-[0_0_15px_rgba(0,204,255,0.4)] hover:brightness-110 transition-all scale-95 active:scale-90">
+        Enter Saga
+      </button>
+</div>
+</header>
+<!-- MAIN CANVAS (Hero & Content) -->
+<main class="flex-grow relative flex flex-col items-center justify-center min-h-[calc(100vh-80px)]">
+<!-- Background Hero Asset -->
+<div class="absolute inset-0 z-0 overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center scale-110 transition-transform duration-[10s] ease-out hover:scale-100" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBJ9I56G3oW9pftCZomPBbjx4gMo-FaGNKQeR9-54rpTTE_QKyLelI29q3ci1Q3EhBFkQxM2vwXcGxQ7Jw15IRTUTl5rJ-HoB8eZatLVeZUYvJBM5tV1c6ksyYvEecjnAJlOW3ISCtOjUU17ylDCYlolGIY7c0h-LyjixxSJX-NcbrRE4rMa6WHA0hSRHo39AtfpsHAg90b1vVR98DRhkicHhmNET9AA3q45rM1wGGyfTvkvkYXqjG-ElvWaV0QrdaZWG36n10berZw')">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-background/40"></div>
+<!-- Energy Overlay Effects -->
+<div class="absolute inset-0 pointer-events-none energy-pulse bg-gradient-to-br from-secondary-container/10 via-transparent to-primary-container/10"></div>
+</div>
+<!-- HUD OVERLAY (Tactical Telemetry) -->
+<div class="absolute inset-0 pointer-events-none z-10 p-10 flex flex-col justify-between hidden md:flex">
+<!-- Top Left Telemetry -->
+<div class="glass-panel p-4 w-64 rounded-lg border-l-4 border-l-primary-container">
+<p class="font-label-caps text-label-caps text-primary-container mb-2">SYSTEM STATUS</p>
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<span class="text-technical-sm font-technical-sm text-on-surface-variant">Sync Rate:</span>
+<span class="text-technical-sm font-technical-sm text-primary">99.8%</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 overflow-hidden">
+<div class="bg-primary h-full w-[99.8%]"></div>
+</div>
+</div>
+</div>
+<!-- Top Right HUD -->
+<div class="absolute top-10 right-10 flex flex-col items-end">
+<div class="text-right glass-panel p-4 rounded-lg border-r-4 border-r-secondary">
+<p class="font-label-caps text-label-caps text-secondary mb-1">CURRENT RESONANCE</p>
+<p class="font-headline-lg text-headline-lg text-secondary shadow-secondary-container/50 drop-shadow-md">78%</p>
+</div>
+</div>
+<!-- Bottom Left HUD -->
+<div class="glass-panel p-4 w-72 rounded-lg border-l-4 border-l-tertiary-container">
+<p class="font-label-caps text-label-caps text-tertiary-container mb-3">MISSION OBJECTIVE</p>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-tertiary-fixed-dim" style="font-variation-settings: 'FILL' 1;">stars</span>
+<div>
+<p class="text-technical-sm font-technical-sm text-on-surface">Encontrar la Manzana Dorada</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1">EST. DURATION: 45 MIN</p>
+</div>
+</div>
+</div>
+</div>
+<!-- CENTER CONTENT (Hero Call to Action) -->
+<div class="relative z-20 container mx-auto px-margin-mobile md:px-margin-desktop flex flex-col items-center text-center">
+<div class="glass-panel p-8 md:p-12 rounded-xl border border-outline-variant/30 max-w-4xl backdrop-blur-xl">
+<div class="mb-4">
+<span class="font-label-caps text-label-caps text-secondary-fixed-dim tracking-[0.5em] px-4 py-1 border border-secondary-fixed-dim/30 rounded-full">TEMPORADA 1</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg md:font-display-xl md:text-display-xl text-on-surface mb-6 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+          Capítulo 1: El Rapto de Perséfone
+        </h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto mb-10 leading-relaxed">
+          En el umbral del Inframundo, una decisión cambiará el destino de la Matrix. <br class="hidden md:block">
+<span class="text-primary-fixed-dim">¿Estás listo para descifrar el mito?</span>
+</p>
+<div class="flex flex-col md:flex-row gap-6 justify-center items-center">
+<button class="group relative overflow-hidden font-label-caps text-label-caps px-12 py-5 bg-secondary-container text-on-secondary shadow-[0_0_30px_rgba(254,0,254,0.4)] transition-all hover:scale-105 active:scale-95 rounded-sm">
+<div class="scan-line opacity-50 group-hover:opacity-100"></div>
+<span class="relative z-10 flex items-center gap-2">
+              ENTRAR AL CAPÍTULO
+              <span class="material-symbols-outlined">double_arrow</span>
+</span>
+</button>
+<button class="font-label-caps text-label-caps px-10 py-5 border border-primary-container/40 text-primary-container hover:bg-primary-container/10 transition-all hover:scale-105 active:scale-95 rounded-sm flex items-center gap-2">
+<span class="material-symbols-outlined">auto_stories</span>
+            REVISAR ARCHIVO DE LORE
+          </button>
+</div>
+</div>
+<!-- Small HUD readout for Mobile -->
+<div class="mt-8 flex md:hidden gap-4 text-center">
+<div class="glass-panel p-2 px-4 rounded">
+<p class="text-[8px] font-label-caps text-secondary">RESONANCE</p>
+<p class="font-technical-sm text-on-surface">78%</p>
+</div>
+<div class="glass-panel p-2 px-4 rounded">
+<p class="text-[8px] font-label-caps text-tertiary">MISSION</p>
+<p class="font-technical-sm text-on-surface">45min</p>
+</div>
+</div>
+</div>
+<!-- Scroll Indicator -->
+<div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce opacity-40">
+<span class="text-[8px] font-label-caps">DESCEND</span>
+<span class="material-symbols-outlined">keyboard_double_arrow_down</span>
+</div>
+</main>
+<!-- FOOTER (Shared Component) -->
+<footer class="w-full py-8 px-margin-desktop flex flex-col md:flex-row justify-between items-center border-t border-outline-variant/20 bg-surface-container-lowest z-30">
+<div class="flex flex-col items-center md:items-start gap-2 mb-6 md:mb-0">
+<span class="font-headline-md text-on-surface font-display-xl text-lg tracking-widest">MagnopVS</span>
+<p class="font-label-caps text-label-caps text-on-surface-variant opacity-80">
+        © 2024 MagnopVS. Transmedia Saga Protocol enabled.
+      </p>
+</div>
+<div class="flex gap-8 items-center">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors" href="#">Privacy Matrix</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors" href="#">Terms of Path</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed-dim transition-colors" href="#">Contact Curator</a>
+</div>
+<!-- Social / Sigil Buttons -->
+<div class="flex gap-4 mt-6 md:mt-0">
+<button class="w-10 h-10 rounded-full border border-outline-variant/30 flex items-center justify-center text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined">language</span>
+</button>
+<button class="w-10 h-10 rounded-full border border-outline-variant/30 flex items-center justify-center text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</footer>
+<script>
+    // Micro-interactions for HUD
+    document.addEventListener('mousemove', (e) => {
+      const mouseX = e.clientX / window.innerWidth - 0.5;
+      const mouseY = e.clientY / window.innerHeight - 0.5;
+      
+      const hudElements = document.querySelectorAll('.glass-panel');
+      hudElements.forEach((el, index) => {
+        const depth = (index + 1) * 10;
+        el.style.transform = `translate(${mouseX * depth}px, ${mouseY * depth}px)`;
+      });
+    });
+
+    // Pulse effect on primary button
+    const primaryBtn = document.querySelector('.bg-secondary-container');
+    if (primaryBtn) {
+      setInterval(() => {
+        primaryBtn.classList.add('brightness-125');
+        setTimeout(() => primaryBtn.classList.remove('brightness-125'), 100);
+      }, 5000);
+    }
+  </script>
+</body></html>

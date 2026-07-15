@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnoWays | Explorer's Progress Journal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --alchemical-violet: rgba(55, 0, 150, 0.4);
+            --celestial-blue: rgba(91, 200, 245, 0.3);
+        }
+
+        body {
+            background-color: #0e0e0e;
+            color: #e5e2e1;
+            overflow-x: hidden;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .glass-panel {
+            background: rgba(19, 19, 19, 0.7);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(162, 224, 255, 0.15);
+            position: relative;
+        }
+
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(162, 224, 255, 0.4), transparent);
+        }
+
+        .tech-id {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            font-size: 10px;
+            opacity: 0.5;
+            letter-spacing: 0.1em;
+        }
+
+        .energy-stroke-v {
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, rgba(91, 200, 245, 0.2), transparent);
+        }
+
+        .energy-stroke-h {
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(91, 200, 245, 0.2), transparent);
+        }
+
+        .node-hex {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        .scan-line {
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(to bottom, transparent, rgba(162, 224, 255, 0.2), transparent);
+            animation: scan 4s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { top: -100%; }
+            100% { top: 200%; }
+        }
+
+        .glow-pulse {
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(91, 200, 245, 0.2); }
+            50% { box-shadow: 0 0 20px rgba(91, 200, 245, 0.5); }
+        }
+
+        .nebula-bg {
+            background: radial-gradient(circle at 50% 50%, rgba(55, 0, 150, 0.15) 0%, transparent 70%);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #0e0e0e; }
+        ::-webkit-scrollbar-thumb { background: #3e484e; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a2e0ff; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error": "#ffb4ab",
+                      "on-tertiary-fixed": "#20005f",
+                      "error-container": "#93000a",
+                      "primary-container": "#5bc8f5",
+                      "on-surface": "#e5e2e1",
+                      "surface-container": "#201f1f",
+                      "surface-bright": "#3a3939",
+                      "on-error-container": "#ffdad6",
+                      "tertiary-container": "#c3b1ff",
+                      "on-secondary-fixed-variant": "#7b008f",
+                      "on-primary-container": "#00526b",
+                      "on-primary": "#003546",
+                      "tertiary": "#ddd1ff",
+                      "surface": "#131313",
+                      "secondary-fixed-dim": "#faabff",
+                      "primary": "#a2e0ff",
+                      "tertiary-fixed": "#e8deff",
+                      "on-primary-fixed": "#001f2a",
+                      "on-tertiary-fixed-variant": "#4f00d0",
+                      "on-surface-variant": "#bdc8cf",
+                      "surface-container-low": "#1c1b1b",
+                      "on-error": "#690005",
+                      "outline": "#889299",
+                      "surface-container-lowest": "#0e0e0e",
+                      "on-background": "#e5e2e1",
+                      "on-tertiary-container": "#540dd7",
+                      "tertiary-fixed-dim": "#cdbdff",
+                      "on-secondary-fixed": "#35003f",
+                      "background": "#131313",
+                      "primary-fixed": "#bee9ff",
+                      "on-secondary-container": "#fff0fb",
+                      "secondary": "#faabff",
+                      "outline-variant": "#3e484e",
+                      "surface-container-highest": "#353534",
+                      "on-secondary": "#570066",
+                      "surface-tint": "#6bd3ff",
+                      "inverse-surface": "#e5e2e1",
+                      "on-tertiary": "#370096",
+                      "surface-variant": "#353534",
+                      "surface-dim": "#131313",
+                      "primary-fixed-dim": "#6bd3ff",
+                      "secondary-container": "#bd06da",
+                      "inverse-primary": "#006685",
+                      "on-primary-fixed-variant": "#004d65",
+                      "secondary-fixed": "#ffd6fe",
+                      "surface-container-high": "#2a2a2a",
+                      "inverse-on-surface": "#313030"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "20px",
+                      "gutter": "16px",
+                      "margin-desktop": "64px",
+                      "grid-hex-size": "32px",
+                      "unit": "4px"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": ["Audiowide"],
+                      "body-md": ["Orbitron"],
+                      "data-display": ["Orbitron"],
+                      "headline-xl": ["Audiowide"],
+                      "headline-lg": ["Audiowide"],
+                      "label-sm": ["Orbitron"]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                      "body-md": ["14px", {"lineHeight": "1.6", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                      "data-display": ["18px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                      "headline-xl": ["48px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                      "label-sm": ["11px", {"lineHeight": "1", "letterSpacing": "0.15em", "fontWeight": "500"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface selection:bg-primary/30">
+<div class="nebula-bg"></div>
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 bg-surface/60 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(91,200,245,0.2)]">
+<div class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tighter uppercase">MagnoWays</div>
+<div class="hidden md:flex gap-8">
+<a class="text-on-surface-variant font-medium font-label-sm text-label-sm hover:text-primary transition-all duration-300" href="#">Roadmap</a>
+<a class="text-on-surface-variant font-medium font-label-sm text-label-sm hover:text-primary transition-all duration-300" href="#">Terminal</a>
+<a class="text-primary font-bold font-label-sm text-label-sm hover:bg-primary/10 transition-all duration-300 px-3 py-1 rounded" href="#">Journal</a>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-transform active:scale-95">account_tree</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-transform active:scale-95">sensors</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-transform active:scale-95">settings</span>
+</div>
+</header>
+<!-- Side Navigation Bar (Desktop) -->
+<aside class="hidden lg:flex flex-col fixed left-0 top-0 h-screen z-40 bg-surface-container-lowest/80 backdrop-blur-2xl border-r border-outline-variant/20 w-64 pt-20">
+<div class="px-8 py-6">
+<div class="w-12 h-12 bg-primary/20 border border-primary/40 rounded-full flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary text-2xl">person_pin</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-primary-fixed mb-1">MAGNO_UNIT_01</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">SYNC_STATUS: 88%</p>
+</div>
+<nav class="flex-1 mt-4">
+<a class="flex items-center gap-4 text-on-surface-variant px-8 py-4 hover:bg-surface-bright/10 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-label-sm text-label-sm">Roadmap</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-8 py-4 hover:bg-surface-bright/10 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">terminal</span>
+<span class="font-label-sm text-label-sm">Terminal</span>
+</a>
+<a class="flex items-center gap-4 bg-primary-container/20 text-primary border-l-4 border-primary px-8 py-4" href="#">
+<span class="material-symbols-outlined">history_edu</span>
+<span class="font-label-sm text-label-sm">Journal</span>
+</a>
+</nav>
+<div class="p-8">
+<button class="w-full py-4 border border-primary text-primary font-body-md text-body-md uppercase tracking-widest hover:bg-primary/10 transition-all">
+                INITIATE_WARP
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pt-24 pb-24 px-margin-mobile lg:ml-64 lg:px-margin-desktop min-h-screen">
+<!-- Header Hero Section -->
+<div class="mb-12">
+<h1 class="font-headline-xl text-headline-xl text-primary-fixed mb-2 flex items-center gap-4">
+                JOURNAL_OF_SOUL
+                <span class="text-on-surface-variant font-label-sm text-label-sm opacity-50 tracking-[0.5em]">LOG_V4.02</span>
+</h1>
+<div class="h-1 w-32 bg-primary"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Operator Stats Panel -->
+<div class="md:col-span-8 glass-panel p-8 rounded-xl overflow-hidden">
+<div class="tech-id">SEC_AUTH_320</div>
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-2">Operator Ranking</p>
+<h2 class="font-headline-lg text-headline-lg text-primary flex items-center gap-3">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
+                            #12 ELITE_NODE
+                        </h2>
+</div>
+<div class="h-16 w-px bg-outline-variant/30 hidden md:block"></div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-2">Eggs Captured</p>
+<div class="font-data-display text-data-display text-secondary flex items-baseline gap-2">
+                            47 <span class="text-sm font-normal text-on-surface-variant">/ 100</span>
+</div>
+</div>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden mb-2">
+<div class="bg-primary h-full glow-pulse" style="width: 47%;"></div>
+</div>
+<div class="flex justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span>NEXT TIER: TITAN_LEVEL</span>
+<span>53_REMAINING</span>
+</div>
+</div>
+<!-- Sync Telemetry (Side Gauge) -->
+<div class="md:col-span-4 glass-panel p-8 rounded-xl flex flex-col justify-center items-center">
+<div class="tech-id">SYS_SYNC_INF</div>
+<div class="relative w-32 h-32 mb-4">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container-highest" cx="64" cy="64" fill="transparent" r="60" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-primary-fixed transition-all duration-1000" cx="64" cy="64" fill="transparent" r="60" stroke="currentColor" stroke-dasharray="376" stroke-dashoffset="45" stroke-width="4"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-data-display text-data-display">88%</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">SYNC</span>
+</div>
+</div>
+<p class="font-label-sm text-label-sm text-center text-on-surface-variant px-4">MULTIVERSAL SECTOR SYNCHRONIZATION_ACTIVE</p>
+</div>
+<!-- Path History (Bento Grid Item) -->
+<div class="md:col-span-12 glass-panel p-8 rounded-xl relative">
+<div class="tech-id">HIST_MNP_LOG</div>
+<div class="scan-line"></div>
+<h3 class="font-headline-lg text-headline-lg mb-8 text-primary">MAGNOWAYS_LOG</h3>
+<div class="space-y-4">
+<!-- Path Item: Completed -->
+<div class="flex items-center gap-6 p-4 bg-surface-container-low/50 border-l-2 border-primary group hover:bg-surface-bright/10 transition-all cursor-pointer">
+<div class="node-hex w-12 h-12 bg-primary/20 flex items-center justify-center text-primary border border-primary/40">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<div class="flex-1">
+<h4 class="font-label-sm text-label-sm text-primary mb-1">WAY_OF_STARDUST</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Sector 01-A Fully Reconstructed</p>
+</div>
+<div class="text-right">
+<p class="font-label-sm text-label-sm text-secondary">+1200 MAGNO</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant opacity-50">COMPLETED_03.21</p>
+</div>
+</div>
+<!-- Path Item: Active -->
+<div class="flex items-center gap-6 p-4 bg-surface-container-low/50 border-l-2 border-secondary group hover:bg-surface-bright/10 transition-all cursor-pointer">
+<div class="node-hex w-12 h-12 bg-secondary/20 flex items-center justify-center text-secondary border border-secondary/40 glow-pulse">
+<span class="material-symbols-outlined">pending_actions</span>
+</div>
+<div class="flex-1">
+<h4 class="font-label-sm text-label-sm text-secondary mb-1">VOID_WALKER_ASCENT</h4>
+<div class="flex gap-2 mt-1">
+<div class="h-1 flex-1 bg-secondary/30 rounded-full">
+<div class="h-full bg-secondary" style="width: 65%;"></div>
+</div>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-sm text-label-sm text-secondary animate-pulse">ACTIVE_REWARD_PENDING</p>
+</div>
+</div>
+<!-- Path Item: Locked -->
+<div class="flex items-center gap-6 p-4 opacity-50 grayscale hover:grayscale-0 transition-all cursor-not-allowed">
+<div class="node-hex w-12 h-12 bg-outline/20 flex items-center justify-center text-outline border border-outline/40">
+<span class="material-symbols-outlined">lock</span>
+</div>
+<div class="flex-1">
+<h4 class="font-label-sm text-label-sm text-on-surface mb-1">CELESTIAL_GATEWAY</h4>
+<p class="font-body-md text-body-md">Requires Level 15 Explorer Identity</p>
+</div>
+<div class="text-right">
+<span class="material-symbols-outlined">info</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Achievement Medals -->
+<div class="md:col-span-5 glass-panel p-8 rounded-xl">
+<div class="tech-id">BADGE_SYS_01</div>
+<h3 class="font-label-sm text-label-sm text-on-surface-variant mb-6 tracking-widest uppercase">Honors &amp; Medals</h3>
+<div class="flex flex-wrap gap-6 justify-center">
+<div class="group relative">
+<div class="w-20 h-20 bg-primary/10 border border-primary/30 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-500 hover:shadow-[0_0_20px_rgba(162,224,255,0.4)]">
+<span class="material-symbols-outlined text-4xl text-primary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<p class="font-label-sm text-[8px] text-center mt-2 uppercase text-primary">Quantum Pioneer</p>
+</div>
+<div class="group relative">
+<div class="w-20 h-20 bg-tertiary/10 border border-tertiary/30 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-500 hover:shadow-[0_0_20px_rgba(221,209,255,0.4)]">
+<span class="material-symbols-outlined text-4xl text-tertiary" style="font-variation-settings: 'FILL' 1;">diamond</span>
+</div>
+<p class="font-label-sm text-[8px] text-center mt-2 uppercase text-tertiary">Void Master</p>
+</div>
+<div class="group relative">
+<div class="w-20 h-20 bg-secondary/10 border border-secondary/30 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-500 hover:shadow-[0_0_20px_rgba(250,171,255,0.4)]">
+<span class="material-symbols-outlined text-4xl text-secondary" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+</div>
+<p class="font-label-sm text-[8px] text-center mt-2 uppercase text-secondary">Egg Hunter</p>
+</div>
+</div>
+</div>
+<!-- Artifact Preview (3D View Mockup) -->
+<div class="md:col-span-7 glass-panel p-0 rounded-xl overflow-hidden flex flex-col md:flex-row">
+<div class="tech-id">ARTF_VIEWER</div>
+<div class="relative w-full md:w-1/2 h-48 md:h-auto bg-surface-container-lowest">
+
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="w-24 h-24 border border-primary/20 rotate-45 flex items-center justify-center glow-pulse">
+<span class="material-symbols-outlined text-primary text-5xl -rotate-45">blur_on</span>
+</div>
+</div>
+</div>
+<div class="flex-1 p-8 flex flex-col justify-between">
+<div>
+<h4 class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-tighter">Current Artifact Selected</h4>
+<h3 class="font-headline-lg text-headline-lg text-primary mb-4">CHRONOS_SHARD_07</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">A fragment of a frozen timeline, vibrating at exactly 440Hz. Capable of minor localized temporal shifts.</p>
+</div>
+<button class="flex items-center justify-center gap-3 py-3 border border-outline-variant hover:bg-primary/5 hover:border-primary transition-all group">
+<span class="font-label-sm text-label-sm uppercase tracking-[0.2em]">Open Gallery</span>
+<span class="material-symbols-outlined text-sm transition-transform group-hover:translate-x-1">arrow_forward_ios</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mobile) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin-mobile pb-safe h-20 bg-surface-container-low/90 backdrop-blur-lg border-t border-primary/20 shadow-[0_-5px_20px_rgba(91,200,245,0.15)] rounded-t-xl">
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-all">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-label-sm text-label-sm">Roadmap</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-all">
+<span class="material-symbols-outlined">gps_fixed</span>
+<span class="font-label-sm text-label-sm">Terminal</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary bg-primary/10 rounded-xl p-2 scale-110">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+<span class="font-label-sm text-label-sm">Journal</span>
+</div>
+</nav>
+<script>
+        // Micro-interaction: Active node pulse effect
+        document.querySelectorAll('.node-hex').forEach(node => {
+            node.addEventListener('mouseenter', () => {
+                node.style.transform = 'scale(1.1) rotate(5deg)';
+                node.style.transition = 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            });
+            node.addEventListener('mouseleave', () => {
+                node.style.transform = 'scale(1) rotate(0deg)';
+            });
+        });
+
+        // Atmospheric Grain/Noise
+        const noise = () => {
+            let canvas = document.createElement('canvas');
+            let ctx = canvas.getContext('2d');
+            canvas.width = 100;
+            canvas.height = 100;
+            for (let x = 0; x < canvas.width; x++) {
+                for (let y = 0; y < canvas.height; y++) {
+                    let val = Math.random() * 255;
+                    ctx.fillStyle = `rgba(${val},${val},${val},0.05)`;
+                    ctx.fillRect(x, y, 1, 1);
+                }
+            }
+            document.body.style.backgroundImage = `url(${canvas.toDataURL()})`;
+        }
+        noise();
+    </script>
+</body></html>

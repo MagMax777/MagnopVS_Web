@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagFams Bestiary Index | MagnopVS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;700&amp;family=Space+Mono&amp;family=Sora:wght@400;600;800&amp;family=Hanken+Grotesk:wght@400;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "error-container": "#93000a",
+                        "surface-bright": "#393939",
+                        "surface-container": "#1f2020",
+                        "on-secondary-fixed-variant": "#6700b5",
+                        "on-background": "#e4e2e2",
+                        "surface-container-low": "#1b1c1c",
+                        "on-secondary": "#480081",
+                        "inverse-surface": "#e4e2e2",
+                        "on-primary-fixed-variant": "#003fa4",
+                        "surface-dim": "#131314",
+                        "primary-container": "#0066ff",
+                        "on-tertiary-container": "#fff6f9",
+                        "secondary-container": "#7701d0",
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface-container-high": "#2a2a2a",
+                        "on-primary": "#002b75",
+                        "on-secondary-fixed": "#2c0051",
+                        "tertiary-fixed-dim": "#ffabf3",
+                        "primary-fixed": "#dae1ff",
+                        "on-primary-fixed": "#001849",
+                        "secondary": "#dcb8ff",
+                        "outline-variant": "#424656",
+                        "outline": "#8c90a1",
+                        "inverse-primary": "#0054d6",
+                        "tertiary-fixed": "#ffd7f5",
+                        "on-surface": "#e4e2e2",
+                        "inverse-on-surface": "#303030",
+                        "surface-variant": "#343535",
+                        "on-tertiary-fixed-variant": "#810081",
+                        "primary-fixed-dim": "#b3c5ff",
+                        "on-tertiary": "#5b005b",
+                        "on-error": "#690005",
+                        "surface-container-highest": "#343535",
+                        "on-primary-container": "#f8f7ff",
+                        "background": "#131314",
+                        "secondary-fixed": "#efdbff",
+                        "on-error-container": "#ffdad6",
+                        "tertiary": "#ffabf3",
+                        "on-tertiary-fixed": "#380038",
+                        "on-secondary-container": "#dcb7ff",
+                        "primary": "#b3c5ff",
+                        "surface-tint": "#b3c5ff",
+                        "on-surface-variant": "#c2c6d8",
+                        "error": "#ffb4ab",
+                        "tertiary-container": "#ca00ca",
+                        "surface": "#131314",
+                        "secondary-fixed-dim": "#dcb8ff"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    spacing: {
+                        "container-max": "640px",
+                        "unit": "4px",
+                        "node-gap": "24px",
+                        "gutter": "16px"
+                    },
+                    fontFamily: {
+                        "body-md": ["Hanken Grotesk", "sans-serif"],
+                        "headline-lg": ["Sora", "sans-serif"],
+                        "display-xl": ["Sora", "sans-serif"],
+                        "code-sm": ["Space Mono", "monospace"],
+                        "display-xl-mobile": ["Sora", "sans-serif"],
+                        "audiowide": ["Audiowide", "cursive"],
+                        "orbitron": ["Orbitron", "sans-serif"]
+                    },
+                    fontSize: {
+                        "body-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "code-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "400" }],
+                        "display-xl-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "800" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #050505;
+            color: #e4e2e2;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 50%, rgba(0, 102, 255, 0.05) 0%, transparent 70%);
+        }
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 99;
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 255, 209, 0.05) 50%, rgba(0, 0, 0, 0) 100%);
+            opacity: 0.1;
+            position: absolute;
+            bottom: 100%;
+            animation: scanline 8s linear infinite;
+        }
+        @keyframes scanline {
+            0% { bottom: 100%; }
+            100% { bottom: -100px; }
+        }
+        .glass-panel {
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(179, 197, 255, 0.1);
+        }
+        .glow-cyan {
+            box-shadow: 0 0 15px rgba(21, 255, 209, 0.2);
+        }
+        .glitch-hover:hover {
+            animation: glitch 0.2s cubic-bezier(.25,.46,.45,.94) both infinite;
+        }
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+        .matrix-grid {
+            background-image: linear-gradient(rgba(179, 197, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(179, 197, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .flicker {
+            animation: flicker 2s infinite alternate;
+        }
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; }
+            20%, 24%, 55% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface selection:bg-primary-container selection:text-white">
+<div class="fixed inset-0 pointer-events-none matrix-grid z-[-1]"></div>
+<div class="scanline"></div>
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/30 flex justify-between items-center px-6 md:px-12 h-16 shadow-[0_0_20px_rgba(152,203,255,0.15)]">
+<div class="flex items-center gap-4">
+<span class="font-audiowide text-headline-md text-primary tracking-widest">MAGNOPVS</span>
+</div>
+<nav class="hidden md:flex items-center space-x-8 font-orbitron text-code-sm">
+<a class="text-secondary-fixed shadow-[0_0_10px_#15ffd1] transition-all px-2" href="#">BESTIARY</a>
+<a class="text-on-surface-variant hover:text-primary transition-all" href="#">ARSENAL</a>
+<a class="text-on-surface-variant hover:text-primary transition-all" href="#">THE_VOID</a>
+<a class="text-on-surface-variant hover:text-primary transition-all" href="#">SYNC</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="font-code-sm text-tertiary-fixed-dim border border-tertiary/30 px-3 py-1 rounded-full bg-tertiary/10">LVL_042</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">account_circle</span>
+</div>
+</header>
+<main class="pt-16 pb-24 max-w-[1400px] mx-auto px-6 md:px-12">
+<section class="relative mt-8 rounded-xl overflow-hidden min-h-[400px] flex items-center justify-center border border-primary/20 shadow-2xl group">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-1000" data-alt="A wide, epic cinematic landscape of a digital multiverse, showing swirling nebulae of teal and violet energy clouds, floating geometric shards, and a central cosmic portal. High-fidelity rendering in a cyber-mystic style with volumetric lighting, neon streaks, and ancient runes floating in the atmosphere. The composition is centered and majestic, evoking a sense of infinite discovery and power." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCY18aJuz7YNhY1yWkfm9foI481j3boQazBw77aWshLNbUs-thZeKz8BsgqqOQBszF5Q_JHpS8xlg_J69hIOucZGhlkz1MAThbJLiWJexaB2aTZ7aLYB2ZzGVPXam-mBa48zqAw29Gi153L4UwlvSAWWBEGiQwp3nza-RQJWqexyJvHHDAp366MV5y1XQo3wN5UwM9Mv2gd_y6yL5uOColHAygkhr_J-1UXJ2S09zgnNSWIFsELtKsZKIWbybu4KNVNI9uFT5nLB-Ow"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50"></div>
+</div>
+<div class="relative z-10 text-center max-w-2xl px-6">
+<h1 class="font-audiowide text-display-xl-mobile md:text-display-xl text-primary mb-4 drop-shadow-[0_0_15px_rgba(0,102,255,0.5)]">MagFams</h1>
+<p class="font-orbitron text-body-md text-on-surface-variant mb-8 leading-relaxed">
+                    Magical companions of the <span class="text-tertiary">Quantvm Matrix</span>. Entities born from cosmic resonance, ancient myths, and dimension-shaping technologies.
+                </p>
+<button class="bg-primary-container text-white font-audiowide px-8 py-4 rounded-lg hover:shadow-[0_0_30px_#0066ff] transition-all transform hover:-translate-y-1 active:scale-95 border border-primary-fixed/30">
+                    START YOUR COLLECTION
+                </button>
+</div>
+</section>
+<section class="mt-12 glass-panel p-6 rounded-xl border-outline-variant/20 flex flex-col md:flex-row gap-6 items-center">
+<div class="flex-1 relative w-full group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary">search</span>
+<input class="w-full bg-background/50 border-none border-b-2 border-outline-variant focus:border-tertiary focus:ring-0 pl-12 py-3 font-code-sm text-secondary placeholder:text-outline-variant transition-all" placeholder="QUERY_THE_BESTIARY..." type="text"/>
+<span class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-code-sm text-outline-variant group-focus-within:text-tertiary flicker">[ SCANNING... ]</span>
+</div>
+<div class="flex flex-wrap gap-3 w-full md:w-auto">
+<select class="bg-surface-container-low border border-outline-variant text-on-surface-variant font-code-sm rounded-lg px-4 py-2 focus:ring-primary focus:border-primary">
+<option>RARITY: ALL</option>
+<option>COMMON</option>
+<option>RARE</option>
+<option>EPIC</option>
+<option>LEGENDARY</option>
+<option>PRIMORDIAL</option>
+</select>
+<select class="bg-surface-container-low border border-outline-variant text-on-surface-variant font-code-sm rounded-lg px-4 py-2 focus:ring-primary focus:border-primary">
+<option>ELEMENT: ALL</option>
+<option>AETHER</option>
+<option>PLASMA</option>
+<option>CHRONOS</option>
+<option>VOID</option>
+</select>
+<button class="bg-surface-variant/40 p-2 rounded hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-primary">tune</span>
+</button>
+</div>
+</section>
+<section class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-node-gap">
+<div class="glass-panel rounded-xl overflow-hidden group hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2 relative">
+<div class="h-64 relative overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0ddelm3vU6WnfSTQK1HsE4ahp5_R-ofjBOmPmQ77L7NbqE6si8cNRp7uCR5_3dZ2tiro77YBrhXJNjTTFj6Wp_G3rBHMQmgC1ZL7NAgEgoPF1rnmmSGfosmruUF6BycNzwII83ntHvJpPMgUTdjkHaaeHc8rt4qHBMsaT5chCotmCaPeLxpHpcxzgcaVH6Yq5AG8QluOPlOEXyo-Q7nlutMHeUm9XLIkL_2VP48ResmHJMiiZWc86HkBT38hfKEDLLfNpVix6XmID"/>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="bg-primary/20 backdrop-blur-md text-primary text-[10px] font-code-sm px-2 py-1 rounded border border-primary/30">[ PRIMORDIAL ]</span>
+<span class="bg-tertiary/20 backdrop-blur-md text-tertiary text-[10px] font-code-sm px-2 py-1 rounded border border-tertiary/30">[ AETHER ]</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-audiowide text-headline-sm text-on-surface">The Cosmic White Rabbit</h3>
+<span class="text-tertiary-fixed font-code-sm">LVL.MAX</span>
+</div>
+<p class="font-orbitron text-xs text-on-surface-variant mb-6 min-h-[40px]">The first explorer and guide of the matrix, manifesting as a herald of truth.</p>
+<button class="w-full font-code-sm py-2 bg-primary/10 border border-primary/30 text-primary-fixed hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2 glitch-hover">
+                        VIEW_PROFILE <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="absolute bottom-0 left-0 w-0 h-[2px] bg-primary group-hover:w-full transition-all duration-500"></div>
+</div>
+<div class="glass-panel rounded-xl overflow-hidden group hover:border-secondary/50 transition-all duration-300 transform hover:-translate-y-2 relative">
+<div class="h-64 relative overflow-hidden">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="A magnificent phoenix-like creature composed entirely of crystalline shards and swirling galaxy-patterned energy. The being glows with intense violet and deep purple fire, set against a dark celestial background with sacred geometry patterns shimmering faintly. Cinematic lighting highlights the sharp, gem-like textures of its wings and the ethereal stardust trailing from its feathers." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAXBI9FYtyG1iLmU6wIV0m9NJrwnHxoSfytXICdeBUt_Okkzb5Htj4cwoxwrvQIZUh8J55ZxzTEBqIxnp1el13eTL8kVe82Y6sQ2lsghErcIVJ8HoK5eHBpjwZPWJjaWRAsHeJCkPyHxMAjMCezGfvG0QR8wC4pLnWqPI6Fm-zOSZlXvsQXofS93isYbEBsmBPETTptBuBXy80F6Awu824olqKSL-LWIQGr8nX61y1LTuN_DSCKqZKBOfvQ0OPMO-cPN7bK4av_0fIe')"></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="bg-secondary/20 backdrop-blur-md text-secondary text-[10px] font-code-sm px-2 py-1 rounded border border-secondary/30">[ LEGENDARY ]</span>
+<span class="bg-error/20 backdrop-blur-md text-error text-[10px] font-code-sm px-2 py-1 rounded border border-error/30">[ PLASMA ]</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-audiowide text-headline-sm text-on-surface">Crystalline Phoenix</h3>
+<span class="text-secondary-fixed font-code-sm">LVL.88</span>
+</div>
+<p class="font-orbitron text-xs text-on-surface-variant mb-6 min-h-[40px]">A majestic being made of stardust and violet fire, capable of total data reconstruction.</p>
+<button class="w-full font-code-sm py-2 bg-secondary/10 border border-secondary/30 text-secondary-fixed hover:bg-secondary hover:text-white transition-all flex items-center justify-center gap-2 glitch-hover">
+                        VIEW_PROFILE <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="absolute bottom-0 left-0 w-0 h-[2px] bg-secondary group-hover:w-full transition-all duration-500"></div>
+</div>
+<div class="glass-panel rounded-xl overflow-hidden group hover:border-error/50 transition-all duration-300 transform hover:-translate-y-2 relative">
+<div class="h-64 relative overflow-hidden">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="A small, intricately designed mechanical dragon with matte black metallic plating and orange glowing circuit patterns etched across its body. The creature is surrounded by miniature lightning bolts and sparks of energy, suggesting high-tech weaponry and speed. The visual style is industrial cyber-tech mixed with fantasy, featuring sharp angles and glowing internal power cores." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBd_KCd_FVdYIlGRo4Wt7dieFJ4353D-pxk9qNX8uer-Lmp6ZuiFb6EWDnpHmnc2ZndjCBvakXsL5GZPVtILaunvHk3VSBfIIRk3oq_38v6nVyOydpdLVi51cyGwhK937jfn3Gh53h-KbcfuJXJvyAo3joUUZNEGEtSDpuSCKDrGUdJT9uPQBgPdPqJGx28FsIrd01Bm0W3MvNmEc-qVo2BfZVDnr495wyJXfVmOUtRrOgXNAw36sb6XXtsHtvMxOFL3u42s2T5SrAZ')"></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="bg-error-container/40 backdrop-blur-md text-white text-[10px] font-code-sm px-2 py-1 rounded border border-error/30">[ EPIC ]</span>
+<span class="bg-surface-bright/40 backdrop-blur-md text-surface-tint text-[10px] font-code-sm px-2 py-1 rounded border border-outline/30">[ TECH ]</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-audiowide text-headline-sm text-on-surface">Cyber-Drake</h3>
+<span class="text-error font-code-sm">LVL.42</span>
+</div>
+<p class="font-orbitron text-xs text-on-surface-variant mb-6 min-h-[40px]">Small mechanical dragon with neural-linked circuits and adaptive combat sub-routines.</p>
+<button class="w-full font-code-sm py-2 bg-error/10 border border-error/30 text-error hover:bg-error hover:text-on-error transition-all flex items-center justify-center gap-2 glitch-hover">
+                        VIEW_PROFILE <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="absolute bottom-0 left-0 w-0 h-[2px] bg-error group-hover:w-full transition-all duration-500"></div>
+</div>
+<div class="glass-panel rounded-xl overflow-hidden group hover:border-tertiary/50 transition-all duration-300 transform hover:-translate-y-2 relative">
+<div class="h-64 relative overflow-hidden">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="A translucent, ethereal jellyfish floating in deep space, its bell filled with a swirling blue galaxy and ancient glowing runes. Long, delicate tendrils trail behind it like threads of light, dotted with bioluminescent sparks that resemble stars. The atmosphere is quiet and cosmic, with a soft cool-toned glow illuminating the dark void and distant nebulae." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCOdfj3paPF53094e24kZHSoNQH8Yb7NywSl-E8AMLWMQWx17By2y3zxaDmOgEWi4YHz8E_kcka1s3QcByt1SBR1mwtP2GGsLAPjpT0-rCg5N4rxu6GKxid9leD429tfepRgxo_-NpU-BSxtx4b0Q7hVjjyKRAN_kLQ9vR5QEXfwMU-uJxRrrVfhVRd0Z7Ju5gv7eHXN7mDj7Qbvp5r8bUaZH84fj8lAdTBQ6NmOKBY87wivv-kMmAW8u_oQ_wdDYJnb-HljWVE1i2D')"></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="bg-primary/20 backdrop-blur-md text-primary text-[10px] font-code-sm px-2 py-1 rounded border border-primary/30">[ RARE ]</span>
+<span class="bg-surface-container-highest backdrop-blur-md text-on-surface-variant text-[10px] font-code-sm px-2 py-1 rounded border border-outline-variant/30">[ VOID ]</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-audiowide text-headline-sm text-on-surface">Aetheric Jellyfish</h3>
+<span class="text-on-surface-variant font-code-sm">LVL.12</span>
+</div>
+<p class="font-orbitron text-xs text-on-surface-variant mb-6 min-h-[40px]">Translucent data-shifter floating in the starlight, specializing in deep-packet stealth.</p>
+<button class="w-full font-code-sm py-2 bg-surface-variant/40 border border-outline-variant/30 text-on-surface-variant hover:bg-primary-container hover:text-white transition-all flex items-center justify-center gap-2 glitch-hover">
+                        VIEW_PROFILE <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="absolute bottom-0 left-0 w-0 h-[2px] bg-tertiary group-hover:w-full transition-all duration-500"></div>
+</div>
+</section>
+</main>
+<footer class="fixed bottom-0 w-full z-50 bg-surface-dim border-t border-secondary-container/10 flex justify-between items-center px-6 md:px-12 py-2 h-10">
+<div class="flex items-center gap-6">
+<span class="font-code-sm text-[10px] text-secondary-fixed-dim tracking-widest flicker">SYSTEM_STATUS: NOMINAL // MULTIVERSAL TELEMETRY ACTIVE</span>
+</div>
+<div class="hidden md:flex items-center gap-4 text-[10px] font-code-sm text-on-surface-variant uppercase">
+<a class="hover:text-secondary transition-colors transition-all duration-300" href="#">LOG_0x882</a>
+<span class="text-outline-variant opacity-30">|</span>
+<a class="hover:text-secondary transition-colors transition-all duration-300" href="#">CORE_DUMP</a>
+<span class="text-outline-variant opacity-30">|</span>
+<a class="hover:text-secondary transition-colors transition-all duration-300" href="#">VIGNETTE_CODE_A9</a>
+</div>
+<div class="font-code-sm text-[10px] text-secondary opacity-60">
+            © 2024 MAGNOPVS_CORP
+        </div>
+</footer>
+<aside class="fixed right-6 bottom-16 flex flex-col gap-4 z-40">
+<div class="w-12 h-12 glass-panel rounded-full flex items-center justify-center cursor-pointer hover:bg-primary/20 hover:scale-110 transition-all border border-primary/30 group">
+<span class="material-symbols-outlined text-primary group-hover:animate-pulse">chat_bubble</span>
+</div>
+<div class="w-12 h-12 glass-panel rounded-full flex items-center justify-center cursor-pointer hover:bg-tertiary/20 hover:scale-110 transition-all border border-tertiary/30 group">
+<span class="material-symbols-outlined text-tertiary group-hover:rotate-45 transition-transform">bolt</span>
+</div>
+</aside>
+<script>
+        document.addEventListener('mousemove', (e) => {
+            const panels = document.querySelectorAll('.glass-panel');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            panels.forEach(panel => {
+                const rect = panel.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                const rotateX = (e.clientY - centerY) / 50;
+                const rotateY = (centerX - e.clientX) / 50;
+                
+                if (panel.classList.contains('group')) {
+                    panel.style.transition = 'transform 0.1s ease-out';
+                }
+            });
+        });
+    </script>
+</body></html>

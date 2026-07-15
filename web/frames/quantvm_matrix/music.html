@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS Quantvm Matrix | Frequency Stream</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed-variant": "#6f2c6b",
+                    "surface": "#131313",
+                    "on-secondary": "#00382c",
+                    "inverse-primary": "#2a6290",
+                    "tertiary": "#ffd7f5",
+                    "on-error-container": "#ffdad6",
+                    "surface-bright": "#393939",
+                    "outline-variant": "#41474f",
+                    "surface-raised": "#2a2a2a",
+                    "surface-container-high": "#2a2a2a",
+                    "on-primary-fixed-variant": "#034a77",
+                    "primary": "#cee5ff",
+                    "primary-fixed-dim": "#98cbff",
+                    "tertiary-container": "#ffabf3",
+                    "primary-container": "#98cbff",
+                    "secondary-fixed": "#17ffd1",
+                    "secondary-container": "#04fcce",
+                    "surface-container-highest": "#353534",
+                    "secondary": "#f3fff9",
+                    "on-primary-fixed": "#001d33",
+                    "on-primary": "#003354",
+                    "secondary-fixed-dim": "#00e0b7",
+                    "aquamarine-neon": "#15ffd1",
+                    "surface-container-highest": "#353534",
+                    "surface-container-lowest": "#0e0e0e",
+                    "on-background": "#e5e2e1",
+                    "on-tertiary-container": "#7d3878",
+                    "background": "#131313",
+                    "surface-container-low": "#1c1b1b",
+                    "on-surface": "#e5e2e1",
+                    "tertiary-fixed": "#ffd7f5",
+                    "surface-container": "#201f1f",
+                    "primary-fixed": "#cfe5ff",
+                    "on-secondary-container": "#00705a",
+                    "outline": "#8b919a",
+                    "tertiary-fixed-dim": "#ffabf3",
+                    "surface-tint": "#98cbff",
+                    "on-secondary-fixed": "#002018",
+                    "on-tertiary-fixed": "#380038",
+                    "magenta-flare": "#ff4dfa",
+                    "pearl-white": "#ffffff",
+                    "on-error": "#690005",
+                    "surface-variant": "#353534",
+                    "celestial-blue": "#98cbff",
+                    "surface-dim": "#131313",
+                    "error-container": "#93000a",
+                    "error": "#ffb4ab",
+                    "inverse-on-surface": "#313030",
+                    "violet-deep": "#8a2be2",
+                    "on-surface-variant": "#c1c7d0",
+                    "on-primary-container": "#1a5683",
+                    "inverse-surface": "#e5e2e1",
+                    "on-tertiary": "#551353",
+                    "surface-deep": "#0e0e0e",
+                    "on-secondary-fixed-variant": "#005140"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "base": "8px",
+                    "container-max": "1440px",
+                    "gutter": "24px",
+                    "margin-desktop": "64px",
+                    "sidebar-width": "256px"
+            },
+            "fontFamily": {
+                    "technical-data": ["Orbitron"],
+                    "label-caps": ["Orbitron"],
+                    "display-xl": ["Audiowide"],
+                    "headline-lg-mobile": ["Audiowide"],
+                    "body-md": ["Orbitron"],
+                    "headline-lg": ["Audiowide"]
+            },
+            "fontSize": {
+                    "technical-data": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                    "label-caps": ["12px", {"lineHeight": "1", "fontWeight": "700"}],
+                    "display-xl": ["48px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.3", "letterSpacing": "0.02em", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .glass-panel {
+            background: rgba(19, 19, 19, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(65, 71, 79, 0.5);
+        }
+
+        .magenta-glow {
+            box-shadow: 0 0 15px rgba(255, 77, 250, 0.3);
+        }
+
+        .aqua-glow {
+            box-shadow: 0 0 15px rgba(21, 255, 209, 0.3);
+        }
+
+        .bracket-frame::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 10px; height: 10px;
+            border-top: 2px solid #17ffd1;
+            border-left: 2px solid #17ffd1;
+        }
+
+        .bracket-frame::after {
+            content: '';
+            position: absolute;
+            bottom: 0; right: 0;
+            width: 10px; height: 10px;
+            border-bottom: 2px solid #ff4dfa;
+            border-right: 2px solid #ff4dfa;
+        }
+
+        .visualizer-overlay {
+            background: radial-gradient(circle, transparent 30%, rgba(14, 14, 14, 0.8) 100%);
+        }
+
+        .frequency-bar {
+            transition: height 0.1s ease-in-out;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(0.95); opacity: 0.5; }
+        }
+
+        .pulse-ring-anim {
+            animation: pulse-ring 4s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-surface-deep text-on-surface selection:bg-primary/30 min-h-screen font-body-md selection:text-primary overflow-hidden">
+<!-- TopNavBar -->
+<header class="w-full top-0 sticky bg-surface/70 dark:bg-surface/70 backdrop-blur-xl border-b border-outline-variant shadow-[0_0_15px_rgba(152,203,255,0.1)] z-50 flex justify-between items-center px-margin-desktop py-base w-full">
+<div class="flex items-center gap-base">
+<span class="font-display-xl text-headline-lg text-primary tracking-widest uppercase">MagnopVS Quantvm Matrix</span>
+</div>
+<div class="flex-1 max-w-md mx-gutter">
+<div class="relative flex items-center group">
+<span class="material-symbols-outlined absolute left-3 text-outline group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full bg-surface-deep border border-outline-variant px-10 py-2 font-technical-data text-technical-data rounded-none focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="QUERY QUANTUM DATABASE..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-gutter">
+<button class="hover:text-primary hover:bg-surface-bright/50 transition-all p-2 rounded-lg group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">settings</span>
+</button>
+<button class="hover:text-primary hover:bg-surface-bright/50 transition-all p-2 rounded-lg group relative">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-magenta-flare rounded-full animate-pulse"></span>
+</button>
+<button class="hover:text-primary hover:bg-surface-bright/50 transition-all p-2 rounded-lg group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">account_circle</span>
+</button>
+</div>
+</header>
+<div class="flex h-[calc(100vh-64px)]">
+<!-- SideNavBar -->
+<aside class="w-sidebar-width h-full bg-surface-deep dark:bg-surface-deep backdrop-blur-xl border-r border-outline-variant flex flex-col py-gutter px-base z-40">
+<div class="mb-gutter px-2">
+<div class="font-display-xl text-primary text-lg">QUANTVM MATRIX</div>
+<div class="font-technical-data text-[10px] text-secondary-fixed/70 tracking-[0.3em]">TELEMTRY ACTIVE</div>
+</div>
+<nav class="flex-1 space-y-2">
+<!-- Soul Archive -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant opacity-70 hover:bg-surface-container-high hover:text-secondary-fixed transition-all group duration-300" href="#">
+<span class="material-symbols-outlined">folder_managed</span>
+<span class="font-technical-data text-technical-data">Soul Archive</span>
+</a>
+<!-- Codex Vivo -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant opacity-70 hover:bg-surface-container-high hover:text-secondary-fixed transition-all group duration-300" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-technical-data text-technical-data">Codex Vivo</span>
+</a>
+<!-- Resonance Hub -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant opacity-70 hover:bg-surface-container-high hover:text-secondary-fixed transition-all group duration-300" href="#">
+<span class="material-symbols-outlined">movie</span>
+<span class="font-technical-data text-technical-data">Resonance Hub</span>
+</a>
+<!-- Frequency Stream (ACTIVE) -->
+<a class="flex items-center gap-3 px-4 py-3 text-primary border-l-2 border-primary bg-primary/10 shadow-[0_0_10px_rgba(21,255,209,0.2)] group duration-300" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">audiotrack</span>
+<span class="font-technical-data text-technical-data">Frequency Stream</span>
+</a>
+<!-- Uplink Center -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant opacity-70 hover:bg-surface-container-high hover:text-secondary-fixed transition-all group duration-300" href="#">
+<span class="material-symbols-outlined">cloud_download</span>
+<span class="font-technical-data text-technical-data">Uplink Center</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-outline-variant pt-gutter space-y-2">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant opacity-70 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">terminal</span>
+<span class="font-technical-data text-[12px]">System Log</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant opacity-70 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">dns</span>
+<span class="font-technical-data text-[12px]">Terminal</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Left Panel: Aetheric Playlist -->
+<section class="w-80 glass-panel border-r-0 h-full flex flex-col">
+<div class="p-gutter border-b border-outline-variant">
+<h2 class="font-headline-lg text-primary text-xl uppercase tracking-tighter">Aetheric Stream</h2>
+<p class="font-technical-data text-[10px] text-on-surface-variant mt-1">SAGA OST // 528HZ ALIGNMENT</p>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-2 space-y-1">
+<!-- Playlist Items -->
+<div class="group flex items-center gap-3 p-3 bg-surface-container/30 hover:bg-primary/5 border border-transparent hover:border-primary/20 transition-all cursor-pointer">
+<div class="w-10 h-10 bg-surface-deep flex items-center justify-center border border-outline-variant relative">
+<span class="material-symbols-outlined text-magenta-flare text-sm">play_arrow</span>
+<div class="absolute inset-0 bg-magenta-flare/10 animate-pulse"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="font-technical-data text-sm text-primary truncate">Chronos Breach</div>
+<div class="font-technical-data text-[10px] text-on-surface-variant">MagnopVS Saga Part I</div>
+</div>
+<div class="font-technical-data text-[10px] text-secondary-fixed">04:22</div>
+</div>
+<div class="group flex items-center gap-3 p-3 hover:bg-surface-container-high transition-all cursor-pointer">
+<div class="w-10 h-10 bg-surface-deep flex items-center justify-center border border-outline-variant group-hover:border-aquamarine-neon transition-colors">
+<span class="material-symbols-outlined text-outline group-hover:text-aquamarine-neon text-sm">audiotrack</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="font-technical-data text-sm text-on-surface truncate">Gamma Wave Alignment</div>
+<div class="font-technical-data text-[10px] text-on-surface-variant">Theta Protocol</div>
+</div>
+<div class="font-technical-data text-[10px] text-outline">08:00</div>
+</div>
+<div class="group flex items-center gap-3 p-3 hover:bg-surface-container-high transition-all cursor-pointer">
+<div class="w-10 h-10 bg-surface-deep flex items-center justify-center border border-outline-variant group-hover:border-aquamarine-neon transition-colors">
+<span class="material-symbols-outlined text-outline group-hover:text-aquamarine-neon text-sm">audiotrack</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="font-technical-data text-sm text-on-surface truncate">Neural Void</div>
+<div class="font-technical-data text-[10px] text-on-surface-variant">Archive_00.99</div>
+</div>
+<div class="font-technical-data text-[10px] text-outline">03:45</div>
+</div>
+<!-- Repeated for visual density -->
+<div class="group flex items-center gap-3 p-3 hover:bg-surface-container-high transition-all cursor-pointer">
+<div class="w-10 h-10 bg-surface-deep flex items-center justify-center border border-outline-variant group-hover:border-aquamarine-neon transition-colors">
+<span class="material-symbols-outlined text-outline group-hover:text-aquamarine-neon text-sm">audiotrack</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="font-technical-data text-sm text-on-surface truncate">Ethereal Gate</div>
+<div class="font-technical-data text-[10px] text-on-surface-variant">Quantum Echoes</div>
+</div>
+<div class="font-technical-data text-[10px] text-outline">05:15</div>
+</div>
+</div>
+<!-- Now Playing Mini -->
+<div class="p-base bg-surface-container-highest/20 border-t border-outline-variant">
+<div class="flex items-center justify-between mb-2 px-2">
+<span class="font-technical-data text-[9px] text-secondary-fixed">SIGNAL: STABLE</span>
+<span class="font-technical-data text-[9px] text-magenta-flare animate-pulse">RECORDING ACTIVE</span>
+</div>
+<div class="h-1 bg-surface-deep w-full relative overflow-hidden">
+<div class="absolute left-0 top-0 h-full bg-gradient-to-r from-aquamarine-neon to-magenta-flare w-2/3 shadow-[0_0_8px_rgba(21,255,209,0.5)]"></div>
+</div>
+</div>
+</section>
+<!-- Center Content: 3D Soundscape Visualizer -->
+<section class="flex-1 relative flex flex-col bg-surface-deep p-gutter">
+<!-- Visualizer Container -->
+<div class="flex-1 relative glass-panel border border-outline-variant flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none"></div>
+<!-- Main Image (Visualizer) -->
+<div class="relative w-full h-full flex items-center justify-center">
+<img class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-screen pulse-ring-anim" src="https://lh3.googleusercontent.com/aida/AP1WRLt_ZEHGmB2Waryyq8wHErKErpdvDjqDj-oiAaI1nyO5mtVF_lFAWf6aOreyXf97-T75dlO5u9Wj6yI8zfboSSlNXTiN7pX1b-gq_h0ZfDCB9UQr_KXrd0uxYKdqfCE9v4P7suqP7Ta7CuUwoxANhw8rxzeSbPrCI8X3INIwOrdyVnjXer1VO31b3YzxliOUESGOq4cVVvJWCLIgdc2-QbjrnGKljlsQbT6a0W4OzMm2WY-VCDjjqUqinxA"/>
+<div class="visualizer-overlay absolute inset-0"></div>
+<!-- Oscillating Energy Rings Overlay (CSS) -->
+<div class="relative w-96 h-96 border border-aquamarine-neon/30 rounded-full flex items-center justify-center animate-[spin_10s_linear_infinite]">
+<div class="absolute w-80 h-80 border border-magenta-flare/30 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
+<div class="absolute w-64 h-64 border-2 border-primary/20 rounded-full pulse-ring-anim"></div>
+<!-- Central Core -->
+<div class="w-48 h-48 rounded-full glass-panel flex items-center justify-center relative z-10 aqua-glow">
+<div class="text-center">
+<div class="font-headline-lg text-primary text-2xl">432<span class="text-xs">HZ</span></div>
+<div class="font-technical-data text-[10px] text-secondary-fixed tracking-widest mt-1">STABLE</div>
+</div>
+</div>
+</div>
+<!-- Data HUD Overlays -->
+<div class="absolute top-8 left-8 space-y-4">
+<div class="bracket-frame p-4 bg-surface-deep/50 backdrop-blur-md">
+<div class="font-technical-data text-[10px] text-outline">CORE FREQUENCY</div>
+<div class="font-technical-data text-lg text-primary">AETHER_CORE_01</div>
+</div>
+<div class="bracket-frame p-4 bg-surface-deep/50 backdrop-blur-md">
+<div class="font-technical-data text-[10px] text-outline">BITRATE STREAM</div>
+<div class="font-technical-data text-sm text-secondary-fixed">9,216 KBPS / lossless</div>
+</div>
+</div>
+<div class="absolute bottom-8 right-8 flex gap-2">
+<!-- Oscilloscope Placeholder -->
+<div class="flex items-end gap-1 h-12">
+<div class="frequency-bar w-1 bg-aquamarine-neon h-4 animate-[bounce_1s_infinite]"></div>
+<div class="frequency-bar w-1 bg-aquamarine-neon h-8 animate-[bounce_1.2s_infinite]"></div>
+<div class="frequency-bar w-1 bg-magenta-flare h-10 animate-[bounce_0.8s_infinite]"></div>
+<div class="frequency-bar w-1 bg-aquamarine-neon h-6 animate-[bounce_1.4s_infinite]"></div>
+<div class="frequency-bar w-1 bg-aquamarine-neon h-3 animate-[bounce_1.1s_infinite]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Player Controls (Tactical HUD Style) -->
+<div class="h-24 mt-gutter glass-panel flex items-center justify-between px-gutter relative border-primary/30">
+<div class="flex items-center gap-base">
+<button class="hover:bg-primary/10 p-2 border border-outline-variant text-outline hover:text-primary transition-all">
+<span class="material-symbols-outlined">shuffle</span>
+</button>
+<button class="hover:bg-primary/10 p-2 border border-outline-variant text-outline hover:text-primary transition-all">
+<span class="material-symbols-outlined">skip_previous</span>
+</button>
+<button class="w-12 h-12 bg-primary text-on-primary flex items-center justify-center hover:scale-95 transition-transform aqua-glow">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">pause</span>
+</button>
+<button class="hover:bg-primary/10 p-2 border border-outline-variant text-outline hover:text-primary transition-all">
+<span class="material-symbols-outlined">skip_next</span>
+</button>
+<button class="hover:bg-primary/10 p-2 border border-outline-variant text-outline hover:text-primary transition-all">
+<span class="material-symbols-outlined">repeat</span>
+</button>
+</div>
+<div class="flex-1 mx-gutter space-y-2">
+<div class="flex justify-between font-technical-data text-[10px] text-on-surface-variant">
+<span>01:45</span>
+<span class="text-primary font-bold">CHRONOS BREACH // REPLAYING</span>
+<span>04:22</span>
+</div>
+<div class="h-1 bg-surface-container w-full relative">
+<div class="absolute left-0 h-full bg-primary w-2/5 aqua-glow"></div>
+<div class="absolute left-[40%] top-1/2 -translate-y-1/2 w-3 h-3 bg-pearl-white rotate-45 border-2 border-primary"></div>
+</div>
+</div>
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-outline">volume_up</span>
+<div class="w-24 h-1 bg-surface-container relative">
+<div class="absolute left-0 h-full bg-outline w-3/4"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Panel: Controls -->
+<section class="w-72 glass-panel border-l-0 h-full p-gutter flex flex-col gap-gutter">
+<div>
+<h3 class="font-technical-data text-xs text-secondary-fixed tracking-widest uppercase mb-4 flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed animate-pulse"></span>
+                        Neural Sync Tuning
+                    </h3>
+<div class="space-y-6">
+<!-- Control 1 -->
+<div>
+<div class="flex justify-between font-technical-data text-[11px] mb-2">
+<span class="text-on-surface-variant">SYNAPTIC GAIN</span>
+<span class="text-primary">+4.2db</span>
+</div>
+<input class="w-full h-1 bg-surface-deep appearance-none cursor-pointer accent-primary border border-outline-variant" type="range"/>
+</div>
+<!-- Control 2 -->
+<div>
+<div class="flex justify-between font-technical-data text-[11px] mb-2">
+<span class="text-on-surface-variant">ATMOSPHERIC DAMP</span>
+<span class="text-magenta-flare">12%</span>
+</div>
+<input class="w-full h-1 bg-surface-deep appearance-none cursor-pointer accent-magenta-flare border border-outline-variant" type="range"/>
+</div>
+</div>
+</div>
+<div class="pt-gutter border-t border-outline-variant">
+<h3 class="font-technical-data text-xs text-magenta-flare tracking-widest uppercase mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">vibration</span>
+                         Bass Resonance
+                    </h3>
+<div class="grid grid-cols-2 gap-base">
+<button class="glass-panel border-aquamarine-neon/20 p-4 text-center hover:bg-aquamarine-neon/10 transition-all group">
+<div class="font-technical-data text-[10px] text-outline group-hover:text-primary">SUB-BASS</div>
+<div class="font-display-xl text-lg text-primary mt-1">ON</div>
+</button>
+<button class="glass-panel border-outline-variant p-4 text-center hover:bg-surface-container transition-all group">
+<div class="font-technical-data text-[10px] text-outline group-hover:text-magenta-flare">THUMP</div>
+<div class="font-display-xl text-lg text-on-surface mt-1">OFF</div>
+</button>
+</div>
+<div class="mt-gutter">
+<div class="p-3 bg-surface-deep border border-magenta-flare/30 magenta-glow">
+<div class="font-technical-data text-[10px] text-magenta-flare mb-1">RESONANCE PEAK</div>
+<div class="flex items-end gap-1 h-12 px-1">
+<div class="bg-magenta-flare/50 w-full h-full"></div>
+<div class="bg-magenta-flare/50 w-full h-[60%]"></div>
+<div class="bg-magenta-flare/50 w-full h-[80%]"></div>
+<div class="bg-magenta-flare/50 w-full h-[40%]"></div>
+<div class="bg-magenta-flare/50 w-full h-[90%]"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-auto bg-primary/5 p-4 border border-primary/20">
+<div class="font-technical-data text-[9px] text-primary mb-2">SYSTEM TELEMETRY</div>
+<div class="space-y-1">
+<div class="flex justify-between text-[8px] font-technical-data">
+<span class="text-outline">CPU LOAD</span>
+<span class="text-secondary-fixed">0.14%</span>
+</div>
+<div class="flex justify-between text-[8px] font-technical-data">
+<span class="text-outline">LATENCY</span>
+<span class="text-secondary-fixed">0.8ms</span>
+</div>
+<div class="flex justify-between text-[8px] font-technical-data">
+<span class="text-outline">SYNC STATE</span>
+<span class="text-secondary-fixed uppercase">Perfect</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- Script for interaction simulation -->
+<script>
+        // Placeholder for future interactivity like frequency bar randomization
+        setInterval(() => {
+            const bars = document.querySelectorAll('.frequency-bar');
+            bars.forEach(bar => {
+                const randomHeight = Math.floor(Math.random() * 40) + 10;
+                bar.style.height = `${randomHeight}px`;
+            });
+        }, 150);
+    </script>
+</body></html>

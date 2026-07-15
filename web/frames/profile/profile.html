@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS Dossier | KAEL-UMBRA</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&amp;family=Hanken+Grotesk:wght@400;500;700&amp;family=Space+Mono&amp;family=Audiowide&amp;family=Orbitron:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#ca00ca",
+                    "surface-bright": "#393939",
+                    "on-tertiary-fixed-variant": "#810081",
+                    "tertiary": "#ffabf3",
+                    "on-surface": "#e4e2e2",
+                    "outline-variant": "#424656",
+                    "inverse-primary": "#0054d6",
+                    "secondary-fixed": "#efdbff",
+                    "surface-tint": "#b3c5ff",
+                    "error-container": "#93000a",
+                    "on-primary-fixed": "#001849",
+                    "background": "#050505",
+                    "surface": "#131314",
+                    "surface-dim": "#131314",
+                    "inverse-surface": "#e4e2e2",
+                    "surface-container-lowest": "#0e0e0e",
+                    "primary-fixed": "#dae1ff",
+                    "secondary-container": "#7701d0",
+                    "surface-variant": "#343535",
+                    "surface-container-low": "#1b1c1c",
+                    "surface-container-highest": "#343535",
+                    "primary": "#b3c5ff",
+                    "on-secondary-fixed": "#2c0051",
+                    "on-tertiary-fixed": "#380038",
+                    "on-surface-variant": "#c2c6d8",
+                    "on-primary-container": "#f8f7ff",
+                    "on-error-container": "#ffdad6",
+                    "on-background": "#e4e2e2",
+                    "outline": "#8c90a1",
+                    "tertiary-fixed": "#ffd7f5",
+                    "on-secondary-container": "#dcb7ff",
+                    "on-primary": "#002b75",
+                    "surface-container": "#1f2020",
+                    "on-primary-fixed-variant": "#003fa4",
+                    "inverse-on-surface": "#303030",
+                    "surface-container-high": "#2a2a2a",
+                    "tertiary-fixed-dim": "#ffabf3",
+                    "on-tertiary-container": "#fff6f9",
+                    "primary-container": "#0066ff",
+                    "on-secondary-fixed-variant": "#6700b5",
+                    "on-error": "#690005",
+                    "error": "#ffb4ab",
+                    "secondary-fixed-dim": "#dcb8ff",
+                    "secondary": "#dcb8ff",
+                    "on-tertiary": "#5b005b",
+                    "primary-fixed-dim": "#b3c5ff",
+                    "on-secondary": "#480081"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "gutter": "16px",
+                    "container-max": "640px",
+                    "node-gap": "24px"
+            },
+            "fontFamily": {
+                    "body-md": ["hankenGrotesk"],
+                    "code-sm": ["spaceMono"],
+                    "display-xl-mobile": ["sora"],
+                    "headline-lg": ["sora"],
+                    "display-xl": ["sora"],
+                    "audiowide": ["Audiowide", "cursive"],
+                    "orbitron": ["Orbitron", "sans-serif"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                    "code-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "400"}],
+                    "display-xl-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "display-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #050505;
+            background-image: radial-gradient(circle at 50% 50%, rgba(0, 102, 255, 0.05) 0%, transparent 80%),
+                              linear-gradient(rgba(18, 18, 20, 0.8) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(18, 18, 20, 0.8) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            overflow-x: hidden;
+        }
+
+        .glitch-effect:active {
+            animation: glitch 0.1s linear infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .scanning-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(179, 197, 255, 0.3);
+            box-shadow: 0 0 10px rgba(179, 197, 255, 0.5);
+            animation: scan 4s linear infinite;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { top: -2%; }
+            100% { top: 102%; }
+        }
+
+        .energy-pulse {
+            animation: energyPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes energyPulse {
+            0%, 100% { opacity: 0.4; box-shadow: 0 0 15px rgba(0, 102, 255, 0.2); }
+            50% { opacity: 0.8; box-shadow: 0 0 30px rgba(202, 0, 202, 0.4); }
+        }
+
+        .matrix-bg {
+            mask-image: linear-gradient(to bottom, transparent, black, transparent);
+            opacity: 0.03;
+        }
+
+        .hero-crest-container:hover .rotating-ring {
+            animation-play-state: running;
+        }
+
+        .rotating-ring {
+            animation: rotateRing 10s linear infinite;
+            animation-play-state: paused;
+        }
+
+        @keyframes rotateRing {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- Top Navigation Anchor -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-gutter h-16 bg-surface/10 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_20px_rgba(179,197,255,0.2)]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">terminal</span>
+<h1 class="font-sora font-extrabold text-primary tracking-tighter text-headline-lg-mobile md:text-headline-lg">MagnopVS_Dossier</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-tertiary transition-colors duration-300">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-tertiary transition-colors duration-300">settings</button>
+</div>
+</header>
+<!-- Scan Line Effect -->
+<div class="scanning-line"></div>
+<main class="pt-24 pb-32 max-w-[640px] mx-auto px-6 relative">
+<!-- Central Node: Holographic Avatar -->
+<section class="relative flex flex-col items-center mb-12">
+<div class="relative w-72 h-72 md:w-80 md:h-80 mb-6">
+<!-- Avatar Frame -->
+<div class="absolute inset-0 rounded-full border border-primary/30 energy-pulse"></div>
+<div class="absolute inset-2 rounded-full border border-tertiary-container/20"></div>
+<!-- Avatar Image -->
+<div class="w-full h-full rounded-full overflow-hidden border-4 border-surface shadow-[0_0_40px_rgba(0,102,255,0.3)] bg-surface-container-low">
+<img class="w-full h-full object-cover grayscale-[0.2] contrast-125" data-alt="A cinematic, high-fidelity holographic portrait of a futuristic operator named KAEL-UMBRA. The operator wears a sleek, minimalist black matte tech-suit with integrated fiber-optic channels glowing in intense violet and cyan. They have a translucent tactical visor showing data streams. The background is a dark, immersive command center with floating wireframe geometric shapes and a faint hexagonal energy grid. Cinematic lighting highlights the edges of the suit with neon energy pulses." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0crBkavgKAaBQf-Iy2dFH1vdqbPqtUNnt9DkT42A8YRxt9umdaqIAP9zIqm9NYwfMgD21DCCdLOz_dBQVQd2nncD9h2UunWoWoJuA67rMyeeW4pVpfY_dmdcdhOo3bHJXfuzJMhiMWGgvz00j8Ayyu3imxaqrBK7L-ATHkp3LI1LmlUcmDXKYWvsHaqfvgezWb1bCoHrEMmttaRtpPJ6J_mZGOP6mVauVJqTgS7WKLW0EB8SkgHoPbhqPKSlDrSnbPjioVURgrtIx"/>
+</div>
+<!-- Level Badge -->
+<div class="absolute bottom-4 -right-2 bg-primary-container text-on-primary-container font-orbitron font-bold px-4 py-1 rounded-full shadow-[0_0_15px_rgba(0,102,255,0.5)] border border-primary">
+                    LVL 34
+                </div>
+</div>
+<div class="text-center">
+<h2 class="font-audiowide text-display-xl-mobile md:text-display-xl text-primary tracking-widest uppercase mb-1">KAEL-UMBRA</h2>
+<div class="inline-block px-3 py-1 bg-surface-variant/30 border border-primary/20 rounded font-code-sm text-tertiary">
+                    [ STATUS: ELITE VOYAGER ]
+                </div>
+</div>
+</section>
+<!-- Stats Grid Node -->
+<section class="grid grid-cols-3 gap-4 mb-node-gap">
+<div class="bg-surface-container-low/30 backdrop-blur-md border border-primary/20 rounded-xl p-4 flex flex-col items-center justify-center text-center">
+<span class="text-on-surface-variant font-orbitron text-xs uppercase mb-1">Missions</span>
+<span class="font-audiowide text-xl text-primary">1,429</span>
+</div>
+<div class="bg-surface-container-low/30 backdrop-blur-md border border-primary/20 rounded-xl p-4 flex flex-col items-center justify-center text-center">
+<span class="text-on-surface-variant font-orbitron text-xs uppercase mb-1">K/D Ratio</span>
+<span class="font-audiowide text-xl text-tertiary">4.82</span>
+</div>
+<div class="bg-surface-container-low/30 backdrop-blur-md border border-primary/20 rounded-xl p-4 flex flex-col items-center justify-center text-center">
+<span class="text-on-surface-variant font-orbitron text-xs uppercase mb-1">Global</span>
+<span class="font-audiowide text-xl text-primary-fixed">TOP 1%</span>
+</div>
+</section>
+<!-- Achievement Showcase: Hero Crests -->
+<section class="mb-node-gap">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-orbitron text-sm font-bold tracking-widest text-primary/70 uppercase">Hero Crests</h3>
+<span class="font-code-sm text-on-surface-variant">6 / 128</span>
+</div>
+<div class="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+<!-- Crest 1 -->
+<div class="hero-crest-container flex-shrink-0 group cursor-pointer">
+<div class="relative w-20 h-20 flex items-center justify-center">
+<div class="rotating-ring absolute inset-0 border-2 border-dashed border-primary/40 rounded-full"></div>
+<div class="w-14 h-14 bg-surface-container border border-primary/40 rounded-lg flex items-center justify-center group-hover:bg-primary-container/20 transition-all">
+<img class="w-10 h-10 object-contain" data-alt="A glowing blue and violet geometric fractal emblem representing a Quantum Pioneer. The design is abstract, using interconnected neon lines that form a complex star-like shape inside a circular energy field. The aesthetic is cyber-mystic, high contrast, and perfectly centered on a deep black background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDI67EHsDkZ24wS1nd1J37sJ60_rSdanhgvq9wpKD4eQ3G1wDTf0H-2RYIMdnOzWS8wH3PnmoTcxSq2XBrcYaJpnmuO0KJp_zJ-aig9lGL6QqFSxQjHJusw5Ipkk8aF1_CBEE9Tl69MbxINad6C0RF4kBj2HcLg78KlLvUaGQC_QhVpdsolX6qGYMoNEnTQRSgxaBl6cOomZClTMQrIU0wnnzUvuz4sKCxIQq9Z5GEFuB6LzqnKg4S3bXmXxCQ_lxXQPKNqoFl66eZZ"/>
+</div>
+</div>
+</div>
+<!-- Crest 2 -->
+<div class="hero-crest-container flex-shrink-0 group cursor-pointer">
+<div class="relative w-20 h-20 flex items-center justify-center">
+<div class="rotating-ring absolute inset-0 border-2 border-dashed border-tertiary/40 rounded-full" style="animation-direction: reverse;"></div>
+<div class="w-14 h-14 bg-surface-container border border-tertiary/40 rounded-lg flex items-center justify-center group-hover:bg-tertiary-container/20 transition-all">
+<img class="w-10 h-10 object-contain" data-alt="A high-prestige digital badge for a System Breaker. The emblem features a glowing neon magenta skull integrated with circuit board patterns. It is surrounded by a violet energy ring that crackles with electricity. The visual style is dark tech-wear aesthetic, glowing against a black backdrop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmnjkN-4EWw9W57ldhvc0JLq_wAP7Ud31Zm6shVwvVgMslZUnWNSFPqWcWXh8YJ5t-xlyHPob1uvzl_TXEkxDeCAS4401PITbeucYcph90p4GPaOgnbv5UFM9GLeHmHZx_dTHhaVsTgzNksXNQC7B0Gpf1id5eOCEXYqbwALnA28vTzSl01LN5L0XSpT_XOCewBlJ_rc70GaO9Jp8nbkoXebyX7pMEBqqtexpaKT3TKlS0B_mzJyVCD6OKq5STS6FGmaWiUrdKKz0K"/>
+</div>
+</div>
+</div>
+<!-- Crest 3 -->
+<div class="hero-crest-container flex-shrink-0 group cursor-pointer">
+<div class="relative w-20 h-20 flex items-center justify-center">
+<div class="rotating-ring absolute inset-0 border-2 border-dashed border-primary-fixed/40 rounded-full"></div>
+<div class="w-14 h-14 bg-surface-container border border-primary-fixed/40 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition-all">
+<img class="w-10 h-10 object-contain" data-alt="An ethereal digital achievement icon. A glowing brain silhouette with synapses firing in cyan and pink light. The icon is framed by a hexagonal tech-seal with runic digital glyphs around the edge. Cyber-mystic visual style with holographic depth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAa7_nDl77ufvNvxbvG33doNd7fgEsWDU4pgynKN4rWuydI2XLwLYLwo_DfBNpWVx1xVYpuDGr_f0DNephvHfZsupUkYpC3l_bTgG7l2JbGct1zaSZnjbusgkx0z_CNf_drrM8C9nE0KtcxBHEDn7Uqn6VQCv6LUfTmcnB_TDnVFwH9K7GXxV7ytSW6-0H8Ry0U86D7i5dN3yWCnoHrUVjNNMpnHVoT2JfZCMlZsqvKctMqnSpGxddNx2qxSHqsYZXKRVKGKszfeBpq"/>
+</div>
+</div>
+</div>
+<!-- More... -->
+<div class="w-20 h-20 flex-shrink-0 flex items-center justify-center border border-surface-variant rounded-full border-dashed">
+<span class="material-symbols-outlined text-surface-variant">add</span>
+</div>
+</div>
+</section>
+<!-- Relic Gallery Node -->
+<section class="mb-node-gap">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-orbitron text-sm font-bold tracking-widest text-primary/70 uppercase">Equipped Relics</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Relic 1 -->
+<div class="group bg-surface-container-lowest/50 backdrop-blur-sm border border-primary/10 hover:border-primary/50 rounded-xl p-3 transition-all duration-300 relative overflow-hidden">
+<div class="aspect-square bg-surface rounded-lg mb-3 flex items-center justify-center overflow-hidden border border-primary/5">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A 3D render of a futuristic 'Umbral Blade'. The sword has a crystalline, semi-transparent blade glowing with internal violet fire. The hilt is black obsidian with glowing cyan runes. The weapon is suspended in a dark, atmospheric void with faint digital particles drifting around it. High-end gaming asset quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrmNs5DxuicQWM-ESXuFaou8nM6VkyfNAV_6IJwpUNqyum8_LX-3sZJhAixxe4MXC2ohvjVsXV3lerjohQ6f314VQqcOFplo2we5KdyNjOQaV3yUznlHiqGbrMvZ-v1jyIyU_27OEYHzMlBQhBkvoq0fXKcwqNoQZ3u5M9YVXxaSW1P30c2zo2WoxA24SjOZSE_JVemXb47a4ML8tav6NfPsYkCrW8n76vEA_aj19nxDqVRI6I2imZopnI56Pee4DBVLKa-8MECyYp"/>
+</div>
+<div class="flex flex-col">
+<span class="font-orbitron text-[10px] text-tertiary uppercase font-bold">SSS-RANK</span>
+<span class="font-body-md text-sm font-bold text-on-surface truncate">Umbral Blade</span>
+</div>
+<div class="absolute top-2 right-2 text-[10px] font-code-sm text-primary/40">[ EQUIPPED ]</div>
+</div>
+<!-- Relic 2 -->
+<div class="group bg-surface-container-lowest/50 backdrop-blur-sm border border-primary/10 hover:border-primary/50 rounded-xl p-3 transition-all duration-300 relative overflow-hidden">
+<div class="aspect-square bg-surface rounded-lg mb-3 flex items-center justify-center overflow-hidden border border-primary/5">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A detailed 3D render of a 'Chronos Shard'. A jagged, floating crystal of pure energy that refracts cyan and magenta light. Tiny mechanical rings orbit the crystal, rotating slowly. It is encased in a glass-like containment field with holographic data readouts floating around the base. Cyber-mystic tech aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDReaNLV12ZZEiZauXKITLplLue3MgT_y38Zx9diL7wkUoQaSTL3ue93xakNsqca9_FHIsYOImLxuS5g1RE127FXCOp___UjF78OwIEGjw2x_QpDh2qo-Bj2F5vLmv258K54VsCZEQnLe3D4Q0zeb7jPe1p80IznQKF4FUf-HCB1kfxNLzQtBpl9x4YrMEn5__oWXvQbYhNTPPKZX1i9ho_jM56Jl9RfRt5Ivwguo7MToOG2tH44whUh1ygcAAaveejQe0Z3njPwriZ"/>
+</div>
+<div class="flex flex-col">
+<span class="font-orbitron text-[10px] text-primary uppercase font-bold">LEGENDARY</span>
+<span class="font-body-md text-sm font-bold text-on-surface truncate">Chronos Shard</span>
+</div>
+</div>
+<!-- Relic 3 -->
+<div class="group bg-surface-container-lowest/50 backdrop-blur-sm border border-primary/10 hover:border-primary/50 rounded-xl p-3 transition-all duration-300 relative overflow-hidden">
+<div class="aspect-square bg-surface rounded-lg mb-3 flex items-center justify-center overflow-hidden border border-primary/5">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A futuristic 'Void Harness' exo-armor component. The piece features sleek black plating with glowing fiber-optic energy channels in deep violet. The harness glows with a soft ambient light, suggesting hidden power. Floating in a dark tactical environment with high-contrast cinematic lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJASD5aOytPwtrJ4Fo8P42ANMD8Yno11glDJeV9nrybB_MWGjaYb0fjRr0KsJcTxC0_rXJpaHM8tFkMuhwRgSS39KbtATo45BMN6yQl3OMNszujulSUrGk7bs1mxPZL14VwKaQkgIKvgsr8tWGtxqWj4D3OyoHuxL28-Iu9H5TSbRD_ENeDdsO5GHJG5gx_epHfcpx5ePibM3FDJevbxf1145PLZcQJEVq76TWVg8tawaD_Nwfyc_TwOSPWXjpStjoc_57UxH2aNcJ"/>
+</div>
+<div class="flex flex-col">
+<span class="font-orbitron text-[10px] text-primary-fixed uppercase font-bold">ELITE</span>
+<span class="font-body-md text-sm font-bold text-on-surface truncate">Void Harness</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Social Actions -->
+<section class="flex flex-col gap-4 mt-8">
+<button class="w-full h-14 bg-primary-container/20 border border-primary text-primary font-audiowide tracking-widest rounded-full hover:bg-primary-container/40 transition-all glitch-effect flex items-center justify-center gap-2 group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">wifi_tethering</span>
+                SEND RESONANCE
+            </button>
+<button class="w-full h-14 bg-transparent border border-tertiary-container/60 text-tertiary font-audiowide tracking-widest rounded-full hover:bg-tertiary-container/10 transition-all glitch-effect flex items-center justify-center gap-2 group">
+<span class="material-symbols-outlined group-hover:rotate-12 transition-transform">bolt</span>
+                CHALLENGE TO RITUAL
+            </button>
+</section>
+<!-- Footer -->
+<footer class="mt-16 text-center">
+<div class="h-px w-full bg-gradient-to-r from-transparent via-primary/20 to-transparent mb-6"></div>
+<p class="font-code-sm text-on-surface-variant/50 text-[10px] uppercase tracking-[0.2em] mb-2">
+                All data streams are encrypted by quantum entanglement protocols.
+            </p>
+<p class="font-orbitron font-bold text-primary/30 text-xs tracking-[0.4em]">
+                SYSTEM_SECURED_BY_MAGNOPVS
+            </p>
+</footer>
+</main>
+<!-- Bottom Navigation Shell -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 pb-safe px-4 bg-surface-container-low/30 backdrop-blur-md border-t border-primary/30 shadow-[0_-10px_30px_rgba(0,102,255,0.15)] rounded-t-full">
+<!-- Dossier (Active) -->
+<a class="flex flex-col items-center justify-center text-primary bg-primary-container/20 rounded-full p-unit px-4 shadow-[0_0_15px_rgba(179,197,255,0.4)]" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+<span class="font-hankenGrotesk text-[10px] font-bold uppercase tracking-tighter">Dossier</span>
+</a>
+<!-- Armory -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:bg-surface-variant/50 transition-all p-2 rounded-full" href="#">
+<span class="material-symbols-outlined">shield</span>
+<span class="font-hankenGrotesk text-[10px] uppercase tracking-tighter">Armory</span>
+</a>
+<!-- Conclave -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:bg-surface-variant/50 transition-all p-2 rounded-full" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-hankenGrotesk text-[10px] uppercase tracking-tighter">Conclave</span>
+</a>
+<!-- Relics -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:bg-surface-variant/50 transition-all p-2 rounded-full" href="#">
+<span class="material-symbols-outlined">diamond</span>
+<span class="font-hankenGrotesk text-[10px] uppercase tracking-tighter">Relics</span>
+</a>
+<!-- Ritual -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:bg-surface-variant/50 transition-all p-2 rounded-full" href="#">
+<span class="material-symbols-outlined">cyclone</span>
+<span class="font-hankenGrotesk text-[10px] uppercase tracking-tighter">Ritual</span>
+</a>
+</nav>
+<!-- Floating Atmosphere FX (Interactive Canvas) -->
+<div class="fixed inset-0 pointer-events-none z-[1]" id="particle-overlay"></div>
+<script>
+        // Micro-interaction: Mouse parallax for particles
+        const overlay = document.getElementById('particle-overlay');
+        const particleCount = 20;
+
+        for (let i = 0; i < particleCount; i++) {
+            const p = document.createElement('div');
+            p.className = 'absolute w-1 h-1 bg-primary/20 rounded-full';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.top = Math.random() * 100 + '%';
+            p.style.filter = 'blur(1px)';
+            overlay.appendChild(p);
+        }
+
+        window.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 20;
+            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+            overlay.style.transform = `translate(${x}px, ${y}px)`;
+        });
+
+        // Simulating "System Loading" flicker
+        document.querySelectorAll('h2, h3').forEach(el => {
+            setInterval(() => {
+                if (Math.random() > 0.99) {
+                    el.style.opacity = '0.5';
+                    setTimeout(() => el.style.opacity = '1', 50);
+                }
+            }, 100);
+        });
+    </script>
+</body></html>

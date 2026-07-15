@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS // SETTINGS TERMINAL</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;700&amp;family=Sora:wght@400;600;800&amp;family=Space+Mono&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --primary-blue: #b3c5ff;
+            --magenta-energy: #ca00ca;
+            --celestial-glow: rgba(179, 197, 255, 0.3);
+        }
+
+        body {
+            background-color: #050505;
+            color: #e4e2e2;
+            font-family: 'Orbitron', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .audiowide { font-family: 'Audiowide', cursive; }
+        .orbitron { font-family: 'Orbitron', sans-serif; }
+        .space-mono { font-family: 'Space Mono', monospace; }
+
+        .hex-grid {
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at center, black, transparent 80%);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(179, 197, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(179, 197, 255, 0.4), transparent);
+        }
+
+        .glitch-border {
+            position: relative;
+        }
+
+        .glitch-border::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; right: 10px;
+            width: 20px; height: 2px;
+            background: var(--magenta-energy);
+            box-shadow: 0 0 10px var(--magenta-energy);
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.1);
+            height: 4px;
+            border-radius: 2px;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 8px;
+            background: var(--primary-blue);
+            box-shadow: 0 0 15px var(--primary-blue);
+            cursor: pointer;
+            border-radius: 0;
+        }
+
+        .pulse-ring {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: .5; transform: scale(1.05); }
+        }
+
+        .light-leak {
+            position: fixed;
+            width: 60vw;
+            height: 60vh;
+            background: radial-gradient(circle, rgba(0, 102, 255, 0.05) 0%, transparent 70%);
+            top: -10%;
+            left: -10%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 10;
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(179, 197, 255, 0.02) 50%, rgba(0, 0, 0, 0) 100%);
+            opacity: 0.1;
+            position: absolute;
+            bottom: 100%;
+            animation: scanline 8s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { bottom: 100%; }
+            100% { bottom: -100%; }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-fixed-variant": "#003fa4",
+                      "outline": "#8c90a1",
+                      "tertiary-fixed-dim": "#ffabf3",
+                      "primary": "#b3c5ff",
+                      "tertiary-fixed": "#ffd7f5",
+                      "on-secondary-fixed": "#2c0051",
+                      "surface-container-highest": "#343535",
+                      "secondary-fixed-dim": "#dcb8ff",
+                      "secondary": "#dcb8ff",
+                      "error": "#ffb4ab",
+                      "on-error-container": "#ffdad6",
+                      "on-secondary-container": "#dcb7ff",
+                      "surface-container": "#1f2020",
+                      "primary-container": "#0066ff",
+                      "on-tertiary": "#5b005b",
+                      "surface-container-lowest": "#0e0e0e",
+                      "on-background": "#e4e2e2",
+                      "primary-fixed-dim": "#b3c5ff",
+                      "on-primary": "#002b75",
+                      "secondary-container": "#7701d0",
+                      "on-tertiary-fixed": "#380038",
+                      "on-surface-variant": "#c2c6d8",
+                      "inverse-surface": "#e4e2e2",
+                      "surface-container-low": "#1b1c1c",
+                      "on-secondary-fixed-variant": "#6700b5",
+                      "on-tertiary-fixed-variant": "#810081",
+                      "on-secondary": "#480081",
+                      "surface": "#131314",
+                      "surface-variant": "#343535",
+                      "primary-fixed": "#dae1ff",
+                      "on-tertiary-container": "#fff6f9",
+                      "tertiary": "#ffabf3",
+                      "surface-dim": "#131314",
+                      "surface-tint": "#b3c5ff",
+                      "surface-container-high": "#2a2a2a",
+                      "error-container": "#93000a",
+                      "background": "#131314",
+                      "outline-variant": "#424656",
+                      "on-primary-fixed": "#001849",
+                      "inverse-on-surface": "#303030",
+                      "secondary-fixed": "#efdbff",
+                      "on-error": "#690005",
+                      "tertiary-container": "#ca00ca",
+                      "surface-bright": "#393939",
+                      "on-primary-container": "#f8f7ff",
+                      "on-surface": "#e4e2e2",
+                      "inverse-primary": "#0054d6"
+              },
+              "spacing": {
+                      "node-gap": "24px",
+                      "container-max": "640px",
+                      "unit": "4px",
+                      "gutter": "16px"
+              },
+              "fontFamily": {
+                      "display-xl": ["sora"],
+                      "headline-lg": ["sora"],
+                      "code-sm": ["spaceMono"],
+                      "body-md": ["hankenGrotesk"]
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="bg-background min-h-screen">
+<div class="fixed inset-0 hex-grid pointer-events-none z-0"></div>
+<div class="light-leak"></div>
+<div class="scanline"></div>
+<!-- TopAppBar -->
+<header class="fixed top-0 z-50 w-full h-16 bg-surface-container-lowest/80 backdrop-blur-xl border-b border-primary/20 flex justify-between items-center px-gutter shadow-[0_0_20px_rgba(0,102,255,0.1)]">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">terminal</span>
+<h1 class="font-display-xl text-headline-lg tracking-tighter text-primary drop-shadow-[0_0_10px_rgba(179,197,255,0.3)] audiowide">
+                MagnopVS // SETTINGS
+            </h1>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<nav class="flex gap-6">
+<a class="text-on-surface-variant font-medium hover:text-tertiary transition-all duration-300 space-mono" href="#">SYSTEM</a>
+<a class="text-on-surface-variant font-medium hover:text-tertiary transition-all duration-300 space-mono" href="#">NETWORK</a>
+<a class="text-on-surface-variant font-medium hover:text-tertiary transition-all duration-300 space-mono" href="#">LOGS</a>
+</nav>
+<div class="h-8 w-[1px] bg-outline-variant/30"></div>
+<div class="flex items-center gap-4">
+<div class="text-right">
+<p class="text-[10px] space-mono text-primary/60 leading-none">SYNC_STATUS</p>
+<p class="text-xs orbitron font-bold text-primary">OPTIMIZED</p>
+</div>
+<div class="w-10 h-10 rounded-full border border-primary/30 p-0.5 overflow-hidden">
+<img class="w-full h-full object-cover rounded-full" data-alt="A futuristic portrait of a high-tech operator wearing cybernetic gear with glowing blue optical enhancements. The background is a dark laboratory with data streams floating in the air. High-detail cinematic lighting focuses on the intricate mechanical textures of the gear and the sharp clarity of the neural sync profile image." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPdDWFL0VlQ7E_wXG18l_Cba8aiop_mz4zJkbm9MESsqar4nOtPM4A_rGAJ4GXlLJxuzGjVUoCzorJbInIWdicdkiQvsveAu8fmMpnQEF_MPo4-ptRipTUAIfpAXhTg1U-PsU1bX1yTKPOwqzFPp8LQeKutYAqNE82s0Lo0hJqUnEOAgWpBkKwCkggjPj2LQfG8CyOnmIIPBQD4bckR7x2c6age-Qu368c1DOCY4qsHxZFJVYe4xKqD2iAcdVsPrdANpTePC4zxJ18"/>
+</div>
+</div>
+</div>
+</header>
+<div class="flex pt-16 min-h-screen">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col h-[calc(100vh-64px)] w-64 bg-surface-container/90 backdrop-blur-2xl border-r border-outline-variant/30 py-8 space-y-node-gap fixed left-0">
+<div class="px-6 mb-4">
+<p class="text-xs space-mono text-outline uppercase tracking-widest">NODE_OPERATOR</p>
+<div class="flex items-center gap-2 mt-1">
+<div class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#b3c5ff]"></div>
+<p class="text-[10px] orbitron font-bold text-on-surface">STATUS: NEURAL_SYNC_OPTIMIZED</p>
+</div>
+</div>
+<nav class="flex-1">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center gap-4 text-outline px-6 py-4 opacity-70 hover:bg-tertiary-container/10 hover:text-tertiary transition-all duration-200 orbitron text-sm uppercase" href="#">
+<span class="material-symbols-outlined">fingerprint</span>
+                            Identity
+                        </a>
+</li>
+<li>
+<a class="flex items-center gap-4 bg-primary-container/20 text-primary border-l-4 border-primary px-6 py-4 shadow-[0_0_15px_rgba(0,102,255,0.2)] orbitron text-sm uppercase" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">visibility</span>
+                            Visuals
+                        </a>
+</li>
+<li>
+<a class="flex items-center gap-4 text-outline px-6 py-4 opacity-70 hover:bg-tertiary-container/10 hover:text-tertiary transition-all duration-200 orbitron text-sm uppercase" href="#">
+<span class="material-symbols-outlined">graphic_eq</span>
+                            Audio
+                        </a>
+</li>
+<li>
+<a class="flex items-center gap-4 text-outline px-6 py-4 opacity-70 hover:bg-tertiary-container/10 hover:text-tertiary transition-all duration-200 orbitron text-sm uppercase" href="#">
+<span class="material-symbols-outlined">security</span>
+                            Security
+                        </a>
+</li>
+<li>
+<a class="flex items-center gap-4 text-outline px-6 py-4 opacity-70 hover:bg-tertiary-container/10 hover:text-tertiary transition-all duration-200 orbitron text-sm uppercase" href="#">
+<span class="material-symbols-outlined">hub</span>
+                            Quantvm Link
+                        </a>
+</li>
+</ul>
+</nav>
+<div class="px-6 space-y-4">
+<button class="w-full py-3 bg-primary-container text-on-primary-container orbitron font-bold text-xs tracking-widest hover:brightness-110 transition-all active:scale-95">
+                    INITIATE_UPLINK
+                </button>
+<div class="flex justify-between pt-4 border-t border-outline-variant/20">
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="text-outline hover:text-error transition-colors">
+<span class="material-symbols-outlined">power_settings_new</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 p-8 flex flex-col md:flex-row gap-8">
+<!-- Central Configuration -->
+<div class="flex-1 max-w-[800px] space-y-8 z-10">
+<div class="border-l-4 border-primary pl-4 py-2">
+<h2 class="audiowide text-2xl tracking-widest text-primary">VISUAL RESONANCE CALIBRATION</h2>
+<p class="orbitron text-xs text-outline mt-1">[ SECTOR_CONFIG_4492-V ]</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Holographic Intensity -->
+<div class="glass-panel p-6 glitch-border group">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">blur_on</span>
+<label class="orbitron text-sm font-bold">Holographic Intensity</label>
+</div>
+<span class="space-mono text-primary text-xs">85%</span>
+</div>
+<input class="w-full accent-primary" type="range" value="85"/>
+<div class="mt-4 flex justify-between">
+<span class="text-[10px] space-mono text-outline">MIN_RESONANCE</span>
+<span class="text-[10px] space-mono text-outline">CRITICAL_PEAK</span>
+</div>
+</div>
+<!-- Quantum Bloom -->
+<div class="glass-panel p-6 group hover:border-tertiary-container/50 transition-colors">
+<div class="flex justify-between items-center h-full">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-xl" style="font-variation-settings: 'FILL' 1;">flare</span>
+<label class="orbitron text-sm font-bold">Quantum Bloom</label>
+</div>
+<p class="text-[10px] space-mono text-outline">ATMOSPHERIC ENERGY AURA</p>
+</div>
+<div class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-14 h-7 bg-surface-container-highest rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-tertiary-container shadow-[0_0_15px_rgba(202,0,202,0.4)]"></div>
+</div>
+</div>
+</div>
+<!-- Resolution Scale -->
+<div class="glass-panel p-6 group">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary text-xl">settings_overscan</span>
+<label class="orbitron text-sm font-bold">Resolution Scale</label>
+</div>
+<div class="relative">
+<select class="w-full bg-surface-container-high border border-outline-variant/30 orbitron text-xs p-3 appearance-none focus:outline-none focus:border-primary transition-colors">
+<option>NATIVE_4K [3840x2160]</option>
+<option>ULTRA_SYNC_WIDE [5120x1440]</option>
+<option>TERMINAL_RETINA [2560x1600]</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-primary">expand_more</span>
+</div>
+<div class="mt-4 flex items-center gap-2">
+<span class="text-[9px] space-mono text-primary bg-primary/10 px-2 py-0.5">DLSS: ACTIVE</span>
+<span class="text-[9px] space-mono text-tertiary bg-tertiary/10 px-2 py-0.5">RATIO: 16:9</span>
+</div>
+</div>
+<!-- UI Opacity -->
+<div class="glass-panel p-6 glitch-border">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">opacity</span>
+<label class="orbitron text-sm font-bold">UI Opacity</label>
+</div>
+<span class="space-mono text-primary text-xs">Tactical Glass</span>
+</div>
+<input class="w-full accent-primary" type="range" value="65"/>
+<div class="mt-4 flex justify-between items-center">
+<div class="flex gap-1">
+<div class="w-1 h-3 bg-primary/20"></div>
+<div class="w-1 h-3 bg-primary/40"></div>
+<div class="w-1 h-3 bg-primary/60"></div>
+<div class="w-1 h-3 bg-primary/80"></div>
+<div class="w-1 h-3 bg-primary"></div>
+</div>
+<span class="text-[10px] space-mono text-outline">DYNAMIC_ALPHA</span>
+</div>
+</div>
+</div>
+<!-- Visual Preview Panel -->
+<div class="glass-panel h-64 w-full group relative">
+
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="absolute bottom-4 left-6">
+<p class="orbitron text-xs text-primary font-bold">LIVE_PREVIEW: CALIBRATION_STREAM</p>
+<div class="flex gap-4 mt-2">
+<div class="flex items-center gap-1">
+<div class="w-1.5 h-1.5 rounded-full bg-magenta-energy pulse-ring"></div>
+<span class="text-[9px] space-mono text-on-surface">V_NODE_A: ONLINE</span>
+</div>
+<div class="flex items-center gap-1">
+<div class="w-1.5 h-1.5 rounded-full bg-primary pulse-ring"></div>
+<span class="text-[9px] space-mono text-on-surface">SYNC_CLOCK: 0.02ms</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Sidebar: System Health -->
+<aside class="w-full md:w-80 space-y-6 z-10">
+<div class="glass-panel p-6">
+<h3 class="orbitron text-sm font-bold border-b border-outline-variant/30 pb-3 mb-6 tracking-widest text-primary">SYSTEM_HEALTH</h3>
+<!-- Neural Link Stability -->
+<div class="flex flex-col items-center mb-8">
+<div class="relative w-32 h-32 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container-highest" cx="64" cy="64" fill="transparent" r="56" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-[#00ff88] drop-shadow-[0_0_8px_#00ff88]" cx="64" cy="64" fill="transparent" r="56" stroke="currentColor" stroke-dasharray="351.85" stroke-dashoffset="0.7" stroke-width="4"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="orbitron text-xl font-bold text-on-surface">99.8%</span>
+<span class="text-[8px] space-mono text-outline">STABILITY</span>
+</div>
+<div class="absolute inset-0 border-2 border-[#00ff88]/20 rounded-full animate-ping opacity-20"></div>
+</div>
+<p class="orbitron text-[10px] mt-4 font-bold text-[#00ff88]">NEURAL LINK: SECURE</p>
+</div>
+<!-- GPU Resonance -->
+<div class="space-y-6">
+<div>
+<div class="flex justify-between mb-2">
+<span class="orbitron text-[10px] font-bold text-outline">GPU_RESONANCE</span>
+<span class="orbitron text-[10px] font-bold text-primary">74%</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest relative">
+<div class="absolute top-0 left-0 h-full bg-primary shadow-[0_0_10px_#b3c5ff]" style="width: 74%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<span class="orbitron text-[10px] font-bold text-outline">MEMORY_BUFFER</span>
+<span class="orbitron text-[10px] font-bold text-tertiary">42%</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest relative">
+<div class="absolute top-0 left-0 h-full bg-tertiary shadow-[0_0_10px_#ffabf3]" style="width: 42%"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-outline-variant/30">
+<div class="flex justify-between items-center">
+<span class="orbitron text-[10px] font-bold text-outline">V-SYNC STATUS</span>
+<span class="px-2 py-0.5 bg-primary/10 border border-primary/40 text-primary orbitron text-[9px] font-bold">ACTIVE</span>
+</div>
+</div>
+</div>
+<!-- Decorative Asset -->
+<div class="glass-panel overflow-hidden h-48 relative">
+<div class="absolute inset-0 opacity-40 mix-blend-screen">
+
+</div>
+<div class="absolute inset-0 flex items-center justify-center bg-black/40">
+<div class="text-center p-4">
+<p class="orbitron text-[10px] font-bold mb-1">QUANTUM_ENTROPY</p>
+<div class="flex justify-center gap-1">
+<div class="w-0.5 h-4 bg-primary animate-pulse"></div>
+<div class="w-0.5 h-6 bg-primary animate-pulse" style="animation-delay: 0.2s"></div>
+<div class="w-0.5 h-3 bg-primary animate-pulse" style="animation-delay: 0.1s"></div>
+<div class="w-0.5 h-5 bg-primary animate-pulse" style="animation-delay: 0.4s"></div>
+<div class="w-0.5 h-2 bg-primary animate-pulse" style="animation-delay: 0.3s"></div>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</main>
+</div>
+<!-- Bottom Mobile Nav -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl border-t border-primary/20 z-50 flex items-center justify-around px-4">
+<button class="flex flex-col items-center gap-1 text-outline opacity-70">
+<span class="material-symbols-outlined">fingerprint</span>
+<span class="text-[8px] orbitron font-bold">IDENTITY</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">visibility</span>
+<span class="text-[8px] orbitron font-bold">VISUALS</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-outline opacity-70">
+<span class="material-symbols-outlined">hub</span>
+<span class="text-[8px] orbitron font-bold">LINK</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-outline opacity-70">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="text-[8px] orbitron font-bold">MENU</span>
+</button>
+</nav>
+<script>
+        // Micro-interactions for sliders and toggles
+        const sliders = document.querySelectorAll('input[type=range]');
+        sliders.forEach(slider => {
+            slider.addEventListener('input', (e) => {
+                const valueDisplay = e.target.closest('.glass-panel').querySelector('.space-mono');
+                if(valueDisplay && !valueDisplay.textContent.includes('Glass')) {
+                    valueDisplay.textContent = e.target.value + '%';
+                }
+                
+                // Add a momentary glow effect on interaction
+                e.target.style.boxShadow = `0 0 20px rgba(179, 197, 255, 0.4)`;
+                setTimeout(() => {
+                    e.target.style.boxShadow = 'none';
+                }, 200);
+            });
+        });
+
+        // Toggle sound/effect simulation
+        const toggles = document.querySelectorAll('input[type=checkbox]');
+        toggles.forEach(toggle => {
+            toggle.addEventListener('change', (e) => {
+                const panel = e.target.closest('.glass-panel');
+                if(e.target.checked) {
+                    panel.style.boxShadow = '0 0 30px rgba(202, 0, 202, 0.15)';
+                } else {
+                    panel.style.boxShadow = 'none';
+                }
+            });
+        });
+    </script>
+</body></html>

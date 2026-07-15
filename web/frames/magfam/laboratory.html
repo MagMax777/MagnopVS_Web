@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS MagFam - Synthesis Lab</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700;800&amp;family=Space+Mono:wght@400;700&amp;family=Audiowide&amp;family=Orbitron:wght@400;700&amp;family=Inter:wght@400&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed": "#001d33",
+                    "on-secondary": "#00382c",
+                    "error": "#ffb4ab",
+                    "outline": "#88919d",
+                    "on-tertiary-container": "#640059",
+                    "tertiary-container": "#ff56e3",
+                    "on-error-container": "#ffdad6",
+                    "secondary": "#ffffff",
+                    "on-surface-variant": "#bec7d4",
+                    "outline-variant": "#3f4852",
+                    "primary-fixed": "#cfe5ff",
+                    "surface-variant": "#353534",
+                    "primary-container": "#00a3ff",
+                    "on-error": "#690005",
+                    "error-container": "#93000a",
+                    "on-secondary-container": "#00725c",
+                    "on-tertiary": "#5e0053",
+                    "surface-container-lowest": "#0e0e0e",
+                    "tertiary-fixed-dim": "#fface8",
+                    "on-surface": "#e5e2e1",
+                    "surface-container-low": "#1c1b1b",
+                    "on-tertiary-fixed-variant": "#840076",
+                    "tertiary-fixed": "#ffd7f0",
+                    "surface-container-highest": "#353534",
+                    "on-secondary-fixed-variant": "#005141",
+                    "on-primary-fixed-variant": "#004a77",
+                    "surface-container-high": "#2a2a2a",
+                    "background": "#131313",
+                    "secondary-container": "#15ffd1",
+                    "tertiary": "#fface8",
+                    "surface-bright": "#3a3939",
+                    "primary-fixed-dim": "#98cbff",
+                    "surface-dim": "#131313",
+                    "on-tertiary-fixed": "#3a0033",
+                    "on-background": "#e5e2e1",
+                    "secondary-fixed": "#15ffd1",
+                    "surface-tint": "#98cbff",
+                    "inverse-on-surface": "#313030",
+                    "surface-container": "#201f1f",
+                    "secondary-fixed-dim": "#00e0b7",
+                    "on-primary": "#003354",
+                    "on-secondary-fixed": "#002019",
+                    "inverse-primary": "#00629d",
+                    "on-primary-container": "#00375a",
+                    "primary": "#98cbff",
+                    "surface": "#131313",
+                    "inverse-surface": "#e5e2e1"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-desktop": "64px",
+                    "gutter": "24px",
+                    "margin-mobile": "20px",
+                    "container-max": "1440px",
+                    "unit": "8px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Sora"],
+                    "headline-lg": ["Sora"],
+                    "display-hero": ["Sora"],
+                    "tactical-label": ["Space Mono"],
+                    "body-md": ["Inter"],
+                    "data-readout": ["Space Mono"],
+                    "audiowide": ["Audiowide"],
+                    "orbitron": ["Orbitron"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "headline-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-hero": ["72px", {"lineHeight": "80px", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                    "tactical-label": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "data-readout": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0e0e0e;
+            overflow: hidden;
+            cursor: crosshair;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(152, 203, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-panel::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 40px;
+            height: 40px;
+            background-image: url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M0 40L40 0M40 40V0M0 0H40" stroke="rgba(255,255,255,0.05)" fill="none" stroke-width="1"/></svg>');
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .energy-glow-blue {
+            box-shadow: 0 0 15px rgba(152, 203, 255, 0.2);
+        }
+
+        .hologram-border {
+            border: 1px solid transparent;
+            border-image: linear-gradient(45deg, #98cbff 0%, #fface8 100%);
+            border-image-slice: 1;
+            opacity: 0.6;
+        }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(152, 203, 255, 0.1);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            from { top: 0; }
+            to { top: 100%; }
+        }
+
+        .ritual-btn:hover {
+            box-shadow: 0 0 30px rgba(152, 203, 255, 0.5);
+            text-shadow: 0 0 10px rgba(152, 203, 255, 0.8);
+            transform: scale(1.02);
+        }
+
+        .ritual-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Custom scrollbar for immersive feel */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #3f4852; border-radius: 2px; }
+
+        .glitch-text:hover {
+            animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+    </style>
+</head>
+<body class="text-on-background font-body-md selection:bg-primary/30">
+<div class="flex h-screen overflow-hidden">
+<!-- SideNavBar (Predicted JSON Component) -->
+<aside class="hidden md:flex flex-col h-full border-r border-outline-variant/30 bg-surface-container-lowest/90 backdrop-blur-2xl w-64 docked left-0 z-50">
+<div class="p-8">
+<h2 class="font-headline-lg text-headline-lg text-primary leading-none mb-1">Synthesis Lab</h2>
+<p class="font-tactical-label text-tactical-label text-on-surface-variant opacity-60">Sector 7-G Operating</p>
+</div>
+<nav class="flex-1 mt-8">
+<!-- Synthesis (Active) -->
+<a class="flex items-center gap-4 bg-primary-container/20 text-primary border-l-4 border-primary p-4 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">science</span>
+<span class="font-tactical-label text-tactical-label uppercase tracking-widest">Synthesis</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant p-4 hover:bg-surface-variant/10 hover:text-secondary-fixed-dim transition-all duration-300 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">biotech</span>
+<span class="font-tactical-label text-tactical-label uppercase tracking-widest">Bio-Mapping</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant p-4 hover:bg-surface-variant/10 hover:text-secondary-fixed-dim transition-all duration-300 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">graphic_eq</span>
+<span class="font-tactical-label text-tactical-label uppercase tracking-widest">Resonance Tuning</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant p-4 hover:bg-surface-variant/10 hover:text-secondary-fixed-dim transition-all duration-300 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-tactical-label text-tactical-label uppercase tracking-widest">Cosmic Grid</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-outline-variant/20 p-4">
+<div class="flex items-center gap-3 mb-6 px-2">
+<div class="w-10 h-10 rounded-full border border-primary/40 p-0.5">
+<img alt="Lab Unit Identifier" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB91M6exoPlYxCeShhrJd_Oqu242J-Mgo_0GEcKFYckOUEpZjrjo5aj--oWAvsEB1yOHITlq6_ChmoPOKYUq8qXeCB1n-lrYoPtyZXbEck1E9FuiOlUdtgF2Vm95YXmYkTv6b8tbwBWLzhr3mUTf79G6Syd-sZvrKq-HEH9-BA0upu2PUEgbeY8zStu4Y0HD92EdiiY37JUO9LuGc1H3vEHyF6vKqgvHgCS21i9TfWnTyc8stpk7iJGP19QvhuqcxOLUdTOBOLDd-xL"/>
+</div>
+<div>
+<p class="font-tactical-label text-tactical-label text-primary">Unit 049-X</p>
+<p class="text-[10px] text-on-surface-variant opacity-50 font-data-readout">Active Protocol</p>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-2 p-2 text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-sm">memory</span>
+<span class="font-tactical-label text-[10px] uppercase">Diagnostics</span>
+</a>
+<a class="flex items-center gap-2 p-2 text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-sm">terminal</span>
+<span class="font-tactical-label text-[10px] uppercase">Terminal</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col relative bg-background overflow-hidden">
+<!-- TopNavBar (Predicted JSON Component) -->
+<header class="flex justify-between items-center w-full px-margin-desktop py-4 bg-background/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_20px_rgba(152,203,255,0.1)] z-40">
+<div class="flex items-center gap-8">
+<div class="font-headline-lg text-headline-lg font-bold tracking-tighter text-primary dark:text-primary-fixed">
+                        MagnopVS MagFam
+                    </div>
+<nav class="hidden lg:flex items-center gap-6">
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-300" href="#">Laboratory</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-300" href="#">Archives</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-300" href="#">Nexus</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<!-- Search placeholder logic -->
+<div class="relative hidden xl:block">
+<input class="bg-surface-variant/20 border border-outline-variant/30 rounded px-4 py-1.5 text-sm font-data-readout w-64 focus:outline-none focus:border-primary/50 transition-all" placeholder="Scan records..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary active:scale-95 duration-200 transition-colors">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary active:scale-95 duration-200 transition-colors">settings</button>
+<div class="h-8 w-8 rounded bg-primary-container flex items-center justify-center text-on-primary-container cursor-pointer hover:brightness-110 active:scale-95 duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Interactive Viewport -->
+<section class="flex-1 relative overflow-hidden group">
+<!-- Background Image Layer -->
+<div class="absolute inset-0 z-0">
+<img alt="Synthesis Chamber" class="w-full h-full object-cover grayscale-[0.2] contrast-[1.1] brightness-[0.8]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBXjS8OCt8lIbORtJ9_B-1wE03LTMqgxT07l0nhqgkrHd87RLabdxUWO-skUtKjjYIvQ-c7tYiwqwlS4iZMczfn9txfhBJsZRgilF-LKS4qUxXE_Lad7hn2GQmWDRV3V-r8zc_glTLiCJEFBdFsvCikfl52A4p8tsgcfmC03Nnj2YvWadQE0N4RHeNMJBzndlTtqBWT_mbCFLdvNEGQlFyzK66c_iu7Fyz2y9KLAxefQCq_iJ2Mw5-AfbZBu-3golilm7fswc6cYFa"/>
+<!-- Atmospheric Overlay -->
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-background/40 via-transparent to-background/40 opacity-30"></div>
+</div>
+<!-- HUD Overlay Elements -->
+<div class="absolute inset-0 z-10 p-8 grid grid-cols-12 grid-rows-6 gap-6">
+<!-- DNA Sequencer (Top Left) -->
+<div class="col-span-4 row-span-2 glass-panel p-6 border-l-4 border-l-primary/60 energy-glow-blue animate-fade-in">
+<div class="flex justify-between items-start mb-4">
+<h3 class="font-audiowide text-primary tracking-wider uppercase text-lg">DNA Sequencer</h3>
+<span class="font-data-readout text-[10px] text-primary/60 px-2 py-0.5 border border-primary/20 bg-primary/5">MODULE: B-77</span>
+</div>
+<div class="h-24 bg-surface-variant/10 relative rounded mb-4 overflow-hidden border border-outline-variant/20">
+<!-- DNA Animation Placeholder -->
+<div class="absolute inset-0 flex items-center justify-center opacity-40">
+<span class="material-symbols-outlined text-5xl animate-pulse text-primary">help</span>
+<span class="material-symbols-outlined text-5xl animate-pulse delay-75 text-tertiary">help</span>
+</div>
+<div class="scanline"></div>
+</div>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-[10px] font-tactical-label mb-1">
+<span class="text-on-surface-variant">BASE FREQUENCY</span>
+<span class="text-primary">432.88 Hz</span>
+</div>
+<input class="w-full h-1 bg-surface-container-high rounded-lg appearance-none cursor-pointer accent-primary" type="range"/>
+</div>
+<div>
+<div class="flex justify-between text-[10px] font-tactical-label mb-1">
+<span class="text-on-surface-variant">RESONANCE DRIFT</span>
+<span class="text-tertiary">0.04%</span>
+</div>
+<input class="w-full h-1 bg-surface-container-high rounded-lg appearance-none cursor-pointer accent-tertiary" type="range"/>
+</div>
+</div>
+</div>
+<!-- Bio-Kinetic Readout (Top Right) -->
+<div class="col-start-9 col-span-4 row-span-2 glass-panel p-6 border-r-4 border-r-tertiary/60 energy-glow-blue">
+<div class="flex justify-between items-start mb-6">
+<h3 class="font-audiowide text-tertiary tracking-wider uppercase text-lg">Bio-Kinetic Readout</h3>
+<div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-3 bg-surface-variant/10 rounded border border-outline-variant/10">
+<p class="font-tactical-label text-[10px] text-on-surface-variant opacity-60 mb-1">FORM STABILITY</p>
+<p class="font-orbitron text-2xl text-secondary">84<span class="text-sm opacity-50">%</span></p>
+<div class="w-full h-1 bg-surface-container-low mt-2">
+<div class="bg-primary h-full" style="width: 84%"></div>
+</div>
+</div>
+<div class="p-3 bg-surface-variant/10 rounded border border-outline-variant/10">
+<p class="font-tactical-label text-[10px] text-on-surface-variant opacity-60 mb-1">NEURAL SYNC</p>
+<p class="font-orbitron text-lg text-tertiary animate-pulse">SYNCING...</p>
+<div class="flex gap-1 mt-3">
+<div class="h-1 w-2 bg-tertiary"></div>
+<div class="h-1 w-4 bg-tertiary"></div>
+<div class="h-1 w-1 bg-tertiary"></div>
+<div class="h-1 w-6 bg-surface-container-low"></div>
+</div>
+</div>
+</div>
+<div class="mt-6">
+<p class="font-tactical-label text-[10px] text-on-surface-variant opacity-60 mb-2">ELEMENTAL AFFINITY</p>
+<div class="flex items-center gap-3">
+<div class="w-4 h-4 rounded-full bg-secondary-fixed shadow-[0_0_10px_#15ffd1]"></div>
+<span class="font-orbitron text-secondary-fixed tracking-widest text-sm">AQUAMARINE</span>
+</div>
+</div>
+</div>
+<!-- Sacred Geometry Matrix (Bottom Left) -->
+<div class="col-span-3 row-start-4 row-span-3 glass-panel flex flex-col items-center justify-center p-6 border-b-2 border-b-primary/40">
+<div class="mb-6 w-full">
+<h3 class="font-audiowide text-primary tracking-wider uppercase text-sm">Geometry Matrix</h3>
+</div>
+<div class="relative w-40 h-40">
+<!-- Circular Runic Layout Visualization -->
+<div class="absolute inset-0 border border-primary/20 rounded-full animate-[spin_20s_linear_infinite]"></div>
+<div class="absolute inset-2 border border-tertiary/20 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-primary animate-pulse">pentagon</span>
+</div>
+<!-- Runic dots -->
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#98cbff]"></div>
+<div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-tertiary shadow-[0_0_8px_#fface8]"></div>
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#98cbff]"></div>
+<div class="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-tertiary shadow-[0_0_8px_#fface8]"></div>
+</div>
+<div class="mt-6 flex flex-wrap gap-2 justify-center">
+<span class="text-[9px] font-tactical-label border border-primary/40 px-2 py-1 bg-primary/10 text-primary">ALIGN_PRIME</span>
+<span class="text-[9px] font-tactical-label border border-tertiary/40 px-2 py-1 bg-tertiary/10 text-tertiary">VOID_SYNC</span>
+</div>
+</div>
+<!-- Telemetry Data Ticker (Bottom Bottom) -->
+<div class="col-start-4 col-span-5 row-start-6 flex items-end">
+<div class="w-full glass-panel h-16 flex items-center px-6 gap-12 overflow-hidden border-t-0 border-r-0 border-l-0 border-b-4 border-b-primary">
+<div class="whitespace-nowrap">
+<span class="font-tactical-label text-primary/40 text-[10px]">CORE TEMPERATURE:</span>
+<span class="font-data-readout text-sm ml-2">1,244.5 K</span>
+</div>
+<div class="whitespace-nowrap">
+<span class="font-tactical-label text-primary/40 text-[10px]">GRAVITON FLOW:</span>
+<span class="font-data-readout text-sm ml-2">STABLE (9.81m/s²)</span>
+</div>
+<div class="whitespace-nowrap">
+<span class="font-tactical-label text-primary/40 text-[10px]">SYNTHESIS PHASE:</span>
+<span class="font-data-readout text-sm ml-2 text-tertiary">STAGE 3 (REFRIGERATION)</span>
+</div>
+</div>
+</div>
+<!-- Synthesis Command Button (Bottom Right) -->
+<div class="col-start-9 col-span-4 row-start-5 row-span-2 flex items-end justify-end">
+<button class="ritual-btn w-full h-24 glass-panel border-2 border-primary/40 flex items-center justify-center gap-4 transition-all duration-300 group hover:border-primary">
+<div class="flex flex-col items-end">
+<span class="font-tactical-label text-[10px] text-primary tracking-[0.3em] opacity-60">PHASE 7 INITIATION</span>
+<span class="font-audiowide text-2xl text-secondary tracking-widest glitch-text">INITIATE RITUAL</span>
+</div>
+<div class="w-12 h-12 rounded-full border border-primary/40 flex items-center justify-center group-hover:bg-primary group-hover:text-on-primary-fixed transition-colors">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+</button>
+</div>
+</div>
+<!-- Subtle Grid Background -->
+<div class="absolute inset-0 pointer-events-none opacity-[0.03] z-0" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 40px 40px;"></div>
+</section>
+</main>
+</div>
+<!-- Bottom Navigation Shell (Only shown on mobile as per logic) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl flex items-center justify-around z-50">
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">science</span>
+<span class="text-[10px] font-tactical-label">LAB</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">biotech</span>
+<span class="text-[10px] font-tactical-label">BIO</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">graphic_eq</span>
+<span class="text-[10px] font-tactical-label">TUNE</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="text-[10px] font-tactical-label">GRID</span>
+</button>
+</nav>
+<script>
+        // Simple interactive feedback
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mousemove', (e) => {
+                const rect = panel.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                panel.style.setProperty('--mouse-x', `${x}px`);
+                panel.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // Toggle terminal simulation or button interactions
+        const ritualBtn = document.querySelector('.ritual-btn');
+        ritualBtn.addEventListener('click', () => {
+            const overlay = document.createElement('div');
+            overlay.className = 'fixed inset-0 bg-primary/20 backdrop-blur-sm z-[100] flex items-center justify-center transition-opacity duration-1000';
+            overlay.innerHTML = `
+                <div class="text-center">
+                    <p class="font-audiowide text-4xl text-secondary animate-pulse">RITUAL INITIALIZED</p>
+                    <p class="font-tactical-label text-primary mt-4 tracking-widest">MAGFAM SYNTHESIS COMMENCING...</p>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+            setTimeout(() => {
+                overlay.style.opacity = '0';
+                setTimeout(() => overlay.remove(), 1000);
+            }, 3000);
+        });
+    </script>
+</body></html>

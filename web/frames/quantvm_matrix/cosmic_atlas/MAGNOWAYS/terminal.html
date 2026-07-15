@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnoWays | Active Expedition Terminal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide:wght@100..900&amp;family=Orbitron:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.4; filter: blur(8px); }
+            50% { opacity: 0.8; filter: blur(12px); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .scan-line-overlay::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(to bottom, transparent, rgba(91, 200, 245, 0.2), transparent);
+            animation: scanline 4s linear infinite;
+            pointer-events: none;
+        }
+        .hex-clip {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+        body {
+            background-color: #0e0e0e;
+            color: #e5e2e1;
+            overflow-x: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error": "#ffb4ab",
+                      "on-tertiary-fixed": "#20005f",
+                      "error-container": "#93000a",
+                      "primary-container": "#5bc8f5",
+                      "on-surface": "#e5e2e1",
+                      "surface-container": "#201f1f",
+                      "surface-bright": "#3a3939",
+                      "on-error-container": "#ffdad6",
+                      "tertiary-container": "#c3b1ff",
+                      "on-secondary-fixed-variant": "#7b008f",
+                      "on-primary-container": "#00526b",
+                      "on-primary": "#003546",
+                      "tertiary": "#ddd1ff",
+                      "surface": "#131313",
+                      "secondary-fixed-dim": "#faabff",
+                      "primary": "#a2e0ff",
+                      "tertiary-fixed": "#e8deff",
+                      "on-primary-fixed": "#001f2a",
+                      "on-tertiary-fixed-variant": "#4f00d0",
+                      "on-surface-variant": "#bdc8cf",
+                      "surface-container-low": "#1c1b1b",
+                      "on-error": "#690005",
+                      "outline": "#889299",
+                      "surface-container-lowest": "#0e0e0e",
+                      "on-background": "#e5e2e1",
+                      "on-tertiary-container": "#540dd7",
+                      "tertiary-fixed-dim": "#cdbdff",
+                      "on-secondary-fixed": "#35003f",
+                      "background": "#131313",
+                      "primary-fixed": "#bee9ff",
+                      "on-secondary-container": "#fff0fb",
+                      "secondary": "#faabff",
+                      "outline-variant": "#3e484e",
+                      "surface-container-highest": "#353534",
+                      "on-secondary": "#570066",
+                      "surface-tint": "#6bd3ff",
+                      "inverse-surface": "#e5e2e1",
+                      "on-tertiary": "#370096",
+                      "surface-variant": "#353534",
+                      "surface-dim": "#131313",
+                      "primary-fixed-dim": "#6bd3ff",
+                      "secondary-container": "#bd06da",
+                      "inverse-primary": "#006685",
+                      "on-primary-fixed-variant": "#004d65",
+                      "secondary-fixed": "#ffd6fe",
+                      "surface-container-high": "#2a2a2a",
+                      "inverse-on-surface": "#313030"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "20px",
+                      "gutter": "16px",
+                      "margin-desktop": "64px",
+                      "grid-hex-size": "32px",
+                      "unit": "4px"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": ["Audiowide"],
+                      "body-md": ["Orbitron"],
+                      "data-display": ["Orbitron"],
+                      "headline-xl": ["Audiowide"],
+                      "headline-lg": ["Audiowide"],
+                      "label-sm": ["Orbitron"]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                      "body-md": ["14px", {"lineHeight": "1.6", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                      "data-display": ["18px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                      "headline-xl": ["48px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                      "label-sm": ["11px", {"lineHeight": "1", "letterSpacing": "0.15em", "fontWeight": "500"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface selection:bg-primary/30 font-body-md text-body-md overflow-hidden">
+<!-- TOP NAVIGATION SHELL -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 bg-surface/60 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(91,200,245,0.2)]">
+<div class="flex items-center gap-4">
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tighter uppercase">MagnoWays</span>
+<div class="hidden md:flex items-center gap-1 ml-8">
+<span class="text-primary font-bold px-4 py-1 rounded border border-primary/20">TERMINAL</span>
+<span class="text-on-surface-variant font-medium px-4 py-1 hover:text-primary transition-all">ROADMAP</span>
+<span class="text-on-surface-variant font-medium px-4 py-1 hover:text-primary transition-all">JOURNAL</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">account_tree</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">sensors</span>
+<div class="h-8 w-8 bg-primary/20 border border-primary/40 rounded-full flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A futuristic portrait of a high-tech explorer named Kael-Umbra, wearing a carbon-fiber suit with glowing celestial blue energy veins. The lighting is dramatic and moody, reflecting off the glass-like surfaces of the helmet. The background is a dark void filled with subtle alchemical violet nebula dust." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAr-Pu6PEwlRRv6Ekm_4xL7C5NwmuiGdYHG76BOMj3ROj7J-X7iR49_EwzxrWFKGKhx1c4x9ITppdmOw8Ik2gQovnnKaHIiac8c1EpE5STVMuSs4Z55T2L-uuxzGXof-GYiZLpEPtNqghb3R0HHsf4tGYC2OTtMOeKfaD19Ud5XECUT1geabT7vH1VLsuJ2eP-T3TrPw7QeW0dMcjI_H99WdpeZdM3oJzQN0DMDiCckjiF8lWSgkZ5_DYsoEdG8azPA-E--09f9sQZp"/>
+</div>
+</div>
+</header>
+<!-- SIDE NAVIGATION SHELL (WEB) -->
+<aside class="hidden lg:flex flex-col fixed left-0 top-16 h-[calc(100vh-64px)] w-64 z-40 bg-surface-container-lowest/80 backdrop-blur-2xl border-r border-outline-variant/20 shadow-2xl">
+<div class="p-8 border-b border-outline-variant/20">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_8px_#a2e0ff]"></div>
+<span class="font-label-sm text-label-sm text-primary tracking-widest uppercase">MAGNO_UNIT_01</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">SYNC_STATUS: 88%</p>
+</div>
+<nav class="flex-grow pt-4">
+<div class="flex items-center gap-4 bg-primary-container/20 text-primary border-l-4 border-primary px-6 py-4 transition-all duration-300">
+<span class="material-symbols-outlined">terminal</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest">Terminal</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-surface-bright/10 hover:text-primary transition-colors cursor-pointer group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">map</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest">Roadmap</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-surface-bright/10 hover:text-primary transition-colors cursor-pointer group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">history_edu</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest">Journal</span>
+</div>
+</nav>
+<div class="p-6">
+<button class="w-full py-4 border border-primary text-primary font-body-md uppercase tracking-widest hover:bg-primary/10 transition-all active:scale-95 shadow-[0_0_15px_rgba(91,200,245,0.2)]">
+                INITIATE_WARP
+            </button>
+</div>
+</aside>
+<!-- MAIN TERMINAL CONTENT -->
+<main class="lg:pl-64 pt-16 pb-20 lg:pb-0 h-screen overflow-hidden flex flex-col">
+<!-- Dashboard Grid -->
+<div class="flex-grow grid grid-cols-12 grid-rows-6 gap-4 p-margin-mobile md:p-margin-desktop relative">
+<!-- BACKGROUND AMBIENCE (Shader) -->
+<div class="absolute inset-0 z-0 opacity-40 pointer-events-none">
+
+</div>
+<!-- HERO: WAYPOINT HOLOGRAPH (3D Scene) -->
+<section class="col-span-12 md:col-span-8 row-span-4 relative group rounded-xl border border-outline-variant/30 bg-black/40 backdrop-blur-md overflow-hidden scan-line-overlay">
+<div class="absolute top-4 left-6 z-20">
+<h2 class="font-headline-lg text-headline-lg text-primary uppercase tracking-tighter">The Path of Persephone</h2>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">SECTOR: ASY-09 // WAYPOINT: ANCIENT_TEMPLE</p>
+</div>
+<div class="absolute top-4 right-6 z-20 flex gap-2">
+<span class="font-label-sm text-label-sm text-primary bg-primary/10 border border-primary/30 px-3 py-1">SYS_MNP_04</span>
+</div>
+<!-- 3D Holographic view placeholder -->
+
+<!-- Hologram Overlay HUD -->
+<div class="absolute bottom-6 left-6 right-6 flex justify-between items-end pointer-events-none">
+<div class="space-y-2">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+<span class="text-error font-label-sm text-label-sm uppercase">Portal Instability Detected</span>
+</div>
+<div class="text-on-surface-variant font-label-sm text-label-sm">ATMOSPHERE: ALCHEMICAL_VIOLET_MIST</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-primary font-data-display text-data-display">42.88°N 12.01°E</span>
+<span class="font-label-sm text-label-sm opacity-60">COORDINATE_LOCK_STABLE</span>
+</div>
+</div>
+</section>
+<!-- MISSION CONTROL: OBJECTIVES -->
+<section class="col-span-12 md:col-span-4 row-span-3 bg-surface-container/60 backdrop-blur-xl border border-outline-variant/20 p-6 rounded-xl relative overflow-hidden group">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-label-sm text-label-sm text-primary uppercase tracking-[0.2em] flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">checklist</span>
+                        Objectives
+                    </h3>
+<span class="text-primary/40 font-label-sm text-label-sm">MNP_LIVE_FEED</span>
+</div>
+<ul class="space-y-4">
+<li class="flex items-center gap-4 group/item cursor-pointer">
+<div class="w-6 h-6 border border-primary/50 flex items-center justify-center text-primary group-hover/item:bg-primary/20 transition-all">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<div class="flex-grow">
+<p class="text-on-surface font-label-sm text-label-sm uppercase group-hover/item:text-primary transition-colors">Locate Temple Entrance</p>
+<div class="h-[1px] w-full bg-primary/20 mt-1"></div>
+</div>
+</li>
+<li class="flex items-center gap-4 group/item cursor-pointer">
+<div class="w-6 h-6 border border-primary/50 flex items-center justify-center text-primary group-hover/item:bg-primary/20 transition-all">
+<span class="material-symbols-outlined text-[16px]">hourglass_empty</span>
+</div>
+<div class="flex-grow">
+<p class="text-on-surface font-label-sm text-label-sm uppercase group-hover/item:text-primary transition-colors">Recover 3 Shards (0/3)</p>
+<div class="h-[1px] w-0 group-hover/item:w-full bg-primary/50 transition-all duration-700 mt-1"></div>
+</div>
+</li>
+<li class="flex items-center gap-4 group/item cursor-pointer">
+<div class="w-6 h-6 border border-primary/50 flex items-center justify-center text-primary group-hover/item:bg-primary/20 transition-all">
+<span class="material-symbols-outlined text-[16px]">change_history</span>
+</div>
+<div class="flex-grow">
+<p class="text-on-surface font-label-sm text-label-sm uppercase group-hover/item:text-primary transition-colors">Align Ancient Runes</p>
+<div class="h-[1px] w-0 group-hover/item:w-full bg-primary/50 transition-all duration-700 mt-1"></div>
+</div>
+</li>
+</ul>
+<div class="absolute bottom-0 left-0 w-full h-1 bg-primary/10 overflow-hidden">
+<div class="h-full bg-primary w-1/3 animate-[pulse-glow_2s_infinite]"></div>
+</div>
+</section>
+<!-- RESONANCE HUD: CIRCULAR GAUGE -->
+<section class="col-span-12 md:col-span-4 row-span-3 bg-surface-container/60 backdrop-blur-xl border border-outline-variant/20 p-6 rounded-xl flex flex-col items-center justify-center relative overflow-hidden">
+<div class="absolute top-4 left-6">
+<h3 class="font-label-sm text-label-sm text-primary uppercase tracking-[0.2em]">Resonance</h3>
+</div>
+<!-- Circular Gauge -->
+<div class="relative w-40 h-40 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90 transform">
+<circle class="text-primary/10" cx="80" cy="80" fill="transparent" r="70" stroke="currentColor" stroke-width="2"></circle>
+<circle class="text-primary drop-shadow-[0_0_8px_#a2e0ff]" cx="80" cy="80" fill="transparent" r="70" stroke="currentColor" stroke-dasharray="440" stroke-dashoffset="132" stroke-width="4"></circle>
+<circle class="text-secondary opacity-50" cx="80" cy="80" fill="transparent" r="55" stroke="currentColor" stroke-dasharray="345" stroke-dashoffset="100" stroke-width="2"></circle>
+</svg>
+<div class="absolute flex flex-col items-center">
+<span class="text-headline-lg font-headline-lg text-primary">72%</span>
+<span class="text-[9px] font-label-sm text-on-surface-variant uppercase tracking-widest">Sync Ratio</span>
+</div>
+</div>
+<div class="flex justify-between w-full mt-6 px-4">
+<div class="text-center">
+<p class="font-label-sm text-label-sm text-primary/60">LOGOS</p>
+<p class="font-data-display text-on-surface">34.1</p>
+</div>
+<div class="w-[1px] h-8 bg-outline-variant/40"></div>
+<div class="text-center">
+<p class="font-label-sm text-label-sm text-secondary/60">MYTHOS</p>
+<p class="font-data-display text-on-surface">65.9</p>
+</div>
+</div>
+</section>
+<!-- TACTICAL MAP & PLAYER AVATAR -->
+<section class="col-span-12 md:col-span-12 lg:col-span-6 row-span-3 bg-surface-container/60 backdrop-blur-xl border border-outline-variant/20 rounded-xl overflow-hidden flex flex-col md:flex-row">
+<!-- Map Area -->
+<div class="w-full md:w-2/3 h-full relative group bg-black/20">
+<div class="absolute inset-0 opacity-30 mix-blend-screen pointer-events-none">
+<!-- Simulated Glitch/Grid pattern via CSS -->
+<div class="absolute inset-0" style="background-image: radial-gradient(circle, rgba(91, 200, 245, 0.1) 1px, transparent 1px); background-size: 20px 20px;"></div>
+</div>
+<!-- Map Component Placeholder -->
+<div class="w-full h-full overflow-hidden">
+<img class="w-full h-full object-cover grayscale opacity-60" data-alt="A top-down tactical scan map of ancient ruins, rendered in a glowing wireframe style with celestial blue lines. Nearby anomalies are indicated by swirling magenta glitch smoke effects. Various points of interest are highlighted with pulsing hexagonal icons on a dark, high-contrast digital terrain map." data-location="Ancient Greece Temple Ruins" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcbF1iFPV4N1SoF3WE1FMbTcDQpxWgy3Sg-4B-p5UKeme5ShI5AXQDPoe6jBSzY5ybXFCrlhZ_huWxEUs7lmgbUJzjRoU266aGR8Jo6UJgkoIbrLdbJR2xLZwusFXJ8KSNx_sjsA7Oa4r-2wP-yrCLgQ0jqgCi0PVTRikLJKieNAyRWGh4Zbj-ojCqc4qjcfdtC5_n-PtUzoO_uTJh2RjV0xyioNXliW3-Ke0DaCcr5u6ESohCSr2UC85_xk0MAGshTn4oiEbA6BFb"/>
+</div>
+<div class="absolute top-4 left-4 z-10">
+<span class="font-label-sm text-label-sm text-primary bg-black/60 px-3 py-1 border border-primary/20">LOCAL_SCAN_v2.0</span>
+</div>
+<!-- Player Marker -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+<div class="w-6 h-6 hex-clip bg-primary animate-pulse shadow-[0_0_15px_#a2e0ff]"></div>
+</div>
+</div>
+<!-- Avatar Details -->
+<div class="w-full md:w-1/3 p-6 flex flex-col border-t md:border-t-0 md:border-l border-outline-variant/20">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-16 h-16 rounded-full border-2 border-primary/50 p-1">
+<div class="w-full h-full rounded-full overflow-hidden bg-primary/20">
+<img class="w-full h-full object-cover opacity-80" data-alt="Silhouette of a futuristic warrior named Kael-Umbra, surrounded by a radiant aura of celestial blue light and floating geometric symbols. The image is minimalist and focuses on the high-energy tactical gear and glowing eyes. Deep black background with alchemical violet highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjzbyB8HYA9FN6hn3lJPLu4TudWZa7EOyLuOFoHwqF0uusLczyd_R7wSWLYg8ZoBa-o6u9KcqbZTIdBeDUDePEftZL_JE2wEQkarN1a0tQp3MGTWprSFXUH606JQbbSMuoRkJREO5BQ_VL0GMSmwO-Phz_ykPMeldUOzgP6oR_t9O97xVqiN8H_lPDKEHWy_zQIl_PI1hPUqIyCwnxzUtlTUPQ2d3PlG6nn34MlknJzE8ocVuZ7I8SXOsLVjzHF8RkdVU9K4_axfef"/>
+</div>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-primary uppercase tracking-widest">Kael-Umbra</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Lvl 42 Architect</p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center">
+<span class="text-[10px] font-label-sm text-on-surface-variant uppercase">Energy Aura</span>
+<span class="text-[10px] font-label-sm text-primary">STABLE</span>
+</div>
+<div class="h-2 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-4/5"></div>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-[10px] font-label-sm text-on-surface-variant uppercase">Phase Drift</span>
+<span class="text-[10px] font-label-sm text-secondary">MINIMAL</span>
+</div>
+<div class="h-2 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-1/4"></div>
+</div>
+</div>
+<div class="mt-auto pt-6 flex flex-col gap-2">
+<button class="w-full py-2 border border-primary/40 text-primary font-label-sm text-label-sm uppercase hover:bg-primary/10 transition-all">Scan Area</button>
+<button class="w-full py-2 border border-secondary/40 text-secondary font-label-sm text-label-sm uppercase hover:bg-secondary/10 transition-all">Sync Resonance</button>
+</div>
+</div>
+</section>
+<!-- SOCIAL LINK: EXPLORER FEED -->
+<section class="col-span-12 lg:col-span-6 row-span-3 bg-surface-container/60 backdrop-blur-xl border border-outline-variant/20 p-6 rounded-xl overflow-hidden flex flex-col">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-label-sm text-label-sm text-primary uppercase tracking-[0.2em] flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">groups</span>
+                        Sector Explorers
+                    </h3>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+<span class="text-[10px] font-label-sm text-primary">12 ACTIVE</span>
+</div>
+</div>
+<div class="flex-grow space-y-4 overflow-y-auto pr-2 custom-scrollbar">
+<div class="flex items-center gap-4 bg-surface-bright/5 p-3 border-l-2 border-primary/20 hover:border-primary transition-all group">
+<div class="w-10 h-10 rounded-lg overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover" data-alt="Cybernetic portrait of a female explorer with glowing cyan ocular implants and silver hair. Dark brutalist background with blue light streaks." src="https://lh3.googleusercontent.com/aida-public/AB6AXuABrNjqFYQ7aovXoYK43d0EyaMxq-3Maa8-lVCM7dD0Jo1iFs6VTWQOK0zug7HbujiBakKqaF76IF2btE6pcXewnxyP_kPVYuGkiMqR4HE748K1SX48e8wFHAJ2-5fNXUEEnePBsbRX9B3AybqJjPXPGmZlDlfHOYMJxyE8OpAVVI6i7rHO5TouVqAlU1UnoI8XLCqyEokK6T4VQQOz8UODu_9KemPW09edn_TaMBw1st-ij-2-l4gOrBYYk2k7sYrtpa0EE_TiosuO"/>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-on-surface group-hover:text-primary">XEN_04</span>
+<span class="text-[9px] font-label-sm text-on-surface-variant uppercase">Active at Temple Portal</span>
+</div>
+<p class="text-[10px] font-body-md text-primary/60 mt-1">"Aligning rune set B-7. Interference is high."</p>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-surface-bright/5 p-3 border-l-2 border-outline-variant/20 hover:border-primary transition-all group">
+<div class="w-10 h-10 rounded-lg overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover" data-alt="Rugged wasteland survivor with a tech-visors and heavy tactical hood. Atmospheric violet lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDISUxFMhKKZS-SDg_vDaPpZbV8_KvlVdbSwXqry7BwNLxiHVq8lVfJDCKdr2zn3Kgx78VvhwvVTZE35JzSiU_Wr5P_FdFKiqmXEFUi2IthZPR6_uWPXVoGQdfbIWcVN2eFZXB7Yg5rgYbrhT_SHp2AP5xaZ9so41WsVaFJtr09rTPul8VLyhiO76fvBBLDgXqWGtv9hFOmvmcvflea1DfQs4KZyeH5MEUdjQo0SBUJf7B_PdI05apXVF0R4iu8KXilfnpSO9RcWFR_"/>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-on-surface group-hover:text-primary">GRAV_MIND</span>
+<span class="text-[9px] font-label-sm text-on-surface-variant uppercase">Scan In Progress</span>
+</div>
+<p class="text-[10px] font-body-md text-primary/60 mt-1">"Anomalies detected in Sector G. Proceed with caution."</p>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-surface-bright/5 p-3 border-l-2 border-outline-variant/20 hover:border-primary transition-all group">
+<div class="w-10 h-10 rounded-lg overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover" data-alt="A masked technician with many glowing status lights on their vest. Minimalist sci-fi style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx6kWbSyEcj6GJAgy-2sXVHapbsO3XDKpMx6TE7HAPmnqxUmsUokILUEqHvR_SQ0JNXUunkK6Zu6Fv8i7ye-Zqk7vAxd8v7TdxTPoCqQ6OwPQUYhxiBAy1NYJbks34QdTpHp4qc15EHTM04V_o9OKneXDE84UGAqRQbTl8fZ1dSZj3yJfIGUxoo5uPaikqeNgL4V2TgPgLpWX1rvZBoX1rOHz97YBbj-lK2oSHh6gzAKFMEvkJF4Lc8kxnDtjj4BU0P2WLNklPpznn"/>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-on-surface group-hover:text-primary">CORE_SYNC</span>
+<span class="text-[9px] font-label-sm text-on-surface-variant uppercase">Resting at Hub</span>
+</div>
+<p class="text-[10px] font-body-md text-primary/60 mt-1">"Does anyone have an extra Mythos Shard?"</p>
+</div>
+</div>
+</div>
+<div class="mt-4 flex gap-2">
+<input class="flex-grow bg-black/40 border-0 border-b border-primary/30 text-label-sm font-label-sm focus:ring-0 focus:border-primary transition-all placeholder:text-primary/20" placeholder="BROADCAST_MESSAGE..." type="text"/>
+<button class="px-4 py-2 bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-all">
+<span class="material-symbols-outlined text-sm">send</span>
+</button>
+</div>
+</section>
+</div>
+</main>
+<!-- BOTTOM NAV (MOBILE) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin-mobile pb-safe h-20 bg-surface-container-low/90 backdrop-blur-lg border-t border-primary/20 shadow-[0_-5px_20px_rgba(91,200,245,0.15)]">
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2 group">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">explore</span>
+<span class="font-label-sm text-label-sm uppercase mt-1">Roadmap</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary bg-primary/10 rounded-xl px-4 py-2 border border-primary/20">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">gps_fixed</span>
+<span class="font-label-sm text-label-sm uppercase mt-1">Terminal</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2 group">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">auto_stories</span>
+<span class="font-label-sm text-label-sm uppercase mt-1">Journal</span>
+</div>
+</nav>
+<!-- INTERACTIVE ELEMENTS & ATMOSPHERE -->
+<div class="fixed top-0 left-0 w-full h-full pointer-events-none opacity-20 overflow-hidden z-[-1]">
+<div class="absolute w-[200%] h-[200%] top-[-50%] left-[-50%] bg-[radial-gradient(circle_at_center,rgba(91,200,245,0.1)_0%,transparent_70%)] animate-[pulse-glow_8s_ease-in-out_infinite]"></div>
+</div>
+<!-- Script for subtle UI sounds and micro-interactions -->
+<script>
+        document.querySelectorAll('button, [role="button"], li').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                // Potential sound effect trigger
+            });
+            el.addEventListener('click', (e) => {
+                const rect = el.getBoundingClientRect();
+                const circle = document.createElement('div');
+                const max = Math.max(rect.width, rect.height);
+                circle.style.width = circle.style.height = `${max}px`;
+                circle.style.left = `${e.clientX - rect.left - max/2}px`;
+                circle.style.top = `${e.clientY - rect.top - max/2}px`;
+                circle.classList.add('absolute', 'rounded-full', 'bg-primary/30', 'animate-ping', 'pointer-events-none');
+                el.classList.add('relative', 'overflow-hidden');
+                el.appendChild(circle);
+                setTimeout(() => circle.remove(), 500);
+            });
+        });
+
+        // Simulating Resonance Drift
+        const ratioText = document.querySelector('.text-headline-lg');
+        setInterval(() => {
+            if (ratioText) {
+                const current = parseFloat(ratioText.textContent);
+                const drift = (Math.random() - 0.5) * 0.2;
+                ratioText.textContent = `${(current + drift).toFixed(1)}%`;
+            }
+        }, 3000);
+    </script>
+</body></html>

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOPVS - Butsu no Baka (Tokyo 3000)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#ff4dfa",
+                        "outline-variant": "#3f4852",
+                        "surface-container-highest": "#353534",
+                        "primary-fixed": "#cfe5ff",
+                        "primary": "#98cbff",
+                        "secondary-container": "#15ffd1",
+                        "on-tertiary": "#5b005b",
+                        "secondary": "#ffffff",
+                        "on-primary": "#003354",
+                        "inverse-primary": "#00629d",
+                        "surface-bright": "#3a3939",
+                        "on-error": "#690005",
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface-container": "#201f1f",
+                        "error": "#ffb4ab",
+                        "on-secondary-fixed-variant": "#005141",
+                        "surface-dim": "#131313",
+                        "surface": "#131313",
+                        "on-primary-fixed-variant": "#004a77",
+                        "on-error-container": "#ffdad6",
+                        "on-background": "#e5e2e1",
+                        "inverse-on-surface": "#313030",
+                        "primary-fixed-dim": "#98cbff",
+                        "tertiary-fixed-dim": "#ffabf3",
+                        "outline": "#88919d",
+                        "on-surface-variant": "#bec7d4",
+                        "on-primary-fixed": "#001d33",
+                        "tertiary": "#ffabf3",
+                        "surface-variant": "#353534",
+                        "surface-tint": "#98cbff",
+                        "secondary-fixed-dim": "#00e0b7",
+                        "on-tertiary-fixed": "#380038",
+                        "on-surface": "#e5e2e1",
+                        "on-secondary": "#00382c",
+                        "on-tertiary-container": "#620061",
+                        "on-secondary-container": "#00725c",
+                        "surface-container-low": "#1c1b1b",
+                        "secondary-fixed": "#15ffd1",
+                        "surface-container-high": "#2a2a2a",
+                        "on-tertiary-fixed-variant": "#810081",
+                        "on-secondary-fixed": "#002019",
+                        "error-container": "#93000a",
+                        "on-primary-container": "#00375a",
+                        "inverse-surface": "#e5e2e1",
+                        "tertiary-fixed": "#ffd7f5",
+                        "primary-container": "#00a3ff",
+                        "background": "#131313"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "container-max": "1440px",
+                        "margin-desktop": "64px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "technical-data": ["Orbitron"],
+                        "headline-lg": ["Audiowide"],
+                        "display-xl": ["Audiowide"],
+                        "body-md": ["Orbitron"],
+                        "headline-lg-mobile": ["Audiowide"],
+                        "label-caps": ["Orbitron"]
+                    },
+                    "fontSize": {
+                        "technical-data": ["14px", {"lineHeight": "1.5", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                        "display-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1.0", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0e0e0e;
+            color: #e5e2e1;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(20, 20, 20, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 77, 250, 0.1);
+        }
+
+        .neon-border-magenta {
+            border: 1px solid #ff4dfa;
+            box-shadow: 0 0 10px rgba(255, 77, 250, 0.3);
+        }
+
+        .neon-border-cyan {
+            border: 1px solid #15ffd1;
+            box-shadow: 0 0 10px rgba(21, 255, 209, 0.3);
+        }
+
+        .pulse-magenta {
+            animation: pulse-magenta 2s infinite;
+        }
+
+        @keyframes pulse-magenta {
+            0% { box-shadow: 0 0 0 0 rgba(255, 77, 250, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 77, 250, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 77, 250, 0); }
+        }
+
+        .bracket-corner {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border: 2px solid #ff4dfa;
+        }
+
+        .bracket-tl { top: -2px; left: -2px; border-right: 0; border-bottom: 0; }
+        .bracket-tr { top: -2px; right: -2px; border-left: 0; border-bottom: 0; }
+        .bracket-bl { bottom: -2px; left: -2px; border-right: 0; border-top: 0; }
+        .bracket-br { bottom: -2px; right: -2px; border-left: 0; border-top: 0; }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(21, 255, 209, 0.1);
+            position: absolute;
+            z-index: 10;
+            top: 0;
+            pointer-events: none;
+            animation: scanline 8s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100vh); }
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0e0e0e; }
+        ::-webkit-scrollbar-thumb { background: #353534; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ff4dfa; }
+    </style>
+</head>
+<body class="font-body-md text-body-md">
+<div class="scanline"></div>
+<!-- Navigation Shell: TopAppBar (Desktop Only for now) -->
+<header class="flex justify-between items-center w-full px-margin-desktop h-20 bg-background/80 backdrop-blur-xl border-b border-tertiary-container/30 shadow-[0_0_20px_rgba(255,77,250,0.2)] docked full-width top-0 z-50 fixed">
+<div class="flex items-center gap-8">
+<span class="font-headline-lg text-headline-lg text-tertiary-fixed-dim tracking-widest">MAGNOPVS</span>
+<nav class="hidden md:flex gap-6">
+<a class="font-label-caps text-label-caps text-primary border-b-2 border-primary pb-1" href="#">Home</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed transition-all duration-300" href="#">Explore</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-fixed transition-all duration-300" href="#">Library</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:block relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm">search</span>
+<input class="bg-surface-container-low border-b border-tertiary-container/40 text-technical-data font-technical-data px-10 py-1 focus:outline-none focus:border-secondary-fixed w-64 uppercase" placeholder="BUSCAR SAGA..." type="text"/>
+</div>
+<div class="flex gap-4">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-tertiary transition-all duration-300 active:scale-90">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-tertiary transition-all duration-300 active:scale-90">settings</button>
+<div class="w-10 h-10 rounded-full border border-tertiary overflow-hidden shadow-glow">
+<img alt="Commander Profile" data-alt="A futuristic portrait of a cybernetically enhanced human commander with glowing neural interfaces across the temple and cold, glowing magenta eyes. High-detail facial features, cinematic cyberpunk lighting, and a dark, matte finish background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNd5KI3bVq-6KCxf63N_ZmCSa1WGD7qfaBky5Rn7GNYwRwQI3gsGKcm1tLgKKmRkMPAt6qfGneEXTDZiNcHnUdXAceeSef_lXaXOh7ryeJ9rdn3pvjCgIOYoaRGilMG5O7moTzC1fqE-Fp-YARprHdM1C10pgCe2kheYkTyL29lxcl2kAoc0Ee9F8IKdIvGKWpRGzx6E68hrXdoSeWf7JfJ6nm1qGM9p_5MJ01B-WExgbudIEF05QvavLS6hZj-dioJt3_5OKqNNBM"/>
+</div>
+</div>
+</div>
+</header>
+<!-- SideNavBar (Desktop Only) -->
+<aside class="h-screen w-72 fixed left-0 top-0 hidden lg:flex flex-col bg-surface-container-lowest/90 backdrop-blur-2xl border-r border-secondary-container/20 shadow-2xl pt-24 z-40">
+<div class="px-8 mb-12">
+<h2 class="text-secondary-fixed font-headline-lg font-headline-lg">TOKYO 3000</h2>
+<p class="font-label-caps text-[10px] text-outline tracking-widest mt-1">Saga Interface v4.0</p>
+</div>
+<nav class="flex-1">
+<div class="bg-secondary-container/10 border-l-4 border-secondary-fixed text-secondary-fixed py-4 px-6 flex items-center gap-4 transition-all duration-200 cursor-pointer">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">drive_video</span>
+<span class="font-label-caps text-label-caps">Series VR</span>
+</div>
+<div class="text-on-surface-variant py-4 px-6 hover:text-secondary-fixed hover:bg-surface-container-high flex items-center gap-4 transition-all duration-200 cursor-pointer group">
+<span class="material-symbols-outlined group-hover:scale-110 duration-150">videogame_asset</span>
+<span class="font-label-caps text-label-caps">Videojuegos</span>
+</div>
+<div class="text-on-surface-variant py-4 px-6 hover:text-secondary-fixed hover:bg-surface-container-high flex items-center gap-4 transition-all duration-200 cursor-pointer group">
+<span class="material-symbols-outlined group-hover:scale-110 duration-150">group_add</span>
+<span class="font-label-caps text-label-caps">Creadores UGC</span>
+</div>
+<div class="text-on-surface-variant py-4 px-6 hover:text-secondary-fixed hover:bg-surface-container-high flex items-center gap-4 transition-all duration-200 cursor-pointer group">
+<span class="material-symbols-outlined group-hover:scale-110 duration-150">sensors</span>
+<span class="font-label-caps text-label-caps">Live Sagas</span>
+</div>
+</nav>
+<div class="p-6 mt-auto">
+<button class="w-full bg-secondary-container text-on-secondary font-label-caps text-label-caps py-3 tracking-widest hover:brightness-110 transition-all duration-300 shadow-[0_0_15px_rgba(21,255,209,0.4)]">
+                COLLECT ARTIFACTS
+            </button>
+<div class="flex flex-col gap-2 mt-6">
+<div class="flex items-center gap-3 text-on-surface-variant hover:text-secondary-fixed text-sm cursor-pointer">
+<span class="material-symbols-outlined text-sm">help</span>
+<span class="font-label-caps text-[10px]">Support</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant hover:text-secondary-fixed text-sm cursor-pointer">
+<span class="material-symbols-outlined text-sm">analytics</span>
+<span class="font-label-caps text-[10px]">System Status</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="lg:pl-72 pt-20 pb-20 lg:pb-0">
+<!-- Hero Section -->
+<section class="relative h-[70vh] w-full overflow-hidden">
+<img class="absolute inset-0 w-full h-full object-cover brightness-[0.6] saturate-[1.2]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIXO8DJLzqj96P3nURucxHElUhODrJSgHyjDadcO8CZGJnmIATP1dRrsgVuHuDrxTiGreVlHKWuHRg1QWy5kBs2Gom9gIqq47OMD5ISfhLCwdTZRRIdYjT_fQDz2lvcrtuJnwta1hbZs_20F2uDrguvyzGm7zt2AiZUdtE5HDJ-lwZMLRJukKLBpu8c_sP-x_-awBa89tbQyV0czZdRqcX2VY18Z71UGMI2c11iDf2BojjW7elDYcnzw7CIbz70nHHyp6mZ_ZFvPdF"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50"></div>
+<div class="absolute inset-0 flex flex-col justify-center items-center text-center px-margin-mobile lg:px-margin-desktop">
+<div class="relative inline-block px-12 py-8 glass-panel border-none">
+<div class="bracket-corner bracket-tl"></div>
+<div class="bracket-corner bracket-tr"></div>
+<div class="bracket-corner bracket-bl"></div>
+<div class="bracket-corner bracket-br"></div>
+<h1 class="font-display-xl text-display-xl text-white tracking-widest mb-2 drop-shadow-[0_0_15px_rgba(255,77,250,0.8)]">BUTSU NO BAKA</h1>
+<h2 class="font-headline-lg text-headline-lg text-secondary-fixed tracking-[0.4em]">TOKYO 3000</h2>
+<div class="mt-12 flex flex-col items-center gap-6">
+<button class="pulse-magenta bg-tertiary text-on-tertiary font-label-caps text-label-caps px-10 py-4 tracking-[0.2em] hover:scale-105 active:scale-95 transition-all duration-300">
+                            ENTRAR A LA SAGA
+                        </button>
+<div class="flex gap-2 items-center">
+<span class="w-2 h-2 bg-secondary-container rounded-full animate-pulse"></span>
+<span class="font-technical-data text-technical-data text-secondary-fixed">SERVIDOR ACTIVO: NEOTOKYO-PRIME</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Content Grid Section -->
+<section class="px-margin-mobile lg:px-margin-desktop py-16 grid grid-cols-1 xl:grid-cols-12 gap-12 max-w-container-max mx-auto">
+<!-- Left Column: Narrative & Episodes -->
+<div class="xl:col-span-8 space-y-16">
+<!-- Narrative Synopsis -->
+<div class="relative group">
+<div class="absolute -inset-1 bg-gradient-to-r from-tertiary/20 to-secondary-container/20 rounded blur opacity-25 group-hover:opacity-40 transition duration-1000"></div>
+<div class="relative glass-panel p-8 lg:p-12 border-l-4 border-l-tertiary">
+<h3 class="font-headline-lg text-headline-lg text-tertiary mb-6 flex items-center gap-4">
+<span class="material-symbols-outlined">auto_stories</span>
+                            SINOPSIS NARRATIVA
+                        </h3>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed text-justify">
+                            En el año 3000, Neo-Tokyo es una metrópolis decadente gobernada por clanes Yakuza, donde las cyber-geishas vampiro controlan los rituales de placer y poder. En medio de este caos Yūreï, un alma errante, reviven una tragedia ancestral atrapada en un bucle. Las calles de neón esconden secretos grabados en el código genético de la ciudad, donde la carne y la máquina se fusionan en una danza eterna de supervivencia y venganza.
+                        </p>
+<div class="mt-8 flex gap-6">
+<div class="flex flex-col">
+<span class="font-label-caps text-[10px] text-outline">GÉNERO</span>
+<span class="font-technical-data text-sm text-secondary-fixed">Cyber-Noire / VR</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-[10px] text-outline">ESTADO</span>
+<span class="font-technical-data text-sm text-secondary-fixed">EN EMISIÓN</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Episode Grid -->
+<div>
+<h3 class="font-headline-lg text-headline-lg text-secondary-fixed mb-8 px-2 flex items-center gap-4">
+<span class="material-symbols-outlined">layers</span>
+                        REGISTRO DE EPISODIOS
+                    </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Ep 1 -->
+<div class="glass-panel p-6 border-b-2 border-b-secondary-container hover:translate-y-[-4px] transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-4">
+<span class="font-technical-data text-xs text-secondary-fixed-dim">E01 // INICIACIÓN</span>
+<span class="bg-secondary-container/20 text-secondary-fixed text-[10px] font-technical-data px-2 py-0.5 rounded">SINC. COMPLETA</span>
+</div>
+<h4 class="font-headline-lg text-xl mb-4 group-hover:text-secondary-fixed transition-colors">Sombras de Neón</h4>
+<div class="w-full h-1 bg-surface-container-highest rounded overflow-hidden">
+<div class="w-full h-full bg-secondary-fixed shadow-[0_0_8px_#15ffd1]"></div>
+</div>
+</div>
+<!-- Ep 2 -->
+<div class="glass-panel p-6 border-b-2 border-b-secondary-container hover:translate-y-[-4px] transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-4">
+<span class="font-technical-data text-xs text-secondary-fixed-dim">E02 // CÓDIGO ROJO</span>
+<span class="bg-secondary-container/20 text-secondary-fixed text-[10px] font-technical-data px-2 py-0.5 rounded">SINC. COMPLETA</span>
+</div>
+<h4 class="font-headline-lg text-xl mb-4 group-hover:text-secondary-fixed transition-colors">El Pacto de Sangre</h4>
+<div class="w-full h-1 bg-surface-container-highest rounded overflow-hidden">
+<div class="w-full h-full bg-secondary-fixed shadow-[0_0_8px_#15ffd1]"></div>
+</div>
+</div>
+<!-- Ep 3 -->
+<div class="glass-panel p-6 border-b-2 border-b-tertiary-container hover:translate-y-[-4px] transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-4">
+<span class="font-technical-data text-xs text-tertiary">E03 // PROCESAMIENTO</span>
+<span class="bg-tertiary-container/20 text-tertiary text-[10px] font-technical-data px-2 py-0.5 rounded animate-pulse">SINC. PROGRESO</span>
+</div>
+<h4 class="font-headline-lg text-xl mb-4 group-hover:text-tertiary transition-colors">Laberinto Digital</h4>
+<div class="flex items-center gap-4">
+<div class="flex-1 h-1 bg-surface-container-highest rounded overflow-hidden">
+<div class="w-[74%] h-full bg-tertiary shadow-[0_0_8px_#ff4dfa]"></div>
+</div>
+<span class="font-technical-data text-xs text-tertiary">74%</span>
+</div>
+</div>
+<!-- Ep 4 -->
+<div class="glass-panel p-6 opacity-60 grayscale border-b-2 border-b-outline-variant cursor-not-allowed group">
+<div class="flex justify-between items-start mb-4">
+<span class="font-technical-data text-xs text-outline">E04 // DESCONOCIDO</span>
+<span class="material-symbols-outlined text-sm">lock</span>
+</div>
+<h4 class="font-headline-lg text-xl mb-4">El Origen del Vacío</h4>
+<div class="bg-surface-container-highest p-3 rounded flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary text-sm">key</span>
+<span class="font-technical-data text-[10px] text-tertiary">REQUIERE LLAVE ESPEJO</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Profiles & Items -->
+<div class="xl:col-span-4 space-y-12">
+<!-- Character Profile: Yūrei -->
+<div class="glass-panel overflow-hidden relative group border-t-4 border-t-tertiary shadow-[0_0_30px_rgba(255,77,250,0.1)]">
+<div class="aspect-[3/4] relative">
+<img class="w-full h-full object-cover brightness-[0.7]" data-alt="A stylized holographic character design of Yūrei, a cyber-samurai female character in a sleek, obsidian carbon-fiber power suit with glowing cyan circuits running through it. She has long silver hair floating as if in zero gravity, and a translucent HUD interface in front of her face. Dark neon atmosphere with high-contrast cinematic lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEz5etLQCVvdR58DDo_4coBk8Zk7dbQg0O_QaPeN16C-5n2b-N6IY65P0Y1cBBGqYoAV8d7gWR3BSl0fT_yKy-PVoo2Nna6ARmkWUs2Gj_YMxpTWOe2gE4KBGWLSXwSxYj4CbfwS1sSvHSsLpUdJ56Q3nqKR6WZzloj7YiRS15g97F1n3FgPae5MBHFOYOLldU3OHm8owtieeoGMC29Zerb3Ru7lvDA_08VB5YTVmgctZZjNiME1p4Y5oL6XS1KcLC9HzT6psun9Vn"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[#0e0e0e] via-transparent to-transparent"></div>
+<div class="absolute bottom-6 left-6 right-6">
+<span class="font-label-caps text-xs text-tertiary-fixed tracking-widest mb-1 block">PROTOTIPO X-77</span>
+<h3 class="font-headline-lg text-3xl text-white">YŪREÏ</h3>
+</div>
+</div>
+<div class="p-8 space-y-6">
+<div class="space-y-4">
+<div class="flex justify-between items-end">
+<span class="font-technical-data text-[11px] text-outline uppercase">Resonancia</span>
+<span class="font-technical-data text-sm text-tertiary">88%</span>
+</div>
+<div class="h-1 w-full bg-surface-container-highest rounded overflow-hidden">
+<div class="h-full bg-tertiary w-[88%]"></div>
+</div>
+<div class="flex justify-between items-end">
+<span class="font-technical-data text-[11px] text-outline uppercase">Sigilo</span>
+<span class="font-technical-data text-sm text-secondary-fixed">94%</span>
+</div>
+<div class="h-1 w-full bg-surface-container-highest rounded overflow-hidden">
+<div class="h-full bg-secondary-fixed w-[94%] shadow-[0_0_8px_#15ffd1]"></div>
+</div>
+<div class="flex justify-between items-end">
+<span class="font-technical-data text-[11px] text-outline uppercase">Potencial</span>
+<span class="font-technical-data text-sm text-primary">??%</span>
+</div>
+<div class="h-1 w-full bg-surface-container-highest rounded overflow-hidden">
+<div class="h-full bg-primary w-[30%] opacity-50 animate-pulse"></div>
+</div>
+</div>
+<p class="font-technical-data text-[12px] text-on-surface-variant leading-tight">
+                            Sujeto con alta compatibilidad neural. Identidad fragmentada. Capacidad de translocación en entornos VR de baja densidad.
+                        </p>
+</div>
+</div>
+<!-- Linked Relics -->
+<div class="glass-panel p-8 border-none relative">
+<div class="bracket-corner bracket-tl"></div>
+<div class="bracket-corner bracket-br"></div>
+<h3 class="font-headline-lg text-lg text-white mb-6 uppercase tracking-wider">Reliquias de la Saga</h3>
+<div class="flex flex-col gap-6">
+<div class="flex items-center gap-6 p-4 bg-surface-container-low/50 border border-tertiary-container/20 group hover:border-tertiary transition-all cursor-pointer">
+<div class="w-16 h-16 glass-panel flex items-center justify-center relative">
+<span class="material-symbols-outlined text-3xl text-tertiary group-hover:scale-125 transition-transform">key</span>
+<div class="absolute inset-0 bg-tertiary/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="flex-1">
+<h4 class="font-technical-data text-sm text-white">LLAVE ESPEJO</h4>
+<p class="font-technical-data text-[10px] text-outline">ARTEFACTO CLAVE // NIVEL 03</p>
+<span class="mt-2 inline-block font-label-caps text-[9px] bg-tertiary/20 text-tertiary px-2 py-0.5 rounded">BLOQUEADO</span>
+</div>
+</div>
+<div class="flex items-center gap-6 p-4 bg-surface-container-low/50 border border-secondary-container/20 grayscale group hover:grayscale-0 transition-all cursor-pointer opacity-50">
+<div class="w-16 h-16 glass-panel flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl text-secondary-fixed">memory</span>
+</div>
+<div class="flex-1">
+<h4 class="font-technical-data text-sm text-white">CHIP DE MEMORIA 01</h4>
+<p class="font-technical-data text-[10px] text-outline">FRAGEMENTO DE LORE</p>
+<span class="mt-2 inline-block font-label-caps text-[9px] bg-secondary-container/20 text-secondary-fixed px-2 py-0.5 rounded">NO ENCONTRADO</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 w-full lg:hidden z-50 rounded-t-xl bg-surface-container/95 backdrop-blur-lg border-t border-tertiary-container/40 shadow-[0_-4px_24px_rgba(0,0,0,0.8)] flex justify-around items-center h-16 px-4">
+<a class="flex flex-col items-center justify-center text-tertiary bg-tertiary-container/20 rounded-xl px-4 py-1 scale-110 duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome_motion</span>
+<span class="font-label-caps text-[10px] mt-0.5">Sagas</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined">view_in_ar</span>
+<span class="font-label-caps text-[10px] mt-0.5">VR</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined">hub</span>
+<span class="font-label-caps text-[10px] mt-0.5">UGC</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-highest transition-all" href="#">
+<span class="material-symbols-outlined">stream</span>
+<span class="font-label-caps text-[10px] mt-0.5">Live</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions and HUD effects
+        document.addEventListener('mousemove', (e) => {
+            const cursorGlow = document.createElement('div');
+            cursorGlow.className = 'fixed w-32 h-32 pointer-events-none rounded-full blur-[80px] bg-tertiary/10 z-[9999]';
+            cursorGlow.style.left = e.clientX - 64 + 'px';
+            cursorGlow.style.top = e.clientY - 64 + 'px';
+            
+            const existingGlow = document.querySelector('.cursor-glow-fx');
+            if (existingGlow) existingGlow.remove();
+            
+            cursorGlow.classList.add('cursor-glow-fx');
+            document.body.appendChild(cursorGlow);
+        });
+
+        // Pulsing animation for active episode logic
+        const episodeProgress = document.querySelector('.animate-pulse');
+        setInterval(() => {
+            if(episodeProgress) {
+                const val = Math.floor(Math.random() * 2) + 73;
+                // Just aesthetic fluctuation simulation
+            }
+        }, 2000);
+    </script>
+</body></html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>MagZine | Quantvm Matrix Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;family=Inter:wght@300;400;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#bee9ff",
+                        "error": "#ffb4ab",
+                        "surface-container-high": "#262b2e",
+                        "error-container": "#93000a",
+                        "inverse-on-surface": "#2c3134",
+                        "surface-container-lowest": "#0a0f11",
+                        "inverse-primary": "#006685",
+                        "surface-tint": "#6bd3ff",
+                        "surface": "#0f1417",
+                        "surface-container": "#1b2023",
+                        "on-tertiary": "#570066",
+                        "tertiary-container": "#f69aff",
+                        "on-primary": "#003546",
+                        "secondary-fixed": "#24ffcd",
+                        "tertiary-fixed": "#ffd6fe",
+                        "on-primary-container": "#00526b",
+                        "primary-container": "#5bc8f5",
+                        "on-background": "#dfe3e7",
+                        "inverse-surface": "#dfe3e7",
+                        "on-error-container": "#ffdad6",
+                        "outline": "#889299",
+                        "secondary-container": "#24ffcd",
+                        "surface-container-highest": "#303538",
+                        "on-tertiary-fixed": "#35003f",
+                        "on-secondary-fixed-variant": "#00513f",
+                        "background": "#0f1417",
+                        "on-primary-fixed": "#001f2a",
+                        "on-tertiary-fixed-variant": "#7b008f",
+                        "surface-bright": "#353a3d",
+                        "primary": "#a2e0ff",
+                        "tertiary": "#fec5ff",
+                        "surface-variant": "#303538",
+                        "secondary": "#ffffff",
+                        "on-error": "#690005",
+                        "tertiary-fixed-dim": "#faabff",
+                        "on-secondary-container": "#00725a",
+                        "on-surface-variant": "#bdc8cf",
+                        "outline-variant": "#3e484e",
+                        "surface-dim": "#0f1417",
+                        "on-tertiary-container": "#820097",
+                        "on-surface": "#dfe3e7",
+                        "primary-fixed-dim": "#6bd3ff",
+                        "on-secondary": "#00382b",
+                        "surface-container-low": "#171c1f",
+                        "on-primary-fixed-variant": "#004d65",
+                        "secondary-fixed-dim": "#00e0b3",
+                        "on-secondary-fixed": "#002118"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "unit": "8px",
+                        "margin-mobile": "20px",
+                        "container-max": "1440px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "display-lg": ["Audiowide"],
+                        "label-md": ["Orbitron"],
+                        "display-lg-mobile": ["Audiowide"],
+                        "headline-lg": ["Audiowide"],
+                        "label-caps": ["Orbitron"],
+                        "display-md": ["Audiowide"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Audiowide"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                        "display-lg-mobile": ["32px", {"lineHeight": "1.1", "fontWeight": "400"}],
+                        "headline-lg": ["30px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                        "label-caps": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                        "display-md": ["36px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #060810;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(107, 211, 255, 0.05) 0%, transparent 70%),
+                linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60 4.02 45V15z' fill-rule='evenodd' stroke='%23ffffff' stroke-width='0.5' fill='none' opacity='0.05'/%3E%3C/svg%3E");
+            color: #dfe3e7;
+            overflow-x: hidden;
+        }
+
+        .glow-primary {
+            text-shadow: 0 0 10px rgba(162, 224, 255, 0.6);
+        }
+
+        .glass-panel {
+            backdrop-filter: blur(12px);
+            background: rgba(27, 32, 35, 0.8);
+            border: 1px solid rgba(136, 146, 153, 0.2);
+        }
+
+        .tactical-corner::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            width: 10px;
+            height: 10px;
+            border-top: 2px solid #a2e0ff;
+            border-left: 2px solid #a2e0ff;
+        }
+
+        .editorial-card {
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .editorial-card:hover {
+            transform: scale(1.05);
+            z-index: 10;
+            box-shadow: 0 0 30px rgba(36, 255, 205, 0.3);
+            border-color: #24ffcd;
+        }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(162, 224, 255, 0.1);
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: scanline 4s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f1417;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #6bd3ff;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<header class="bg-surface/80 backdrop-blur-xl dark:bg-surface/80 docked full-width top-0 z-50 border-b border-outline-variant/30 shadow-[0_0_15px_rgba(107,211,255,0.2)] flex justify-between items-center px-margin-desktop h-20 w-full fixed">
+<div class="flex items-center gap-8">
+<span class="font-display-md text-display-md text-primary tracking-wider glow-primary">MagZine</span>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="font-headline-md text-headline-md text-primary border-b-2 border-primary pb-1 transition-colors duration-300" href="#">Home</a>
+<a class="font-headline-md text-headline-md text-on-surface-variant hover:text-secondary-fixed transition-colors duration-300" href="#">Sagas</a>
+<a class="font-headline-md text-headline-md text-on-surface-variant hover:text-secondary-fixed transition-colors duration-300" href="#">Codex</a>
+<a class="font-headline-md text-headline-md text-on-surface-variant hover:text-secondary-fixed transition-colors duration-300" href="#">Market</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative group hidden sm:block">
+<input class="bg-surface-container-high border border-outline/30 rounded-full px-4 py-1 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-64 transition-all duration-300" placeholder="Scan Quantvm Matrix..." type="text">
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+</div>
+<div class="flex gap-4">
+<button class="text-primary hover:text-secondary-fixed Active: scale-95 transition-transform duration-150">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-primary hover:text-secondary-fixed Active: scale-95 transition-transform duration-150">
+<span class="material-symbols-outlined">psychology</span>
+</button>
+<button class="text-primary hover:text-secondary-fixed Active: scale-95 transition-transform duration-150">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- SideNavBar (Summonable) -->
+<aside class="fixed right-0 top-20 h-[calc(100vh-80px)] w-72 bg-surface-container-low/90 backdrop-blur-md dark:bg-surface-container-low/90 border-l border-outline-variant/20 shadow-2xl z-40 hidden md:flex flex-col py-8 gap-4">
+<div class="px-6 mb-4">
+<div class="flex items-center gap-3 p-3 glass-panel rounded-xl">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container">cabin</span>
+</div>
+<div>
+<h4 class="font-label-caps text-label-caps text-primary">CBC Assistant</h4>
+<p class="text-[10px] text-secondary-fixed opacity-70">Quantum Link Active</p>
+</div>
+</div>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-4 px-6 py-3 bg-tertiary-container/20 text-tertiary-fixed border-r-4 border-tertiary transition-all" href="#">
+<span class="material-symbols-outlined">fort</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high hover:translate-x-[-4px] transition-all" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="font-label-caps text-label-caps">Sagas</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high hover:translate-x-[-4px] transition-all" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-caps text-label-caps">Codex</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high hover:translate-x-[-4px] transition-all" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-caps text-label-caps">Marketplace</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high hover:translate-x-[-4px] transition-all" href="#">
+<span class="material-symbols-outlined">event</span>
+<span class="font-label-caps text-label-caps">Events</span>
+</a>
+</nav>
+<div class="mt-auto px-6">
+<button class="w-full py-4 bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-container font-display-md text-headline-md rounded-lg shadow-lg hover:shadow-primary-container/40 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">electric_bolt</span>
+                Summon Assistant
+            </button>
+</div>
+</aside>
+<main class="pt-20 md:pr-72 min-h-screen">
+<!-- Hero Banner -->
+<section class="relative h-[819px] w-full overflow-hidden flex items-center justify-center">
+
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-background/40 to-background"></div>
+<div class="relative z-10 text-center px-margin-mobile md:px-0">
+<div class="inline-block px-4 py-1 glass-panel border-primary/40 text-primary font-label-caps text-label-caps mb-6 glow-primary">
+                    DATA LINK: ESTABLISHED
+                </div>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg mb-4 text-secondary leading-tight">QUANTVM MATRIX INTERFACE</h1>
+<p class="font-body-lg text-body-lg max-w-2xl mx-auto text-on-surface-variant mb-10">
+                    Navigate the multiversal archives of MagZine. Uncover the hidden histories of the White Brotherhood, the Black Cube Corp, and the ancient Lords of Sumer.
+                </p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+<button class="px-8 py-3 bg-primary-container text-on-primary-container font-display-md text-headline-md rounded hover:glow-primary transition-all flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">explore</span>
+                        Lucky Jump
+                    </button>
+<button class="px-8 py-3 border border-secondary-fixed text-secondary-fixed font-display-md text-headline-md rounded hover:bg-secondary-fixed/10 transition-all">
+                        View Codex
+                    </button>
+</div>
+</div>
+<!-- HUD Elements -->
+<div class="absolute bottom-10 left-margin-desktop hidden lg:flex flex-col gap-2 font-label-md text-[10px] text-outline">
+<div class="flex items-center gap-2">
+<div class="w-1 h-1 bg-primary rounded-full animate-pulse"></div>
+                    COORD: 40.7128° N, 74.0060° W
+                </div>
+<div class="flex items-center gap-2">
+<div class="w-1 h-1 bg-secondary-fixed rounded-full animate-pulse"></div>
+                    MAGNO-DRIFT: 0.0024
+                </div>
+</div>
+</section>
+<!-- Featured Carousel (Netflix Style) -->
+<section class="py-12 pl-margin-mobile md:pl-margin-desktop overflow-hidden">
+<div class="flex items-center justify-between pr-margin-mobile md:pr-margin-desktop mb-8">
+<h2 class="font-headline-lg text-headline-lg text-primary flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary-fixed">auto_stories</span>
+                    Featured Sagas
+                </h2>
+<div class="flex gap-2">
+<button class="w-10 h-10 glass-panel flex items-center justify-center hover:text-primary"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="w-10 h-10 glass-panel flex items-center justify-center hover:text-primary"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+<div class="flex gap-6 overflow-x-auto pb-8 scrollbar-hide">
+<!-- Card 1 -->
+<div class="editorial-card min-w-[280px] md:min-w-[400px] aspect-[16/9] relative glass-panel rounded-xl overflow-hidden group">
+<img class="w-full h-full object-cover" data-alt="A cinematic, high-prestige digital painting of the White Brotherhood, a group of figures in flowing white robes standing before a glowing celestial gate in a desert temple. Warm, golden hour lighting with dust particles floating in the air. Sci-fi spiritual aesthetic with sharp architectural lines and cosmic depth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBT2DbSrig-ytytM9N86LJJwO3Dn-IipDPxvamPtJ8aaBcmHDvfpxiNxT1VwTrShpB44BoZclQKdZoSgiIsHAzp2Ar0Gc1yY_hy8b8OYhJu8R6M74GYlBOGUKHo5K8fL9xAMhV42NwJ93BR1XzPhC3dfHlCEdkhHMAFm98aNGr_5AjG-xf8sI4uCJ2Xp8lBZzbaqWkOQeVTol9PH8GlvaI0gv4w_7Wl2pE0gGKsCnsmvXtswGZ67oaElQOk6s-Iq-8oMYERSUAEWbiD">
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-90"></div>
+<div class="absolute bottom-4 left-4">
+<span class="text-[10px] font-label-caps text-secondary-fixed mb-1 block">MAGZINE: LORE</span>
+<h3 class="font-headline-md text-headline-md text-white">White Brotherhood</h3>
+</div>
+<div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-primary">bookmark</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="editorial-card min-w-[280px] md:min-w-[400px] aspect-[16/9] relative glass-panel rounded-xl overflow-hidden group">
+<img class="w-full h-full object-cover" data-alt="A high-tech digital illustration of the Lords of Sumer, giant metallic biomechanical deities standing on a ziggurat under a purple cosmic storm. Dramatic lighting with neon purple and electric blue streaks across the sky. Intricate cybernetic details on the deities' armor and weapons." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPIksfSsv-oM-aWkScNLOyHvH53htd-j_6gAWPQfBurYW10WnxIO9UZ7NNo4xqwFmjkSFs4u74padiBgxvkpvu2MI__jibudp7A36tpaLssdYXF_TQYz9tInZFpS0BlqQraFniSAZJO8V8SThQjoE1RNHw3bgx2jlKERWTytF_QRYb_XBzg104oGbBhk6H9GBz1sUbtgKlKroUAdLwtF1IEXGbFu3ep7b5nf3EnO75ytZovhBO2FjaV3RK9QsYDMoad6PBnrw70Gae">
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-90"></div>
+<div class="absolute bottom-4 left-4">
+<span class="text-[10px] font-label-caps text-secondary-fixed mb-1 block">MAGZINE: EPIC</span>
+<h3 class="font-headline-md text-headline-md text-white">Lords of Sumer</h3>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="editorial-card min-w-[280px] md:min-w-[400px] aspect-[16/9] relative glass-panel rounded-xl overflow-hidden group">
+<img class="w-full h-full object-cover" data-alt="A dark and mysterious cosmic entity appearing as a swirling vortex of energy and matter, known as the Caosfera. The center is a bright, pulsating core of red and green energy, surrounded by debris and silhouettes of derelict spaceships. Immersive, high-contrast digital art style with cinematic bloom." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVDr3wClKM_0wwn5R8Ee49rSGB0fPP2RdmYSJMyRpiyw5DZaBULK4bFQEq3_W9VVsuPWFN2R3RC00ZCiXhgsPeVUw3bIZQvP2G2iyJPHTtwkAH4u6IMdOD4nacM3AmUS7I8uX2Zvbe2uI07MJLljbdwCZyCRFnDA6eRJdmBCvzaqGLQSmCXpzfVGrI2UDz70NZ8qWvYF1f-ZeReB8FRXQDVeiSkSHRURawi1ntQwDhng5ogdsxtiJo8Cr_rkfhprR7l03DMx2VQIxa">
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-90"></div>
+<div class="absolute bottom-4 left-4">
+<span class="text-[10px] font-label-caps text-secondary-fixed mb-1 block">MAGZINE: VOID</span>
+<h3 class="font-headline-md text-headline-md text-white">Caosfera Paradox</h3>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Grid: Discoveries & Artifacts -->
+<section class="py-16 px-margin-mobile md:px-margin-desktop">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-10 text-center md:text-left">Latest Node Discoveries</h2>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto md:h-[600px]">
+<!-- Large Feature -->
+<div class="md:col-span-8 glass-panel relative rounded-2xl overflow-hidden p-8 flex flex-col justify-end group">
+<div class="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity">
+<img class="w-full h-full object-cover" data-alt="A holographic 3D lattice map of the Magnopvs Multiverse, showing interconnected sectors of the White Brotherhood and Black Cube Corp. The map glows with cyan and orange light, displayed on a futuristic glass console in a dimly lit high-tech command center." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBb7Uz8qoU_CE5rcjsWDkDXEWefhsebmq3hjKkcIqr50eJS42t3kPhHwT8WsPZuQUzLIMrtceDtXm6mnmY7W3P9uT0VtEycynTFl7TPy25mxE0nkvplWn-hHtQE9M_vv5DXsML311gGgM1tqdBtMnAQdjEgAMbVCzwkZ4KyB7pE37itFea8jPGJzLEzVOPWM8n4HAoMwBOCNbykSie3clfZixmCvptv4UJ-4gtLGiGEcze69JdNRlpbJT7746XbF4rs-kIn0Z3zBV63">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-2 text-primary font-label-caps text-label-caps mb-4">
+<span class="material-symbols-outlined text-sm">hub</span>
+                            Atlas Cósmico Update
+                        </div>
+<h3 class="font-display-md text-display-md text-white mb-4">The Magnopvs Multiverse</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl mb-6">
+                            Sector 7-G has been fully decyphered. New lines of fate connect the Eleusis Path directly to the Sumerian Core.
+                        </p>
+<button class="bg-secondary-fixed text-on-secondary-fixed px-6 py-2 rounded font-label-caps text-label-caps hover:scale-105 transition-transform">Explore Map</button>
+</div>
+</div>
+<!-- Vertical Cards -->
+<div class="md:col-span-4 flex flex-col gap-6">
+<!-- Card 1 -->
+<div class="flex-1 glass-panel p-6 rounded-2xl flex flex-col justify-center border-l-4 border-tertiary group hover:bg-surface-container-high transition-colors">
+<div class="flex items-center justify-between mb-4">
+<span class="material-symbols-outlined text-tertiary" style="font-variation-settings: 'FILL' 1;">diamond</span>
+<span class="font-label-md text-label-md text-outline">ARTIFACT #402</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-white mb-2">The Magno-Egg</h4>
+<p class="text-body-sm text-on-surface-variant opacity-80">A quantum battery found in the depths of sector B-12.</p>
+</div>
+<!-- Card 2 -->
+<div class="flex-1 glass-panel p-6 rounded-2xl flex flex-col justify-center border-l-4 border-secondary-fixed group hover:bg-surface-container-high transition-colors">
+<div class="flex items-center justify-between mb-4">
+<span class="material-symbols-outlined text-secondary-fixed" style="font-variation-settings: 'FILL' 1;">location_on</span>
+<span class="font-label-md text-label-md text-outline">NEW SECTOR</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-white mb-2">Eleusis Gate</h4>
+<p class="text-body-sm text-on-surface-variant opacity-80">Ancient sanctuary revealed after the great sync.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Newsletter / Sync Section -->
+<section class="py-20 px-margin-mobile md:px-margin-desktop">
+<div class="glass-panel p-12 rounded-3xl relative overflow-hidden flex flex-col md:flex-row items-center gap-12 border-primary/10">
+<div class="scanline"></div>
+<div class="flex-1 text-center md:text-left">
+<h2 class="font-display-md text-display-md text-primary mb-4 glow-primary">STAY SYNCED</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-0">Join 2.4k interface units and receive the latest matrix updates directly to your consciousness link.</p>
+</div>
+<div class="flex-1 w-full max-w-md">
+<form class="flex flex-col gap-4">
+<div class="relative">
+<input class="w-full bg-surface-container-highest border border-outline/50 p-4 rounded-lg focus:outline-none focus:border-secondary-fixed text-white font-label-caps" placeholder="ENTER SYNC ADDRESS" type="email">
+<div class="absolute right-4 top-1/2 -translate-y-1/2 text-outline-variant font-label-md">0x-SYNC</div>
+</div>
+<button class="w-full py-4 bg-tertiary-container text-on-tertiary-container font-display-md text-headline-md rounded-lg hover:shadow-[0_0_20px_rgba(246,154,255,0.4)] transition-all">ESTABLISH LINK</button>
+</form>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest docked full-width bottom-0 border-t border-primary/20 flex justify-between items-center px-margin-desktop py-unit h-auto min-h-[48px] w-full flex-wrap gap-4">
+<div class="font-label-md text-label-md text-secondary-fixed glow-primary">
+            © 2142 QUANTVM MATRIX INTERFACE
+        </div>
+<div class="flex flex-wrap items-center gap-6">
+<span class="font-label-md text-label-md text-secondary-fixed font-bold">Sync Status: OPTIMAL</span>
+<span class="font-label-md text-label-md text-outline">Latency: 0.04ms</span>
+<span class="font-label-md text-label-md text-outline">MagnoEggs: 12/40</span>
+<span class="font-label-md text-label-md text-outline">Carrots: 5</span>
+<span class="font-label-md text-label-md text-outline">Keys: 2</span>
+</div>
+<div class="flex items-center gap-4 text-outline-variant">
+<span class="material-symbols-outlined hover:text-primary cursor-pointer transition-colors">terminal</span>
+<span class="material-symbols-outlined hover:text-primary cursor-pointer transition-colors">wifi_tethering</span>
+<span class="material-symbols-outlined hover:text-primary cursor-pointer transition-colors">security</span>
+</div>
+</footer>
+<!-- Interactive Scripts -->
+<script>
+        // Simple parallax or glow tracking effect could go here
+        document.addEventListener('mousemove', (e) => {
+            const cards = document.querySelectorAll('.editorial-card');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                if (x > 0 && x < rect.width && y > 0 && y < rect.height) {
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
+                }
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS - New Operator Registration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;700&amp;family=Sora:wght@400;800&amp;family=Space+Mono&amp;family=Hanken+Grotesk:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-lowest": "#0e0e0e",
+                        "secondary-fixed-dim": "#dcb8ff",
+                        "secondary-container": "#7701d0",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#ffabf3",
+                        "primary-fixed": "#dae1ff",
+                        "on-primary-fixed-variant": "#003fa4",
+                        "on-primary-fixed": "#001849",
+                        "on-surface-variant": "#c2c6d8",
+                        "secondary-fixed": "#efdbff",
+                        "on-background": "#e4e2e2",
+                        "primary-fixed-dim": "#b3c5ff",
+                        "surface-variant": "#343535",
+                        "on-tertiary-fixed-variant": "#810081",
+                        "tertiary": "#ffabf3",
+                        "background": "#050505",
+                        "primary": "#b3c5ff",
+                        "surface-container-low": "#1b1c1c",
+                        "on-secondary-container": "#dcb7ff",
+                        "surface-container": "#1f2020",
+                        "outline-variant": "#424656",
+                        "on-tertiary-container": "#fff6f9",
+                        "primary-container": "#0066ff",
+                        "error": "#ffb4ab",
+                        "on-tertiary-fixed": "#380038",
+                        "error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#6700b5",
+                        "on-error": "#690005",
+                        "inverse-surface": "#e4e2e2",
+                        "surface-tint": "#b3c5ff",
+                        "outline": "#8c90a1",
+                        "tertiary-container": "#ca00ca",
+                        "on-primary": "#002b75",
+                        "surface-bright": "#393939",
+                        "on-surface": "#e4e2e2",
+                        "on-secondary-fixed": "#2c0051",
+                        "inverse-primary": "#0054d6",
+                        "surface": "#131314",
+                        "secondary": "#dcb8ff",
+                        "inverse-on-surface": "#303030",
+                        "on-primary-container": "#f8f7ff",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-container-highest": "#343535",
+                        "on-tertiary": "#5b005b",
+                        "on-secondary": "#480081",
+                        "tertiary-fixed": "#ffd7f5",
+                        "surface-dim": "#131314",
+                        "quantum-blue": "#00f5ff",
+                        "portal-magenta": "#ff00ff",
+                        "void-black": "#050505"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    fontFamily: {
+                        "audiowide": ["Audiowide", "sans-serif"],
+                        "orbitron": ["Orbitron", "sans-serif"],
+                        "display-xl": ["sora"],
+                        "code-sm": ["Space Mono"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-lg": ["sora"],
+                        "display-xl-mobile": ["sora"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        @keyframes scan-line {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(1000%); }
+        }
+        @keyframes pulse-cyan {
+            0%, 100% { box-shadow: 0 0 15px rgba(0, 245, 255, 0.4); }
+            50% { box-shadow: 0 0 30px rgba(0, 245, 255, 0.8); }
+        }
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 1px); }
+            40% { transform: translate(-2px, -1px); }
+            60% { transform: translate(2px, 1px); }
+            80% { transform: translate(2px, -1px); }
+            100% { transform: translate(0); }
+        }
+        .glitch-hover:hover {
+            animation: glitch 0.1s linear infinite;
+        }
+        .scan-overlay {
+            background: linear-gradient(to bottom, transparent, rgba(0, 245, 255, 0.05), transparent);
+            height: 10%;
+            width: 100%;
+            position: absolute;
+            animation: scan-line 8s linear infinite;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 245, 255, 0.2);
+        }
+        .energy-input {
+            border: none;
+            border-bottom: 1px solid #424656;
+            background: transparent !important;
+            color: #e4e2e2;
+            transition: all 0.3s ease;
+        }
+        .energy-input:focus {
+            outline: none;
+            border-bottom-color: #ff00ff;
+            box-shadow: 0 4px 10px -5px rgba(255, 0, 255, 0.3);
+        }
+        .energy-input:focus + .scanning-label {
+            opacity: 1;
+        }
+        .scanning-label {
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            color: #ff00ff;
+        }
+        .matrix-bg {
+            background-image: radial-gradient(circle at 50% 50%, rgba(0, 245, 255, 0.05) 0%, transparent 80%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-void-black text-on-background min-h-screen flex flex-col font-body-md overflow-x-hidden relative">
+<div class="fixed inset-0 pointer-events-none z-0 matrix-bg"></div>
+<div class="fixed inset-0 pointer-events-none z-10 scan-overlay"></div>
+<header class="fixed top-0 left-0 w-full z-50 flex flex-col px-6 py-4 bg-void-black/80 backdrop-blur-md border-b border-quantum-blue/10">
+<div class="flex justify-between items-center w-full">
+<div class="flex flex-col">
+<span class="font-orbitron text-[10px] tracking-widest text-quantum-blue/60 uppercase">BANK_STATUS</span>
+<span class="font-orbitron text-xs font-bold text-quantum-blue">READY</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-orbitron text-[10px] tracking-widest text-portal-magenta/60 uppercase">MGC_CREDITS</span>
+<span class="font-orbitron text-xs font-bold text-portal-magenta">0.00</span>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-[640px] mx-auto pt-24 pb-12 px-6 z-20 flex flex-col gap-node-gap items-center">
+<div class="w-full flex flex-col items-center mb-4">
+<div class="relative w-48 h-48 flex items-center justify-center">
+<div class="absolute inset-0 rounded-full border-2 border-dashed border-quantum-blue/20 animate-[spin_20s_linear_infinite]"></div>
+<div class="absolute inset-4 rounded-full border border-portal-magenta/30 animate-[spin_10s_linear_infinite_reverse]"></div>
+<img class="w-32 h-32 object-contain drop-shadow-[0_0_15px_rgba(0,245,255,0.6)]" data-alt="A glowing holographic emblem of MagnopVS featuring a central abstract quantum spiral in vivid neon cyan and magenta. The logo is suspended in a dark void with floating energy particles and tactical HUD elements. The style is hyper-detailed digital art with high-fidelity glows and a cyber-mystic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9h0Z9rDNhwNxbosPshBvd9U7p4lKkcF_XaE4VJiqhMa6e8zzgw4p5-x202631fNtQqzteLfpfqAmKqe8Ty_p75eZSNSy6cTrM8aRhn4nflqA12ETaw4wQ46Guktes0EmIXJpPTuKQE6LbRgoby7SnRtsfdOdEeGd75_2pQ1v6BBUuhAuqYAPt-DEKtrzDXqvCC6pIusZveOEo-_Vk7AtH1Udjz56dg4aCxO0y8DXPdciZ2ah4vpq2DljcvcjUpqIm6i_W6VDmNUbG"/>
+</div>
+<h1 class="font-audiowide text-2xl mt-4 tracking-tighter text-center bg-gradient-to-r from-quantum-blue to-portal-magenta bg-clip-text text-transparent">
+                MAGNOPVS_CORE
+            </h1>
+<p class="font-code-sm text-[10px] text-on-surface-variant mt-2 uppercase tracking-widest">
+                [ Protocol: New Operator Registration ]
+            </p>
+</div>
+<section class="w-full glass-card rounded-xl p-8 flex flex-col gap-6 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2">
+<span class="font-code-sm text-[8px] text-quantum-blue/40">ID: REGEN_8842</span>
+</div>
+<div class="flex flex-col gap-1 relative">
+<div class="flex justify-between items-end">
+<label class="font-orbitron text-[10px] text-on-surface-variant uppercase tracking-widest">Iniciado</label>
+<span class="scanning-label uppercase">[ SCANNING... ]</span>
+</div>
+<input class="energy-input w-full py-2 font-body-md focus:ring-0" placeholder="Alias de Operador" type="text"/>
+</div>
+<div class="flex flex-col gap-1 relative">
+<div class="flex justify-between items-end">
+<label class="font-orbitron text-[10px] text-on-surface-variant uppercase tracking-widest">Email</label>
+<span class="scanning-label uppercase">[ VALIDATING_LINK... ]</span>
+</div>
+<input class="energy-input w-full py-2 font-body-md focus:ring-0" placeholder="neural-net@matrix.com" type="email"/>
+</div>
+<div class="flex flex-col gap-1 relative">
+<div class="flex justify-between items-end">
+<label class="font-orbitron text-[10px] text-on-surface-variant uppercase tracking-widest">Frecuencia</label>
+<span class="scanning-label uppercase">[ TUNING... ]</span>
+</div>
+<select class="energy-input w-full py-2 font-body-md focus:ring-0 appearance-none">
+<option value="alpha">Alpha Stream (Standard)</option>
+<option value="gamma">Gamma Burst (High-Energy)</option>
+<option value="theta">Theta Phase (Deep Dive)</option>
+</select>
+</div>
+</section>
+<section class="w-full flex flex-col items-center gap-4 py-4">
+<h3 class="font-orbitron text-xs text-on-surface-variant tracking-[0.2em]">SOUL SIGNATURE REQUIRED</h3>
+<button class="relative w-24 h-24 rounded-full glass-card border-quantum-blue flex items-center justify-center animate-[pulse-cyan_3s_infinite] group active:scale-95 transition-transform">
+<div class="absolute inset-0 rounded-full border border-quantum-blue/40 scale-110 opacity-20"></div>
+<span class="material-symbols-outlined text-quantum-blue text-4xl group-hover:scale-110 transition-transform" data-icon="fingerprint" data-weight="fill">fingerprint</span>
+<div class="absolute -bottom-8 whitespace-nowrap">
+<span class="font-code-sm text-[10px] text-quantum-blue animate-pulse">PLACE_CONTACT</span>
+</div>
+</button>
+</section>
+<div class="w-full mt-8 px-2">
+<button class="w-full py-6 glass-card border-none bg-gradient-to-b from-surface-container-high to-surface-container-lowest border-t border-portal-magenta/40 relative group overflow-hidden glitch-hover">
+<div class="absolute inset-0 bg-portal-magenta/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="absolute top-0 left-0 w-4 h-[1px] bg-portal-magenta"></div>
+<div class="absolute top-0 left-0 w-[1px] h-4 bg-portal-magenta"></div>
+<div class="absolute bottom-0 right-0 w-4 h-[1px] bg-portal-magenta"></div>
+<div class="absolute bottom-0 right-0 w-[1px] h-4 bg-portal-magenta"></div>
+<span class="font-orbitron font-bold text-sm tracking-[0.3em] text-on-surface group-hover:text-portal-magenta transition-colors">
+                    VINCULAR IDENTIDAD
+                </span>
+<div class="mt-1 flex justify-center gap-4">
+<span class="font-code-sm text-[8px] text-on-surface-variant/40">[ SYS_LINK: WAITING ]</span>
+</div>
+</button>
+</div>
+<div class="w-full flex justify-between items-center mt-4 px-4 opacity-40">
+<div class="h-[1px] flex-1 bg-gradient-to-r from-transparent to-outline-variant"></div>
+<span class="font-code-sm text-[10px] mx-4">OPERATOR_ID_000</span>
+<div class="h-[1px] flex-1 bg-gradient-to-l from-transparent to-outline-variant"></div>
+</div>
+</main>
+<script>
+        document.querySelectorAll('.energy-input').forEach(input => {
+            input.addEventListener('focus', () => {
+                const audio = new Audio();
+                // Simple feedback logic could go here
+            });
+            
+            input.addEventListener('input', (e) => {
+                const label = e.target.parentElement.querySelector('.scanning-label');
+                if (label) {
+                    label.innerText = `[ DATA_INCOMING: ${Math.floor(Math.random()*999)} ]`;
+                }
+            });
+        });
+
+        // Simulating the fingerprint interaction
+        const fingerBtn = document.querySelector('button.relative.w-24');
+        fingerBtn.addEventListener('mousedown', () => {
+            fingerBtn.style.boxShadow = '0 0 50px #ff00ff';
+        });
+        fingerBtn.addEventListener('mouseup', () => {
+            fingerBtn.style.boxShadow = '';
+        });
+    </script>
+</body></html>

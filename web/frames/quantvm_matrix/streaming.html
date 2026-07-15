@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS Quantvm Matrix | Resonance Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&amp;family=Audiowide&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        .scanline-effect::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 50%, rgba(21, 255, 209, 0.05) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .glow-border {
+            box-shadow: 0 0 10px rgba(21, 255, 209, 0.1), inset 0 0 5px rgba(21, 255, 209, 0.05);
+        }
+        .glass-panel {
+            background: rgba(19, 19, 19, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(65, 71, 79, 0.5);
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .holographic-avatar {
+            filter: drop-shadow(0 0 5px #17ffd1) brightness(1.2);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#6f2c6b",
+                        "surface": "#131313",
+                        "on-secondary": "#00382c",
+                        "inverse-primary": "#2a6290",
+                        "tertiary": "#ffd7f5",
+                        "on-error-container": "#ffdad6",
+                        "surface-bright": "#393939",
+                        "outline-variant": "#41474f",
+                        "surface-raised": "#2a2a2a",
+                        "surface-container-high": "#2a2a2a",
+                        "on-primary-fixed-variant": "#034a77",
+                        "primary": "#cee5ff",
+                        "primary-fixed-dim": "#98cbff",
+                        "tertiary-container": "#ffabf3",
+                        "primary-container": "#98cbff",
+                        "secondary-fixed": "#17ffd1",
+                        "secondary-container": "#04fcce",
+                        "surface-container-highest": "#353534",
+                        "secondary": "#f3fff9",
+                        "on-primary-fixed": "#001d33",
+                        "on-primary": "#003354",
+                        "secondary-fixed-dim": "#00e0b7",
+                        "aquamarine-neon": "#15ffd1",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-background": "#e5e2e1",
+                        "on-tertiary-container": "#7d3878",
+                        "background": "#131313",
+                        "surface-container-low": "#1c1b1b",
+                        "on-surface": "#e5e2e1",
+                        "tertiary-fixed": "#ffd7f5",
+                        "surface-container": "#201f1f",
+                        "primary-fixed": "#cfe5ff",
+                        "on-secondary-container": "#00705a",
+                        "outline": "#8b919a",
+                        "tertiary-fixed-dim": "#ffabf3",
+                        "surface-tint": "#98cbff",
+                        "on-secondary-fixed": "#002018",
+                        "on-tertiary-fixed": "#380038",
+                        "magenta-flare": "#ff4dfa",
+                        "pearl-white": "#ffffff",
+                        "on-error": "#690005",
+                        "surface-variant": "#353534",
+                        "celestial-blue": "#98cbff",
+                        "surface-dim": "#131313",
+                        "error-container": "#93000a",
+                        "error": "#ffb4ab",
+                        "inverse-on-surface": "#313030",
+                        "violet-deep": "#8a2be2",
+                        "on-surface-variant": "#c1c7d0",
+                        "on-primary-container": "#1a5683",
+                        "inverse-surface": "#e5e2e1",
+                        "on-tertiary": "#551353",
+                        "surface-deep": "#0e0e0e",
+                        "on-secondary-fixed-variant": "#005140"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "base": "8px",
+                        "container-max": "1440px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "sidebar-width": "256px"
+                    },
+                    "fontFamily": {
+                        "technical-data": ["Orbitron"],
+                        "label-caps": ["Orbitron"],
+                        "display-xl": ["Audiowide"],
+                        "headline-lg-mobile": ["Audiowide"],
+                        "body-md": ["Orbitron"],
+                        "headline-lg": ["Audiowide"]
+                    },
+                    "fontSize": {
+                        "technical-data": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "fontWeight": "700"}],
+                        "display-xl": ["48px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.3", "letterSpacing": "0.02em", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface-deep text-on-surface font-body-md overflow-hidden selection:bg-primary selection:text-on-primary">
+<!-- Sidebar Navigation -->
+<nav class="hidden md:flex flex-col h-full py-gutter px-base z-40 bg-surface-deep dark:bg-surface-deep backdrop-blur-xl w-sidebar-width h-full fixed left-0 top-0 border-r border-outline-variant">
+<div class="mb-gutter">
+<h1 class="font-display-xl text-primary text-[24px]">QUANTVM MATRIX</h1>
+<p class="font-technical-data text-[10px] tracking-[0.2em] text-secondary-fixed opacity-80 mt-1">TELEMTRY ACTIVE</p>
+</div>
+<div class="flex flex-col gap-2 flex-grow">
+<!-- Navigation Items -->
+<button class="flex items-center gap-4 p-3 rounded-lg text-on-surface-variant opacity-70 hover:bg-surface-container-high hover:text-secondary-fixed transition-all duration-300">
+<span class="material-symbols-outlined">folder_managed</span>
+<span class="font-technical-data text-sm">Soul Archive</span>
+</button>
+<button class="flex items-center gap-4 p-3 rounded-lg text-on-surface-variant opacity-70 hover:bg-surface-container-high hover:text-secondary-fixed transition-all duration-300">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-technical-data text-sm">Codex Vivo</span>
+</button>
+<button class="flex items-center gap-4 p-3 rounded-lg text-primary border-l-2 border-primary bg-primary/10 shadow-[0_0_10px_rgba(21,255,209,0.2)] scale-105 transition-all duration-300">
+<span class="material-symbols-outlined">movie</span>
+<span class="font-technical-data text-sm">Resonance Hub</span>
+</button>
+<button class="flex items-center gap-4 p-3 rounded-lg text-on-surface-variant opacity-70 hover:bg-surface-container-high hover:text-secondary-fixed transition-all duration-300">
+<span class="material-symbols-outlined">audiotrack</span>
+<span class="font-technical-data text-sm">Frequency Stream</span>
+</button>
+<button class="flex items-center gap-4 p-3 rounded-lg text-on-surface-variant opacity-70 hover:bg-surface-container-high hover:text-secondary-fixed transition-all duration-300">
+<span class="material-symbols-outlined">cloud_download</span>
+<span class="font-technical-data text-sm">Uplink Center</span>
+</button>
+</div>
+<div class="mt-auto border-t border-outline-variant pt-gutter space-y-2">
+<button class="flex items-center gap-4 p-3 w-full text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+<span class="font-technical-data text-xs">System Log</span>
+</button>
+<button class="flex items-center gap-4 p-3 w-full text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined text-[18px]">dns</span>
+<span class="font-technical-data text-xs">Terminal</span>
+</button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="md:ml-sidebar-width h-screen flex flex-col relative overflow-hidden">
+<!-- Top Bar -->
+<header class="w-full top-0 sticky flex justify-between items-center px-gutter py-base z-50 bg-surface/70 dark:bg-surface/70 backdrop-blur-xl border-b border-outline-variant shadow-[0_0_15px_rgba(152,203,255,0.1)]">
+<div class="flex items-center gap-gutter">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-primary rounded-sm flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">grid_view</span>
+</div>
+<span class="font-display-xl text-headline-lg text-primary tracking-widest hidden lg:block">MagnopVS Quantvm Matrix</span>
+</div>
+<div class="relative group hidden sm:block">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline text-[18px]">search</span>
+<input class="bg-surface-deep border-outline-variant rounded-sm pl-10 pr-4 py-2 text-xs font-technical-data focus:border-primary focus:ring-0 w-64 transition-all" placeholder="QUERY SIGNAL..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden xl:flex items-center gap-4 text-xs font-technical-data">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary-fixed animate-pulse"></span> SYSTEM: STABLE</span>
+<span class="text-outline">|</span>
+<span class="text-primary">LATENCY: 12ms</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all">settings</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all relative">
+                        notifications
+                        <span class="absolute top-0 right-0 w-2 h-2 bg-magenta-flare rounded-full"></span>
+</button>
+<button class="material-symbols-outlined text-primary text-[28px]">account_circle</button>
+</div>
+</div>
+</header>
+<!-- Dynamic Resonance Layout -->
+<div class="flex-grow flex flex-col lg:flex-row overflow-hidden">
+<!-- Center Viewport: The Saga Manifestation -->
+<section class="flex-grow relative bg-black flex flex-col border-r border-outline-variant">
+<div class="absolute top-4 left-4 z-20 pointer-events-none">
+<div class="glass-panel px-4 py-2 rounded-sm border-l-4 border-secondary-fixed inline-flex flex-col">
+<span class="text-[10px] font-technical-data text-secondary-fixed tracking-widest uppercase">Live Manifestation</span>
+<span class="text-headline-lg font-display-xl leading-none mt-1">PKD BATTLE: NEON SECTOR</span>
+</div>
+</div>
+<div class="absolute top-4 right-4 z-20 flex flex-col gap-2">
+<div class="glass-panel px-3 py-1 flex items-center gap-2 rounded-sm border border-outline-variant">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed animate-pulse"></span>
+<span class="font-technical-data text-[11px] text-white">428,912 VIEWER SYNC</span>
+</div>
+</div>
+<!-- Main Visual Asset -->
+<div class="w-full h-full relative overflow-hidden group">
+<img alt="AAA Cinematic UI visualization for 'RESONANCE HUB' in MagnopVS. A tactical multiversal map showing hundreds of glowing souls as pillars of white and cian light erupting from a dark hexagonal grid. Each pillar represents a live broadcast. Energy waves in magenta flow between the pillars. Volumetric atmosphere, dark matte space. Style: Destiny meets Arrival. high fidelity, 8k." class="w-full h-full object-cover scanline-effect" src="https://lh3.googleusercontent.com/aida/AP1WRLsk0LchHI4bhM-foIUhbGLjTijLQXQClnIoH92h9ejdyErChMdhaPXa0jfSZtGQ-LzN3RfxIgB3m0LVKyty57CRoUnPW0Zq5A7S0SjakyOzkkd6F7Shkdif4v9vLxm30_BOuZfoJIEf57f9vejcheMUEPTkBTP-LWSbXQPQBfGPNAa7rheUP3jXFZgJ2LYnhRqiwK1XTxZDy42mDhQl7YsCT0XiLMwCgWQjCHWCbEae1Uy4P5-3lbFd96k"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-deep via-transparent to-transparent opacity-60 pointer-events-none"></div>
+<!-- HUD Overlays -->
+<div class="absolute inset-x-8 bottom-32 z-20 pointer-events-none">
+<div class="flex justify-between items-end border-b border-primary/20 pb-2">
+<div class="space-y-1">
+<div class="font-technical-data text-[10px] text-primary opacity-50">PARTICIPANT SIGILS</div>
+<div class="flex gap-2">
+<div class="w-10 h-10 border border-primary/40 bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm">bolt</span>
+</div>
+<div class="w-10 h-10 border border-secondary-fixed/40 bg-secondary-fixed/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary-fixed text-sm">auto_awesome</span>
+</div>
+<div class="w-10 h-10 border border-magenta-flare/40 bg-magenta-flare/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-magenta-flare text-sm">shield</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<div class="font-technical-data text-[10px] text-primary opacity-50">RESISTANCE VALUE</div>
+<div class="text-headline-lg font-technical-data text-secondary-fixed">88.42%</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Timeline of Fate (Bottom) -->
+<div class="h-28 bg-surface-container-low border-t border-outline-variant px-gutter py-2 flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<span class="font-technical-data text-[10px] tracking-widest text-outline">TIMELINE OF FATE</span>
+<div class="flex gap-4">
+<span class="font-technical-data text-[10px] text-secondary-fixed">PAST ECHOES</span>
+<span class="font-technical-data text-[10px] text-primary underline underline-offset-4">ACTIVE PRESENT</span>
+<span class="font-technical-data text-[10px] text-outline">FUTURE PROJECTIONS</span>
+</div>
+</div>
+<div class="flex gap-4 overflow-x-auto scrollbar-hide">
+<!-- Timeline Items -->
+<div class="min-w-[120px] h-14 bg-surface-container rounded-sm border border-outline-variant flex flex-col p-2 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer">
+<span class="text-[8px] font-technical-data text-outline">T-MINUS 04:00</span>
+<span class="text-[10px] font-technical-data text-white truncate">Void Breach</span>
+</div>
+<div class="min-w-[120px] h-14 bg-surface-container rounded-sm border border-outline-variant flex flex-col p-2 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer">
+<span class="text-[8px] font-technical-data text-outline">T-MINUS 02:00</span>
+<span class="text-[10px] font-technical-data text-white truncate">Solar Collapse</span>
+</div>
+<div class="min-w-[120px] h-14 bg-secondary-fixed/10 border-l-2 border-secondary-fixed rounded-sm p-2 flex flex-col relative overflow-hidden">
+<span class="text-[8px] font-technical-data text-secondary-fixed">NOW IN SYNC</span>
+<span class="text-[10px] font-technical-data text-white truncate">Neon Sector Battle</span>
+<div class="absolute bottom-0 left-0 h-1 bg-secondary-fixed w-1/2"></div>
+</div>
+<div class="min-w-[120px] h-14 bg-surface-container rounded-sm border border-outline-variant flex flex-col p-2 hover:border-primary transition-all cursor-pointer">
+<span class="text-[8px] font-technical-data text-primary">T-PLUS 01:30</span>
+<span class="text-[10px] font-technical-data text-white truncate">Etheric Surge</span>
+</div>
+<div class="min-w-[120px] h-14 bg-surface-container rounded-sm border border-outline-variant flex flex-col p-2 hover:border-primary transition-all cursor-pointer">
+<span class="text-[8px] font-technical-data text-primary">T-PLUS 03:00</span>
+<span class="text-[10px] font-technical-data text-white truncate">Magno Inversion</span>
+</div>
+<div class="min-w-[120px] h-14 bg-surface-container rounded-sm border border-outline-variant flex flex-col p-2 hover:border-primary transition-all cursor-pointer">
+<span class="text-[8px] font-technical-data text-primary">T-PLUS 05:00</span>
+<span class="text-[10px] font-technical-data text-white truncate">Final Manifest</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Sidebar: Spectator Presence & MagnoStakes -->
+<aside class="w-full lg:w-80 h-full bg-surface-deep border-l border-outline-variant flex flex-col">
+<!-- Spectator Presence -->
+<div class="p-4 border-b border-outline-variant flex-shrink-0">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-technical-data text-xs tracking-widest text-primary">SPECTATOR PRESENCE</h3>
+<span class="material-symbols-outlined text-sm text-outline">group</span>
+</div>
+<div class="grid grid-cols-4 gap-3">
+<!-- Holographic Avatars -->
+<div class="relative group cursor-help">
+<div class="w-12 h-12 rounded-sm bg-surface-bright border border-outline-variant overflow-hidden holographic-avatar">
+<img class="w-full h-full" data-alt="A holographic, pixelated cyan profile icon of a futuristic robot head with glowing optics, styled as a digital interface avatar with glitch effects." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAxzfcXq9vFg2PtJHzbOutdwnEPACLo-mxMYYKzlmDpuIqv_2jR_VEbIjWAKv4V3lO5yJ2BWzTAB90pOTd3qqmRfHnoPINU7nbtvUr-YBlbVV_mMreeNnLrIxTdFwRKb6gN0W_1dIQbzecl6UPcdb0ezWB3jV16SEsZTGeZVIm7PGKUcs_EaROdkd5mFAZOAjNVX-U4SivHu34owNJbZZyGCYGgbVXqwVHkLJbce-ZoGXCIGDUVWqeFypiK3i7rVQ_mIUaBEya3ZZN"/>
+</div>
+<div class="absolute -bottom-1 -right-1 w-3 h-3 bg-secondary-fixed rounded-full border-2 border-surface-deep"></div>
+</div>
+<div class="relative group cursor-help">
+<div class="w-12 h-12 rounded-sm bg-surface-bright border border-outline-variant overflow-hidden holographic-avatar">
+<img class="w-full h-full" data-alt="A violet-glowing digital avatar of a humanoid entity with circuit-like facial patterns, designed for a high-tech tactical interface system." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEgjYJUAMWBYjP21RuKsuY4QkTNTe28g6r7Ct2K5NCKkR0L231l0y_ocG3rOqru5xeGU5mdoBa8U5biPvBHBhUc2WiS-ksSBISmCbUnLG7K7FGa8mou-iKm234roPCygGN7uAGFXgaOfB3gVYfUBsCa3m36dGbLwFaYXypAoSnQ4CR_7zBXsihZCE2lwMXkLAVhXKOKub0e-aAX4Z6EM7xi1G73QUG9snbIlllf1hp_Dj9S-24MRfAJDcLpNY7dHyFmbYA_hwmanSu"/>
+</div>
+<div class="absolute -bottom-1 -right-1 w-3 h-3 bg-secondary-fixed rounded-full border-2 border-surface-deep"></div>
+</div>
+<div class="relative group cursor-help">
+<div class="w-12 h-12 rounded-sm bg-surface-bright border border-outline-variant overflow-hidden holographic-avatar">
+<img class="w-full h-full" data-alt="An emerald-green holographic avatar representing an artificial intelligence presence, featuring abstract geometric data streams and a digital visor." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvKOsVdnI6HH1Q1lC-aCoUlcy_FuJEIICohJ_xEyprwN6SZOSvGsZhOAenMbIO23rcKAtzq1itkYVdyyl9kax9XdMj6QkIsWhyqaK-p3KXXZWW7Zorysz4JuN-tEXXHKMz48tvrDPDJ6nNqOdtU_fe22-QxP6xP1XBpV8oBBwbRwHFp1n2oCSgOhvzD0oUxsHY5ru9hD9si1VrX4aHwtjW_x_-fv6CfRDblGhKTRrxGQ28UuduF3LkG7S79tmAo5GJmYuC_HAGflNM"/>
+</div>
+<div class="absolute -bottom-1 -right-1 w-3 h-3 bg-magenta-flare rounded-full border-2 border-surface-deep"></div>
+</div>
+<div class="w-12 h-12 rounded-sm border border-dashed border-outline flex items-center justify-center text-outline text-[10px] font-technical-data">
+                            +42k
+                        </div>
+</div>
+</div>
+<!-- Active Chat Signals -->
+<div class="flex-grow overflow-y-auto p-4 space-y-4 scrollbar-hide">
+<div class="space-y-1">
+<span class="font-technical-data text-[10px] text-magenta-flare">[@SYSTEM_VOICE]</span>
+<p class="text-xs text-on-surface-variant font-body-md bg-surface-container p-2 rounded-sm border border-outline-variant/30">Anomalous frequency detected in Sector 4. Brace for temporal shift.</p>
+</div>
+<div class="space-y-1">
+<span class="font-technical-data text-[10px] text-secondary-fixed">[QUANTVM_DRAKE]</span>
+<p class="text-xs text-on-surface-variant font-body-md">Magnitude is reaching critical levels. Stake your claim now!</p>
+</div>
+<div class="space-y-1">
+<span class="font-technical-data text-[10px] text-outline">[ARCHON_01]</span>
+<p class="text-xs text-on-surface-variant font-body-md">Manifestation looking stable. Expecting a PKD surge in T-10.</p>
+</div>
+<!-- Betting Events -->
+<div class="bg-surface-container-highest/30 p-3 rounded-sm border border-primary/20 space-y-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[14px]">token</span>
+<span class="font-technical-data text-[10px] text-primary">LIVE BETTING EVENT</span>
+</div>
+<p class="text-[11px] font-technical-data">WILL THE NEON SECTOR COLLAPSE?</p>
+<div class="flex gap-2">
+<button class="flex-grow py-1 px-2 bg-secondary-fixed/10 border border-secondary-fixed text-secondary-fixed font-technical-data text-[10px] hover:bg-secondary-fixed hover:text-on-secondary transition-all">YES [2.4x]</button>
+<button class="flex-grow py-1 px-2 bg-magenta-flare/10 border border-magenta-flare text-magenta-flare font-technical-data text-[10px] hover:bg-magenta-flare hover:text-white transition-all">NO [1.8x]</button>
+</div>
+</div>
+</div>
+<!-- MagnoStakes Dashboard -->
+<div class="p-4 bg-surface-container-high border-t border-outline-variant">
+<div class="flex items-center justify-between mb-3">
+<span class="font-technical-data text-[11px] text-primary">MY MAGNOSTAKES</span>
+<span class="font-technical-data text-[11px] text-secondary-fixed">1,245.00 Δ</span>
+</div>
+<button class="w-full py-3 bg-primary text-on-primary font-technical-data text-xs flex items-center justify-center gap-2 hover:shadow-[0_0_15px_rgba(206,229,255,0.4)] transition-all active:scale-95 duration-200">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+                        EXECUTE MAGNOSTAKE
+                    </button>
+<div class="mt-4 flex justify-between">
+<div class="text-center">
+<div class="text-[9px] text-outline font-technical-data">WIN RATE</div>
+<div class="text-xs font-technical-data text-white">68%</div>
+</div>
+<div class="text-center">
+<div class="text-[9px] text-outline font-technical-data">TOTAL YIELD</div>
+<div class="text-xs font-technical-data text-secondary-fixed">+42.1k</div>
+</div>
+<div class="text-center">
+<div class="text-[9px] text-outline font-technical-data">RANK</div>
+<div class="text-xs font-technical-data text-magenta-flare">TITAN</div>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- UI Interaction Script -->
+<script>
+        // Micro-interactions for the tactical interface
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Subtle glitch/flash effect simulation could go here
+                const originalText = btn.innerText;
+                if (btn.classList.contains('font-technical-data')) {
+                    // Logic for futuristic clicking sound or visual feedback
+                }
+            });
+        });
+
+        // Simulating live data updates
+        setInterval(() => {
+            const resistance = document.querySelector('.text-headline-lg.font-technical-data.text-secondary-fixed');
+            if (resistance) {
+                const newVal = (88 + Math.random()).toFixed(2);
+                resistance.innerText = newVal + '%';
+            }
+        }, 3000);
+    </script>
+</body></html>
