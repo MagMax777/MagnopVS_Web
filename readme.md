@@ -6,7 +6,7 @@
 
 MagnopVS Web es la aplicación web oficial del universo transmedia **MagnopVS**, desarrollada por **Nenca Lab**.
 
-No es una página web tradicional. Es una experiencia interactiva que conecta narrativa, videojuegos, exploración, comunidad y crecimiento personal dentro del ecosistema MagnopVS.
+No es una página web tradicional. Es una experiencia interactiva que conecta narrativa, videojuegos, exploración, coomunidad y crecimiento personal dentro del ecosistema MagnopVS.
 
 ---
 
