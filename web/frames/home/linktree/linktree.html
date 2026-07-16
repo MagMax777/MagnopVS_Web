@@ -1,348 +1,368 @@
 <!DOCTYPE html>
+<html lang="es" class="dark">
 
-<html class="dark" lang="es"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
-<title>MAGNOPVS | THE THRESHOLD</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "on-primary-fixed": "#001f29",
-                        "surface-variant": "#353436",
-                        "on-primary": "#003545",
-                        "surface-bright": "#3a393a",
-                        "error": "#ffb4ab",
-                        "on-surface": "#e5e2e3",
-                        "on-secondary-fixed": "#380038",
-                        "secondary-container": "#fe00fe",
-                        "primary-container": "#00ccff",
-                        "on-secondary-container": "#500050",
-                        "outline": "#869399",
-                        "on-tertiary-fixed": "#002117",
-                        "inverse-primary": "#006782",
-                        "aquamarine": "#7FFFD4",
-                        "on-secondary-fixed-variant": "#810081",
-                        "error-container": "#93000a",
-                        "tertiary-fixed": "#79f9ce",
-                        "secondary-fixed-dim": "#ffabf3",
-                        "surface-container-high": "#2a2a2b",
-                        "primary-fixed": "#bbe9ff",
-                        "on-error-container": "#ffdad6",
-                        "on-tertiary-container": "#005742",
-                        "tertiary-container": "#4ed2aa",
-                        "surface": "#131314",
-                        "magenta-portal": "#FF00FF",
-                        "surface-tint": "#5ed4ff",
-                        "inverse-on-surface": "#313031",
-                        "on-primary-fixed-variant": "#004d63",
-                        "tertiary": "#6eefc5",
-                        "on-tertiary": "#003829",
-                        "on-primary-container": "#005369",
-                        "violet-plasma": "#8A2BE2",
-                        "outline-variant": "#3c494e",
-                        "pearl-white": "rgba(255, 255, 255, 0.8)",
-                        "background": "#131314",
-                        "surface-container-low": "#1c1b1c",
-                        "secondary": "#ffabf3",
-                        "primary": "#9de2ff",
-                        "primary-fixed-dim": "#5ed4ff",
-                        "pearl-white-dim": "rgba(255, 255, 255, 0.1)",
-                        "surface-container-highest": "#353436",
-                        "on-surface-variant": "#bbc8d0",
-                        "tertiary-fixed-dim": "#5adcb3",
-                        "surface-dim": "#131314",
-                        "on-secondary": "#5b005b",
-                        "on-error": "#690005",
-                        "void-black": "#0A0A0B",
-                        "surface-container-lowest": "#0e0e0f",
-                        "on-background": "#e5e2e3",
-                        "inverse-surface": "#e5e2e3",
-                        "celestial-blue": "#00CCFF",
-                        "secondary-fixed": "#ffd7f5",
-                        "on-tertiary-fixed-variant": "#00513d",
-                        "surface-container": "#201f20"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "unit": "8px",
-                        "gutter": "24px",
-                        "margin-mobile": "16px",
-                        "margin-desktop": "64px",
-                        "container-max": "1280px"
-                    },
-                    "fontFamily": {
-                        "body-md": ["Orbitron"],
-                        "label-code": ["Space Mono"],
-                        "display-lg": ["Audiowide"],
-                        "body-sm": ["Orbitron"],
-                        "label-caps": ["Space Mono"],
-                        "display-lg-mobile": ["Audiowide"],
-                        "headline-md": ["Audiowide"]
-                    },
-                    "fontSize": {
-                        "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0.05em", "fontWeight": "400"}],
-                        "label-code": ["9px", {"lineHeight": "1", "fontWeight": "400"}],
-                        "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "0.25em", "fontWeight": "400"}],
-                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
-                        "label-caps": ["10px", {"lineHeight": "1", "letterSpacing": "0.3em", "fontWeight": "700"}],
-                        "display-lg-mobile": ["30px", {"lineHeight": "1.2", "letterSpacing": "0.2em", "fontWeight": "400"}],
-                        "headline-md": ["24px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "400"}]
-                    }
-                },
-            },
-        }
-    </script>
-<style>
-        @keyframes scanline {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100vh); }
-        }
-        @keyframes pulse-energy {
-            0%, 100% { border-color: rgba(0, 204, 255, 0.4); box-shadow: 0 0 10px rgba(0, 204, 255, 0.2); }
-            50% { border-color: rgba(0, 204, 255, 1); box-shadow: 0 0 25px rgba(0, 204, 255, 0.6); }
-        }
-        @keyframes glitch-anim {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
-        }
-        .scanline {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(to right, transparent, rgba(0, 204, 255, 0.5), transparent);
-            animation: scanline 8s linear infinite;
-            z-index: 100;
-            pointer-events: none;
-        }
-        .glass-portal {
-            background: rgba(10, 10, 11, 0.7);
-            backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.02);
-        }
-        .primary-portal-btn {
-            animation: pulse-energy 3s infinite ease-in-out;
-        }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
-        }
-        .glitch-text {
-            animation: glitch-anim 0.3s infinite linear alternate-reverse;
-        }
-    </style>
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MAGNOPVS | Access Hub</title>
+
+<link rel="stylesheet" href="linktree.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Orbitron:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
 </head>
-<body class="bg-void-black text-on-surface font-body-md overflow-x-hidden selection:bg-celestial-blue/30 opacity-0 transition-opacity duration-1000">
-<!-- Boot Sequence Overlay -->
-<div class="fixed inset-0 z-[100] bg-void-black flex flex-col items-center justify-center p-8 transition-opacity duration-700" id="boot-overlay">
-<div class="flex flex-col items-center gap-8">
-<h2 class="font-display-lg text-display-lg-mobile text-celestial-blue tracking-[0.5em] opacity-0 transition-opacity duration-500" id="boot-logo">MAGNOPVS</h2>
-<div class="flex flex-col items-center gap-4">
-<div class="h-px w-32 bg-celestial-blue/20 overflow-hidden relative">
-<div class="absolute inset-y-0 left-0 bg-celestial-blue transition-all duration-300 w-0" id="boot-progress"></div>
+
+<body>
+
+
+<!-- =====================================================
+BOOT SEQUENCE
+===================================================== -->
+
+<div id="boot-screen">
+
+    <div class="boot-content">
+
+        <h1>Matrix</h1>
+
+        <div class="loader">
+            <div id="progress"></div>
+        </div>
+
+        <p id="boot-text">
+            SYNCHRONIZING COSMOS...
+        </p>
+
+    </div>
+
 </div>
-<p class="font-body-sm text-aquamarine text-[10px] tracking-[0.2em] uppercase opacity-0" id="boot-status">INITIALIZING...</p>
-</div>
-</div>
-</div>
-<!-- Global Atmospheric Layer -->
-<div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-<!-- Tactical Hex Grid (Lowered opacity for zero competition) -->
-<div class="absolute inset-0 bg-repeat opacity-[0.02] transition-opacity duration-700" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAJreAW7OI7KwxfLfgGEaa86CL35vTxsnhDP4PjduYG26nyMHlxcqjXdduBzCFJO9RzIeBj-RJb32_pkGD99nYeiBgivKy_5-lPJnahN608tk8l8KzTqCfz51alV1_-jTj7WRqFnBcyj7yW9YkkxBYnVtWnF7Io15f7I2rOQ_jdrm34-FmMOpu4i_7_BV2tG22yybQhNa5ZfFTllqptEAAP91X9jh_1BmEwb_PUqhCQoqN3B_hQhmfr6RDxrCZg-veieulquKJqwwpn'); background-size: 400px; filter: grayscale(100%) invert(1);">
-</div>
-<!-- Ambient Radial Glow -->
-<div class="absolute top-[-20%] left-[-10%] w-[80%] h-[80%] rounded-full bg-celestial-blue/5 blur-[120px]"></div>
-<div class="absolute bottom-[-20%] right-[-10%] w-[80%] h-[80%] rounded-full bg-magenta-portal/5 blur-[120px]"></div>
-</div>
-<!-- Scanning Line -->
+
+
+
+<!-- =====================================================
+ATMOSPHERE
+===================================================== -->
+
 <div class="scanline"></div>
-<!-- Header Section -->
-<header class="fixed top-0 left-0 w-full h-20 px-margin-mobile flex items-center justify-between z-50 transition-all duration-300">
-<div class="flex items-center gap-2 opacity-30">
-<span class="material-symbols-outlined text-celestial-blue scale-75" style="font-variation-settings: 'FILL' 1;">grid_view</span>
-<div class="flex items-center gap-2">
-<span class="w-1.5 h-1.5 bg-aquamarine rounded-full relative">
-<span class="absolute inset-0 bg-aquamarine rounded-full animate-ping opacity-75"></span>
-</span>
-<span class="font-label-caps text-[9px] text-aquamarine tracking-[0.4em]">SYSTEM_STABLE</span>
-</div>
-</div>
-<div class="flex items-center gap-4 opacity-30">
-<span class="font-label-caps text-[9px] text-outline tracking-widest">ALPHA_STAGE</span>
-<span class="material-symbols-outlined text-primary text-sm">sensors</span>
-</div>
-</header>
-<!-- Main Content Container -->
-<main class="relative z-10 min-h-screen flex flex-col items-center pt-24 pb-32 px-margin-mobile max-w-lg mx-auto">
-<!-- Logo Section -->
-<div class="mb-10 text-center transform hover:scale-105 transition-transform duration-500 cursor-pointer flex flex-col items-center">
-<div class="relative mx-auto w-[280px] group">
-<!-- Magenta Background Glow -->
-<div class="absolute inset-0 bg-magenta-portal/20 blur-[40px] rounded-full opacity-50 animate-pulse"></div>
-<!-- Logo Image with Cyan Drop Shadow and Pulse -->
-<img alt="MAGNOPVS Logo" class="relative z-10 w-full h-auto drop-shadow-[0_0_20px_rgba(0,204,255,0.6)] transition-all duration-1000 animate-pulse" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSluU1HLG5gTeGDmfRBVaUK17KVeDYoIeeY9wtKkeAv6G-o8I37x0WS5aP5ANdFfXJ73HWUhTr3crlDTWnkobkN3XzTLTh7mor_SJDHkCV0W7-0GdZY3iGODW_KfCJIwPHXU8TTVD5lNCLqXly1IQC-enzS0kY4zqYuSJIIpKJoNVgCNqiRneOZ8cooT2GLta0gyIzFJCQD4c6Sf7Ac6S-q3BXCUkROaF54pQw47OGtCrXbkh2upsyFXvtM5VNehoVtZohBZeUYHrM" style="animation-duration: 4s;"/>
-</div>
-<p class="font-label-caps text-label-caps text-outline mt-2 tracking-[0.4em] text-center">THE FIRST PORTAL</p>
-</div>
-<!-- Narrative Hero Section -->
-<section class="w-full text-center mb-10 space-y-6">
-<h2 class="font-display-lg-mobile text-[26px] text-on-surface leading-tight tracking-wide">
-                Un Cosmos donde juegas, creas y evolucionas.
-            </h2>
-<p class="font-body-md text-body-sm text-outline px-4">Toda leyenda comienza cruzando un umbral. No estás entrando a una aplicación. Estás recordando quién eres.</p>
-</section>
-<!-- Journey Stages (Grid) -->
-<div class="w-full mb-12"><div class="text-center mb-6">
-<p class="font-label-code text-[10px] text-aquamarine tracking-widest uppercase opacity-60 animate-pulse">
-        Usuario detectado. Identidad no sincronizada. Misión inicial disponible.
-    </p>
-</div>
-<section class="grid grid-cols-2 gap-3 mb-6"><div class="glass-portal rounded-xl p-5 flex flex-col items-center text-center gap-2 hover:bg-white/5 transition-all duration-300 group border-white/10">
-<span class="material-symbols-outlined text-primary text-3xl group-hover:scale-110 transition-transform">upgrade</span>
-<div class="flex flex-col gap-1">
-<span class="font-label-caps text-[11px] text-on-surface-variant tracking-wider">① Despierta</span>
-<span class="font-body-sm text-[8px] text-outline/60 uppercase tracking-widest">Descubre quién eres</span>
-</div>
-</div>
-<div class="glass-portal rounded-xl p-5 flex flex-col items-center text-center gap-2 hover:bg-white/5 transition-all duration-300 group border-white/10">
-<span class="material-symbols-outlined text-primary text-3xl group-hover:scale-110 transition-transform">language</span>
-<div class="flex flex-col gap-1">
-<span class="font-label-caps text-[11px] text-on-surface-variant tracking-wider">② Explora</span>
-<span class="font-body-sm text-[8px] text-outline/60 uppercase tracking-widest">Viaja entre Universos</span>
-</div>
-</div>
-<div class="glass-portal rounded-xl p-5 flex flex-col items-center text-center gap-2 hover:bg-white/5 transition-all duration-300 group border-white/10">
-<span class="material-symbols-outlined text-primary text-3xl group-hover:scale-110 transition-transform">assignment_turned_in</span>
-<div class="flex flex-col gap-1">
-<span class="font-label-caps text-[11px] text-on-surface-variant tracking-wider">③ Evoluciona</span>
-<span class="font-body-sm text-[8px] text-outline/60 uppercase tracking-widest">Desbloquea Shiddis</span>
-</div>
-</div>
-<div class="glass-portal rounded-xl p-5 flex flex-col items-center text-center gap-2 hover:bg-white/5 transition-all duration-300 group border-white/10">
-<span class="material-symbols-outlined text-primary text-3xl group-hover:scale-110 transition-transform">auto_fix_high</span>
-<div class="flex flex-col gap-1">
-<span class="font-label-caps text-[11px] text-on-surface-variant tracking-wider">④ Crea</span>
-<span class="font-body-sm text-[8px] text-outline/60 uppercase tracking-widest">Construye Realidades</span>
-</div>
-</div></section>
-<p class="text-center font-label-caps text-[9px] text-outline/50 tracking-[0.2em] px-4 leading-loose">
-                Tu viaje dentro de MagnopVS seguirá este camino.
-            </p>
-</div>
-<!-- Primary CTA -->
-<button class="primary-portal-btn w-full py-6 rounded-xl glass-portal bg-celestial-blue/10 border-2 border-celestial-blue/30 flex items-center justify-center gap-4 group active:scale-[0.98] transition-all duration-200" id="cta-trigger">
-<span class="font-display-lg-mobile text-[18px] text-celestial-blue tracking-[0.3em] group-hover:text-aquamarine transition-colors uppercase">DESPERTAR MI HÉROE</span>
-<span class="material-symbols-outlined text-celestial-blue group-hover:translate-x-1 transition-transform">chevron_right</span>
-</button>
-<!-- Secondary Paths -->
-<nav class="w-full flex flex-col gap-4 mt-8">
-<div class="flex items-center gap-4 w-full">
-<div class="h-[1px] flex-1 bg-gradient-to-r from-transparent to-outline-variant/30"></div>
-<span class="font-label-caps text-[9px] text-outline opacity-40">ACCESOS PERIFÉRICOS</span>
-<div class="h-[1px] flex-1 bg-gradient-to-l from-transparent to-outline-variant/30"></div>
-</div>
-<div class="flex gap-3">
-<a class="flex-1 glass-portal py-4 rounded-xl flex items-center justify-center gap-2 hover:text-aquamarine transition-all hover:bg-white/5 group" href="#">
-<span class="material-symbols-outlined text-sm opacity-60">public</span>
-<span class="font-label-caps text-[10px] tracking-wider">Universo</span>
-</a>
-<a class="flex-1 glass-portal py-4 rounded-xl flex items-center justify-center gap-2 hover:text-aquamarine transition-all hover:bg-white/5 group" href="#">
-<span class="material-symbols-outlined text-sm opacity-60">auto_stories</span>
-<span class="font-label-caps text-[10px] tracking-wider">MagZine</span>
-</a>
-</div>
-</nav>
+
+<div class="cosmic-bg"></div>
+
+
+
+<!-- =====================================================
+MAIN
+===================================================== -->
+
+<main class="portal-container">
+
+
+
+    <!-- ==========================================
+    LOGO
+    =========================================== -->
+
+    <section class="logo-area">
+
+        <img
+            src="https://jlckakyftkzgfgkmmdmc.supabase.co/storage/v1/object/public/MagnopVS_Web/web/frames/home/linktree/hologram_logo.png"
+            alt="MagnopVS Logo"
+            class="logo">
+
+        <h1 class="portal-title">
+            MAGNOPVS
+        </h1>
+
+        <p class="portal-user">
+            @magnopvsmatrix
+        </p>
+
+        <p class="portal-subtitle">
+            UNIVERSO TRANSMEDIA
+        </p>
+
+    </section>
+
+
+
+
+    <!-- ==========================================
+    INTRO
+    =========================================== -->
+
+    <section class="intro">
+
+        <h2>
+            Todo el Universo MagnopVS en un solo lugar.
+        </h2>
+
+        <p>
+            Explora la web oficial, descarga la aplicación,
+            descubre el lore, participa en eventos y forma
+            parte de la comunidad.
+        </p>
+
+    </section>
+
+
+
+
+    <!-- ==========================================
+    LINKS
+    =========================================== -->
+
+    <section class="portal-links">
+
+        <h3 class="section-title">
+            ACCESOS PRINCIPALES
+        </h3>
+
+
+        <!-- WEB -->
+
+        <a
+            id="btn-web"
+            href="#"
+            class="portal-btn main">
+
+            <span class="material-symbols-outlined">
+                language
+            </span>
+
+            <div class="btn-content">
+
+                <span class="btn-title">
+                    WEB
+                </span>
+
+                <span class="btn-description">
+                    Sitio Oficial
+                </span>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- APP -->
+
+        <a
+            id="btn-app"
+            href="#"
+            class="portal-btn">
+
+            <span class="material-symbols-outlined">
+                download
+            </span>
+
+            <div class="btn-content">
+
+                <span class="btn-title">
+                    DESCARGA APP
+                </span>
+
+                <span class="btn-description">
+                    Android · iOS · PC
+                </span>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- MARKETPLACE -->
+
+        <a
+            id="btn-marketplace"
+            href="#"
+            class="portal-btn">
+
+            <span class="material-symbols-outlined">
+                shopping_cart
+            </span>
+
+            <div class="btn-content">
+
+                <span class="btn-title">
+                    MARKETPLACE
+                </span>
+
+                <span class="btn-description">
+                    Tienda y Coleccionables
+                </span>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- EVENTS -->
+
+        <a
+            id="btn-events"
+            href="#"
+            class="portal-btn">
+
+            <span class="material-symbols-outlined">
+                event
+            </span>
+
+            <div class="btn-content">
+
+                <span class="btn-title">
+                    MAGNOEVENTS
+                </span>
+
+                <span class="btn-description">
+                    Eventos y Experiencias
+                </span>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- FANDOM -->
+
+        <a
+            id="btn-fandom"
+            href="#"
+            class="portal-btn">
+
+            <span class="material-symbols-outlined">
+                menu_book
+            </span>
+
+            <div class="btn-content">
+
+                <span class="btn-title">
+                    FANDOM
+                </span>
+
+                <span class="btn-description">
+                    Wiki Oficial
+                </span>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- SOCIAL -->
+
+        <a
+            id="btn-social"
+            href="#"
+            class="portal-btn">
+
+            <span class="material-symbols-outlined">
+                share
+            </span>
+
+            <div class="btn-content">
+
+                <span class="btn-title">
+                    REDES SOCIALES
+                </span>
+
+                <span class="btn-description">
+                    Instagram · YouTube · Facebook
+                </span>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- BLOG -->
+
+        <a
+            id="btn-blog"
+            href="#"
+            class="portal-btn">
+
+            <span class="material-symbols-outlined">
+                article
+            </span>
+
+            <div class="btn-content">
+
+                <span class="btn-title">
+                    BLOG
+                </span>
+
+                <span class="btn-description">
+                    Noticias del Cosmos
+                </span>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- CONTACT -->
+
+        <a
+            id="btn-contact"
+            href="#"
+            class="portal-btn">
+
+            <span class="material-symbols-outlined">
+                mail
+            </span>
+
+            <div class="btn-content">
+
+                <span class="btn-title">
+                    CONTACTO
+                </span>
+
+                <span class="btn-description">
+                    Soporte y Alianzas
+                </span>
+
+            </div>
+
+        </a>
+
+
+    </section>
+
+
+
+    <!-- ==========================================
+    FOOTER
+    =========================================== -->
+
+    <footer>
+
+        <p>
+            Powered by Nenca Lab
+        </p>
+
+        <span>
+            © 2026 MAGNOPVS · All Rights Reserved
+        </span>
+
+    </footer>
+
+
 </main>
-<!-- Footer Section Overhaul -->
-<footer class="fixed bottom-0 left-0 w-full z-40 px-margin-mobile pb-8 pt-4 pointer-events-none">
-<div class="max-w-lg mx-auto flex justify-between items-end opacity-[0.15]"><div class="w-full flex justify-center items-center gap-8 font-label-code text-[8px] tracking-[0.2em] uppercase">
-<span>Héroes Despertados: 12.842</span>
-<span class="opacity-30">|</span>
-<span>Universos: 37</span>
-<span class="opacity-30">|</span>
-<span>Misiones: 1.624</span>
-</div></div>
-</footer>
-<script>
-        const cta = document.getElementById('cta-trigger');
-        const bootOverlay = document.getElementById('boot-overlay');
-        const bootLogo = document.getElementById('boot-logo');
-        const bootStatus = document.getElementById('boot-status');
-        const bootProgress = document.getElementById('boot-progress');
 
-        // MVP Boot Sequence (2 Seconds Total)
-        async function runBootSequence() {
-            const sequence = [
-                { text: "INITIALIZING...", progress: 25, duration: 400 },
-                { text: "Searching Reality...", progress: 55, duration: 500 },
-                { text: "Reality Found.", progress: 85, duration: 400 },
-                { text: "Welcome, Traveler.", progress: 100, duration: 700 }
-            ];
 
-            // Initial Logo Fade In
-            setTimeout(() => { bootLogo.style.opacity = '1'; }, 100);
-            
-            for (let i = 0; i < sequence.length; i++) {
-                bootStatus.textContent = sequence[i].text;
-                bootStatus.style.opacity = '1';
-                bootProgress.style.width = sequence[i].progress + '%';
-                await new Promise(r => setTimeout(r, sequence[i].duration));
-            }
 
-            // Reveal Main Portal
-            bootOverlay.style.opacity = '0';
-            document.body.style.opacity = '1';
-            
-            setTimeout(() => {
-                bootOverlay.style.display = 'none';
-            }, 700);
-        }
+<script src="linktree.js"></script>
 
-        // Initialize Page
-        window.addEventListener('DOMContentLoaded', () => {
-            runBootSequence();
-        });
+</body>
 
-        // Cinematic Interaction Sequence for CTA
-        const narrativeSteps = [
-            'Sincronizando Avatar...',
-            'Detectando Realidad...',
-            'Calculando Posición...',
-            'Abriendo Portal...',
-            'Bienvenido, Héroe.'
-        ];
-
-        cta.addEventListener('click', async () => {
-            cta.style.pointerEvents = 'none';
-            cta.classList.remove('primary-portal-btn');
-            cta.style.transition = "all 0.4s ease";
-            cta.style.borderColor = "var(--tw-color-aquamarine)";
-            
-            for (let step of narrativeSteps) {
-                cta.innerHTML = `<span class="animate-pulse font-body-sm text-[12px] tracking-[0.2em] text-aquamarine uppercase">${step}</span>`;
-                await new Promise(resolve => setTimeout(resolve, 600));
-            }
-
-            // Final Portal Exit Transition
-            document.body.style.transition = 'all 1.5s cubic-bezier(0.7, 0, 0.3, 1)';
-            document.body.style.filter = 'brightness(5) blur(100px) saturate(0)';
-            document.body.style.opacity = '0';
-        });
-    </script>
-</body></html>
+</html>
