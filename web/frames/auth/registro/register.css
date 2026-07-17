@@ -1,0 +1,1798 @@
+/*=========================================================
+MagnopVS
+REGISTER
+Version 1.0
+=========================================================*/
+
+
+/*=========================================================
+RESET
+=========================================================*/
+
+*,
+*::before,
+*::after{
+
+    margin:0;
+    padding:0;
+
+    box-sizing:border-box;
+
+}
+
+html{
+
+    font-size:16px;
+
+    scroll-behavior:smooth;
+
+}
+
+body{
+
+    min-height:100vh;
+
+    overflow-x:hidden;
+
+    background:#050608;
+
+    color:#F5F7FF;
+
+    font-family:"Sora",sans-serif;
+
+    position:relative;
+
+}
+
+
+/*=========================================================
+ROOT
+=========================================================*/
+
+:root{
+
+    /* COLORS */
+
+    --primary:#6CB7FF;
+    --primary-dark:#3278ff;
+
+    --secondary:#B86CFF;
+
+    --accent:#3FFFD8;
+
+    --success:#46FF94;
+
+    --warning:#FFD95E;
+
+    --danger:#FF6A84;
+
+    --background:#050608;
+
+    --surface:#0E1117;
+
+    --surface-2:#131720;
+
+    --surface-3:#1A2130;
+
+    --border:rgba(255,255,255,.08);
+
+    --glass:rgba(18,22,34,.62);
+
+    --glass-border:rgba(255,255,255,.12);
+
+    --text:#F6F7FF;
+
+    --text-soft:#B8C1D8;
+
+    --shadow:
+
+        0 20px 60px rgba(0,0,0,.55);
+
+    --shadow-blue:
+
+        0 0 35px rgba(108,183,255,.20);
+
+    --radius-sm:10px;
+
+    --radius-md:18px;
+
+    --radius-lg:28px;
+
+    --transition:.30s ease;
+
+}
+
+
+/*=========================================================
+LINKS
+=========================================================*/
+
+a{
+
+    color:inherit;
+
+    text-decoration:none;
+
+}
+
+
+/*=========================================================
+BUTTONS
+=========================================================*/
+
+button{
+
+    border:none;
+
+    background:none;
+
+    cursor:pointer;
+
+    font-family:inherit;
+
+}
+
+
+/*=========================================================
+INPUTS
+=========================================================*/
+
+input{
+
+    font-family:inherit;
+
+    outline:none;
+
+    border:none;
+
+}
+
+
+/*=========================================================
+IMAGES
+=========================================================*/
+
+img{
+
+    display:block;
+
+    max-width:100%;
+
+}
+
+
+/*=========================================================
+BACKGROUND
+=========================================================*/
+
+.background{
+
+    position:fixed;
+
+    inset:0;
+
+    overflow:hidden;
+
+    z-index:-10;
+
+}
+
+
+/*=========================================================
+GRID
+=========================================================*/
+
+.background-grid{
+
+    position:absolute;
+
+    inset:0;
+
+    background-image:
+
+    linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+
+    linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+
+    background-size:60px 60px;
+
+    opacity:.35;
+
+}
+
+
+/*=========================================================
+GRADIENT
+=========================================================*/
+
+.background-gradient{
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+
+    radial-gradient(circle at top,
+
+    rgba(108,183,255,.18),
+
+    transparent 40%),
+
+    radial-gradient(circle at bottom right,
+
+    rgba(184,108,255,.18),
+
+    transparent 35%),
+
+    radial-gradient(circle at left,
+
+    rgba(63,255,216,.08),
+
+    transparent 30%);
+
+}
+
+
+/*=========================================================
+NOISE
+=========================================================*/
+
+.background-noise{
+
+    position:absolute;
+
+    inset:0;
+
+    opacity:.05;
+
+    background-image:url("assets/noise.webp");
+
+    background-repeat:repeat;
+
+}
+
+
+/*=========================================================
+HEADER
+=========================================================*/
+
+.header{
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:82px;
+
+    padding:0 60px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    backdrop-filter:blur(24px);
+
+    background:rgba(5,6,8,.45);
+
+    border-bottom:1px solid var(--glass-border);
+
+    z-index:200;
+
+}
+
+
+/*=========================================================
+LOGO
+=========================================================*/
+
+.logo-container{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+.logo{
+
+    width:52px;
+
+    height:52px;
+
+}
+
+.logo-title{
+
+    font-family:"Audiowide",cursive;
+
+    font-size:1.5rem;
+
+    letter-spacing:2px;
+
+    color:var(--primary);
+
+}
+
+.logo-subtitle{
+
+    display:block;
+
+    margin-top:2px;
+
+    color:var(--text-soft);
+
+    font-size:.75rem;
+
+    letter-spacing:3px;
+
+    text-transform:uppercase;
+
+}
+
+
+/*=========================================================
+NAV
+=========================================================*/
+
+.header-nav{
+
+    display:flex;
+
+    gap:40px;
+
+}
+
+.header-nav a{
+
+    color:var(--text-soft);
+
+    transition:var(--transition);
+
+    font-size:.95rem;
+
+    position:relative;
+
+}
+
+.header-nav a:hover{
+
+    color:var(--primary);
+
+}
+
+.header-nav a::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    bottom:-6px;
+
+    width:0;
+
+    height:2px;
+
+    background:var(--primary);
+
+    transition:.30s;
+
+}
+
+.header-nav a:hover::after{
+
+    width:100%;
+
+}
+
+
+/*=========================================================
+MAIN
+=========================================================*/
+
+.portal{
+
+    width:min(1500px,94vw);
+
+    min-height:100vh;
+
+    margin:auto;
+
+    padding-top:120px;
+
+    display:grid;
+
+    grid-template-columns:1fr 520px;
+
+    gap:80px;
+
+    align-items:center;
+
+}
+
+
+/*=========================================================
+LEFT PANEL
+=========================================================*/
+
+.portal-left{
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:36px;
+
+}
+
+
+/*=========================================================
+SINGULARITY
+=========================================================*/
+
+.singularity-wrapper{
+
+    width:420px;
+
+    height:420px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+#singularity-core{
+
+    width:100%;
+
+    height:100%;
+
+}
+
+
+/*=========================================================
+TEXT
+=========================================================*/
+
+.portal-text{
+
+    max-width:620px;
+
+    text-align:center;
+
+}
+
+.portal-text h2{
+
+    font-size:2.4rem;
+
+    font-family:"Orbitron",sans-serif;
+
+    margin-bottom:18px;
+
+    color:var(--primary);
+
+}
+
+.portal-text p{
+
+    color:var(--text-soft);
+
+    line-height:1.9;
+
+}
+
+
+/*=========================================================
+STATUS
+=========================================================*/
+
+.system-status{
+
+    display:flex;
+
+    gap:28px;
+
+    flex-wrap:wrap;
+
+    justify-content:center;
+
+    color:var(--text-soft);
+
+    font-size:.80rem;
+
+    letter-spacing:2px;
+
+    text-transform:uppercase;
+
+}
+
+.status-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+}
+
+.status-dot{
+
+    width:10px;
+
+    height:10px;
+
+    border-radius:50%;
+
+}
+
+.status-dot.online{
+
+    background:var(--success);
+
+    box-shadow:0 0 12px var(--success);
+
+}
+
+
+/*=========================================================
+RIGHT PANEL
+=========================================================*/
+
+.portal-right{
+
+    display:flex;
+
+    justify-content:center;
+
+}
+
+
+/*=========================================================
+CARD
+=========================================================*/
+
+.access-card{
+
+    width:100%;
+
+    padding:42px;
+
+    border-radius:var(--radius-lg);
+
+    background:var(--glass);
+
+    backdrop-filter:blur(30px);
+
+    border:1px solid var(--glass-border);
+
+    box-shadow:
+
+        var(--shadow),
+
+        var(--shadow-blue);
+
+}
+
+
+/*=========================================================
+CARD HEADER
+=========================================================*/
+
+.card-header{
+
+    text-align:center;
+
+    margin-bottom:36px;
+
+}
+
+.card-header h2{
+
+    font-family:"Orbitron",sans-serif;
+
+    color:var(--primary);
+
+    font-size:2rem;
+
+    letter-spacing:3px;
+
+    margin-bottom:10px;
+
+}
+
+.card-header p{
+
+    color:var(--text-soft);
+
+    line-height:1.8;
+
+}
+
+/*=========================================================
+TABS
+=========================================================*/
+
+.tabs{
+
+    display:flex;
+
+    gap:12px;
+
+    margin-bottom:34px;
+
+}
+
+.tab{
+
+    flex:1;
+
+    height:54px;
+
+    border-radius:14px;
+
+    border:1px solid var(--glass-border);
+
+    background:rgba(255,255,255,.03);
+
+    color:var(--text-soft);
+
+    font-weight:600;
+
+    transition:var(--transition);
+
+}
+
+.tab:hover{
+
+    color:var(--primary);
+
+    border-color:rgba(108,183,255,.45);
+
+}
+
+.tab.active{
+
+    background:linear-gradient(135deg,
+        rgba(108,183,255,.18),
+        rgba(184,108,255,.14));
+
+    color:#fff;
+
+    border-color:var(--primary);
+
+    box-shadow:0 0 20px rgba(108,183,255,.25);
+
+}
+
+
+/*=========================================================
+FORMS
+=========================================================*/
+
+.forms-container{
+
+    position:relative;
+
+    width:100%;
+
+}
+
+.form{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:22px;
+
+}
+
+.form.hidden{
+
+    display:none;
+
+}
+
+.form.active{
+
+    display:flex;
+
+}
+
+
+/*=========================================================
+AVATAR
+=========================================================*/
+
+.avatar-preview{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-bottom:10px;
+
+}
+
+#avatar-circle{
+
+    width:96px;
+
+    height:96px;
+
+    border-radius:50%;
+
+    background:linear-gradient(145deg,
+        var(--primary),
+        var(--secondary));
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    box-shadow:
+        0 0 25px rgba(108,183,255,.35);
+
+}
+
+#avatar-initials{
+
+    font-size:2rem;
+
+    font-family:"Orbitron",sans-serif;
+
+    font-weight:700;
+
+    color:#fff;
+
+}
+
+.avatar-preview small{
+
+    color:var(--text-soft);
+
+    letter-spacing:1px;
+
+}
+
+
+/*=========================================================
+INPUT GROUP
+=========================================================*/
+
+.input-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+.input-group label{
+
+    color:var(--text-soft);
+
+    font-size:.90rem;
+
+    font-weight:600;
+
+}
+
+
+/*=========================================================
+INPUT WRAPPER
+=========================================================*/
+
+.input-wrapper{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    height:58px;
+
+    padding:0 18px;
+
+    border-radius:14px;
+
+    background:rgba(255,255,255,.04);
+
+    border:1px solid var(--glass-border);
+
+    transition:var(--transition);
+
+}
+
+.input-wrapper:hover{
+
+    border-color:rgba(108,183,255,.35);
+
+}
+
+.input-wrapper:focus-within{
+
+    border-color:var(--primary);
+
+    box-shadow:0 0 18px rgba(108,183,255,.20);
+
+}
+
+
+/*=========================================================
+ICONS
+=========================================================*/
+
+.input-wrapper .material-symbols-outlined{
+
+    color:var(--primary);
+
+    font-size:22px;
+
+}
+
+
+/*=========================================================
+INPUT
+=========================================================*/
+
+.input-wrapper input{
+
+    flex:1;
+
+    background:transparent;
+
+    color:#fff;
+
+    font-size:1rem;
+
+}
+
+.input-wrapper input::placeholder{
+
+    color:rgba(255,255,255,.35);
+
+}
+
+
+/*=========================================================
+SHOW PASSWORD
+=========================================================*/
+
+.toggle-password{
+
+    width:40px;
+
+    height:40px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    transition:var(--transition);
+
+}
+
+.toggle-password:hover{
+
+    background:rgba(255,255,255,.08);
+
+}
+
+.toggle-password span{
+
+    color:var(--text-soft);
+
+}
+
+
+/*=========================================================
+INPUT INFO
+=========================================================*/
+
+.input-info{
+
+    color:var(--text-soft);
+
+    font-size:.75rem;
+
+    line-height:1.5;
+
+}
+
+
+/*=========================================================
+PASSWORD STRENGTH
+=========================================================*/
+
+.password-strength{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+}
+
+.strength-bar{
+
+    width:100%;
+
+    height:8px;
+
+    background:rgba(255,255,255,.06);
+
+    border-radius:100px;
+
+    overflow:hidden;
+
+}
+
+#strength-fill{
+
+    width:0;
+
+    height:100%;
+
+    background:linear-gradient(90deg,
+        #ff4e4e,
+        #ffae42,
+        #54ff87);
+
+    transition:.35s;
+
+}
+
+#strength-text{
+
+    color:var(--text-soft);
+
+    font-size:.80rem;
+
+}
+
+
+/*=========================================================
+PASSWORD RULES
+=========================================================*/
+
+.password-rules{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:10px;
+
+}
+
+.password-rules div{
+
+    padding:10px 14px;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.03);
+
+    border:1px solid rgba(255,255,255,.05);
+
+    color:var(--text-soft);
+
+    font-size:.78rem;
+
+    transition:var(--transition);
+
+}
+
+
+/*=========================================================
+CHECKBOX
+=========================================================*/
+
+.checkbox-group{
+
+    display:flex;
+
+}
+
+.checkbox-group label{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:12px;
+
+    cursor:pointer;
+
+    color:var(--text-soft);
+
+    line-height:1.7;
+
+    font-size:.90rem;
+
+}
+
+.checkbox-group input{
+
+    margin-top:4px;
+
+    accent-color:var(--primary);
+
+}
+
+
+/*=========================================================
+MESSAGES
+=========================================================*/
+
+.message{
+
+    padding:16px;
+
+    border-radius:14px;
+
+    font-size:.90rem;
+
+    line-height:1.6;
+
+}
+
+.message.error{
+
+    background:rgba(255,90,90,.12);
+
+    color:#ffb1b1;
+
+    border:1px solid rgba(255,90,90,.30);
+
+}
+
+.message.success{
+
+    background:rgba(84,255,135,.10);
+
+    color:#8effb7;
+
+    border:1px solid rgba(84,255,135,.28);
+
+}
+
+
+/*=========================================================
+PRIMARY BUTTON
+=========================================================*/
+
+.primary-button{
+
+    height:58px;
+
+    border-radius:16px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:10px;
+
+    background:linear-gradient(135deg,
+        var(--primary),
+        var(--primary-dark));
+
+    color:#fff;
+
+    font-size:1rem;
+
+    font-weight:700;
+
+    transition:var(--transition);
+
+    box-shadow:0 15px 35px rgba(108,183,255,.28);
+
+}
+
+.primary-button:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 22px 45px rgba(108,183,255,.35);
+
+}
+
+
+/*=========================================================
+SECONDARY BUTTON
+=========================================================*/
+
+.secondary-button{
+
+    height:54px;
+
+    border-radius:14px;
+
+    border:1px solid var(--glass-border);
+
+    color:var(--text-soft);
+
+    transition:var(--transition);
+
+}
+
+.secondary-button:hover{
+
+    color:var(--primary);
+
+    border-color:var(--primary);
+
+}
+
+
+/*=========================================================
+DIVIDER
+=========================================================*/
+
+.divider{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:16px;
+
+}
+
+.divider::before,
+.divider::after{
+
+    content:"";
+
+    flex:1;
+
+    height:1px;
+
+    background:rgba(255,255,255,.08);
+
+}
+
+.divider span{
+
+    color:var(--text-soft);
+
+    font-size:.80rem;
+
+}
+
+
+/*=========================================================
+GOOGLE BUTTON
+=========================================================*/
+
+.google-button{
+
+    height:58px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:14px;
+
+    border-radius:16px;
+
+    border:1px solid var(--glass-border);
+
+    background:rgba(255,255,255,.03);
+
+    color:#fff;
+
+    transition:var(--transition);
+
+}
+
+.google-button img{
+
+    width:22px;
+
+}
+
+.google-button:hover{
+
+    border-color:var(--primary);
+
+    background:rgba(108,183,255,.08);
+
+}
+
+/*=========================================================
+LOGIN OPTIONS
+=========================================================*/
+
+.login-options{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:16px;
+
+    flex-wrap:wrap;
+
+}
+
+.remember-me{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    color:var(--text-soft);
+
+    font-size:.9rem;
+
+    cursor:pointer;
+
+}
+
+.remember-me input{
+
+    accent-color:var(--primary);
+
+}
+
+
+/*=========================================================
+LINK BUTTON
+=========================================================*/
+
+.link-button{
+
+    color:var(--primary);
+
+    font-size:.9rem;
+
+    transition:var(--transition);
+
+}
+
+.link-button:hover{
+
+    color:#ffffff;
+
+}
+
+
+/*=========================================================
+FORGOT PANEL
+=========================================================*/
+
+.forgot-panel{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:22px;
+
+}
+
+.forgot-panel h3{
+
+    text-align:center;
+
+    color:var(--primary);
+
+    font-family:"Orbitron",sans-serif;
+
+    font-size:1.6rem;
+
+}
+
+.forgot-panel p{
+
+    color:var(--text-soft);
+
+    text-align:center;
+
+    line-height:1.8;
+
+}
+
+
+/*=========================================================
+LOADING
+=========================================================*/
+
+.loading-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(5,8,12,.82);
+
+    backdrop-filter:blur(12px);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:9999;
+
+}
+
+.loading-card{
+
+    width:320px;
+
+    padding:40px;
+
+    border-radius:22px;
+
+    background:var(--glass);
+
+    border:1px solid var(--glass-border);
+
+    text-align:center;
+
+    box-shadow:var(--shadow);
+
+}
+
+.loading-card h3{
+
+    margin-top:24px;
+
+    color:var(--primary);
+
+    font-family:"Orbitron",sans-serif;
+
+}
+
+.loading-card p{
+
+    margin-top:12px;
+
+    color:var(--text-soft);
+
+}
+
+
+/*=========================================================
+SPINNER
+=========================================================*/
+
+.loading-spinner{
+
+    width:72px;
+
+    height:72px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    border:4px solid rgba(255,255,255,.08);
+
+    border-top:4px solid var(--primary);
+
+    animation:spin 1s linear infinite;
+
+}
+
+
+/*=========================================================
+TOAST
+=========================================================*/
+
+.toast{
+
+    position:fixed;
+
+    right:30px;
+
+    bottom:30px;
+
+    min-width:280px;
+
+    max-width:420px;
+
+    padding:18px 22px;
+
+    border-radius:16px;
+
+    background:var(--surface-2);
+
+    border:1px solid var(--glass-border);
+
+    box-shadow:var(--shadow);
+
+    color:#fff;
+
+    z-index:999;
+
+    animation:toastIn .35s ease;
+
+}
+
+
+/*=========================================================
+FOOTER
+=========================================================*/
+
+.footer{
+
+    width:100%;
+
+    padding:28px 40px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    color:var(--text-soft);
+
+    border-top:1px solid rgba(255,255,255,.05);
+
+    margin-top:60px;
+
+    font-size:.85rem;
+
+}
+
+
+/*=========================================================
+HELPERS
+=========================================================*/
+
+.hidden{
+
+    display:none !important;
+
+}
+
+.visible{
+
+    display:flex;
+
+}
+
+.center{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+
+/*=========================================================
+ANIMATIONS
+=========================================================*/
+
+@keyframes spin{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+@keyframes toastIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateX(60px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateX(0);
+
+    }
+
+}
+
+@keyframes pulseGlow{
+
+    0%{
+
+        box-shadow:0 0 18px rgba(108,183,255,.18);
+
+    }
+
+    50%{
+
+        box-shadow:0 0 40px rgba(108,183,255,.40);
+
+    }
+
+    100%{
+
+        box-shadow:0 0 18px rgba(108,183,255,.18);
+
+    }
+
+}
+
+
+/*=========================================================
+CARD EFFECT
+=========================================================*/
+
+.access-card{
+
+    animation:fadeIn .7s ease;
+
+}
+
+.primary-button:active{
+
+    transform:scale(.98);
+
+}
+
+#avatar-circle{
+
+    animation:pulseGlow 4s infinite;
+
+}
+
+
+/*=========================================================
+SCROLLBAR
+=========================================================*/
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#050608;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:var(--primary);
+
+    border-radius:100px;
+
+}
+
+
+/*=========================================================
+RESPONSIVE
+=========================================================*/
+
+@media (max-width:1200px){
+
+    .portal{
+
+        grid-template-columns:1fr;
+
+        gap:50px;
+
+        padding-top:120px;
+
+        width:min(95vw,800px);
+
+    }
+
+    .portal-left{
+
+        order:2;
+
+    }
+
+    .portal-right{
+
+        order:1;
+
+    }
+
+    .singularity-wrapper{
+
+        width:300px;
+
+        height:300px;
+
+    }
+
+}
+
+
+@media (max-width:768px){
+
+    .header{
+
+        padding:0 20px;
+
+        height:70px;
+
+    }
+
+    .header-nav{
+
+        display:none;
+
+    }
+
+    .portal{
+
+        padding-top:90px;
+
+        width:94%;
+
+    }
+
+    .access-card{
+
+        padding:28px;
+
+    }
+
+    .portal-text h2{
+
+        font-size:1.8rem;
+
+    }
+
+    .system-status{
+
+        gap:14px;
+
+        font-size:.72rem;
+
+    }
+
+    .tabs{
+
+        flex-direction:column;
+
+    }
+
+    .password-rules{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .login-options{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+    }
+
+    .footer{
+
+        flex-direction:column;
+
+        gap:10px;
+
+        text-align:center;
+
+    }
+
+}
+
+
+@media (max-width:480px){
+
+    .singularity-wrapper{
+
+        width:220px;
+
+        height:220px;
+
+    }
+
+    .card-header h2{
+
+        font-size:1.5rem;
+
+    }
+
+    .portal-text h2{
+
+        font-size:1.4rem;
+
+    }
+
+    .logo-title{
+
+        font-size:1.2rem;
+
+    }
+
+    .loading-card{
+
+        width:90%;
+
+    }
+
+}
