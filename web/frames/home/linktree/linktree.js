@@ -3,329 +3,206 @@ MAGNOPVS LINKTREE
 COSMIC PORTAL ENGINE
 ========================================================= */
 
+document.addEventListener("DOMContentLoaded", () => {
 
-document.addEventListener(
-"DOMContentLoaded",
-()=>{
+    const body = document.body;
 
+    const bootScreen = document.getElementById("boot-screen");
 
-const body = document.body;
+    const bootText = document.getElementById("boot-text");
 
-const bootScreen = document.getElementById(
-"boot-screen"
-);
+    const progress = document.getElementById("progress");
 
-const bootText = document.getElementById(
-"boot-text"
-);
 
-const progress = document.getElementById(
-"progress"
-);
 
+    /* =========================================================
+    BOOT SEQUENCE
+    ========================================================= */
 
+    const sequence = [
 
-/* =========================================================
-BOOT SEQUENCE
-========================================================= */
+        {
+            text: "INITIALIZING PORTAL...",
+            value: 20,
+            time: 500
+        },
 
+        {
+            text: "CONNECTING COSMOS...",
+            value: 45,
+            time: 600
+        },
 
-const sequence = [
+        {
+            text: "LOCATING MAGNOPVS...",
+            value: 70,
+            time: 700
+        },
 
-{
-text:"INITIALIZING PORTAL...",
-value:20,
-time:500
-},
+        {
+            text: "PORTAL STABLE...",
+            value: 90,
+            time: 500
+        },
 
-{
-text:"CONNECTING COSMOS...",
-value:45,
-time:600
-},
+        {
+            text: "WELCOME TRAVELER.",
+            value: 100,
+            time: 800
+        }
 
-{
-text:"LOCATING MAGNOPVS...",
-value:70,
-time:700
-},
+    ];
 
-{
-text:"PORTAL STABLE...",
-value:90,
-time:500
-},
 
-{
-text:"WELCOME TRAVELER.",
-value:100,
-time:800
-}
 
-];
+    /* =========================================================
+    START PORTAL
+    ========================================================= */
 
+    async function startPortal() {
 
+        for (let step of sequence) {
 
-async function startPortal(){
+            bootText.innerHTML = step.text;
 
+            progress.style.width = step.value + "%";
 
-for(let step of sequence){
+            await delay(step.time);
 
+        }
 
-bootText.innerHTML =
-step.text;
+        bootScreen.style.opacity = "0";
 
+        await delay(800);
 
-progress.style.width =
-step.value+"%";
+        bootScreen.style.display = "none";
 
+        body.style.opacity = "1";
 
-await delay(step.time);
+        animateEntrance();
 
+    }
 
-}
 
 
+    /* =========================================================
+    UTILITY
+    ========================================================= */
 
+    function delay(ms) {
 
-bootScreen.style.opacity="0";
+        return new Promise(resolve => setTimeout(resolve, ms));
 
+    }
 
-await delay(800);
 
 
+    /* =========================================================
+    ENTRANCE ANIMATION
+    ========================================================= */
 
-bootScreen.style.display="none";
+    function animateEntrance() {
 
+        const elements = document.querySelectorAll(
 
-body.style.opacity="1";
+            ".logo-area, .intro, .portal-btn, footer"
 
+        );
 
+        elements.forEach((element, index) => {
 
-animateEntrance();
+            element.style.opacity = "0";
 
+            element.style.transform = "translateY(30px)";
 
-}
+            setTimeout(() => {
 
+                element.style.transition = "all .8s ease";
 
+                element.style.opacity = "1";
 
+                element.style.transform = "translateY(0)";
 
-/* =========================================================
-UTILITY
-========================================================= */
+            }, index * 120);
 
+        });
 
-function delay(ms){
+    }
 
-return new Promise(
-resolve=>setTimeout(resolve,ms)
-);
 
-}
 
+    /* =========================================================
+    BUTTON EFFECT
+    ========================================================= */
 
+    const buttons = document.querySelectorAll(".portal-btn");
 
-/* =========================================================
-ENTRANCE ANIMATION
-========================================================= */
+    buttons.forEach(button => {
 
+        button.addEventListener("mouseenter", () => {
 
-function animateEntrance(){
+            button.style.filter = "brightness(1.3)";
 
+        });
 
-const elements =
-document.querySelectorAll(
-".logo-area, .intro, .portal-btn, footer"
-);
+        button.addEventListener("mouseleave", () => {
 
+            button.style.filter = "brightness(1)";
 
+        });
 
-elements.forEach(
-(element,index)=>{
+    });
 
 
-element.style.opacity="0";
 
-element.style.transform=
-"translateY(30px)";
+    /* =========================================================
+    PORTAL NAVIGATION
+    ========================================================= */
 
+    buttons.forEach(button => {
 
-setTimeout(()=>{
+        button.addEventListener("click", async (event) => {
 
+            const destination = button.href;
 
-element.style.transition=
-"all .8s ease";
+            if (!destination || destination === "#") {
+                return;
+            }
 
+            event.preventDefault();
 
-element.style.opacity="1";
+            await openPortal(destination);
 
+        });
 
-element.style.transform=
-"translateY(0)";
+    });
 
 
-},
-index*120);
 
+    /* =========================================================
+    PORTAL TRANSITION
+    ========================================================= */
 
+    async function openPortal(destination) {
+
+        document.body.style.transition = "all 1.2s ease";
+
+        document.body.style.filter = "brightness(5) blur(20px)";
+
+        document.body.style.opacity = "0";
+
+        await delay(1200);
+
+        window.location.href = destination;
+
+    }
+
+
+
+    /* =========================================================
+    START
+    ========================================================= */
+
+    startPortal();
 
 });
-
-
-}
-
-
-
-
-
-/* =========================================================
-BUTTON PORTAL EFFECT
-========================================================= */
-
-
-const buttons =
-document.querySelectorAll(
-".portal-btn"
-);
-
-
-
-buttons.forEach(
-button=>{
-
-
-button.addEventListener(
-"mouseenter",
-()=>{
-
-
-button.style.filter=
-"brightness(1.3)";
-
-
-});
-
-
-
-button.addEventListener(
-"mouseleave",
-()=>{
-
-
-button.style.filter=
-"brightness(1)";
-
-
-});
-
-
-});
-
-
-
-
-
-/* =========================================================
-WEB PORTAL REDIRECTION
-========================================================= */
-
-
-const webButton =
-document.querySelector(
-".portal-btn.main"
-);
-
-
-
-if(webButton){
-
-
-webButton.addEventListener(
-"click",
-(event)=>{
-
-
-event.preventDefault();
-
-
-
-openPortal(
-"/banner"
-);
-
-
-
-});
-
-
-}
-
-
-
-
-
-/* =========================================================
-PORTAL TRANSITION
-========================================================= */
-
-
-async function openPortal(destination){
-
-
-document.body.style.transition=
-"all 1.2s ease";
-
-
-document.body.style.filter=
-"brightness(5) blur(20px)";
-
-
-document.body.style.opacity=
-"0";
-
-
-
-await delay(1200);
-
-
-
-window.location.href =
-destination;
-
-
-
-}
-
-
-
-
-/* =========================================================
-START
-========================================================= */
-
-
-startPortal();
-
-
-
-});
-
-const ROUTES = {
-
-    WEB: "https://magmax777.github.io/MagnopVS_Web/",
-
-    APP: "app.html",
-
-    EVENTS: "events.html",
-
-    MARKETPLACE: "marketplace.html",
-
-    FANDOM: "https://magnopvs.fandom.com/es/wiki/Magnopvs_Wiki",
-
-    SOCIAL: "social.html",
-
-    BLOG: "blog.html",
-
-    CONTACT: "contact.html"
-
-};

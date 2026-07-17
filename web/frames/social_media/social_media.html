@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS | Social Nexus</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700;900&amp;family=Space+Mono&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#2a2a2a",
+                        "on-primary-fixed-variant": "#004f54",
+                        "surface-bright": "#3a3939",
+                        "on-tertiary-fixed": "#23005b",
+                        "tertiary-fixed": "#e9ddff",
+                        "primary": "#dbfcff",
+                        "surface-dim": "#131313",
+                        "primary-fixed": "#7df4ff",
+                        "error": "#ffb4ab",
+                        "on-tertiary": "#3c0090",
+                        "on-surface": "#e5e2e1",
+                        "surface-container": "#201f1f",
+                        "surface-container-low": "#1c1b1b",
+                        "error-container": "#93000a",
+                        "secondary-fixed-dim": "#fface8",
+                        "on-secondary-fixed-variant": "#840076",
+                        "background": "#131313",
+                        "on-primary-fixed": "#002022",
+                        "primary-fixed-dim": "#00dbe9",
+                        "tertiary-fixed-dim": "#d1bcff",
+                        "tertiary-container": "#e1d2ff",
+                        "surface-tint": "#00dbe9",
+                        "on-primary-container": "#006970",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-variant": "#353534",
+                        "on-error-container": "#ffdad6",
+                        "secondary": "#fface8",
+                        "tertiary": "#faf3ff",
+                        "primary-container": "#00f0ff",
+                        "secondary-fixed": "#ffd7f0",
+                        "outline": "#849495",
+                        "on-tertiary-container": "#7213ff",
+                        "on-surface-variant": "#b9cacb",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-error": "#690005",
+                        "surface-container-highest": "#353534",
+                        "on-tertiary-fixed-variant": "#5700c9",
+                        "outline-variant": "#3b494b",
+                        "on-secondary": "#5e0053",
+                        "on-secondary-container": "#520049",
+                        "on-primary": "#00363a",
+                        "inverse-primary": "#006970",
+                        "inverse-on-surface": "#313030",
+                        "secondary-container": "#ff24e4",
+                        "on-secondary-fixed": "#3a0033",
+                        "on-background": "#e5e2e1",
+                        "surface": "#131313",
+                        "glass-panel": "rgba(20, 20, 20, 0.7)",
+                        "glass-border": "rgba(219, 252, 255, 0.15)",
+                        "magenta-portal": "#ff24e4",
+                        "celestial-blue": "#00f0ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "body-uplink": ["Orbitron", "sans-serif"],
+                        "headline-md": ["Audiowide", "cursive"],
+                        "display-hero": ["Orbitron", "sans-serif"],
+                        "label-telemetry": ["Space Mono", "monospace"],
+                        "caption-data": ["Space Mono", "monospace"]
+                    },
+                    "fontSize": {
+                        "body-uplink": ["16px", { "lineHeight": "24px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "display-hero": ["42px", { "lineHeight": "1.1", "letterSpacing": "0.1em", "fontWeight": "900" }],
+                        "label-telemetry": ["10px", { "lineHeight": "14px", "letterSpacing": "0.2em", "fontWeight": "400" }],
+                        "caption-data": ["12px", { "lineHeight": "16px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #0e0e0e;
+            color: #e5e2e1;
+            overflow-x: hidden;
+        }
+
+        .hex-grid-bg {
+            background-image: linear-gradient(30deg, #131313 12%, transparent 12.5%, transparent 87%, #131313 87.5%, #131313),
+                              linear-gradient(150deg, #131313 12%, transparent 12.5%, transparent 87%, #131313 87.5%, #131313),
+                              linear-gradient(30deg, #131313 12%, transparent 12.5%, transparent 87%, #131313 87.5%, #131313),
+                              linear-gradient(150deg, #131313 12%, transparent 12.5%, transparent 87%, #131313 87.5%, #131313),
+                              linear-gradient(60deg, #1c1b1b 25%, transparent 25.5%, transparent 75%, #1c1b1b 75%, #1c1b1b),
+                              linear-gradient(60deg, #1c1b1b 25%, transparent 25.5%, transparent 75%, #1c1b1b 75%, #1c1b1b);
+            background-size: 40px 70px;
+            background-position: 0 0, 0 0, 20px 35px, 20px 35px, 0 0, 20px 35px;
+            opacity: 0.3;
+        }
+
+        .energy-stroke {
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.1), 0 0 15px rgba(0, 240, 255, 0.05);
+        }
+
+        .magenta-pulse {
+            animation: pulse-magenta 4s infinite ease-in-out;
+        }
+
+        @keyframes pulse-magenta {
+            0%, 100% { border-color: rgba(255, 36, 228, 0.3); box-shadow: 0 0 10px rgba(255, 36, 228, 0.1); }
+            50% { border-color: rgba(255, 36, 228, 0.8); box-shadow: 0 0 25px rgba(255, 36, 228, 0.3); }
+        }
+
+        .holographic-avatar {
+            position: relative;
+            filter: drop-shadow(0 0 15px rgba(0, 240, 255, 0.5));
+        }
+
+        .holographic-avatar::after {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border: 2px solid #00f0ff;
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: rotate-ring 10s linear infinite;
+        }
+
+        @keyframes rotate-ring {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .scanline-overlay {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .glitch-hover:hover {
+            animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+<!-- Background Layer -->
+<div class="fixed inset-0 hex-grid-bg z-0"></div>
+<div class="fixed inset-0 scanline-overlay z-10 opacity-20"></div>
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full h-16 bg-glass-panel backdrop-blur-xl border-b border-glass-border flex justify-between items-center px-10 z-50 shadow-[0_0_20px_rgba(152,203,255,0.15)]">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-primary font-bold tracking-tighter">MagnopVS</span>
+<div class="hidden md:flex gap-6">
+<a class="font-body-uplink text-on-surface-variant hover:text-primary transition-colors text-sm" href="#">Matrix</a>
+<a class="font-body-uplink text-primary border-b-2 border-primary pb-1 text-sm" href="#">Nexus</a>
+<a class="font-body-uplink text-on-surface-variant hover:text-primary transition-colors text-sm" href="#">Archive</a>
+<a class="font-body-uplink text-on-surface-variant hover:text-primary transition-colors text-sm" href="#">Marketplace</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative flex items-center">
+<input class="bg-transparent border-b border-outline-variant focus:border-primary outline-none px-2 py-1 font-label-telemetry text-xs uppercase transition-all w-48" placeholder="QUERY NODE..." type="text"/>
+<span class="material-symbols-outlined text-outline text-sm absolute right-1">search</span>
+</div>
+<button class="active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary text-2xl">account_circle</span>
+</button>
+</div>
+</nav>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-20 hover:w-64 group bg-glass-panel backdrop-blur-xl border-r border-glass-border flex flex-col items-center py-8 z-40 transition-all duration-300 shadow-[0_0_20px_rgba(152,203,255,0.1)]">
+<div class="flex flex-col items-center group-hover:items-start group-hover:px-6 w-full gap-8">
+<!-- Navigation Items -->
+<div class="flex flex-col gap-6 w-full">
+<div class="flex items-center gap-4 px-4 py-2 hover:bg-surface-container-high hover:text-primary transition-all cursor-pointer text-on-surface-variant">
+<span class="material-symbols-outlined">analytics</span>
+<span class="hidden group-hover:block font-label-telemetry text-xs uppercase tracking-widest">Telemetry</span>
+</div>
+<div class="flex items-center gap-4 px-4 py-2 hover:bg-surface-container-high hover:text-primary transition-all cursor-pointer text-on-surface-variant">
+<span class="material-symbols-outlined">hub</span>
+<span class="hidden group-hover:block font-label-telemetry text-xs uppercase tracking-widest">Nodes</span>
+</div>
+<div class="flex items-center gap-4 px-4 py-2 bg-primary-fixed-dim/10 text-primary transition-all cursor-pointer">
+<span class="material-symbols-outlined">explore</span>
+<span class="hidden group-hover:block font-label-telemetry text-xs uppercase tracking-widest">Mission</span>
+</div>
+<div class="flex items-center gap-4 px-4 py-2 hover:bg-surface-container-high hover:text-primary transition-all cursor-pointer text-on-surface-variant">
+<span class="material-symbols-outlined">account_box</span>
+<span class="hidden group-hover:block font-label-telemetry text-xs uppercase tracking-widest">Operator</span>
+</div>
+</div>
+<div class="mt-auto w-full flex flex-col gap-4">
+<button class="hidden group-hover:block mx-4 bg-primary text-on-primary font-headline-md text-xs py-2 rounded-sm tracking-tighter active:scale-95 transition-transform">SYNC MATRIX</button>
+<div class="flex items-center gap-4 px-4 py-2 hover:text-primary transition-all cursor-pointer text-on-surface-variant">
+<span class="material-symbols-outlined">settings</span>
+<span class="hidden group-hover:block font-label-telemetry text-xs uppercase tracking-widest">Settings</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-grow pt-24 pb-16 pl-24 pr-8 relative z-20 overflow-y-auto">
+<div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- Central Identity Hub -->
+<section class="lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left">
+<div class="relative mb-8">
+<div class="holographic-avatar w-64 h-64 overflow-hidden rounded-full energy-stroke p-1">
+<img alt="Operator Ghost Avatar" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida/AP1WRLuK22vccX095DywLl1rRWgRc9ENZ6jIBaYKB_uVamVDdtT-EkwTpZ8GSwvQZW1gfwBQ6l52YTExYHyHzjgz3sgeRfvXwu0Nz0YfajnrVj1t4Thf0Oze-PoGckZ9Vin-2WWECqJjrZYqILajxVllcDyEntiiXUHAC6eA9g-O-LiA7XFLwOqoTgLGcn0AJ3wbnBIOS_10heU3hBIxKbAU55xTmH0uaNtBunt0FRUK7gLnJeb_DcMctd9xLHSP"/>
+</div>
+<!-- Rank Indicator -->
+<div class="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-background border border-celestial-blue px-4 py-1 rounded shadow-lg shadow-celestial-blue/20">
+<span class="font-label-telemetry text-[10px] text-celestial-blue font-bold">RANK: SPECTRE PRIME</span>
+</div>
+</div>
+<h1 class="font-display-hero text-primary mb-2">OPERATOR GHOST</h1>
+<p class="font-label-telemetry text-magenta-portal text-sm tracking-[0.3em] uppercase mb-6">Soul Signature: Alpha-01-Verified</p>
+<div class="bg-surface-container-lowest/50 backdrop-blur-md border border-glass-border p-6 rounded-lg w-full max-w-md">
+<div class="flex justify-between items-center mb-4">
+<span class="font-label-telemetry text-[10px] text-outline uppercase tracking-widest">System Status</span>
+<span class="font-label-telemetry text-[10px] text-celestial-blue">CONNECTED</span>
+</div>
+<div class="h-1 w-full bg-surface-variant rounded-full overflow-hidden mb-4">
+<div class="h-full bg-celestial-blue w-full animate-pulse"></div>
+</div>
+<p class="font-caption-data text-on-surface-variant text-sm">
+                        Establishing a multi-vector uplink across all primary social nodes. Resonance protocols active. Synchronizing digital essence...
+                    </p>
+</div>
+</section>
+<!-- Social Uplink Grid -->
+<section class="lg:col-span-7">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Discord Node -->
+<a class="group relative energy-stroke bg-glass-panel backdrop-blur-md p-5 rounded-lg flex items-center justify-between transition-all hover:bg-celestial-blue/10 hover:-translate-y-1 glitch-hover" href="#">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 flex items-center justify-center border border-celestial-blue/30 rounded-full group-hover:border-celestial-blue">
+<span class="material-symbols-outlined text-celestial-blue">forum</span>
+</div>
+<div>
+<h3 class="font-headline-md text-sm text-primary">DISCORD</h3>
+<p class="font-label-telemetry text-[10px] text-outline uppercase">Nexus Hub</p>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-telemetry text-[10px] text-celestial-blue block">RESONANCE</span>
+<span class="font-display-hero text-lg">99.8%</span>
+</div>
+</a>
+<!-- X Node -->
+<a class="group relative energy-stroke bg-glass-panel backdrop-blur-md p-5 rounded-lg flex items-center justify-between transition-all hover:bg-magenta-portal/10 hover:-translate-y-1 magenta-pulse glitch-hover" href="#">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 flex items-center justify-center border border-magenta-portal/30 rounded-full group-hover:border-magenta-portal">
+<span class="material-symbols-outlined text-magenta-portal">brand_awareness</span>
+</div>
+<div>
+<h3 class="font-headline-md text-sm text-primary">X / TWITTER</h3>
+<p class="font-label-telemetry text-[10px] text-outline uppercase">Data Feed</p>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-telemetry text-[10px] text-magenta-portal block">RESONANCE</span>
+<span class="font-display-hero text-lg">84.2%</span>
+</div>
+</a>
+<!-- Instagram Node -->
+<a class="group relative energy-stroke bg-glass-panel backdrop-blur-md p-5 rounded-lg flex items-center justify-between transition-all hover:bg-celestial-blue/10 hover:-translate-y-1 glitch-hover" href="#">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 flex items-center justify-center border border-celestial-blue/30 rounded-full group-hover:border-celestial-blue">
+<span class="material-symbols-outlined text-celestial-blue">photo_camera</span>
+</div>
+<div>
+<h3 class="font-headline-md text-sm text-primary">INSTAGRAM</h3>
+<p class="font-label-telemetry text-[10px] text-outline uppercase">Visual Cache</p>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-telemetry text-[10px] text-celestial-blue block">RESONANCE</span>
+<span class="font-display-hero text-lg">91.5%</span>
+</div>
+</a>
+<!-- YouTube Node -->
+<a class="group relative energy-stroke bg-glass-panel backdrop-blur-md p-5 rounded-lg flex items-center justify-between transition-all hover:bg-magenta-portal/10 hover:-translate-y-1 magenta-pulse glitch-hover" href="#">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 flex items-center justify-center border border-magenta-portal/30 rounded-full group-hover:border-magenta-portal">
+<span class="material-symbols-outlined text-magenta-portal">play_circle</span>
+</div>
+<div>
+<h3 class="font-headline-md text-sm text-primary">YOUTUBE</h3>
+<p class="font-label-telemetry text-[10px] text-outline uppercase">Broadcast</p>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-telemetry text-[10px] text-magenta-portal block">RESONANCE</span>
+<span class="font-display-hero text-lg">96.0%</span>
+</div>
+</a>
+<!-- TikTok Node -->
+<a class="group relative energy-stroke bg-glass-panel backdrop-blur-md p-5 rounded-lg flex items-center justify-between transition-all hover:bg-celestial-blue/10 hover:-translate-y-1 glitch-hover" href="#">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 flex items-center justify-center border border-celestial-blue/30 rounded-full group-hover:border-celestial-blue">
+<span class="material-symbols-outlined text-celestial-blue">bolt</span>
+</div>
+<div>
+<h3 class="font-headline-md text-sm text-primary">TIKTOK</h3>
+<p class="font-label-telemetry text-[10px] text-outline uppercase">Fragment Flux</p>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-telemetry text-[10px] text-celestial-blue block">RESONANCE</span>
+<span class="font-display-hero text-lg">77.3%</span>
+</div>
+</a>
+<!-- Telegram Node -->
+<a class="group relative energy-stroke bg-glass-panel backdrop-blur-md p-5 rounded-lg flex items-center justify-between transition-all hover:bg-magenta-portal/10 hover:-translate-y-1 magenta-pulse glitch-hover" href="#">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 flex items-center justify-center border border-magenta-portal/30 rounded-full group-hover:border-magenta-portal">
+<span class="material-symbols-outlined text-magenta-portal">send</span>
+</div>
+<div>
+<h3 class="font-headline-md text-sm text-primary">TELEGRAM</h3>
+<p class="font-label-telemetry text-[10px] text-outline uppercase">Encrypted</p>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-telemetry text-[10px] text-magenta-portal block">RESONANCE</span>
+<span class="font-display-hero text-lg">99.9%</span>
+</div>
+</a>
+</div>
+<!-- CTA Section -->
+<div class="mt-12 p-8 border border-glass-border bg-surface-container-low rounded-xl relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-r from-celestial-blue/5 to-transparent pointer-events-none"></div>
+<div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div>
+<h2 class="font-headline-md text-xl text-primary mb-2">JOIN THE RESISTANCE</h2>
+<p class="font-caption-data text-on-surface-variant max-w-sm">Secure your node in the global Matrix and gain access to classified archives.</p>
+</div>
+<button class="bg-primary text-on-primary font-headline-md px-8 py-3 tracking-tighter hover:bg-primary-container transition-colors active:scale-95">ESTABLISH LINK</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Telemetry Footer -->
+<footer class="fixed bottom-0 w-full h-8 bg-surface-container-lowest border-t border-glass-border z-50 flex justify-between items-center px-10">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-celestial-blue animate-pulse"></span>
+<span class="font-label-telemetry text-[9px] text-outline uppercase">SYSTEM STATUS: NOMINAL</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-telemetry text-[9px] text-outline uppercase">LATENCY:</span>
+<span class="font-label-telemetry text-[9px] text-celestial-blue" id="latency">0.0566ms</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-telemetry text-[9px] text-outline uppercase">SYNC STABILITY:</span>
+<span class="font-label-telemetry text-[9px] text-magenta-portal">100%</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<a class="font-label-telemetry text-[9px] text-outline hover:text-tertiary transition-opacity uppercase" href="#">Protocol</a>
+<a class="font-label-telemetry text-[9px] text-outline hover:text-tertiary transition-opacity uppercase" href="#">Security</a>
+<a class="font-label-telemetry text-[9px] text-outline hover:text-tertiary transition-opacity uppercase" href="#">Contact</a>
+</div>
+<span class="font-label-telemetry text-[9px] text-on-surface uppercase opacity-50">NODE: ALPHA-7</span>
+</div>
+</footer>
+<script>
+        // Micro-interaction: Fluctuate latency slightly for realism
+        const latencyEl = document.getElementById('latency');
+        setInterval(() => {
+            const val = (0.056 + Math.random() * 0.002).toFixed(4);
+            latencyEl.textContent = val + 'ms';
+        }, 3000);
+
+        // Hover energy sound effect simulation or additional visuals
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                // Potential for subtle audio play
+            });
+        });
+    </script>
+</body></html>
