@@ -1,3 +1,13 @@
+import { auth }
+from "../../config/firebase/firebase-config.js";
+
+import { supabase }
+from "../../config/supabase/supabase-config.js";
+
+console.log("Firebase:", auth);
+
+console.log("Supabase:", supabase);
+
 /*=========================================================
 MagnopVS
 REGISTER
@@ -543,302 +553,6 @@ function clearLoginForm(){
 
 }
 
-/*=========================================================
-PASSWORD STRENGTH
-=========================================================*/
-
-function initStrengthMeter(){
-
-    if(!password) return;
-
-    password.addEventListener("input",checkPasswordStrength);
-
-}
-
-
-function checkPasswordStrength(){
-
-    const value=password.value;
-
-    let score=0;
-
-    const rules={
-
-        length:value.length>=8,
-
-        uppercase:/[A-Z]/.test(value),
-
-        number:/[0-9]/.test(value),
-
-        symbol:/[^A-Za-z0-9]/.test(value)
-
-    };
-
-    updateRule("rule-length",rules.length);
-    updateRule("rule-uppercase",rules.uppercase);
-    updateRule("rule-number",rules.number);
-    updateRule("rule-symbol",rules.symbol);
-
-    Object.values(rules).forEach(rule=>{
-
-        if(rule) score++;
-
-    });
-
-    const percent=(score/4)*100;
-
-    strengthFill.style.width=percent+"%";
-
-    switch(score){
-
-        case 0:
-        case 1:
-
-            strengthFill.style.background="#ff4b5c";
-            strengthText.textContent="Seguridad: Muy débil";
-            break;
-
-        case 2:
-
-            strengthFill.style.background="#ffb84d";
-            strengthText.textContent="Seguridad: Media";
-            break;
-
-        case 3:
-
-            strengthFill.style.background="#ffe04d";
-            strengthText.textContent="Seguridad: Buena";
-            break;
-
-        case 4:
-
-            strengthFill.style.background="#48ff8d";
-            strengthText.textContent="Seguridad: Excelente";
-            break;
-
-    }
-
-}
-
-
-/*=========================================================
-PASSWORD RULES
-=========================================================*/
-
-function updateRule(id,valid){
-
-    const element=document.getElementById(id);
-
-    if(!element) return;
-
-    if(valid){
-
-        element.style.borderColor="#48ff8d";
-
-        element.style.color="#48ff8d";
-
-        element.innerHTML=
-
-        "✅ "+element.textContent.substring(2);
-
-    }
-
-    else{
-
-        element.style.borderColor="rgba(255,255,255,.05)";
-
-        element.style.color="#b8c1d8";
-
-        element.innerHTML=
-
-        "⬜ "+element.textContent.substring(2);
-
-    }
-
-}
-
-
-/*=========================================================
-VALIDATION
-=========================================================*/
-
-function validateRegisterForm(){
-
-    const name=document.getElementById("register-name").value.trim();
-
-    const username=document.getElementById("register-username").value.trim();
-
-    const email=document.getElementById("register-email").value.trim();
-
-    const pass=password.value;
-
-    const confirm=confirmPassword.value;
-
-    const terms=document.getElementById("accept-terms").checked;
-
-    if(name===""){
-
-        showToast("Debes ingresar tu nombre.","error");
-
-        return false;
-
-    }
-
-    if(username===""){
-
-        showToast("Debes crear un alias.","error");
-
-        return false;
-
-    }
-
-    if(email===""){
-
-        showToast("Ingresa un correo válido.","error");
-
-        return false;
-
-    }
-
-    if(pass.length<8){
-
-        showToast("La contraseña es demasiado corta.","error");
-
-        return false;
-
-    }
-
-    if(pass!==confirm){
-
-        showToast("Las contraseñas no coinciden.","error");
-
-        return false;
-
-    }
-
-    if(!terms){
-
-        showToast("Debes aceptar los términos.","error");
-
-        return false;
-
-    }
-
-    return true;
-
-}
-
-
-/*=========================================================
-LOGIN VALIDATION
-=========================================================*/
-
-function validateLoginForm(){
-
-    const email=document.getElementById("login-email").value.trim();
-
-    const pass=document.getElementById("login-password").value;
-
-    if(email===""){
-
-        showToast("Introduce tu correo.","error");
-
-        return false;
-
-    }
-
-    if(pass===""){
-
-        showToast("Introduce tu contraseña.","error");
-
-        return false;
-
-    }
-
-    return true;
-
-}
-
-
-/*=========================================================
-LOADING
-=========================================================*/
-
-function showLoading(){
-
-    loadingOverlay.classList.remove("hidden");
-
-}
-
-
-function hideLoading(){
-
-    loadingOverlay.classList.add("hidden");
-
-}
-
-
-/*=========================================================
-TOAST
-=========================================================*/
-
-let toastTimeout=null;
-
-function showToast(message,type="success"){
-
-    toast.textContent=message;
-
-    toast.classList.remove("hidden");
-
-    toast.classList.remove("error","success");
-
-    toast.classList.add(type);
-
-    if(type==="error"){
-
-        toast.style.borderColor="#ff5b72";
-
-    }
-
-    else{
-
-        toast.style.borderColor="#48ff8d";
-
-    }
-
-    clearTimeout(toastTimeout);
-
-    toastTimeout=setTimeout(()=>{
-
-        toast.classList.add("hidden");
-
-    },3500);
-
-}
-
-
-/*=========================================================
-UTILS
-=========================================================*/
-
-function clearRegisterForm(){
-
-    registerForm.reset();
-
-    avatarInitials.textContent="MV";
-
-    strengthFill.style.width="0";
-
-    strengthText.textContent="Seguridad: --";
-
-}
-
-
-function clearLoginForm(){
-
-    loginForm.reset();
-
-}
 
 /*=========================================================
 FORM EVENTS
@@ -1067,3 +781,83 @@ console.log(
 "color:#6CB7FF;font-size:14px;font-weight:bold;"
 
 );
+
+/*=========================================================
+REGISTER EVENT
+=========================================================*/
+
+registerForm.addEventListener("submit", (e) => {
+
+    e.preventDefault();
+
+    document.dispatchEvent(
+        new CustomEvent("magnopvs:register", {
+            detail: {
+                name: registerName.value,
+                username: document.getElementById("register-username").value,
+                email: document.getElementById("register-email").value,
+                password: password.value,
+                newsletter: document.getElementById("accept-news").checked
+            }
+        })
+    );
+
+});
+
+/*=========================================================
+LOGIN EVENT
+=========================================================*/
+
+loginForm.addEventListener("submit", (e) => {
+
+    e.preventDefault();
+
+    document.dispatchEvent(
+        new CustomEvent("magnopvs:login", {
+            detail: {
+                email: document.getElementById("login-email").value,
+                password: document.getElementById("login-password").value
+            }
+        })
+    );
+
+});
+
+/*=========================================================
+GOOGLE
+=========================================================*/
+
+document.getElementById("google-register")
+.addEventListener("click", () => {
+
+    document.dispatchEvent(
+        new CustomEvent("magnopvs:google")
+    );
+
+});
+
+document.getElementById("google-login")
+.addEventListener("click", () => {
+
+    document.dispatchEvent(
+        new CustomEvent("magnopvs:google")
+    );
+
+});
+
+/*=========================================================
+RESET PASSWORD
+=========================================================*/
+
+document.getElementById("send-reset-email")
+.addEventListener("click", () => {
+
+    document.dispatchEvent(
+        new CustomEvent("magnopvs:forgot-password", {
+            detail: {
+                email: document.getElementById("forgot-email").value
+            }
+        })
+    );
+
+});
