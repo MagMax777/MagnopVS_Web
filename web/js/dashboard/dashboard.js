@@ -1,951 +1,686 @@
+import ProfileService from "../../js/services/profile.service.js";
+
 /*=========================================================
-MAGNOPVS DASHBOARD
+MAGNOPVS
+DASHBOARD SYSTEM
 dashboard.js
-Version 1.0
+PARTE 1/3
 =========================================================*/
 
 "use strict";
 
 /*=========================================================
-DOM
+CORE
 =========================================================*/
 
-const loader =
-document.getElementById("loader");
+const Dashboard={
 
-const toast =
-document.getElementById("toast");
+    player:{},
 
-const sofiaButton =
-document.getElementById("sofiaButton");
+    stats:{},
 
-const profileModal =
-document.getElementById("profileModal");
-
-const notificationsModal =
-document.getElementById("notificationsModal");
-
-const settingsModal =
-document.getElementById("settingsModal");
-
-const closeButtons =
-document.querySelectorAll(".close-modal");
-
-const statCards =
-document.querySelectorAll(".stat-card");
-
-const actionCards =
-document.querySelectorAll(".action-card");
-
-const missionBars =
-document.querySelectorAll(".mission progress");
-
-const heroButtons =
-document.querySelectorAll(".hero-buttons button");
+    ui:{},
 
 /*=========================================================
-PLAYER DATA
+INIT
 =========================================================*/
 
-const player = {
+    init(){
 
-    username:"Jean Michael",
+        this.cache();
 
-    level:17,
+        this.loadPlayer();
 
-    xp:69,
+        this.loadStats();
 
-    hp:92,
+        this.renderProfile();
 
-    mana:76,
+        this.renderStats();
 
-    mp:1250,
+        this.startClock();
 
-    coins:340,
+        this.startGreeting();
 
-    streak:7
+        this.animateBars();
 
-};
+        this.createStars();
+
+        console.log("Dashboard Loaded");
+
+        await this.loadProfile();
+
+    },
 
 /*=========================================================
-INITIALIZE
+CACHE
 =========================================================*/
 
-window.addEventListener(
+    cache(){
 
-    "DOMContentLoaded",
+        this.ui.name=document.getElementById(
 
-    ()=>{
+            "playerName"
 
-        startLoader();
+        );
 
-        initializeDashboard();
+        this.ui.rank=document.getElementById(
 
-    }
+            "playerRank"
 
-);
+        );
+
+        this.ui.avatar=document.getElementById(
+
+            "playerAvatar"
+
+        );
+
+        this.ui.level=document.getElementById(
+
+            "playerLevel"
+
+        );
+
+        this.ui.clock=document.getElementById(
+
+            "clock"
+
+        );
+
+        this.ui.greeting=document.getElementById(
+
+            "greeting"
+
+        );
+
+    },
 
 /*=========================================================
-INITIALIZE DASHBOARD
+LOAD PLAYER
 =========================================================*/
 
-function initializeDashboard(){
+    loadPlayer(){
 
-    registerButtons();
+        const save=
 
-    animateStats();
+            localStorage.getItem(
 
-    animateProgressBars();
-
-    registerHoverEffects();
-
-}
-
-/*=========================================================
-LOADER
-=========================================================*/
-
-function startLoader(){
-
-    const progress =
-
-    document.querySelector(".loader-progress");
-
-    let value = 0;
-
-    const interval = setInterval(()=>{
-
-        value += 2;
-
-        progress.style.width = value + "%";
-
-        if(value >= 100){
-
-            clearInterval(interval);
-
-            setTimeout(()=>{
-
-                loader.style.opacity = "0";
-
-                loader.style.pointerEvents = "none";
-
-                loader.style.transition =
-                "0.6s";
-
-                setTimeout(()=>{
-
-                    loader.remove();
-
-                    showToast(
-                        "Bienvenido al Quantvm Matrix"
-                    );
-
-                },600);
-
-            },300);
-
-        }
-
-    },30);
-
-}
-
-/*=========================================================
-TOAST
-=========================================================*/
-
-function showToast(message){
-
-    toast.innerHTML = message;
-
-    toast.classList.add("show");
-
-    setTimeout(()=>{
-
-        toast.classList.remove("show");
-
-    },3500);
-
-}
-
-/*=========================================================
-REGISTER BUTTONS
-=========================================================*/
-
-function registerButtons(){
-
-    sofiaButton.addEventListener(
-
-        "click",
-
-        ()=>{
-
-            showToast(
-
-                "SOF.IA estará disponible muy pronto."
+                "mlh_player"
 
             );
 
-        }
+        if(save){
 
-    );
+            this.player=
 
-    heroButtons.forEach(button=>{
-
-        button.addEventListener(
-
-            "click",
-
-            ()=>{
-
-                pulse(button);
-
-            }
-
-        );
-
-    });
-
-    actionCards.forEach(card=>{
-
-        card.addEventListener(
-
-            "click",
-
-            ()=>{
-
-                pulse(card);
-
-            }
-
-        );
-
-    });
-
-}
-
-/*=========================================================
-PULSE EFFECT
-=========================================================*/
-
-function pulse(element){
-
-    element.animate(
-
-        [
-
-            {
-
-                transform:"scale(1)"
-
-            },
-
-            {
-
-                transform:"scale(.95)"
-
-            },
-
-            {
-
-                transform:"scale(1)"
-
-            }
-
-        ],
-
-        {
-
-            duration:220
+                JSON.parse(save);
 
         }
 
-    );
+        else{
 
-}
+            this.player={
+
+                name:"Life Hero",
+
+                rank:"Explorer",
+
+                level:1,
+
+                avatar:
+
+                "assets/images/avatar/default.webp"
+
+            };
+
+        }
+
+    },
 
 /*=========================================================
-MODALS
+LOAD STATS
 =========================================================*/
 
-function openModal(modal){
+    loadStats(){
 
-    if(!modal) return;
+        this.stats={
 
-    modal.classList.remove("hidden");
+            vitality:92,
 
-    document.body.style.overflow="hidden";
+            power:68,
 
-}
+            wisdom:74,
 
-function closeModal(modal){
+            charisma:80,
 
-    if(!modal) return;
+            xp:1240,
 
-    modal.classList.add("hidden");
+            coins:560,
 
-    document.body.style.overflow="auto";
+            mana:310,
 
-}
+            alignment:77
+
+        };
+
+    },
 
 /*=========================================================
 PROFILE
 =========================================================*/
 
-const profileButton=document.querySelector("#profileButton");
+    renderProfile(){
 
-if(profileButton){
+        if(this.ui.name)
 
-    profileButton.addEventListener(
+            this.ui.name.textContent=
 
-        "click",
+                this.player.name;
 
-        ()=>{
+        if(this.ui.rank)
 
-            openModal(profileModal);
+            this.ui.rank.textContent=
+
+                this.player.rank;
+
+        if(this.ui.level)
+
+            this.ui.level.textContent=
+
+                "Lv."+this.player.level;
+
+        if(
+
+            this.ui.avatar &&
+
+            this.player.avatar
+
+        ){
+
+            this.ui.avatar.src=
+
+                this.player.avatar;
 
         }
 
-    );
-
-}
+    },
 
 /*=========================================================
-NOTIFICATIONS
+STATS
 =========================================================*/
 
-const notificationButton=document.querySelector("#notificationButton");
+    renderStats(){
 
-if(notificationButton){
+        this.setValue(
 
-    notificationButton.addEventListener(
+            "xpValue",
 
-        "click",
+            this.stats.xp
 
-        ()=>{
+        );
 
-            openModal(notificationsModal);
+        this.setValue(
+
+            "coinValue",
+
+            this.stats.coins
+
+        );
+
+        this.setValue(
+
+            "manaValue",
+
+            this.stats.mana
+
+        );
+
+        this.setValue(
+
+            "alignmentValue",
+
+            this.stats.alignment+"%"
+
+        );
+
+    },
+
+    setValue(id,value){
+
+        const el=
+
+            document.getElementById(id);
+
+        if(el){
+
+            el.textContent=value;
 
         }
 
-    );
-
-}
+    },
 
 /*=========================================================
-SETTINGS
+CLOCK
 =========================================================*/
 
-const settingsButton=document.querySelector("#settingsButton");
+    startClock(){
 
-if(settingsButton){
+        const update=()=>{
 
-    settingsButton.addEventListener(
+            const now=new Date();
 
-        "click",
+            const time=
 
-        ()=>{
+                now.toLocaleTimeString(
 
-            openModal(settingsModal);
+                    "es-CO",
 
-        }
+                    {
 
-    );
+                        hour:"2-digit",
 
-}
+                        minute:"2-digit",
 
-/*=========================================================
-CLOSE MODALS
-=========================================================*/
+                        second:"2-digit"
 
-closeButtons.forEach(button=>{
+                    }
 
-    button.addEventListener(
+                );
 
-        "click",
+            if(this.ui.clock){
 
-        ()=>{
-
-            closeModal(button.closest(".modal"));
-
-        }
-
-    );
-
-});
-
-document.querySelectorAll(".modal").forEach(modal=>{
-
-    modal.addEventListener(
-
-        "click",
-
-        e=>{
-
-            if(e.target===modal){
-
-                closeModal(modal);
+                this.ui.clock.textContent=time;
 
             }
 
-        }
+        };
 
-    );
+        update();
 
-});
+        setInterval(update,1000);
+
+    },
 
 /*=========================================================
-ESC CLOSE
+GREETING
 =========================================================*/
 
-window.addEventListener(
+    startGreeting(){
 
-    "keydown",
+        const hour=new Date().getHours();
 
-    e=>{
+        let text="Bienvenido";
 
-        if(e.key==="Escape"){
+        if(hour>=5 && hour<12){
 
-            document.querySelectorAll(".modal")
-
-            .forEach(
-
-                modal=>modal.classList.add("hidden")
-
-            );
-
-            document.body.style.overflow="auto";
+            text="☀️ Buenos días";
 
         }
+
+        else if(hour>=12 && hour<18){
+
+            text="🌤️ Buenas tardes";
+
+        }
+
+        else{
+
+            text="🌙 Buenas noches";
+
+        }
+
+        if(this.ui.greeting){
+
+            this.ui.greeting.textContent=text;
+
+        }
+
+    },
+
+/*=========================================================
+ANIMATE PROGRESS
+=========================================================*/
+
+    animateBars(){
+
+        const bars=document.querySelectorAll(
+
+            ".progress span"
+
+        );
+
+        bars.forEach(bar=>{
+
+            const value=
+
+                bar.dataset.value || "0";
+
+            bar.style.width="0%";
+
+            setTimeout(()=>{
+
+                bar.style.width=
+
+                    value+"%";
+
+            },300);
+
+        });
+
+    },
+
+/*=========================================================
+SAVE PLAYER
+=========================================================*/
+
+    savePlayer(){
+
+        localStorage.setItem(
+
+            "mlh_player",
+
+            JSON.stringify(
+
+                this.player
+
+            )
+
+        );
+
+    },
+
+/*=========================================================
+UPDATE PLAYER
+=========================================================*/
+
+    updatePlayer(data){
+
+        this.player={
+
+            ...this.player,
+
+            ...data
+
+        };
+
+        this.savePlayer();
+
+        this.renderProfile();
+
+    },
+
+/*=========================================================
+TOAST
+=========================================================*/
+
+    toast(message){
+
+        const toast=
+
+            document.createElement("div");
+
+        toast.className="dashboard-toast";
+
+        toast.textContent=message;
+
+        document.body.appendChild(toast);
+
+        requestAnimationFrame(()=>{
+
+            toast.classList.add("show");
+
+        });
+
+        setTimeout(()=>{
+
+            toast.classList.remove("show");
+
+            setTimeout(()=>{
+
+                toast.remove();
+
+            },300);
+
+        },2500);
+
+    },
+
+/*=========================================================
+SPACE PARTICLES
+=========================================================*/
+
+createStars(){
+
+    const canvas=
+
+        document.getElementById(
+
+            "spaceBackground"
+
+        );
+
+    if(!canvas) return;
+
+    const ctx=
+
+        canvas.getContext("2d");
+
+    const stars=[];
+
+    function resize(){
+
+        canvas.width=
+
+            window.innerWidth;
+
+        canvas.height=
+
+            window.innerHeight;
 
     }
 
-);
+    resize();
 
-/*=========================================================
-ANIMATE STATS
-=========================================================*/
+    window.addEventListener(
 
-function animateStats(){
+        "resize",
 
-    statCards.forEach(card=>{
-
-        const number=
-
-        card.querySelector("strong");
-
-        if(!number) return;
-
-        const target=parseInt(
-
-            number.innerText.replace(/\D/g,"")
-
-        );
-
-        if(isNaN(target)) return;
-
-        let value=0;
-
-        const speed=Math.max(1,Math.floor(target/80));
-
-        const timer=setInterval(()=>{
-
-            value+=speed;
-
-            if(value>=target){
-
-                value=target;
-
-                clearInterval(timer);
-
-            }
-
-            number.innerText=value;
-
-        },15);
-
-    });
-
-}
-
-/*=========================================================
-MISSION BARS
-=========================================================*/
-
-function animateProgressBars(){
-
-    missionBars.forEach(bar=>{
-
-        const target=bar.value;
-
-        bar.value=0;
-
-        let progress=0;
-
-        const timer=setInterval(()=>{
-
-            progress++;
-
-            bar.value=progress;
-
-            if(progress>=target){
-
-                clearInterval(timer);
-
-            }
-
-        },18);
-
-    });
-
-}
-
-/*=========================================================
-HOVER GLOW
-=========================================================*/
-
-function registerHoverEffects(){
-
-    statCards.forEach(card=>{
-
-        card.addEventListener(
-
-            "mousemove",
-
-            e=>{
-
-                const rect=
-
-                card.getBoundingClientRect();
-
-                const x=e.clientX-rect.left;
-
-                const y=e.clientY-rect.top;
-
-                card.style.background=
-
-                `radial-gradient(circle at ${x}px ${y}px,
-                rgba(101,216,255,.18),
-                rgba(17,24,39,1) 70%)`;
-
-            }
-
-        );
-
-        card.addEventListener(
-
-            "mouseleave",
-
-            ()=>{
-
-                card.style.background="";
-
-            }
-
-        );
-
-    });
-
-}
-
-/*=========================================================
-LIVE COUNTERS
-=========================================================*/
-
-function updateDashboard() {
-
-    const level = document.getElementById("playerLevel");
-    const xp = document.getElementById("playerXP");
-    const hp = document.getElementById("playerHP");
-    const mana = document.getElementById("playerMana");
-    const coins = document.getElementById("playerCoins");
-
-    if(level) level.innerText = player.level;
-    if(xp) xp.innerText = player.xp + "%";
-    if(hp) hp.innerText = player.hp + "%";
-    if(mana) mana.innerText = player.mana + "%";
-    if(coins) coins.innerText = player.coins;
-
-}
-
-updateDashboard();
-
-/*=========================================================
-SAVE SYSTEM
-=========================================================*/
-
-function savePlayer(){
-
-    localStorage.setItem(
-
-        "magnopvs_player",
-
-        JSON.stringify(player)
+        resize
 
     );
 
-}
+    for(
 
-function loadPlayer(){
+        let i=0;
 
-    const data=
+        i<180;
 
-    localStorage.getItem(
-
-        "magnopvs_player"
-
-    );
-
-    if(!data) return;
-
-    Object.assign(
-
-        player,
-
-        JSON.parse(data)
-
-    );
-
-}
-
-loadPlayer();
-
-updateDashboard();
-
-/*=========================================================
-DAILY MISSIONS
-=========================================================*/
-
-const dailyMissions=[
-
-    "Completa una misión.",
-
-    "Gana 500 XP.",
-
-    "Visita el Marketplace.",
-
-    "Habla con SOF.IA.",
-
-    "Obtén una insignia.",
-
-    "Explora una nueva Saga.",
-
-    "Comparte tu perfil."
-
-];
-
-function randomMission(){
-
-    const mission=
-
-    dailyMissions[
-
-        Math.floor(
-
-            Math.random()*
-
-            dailyMissions.length
-
-        )
-
-    ];
-
-    const box=
-
-    document.getElementById(
-
-        "dailyMission"
-
-    );
-
-    if(box){
-
-        box.innerHTML=mission;
-
-    }
-
-}
-
-randomMission();
-
-/*=========================================================
-SOF.IA
-=========================================================*/
-
-const sofiaMessages=[
-
-"Bienvenido nuevamente, Operador.",
-
-"Tu energía está aumentando.",
-
-"Hay nuevas misiones disponibles.",
-
-"El Marketplace fue actualizado.",
-
-"Una nueva Saga ha sido detectada.",
-
-"Tu avatar evoluciona lentamente.",
-
-"Recomendación: completa tu Perfil.",
-
-"Todo está sincronizado."
-
-];
-
-let sofiaIndex=0;
-
-function rotateSofia(){
-
-    const text=
-
-    document.getElementById(
-
-        "sofiaMessage"
-
-    );
-
-    if(!text) return;
-
-    text.innerHTML=
-
-    sofiaMessages[sofiaIndex];
-
-    sofiaIndex++;
-
-    if(
-
-        sofiaIndex>=
-
-        sofiaMessages.length
+        i++
 
     ){
 
-        sofiaIndex=0;
+        stars.push({
+
+            x:Math.random()*canvas.width,
+
+            y:Math.random()*canvas.height,
+
+            r:Math.random()*2,
+
+            s:0.15+Math.random()*0.4
+
+        });
 
     }
 
+    function draw(){
+
+        ctx.clearRect(
+
+            0,
+
+            0,
+
+            canvas.width,
+
+            canvas.height
+
+        );
+
+        ctx.fillStyle="#8eefff";
+
+        stars.forEach(star=>{
+
+            ctx.beginPath();
+
+            ctx.arc(
+
+                star.x,
+
+                star.y,
+
+                star.r,
+
+                0,
+
+                Math.PI*2
+
+            );
+
+            ctx.fill();
+
+            star.y+=star.s;
+
+            if(
+
+                star.y>
+
+                canvas.height
+
+            ){
+
+                star.y=0;
+
+                star.x=
+
+                    Math.random()
+
+                    *canvas.width;
+
+            }
+
+        });
+
+        requestAnimationFrame(draw);
+
+    }
+
+    draw();
+
+},
+
+/*=========================================================
+REFRESH
+=========================================================*/
+
+    refresh(){
+
+        this.loadPlayer();
+
+        this.loadStats();
+
+        this.renderProfile();
+
+        this.renderStats();
+
+        this.animateBars();
+
+    },
+
+/*=========================================================
+RESET
+=========================================================*/
+
+    reset(){
+
+        localStorage.removeItem(
+
+            "mlh_player"
+
+        );
+
+        this.player={
+
+            name:"Life Hero",
+
+            rank:"Explorer",
+
+            level:1,
+
+            avatar:
+
+            "assets/images/avatar/default.webp"
+
+        };
+
+        this.loadStats();
+
+        this.renderProfile();
+
+        this.renderStats();
+
+        this.toast(
+
+            "Perfil reiniciado."
+
+        );
+
+    }
+
+};
+
+/*=========================================================
+START
+=========================================================*/
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    ()=>{
+
+        Dashboard.init();
+
+    }
+
+);    
+
+/*=========================================================
+LOAD PROFILE
+=========================================================*/
+
+async loadProfile(){
+
+    const profile=
+
+        await ProfileService
+
+        .getCurrentProfile();
+
+    if(!profile){
+
+        console.warn(
+
+            "No se encontró el perfil."
+
+        );
+
+        return;
+
+    }
+
+    this.profile=profile;
+
+    this.renderProfile();
+
 }
-
-rotateSofia();
-
-setInterval(
-
-    rotateSofia,
-
-    7000
-
-);
-
-/*=========================================================
-FAKE NOTIFICATIONS
-=========================================================*/
-
-const notifications=[
-
-"Nuevo logro desbloqueado.",
-
-"Has recibido MagnoPoints.",
-
-"Nueva temporada disponible.",
-
-"SOF.IA tiene recomendaciones.",
-
-"Marketplace actualizado.",
-
-"Nuevo Hero cercano.",
-
-"Nueva misión diaria."
-
-];
-
-setInterval(()=>{
-
-    const random=
-
-    notifications[
-
-        Math.floor(
-
-            Math.random()*
-
-            notifications.length
-
-        )
-
-    ];
-
-    showToast(random);
-
-},45000);
-
-/*=========================================================
-SMOOTH BUTTONS
-=========================================================*/
-
-document
-
-.querySelectorAll("button")
-
-.forEach(button=>{
-
-    button.addEventListener(
-
-        "mouseenter",
-
-        ()=>{
-
-            button.animate(
-
-                [
-
-                    {
-
-                        transform:"scale(1)"
-
-                    },
-
-                    {
-
-                        transform:"scale(1.04)"
-
-                    }
-
-                ],
-
-                {
-
-                    duration:180,
-
-                    fill:"forwards"
-
-                }
-
-            );
-
-        }
-
-    );
-
-    button.addEventListener(
-
-        "mouseleave",
-
-        ()=>{
-
-            button.animate(
-
-                [
-
-                    {
-
-                        transform:"scale(1.04)"
-
-                    },
-
-                    {
-
-                        transform:"scale(1)"
-
-                    }
-
-                ],
-
-                {
-
-                    duration:180,
-
-                    fill:"forwards"
-
-                }
-
-            );
-
-        }
-
-    );
-
-});
-
-/*=========================================================
-CLICK SOUND (Preparado)
-=========================================================*/
-
-const clickSound=new Audio(
-    "assets/audio/click.mp3"
-);
-
-document
-
-.querySelectorAll("button")
-
-.forEach(button=>{
-
-    button.addEventListener(
-
-        "click",
-
-        ()=>{
-
-            clickSound.currentTime=0;
-
-            clickSound.volume=.35;
-
-            clickSound.play().catch(()=>{});
-
-        }
-
-    );
-
-});
-
-/*=========================================================
-AUTO SAVE
-=========================================================*/
-
-setInterval(
-
-    savePlayer,
-
-    10000
-
-);
-
-/*=========================================================
-PLACEHOLDERS SUPABASE
-=========================================================*/
-
-// TODO:
-// Obtener usuario autenticado.
-//
-// Cargar avatar.
-//
-// Cargar inventario.
-//
-// Cargar estadísticas.
-//
-// Cargar MagnoPoints.
-//
-// Cargar MagnoCoins.
-//
-// Cargar Amigos.
-//
-// Cargar Feed.
-//
-// Cargar Misiones.
-//
-// Cargar Logros.
-//
-// Cargar Timeline.
-//
-// Cargar Mensajes.
-
-/*=========================================================
-READY
-=========================================================*/
-
-console.log(
-
-"✓ MagnopVS Dashboard Ready"
-
-);
-

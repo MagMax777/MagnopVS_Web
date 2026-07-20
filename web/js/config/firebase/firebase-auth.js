@@ -93,11 +93,11 @@ document.addEventListener(
             // SUPABASE PROFILE
             //-------------------------------------------------
 
-            const { error } = await supabase
+           const { error } = await supabase
 
                 .from("profiles")
 
-             .insert({
+            .insert({
 
                 uid: user.uid,
 
@@ -111,11 +111,59 @@ document.addEventListener(
 
             });
 
-         if (error) {
+            if (error) {
 
-             throw error;
+                throw error;
 
-         }
+           const { error } = await supabase
+
+            .from("profiles")
+
+            .insert({
+
+                uid:user.uid,
+
+                full_name:name,
+
+                username:username,
+
+                email:email,
+
+                newsletter:newsletter,
+
+                avatar:"/assets/images/avatar/default.webp",
+
+                banner:"/assets/images/banner/default.webp",
+
+                bio:"Nuevo héroe de MagnopVS.",
+
+                level:1,
+
+                xp:0,
+
+                rank:"Explorer",
+
+                class:"Life Hero",
+
+                faction:"Neutral",
+
+                reputation:0,
+
+                followers:0,
+
+                following:0,
+
+                magnopoints:0,
+
+                microcoins:0
+
+            });
+
+            if(error){
+
+                throw error;
+
+            }
 
             ui.hideLoading();
 

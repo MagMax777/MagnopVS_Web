@@ -13,29 +13,46 @@
 
     <!-- CSS -->
 
-    <link rel="stylesheet" href="css/dashboard.css">
+    <link
+        rel="stylesheet"
+        href="dashboard.css">
 
     <!-- Google Fonts -->
 
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700;800&family=Audiowide&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
 
     <!-- Material Icons -->
 
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded"
+        rel="stylesheet">
 
 </head>
 
 <body>
 
-<div id="app">
+
+
+    <canvas id="spaceBackground"></canvas>
+
+    <div class="dashboard">
+
+    </div>
+
 
 <!--=========================================================
 BACKGROUND
 ==========================================================-->
 
-<div class="grid-bg"></div>
-<div class="noise-bg"></div>
-<div class="gradient-bg"></div>
+<div class="bg-grid"></div>
+
+<div class="bg-glow glow-one"></div>
+
+<div class="bg-glow glow-two"></div>
+
+<div class="bg-noise"></div>
 
 <!--=========================================================
 HEADER
@@ -43,42 +60,37 @@ HEADER
 
 <header class="topbar">
 
-    <div class="logo-area">
+    <div class="logo">
 
         <img
-            src="assets/icons/logo.svg"
-            class="logo"
+            src="../assets/images/logo/magnopvs-logo.png"
             alt="MagnopVS">
 
-        <div class="logo-text">
+        <div>
 
-            <h1>MAGNOPVS</h1>
+            <h1>MagnopVS</h1>
 
-            <span>QUANTVM MATRIX</span>
+            <span>PLAYER DASHBOARD</span>
 
         </div>
 
     </div>
 
-    <div class="search-box">
+    <div class="top-actions">
 
-        <span class="material-symbols-outlined">
+        <button class="icon-btn">
 
-            search
+            <span class="material-symbols-rounded">
 
-        </span>
+                search
 
-        <input
-            type="text"
-            placeholder="Buscar personas, mundos, objetos...">
+            </span>
 
-    </div>
+        </button>
 
-    <div class="header-actions">
+        <button class="icon-btn">
 
-        <button>
-
-            <span class="material-symbols-outlined">
+            <span class="material-symbols-rounded">
 
                 notifications
 
@@ -86,19 +98,9 @@ HEADER
 
         </button>
 
-        <button>
+        <button class="icon-btn">
 
-            <span class="material-symbols-outlined">
-
-                mail
-
-            </span>
-
-        </button>
-
-        <button>
-
-            <span class="material-symbols-outlined">
+            <span class="material-symbols-rounded">
 
                 settings
 
@@ -106,17 +108,15 @@ HEADER
 
         </button>
 
-        <div class="profile-mini">
-
-            <img
-                src="assets/avatars/default.png"
-                alt="Avatar">
-
-        </div>
-
     </div>
 
 </header>
+
+<!--=========================================================
+LAYOUT
+==========================================================-->
+
+<div class="dashboard">
 
 <!--=========================================================
 SIDEBAR
@@ -124,151 +124,163 @@ SIDEBAR
 
 <aside class="sidebar">
 
+    <div class="player-mini">
+
+        <img
+
+            id="miniAvatar"
+
+            src="../assets/images/avatar/default-avatar.webp"
+
+            alt="Avatar">
+
+        <h2 id="miniName">
+
+            Cargando...
+
+        </h2>
+        <div class="hero-status">
+
+    <span id="heroStatus">
+
+        🌌 Explorando la Quantvm Matrix
+
+    </span>
+
+</div>
+
+<div class="hero-social">
+
+    <div>
+
+        <strong id="heroFollowers">
+
+            12
+
+        </strong>
+
+        <small>Seguidores</small>
+
+    </div>
+
+    <div>
+
+        <strong id="heroFollowing">
+
+            8
+
+        </strong>
+
+        <small>Aliados</small>
+
+    </div>
+
+    <div>
+
+        <strong id="heroReputation">
+
+            327
+
+        </strong>
+
+        <small>Reputación</small>
+
+    </div>
+
+</div>
+        <span id="miniRank">
+
+            Iniciado
+
+        </span>
+
+    </div>
+
     <nav>
 
-        <a class="active">
+        <button class="nav-item active">
 
-            <span class="material-symbols-outlined">
+            <span class="material-symbols-rounded">
 
-                home
-
-            </span>
-
-            <span>
-
-                Inicio
+                dashboard
 
             </span>
 
-        </a>
+            Inicio
 
-        <a>
+        </button>
 
-            <span class="material-symbols-outlined">
+        <button class="nav-item">
+
+            <span class="material-symbols-rounded">
 
                 person
 
             </span>
 
-            <span>
+            Perfil
 
-                Perfil
+        </button>
+
+        <button class="nav-item">
+
+            <span class="material-symbols-rounded">
+
+                trophy
 
             </span>
 
-        </a>
+            Logros
 
-        <a>
+        </button>
 
-            <span class="material-symbols-outlined">
+        <button class="nav-item">
+
+            <span class="material-symbols-rounded">
+
+                task_alt
+
+            </span>
+
+            Misiones
+
+        </button>
+
+        <button class="nav-item">
+
+            <span class="material-symbols-rounded">
+
+                inventory_2
+
+            </span>
+
+            Inventario
+
+        </button>
+
+        <button class="nav-item">
+
+            <span class="material-symbols-rounded">
 
                 auto_awesome
 
             </span>
 
-            <span>
+            Habilidades
 
-                MLH
+        </button>
 
-            </span>
+        <button class="nav-item">
 
-        </a>
+            <span class="material-symbols-rounded">
 
-        <a>
-
-            <span class="material-symbols-outlined">
-
-                travel_explore
+                forum
 
             </span>
 
-            <span>
+            Comunidad
 
-                Atlas Cósmico
-
-            </span>
-
-        </a>
-
-        <a>
-
-            <span class="material-symbols-outlined">
-
-                movie
-
-            </span>
-
-            <span>
-
-                Quantvm Matrix
-
-            </span>
-
-        </a>
-
-        <a>
-
-            <span class="material-symbols-outlined">
-
-                storefront
-
-            </span>
-
-            <span>
-
-                Marketplace
-
-            </span>
-
-        </a>
-
-        <a>
-
-            <span class="material-symbols-outlined">
-
-                event
-
-            </span>
-
-            <span>
-
-                Eventos
-
-            </span>
-
-        </a>
-
-        <a>
-
-            <span class="material-symbols-outlined">
-
-                groups
-
-            </span>
-
-            <span>
-
-                Comunidad
-
-            </span>
-
-        </a>
-
-        <a>
-
-            <span class="material-symbols-outlined">
-
-                settings
-
-            </span>
-
-            <span>
-
-                Configuración
-
-            </span>
-
-        </a>
+        </button>
 
     </nav>
 
@@ -278,57 +290,166 @@ SIDEBAR
 MAIN
 ==========================================================-->
 
-<main class="dashboard">
+<main class="content">
 
 <!--=========================================================
-HERO
+PLAYER HERO
 ==========================================================-->
 
-<section class="hero-card">
+<section class="hero-panel">
 
-    <div class="hero-avatar">
+    <div class="hero-left hero-content">
 
         <div class="avatar-frame">
 
+            <div class="avatar-ring"></div>
+
             <img
-                src="assets/avatars/default.png"
+
+                id="profileAvatar"
+
+                src="../assets/images/avatar/default-avatar.webp"
+
                 alt="Avatar">
 
         </div>
 
-    </div>
+        <div class="hero-info">
 
-    <div class="hero-info">
+            <span class="hero-tag">
 
-        <span class="player-tag">
-
-            #PLAYER0001
-
-        </span>
-
-        <h2>
-
-            Jean Michael
-
-        </h2>
-
-        <h3>
-
-            El Caminante del Quantvm
-
-        </h3>
-
-        <div class="hero-level">
-
-            <span>
-
-                Nivel 17
+                MAGNOPVS PLAYER
 
             </span>
 
+            <h1 id="playerName">
+
+                Cargando...
+
+            </h1>
+
+            <p id="playerTitle">
+
+                Nuevo Explorador
+
+            </p>
+            
+            <p
+
+                id="heroBio"
+
+                class="hero-bio">
+
+                "Todo héroe comienza explorando un universo desconocido."
+
+            </p>
+            
+            <div class="hero-level">
+
+                <span>
+
+                    Nivel
+
+                </span>
+
+                <strong id="playerLevel">
+
+                    1
+
+                </strong>
+
+            </div>
+
+<!--=========================================================
+HERO BANNER
+==========================================================-->
+
+<div class="hero-banner">
+
+    <img
+
+        id="heroBanner"
+
+        src="../assets/images/banners/default-banner.webp"
+
+        alt="Hero Banner">
+
+    <div class="hero-banner-overlay"></div>
+
+</div>
+
+<!--=========================================================
+PLAYER STATUS
+==========================================================-->
+
+<div class="hero-status-card">
+
+    <div class="status-line">
+
+        <span class="label">
+
+            Estado
+
+        </span>
+
+        <span id="heroStatus">
+
+            🌌 Explorando la Quantvm Matrix
+
+        </span>
+
+    </div>
+
+    <div class="status-line">
+
+        <span class="label">
+
+            Clase
+
+        </span>
+
+        <span id="heroClass">
+
+            Explorador Cósmico
+
+        </span>
+
+    </div>
+
+    <div class="status-line">
+
+        <span class="label">
+
+            Facción
+
+        </span>
+
+        <span id="heroFaction">
+
+            Nación Padmekrishna
+
+        </span>
+
+    </div>
+
+</div>
+        </div>
+
+    </div>
+
+    <div class="hero-right">
+
+        <div class="xp-header">
+
             <span>
 
-                XP 12.450 / 18.000
+                Experiencia
+
+            </span>
+
+            <span id="xpText">
+
+                0 / 100 XP
 
             </span>
 
@@ -336,13 +457,19 @@ HERO
 
         <div class="xp-bar">
 
-            <div class="xp-fill"></div>
+            <div
+
+                id="xpFill"
+
+                class="xp-fill">
+
+            </div>
 
         </div>
 
-        <div class="hero-buttons">
+        <div class="quick-buttons">
 
-            <button class="primary">
+            <button>
 
                 Continuar
 
@@ -354,167 +481,92 @@ HERO
 
             </button>
 
+            <button>
+
+                Ajustes
+
+            </button>
+
         </div>
+<div class="hero-social">
+
+    <div>
+
+        <strong id="heroFollowers">
+
+            12
+
+        </strong>
+
+        <span>
+
+            Seguidores
+
+        </span>
 
     </div>
 
-    <div class="hero-sofia">
+    <div>
 
-        <h3>
+        <strong id="heroFollowing">
 
-            SOF.IA
+            8
 
-        </h3>
+        </strong>
 
-        <p>
+        <span>
 
-            Bienvenido nuevamente.
+            Aliados
 
-        </p>
+        </span>
 
-        <ul>
+    </div>
 
-            <li>
+    <div>
 
-                ✔ Misión diaria disponible
+        <strong id="heroReputation">
 
-            </li>
+            327
 
-            <li>
+        </strong>
 
-                ✔ Evento cercano
+        <span>
 
-            </li>
+            Reputación
 
-            <li>
+        </span>
 
-                ✔ 125 MagnoPoints pendientes
+    </div>
 
-            </li>
-
-            <li>
-
-                ✔ Nuevo episodio disponible
-
-            </li>
-
-        </ul>
+</div>
 
     </div>
 
 </section>
 
 <!--=========================================================
-QUICK STATS
+PLAYER STATS
 ==========================================================-->
 
 <section class="stats-grid">
 
     <article class="stat-card">
 
-        <span class="material-symbols-outlined">
-
-            favorite
-
-        </span>
-
-        <h4>
-
-            Vida
-
-        </h4>
-
-        <strong>
-
-            98%
-
-        </strong>
-
-    </article>
-
-    <article class="stat-card">
-
-        <span class="material-symbols-outlined">
-
-            bolt
-
-        </span>
-
-        <h4>
-
-            Energía
-
-        </h4>
-
-        <strong>
-
-            84%
-
-        </strong>
-
-    </article>
-
-    <article class="stat-card">
-
-        <span class="material-symbols-outlined">
-
-            stars
-
-        </span>
-
-        <h4>
-
-            Nivel
-
-        </h4>
-
-        <strong>
-
-            17
-
-        </strong>
-
-    </article>
-
-    <article class="stat-card">
-
-        <span class="material-symbols-outlined">
+        <span class="material-symbols-rounded">
 
             diamond
 
         </span>
 
-        <h4>
-
-            XP
-
-        </h4>
-
-        <strong>
-
-            12.450
-
-        </strong>
-
-    </article>
-
-    <article class="stat-card">
-
-        <span class="material-symbols-outlined">
-
-            paid
-
-        </span>
-
-        <h4>
+        <h3>
 
             MagnoPoints
 
-        </h4>
+        </h3>
 
-        <strong>
+        <strong id="magnoPoints">
 
-            4.260
+            0
 
         </strong>
 
@@ -522,21 +574,109 @@ QUICK STATS
 
     <article class="stat-card">
 
-        <span class="material-symbols-outlined">
+        <span class="material-symbols-rounded">
 
-            token
+            monetization_on
 
         </span>
 
-        <h4>
+        <h3>
 
             MicroCoins
 
-        </h4>
+        </h3>
 
-        <strong>
+        <strong id="microCoins">
 
-            540
+            0
+
+        </strong>
+
+    </article>
+
+    <article class="stat-card">
+
+        <span class="material-symbols-rounded">
+
+            local_fire_department
+
+        </span>
+
+        <h3>
+
+            Energía
+
+        </h3>
+
+        <strong id="energy">
+
+            100%
+
+        </strong>
+
+    </article>
+
+    <article class="stat-card">
+
+        <span class="material-symbols-rounded">
+
+            favorite
+
+        </span>
+
+        <h3>
+
+            Vitalidad
+
+        </h3>
+
+        <strong id="life">
+
+            100%
+
+        </strong>
+
+    </article>
+
+    <article class="stat-card">
+
+        <span class="material-symbols-rounded">
+
+            workspace_premium
+
+        </span>
+
+        <h3>
+
+            Rango
+
+        </h3>
+
+        <strong id="playerRank">
+
+            Aspirante
+
+        </strong>
+
+    </article>
+
+    <article class="stat-card">
+
+        <span class="material-symbols-rounded">
+
+            military_tech
+
+        </span>
+
+        <h3>
+
+            Logros
+
+        </h3>
+
+        <strong id="achievements">
+
+            0
 
         </strong>
 
@@ -545,492 +685,52 @@ QUICK STATS
 </section>
 
 <!--=========================================================
-QUICK ACTIONS
+MAIN GRID
 ==========================================================-->
 
-<section class="quick-actions">
+<section class="dashboard-grid">
 
-    <button class="action-card">
+    <!--=========================================================
+    LEFT COLUMN
+    ==========================================================-->
 
-        <span class="material-symbols-outlined">
+    <div class="panel">
 
-            play_circle
+        <div class="panel-header">
 
-        </span>
+            <h2>
 
-        <h3>
+                Sof.IA
 
-            Continuar Historia
+            </h2>
 
-        </h3>
+            <span class="status online">
 
-        <p>
-
-            Sigue donde quedaste.
-
-        </p>
-
-    </button>
-
-    <button class="action-card">
-
-        <span class="material-symbols-outlined">
-
-            assignment
-
-        </span>
-
-        <h3>
-
-            Misión Diaria
-
-        </h3>
-
-        <p>
-
-            Reclama tu recompensa.
-
-        </p>
-
-    </button>
-
-    <button class="action-card">
-
-        <span class="material-symbols-outlined">
-
-            backpack
-
-        </span>
-
-        <h3>
-
-            Inventario
-
-        </h3>
-
-        <p>
-
-            Objetos, cartas y artefactos.
-
-        </p>
-
-    </button>
-
-    <button class="action-card">
-
-        <span class="material-symbols-outlined">
-
-            travel_explore
-
-        </span>
-
-        <h3>
-
-            Explorar
-
-        </h3>
-
-        <p>
-
-            Descubre nuevos mundos.
-
-        </p>
-
-    </button>
-
-</section>
-
-<!--=========================================================
-CONTENT GRID
-==========================================================-->
-
-<section class="content-grid">
-
-<!--=========================================================
-SOCIAL FEED
-==========================================================-->
-
-<div class="panel feed">
-
-    <div class="panel-title">
-
-        <h2>
-
-            Actividad
-
-        </h2>
-
-    </div>
-
-    <article class="feed-card">
-
-        <img
-            src="assets/avatars/default.png"
-            alt="">
-
-        <div>
-
-            <h4>
-
-                Jean Michael
-
-            </h4>
-
-            <p>
-
-                Completó la misión "Despertar del Héroe".
-
-            </p>
-
-            <small>
-
-                Hace 3 minutos
-
-            </small>
-
-        </div>
-
-    </article>
-
-    <article class="feed-card">
-
-        <img
-            src="assets/icons/logo.svg"
-            alt="">
-
-        <div>
-
-            <h4>
-
-                Quantvm Matrix
-
-            </h4>
-
-            <p>
-
-                Nuevo episodio disponible.
-
-            </p>
-
-            <small>
-
-                Hoy
-
-            </small>
-
-        </div>
-
-    </article>
-
-    <article class="feed-card">
-
-        <img
-            src="assets/icons/logo.svg"
-            alt="">
-
-        <div>
-
-            <h4>
-
-                Marketplace
-
-            </h4>
-
-            <p>
-
-                Hay nuevos objetos legendarios.
-
-            </p>
-
-            <small>
-
-                Hace 1 hora
-
-            </small>
-
-        </div>
-
-    </article>
-
-</div>
-
-<!--=========================================================
-MISSIONS
-==========================================================-->
-
-<div class="panel missions">
-
-    <div class="panel-title">
-
-        <h2>
-
-            Misiones
-
-        </h2>
-
-    </div>
-
-    <div class="mission">
-
-        <h4>
-
-            Entrar al Quantvm Matrix
-
-        </h4>
-
-        <progress value="100" max="100"></progress>
-
-    </div>
-
-    <div class="mission">
-
-        <h4>
-
-            Completar una aventura
-
-        </h4>
-
-        <progress value="60" max="100"></progress>
-
-    </div>
-
-    <div class="mission">
-
-        <h4>
-
-            Visitar Marketplace
-
-        </h4>
-
-        <progress value="30" max="100"></progress>
-
-    </div>
-
-    <div class="mission">
-
-        <h4>
-
-            Invitar un amigo
-
-        </h4>
-
-        <progress value="0" max="100"></progress>
-
-    </div>
-
-</div>
-
-</section>
-
-<!--=========================================================
-SECOND GRID
-==========================================================-->
-
-<section class="bottom-grid">
-
-<!--=========================================================
-ACHIEVEMENTS
-==========================================================-->
-
-<div class="panel">
-
-    <div class="panel-title">
-
-        <h2>
-
-            Logros
-
-        </h2>
-
-    </div>
-
-    <div class="badges">
-
-        <div class="badge">
-
-            🏆
-
-            <span>
-
-                Primer Paso
+                ● Online
 
             </span>
 
         </div>
 
-        <div class="badge">
+        <div class="sofia-card">
 
-            ⭐
+            <div class="sofia-avatar">
 
-            <span>
+                ✦
 
-                Nivel 10
-
-            </span>
-
-        </div>
-
-        <div class="badge">
-
-            💎
-
-            <span>
-
-                Coleccionista
-
-            </span>
-
-        </div>
-
-        <div class="badge">
-
-            🔥
-
-            <span>
-
-                Racha x7
-
-            </span>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!--=========================================================
-RECENT ACTIVITY
-==========================================================-->
-
-<div class="panel">
-
-    <div class="panel-title">
-
-        <h2>
-
-            Historial
-
-        </h2>
-
-    </div>
-
-    <ul class="timeline">
-
-        <li>
-
-            +250 XP obtenidos
-
-        </li>
-
-        <li>
-
-            Recompensa diaria reclamada
-
-        </li>
-
-        <li>
-
-            Nuevo amigo agregado
-
-        </li>
-
-        <li>
-
-            Carta desbloqueada
-
-        </li>
-
-        <li>
-
-            Avatar actualizado
-
-        </li>
-
-    </ul>
-
-</div>
-
-<!--=========================================================
-SOFIA PANEL
-==========================================================-->
-
-<div class="panel">
-
-    <div class="panel-title">
-
-        <h2>
-
-            SOF.IA
-
-        </h2>
-
-    </div>
-
-    <div class="assistant-box">
-
-        <p>
-
-            Tu equilibrio general ha aumentado un 3%.
-
-        </p>
-
-        <p>
-
-            La Casa del Conocimiento tiene nuevas actividades disponibles.
-
-        </p>
-
-        <button>
-
-            Abrir Asistente
-
-        </button>
-
-    </div>
-
-</div>
-
-</section>
-
-<!--=========================================================
-MODALS
-==========================================================-->
-
-<!-- PROFILE MODAL -->
-
-<div
-    id="profileModal"
-    class="modal hidden">
-
-    <div class="modal-content">
-
-        <button class="close-modal">
-
-            <span class="material-symbols-outlined">
-
-                close
-
-            </span>
-
-        </button>
-
-        <div class="modal-header">
-
-            <img
-                src="assets/avatars/default.png"
-                alt="Avatar">
+            </div>
 
             <div>
 
-                <h2>
+                <h3>
 
-                    Jean Michael
+                    Asistente Personal
 
-                </h2>
+                </h3>
 
                 <p>
 
-                    Nivel 17 · Caminante del Quantvm
+                    Bienvenido nuevamente. Hoy tienes nuevas misiones disponibles y tu progreso continúa avanzando. Tu siguiente objetivo está listo para comenzar.
 
                 </p>
 
@@ -1038,139 +738,159 @@ MODALS
 
         </div>
 
-        <div class="modal-body">
+    </div>
+
+    <!--=========================================================
+    CENTER COLUMN
+    ==========================================================-->
+
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <h2>
+
+                Misiones Activas
+
+            </h2>
+
+        </div>
+
+        <div
+            id="missionsContainer"
+            class="mission-list">
+
+        </div>
+
+    </div>
+
+    <!--=========================================================
+    RIGHT COLUMN
+    ==========================================================-->
+
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <h2>
+
+                Actividad
+
+            </h2>
+
+        </div>
+
+        <div
+            id="activityContainer"
+            class="activity-list">
+
+        </div>
+
+    </div>
+
+</section>
+
+<!--=========================================================
+BOTTOM SECTION
+==========================================================-->
+
+<section class="bottom-grid">
+
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <h2>
+
+                Accesos Rápidos
+
+            </h2>
+
+        </div>
+
+        <div class="quick-grid">
+
+            <button class="quick-card">
+
+                <span class="material-symbols-rounded">
+
+                    auto_awesome
+
+                </span>
+
+                Habilidades
+
+            </button>
+
+            <button class="quick-card">
+
+                <span class="material-symbols-rounded">
+
+                    inventory_2
+
+                </span>
+
+                Inventario
+
+            </button>
+
+            <button class="quick-card">
+
+                <span class="material-symbols-rounded">
+
+                    public
+
+                </span>
+
+                Atlas
+
+            </button>
+
+            <button class="quick-card">
+
+                <span class="material-symbols-rounded">
+
+                    storefront
+
+                </span>
+
+                Marketplace
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <h2>
+
+                Próximo Objetivo
+
+            </h2>
+
+        </div>
+
+        <div class="objective-card">
+
+            <h3>
+
+                Alcanzar Nivel 2
+
+            </h3>
 
             <p>
 
-                Este espacio mostrará toda la información pública del usuario, logros, estadísticas, biografía, seguidores, MagFam y colecciones.
+                Completa las primeras misiones para desbloquear nuevas funciones del ecosistema MagnopVS.
 
             </p>
 
-        </div>
-
-    </div>
-
-</div>
-
-<!--=========================================================
-NOTIFICATIONS
-==========================================================-->
-
-<div
-    id="notificationsModal"
-    class="modal hidden">
-
-    <div class="modal-content small">
-
-        <button class="close-modal">
-
-            <span class="material-symbols-outlined">
-
-                close
-
-            </span>
-
-        </button>
-
-        <h2>
-
-            Notificaciones
-
-        </h2>
-
-        <ul class="notification-list">
-
-            <li>
-
-                🎉 Recompensa diaria disponible.
-
-            </li>
-
-            <li>
-
-                ⭐ Nuevo episodio publicado.
-
-            </li>
-
-            <li>
-
-                🛒 Marketplace actualizado.
-
-            </li>
-
-            <li>
-
-                🎁 Tienes una recompensa pendiente.
-
-            </li>
-
-        </ul>
-
-    </div>
-
-</div>
-
-<!--=========================================================
-SETTINGS
-==========================================================-->
-
-<div
-    id="settingsModal"
-    class="modal hidden">
-
-    <div class="modal-content">
-
-        <button class="close-modal">
-
-            <span class="material-symbols-outlined">
-
-                close
-
-            </span>
-
-        </button>
-
-        <h2>
-
-            Configuración
-
-        </h2>
-
-        <div class="settings-list">
-
             <button>
 
-                Perfil
-
-            </button>
-
-            <button>
-
-                Apariencia
-
-            </button>
-
-            <button>
-
-                Sonido
-
-            </button>
-
-            <button>
-
-                Idioma
-
-            </button>
-
-            <button>
-
-                Privacidad
-
-            </button>
-
-            <button>
-
-                Cerrar sesión
+                Continuar aventura
 
             </button>
 
@@ -1178,67 +898,11 @@ SETTINGS
 
     </div>
 
-</div>
-
-<!--=========================================================
-FLOATING BUTTON
-==========================================================-->
-
-<button
-    id="sofiaButton"
-    class="floating-sofia">
-
-    <span class="material-symbols-outlined">
-
-        smart_toy
-
-    </span>
-
-</button>
-
-<!--=========================================================
-TOAST
-==========================================================-->
-
-<div
-    id="toast"
-    class="toast">
-
-    Bienvenido nuevamente al Quantvm Matrix.
-
-</div>
-
-<!--=========================================================
-LOADER
-==========================================================-->
-
-<div
-    id="loader"
-    class="loader">
-
-    <div class="loader-logo">
-
-        <img
-            src="assets/icons/logo.svg"
-            alt="MagnopVS">
-
-    </div>
-
-    <div class="loader-text">
-
-        Inicializando Quantvm Matrix...
-
-    </div>
-
-    <div class="loader-bar">
-
-        <div class="loader-progress"></div>
-
-    </div>
-
-</div>
+</section>
 
 </main>
+
+</div>
 
 <!--=========================================================
 FOOTER
@@ -1246,27 +910,19 @@ FOOTER
 
 <footer class="footer">
 
-    <div>
+    <p>
 
-        MagnopVS © 2026
+        © 2026 MagnopVS • Quantvm Matrix • Nenca Lab
 
-    </div>
-
-    <div>
-
-        Quantvm Matrix · Dashboard v1.0
-
-    </div>
+    </p>
 
 </footer>
-
-</div>
 
 <!--=========================================================
 JAVASCRIPT
 ==========================================================-->
 
-<script src="js/dashboard.js"></script>
+<script src="dashboard.js"></script>
 
 </body>
 
