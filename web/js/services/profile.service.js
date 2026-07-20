@@ -39,6 +39,9 @@ class ProfileService{
         try{
 
             const user = auth.currentUser;
+            console.log("Firebase User");
+
+            console.log(user);
 
             if(!user){
 
@@ -81,7 +84,11 @@ class ProfileService{
             return null;
 
         }
+            console.log("UID buscado:", user.uid);
 
+            console.log("Resultado:", data);
+
+            console.log("Error:", error);
     }
 
     /*=====================================================
