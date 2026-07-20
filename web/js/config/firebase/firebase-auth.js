@@ -93,27 +93,6 @@ document.addEventListener(
             // SUPABASE PROFILE
             //-------------------------------------------------
 
-           const { error } = await supabase
-
-                .from("profiles")
-
-            .insert({
-
-                uid: user.uid,
-
-                full_name: name,
-
-                username: username,
-
-                email: email,
-
-                newsletter: newsletter
-
-            });
-
-            if (error) {
-
-                throw error;
 
            const { error } = await supabase
 
@@ -175,13 +154,13 @@ document.addEventListener(
 
             ui.clearRegisterForm();
 
-            setTimeout(()=>{
+         setTimeout(() => {
 
-                window.location.href = "../../../frames/profile/dashboard.html";
+            window.location.href =
+            "https://magmax777.github.io/MagnopVS_Web/web/js/dashboard/dashboard.html";
 
-            },1500);
-
-        }
+        }, 1000);
+                    }
 
         catch(error){
 
@@ -229,28 +208,19 @@ document.addEventListener(
             }=event.detail;
 
             await signInWithEmailAndPassword(
-
                 auth,
-
                 email,
-
                 password
-
             );
 
             ui.hideLoading();
 
-            ui.showToast(
+            ui.showToast("Bienvenido nuevamente");
 
-                "Bienvenido nuevamente"
+            setTimeout(() => {
 
-            );
 
-            setTimeout(()=>{
-
-                window.location.href = "../../../frames/profile/dashboard.html";
-
-            },1000);
+            }, 1000);
 
         }
 
@@ -303,7 +273,7 @@ document.addEventListener(
 
             ui.hideLoading();
 
-            window.location.href = "../../../frames/profile/dashboard.html";
+            window.location.href = "https://magmax777.github.io/MagnopVS_Web/web/js/dashboard/dashboard.html";
 
         }
 
