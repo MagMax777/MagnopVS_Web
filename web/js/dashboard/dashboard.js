@@ -1,41 +1,50 @@
-import ProfileService from "../../js/services/profile.service.js";
-
 /*=========================================================
 MAGNOPVS
 DASHBOARD SYSTEM
 dashboard.js
 PARTE 1/3
+CORE + PROFILE + STATS
 =========================================================*/
 
 "use strict";
 
 /*=========================================================
+IMPORTS
+=========================================================*/
+
+import { auth } from "../../config/firebase/firebase-config.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+import ProfileService from "../../js/services/profile.service.js";
+
+/*=========================================================
 CORE
 =========================================================*/
 
-const Dashboard={
+const Dashboard = {
 
-    player:{},
+    /*=========================================
+    STATE
+    =========================================*/
 
-    stats:{},
+    player: {},
 
-    ui:{},
+    stats: {},
+
+    profile: null,
+
+    ui: {},
 
 /*=========================================================
 INIT
 =========================================================*/
 
-    init(){
+    async init(){
+
+        console.log("🚀 Dashboard Initializing...");
 
         this.cache();
 
-        this.loadPlayer();
-
-        this.loadStats();
-
-        this.renderProfile();
-
-        this.renderStats();
+        this.loadDefaultStats();
 
         this.startClock();
 
@@ -45,152 +54,196 @@ INIT
 
         this.createStars();
 
-        console.log("Dashboard Loaded");
+        this.listenAuth();
 
-        await this.loadProfile();
-
-    }
+    },
 
 /*=========================================================
-CACHE
+CACHE DOM
 =========================================================*/
 
     cache(){
 
-        this.ui.name=document.getElementById(
+        this.ui = {
 
-            "playerName"
+            name: document.getElementById("playerName"),
 
-        );
+            rank: document.getElementById("playerRank"),
 
-        this.ui.rank=document.getElementById(
+            avatar: document.getElementById("playerAvatar"),
 
-            "playerRank"
+            level: document.getElementById("playerLevel"),
 
-        );
+            xp: document.getElementById("xpValue"),
 
-        this.ui.avatar=document.getElementById(
+            coins: document.getElementById("coinValue"),
 
-            "playerAvatar"
+            mana: document.getElementById("manaValue"),
 
-        );
+            alignment: document.getElementById("alignmentValue"),
 
-        this.ui.level=document.getElementById(
+            greeting: document.getElementById("greeting"),
 
-            "playerLevel"
-
-        );
-
-        this.ui.clock=document.getElementById(
-
-            "clock"
-
-        );
-
-        this.ui.greeting=document.getElementById(
-
-            "greeting"
-
-        );
-
-    },
-
-/*=========================================================
-LOAD PLAYER
-=========================================================*/
-
-    loadPlayer(){
-
-
-            this.player=
-
-                JSON.parse(save);
-
-        }
-
-        else{
-
-            this.player={
-
-                name:"Life Hero",
-
-                rank:"Explorer",
-
-                level:1,
-
-                avatar:
-
-                "assets/images/avatar/default.webp"
-
-            };
-
-        }
-
-    },
-
-/*=========================================================
-LOAD STATS
-=========================================================*/
-
-    loadStats(){
-
-        this.stats={
-
-            vitality:92,
-
-            power:68,
-
-            wisdom:74,
-
-            charisma:80,
-
-            xp:1240,
-
-            coins:560,
-
-            mana:310,
-
-            alignment:77
+            clock: document.getElementById("clock")
 
         };
 
     },
 
 /*=========================================================
-PROFILE
+AUTH STATE
+=========================================================*/
+
+    listenAuth(){
+
+        onAuthStateChanged(auth, async(user)=>{
+
+            if(!user){
+
+                console.warn("Usuario no autenticado.");
+
+                window.location.href =
+                "https://magmax777.github.io/MagnopVS_Web/database/register/register.html";
+
+                return;
+
+            }
+
+            console.log("Usuario autenticado:", user.email);
+
+            await this.loadProfile();
+
+        });
+
+    },
+
+/*=========================================================
+LOAD PROFILE
+=========================================================*/
+
+    async loadProfile(){
+
+        try{
+
+            const profile =
+                await ProfileService.getCurrentProfile();
+
+            if(!profile){
+
+                console.warn("No existe perfil.");
+
+                return;
+
+            }
+
+            this.profile = profile;
+
+            this.player = {
+
+                uid: profile.uid,
+
+                name: profile.full_name,
+
+                username: profile.username,
+
+                email: profile.email,
+
+                avatar: profile.avatar,
+
+                banner: profile.banner,
+
+                bio: profile.bio,
+
+                level: profile.level,
+
+                rank: profile.rank,
+
+                class: profile.class,
+
+                faction: profile.faction,
+
+                reputation: profile.reputation,
+
+                followers: profile.followers,
+
+                following: profile.following
+
+            };
+
+            this.stats = {
+
+                xp: profile.xp,
+
+                coins: profile.magnopoints,
+
+                mana: profile.microcoins,
+
+                alignment: profile.reputation
+
+            };
+
+            this.renderProfile();
+
+            this.renderStats();
+
+            console.log("✅ Perfil cargado");
+
+        }
+
+        catch(error){
+
+            console.error(error);
+
+        }
+
+    },
+
+/*=========================================================
+DEFAULT STATS
+=========================================================*/
+
+    loadDefaultStats(){
+
+        this.stats={
+
+            xp:0,
+
+            coins:0,
+
+            mana:0,
+
+            alignment:0
+
+        };
+
+    },
+
+/*=========================================================
+PROFILE RENDER
 =========================================================*/
 
     renderProfile(){
 
-        if(this.ui.name)
+        if(this.ui.name){
 
-            this.ui.name.textContent=
+            this.ui.name.textContent =
+            this.player.name ?? "Life Hero";
 
-                this.player = {
+        }
 
-                    name: profile.full_name,
+        if(this.ui.rank){
 
-                    rank: profile.rank,
+            this.ui.rank.textContent =
+            this.player.rank ?? "Explorer";
 
-                    level: profile.level,
+        }
 
-                    avatar: profile.avatar
+        if(this.ui.level){
 
-                this.renderProfile();
+            this.ui.level.textContent =
+            "Lv. " + (this.player.level ?? 1);
 
-                };
-
-        if(this.ui.rank)
-
-            this.ui.rank.textContent=
-
-                this.player.rank;
-
-        if(this.ui.level)
-
-            this.ui.level.textContent=
-
-                "Lv."+this.player.level;
+        }
 
         if(
 
@@ -200,9 +253,8 @@ PROFILE
 
         ){
 
-            this.ui.avatar.src=
-
-                this.player.avatar;
+            this.ui.avatar.src =
+            this.player.avatar;
 
         }
 
@@ -216,7 +268,7 @@ STATS
 
         this.setValue(
 
-            "xpValue",
+            this.ui.xp,
 
             this.stats.xp
 
@@ -224,7 +276,7 @@ STATS
 
         this.setValue(
 
-            "coinValue",
+            this.ui.coins,
 
             this.stats.coins
 
@@ -232,7 +284,7 @@ STATS
 
         this.setValue(
 
-            "manaValue",
+            this.ui.mana,
 
             this.stats.mana
 
@@ -240,27 +292,29 @@ STATS
 
         this.setValue(
 
-            "alignmentValue",
+            this.ui.alignment,
 
-            this.stats.alignment+"%"
+            this.stats.alignment + "%"
 
         );
 
     },
 
-    setValue(id,value){
+    setValue(element,value){
 
-        const el=
+        if(!element) return;
 
-            document.getElementById(id);
-
-        if(el){
-
-            el.textContent=value;
-
-        }
+        element.textContent = value;
 
     },
+
+    /*=========================================================
+MAGNOPVS
+DASHBOARD SYSTEM
+dashboard.js
+PARTE 2/3
+UTILITIES + EFFECTS + LOGOUT
+=========================================================*/
 
 /*=========================================================
 CLOCK
@@ -268,39 +322,29 @@ CLOCK
 
     startClock(){
 
-        const update=()=>{
+        const updateClock = () => {
 
-            const now=new Date();
-
-            const time=
-
-                now.toLocaleTimeString(
-
-                    "es-CO",
-
-                    {
-
-                        hour:"2-digit",
-
-                        minute:"2-digit",
-
-                        second:"2-digit"
-
-                    }
-
-                );
+            const now = new Date();
 
             if(this.ui.clock){
 
-                this.ui.clock.textContent=time;
+                this.ui.clock.textContent =
+                now.toLocaleTimeString(
+                    "es-CO",
+                    {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit"
+                    }
+                );
 
             }
 
         };
 
-        update();
+        updateClock();
 
-        setInterval(update,1000);
+        setInterval(updateClock,1000);
 
     },
 
@@ -310,61 +354,53 @@ GREETING
 
     startGreeting(){
 
-        const hour=new Date().getHours();
+        const hour = new Date().getHours();
 
-        let text="Bienvenido";
+        let greeting = "Bienvenido";
 
-        if(hour>=5 && hour<12){
+        if(hour >= 5 && hour < 12){
 
-            text="☀️ Buenos días";
+            greeting = "☀️ Buenos días";
 
         }
 
-        else if(hour>=12 && hour<18){
+        else if(hour >= 12 && hour < 18){
 
-            text="🌤️ Buenas tardes";
+            greeting = "🌤️ Buenas tardes";
 
         }
 
         else{
 
-            text="🌙 Buenas noches";
+            greeting = "🌙 Buenas noches";
 
         }
 
         if(this.ui.greeting){
 
-            this.ui.greeting.textContent=text;
+            this.ui.greeting.textContent = greeting;
 
         }
 
     },
 
 /*=========================================================
-ANIMATE PROGRESS
+PROGRESS BARS
 =========================================================*/
 
     animateBars(){
 
-        const bars=document.querySelectorAll(
-
-            ".progress span"
-
-        );
+        const bars = document.querySelectorAll(".progress span");
 
         bars.forEach(bar=>{
 
-            const value=
+            const value = Number(bar.dataset.value || 0);
 
-                bar.dataset.value || "0";
-
-            bar.style.width="0%";
+            bar.style.width = "0%";
 
             setTimeout(()=>{
 
-                bar.style.width=
-
-                    value+"%";
+                bar.style.width = value + "%";
 
             },300);
 
@@ -373,42 +409,18 @@ ANIMATE PROGRESS
     },
 
 /*=========================================================
-SAVE PLAYER
+UPDATE BARS
 =========================================================*/
 
-    savePlayer(){
+    updateProgressBar(selector,value){
 
-        localStorage.setItem(
+        const bar = document.querySelector(selector);
 
-            "mlh_player",
+        if(!bar) return;
 
-            JSON.stringify(
+        bar.dataset.value = value;
 
-                this.player
-
-            )
-
-        );
-
-    },
-
-/*=========================================================
-UPDATE PLAYER
-=========================================================*/
-
-    updatePlayer(data){
-
-        this.player={
-
-            ...this.player,
-
-            ...data
-
-        };
-
-        this.savePlayer();
-
-        this.renderProfile();
+        bar.style.width = value + "%";
 
     },
 
@@ -416,15 +428,15 @@ UPDATE PLAYER
 TOAST
 =========================================================*/
 
-    toast(message){
+    toast(message,type="success"){
 
-        const toast=
+        const toast = document.createElement("div");
 
-            document.createElement("div");
+        toast.className =
 
-        toast.className="dashboard-toast";
+            "dashboard-toast " + type;
 
-        toast.textContent=message;
+        toast.textContent = message;
 
         document.body.appendChild(toast);
 
@@ -444,183 +456,17 @@ TOAST
 
             },300);
 
-        },2500);
+        },3000);
 
     },
-
-/*=========================================================
-SPACE PARTICLES
-=========================================================*/
-
-createStars(){
-
-    const canvas=
-
-        document.getElementById(
-
-            "spaceBackground"
-
-        );
-
-    if(!canvas) return;
-
-    const ctx=
-
-        canvas.getContext("2d");
-
-    const stars=[];
-
-    function resize(){
-
-        canvas.width=
-
-            window.innerWidth;
-
-        canvas.height=
-
-            window.innerHeight;
-
-    }
-
-    resize();
-
-    window.addEventListener(
-
-        "resize",
-
-        resize
-
-    );
-
-    for(
-
-        let i=0;
-
-        i<180;
-
-        i++
-
-    ){
-
-        stars.push({
-
-            x:Math.random()*canvas.width,
-
-            y:Math.random()*canvas.height,
-
-            r:Math.random()*2,
-
-            s:0.15+Math.random()*0.4
-
-        });
-
-    }
-
-    function draw(){
-
-        ctx.clearRect(
-
-            0,
-
-            0,
-
-            canvas.width,
-
-            canvas.height
-
-        );
-
-        ctx.fillStyle="#8eefff";
-
-        stars.forEach(star=>{
-
-            ctx.beginPath();
-
-            ctx.arc(
-
-                star.x,
-
-                star.y,
-
-                star.r,
-
-                0,
-
-                Math.PI*2
-
-            );
-
-            ctx.fill();
-
-            star.y+=star.s;
-
-            if(
-
-                star.y>
-
-                canvas.height
-
-            ){
-
-                star.y=0;
-
-                star.x=
-
-                    Math.random()
-
-                    *canvas.width;
-
-            }
-
-        });
-
-        requestAnimationFrame(draw);
-
-    }
-
-    draw();
-
-},
-
-/*=========================================================
-LOAD PROFILE
-=========================================================*/
-
-async loadProfile(){
-
-    const profile=
-
-        await ProfileService
-
-        .getCurrentProfile();
-
-    if(!profile){
-
-        console.warn(
-
-            "No se encontró el perfil."
-
-        );
-
-        return;
-
-    }
-
-    this.profile=profile;
-
-    this.renderProfile();
-
-}
 
 /*=========================================================
 REFRESH
 =========================================================*/
 
-    refresh(){
+    async refresh(){
 
-        this.loadPlayer();
-
-        this.loadStats();
+        await this.loadProfile();
 
         this.renderProfile();
 
@@ -628,36 +474,280 @@ REFRESH
 
         this.animateBars();
 
+        console.log("Dashboard actualizado.");
+
     },
 
 /*=========================================================
-RESET
+RESET UI
 =========================================================*/
 
+    reset(){
 
-        this.player={
+        this.player = {};
 
-            name:"Life Hero",
+        this.profile = null;
 
-            rank:"Explorer",
-
-            level:1,
-
-            avatar:
-
-            "assets/images/avatar/default.webp"
-
-        };
-
-        this.loadStats();
+        this.loadDefaultStats();
 
         this.renderProfile();
 
         this.renderStats();
 
-        this.toast(
+    },
 
-            "Perfil reiniciado."
+/*=========================================================
+LOGOUT
+=========================================================*/
+
+    async logout(){
+
+        try{
+
+            await auth.signOut();
+
+            window.location.href =
+            "https://magmax777.github.io/MagnopVS_Web/database/register/register.html";
+
+        }
+
+        catch(error){
+
+            console.error(error);
+
+            this.toast(
+
+                "No fue posible cerrar sesión.",
+
+                "error"
+
+            );
+
+        }
+
+    },
+
+/*=========================================================
+SPACE BACKGROUND
+=========================================================*/
+
+    createStars(){
+
+        const canvas =
+
+            document.getElementById("spaceBackground");
+
+        if(!canvas) return;
+
+        const ctx = canvas.getContext("2d");
+
+        const stars = [];
+
+        const STAR_COUNT = 180;
+
+        const resize = ()=>{
+
+            canvas.width = window.innerWidth;
+
+            canvas.height = window.innerHeight;
+
+        };
+
+        resize();
+
+        window.addEventListener(
+
+            "resize",
+
+            resize
+
+        );
+
+        for(let i=0;i<STAR_COUNT;i++){
+
+            stars.push({
+
+                x:Math.random()*canvas.width,
+
+                y:Math.random()*canvas.height,
+
+                radius:Math.random()*2,
+
+                speed:0.2+Math.random()*0.5,
+
+                alpha:0.3+Math.random()*0.7
+
+            });
+
+        }
+
+        const draw=()=>{
+
+            ctx.clearRect(
+
+                0,
+
+                0,
+
+                canvas.width,
+
+                canvas.height
+
+            );
+
+            stars.forEach(star=>{
+
+                ctx.beginPath();
+
+                ctx.fillStyle =
+
+                    `rgba(142,239,255,${star.alpha})`;
+
+                ctx.arc(
+
+                    star.x,
+
+                    star.y,
+
+                    star.radius,
+
+                    0,
+
+                    Math.PI*2
+
+                );
+
+                ctx.fill();
+
+                star.y += star.speed;
+
+                if(star.y>canvas.height){
+
+                    star.y = 0;
+
+                    star.x =
+
+                        Math.random()*canvas.width;
+
+                }
+
+            });
+
+            requestAnimationFrame(draw);
+
+        };
+
+        draw();
+
+    },
+
+    /*=========================================================
+EVENTS
+=========================================================*/
+
+    bindEvents(){
+
+        //--------------------------------------------------
+        // Logout Button
+        //--------------------------------------------------
+
+        const logoutButton = document.getElementById("logoutButton");
+
+        if(logoutButton){
+
+            logoutButton.addEventListener("click",()=>{
+
+                this.logout();
+
+            });
+
+        }
+
+        //--------------------------------------------------
+        // Refresh Button
+        //--------------------------------------------------
+
+        const refreshButton = document.getElementById("refreshButton");
+
+        if(refreshButton){
+
+            refreshButton.addEventListener("click",()=>{
+
+                this.refresh();
+
+            });
+
+        }
+
+    },
+
+/*=========================================================
+KEYBOARD SHORTCUTS
+=========================================================*/
+
+    shortcuts(){
+
+        document.addEventListener("keydown",(event)=>{
+
+            //--------------------------------------------------
+            // F5
+            //--------------------------------------------------
+
+            if(event.key==="F5"){
+
+                event.preventDefault();
+
+                this.refresh();
+
+            }
+
+            //--------------------------------------------------
+            // ESC
+            //--------------------------------------------------
+
+            if(event.key==="Escape"){
+
+                console.clear();
+
+                console.log("MagnopVS Dashboard");
+
+            }
+
+        });
+
+    },
+
+/*=========================================================
+WINDOW EVENTS
+=========================================================*/
+
+    windowEvents(){
+
+        window.addEventListener(
+
+            "focus",
+
+            ()=>{
+
+                this.refresh();
+
+            }
+
+        );
+
+    },
+
+/*=========================================================
+SYSTEM READY
+=========================================================*/
+
+    ready(){
+
+        console.log(
+
+            "%c✓ MagnopVS Dashboard Ready",
+
+            "color:#00FFD5;font-size:16px;font-weight:bold;"
 
         );
 
@@ -666,18 +756,59 @@ RESET
 };
 
 /*=========================================================
-START
+BOOT
 =========================================================*/
 
 document.addEventListener(
 
     "DOMContentLoaded",
 
-    ()=>{
+    async()=>{
 
-        Dashboard.init();
+        try{
+
+            await Dashboard.init();
+
+            Dashboard.bindEvents();
+
+            Dashboard.shortcuts();
+
+            Dashboard.windowEvents();
+
+            Dashboard.ready();
+
+        }
+
+        catch(error){
+
+            console.error(
+
+                "Dashboard Error:",
+
+                error
+
+            );
+
+        }
 
     }
 
-);    
+);
 
+/*=========================================================
+PUBLIC API
+=========================================================*/
+
+window.Dashboard = Dashboard;
+
+/*=========================================================
+END
+=========================================================*/
+
+console.log(
+
+"%cDashboard System Loaded",
+
+"color:#6CB7FF;font-size:14px;font-weight:bold;"
+
+);
