@@ -206,7 +206,7 @@ document.addEventListener(
                 password
 
             }=event.detail;
-
+            
             await signInWithEmailAndPassword(
                 auth,
                 email,
@@ -219,6 +219,8 @@ document.addEventListener(
 
             setTimeout(() => {
 
+                window.location.href =
+                "https://magmax777.github.io/MagnopVS_Web/web/js/dashboard/dashboard.html";
 
             }, 1000);
 

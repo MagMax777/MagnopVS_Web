@@ -49,7 +49,7 @@ INIT
 
         await this.loadProfile();
 
-    },
+    }
 
 /*=========================================================
 CACHE
@@ -101,15 +101,6 @@ LOAD PLAYER
 
     loadPlayer(){
 
-        const save=
-
-            localStorage.getItem(
-
-                "mlh_player"
-
-            );
-
-        if(save){
 
             this.player=
 
@@ -175,7 +166,19 @@ PROFILE
 
             this.ui.name.textContent=
 
-                this.player.name;
+                this.player = {
+
+                    name: profile.full_name,
+
+                    rank: profile.rank,
+
+                    level: profile.level,
+
+                    avatar: profile.avatar
+
+                this.renderProfile();
+
+                };
 
         if(this.ui.rank)
 
@@ -580,6 +583,36 @@ createStars(){
 },
 
 /*=========================================================
+LOAD PROFILE
+=========================================================*/
+
+async loadProfile(){
+
+    const profile=
+
+        await ProfileService
+
+        .getCurrentProfile();
+
+    if(!profile){
+
+        console.warn(
+
+            "No se encontró el perfil."
+
+        );
+
+        return;
+
+    }
+
+    this.profile=profile;
+
+    this.renderProfile();
+
+}
+
+/*=========================================================
 REFRESH
 =========================================================*/
 
@@ -601,13 +634,6 @@ REFRESH
 RESET
 =========================================================*/
 
-    reset(){
-
-        localStorage.removeItem(
-
-            "mlh_player"
-
-        );
 
         this.player={
 
@@ -655,32 +681,3 @@ document.addEventListener(
 
 );    
 
-/*=========================================================
-LOAD PROFILE
-=========================================================*/
-
-async loadProfile(){
-
-    const profile=
-
-        await ProfileService
-
-        .getCurrentProfile();
-
-    if(!profile){
-
-        console.warn(
-
-            "No se encontró el perfil."
-
-        );
-
-        return;
-
-    }
-
-    this.profile=profile;
-
-    this.renderProfile();
-
-}
