@@ -147,11 +147,13 @@ cacheElements(){
 
             ),
 
-        btnAtlas:
+            
+
+        btnQuantvm:
 
             document.getElementById(
 
-                "btnAtlas"
+                "btnQuantvm"
 
             ),
 
@@ -271,7 +273,7 @@ openAdventure(){
 
     window.location.href=
 
-    "../quantvm-matrix/quantvm-matrix.html";
+    "https://magmax777.github.io/MagnopVS_Web/database/quantvm_matrix/Index.html";
 
 },
 
@@ -361,13 +363,23 @@ async share(){
 SOF.IA
 =========================================================*/
 
-talkSofia(){
+if(
 
-    console.log(
+    this.$.talkSofia
 
-        "Sof.IA"
+){
+
+    this.$.talkSofia
+
+    .addEventListener(
+
+        "click",
+
+        ()=>this.talkSofia()
 
     );
+
+}
 
     document.dispatchEvent(
 
@@ -396,6 +408,14 @@ openModule(module){
     );
 
     switch(module){
+
+        case "quantvm":
+
+            window.location.href=
+
+            "https://magmax777.github.io/MagnopVS_Web/database/quantvm_matrix/Index.html";
+
+        break;
 
         case "atlas":
 
@@ -445,6 +465,16 @@ openModule(module){
 
         break;
 
+        default:
+
+            console.warn(
+
+                "Módulo no encontrado:",
+
+                module
+
+            );
+
     }
 
 },
@@ -459,9 +489,9 @@ enableQuickButtons(){
 
         [
 
-            this.$.btnAtlas,
+            this.$.btnQuantvm,
 
-            "atlas"
+            "quantvm"
 
         ],
 
@@ -835,38 +865,4 @@ async start(){
 
     this.listen();
 
-},
-
-/*=========================================================
-BOOT
-=========================================================*/
-
-window.addEventListener(
-
-    "DOMContentLoaded",
-
-    async()=>{
-
-        await Dashboard.start();
-
-    }
-
-);
-
-/*=========================================================
-EXPORT
-=========================================================*/
-
-export default Dashboard;
-
-/*=========================================================
-END
-=========================================================*/
-
-console.log(
-
-    "%c✓ Dashboard Ready",
-
-    "color:#00FFD5;font-size:15px;font-weight:bold;"
-
-);
+}
