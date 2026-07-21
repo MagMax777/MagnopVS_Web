@@ -123,115 +123,186 @@ PROFILE EXISTS
 CREATE PROFILE
 =========================================================*/
 
-    async createProfile(){
+async createProfile(){
 
-        const user=
+    const user=await this.getCurrentUser();
 
-            await this.getCurrentUser();
+    if(!user){
 
-        if(!user){
+        return null;
 
-            return null;
+    }
 
-        }
+    const exists=await this.exists(user.uid);
 
-        const alreadyExists=
+    if(exists){
 
-            await this.exists(user.uid);
+        return await this.getCurrentProfile();
 
-        if(alreadyExists){
+    }
 
-            return await this.getCurrentProfile();
+    const username=(user.email || "")
+        .split("@")[0]
+        .toLowerCase()
+        .replace(/[^a-z0-9._]/g,"");
 
-        }
+    const profile={
 
-        const profile={
+        uid:user.uid,
 
-            uid:user.uid,
+        full_name:
+            user.displayName ||
+            username,
 
-            full_name:
+        username,
 
-                user.displayName ||
+        email:user.email,
 
-                "Life Hero",
+        newsletter:false,
 
-            username:
+        avatar:
+            user.photoURL ||
+            "/assets/images/avatar/default.webp",
 
-                user.email
+        banner:
+            "/assets/images/banner/default.webp",
 
-                .split("@")[0],
+        bio:
+            "Bienvenido a MagnopVS.",
 
-            email:user.email,
+        level:1,
 
-            newsletter:false,
+        xp:0,
 
-            avatar:
+        rank:"Explorer",
 
-                "/assets/images/avatar/default.webp",
+        class:"Life Hero",
 
-            banner:
+        faction:"Neutral",
 
-                "/assets/images/banner/default.webp",
+        reputation:0,
 
-            bio:
+        followers:0,
 
-                "Nuevo héroe de MagnopVS.",
+        following:0,
 
-            level:1,
+        magnopoints:0,
 
-            xp:0,
+        microcoins:0
 
-            rank:"Explorer",
+    };
 
-            class:"Life Hero",
+    const{
 
-            faction:"Neutral",
+        data,
 
-            reputation:0,
+        error
 
-            followers:0,
+    }=
 
-            following:0,
+    await supabase
 
-            magnopoints:0,
+    .from("profiles")
 
-            microcoins:0
+    .insert(profile)
 
-        };
+    .select()
 
-        const{
+    .single();
 
-            data,
+    if(error){
 
-            error
+        console.error(error);
 
-        }=
+        return null;
 
-        await supabase
+    }
 
-        .from("profiles")
+    this.profile=data;
 
-        .insert(profile)
+    return data;
 
-        .select()
+},
 
-        .single();
+/*=========================================================
+SYNC PROFILE
+=========================================================*/
 
-        if(error){
+async syncProfile(){
 
-            console.error(error);
+    const user=await this.getCurrentUser();
 
-            return null;
+    if(!user){
 
-        }
+        return null;
 
-        this.profile=data;
+    }
 
-        return data;
+    let profile=
 
-    },
+        await this.getCurrentProfile();
 
-    /*=========================================================
+    if(!profile){
+
+        profile=
+
+            await this.createProfile();
+
+    }
+
+    const update={};
+
+    if(
+
+        !profile.full_name &&
+
+        user.displayName
+
+    ){
+
+        update.full_name=user.displayName;
+
+    }
+
+    if(
+
+        !profile.avatar &&
+
+        user.photoURL
+
+    ){
+
+        update.avatar=user.photoURL;
+
+    }
+
+    if(
+
+        profile.email!==user.email
+
+    ){
+
+        update.email=user.email;
+
+    }
+
+    if(
+
+        Object.keys(update).length
+
+    ){
+
+        profile=
+
+            await this.update(update);
+
+    }
+
+    return profile;
+
+},
+
+/*=========================================================
 GET PROFILE
 =========================================================*/
 

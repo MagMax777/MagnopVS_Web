@@ -125,8 +125,9 @@ LOAD PROFILE
 
         try{
 
-            const profile =
-                await ProfileService.getCurrentProfile();
+          const profile =
+                
+            await ProfileService.syncProfile();
 
             if(!profile){
 
