@@ -1,9 +1,8 @@
 /*=========================================================
 MAGNOPVS
-DASHBOARD SYSTEM
+PLAYER DASHBOARD
 dashboard.js
 PARTE 1/3
-CORE + PROFILE + STATS
 =========================================================*/
 
 "use strict";
@@ -12,795 +11,853 @@ CORE + PROFILE + STATS
 IMPORTS
 =========================================================*/
 
-import { auth } from "../../config/firebase/firebase-config.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
-import ProfileService from "../../js/services/profile.service.js";
+import ProfileService from "../../js/services/profile/profile.service.js";
 
 /*=========================================================
-CORE
+DASHBOARD
 =========================================================*/
 
-const Dashboard = {
+const Dashboard={
 
-    /*=========================================
-    STATE
-    =========================================*/
+/*=========================================================
+STATE
+=========================================================*/
 
-    player: {},
+profile:null,
 
-    stats: {},
-
-    profile: null,
-
-    ui: {},
+initialized:false,
 
 /*=========================================================
 INIT
 =========================================================*/
 
-    async init(){
+async init(){
 
-        console.log("🚀 Dashboard Initializing...");
+    if(this.initialized){
 
-        this.cache();
+        return;
 
-        this.loadDefaultStats();
+    }
 
-        this.startClock();
+    console.log(
 
-        this.startGreeting();
+        "%cInicializando Dashboard...",
 
-        this.animateBars();
+        "color:#00FFD5;font-weight:bold;"
 
-        this.createStars();
+    );
 
-        this.listenAuth();
+    await this.loadProfile();
 
-    },
+    this.cacheElements();
 
-/*=========================================================
-CACHE DOM
-=========================================================*/
+    this.bindEvents();
 
-    cache(){
+    this.startAnimations();
 
-        this.ui = {
+    this.initialized=true;
 
-            name: document.getElementById("playerName"),
-
-            rank: document.getElementById("playerRank"),
-
-            avatar: document.getElementById("playerAvatar"),
-
-            level: document.getElementById("playerLevel"),
-
-            xp: document.getElementById("xpValue"),
-
-            coins: document.getElementById("coinValue"),
-
-            mana: document.getElementById("manaValue"),
-
-            alignment: document.getElementById("alignmentValue"),
-
-            greeting: document.getElementById("greeting"),
-
-            clock: document.getElementById("clock")
-
-        };
-
-    },
-
-/*=========================================================
-AUTH STATE
-=========================================================*/
-
-    listenAuth(){
-
-        onAuthStateChanged(auth, async(user)=>{
-
-            if(!user){
-
-                console.warn("Usuario no autenticado.");
-
-                window.location.href =
-                "https://magmax777.github.io/MagnopVS_Web/database/register/register.html";
-
-                return;
-
-            }
-
-            console.log("Usuario autenticado:", user.email);
-
-            await this.loadProfile();
-
-        });
-
-    },
+},
 
 /*=========================================================
 LOAD PROFILE
 =========================================================*/
 
-    async loadProfile(){
+async loadProfile(){
 
-        try{
+    try{
 
-          const profile =
-                
-            await ProfileService.syncProfile();
+        this.profile=
 
-            if(!profile){
+            await ProfileService.load();
 
-                console.warn("No existe perfil.");
+        if(!this.profile){
 
-                return;
+            window.location.href=
 
-            }
+            "../../auth/login/login.html";
 
-            this.profile = profile;
-
-            this.player = {
-
-                uid: profile.uid,
-
-                name: profile.full_name,
-
-                username: profile.username,
-
-                email: profile.email,
-
-                avatar: profile.avatar,
-
-                banner: profile.banner,
-
-                bio: profile.bio,
-
-                level: profile.level,
-
-                rank: profile.rank,
-
-                class: profile.class,
-
-                faction: profile.faction,
-
-                reputation: profile.reputation,
-
-                followers: profile.followers,
-
-                following: profile.following
-
-            };
-
-            this.stats = {
-
-                xp: profile.xp,
-
-                coins: profile.magnopoints,
-
-                mana: profile.microcoins,
-
-                alignment: profile.reputation
-
-            };
-
-            this.renderProfile();
-
-            this.renderStats();
-
-            console.log("✅ Perfil cargado");
+            return;
 
         }
-
-        catch(error){
-
-            console.error(error);
-
-        }
-
-    },
-
-/*=========================================================
-DEFAULT STATS
-=========================================================*/
-
-    loadDefaultStats(){
-
-        this.stats={
-
-            xp:0,
-
-            coins:0,
-
-            mana:0,
-
-            alignment:0
-
-        };
-
-    },
-
-/*=========================================================
-PROFILE RENDER
-=========================================================*/
-
-    renderProfile(){
-
-        if(this.ui.name){
-
-            this.ui.name.textContent =
-            this.player.name ?? "Life Hero";
-
-        }
-
-        if(this.ui.rank){
-
-            this.ui.rank.textContent =
-            this.player.rank ?? "Explorer";
-
-        }
-
-        if(this.ui.level){
-
-            this.ui.level.textContent =
-            "Lv. " + (this.player.level ?? 1);
-
-        }
-
-        if(
-
-            this.ui.avatar &&
-
-            this.player.avatar
-
-        ){
-
-            this.ui.avatar.src =
-            this.player.avatar;
-
-        }
-
-    },
-
-/*=========================================================
-STATS
-=========================================================*/
-
-    renderStats(){
-
-        this.setValue(
-
-            this.ui.xp,
-
-            this.stats.xp
-
-        );
-
-        this.setValue(
-
-            this.ui.coins,
-
-            this.stats.coins
-
-        );
-
-        this.setValue(
-
-            this.ui.mana,
-
-            this.stats.mana
-
-        );
-
-        this.setValue(
-
-            this.ui.alignment,
-
-            this.stats.alignment + "%"
-
-        );
-
-    },
-
-    setValue(element,value){
-
-        if(!element) return;
-
-        element.textContent = value;
-
-    },
-
-    /*=========================================================
-MAGNOPVS
-DASHBOARD SYSTEM
-dashboard.js
-PARTE 2/3
-UTILITIES + EFFECTS + LOGOUT
-=========================================================*/
-
-/*=========================================================
-CLOCK
-=========================================================*/
-
-    startClock(){
-
-        const updateClock = () => {
-
-            const now = new Date();
-
-            if(this.ui.clock){
-
-                this.ui.clock.textContent =
-                now.toLocaleTimeString(
-                    "es-CO",
-                    {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        second: "2-digit"
-                    }
-                );
-
-            }
-
-        };
-
-        updateClock();
-
-        setInterval(updateClock,1000);
-
-    },
-
-/*=========================================================
-GREETING
-=========================================================*/
-
-    startGreeting(){
-
-        const hour = new Date().getHours();
-
-        let greeting = "Bienvenido";
-
-        if(hour >= 5 && hour < 12){
-
-            greeting = "☀️ Buenos días";
-
-        }
-
-        else if(hour >= 12 && hour < 18){
-
-            greeting = "🌤️ Buenas tardes";
-
-        }
-
-        else{
-
-            greeting = "🌙 Buenas noches";
-
-        }
-
-        if(this.ui.greeting){
-
-            this.ui.greeting.textContent = greeting;
-
-        }
-
-    },
-
-/*=========================================================
-PROGRESS BARS
-=========================================================*/
-
-    animateBars(){
-
-        const bars = document.querySelectorAll(".progress span");
-
-        bars.forEach(bar=>{
-
-            const value = Number(bar.dataset.value || 0);
-
-            bar.style.width = "0%";
-
-            setTimeout(()=>{
-
-                bar.style.width = value + "%";
-
-            },300);
-
-        });
-
-    },
-
-/*=========================================================
-UPDATE BARS
-=========================================================*/
-
-    updateProgressBar(selector,value){
-
-        const bar = document.querySelector(selector);
-
-        if(!bar) return;
-
-        bar.dataset.value = value;
-
-        bar.style.width = value + "%";
-
-    },
-
-/*=========================================================
-TOAST
-=========================================================*/
-
-    toast(message,type="success"){
-
-        const toast = document.createElement("div");
-
-        toast.className =
-
-            "dashboard-toast " + type;
-
-        toast.textContent = message;
-
-        document.body.appendChild(toast);
-
-        requestAnimationFrame(()=>{
-
-            toast.classList.add("show");
-
-        });
-
-        setTimeout(()=>{
-
-            toast.classList.remove("show");
-
-            setTimeout(()=>{
-
-                toast.remove();
-
-            },300);
-
-        },3000);
-
-    },
-
-/*=========================================================
-REFRESH
-=========================================================*/
-
-    async refresh(){
-
-        await this.loadProfile();
-
-        this.renderProfile();
-
-        this.renderStats();
-
-        this.animateBars();
-
-        console.log("Dashboard actualizado.");
-
-    },
-
-/*=========================================================
-RESET UI
-=========================================================*/
-
-    reset(){
-
-        this.player = {};
-
-        this.profile = null;
-
-        this.loadDefaultStats();
-
-        this.renderProfile();
-
-        this.renderStats();
-
-    },
-
-/*=========================================================
-LOGOUT
-=========================================================*/
-
-    async logout(){
-
-        try{
-
-            await auth.signOut();
-
-            window.location.href =
-            "https://magmax777.github.io/MagnopVS_Web/database/register/register.html";
-
-        }
-
-        catch(error){
-
-            console.error(error);
-
-            this.toast(
-
-                "No fue posible cerrar sesión.",
-
-                "error"
-
-            );
-
-        }
-
-    },
-
-/*=========================================================
-SPACE BACKGROUND
-=========================================================*/
-
-    createStars(){
-
-        const canvas =
-
-            document.getElementById("spaceBackground");
-
-        if(!canvas) return;
-
-        const ctx = canvas.getContext("2d");
-
-        const stars = [];
-
-        const STAR_COUNT = 180;
-
-        const resize = ()=>{
-
-            canvas.width = window.innerWidth;
-
-            canvas.height = window.innerHeight;
-
-        };
-
-        resize();
-
-        window.addEventListener(
-
-            "resize",
-
-            resize
-
-        );
-
-        for(let i=0;i<STAR_COUNT;i++){
-
-            stars.push({
-
-                x:Math.random()*canvas.width,
-
-                y:Math.random()*canvas.height,
-
-                radius:Math.random()*2,
-
-                speed:0.2+Math.random()*0.5,
-
-                alpha:0.3+Math.random()*0.7
-
-            });
-
-        }
-
-        const draw=()=>{
-
-            ctx.clearRect(
-
-                0,
-
-                0,
-
-                canvas.width,
-
-                canvas.height
-
-            );
-
-            stars.forEach(star=>{
-
-                ctx.beginPath();
-
-                ctx.fillStyle =
-
-                    `rgba(142,239,255,${star.alpha})`;
-
-                ctx.arc(
-
-                    star.x,
-
-                    star.y,
-
-                    star.radius,
-
-                    0,
-
-                    Math.PI*2
-
-                );
-
-                ctx.fill();
-
-                star.y += star.speed;
-
-                if(star.y>canvas.height){
-
-                    star.y = 0;
-
-                    star.x =
-
-                        Math.random()*canvas.width;
-
-                }
-
-            });
-
-            requestAnimationFrame(draw);
-
-        };
-
-        draw();
-
-    },
-
-    /*=========================================================
-EVENTS
-=========================================================*/
-
-    bindEvents(){
-
-        //--------------------------------------------------
-        // Logout Button
-        //--------------------------------------------------
-
-        const logoutButton = document.getElementById("logoutButton");
-
-        if(logoutButton){
-
-            logoutButton.addEventListener("click",()=>{
-
-                this.logout();
-
-            });
-
-        }
-
-        //--------------------------------------------------
-        // Refresh Button
-        //--------------------------------------------------
-
-        const refreshButton = document.getElementById("refreshButton");
-
-        if(refreshButton){
-
-            refreshButton.addEventListener("click",()=>{
-
-                this.refresh();
-
-            });
-
-        }
-
-    },
-
-/*=========================================================
-KEYBOARD SHORTCUTS
-=========================================================*/
-
-    shortcuts(){
-
-        document.addEventListener("keydown",(event)=>{
-
-            //--------------------------------------------------
-            // F5
-            //--------------------------------------------------
-
-            if(event.key==="F5"){
-
-                event.preventDefault();
-
-                this.refresh();
-
-            }
-
-            //--------------------------------------------------
-            // ESC
-            //--------------------------------------------------
-
-            if(event.key==="Escape"){
-
-                console.clear();
-
-                console.log("MagnopVS Dashboard");
-
-            }
-
-        });
-
-    },
-
-/*=========================================================
-WINDOW EVENTS
-=========================================================*/
-
-    windowEvents(){
-
-        window.addEventListener(
-
-            "focus",
-
-            ()=>{
-
-                this.refresh();
-
-            }
-
-        );
-
-    },
-
-/*=========================================================
-SYSTEM READY
-=========================================================*/
-
-    ready(){
 
         console.log(
 
-            "%c✓ MagnopVS Dashboard Ready",
+            "Perfil cargado:",
 
-            "color:#00FFD5;font-size:16px;font-weight:bold;"
+            this.profile
 
         );
 
     }
 
-};
+    catch(error){
+
+        console.error(error);
+
+    }
+
+},
 
 /*=========================================================
-BOOT
+CACHE DOM
 =========================================================*/
 
-document.addEventListener(
+cacheElements(){
 
-    "DOMContentLoaded",
+    this.$={
 
-    async()=>{
+        editProfile:
+
+            document.getElementById(
+
+                "editProfile"
+
+            ),
+
+        continueAdventure:
+
+            document.getElementById(
+
+                "continueAdventure"
+
+            ),
+
+        shareProfile:
+
+            document.getElementById(
+
+                "shareProfile"
+
+            ),
+
+        talkSofia:
+
+            document.getElementById(
+
+                "talkSofia"
+
+            ),
+
+        dailyMission:
+
+            document.getElementById(
+
+                "dailyMission"
+
+            ),
+
+        btnAtlas:
+
+            document.getElementById(
+
+                "btnAtlas"
+
+            ),
+
+        btnMarketplace:
+
+            document.getElementById(
+
+                "btnMarketplace"
+
+            ),
+
+        btnInventory:
+
+            document.getElementById(
+
+                "btnInventory"
+
+            ),
+
+        btnCommunity:
+
+            document.getElementById(
+
+                "btnCommunity"
+
+            ),
+
+        btnSkills:
+
+            document.getElementById(
+
+                "btnSkills"
+
+            ),
+
+        btnEvents:
+
+            document.getElementById(
+
+                "btnEvents"
+
+            )
+
+    };
+
+},
+
+/*=========================================================
+EVENTS
+=========================================================*/
+
+bindEvents(){
+
+    if(
+
+        this.$.continueAdventure
+
+    ){
+
+        this.$.continueAdventure
+
+        .addEventListener(
+
+            "click",
+
+            ()=>this.openAdventure()
+
+        );
+
+    }
+
+    if(
+
+        this.$.editProfile
+
+    ){
+
+        this.$.editProfile
+
+        .addEventListener(
+
+            "click",
+
+            ()=>this.openEditor()
+
+        );
+
+    }
+
+    if(
+
+        this.$.shareProfile
+
+    ){
+
+        this.$.shareProfile
+
+        .addEventListener(
+
+            "click",
+
+            ()=>this.share()
+
+        );
+
+    }
+
+},
+
+/*=========================================================
+CONTINUE ADVENTURE
+=========================================================*/
+
+openAdventure(){
+
+    console.log("▶ Continuar aventura");
+
+    window.location.href=
+
+    "../quantvm-matrix/quantvm-matrix.html";
+
+},
+
+/*=========================================================
+PROFILE EDITOR
+=========================================================*/
+
+openEditor(){
+
+    console.log("✏ Editor de Perfil");
+
+    document.dispatchEvent(
+
+        new CustomEvent(
+
+            "magnopvs:open-profile-editor"
+
+        )
+
+    );
+
+},
+
+/*=========================================================
+SHARE PROFILE
+=========================================================*/
+
+async share(){
+
+    const url=
+
+        window.location.origin+
+
+        "/player/"+
+
+        ProfileService.username;
+
+    if(
+
+        navigator.share
+
+    ){
 
         try{
 
-            await Dashboard.init();
+            await navigator.share({
 
-            Dashboard.bindEvents();
+                title:
 
-            Dashboard.shortcuts();
+                "Mi Perfil MagnopVS",
 
-            Dashboard.windowEvents();
+                text:
 
-            Dashboard.ready();
+                "Mira mi perfil en MagnopVS",
+
+                url
+
+            });
 
         }
 
         catch(error){
 
-            console.error(
+            console.error(error);
 
-                "Dashboard Error:",
+        }
 
-                error
+        return;
+
+    }
+
+    await navigator.clipboard.writeText(
+
+        url
+
+    );
+
+    console.log(
+
+        "Perfil copiado"
+
+    );
+
+},
+
+/*=========================================================
+SOF.IA
+=========================================================*/
+
+talkSofia(){
+
+    console.log(
+
+        "Sof.IA"
+
+    );
+
+    document.dispatchEvent(
+
+        new CustomEvent(
+
+            "magnopvs:open-sofia"
+
+        )
+
+    );
+
+},
+
+/*=========================================================
+OPEN MODULE
+=========================================================*/
+
+openModule(module){
+
+    console.log(
+
+        "Abrir:",
+
+        module
+
+    );
+
+    switch(module){
+
+        case "atlas":
+
+            window.location.href=
+
+            "../atlas/atlas.html";
+
+        break;
+
+        case "inventory":
+
+            window.location.href=
+
+            "../inventory/inventory.html";
+
+        break;
+
+        case "skills":
+
+            window.location.href=
+
+            "../skills/skills.html";
+
+        break;
+
+        case "community":
+
+            window.location.href=
+
+            "../community/community.html";
+
+        break;
+
+        case "marketplace":
+
+            window.location.href=
+
+            "../marketplace/marketplace.html";
+
+        break;
+
+        case "events":
+
+            window.location.href=
+
+            "../events/events.html";
+
+        break;
+
+    }
+
+},
+
+/*=========================================================
+QUICK BUTTONS
+=========================================================*/
+
+enableQuickButtons(){
+
+    const buttons=[
+
+        [
+
+            this.$.btnAtlas,
+
+            "atlas"
+
+        ],
+
+        [
+
+            this.$.btnInventory,
+
+            "inventory"
+
+        ],
+
+        [
+
+            this.$.btnMarketplace,
+
+            "marketplace"
+
+        ],
+
+        [
+
+            this.$.btnCommunity,
+
+            "community"
+
+        ],
+
+        [
+
+            this.$.btnSkills,
+
+            "skills"
+
+        ],
+
+        [
+
+            this.$.btnEvents,
+
+            "events"
+
+        ]
+
+    ];
+
+    buttons.forEach(
+
+        ([button,module])=>{
+
+            if(!button){
+
+                return;
+
+            }
+
+            button.addEventListener(
+
+                "click",
+
+                ()=>this.openModule(module)
 
             );
 
         }
+
+    );
+
+},
+
+/*=========================================================
+PLAYER STATUS
+=========================================================*/
+
+updateStatus(message){
+
+    const status=
+
+        document.getElementById(
+
+            "playerStatus"
+
+        );
+
+    if(status){
+
+        status.textContent=
+
+            message;
+
+    }
+
+},
+
+/*=========================================================
+WELCOME
+=========================================================*/
+
+showWelcome(){
+
+    console.log(
+
+        "Bienvenido",
+
+        ProfileService.displayName
+
+    );
+
+},
+
+/*=========================================================
+ANIMATIONS
+=========================================================*/
+
+startAnimations(){
+
+    this.animateCards();
+
+    this.animateCounters();
+
+    this.startClock();
+
+},
+
+/*=========================================================
+CARDS
+=========================================================*/
+
+animateCards(){
+
+    document
+
+    .querySelectorAll(
+
+        ".panel,.resource-card,.stat-card,.hero-badge"
+
+    )
+
+    .forEach((card,index)=>{
+
+        card.animate(
+
+        [
+
+            {
+
+                opacity:0,
+
+                transform:
+
+                "translateY(30px)"
+
+            },
+
+            {
+
+                opacity:1,
+
+                transform:
+
+                "translateY(0px)"
+
+            }
+
+        ],
+
+        {
+
+            duration:600,
+
+            delay:index*70,
+
+            easing:"ease-out",
+
+            fill:"forwards"
+
+        });
+
+    });
+
+},
+
+/*=========================================================
+COUNTERS
+=========================================================*/
+
+animateCounters(){
+
+    document
+
+    .querySelectorAll(
+
+        "[data-counter]"
+
+    )
+
+    .forEach(counter=>{
+
+        const target=
+
+            Number(
+
+                counter.dataset.counter
+
+            );
+
+        let current=0;
+
+        const step=
+
+            Math.max(
+
+                1,
+
+                Math.ceil(target/50)
+
+            );
+
+        const timer=
+
+        setInterval(()=>{
+
+            current+=step;
+
+            if(current>=target){
+
+                current=target;
+
+                clearInterval(timer);
+
+            }
+
+            counter.textContent=
+
+                current.toLocaleString();
+
+        },20);
+
+    });
+
+},
+
+/*=========================================================
+CLOCK
+=========================================================*/
+
+startClock(){
+
+    const clock=
+
+        document.getElementById(
+
+            "dashboardClock"
+
+        );
+
+    if(!clock){
+
+        return;
+
+    }
+
+    const update=()=>{
+
+        const now=
+
+            new Date();
+
+        clock.textContent=
+
+            now.toLocaleTimeString(
+
+                [],
+
+                {
+
+                    hour:"2-digit",
+
+                    minute:"2-digit"
+
+                }
+
+            );
+
+    };
+
+    update();
+
+    setInterval(
+
+        update,
+
+        1000
+
+    );
+
+},
+
+/*=========================================================
+NOTIFICATION
+=========================================================*/
+
+notify(message){
+
+    console.log(
+
+        "[Dashboard]",
+
+        message
+
+    );
+
+},
+
+/*=========================================================
+REFRESH
+=========================================================*/
+
+async refresh(){
+
+    this.profile=
+
+        await ProfileService.refresh();
+
+    ProfileService.renderProfile();
+
+},
+
+/*=========================================================
+LISTENERS
+=========================================================*/
+
+listen(){
+
+    document.addEventListener(
+
+        "magnopvs:profile-updated",
+
+        ()=>{
+
+            this.refresh();
+
+        }
+
+    );
+
+    document.addEventListener(
+
+        "magnopvs:logout",
+
+        ()=>{
+
+            ProfileService.logout();
+
+        }
+
+    );
+
+},
+
+/*=========================================================
+START
+=========================================================*/
+
+async start(){
+
+    await this.init();
+
+    this.enableQuickButtons();
+
+    this.showWelcome();
+
+    this.listen();
+
+},
+
+/*=========================================================
+BOOT
+=========================================================*/
+
+window.addEventListener(
+
+    "DOMContentLoaded",
+
+    async()=>{
+
+        await Dashboard.start();
 
     }
 
 );
 
 /*=========================================================
-PUBLIC API
+EXPORT
 =========================================================*/
 
-window.Dashboard = Dashboard;
+export default Dashboard;
 
 /*=========================================================
 END
@@ -808,8 +865,8 @@ END
 
 console.log(
 
-"%cDashboard System Loaded",
+    "%c✓ Dashboard Ready",
 
-"color:#6CB7FF;font-size:14px;font-weight:bold;"
+    "color:#00FFD5;font-size:15px;font-weight:bold;"
 
 );

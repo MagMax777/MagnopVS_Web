@@ -35,97 +35,140 @@ PROFILE SERVICE
 
 const ProfileService={
 
-    /*=====================================================
-    STATE
-    =====================================================*/
+/*=========================================================
+STATE
+=========================================================*/
 
-    user:null,
+user:null,
 
-    profile:null,
+profile:null,
+
+profileLoaded:false,
+
+elements:null,
+
+defaults:{
+
+    avatar:
+    "https://jlckakyftkzgfgkmmdmc.supabase.co/storage/v1/object/public/MagnopVS_Web/web/assets/images/avatar/default-avatar.webp",
+
+    banner:
+    "https://jlckakyftkzgfgkmmdmc.supabase.co/storage/v1/object/public/MagnopVS_Web/web/assets/images/banner/default-banner.webp",
+
+    display_name:"Nuevo Héroe",
+
+    username:"hero",
+
+    bio:
+    "Todo héroe comienza explorando un universo desconocido.",
+
+    level:1,
+
+    xp:0,
+
+    rank:"Explorer",
+
+    hero_class:"Life Hero",
+
+    faction:"Neutral",
+
+    followers:0,
+
+    following:0,
+
+    reputation:0,
+
+    magnopoints:0,
+
+    microcoins:0
+
+},
 
 /*=========================================================
 WAIT AUTH
 =========================================================*/
 
-    waitUser(){
+waitUser(){
 
-        return new Promise(resolve=>{
+    return new Promise(resolve=>{
 
-            onAuthStateChanged(
+        onAuthStateChanged(
 
-                auth,
+            auth,
 
-                user=>resolve(user)
+            user=>resolve(user)
 
-            );
+        );
 
-        });
+    });
 
-    },
+},
 
 /*=========================================================
 CURRENT USER
 =========================================================*/
 
-    async getCurrentUser(){
+async getCurrentUser(){
 
-        if(this.user){
-
-            return this.user;
-
-        }
-
-        this.user=
-
-            await this.waitUser();
+    if(this.user){
 
         return this.user;
 
-    },
+    }
+
+    this.user=
+
+        await this.waitUser();
+
+    return this.user;
+
+},
 
 /*=========================================================
 PROFILE EXISTS
 =========================================================*/
 
-    async exists(uid){
+async exists(uid){
 
-        const{
+    const{
 
-            data,
+        data,
 
-            error
+        error
 
-        }=
+    }=
 
-        await supabase
+    await supabase
 
-        .from("profiles")
+    .from("profiles")
 
-        .select("uid")
+    .select("uid")
 
-        .eq("uid",uid)
+    .eq("uid",uid)
 
-        .maybeSingle();
+    .maybeSingle();
 
-        if(error){
+    if(error){
 
-            console.error(error);
+        console.error(error);
 
-            return false;
+        return false;
 
-        }
+    }
 
-        return !!data;
+    return !!data;
 
-    },
+},
 
 /*=========================================================
-CREATE PROFILE
+ENSURE PROFILE
 =========================================================*/
 
-async createProfile(){
+async ensureProfile(){
 
-    const user=await this.getCurrentUser();
+    const user=
+
+        await this.getCurrentUser();
 
     if(!user){
 
@@ -133,25 +176,60 @@ async createProfile(){
 
     }
 
-    const exists=await this.exists(user.uid);
+    let profile=
 
-    if(exists){
+        await this.getCurrentProfile();
 
-        return await this.getCurrentProfile();
+    if(!profile){
+
+        profile=
+
+            await this.createProfile();
 
     }
 
-    const username=(user.email || "")
+    profile=
+
+        await this.syncProfile();
+
+    return profile;
+
+},
+
+/*=========================================================
+CREATE PROFILE
+=========================================================*/
+
+async createProfile(){
+
+    const user=
+
+        await this.getCurrentUser();
+
+    if(!user){
+
+        return null;
+
+    }
+
+    const username=
+
+        (user.email||"")
+
         .split("@")[0]
+
         .toLowerCase()
+
         .replace(/[^a-z0-9._]/g,"");
 
     const profile={
 
         uid:user.uid,
 
-        full_name:
+        display_name:
+
             user.displayName ||
+
             username,
 
         username,
@@ -161,14 +239,18 @@ async createProfile(){
         newsletter:false,
 
         avatar:
+
             user.photoURL ||
-            "/assets/images/avatar/default.webp",
+
+            this.defaults.avatar,
 
         banner:
-            "/assets/images/banner/default.webp",
+
+            this.defaults.banner,
 
         bio:
-            "Bienvenido a MagnopVS.",
+
+            this.defaults.bio,
 
         level:1,
 
@@ -176,15 +258,15 @@ async createProfile(){
 
         rank:"Explorer",
 
-        class:"Life Hero",
+        hero_class:"Life Hero",
 
         faction:"Neutral",
-
-        reputation:0,
 
         followers:0,
 
         following:0,
+
+        reputation:0,
 
         magnopoints:0,
 
@@ -220,6 +302,8 @@ async createProfile(){
 
     this.profile=data;
 
+    this.profileLoaded=true;
+
     return data;
 
 },
@@ -230,23 +314,17 @@ SYNC PROFILE
 
 async syncProfile(){
 
-    const user=await this.getCurrentUser();
-
-    if(!user){
-
-        return null;
-
-    }
-
     let profile=
 
         await this.getCurrentProfile();
 
-    if(!profile){
+    const user=
 
-        profile=
+        await this.getCurrentUser();
 
-            await this.createProfile();
+    if(!profile || !user){
+
+        return null;
 
     }
 
@@ -254,13 +332,15 @@ async syncProfile(){
 
     if(
 
-        !profile.full_name &&
+        !profile.display_name &&
 
         user.displayName
 
     ){
 
-        update.full_name=user.displayName;
+        update.display_name=
+
+            user.displayName;
 
     }
 
@@ -272,7 +352,33 @@ async syncProfile(){
 
     ){
 
-        update.avatar=user.photoURL;
+        update.avatar=
+
+            user.photoURL;
+
+    }
+
+    if(
+
+        !profile.banner
+
+    ){
+
+        update.banner=
+
+            this.defaults.banner;
+
+    }
+
+    if(
+
+        !profile.bio
+
+    ){
+
+        update.bio=
+
+            this.defaults.bio;
 
     }
 
@@ -282,7 +388,9 @@ async syncProfile(){
 
     ){
 
-        update.email=user.email;
+        update.email=
+
+            user.email;
 
     }
 
@@ -303,124 +411,377 @@ async syncProfile(){
 },
 
 /*=========================================================
-GET PROFILE
+CURRENT PROFILE
 =========================================================*/
 
-    async getCurrentProfile(){
+async getCurrentProfile(){
 
-        if(this.profile){
+    if(
 
-            return this.profile;
+        this.profileLoaded &&
 
-        }
+        this.profile
 
-        const user=
+    ){
 
-            await this.getCurrentUser();
+        return this.profile;
 
-        if(!user){
+    }
 
-            return null;
+    const user=
 
-        }
+        await this.getCurrentUser();
 
-        const{
+    if(!user){
 
-            data,
+        return null;
 
-            error
+    }
 
-        }=
+    const{
 
-        await supabase
+        data,
 
-        .from("profiles")
+        error
 
-        .select("*")
+    }=
 
-        .eq(
+    await supabase
 
-            "uid",
+    .from("profiles")
 
-            user.uid
+    .select("*")
 
-        )
+    .eq("uid",user.uid)
 
-        .maybeSingle();
+    .maybeSingle();
 
-        if(error){
+    if(error){
 
-            console.error(error);
+        console.error(error);
 
-            return null;
+        return null;
 
-        }
+    }
 
-        if(!data){
+    this.profile=data;
 
-            return await this.createProfile();
+    this.profileLoaded=true;
 
-        }
+    return data;
 
-        this.profile=data;
-
-        return data;
-
-    },
+},
 
 /*=========================================================
-GET PROFILE BY UID
+CACHE ELEMENTS
 =========================================================*/
 
-    async getByUID(uid){
+cacheElements(){
 
-        const{
+    if(this.elements){
 
-            data,
+        return this.elements;
 
-            error
+    }
 
-        }=
+    this.elements={
 
-        await supabase
+        display_name:[
+            "playerName",
+            "miniName"
+        ],
 
-        .from("profiles")
+        username:[
+            "playerUsername"
+        ],
 
-        .select("*")
+        bio:[
+            "playerBio"
+        ],
 
-        .eq(
+        rank:[
+            "playerRank",
+            "miniRank"
+        ],
 
-            "uid",
+        hero_class:[
+            "playerClass"
+        ],
 
-            uid
+        faction:[
+            "playerFaction"
+        ],
 
-        )
+        level:[
+            "playerLevel"
+        ],
 
-        .maybeSingle();
+        followers:[
+            "playerFollowers"
+        ],
 
-        if(error){
+        following:[
+            "playerFollowing"
+        ],
 
-            console.error(error);
+        reputation:[
+            "playerReputation"
+        ],
 
-            return null;
+        magnopoints:[
+            "magnoPoints"
+        ],
 
-        }
+        microcoins:[
+            "microCoins"
+        ],
 
-        return data;
+        avatar:[
+            "profileAvatar",
+            "miniAvatar"
+        ],
 
-    },
+        banner:[
+            "heroBanner"
+        ]
+
+    };
+
+    return this.elements;
+
+},
 
 /*=========================================================
-REFRESH PROFILE
+RENDER PROFILE
 =========================================================*/
 
-    async refresh(){
+renderProfile(profile=this.profile){
 
-        this.profile=null;
+    if(!profile){
 
-        return await this.getCurrentProfile();
+        return;
 
-    },
+    }
+
+    this.cacheElements();
+
+    Object.entries(this.elements)
+
+    .forEach(([field,ids])=>{
+
+        ids.forEach(id=>{
+
+            const element=
+
+                document.getElementById(id);
+
+            if(!element){
+
+                return;
+
+            }
+
+            const value=
+
+                profile[field];
+
+            if(
+
+                element.tagName==="IMG"
+
+            ){
+
+                element.src=
+
+                    value ||
+
+                    this.defaults[field] ||
+
+                    "";
+
+                return;
+
+            }
+
+            element.textContent=
+
+                value ??
+
+                "";
+
+        });
+
+    });
+
+    this.renderXP(profile);
+
+    this.renderHero(profile);
+
+    this.renderResources(profile);
+
+},
+
+/*=========================================================
+RENDER HERO
+=========================================================*/
+
+renderHero(profile){
+
+    const status=
+
+        document.getElementById(
+
+            "playerStatus"
+
+        );
+
+    if(status){
+
+        status.textContent=
+
+            profile.status ||
+
+            "🌌 Explorando la Quantvm Matrix";
+
+    }
+
+},
+
+/*=========================================================
+RENDER RESOURCES
+=========================================================*/
+
+renderResources(profile){
+
+    const mp=
+
+        document.getElementById(
+
+            "magnoPoints"
+
+        );
+
+    if(mp){
+
+        mp.textContent=
+
+            Number(
+
+                profile.magnopoints || 0
+
+            ).toLocaleString();
+
+    }
+
+    const mc=
+
+        document.getElementById(
+
+            "microCoins"
+
+        );
+
+    if(mc){
+
+        mc.textContent=
+
+            Number(
+
+                profile.microcoins || 0
+
+            ).toLocaleString();
+
+    }
+
+},
+
+/*=========================================================
+RENDER XP
+=========================================================*/
+
+renderXP(profile){
+
+    const fill=
+
+        document.getElementById(
+
+            "xpFill"
+
+        );
+
+    const text=
+
+        document.getElementById(
+
+            "xpText"
+
+        );
+
+    if(!fill || !text){
+
+        return;
+
+    }
+
+    const xp=
+
+        Number(profile.xp || 0);
+
+    const level=
+
+        Number(profile.level || 1);
+
+    const next=
+
+        level*100;
+
+    const percent=
+
+        Math.min(
+
+            (xp/next)*100,
+
+            100
+
+        );
+
+    fill.style.width=
+
+        percent+"%";
+
+    text.textContent=
+
+        xp+
+
+        " / "+
+
+        next+
+
+        " XP";
+
+},
+
+/*=========================================================
+LOAD
+=========================================================*/
+
+async load(){
+
+    const profile=
+
+        await this.ensureProfile();
+
+    if(!profile){
+
+        return null;
+
+    }
+
+    this.renderProfile(profile);
+
+    return profile;
+
+},
 
 /*=========================================================
 UPDATE PROFILE
@@ -617,6 +978,284 @@ UPDATE BIO
         });
 
     },
+
+/*=========================================================
+SAVE PROFILE
+=========================================================*/
+
+async save(values={}){
+
+    const profile=
+
+        await this.update(values);
+
+    if(profile){
+
+        this.renderProfile(profile);
+
+    }
+
+    return profile;
+
+},
+
+/*=========================================================
+UPDATE FIELD
+=========================================================*/
+
+async updateField(field,value){
+
+    return await this.save({
+
+        [field]:value
+
+    });
+
+},
+
+/*=========================================================
+UPLOAD AVATAR
+=========================================================*/
+
+async uploadAvatar(url){
+
+    return await this.updateField(
+
+        "avatar",
+
+        url
+
+    );
+
+},
+
+/*=========================================================
+UPLOAD BANNER
+=========================================================*/
+
+async uploadBanner(url){
+
+    return await this.updateField(
+
+        "banner",
+
+        url
+
+    );
+
+},
+
+/*=========================================================
+UPDATE BIO
+=========================================================*/
+
+async saveBio(bio){
+
+    return await this.updateField(
+
+        "bio",
+
+        bio
+
+    );
+
+},
+
+/*=========================================================
+UPDATE DISPLAY NAME
+=========================================================*/
+
+async saveDisplayName(display_name){
+
+    return await this.updateField(
+
+        "display_name",
+
+        display_name
+
+    );
+
+},
+
+/*=========================================================
+UPDATE USERNAME
+=========================================================*/
+
+async saveUsername(username){
+
+    return await this.updateField(
+
+        "username",
+
+        username
+
+    );
+
+},
+
+/*=========================================================
+UPDATE HERO CLASS
+=========================================================*/
+
+async saveHeroClass(hero_class){
+
+    return await this.updateField(
+
+        "hero_class",
+
+        hero_class
+
+    );
+
+},
+
+/*=========================================================
+UPDATE FACTION
+=========================================================*/
+
+async saveFaction(faction){
+
+    return await this.updateField(
+
+        "faction",
+
+        faction
+
+    );
+
+},
+
+/*=========================================================
+CLEAR CACHE
+=========================================================*/
+
+clear(){
+
+    this.user=null;
+
+    this.profile=null;
+
+    this.profileLoaded=false;
+
+},
+
+/*=========================================================
+LOGOUT
+=========================================================*/
+
+async logout(){
+
+    this.clear();
+
+    await auth.signOut();
+
+    window.location.href=
+
+        "../../auth/login/login.html";
+
+},
+
+/*=========================================================
+GETTERS
+=========================================================*/
+
+get uid(){
+
+    return this.profile?.uid ?? null;
+
+},
+
+get displayName(){
+
+    return this.profile?.display_name ?? "";
+
+},
+
+get username(){
+
+    return this.profile?.username ?? "";
+
+},
+
+get avatar(){
+
+    return this.profile?.avatar ??
+
+        this.defaults.avatar;
+
+},
+
+get banner(){
+
+    return this.profile?.banner ??
+
+        this.defaults.banner;
+
+},
+
+get level(){
+
+    return this.profile?.level ?? 1;
+
+},
+
+get xp(){
+
+    return this.profile?.xp ?? 0;
+
+},
+
+get rank(){
+
+    return this.profile?.rank ?? "Explorer";
+
+},
+
+get heroClass(){
+
+    return this.profile?.hero_class ??
+
+        "Life Hero";
+
+},
+
+get faction(){
+
+    return this.profile?.faction ??
+
+        "Neutral";
+
+},
+
+get followers(){
+
+    return this.profile?.followers ?? 0;
+
+},
+
+get following(){
+
+    return this.profile?.following ?? 0;
+
+},
+
+get reputation(){
+
+    return this.profile?.reputation ?? 0;
+
+},
+
+get magnopoints(){
+
+    return this.profile?.magnopoints ?? 0;
+
+},
+
+get microcoins(){
+
+    return this.profile?.microcoins ?? 0;
+
+},
 
 /*=========================================================
 CLEAR CACHE

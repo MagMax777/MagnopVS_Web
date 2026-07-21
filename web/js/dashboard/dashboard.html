@@ -11,19 +11,25 @@
 
     <title>MagnopVS | Dashboard</title>
 
-    <!-- CSS -->
+    <!--=========================================================
+    CSS
+    ==========================================================-->
 
     <link
         rel="stylesheet"
         href="dashboard.css">
 
-    <!-- Google Fonts -->
+    <!--=========================================================
+    GOOGLE FONTS
+    ==========================================================-->
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700;900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <!-- Material Icons -->
+    <!--=========================================================
+    MATERIAL SYMBOLS
+    ==========================================================-->
 
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded"
@@ -33,52 +39,75 @@
 
 <body>
 
-
-
-    <canvas id="spaceBackground"></canvas>
-
-    <div class="dashboard">
-
-    </div>
-
-
 <!--=========================================================
-BACKGROUND
+COSMIC BACKGROUND
 ==========================================================-->
 
-<div class="bg-grid"></div>
+<div class="space-layer"></div>
 
-<div class="bg-glow glow-one"></div>
+<div class="nebula-layer"></div>
 
-<div class="bg-glow glow-two"></div>
+<div class="stars-layer"></div>
 
-<div class="bg-noise"></div>
+<div class="grid-layer"></div>
 
 <!--=========================================================
-HEADER
+APP
+==========================================================-->
+
+<div class="dashboard">
+
+<!--=========================================================
+TOPBAR
 ==========================================================-->
 
 <header class="topbar">
 
-    <div class="logo">
+    <div class="topbar-left">
 
-        <img
-            src="../assets/images/logo/magnopvs-logo.png"
-            alt="MagnopVS">
+        <button
+            id="menuButton"
+            class="menu-button">
 
-        <div>
+            <span class="material-symbols-rounded">
 
-            <h1>MagnopVS</h1>
+                menu
 
-            <span>PLAYER DASHBOARD</span>
+            </span>
+
+        </button>
+
+        <div class="logo">
+
+            <img
+
+                src="https://jlckakyftkzgfgkmmdmc.supabase.co/storage/v1/object/public/Biblioteca/Imagenes/Logos/Favicon.png"
+
+                alt="MagnopVS">
+
+            <div>
+
+                <h1>
+
+                    MagnopVS
+
+                </h1>
+
+                <span>
+
+                    QUANTVM MATRIX
+
+                </span>
+
+            </div>
 
         </div>
 
     </div>
 
-    <div class="top-actions">
+    <div class="topbar-center">
 
-        <button class="icon-btn">
+        <div class="search-box">
 
             <span class="material-symbols-rounded">
 
@@ -86,9 +115,29 @@ HEADER
 
             </span>
 
+            <input
+
+                type="text"
+
+                placeholder="Buscar héroes, clanes, objetos...">
+
+        </div>
+
+    </div>
+
+    <div class="topbar-right">
+
+        <button class="circle-button">
+
+            <span class="material-symbols-rounded">
+
+                forum
+
+            </span>
+
         </button>
 
-        <button class="icon-btn">
+        <button class="circle-button">
 
             <span class="material-symbols-rounded">
 
@@ -98,7 +147,7 @@ HEADER
 
         </button>
 
-        <button class="icon-btn">
+        <button class="circle-button">
 
             <span class="material-symbols-rounded">
 
@@ -116,173 +165,143 @@ HEADER
 LAYOUT
 ==========================================================-->
 
-<div class="dashboard">
+<div class="layout">
 
 <!--=========================================================
 SIDEBAR
 ==========================================================-->
 
-<aside class="sidebar">
+<aside
+    id="sidebar"
+    class="sidebar">
 
-    <div class="player-mini">
+    <button class="sidebar-button active">
 
-        <img
+        <span class="material-symbols-rounded">
 
-            id="miniAvatar"
-
-            src="../assets/images/avatar/default-avatar.webp"
-
-            alt="Avatar">
-
-        <h2 id="miniName">
-
-            Cargando...
-
-        </h2>
-        <div class="hero-status">
-
-    <span id="heroStatus">
-
-        🌌 Explorando la Quantvm Matrix
-
-    </span>
-
-</div>
-
-<div class="hero-social">
-
-    <div>
-
-        <strong id="heroFollowers">
-
-            12
-
-        </strong>
-
-        <small>Seguidores</small>
-
-    </div>
-
-    <div>
-
-        <strong id="heroFollowing">
-
-            8
-
-        </strong>
-
-        <small>Aliados</small>
-
-    </div>
-
-    <div>
-
-        <strong id="heroReputation">
-
-            327
-
-        </strong>
-
-        <small>Reputación</small>
-
-    </div>
-
-</div>
-        <span id="miniRank">
-
-            Iniciado
+            dashboard
 
         </span>
 
-    </div>
-
-    <nav>
-
-        <button class="nav-item active">
-
-            <span class="material-symbols-rounded">
-
-                dashboard
-
-            </span>
+        <small>
 
             Inicio
 
-        </button>
+        </small>
 
-        <button class="nav-item">
+    </button>
 
-            <span class="material-symbols-rounded">
+    <button class="sidebar-button">
 
-                person
+        <span class="material-symbols-rounded">
 
-            </span>
+            person
+
+        </span>
+
+        <small>
 
             Perfil
 
-        </button>
+        </small>
 
-        <button class="nav-item">
+    </button>
 
-            <span class="material-symbols-rounded">
+    <button class="sidebar-button">
 
-                trophy
+        <span class="material-symbols-rounded">
 
-            </span>
+            task_alt
 
-            Logros
+        </span>
 
-        </button>
-
-        <button class="nav-item">
-
-            <span class="material-symbols-rounded">
-
-                task_alt
-
-            </span>
+        <small>
 
             Misiones
 
-        </button>
+        </small>
 
-        <button class="nav-item">
+    </button>
 
-            <span class="material-symbols-rounded">
+    <button class="sidebar-button">
 
-                inventory_2
+        <span class="material-symbols-rounded">
 
-            </span>
+            auto_awesome
 
-            Inventario
+        </span>
 
-        </button>
-
-        <button class="nav-item">
-
-            <span class="material-symbols-rounded">
-
-                auto_awesome
-
-            </span>
+        <small>
 
             Habilidades
 
-        </button>
+        </small>
 
-        <button class="nav-item">
+    </button>
 
-            <span class="material-symbols-rounded">
+    <button class="sidebar-button">
 
-                forum
+        <span class="material-symbols-rounded">
 
-            </span>
+            inventory_2
+
+        </span>
+
+        <small>
+
+            Inventario
+
+        </small>
+
+    </button>
+
+    <button class="sidebar-button">
+
+        <span class="material-symbols-rounded">
+
+            public
+
+        </span>
+
+        <small>
+
+            Atlas
+
+        </small>
+
+    </button>
+
+    <button class="sidebar-button">
+
+        <span class="material-symbols-rounded">
+
+            storefront
+
+        </span>
+
+        <small>
+
+            Marketplace
+
+        </small>
+
+    </button>
+
+    <button class="sidebar-button">
+
+        <span class="material-symbols-rounded">
+
+            groups
+
+        </span>
+
+        <small>
 
             Comunidad
 
-        </button>
+        </small>
 
-    </nav>
+    </button>
 
 </aside>
 
@@ -290,78 +309,16 @@ SIDEBAR
 MAIN
 ==========================================================-->
 
-<main class="content">
+<main class="main-content">
 
 <!--=========================================================
-PLAYER HERO
+HERO
 ==========================================================-->
 
-<section class="hero-panel">
-
-    <div class="hero-left hero-content">
-
-        <div class="avatar-frame">
-
-            <div class="avatar-ring"></div>
-
-            <img
-
-                id="profileAvatar"
-
-                src="../assets/images/avatar/default-avatar.webp"
-
-                alt="Avatar">
-
-        </div>
-
-        <div class="hero-info">
-
-            <span class="hero-tag">
-
-                MAGNOPVS PLAYER
-
-            </span>
-
-            <h1 id="playerName">
-
-                Cargando...
-
-            </h1>
-
-            <p id="playerTitle">
-
-                Nuevo Explorador
-
-            </p>
-            
-            <p
-
-                id="heroBio"
-
-                class="hero-bio">
-
-                "Todo héroe comienza explorando un universo desconocido."
-
-            </p>
-            
-            <div class="hero-level">
-
-                <span>
-
-                    Nivel
-
-                </span>
-
-                <strong id="playerLevel">
-
-                    1
-
-                </strong>
-
-            </div>
+<section class="hero">
 
 <!--=========================================================
-HERO BANNER
+BANNER
 ==========================================================-->
 
 <div class="hero-banner">
@@ -370,333 +327,507 @@ HERO BANNER
 
         id="heroBanner"
 
-        src="../assets/images/banners/default-banner.webp"
+        src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=2000"
 
-        alt="Hero Banner">
+        alt="Banner">
 
-    <div class="hero-banner-overlay"></div>
+    <div class="banner-gradient"></div>
+
+    <button
+        id="changeBanner"
+        class="banner-edit">
+
+        <span class="material-symbols-rounded">
+
+            photo_camera
+
+        </span>
+
+    </button>
 
 </div>
+
+<!--=========================================================
+PROFILE
+==========================================================-->
+
+<div class="hero-profile">
+
+    <div class="avatar-area">
+
+        <div class="avatar-ring">
+
+            <img
+
+                id="profileAvatar"
+
+                src="https://jlckakyftkzgfgkmmdmc.supabase.co/storage/v1/object/public/MagnopVS_Web/web/frames/Perfiles/Perfil_Photo_default.jpeg"
+
+                alt="Avatar">
+
+        </div>
+
+        <button
+            id="changeAvatar"
+            class="avatar-edit">
+
+            <span class="material-symbols-rounded">
+
+                edit
+
+            </span>
+
+        </button>
+
+    </div>
+
+    <div class="hero-information">
+
+        <div class="hero-header">
+
+            <div>
+
+                <h1 id="displayName">
+
+                    Cargando...
+
+                </h1>
+
+                <h2 id="username">
+
+                    @usuario
+
+                </h2>
+
+            </div>
+
+            <button
+                id="editProfile"
+                class="edit-profile">
+
+                Editar Perfil
+
+            </button>
+
+        </div>
+
+<!--=========================================================
+PLAYER INFO
+==========================================================-->
+
+<div class="hero-badges">
+
+    <div class="hero-badge">
+
+        <span class="badge-icon">
+
+            ⭐
+
+        </span>
+
+        <div>
+
+            <small>
+
+                Rango
+
+            </small>
+
+            <strong id="playerRank">
+
+                Explorer
+
+            </strong>
+
+        </div>
+
+    </div>
+
+    <div class="hero-badge">
+
+        <span class="badge-icon">
+
+            ⚔
+
+        </span>
+
+        <div>
+
+            <small>
+
+                Clase
+
+            </small>
+
+            <strong id="playerClass">
+
+                Life Hero
+
+            </strong>
+
+        </div>
+
+    </div>
+
+    <div class="hero-badge">
+
+        <span class="badge-icon">
+
+            🌌
+
+        </span>
+
+        <div>
+
+            <small>
+
+                Facción
+
+            </small>
+
+            <strong id="playerFaction">
+
+                Neutral
+
+            </strong>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!--=========================================================
+BIO
+==========================================================-->
+
+<p
+
+    id="playerBio"
+
+    class="hero-bio">
+
+    Todo héroe comienza con una decisión.
+
+</p>
 
 <!--=========================================================
 PLAYER STATUS
 ==========================================================-->
 
-<div class="hero-status-card">
+<div class="status-panel">
 
-    <div class="status-line">
+    <div class="status-item">
 
-        <span class="label">
+        <span>
 
             Estado
 
         </span>
 
-        <span id="heroStatus">
+        <strong id="playerStatus">
 
             🌌 Explorando la Quantvm Matrix
 
-        </span>
-
-    </div>
-
-    <div class="status-line">
-
-        <span class="label">
-
-            Clase
-
-        </span>
-
-        <span id="heroClass">
-
-            Explorador Cósmico
-
-        </span>
-
-    </div>
-
-    <div class="status-line">
-
-        <span class="label">
-
-            Facción
-
-        </span>
-
-        <span id="heroFaction">
-
-            Nación Padmekrishna
-
-        </span>
-
-    </div>
-
-</div>
-        </div>
-
-    </div>
-
-    <div class="hero-right">
-
-        <div class="xp-header">
-
-            <span>
-
-                Experiencia
-
-            </span>
-
-            <span id="xpText">
-
-                0 / 100 XP
-
-            </span>
-
-        </div>
-
-        <div class="xp-bar">
-
-            <div
-
-                id="xpFill"
-
-                class="xp-fill">
-
-            </div>
-
-        </div>
-
-        <div class="quick-buttons">
-
-            <button>
-
-                Continuar
-
-            </button>
-
-            <button>
-
-                Perfil
-
-            </button>
-
-            <button>
-
-                Ajustes
-
-            </button>
-
-        </div>
-<div class="hero-social">
-
-    <div>
-
-        <strong id="heroFollowers">
-
-            12
-
         </strong>
+
+    </div>
+
+    <div class="status-item">
 
         <span>
 
-            Seguidores
+            Última conexión
 
         </span>
 
-    </div>
+        <strong id="lastConnection">
 
-    <div>
-
-        <strong id="heroFollowing">
-
-            8
+            En línea
 
         </strong>
-
-        <span>
-
-            Aliados
-
-        </span>
-
-    </div>
-
-    <div>
-
-        <strong id="heroReputation">
-
-            327
-
-        </strong>
-
-        <span>
-
-            Reputación
-
-        </span>
 
     </div>
 
 </div>
 
+<!--=========================================================
+XP
+==========================================================-->
+
+<div class="xp-panel">
+
+    <div class="xp-top">
+
+        <span>
+
+            Nivel
+
+            <strong id="playerLevel">
+
+                1
+
+            </strong>
+
+        </span>
+
+        <span id="xpText">
+
+            0 / 100 XP
+
+        </span>
+
     </div>
 
-</section>
+    <div class="xp-bar">
+
+        <div
+
+            id="xpFill"
+
+            class="xp-fill">
+
+        </div>
+
+    </div>
+
+</div>
 
 <!--=========================================================
 PLAYER STATS
 ==========================================================-->
 
-<section class="stats-grid">
+<div class="player-stats">
 
-    <article class="stat-card">
+    <div class="stat">
 
-        <span class="material-symbols-rounded">
+        <small>
 
-            diamond
+            Seguidores
 
-        </span>
+        </small>
 
-        <h3>
-
-            MagnoPoints
-
-        </h3>
-
-        <strong id="magnoPoints">
+        <strong id="playerFollowers">
 
             0
 
         </strong>
 
-    </article>
+    </div>
 
-    <article class="stat-card">
+    <div class="stat">
 
-        <span class="material-symbols-rounded">
+        <small>
 
-            monetization_on
+            Siguiendo
 
-        </span>
+        </small>
 
-        <h3>
-
-            MicroCoins
-
-        </h3>
-
-        <strong id="microCoins">
+        <strong id="playerFollowing">
 
             0
 
         </strong>
 
-    </article>
+    </div>
 
-    <article class="stat-card">
+    <div class="stat">
 
-        <span class="material-symbols-rounded">
+        <small>
 
-            local_fire_department
+            Reputación
 
-        </span>
+        </small>
 
-        <h3>
-
-            Energía
-
-        </h3>
-
-        <strong id="energy">
-
-            100%
-
-        </strong>
-
-    </article>
-
-    <article class="stat-card">
-
-        <span class="material-symbols-rounded">
-
-            favorite
-
-        </span>
-
-        <h3>
-
-            Vitalidad
-
-        </h3>
-
-        <strong id="life">
-
-            100%
-
-        </strong>
-
-    </article>
-
-    <article class="stat-card">
-
-        <span class="material-symbols-rounded">
-
-            workspace_premium
-
-        </span>
-
-        <h3>
-
-            Rango
-
-        </h3>
-
-        <strong id="playerRank">
-
-            Aspirante
-
-        </strong>
-
-    </article>
-
-    <article class="stat-card">
-
-        <span class="material-symbols-rounded">
-
-            military_tech
-
-        </span>
-
-        <h3>
-
-            Logros
-
-        </h3>
-
-        <strong id="achievements">
+        <strong id="playerReputation">
 
             0
 
         </strong>
 
-    </article>
+    </div>
+
+</div>
+
+<!--=========================================================
+GAME RESOURCES
+==========================================================-->
+
+<div class="resources">
+
+    <div class="resource-card">
+
+        <span>
+
+            💎
+
+        </span>
+
+        <div>
+
+            <small>
+
+                MagnoPoints
+
+            </small>
+
+            <strong id="magnoPoints">
+
+                0
+
+            </strong>
+
+        </div>
+
+    </div>
+
+    <div class="resource-card">
+
+        <span>
+
+            🪙
+
+        </span>
+
+        <div>
+
+            <small>
+
+                MicroCoins
+
+            </small>
+
+            <strong id="microCoins">
+
+                0
+
+            </strong>
+
+        </div>
+
+    </div>
+
+    <div class="resource-card">
+
+        <span>
+
+            ❤️
+
+        </span>
+
+        <div>
+
+            <small>
+
+                Vitalidad
+
+            </small>
+
+            <strong id="playerHealth">
+
+                100%
+
+            </strong>
+
+        </div>
+
+    </div>
+
+    <div class="resource-card">
+
+        <span>
+
+            ⚡
+
+        </span>
+
+        <div>
+
+            <small>
+
+                Energía
+
+            </small>
+
+            <strong id="playerEnergy">
+
+                100%
+
+            </strong>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!--=========================================================
+MAIN ACTION
+==========================================================-->
+
+<div class="hero-actions">
+
+    <button
+
+        id="continueAdventure"
+
+        class="continue-button">
+
+        <span class="material-symbols-rounded">
+
+            play_arrow
+
+        </span>
+
+        Continuar la Aventura
+
+    </button>
+
+    <button
+
+        id="shareProfile"
+
+        class="glass-button">
+
+        <span class="material-symbols-rounded">
+
+            share
+
+        </span>
+
+        Compartir Perfil
+
+    </button>
+
+</div>
+
+</div>
+
+</div>
 
 </section>
 
 <!--=========================================================
-MAIN GRID
+DASHBOARD CONTENT
 ==========================================================-->
 
 <section class="dashboard-grid">
 
-    <!--=========================================================
-    LEFT COLUMN
-    ==========================================================-->
+<!--=========================================================
+SOF.IA
+==========================================================-->
 
-    <div class="panel">
+<section class="panel sofia-panel">
 
-        <div class="panel-header">
+    <div class="panel-header">
+
+        <div>
+
+            <span class="panel-subtitle">
+
+                Inteligencia Artificial
+
+            </span>
 
             <h2>
 
@@ -704,85 +835,257 @@ MAIN GRID
 
             </h2>
 
-            <span class="status online">
+        </div>
 
-                ● Online
+        <span class="online-dot"></span>
+
+    </div>
+
+    <div class="sofia-body">
+
+        <div class="sofia-avatar">
+
+            ✦
+
+        </div>
+
+        <div class="sofia-chat">
+
+            <h3>
+
+                Bienvenido nuevamente.
+
+            </h3>
+
+            <p id="sofiaMessage">
+
+                Tu aventura continúa. Existen nuevas misiones, recompensas y eventos esperándote.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="sofia-buttons">
+
+        <button id="talkSofia">
+
+            Hablar con Sof.IA
+
+        </button>
+
+        <button id="dailyMission">
+
+            Misión diaria
+
+        </button>
+
+    </div>
+
+</section>
+
+<!--=========================================================
+CONTINUAR AVENTURA
+==========================================================-->
+
+<section class="panel adventure-panel">
+
+    <span class="panel-subtitle">
+
+        Campaña Principal
+
+    </span>
+
+    <h2>
+
+        Continuar la Aventura
+
+    </h2>
+
+    <div class="adventure-card">
+
+        <small>
+
+            Saga
+
+        </small>
+
+        <h3 id="currentSaga">
+
+            Eleusis Path
+
+        </h3>
+
+        <p id="currentMission">
+
+            El Bosque Sagrado
+
+        </p>
+
+        <button id="continueMission">
+
+            Continuar
+
+        </button>
+
+    </div>
+
+</section>
+
+<!--=========================================================
+ALTAR DEL HÉROE
+==========================================================-->
+
+<section class="panel altar-panel">
+
+    <div class="panel-header">
+
+        <span class="panel-subtitle">
+
+            Identidad
+
+        </span>
+
+        <h2>
+
+            Altar del Héroe
+
+        </h2>
+
+    </div>
+
+    <div class="altar-grid">
+
+        <div class="altar-card">
+
+            <span>
+
+                🏆
 
             </span>
 
-        </div>
+            <small>
 
-        <div class="sofia-card">
+                Logro Favorito
 
-            <div class="sofia-avatar">
+            </small>
 
-                ✦
+            <strong id="favoriteAchievement">
 
-            </div>
+                Ninguno
 
-            <div>
-
-                <h3>
-
-                    Asistente Personal
-
-                </h3>
-
-                <p>
-
-                    Bienvenido nuevamente. Hoy tienes nuevas misiones disponibles y tu progreso continúa avanzando. Tu siguiente objetivo está listo para comenzar.
-
-                </p>
-
-            </div>
+            </strong>
 
         </div>
 
-    </div>
+        <div class="altar-card">
 
-    <!--=========================================================
-    CENTER COLUMN
-    ==========================================================-->
+            <span>
 
-    <div class="panel">
+                🥚
 
-        <div class="panel-header">
+            </span>
 
-            <h2>
+            <small>
 
-                Misiones Activas
+                MagnoEgg
 
-            </h2>
+            </small>
 
-        </div>
+            <strong id="favoriteEgg">
 
-        <div
-            id="missionsContainer"
-            class="mission-list">
+                Vacío
+
+            </strong>
 
         </div>
 
-    </div>
+        <div class="altar-card">
 
-    <!--=========================================================
-    RIGHT COLUMN
-    ==========================================================-->
+            <span>
 
-    <div class="panel">
+                🃏
 
-        <div class="panel-header">
+            </span>
 
-            <h2>
+            <small>
 
-                Actividad
+                MagnoCard
 
-            </h2>
+            </small>
+
+            <strong id="favoriteCard">
+
+                Vacía
+
+            </strong>
 
         </div>
 
-        <div
-            id="activityContainer"
-            class="activity-list">
+        <div class="altar-card">
+
+            <span>
+
+                🎵
+
+            </span>
+
+            <small>
+
+                Canción
+
+            </small>
+
+            <strong id="favoriteSong">
+
+                Sin seleccionar
+
+            </strong>
+
+        </div>
+
+        <div class="altar-card">
+
+            <span>
+
+                🌌
+
+            </span>
+
+            <small>
+
+                Saga
+
+            </small>
+
+            <strong id="favoriteSaga">
+
+                MagnopVS
+
+            </strong>
+
+        </div>
+
+        <div class="altar-card">
+
+            <span>
+
+                ✨
+
+            </span>
+
+            <small>
+
+                Frase
+
+            </small>
+
+            <strong id="favoriteQuote">
+
+                Todo héroe comienza con una decisión.
+
+            </strong>
 
         </div>
 
@@ -791,112 +1094,134 @@ MAIN GRID
 </section>
 
 <!--=========================================================
-BOTTOM SECTION
+ACTIVIDAD
 ==========================================================-->
 
-<section class="bottom-grid">
+<section class="panel activity-panel">
 
-    <div class="panel">
+    <div class="panel-header">
 
-        <div class="panel-header">
+        <span class="panel-subtitle">
 
-            <h2>
+            Timeline
 
-                Accesos Rápidos
+        </span>
 
-            </h2>
+        <h2>
 
-        </div>
+            Actividad Reciente
 
-        <div class="quick-grid">
+        </h2>
 
-            <button class="quick-card">
+    </div>
 
-                <span class="material-symbols-rounded">
+    <div id="activityFeed">
 
-                    auto_awesome
+        <!-- Firebase -->
 
-                </span>
+    </div>
 
-                Habilidades
+</section>
 
-            </button>
+<!--=========================================================
+ACCESOS RÁPIDOS
+==========================================================-->
 
-            <button class="quick-card">
+<section class="panel shortcuts-panel">
 
-                <span class="material-symbols-rounded">
+    <div class="panel-header">
 
-                    inventory_2
+        <span class="panel-subtitle">
 
-                </span>
+            Ecosistema
 
-                Inventario
+        </span>
 
-            </button>
+        <h2>
 
-            <button class="quick-card">
+            Accesos Rápidos
 
-                <span class="material-symbols-rounded">
+        </h2>
 
-                    public
+    </div>
 
-                </span>
+    <div class="shortcut-grid">
+
+        <button id="btnAtlas">
+
+            🌌
+
+            <span>
 
                 Atlas
 
-            </button>
+            </span>
 
-            <button class="quick-card">
+        </button>
 
-                <span class="material-symbols-rounded">
+        <button id="btnInventory">
 
-                    storefront
+            🎒
 
-                </span>
+            <span>
+
+                Inventario
+
+            </span>
+
+        </button>
+
+        <button id="btnSkills">
+
+            ⚔
+
+            <span>
+
+                Habilidades
+
+            </span>
+
+        </button>
+
+        <button id="btnMarketplace">
+
+            🛒
+
+            <span>
 
                 Marketplace
 
-            </button>
+            </span>
 
-        </div>
+        </button>
 
-    </div>
+        <button id="btnCommunity">
 
-    <div class="panel">
+            👥
 
-        <div class="panel-header">
+            <span>
 
-            <h2>
+                Comunidad
 
-                Próximo Objetivo
+            </span>
 
-            </h2>
+        </button>
 
-        </div>
+        <button id="btnEvents">
 
-        <div class="objective-card">
+            📅
 
-            <h3>
+            <span>
 
-                Alcanzar Nivel 2
+                Eventos
 
-            </h3>
+            </span>
 
-            <p>
-
-                Completa las primeras misiones para desbloquear nuevas funciones del ecosistema MagnopVS.
-
-            </p>
-
-            <button>
-
-                Continuar aventura
-
-            </button>
-
-        </div>
+        </button>
 
     </div>
+
+</section>
 
 </section>
 
@@ -922,7 +1247,7 @@ FOOTER
 JAVASCRIPT
 ==========================================================-->
 
-<script src="dashboard.js"></script>
+<script type="module" src="dashboard.js"></script>
 
 </body>
 
