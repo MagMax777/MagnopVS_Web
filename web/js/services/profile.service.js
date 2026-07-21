@@ -2,7 +2,7 @@
 MAGNOPVS
 PROFILE SERVICE
 profile.service.js
-PARTE 1/2
+PARTE 1/3
 =========================================================*/
 
 "use strict";
@@ -11,419 +11,667 @@ PARTE 1/2
 IMPORTS
 =========================================================*/
 
-import { auth } from "../config/firebase/firebase-config.js";
-import { supabase } from "../config/supabase/supabase-config.js";
+import {
+
+    auth
+
+} from "../../config/firebase/firebase-config.js";
+
+import {
+
+    supabase
+
+} from "../../config/supabase/supabase-config.js";
+
+import {
+
+    onAuthStateChanged
+
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
 /*=========================================================
 PROFILE SERVICE
 =========================================================*/
 
-class ProfileService{
+const ProfileService={
 
     /*=====================================================
-    GET CURRENT USER
+    STATE
     =====================================================*/
 
-    getCurrentUser(){
+    user:null,
 
-        return auth.currentUser;
+    profile:null,
 
-    }
+/*=========================================================
+WAIT AUTH
+=========================================================*/
 
-    /*=====================================================
-    GET CURRENT PROFILE
-    =====================================================*/
+    waitUser(){
+
+        return new Promise(resolve=>{
+
+            onAuthStateChanged(
+
+                auth,
+
+                user=>resolve(user)
+
+            );
+
+        });
+
+    },
+
+/*=========================================================
+CURRENT USER
+=========================================================*/
+
+    async getCurrentUser(){
+
+        if(this.user){
+
+            return this.user;
+
+        }
+
+        this.user=
+
+            await this.waitUser();
+
+        return this.user;
+
+    },
+
+/*=========================================================
+PROFILE EXISTS
+=========================================================*/
+
+    async exists(uid){
+
+        const{
+
+            data,
+
+            error
+
+        }=
+
+        await supabase
+
+        .from("profiles")
+
+        .select("uid")
+
+        .eq("uid",uid)
+
+        .maybeSingle();
+
+        if(error){
+
+            console.error(error);
+
+            return false;
+
+        }
+
+        return !!data;
+
+    },
+
+/*=========================================================
+CREATE PROFILE
+=========================================================*/
+
+    async createProfile(){
+
+        const user=
+
+            await this.getCurrentUser();
+
+        if(!user){
+
+            return null;
+
+        }
+
+        const alreadyExists=
+
+            await this.exists(user.uid);
+
+        if(alreadyExists){
+
+            return await this.getCurrentProfile();
+
+        }
+
+        const profile={
+
+            uid:user.uid,
+
+            full_name:
+
+                user.displayName ||
+
+                "Life Hero",
+
+            username:
+
+                user.email
+
+                .split("@")[0],
+
+            email:user.email,
+
+            newsletter:false,
+
+            avatar:
+
+                "/assets/images/avatar/default.webp",
+
+            banner:
+
+                "/assets/images/banner/default.webp",
+
+            bio:
+
+                "Nuevo héroe de MagnopVS.",
+
+            level:1,
+
+            xp:0,
+
+            rank:"Explorer",
+
+            class:"Life Hero",
+
+            faction:"Neutral",
+
+            reputation:0,
+
+            followers:0,
+
+            following:0,
+
+            magnopoints:0,
+
+            microcoins:0
+
+        };
+
+        const{
+
+            data,
+
+            error
+
+        }=
+
+        await supabase
+
+        .from("profiles")
+
+        .insert(profile)
+
+        .select()
+
+        .single();
+
+        if(error){
+
+            console.error(error);
+
+            return null;
+
+        }
+
+        this.profile=data;
+
+        return data;
+
+    },
+
+    /*=========================================================
+GET PROFILE
+=========================================================*/
 
     async getCurrentProfile(){
 
-        try{
+        if(this.profile){
 
-            const user = auth.currentUser;
-            console.log("Firebase User");
-
-            console.log(user);
-
-            if(!user){
-
-                console.warn("No hay usuario autenticado.");
-
-                return null;
-
-            }
-
-            const { data, error } = await supabase
-
-                .from("profiles")
-
-                .select("*")
-
-                .eq("uid", user.uid)
-
-                .single();
-
-            if(error){
-
-                throw error;
-
-            }
-
-            return data;
+            return this.profile;
 
         }
 
-        catch(error){
+        const user=
 
-            console.error(
+            await this.getCurrentUser();
 
-                "Error cargando perfil:",
-
-                error
-
-            );
+        if(!user){
 
             return null;
 
         }
-            console.log("UID buscado:", user.uid);
 
-            console.log("Resultado:", data);
+        const{
 
-            console.log("Error:", error);
-    }
+            data,
 
-    /*=====================================================
-    PROFILE EXISTS
-    =====================================================*/
+            error
 
-    async profileExists(uid){
+        }=
 
-        try{
+        await supabase
 
-            const { data } = await supabase
+        .from("profiles")
 
-                .from("profiles")
+        .select("*")
 
-                .select("uid")
+        .eq(
 
-                .eq("uid", uid)
+            "uid",
 
-                .maybeSingle();
+            user.uid
 
-            return !!data;
+        )
 
-        }
+        .maybeSingle();
 
-        catch(error){
+        if(error){
 
             console.error(error);
 
-            return false;
-
-        }
-
-    }
-
-    /*=====================================================
-    CREATE PROFILE
-    =====================================================*/
-
-    async createProfile(profile){
-
-        try{
-
-            const { data, error } = await supabase
-
-                .from("profiles")
-
-                .insert(profile)
-
-                .select()
-
-                .single();
-
-            if(error){
-
-                throw error;
-
-            }
-
-            console.log("Perfil creado.");
-
-            return data;
-
-        }
-
-        catch(error){
-
-            console.error(
-
-                "Error creando perfil:",
-
-                error
-
-            );
-
             return null;
 
         }
 
-    }
+        if(!data){
 
-    /*=====================================================
-    UPDATE PROFILE
-    =====================================================*/
-
-    async updateProfile(uid,values){
-
-        try{
-
-            const { data, error } = await supabase
-
-                .from("profiles")
-
-                .update(values)
-
-                .eq("uid", uid)
-
-                .select()
-
-                .single();
-
-            if(error){
-
-                throw error;
-
-            }
-
-            console.log("Perfil actualizado.");
-
-            return data;
+            return await this.createProfile();
 
         }
 
-        catch(error){
+        this.profile=data;
 
-            console.error(
+        return data;
 
-                "Error actualizando perfil:",
+    },
 
-                error
-
-            );
-
-            return null;
-
-        }
-
-    }
-
-    /*=========================================================
-PROFILE SERVICE
-PARTE 2/2
+/*=========================================================
+GET PROFILE BY UID
 =========================================================*/
 
-    /*=====================================================
-    UPDATE AVATAR
-    =====================================================*/
+    async getByUID(uid){
 
-    async updateAvatar(uid, avatar){
+        const{
 
-        return await this.updateProfile(uid,{
-            avatar
-        });
+            data,
 
-    }
+            error
 
-    /*=====================================================
-    UPDATE BANNER
-    =====================================================*/
+        }=
 
-    async updateBanner(uid, banner){
+        await supabase
 
-        return await this.updateProfile(uid,{
-            banner
-        });
+        .from("profiles")
 
-    }
+        .select("*")
 
-    /*=====================================================
-    UPDATE BIO
-    =====================================================*/
+        .eq(
 
-    async updateBio(uid, bio){
+            "uid",
 
-        return await this.updateProfile(uid,{
-            bio
-        });
+            uid
 
-    }
+        )
 
-    /*=====================================================
-    UPDATE LEVEL
-    =====================================================*/
+        .maybeSingle();
 
-    async updateLevel(uid, level){
-
-        return await this.updateProfile(uid,{
-            level
-        });
-
-    }
-
-    /*=====================================================
-    UPDATE XP
-    =====================================================*/
-
-    async updateXP(uid, xp){
-
-        return await this.updateProfile(uid,{
-            xp
-        });
-
-    }
-
-    /*=====================================================
-    UPDATE RANK
-    =====================================================*/
-
-    async updateRank(uid, rank){
-
-        return await this.updateProfile(uid,{
-            rank
-        });
-
-    }
-
-    /*=====================================================
-    UPDATE REPUTATION
-    =====================================================*/
-
-    async updateReputation(uid, reputation){
-
-        return await this.updateProfile(uid,{
-            reputation
-        });
-
-    }
-
-    /*=====================================================
-    UPDATE MAGNOPOINTS
-    =====================================================*/
-
-    async updateMagnoPoints(uid, magnopoints){
-
-        return await this.updateProfile(uid,{
-            magnopoints
-        });
-
-    }
-
-    /*=====================================================
-    UPDATE MICROCOINS
-    =====================================================*/
-
-    async updateMicroCoins(uid, microcoins){
-
-        return await this.updateProfile(uid,{
-            microcoins
-        });
-
-    }
-
-    /*=====================================================
-    FOLLOW USER
-    =====================================================*/
-
-    async follow(uid){
-
-        const profile = await this.getCurrentProfile();
-
-        if(!profile) return;
-
-        return await this.updateProfile(uid,{
-            followers:
-            (profile.followers ?? 0) + 1
-        });
-
-    }
-
-    /*=====================================================
-    UNFOLLOW USER
-    =====================================================*/
-
-    async unfollow(uid){
-
-        const profile = await this.getCurrentProfile();
-
-        if(!profile) return;
-
-        return await this.updateProfile(uid,{
-            followers:
-            Math.max(
-                (profile.followers ?? 1) - 1,
-                0
-            )
-        });
-
-    }
-
-    /*=====================================================
-    DELETE PROFILE
-    =====================================================*/
-
-    async deleteProfile(uid){
-
-        try{
-
-            const { error } = await supabase
-
-                .from("profiles")
-
-                .delete()
-
-                .eq("uid",uid);
-
-            if(error){
-
-                throw error;
-
-            }
-
-            console.log("Perfil eliminado.");
-
-            return true;
-
-        }
-
-        catch(error){
+        if(error){
 
             console.error(error);
 
-            return false;
+            return null;
 
         }
 
-    }
+        return data;
 
-    /*=====================================================
-    RELOAD PROFILE
-    =====================================================*/
+    },
 
-    async reload(){
+/*=========================================================
+REFRESH PROFILE
+=========================================================*/
+
+    async refresh(){
+
+        this.profile=null;
 
         return await this.getCurrentProfile();
 
+    },
+
+/*=========================================================
+UPDATE PROFILE
+=========================================================*/
+
+    async update(values={}){
+
+        const user=
+
+            await this.getCurrentUser();
+
+        if(!user){
+
+            return null;
+
+        }
+
+        const{
+
+            data,
+
+            error
+
+        }=
+
+        await supabase
+
+        .from("profiles")
+
+        .update(values)
+
+        .eq(
+
+            "uid",
+
+            user.uid
+
+        )
+
+        .select()
+
+        .single();
+
+        if(error){
+
+            console.error(error);
+
+            return null;
+
+        }
+
+        this.profile=data;
+
+        return data;
+
+    },
+
+/*=========================================================
+UPDATE XP
+=========================================================*/
+
+    async updateXP(xp){
+
+        return await this.update({
+
+            xp
+
+        });
+
+    },
+
+/*=========================================================
+UPDATE LEVEL
+=========================================================*/
+
+    async updateLevel(level){
+
+        return await this.update({
+
+            level
+
+        });
+
+    },
+
+/*=========================================================
+UPDATE MAGNOPOINTS
+=========================================================*/
+
+    async updateMagnoPoints(points){
+
+        return await this.update({
+
+            magnopoints:points
+
+        });
+
+    },
+
+/*=========================================================
+UPDATE MICROCOINS
+=========================================================*/
+
+    async updateMicroCoins(coins){
+
+        return await this.update({
+
+            microcoins:coins
+
+        });
+
+    },
+
+/*=========================================================
+UPDATE REPUTATION
+=========================================================*/
+
+    async updateReputation(reputation){
+
+        return await this.update({
+
+            reputation
+
+        });
+
+    },
+
+/*=========================================================
+UPDATE FOLLOWERS
+=========================================================*/
+
+    async updateFollowers(followers){
+
+        return await this.update({
+
+            followers
+
+        });
+
+    },
+
+/*=========================================================
+UPDATE FOLLOWING
+=========================================================*/
+
+    async updateFollowing(following){
+
+        return await this.update({
+
+            following
+
+        });
+
+    },
+
+/*=========================================================
+UPDATE AVATAR
+=========================================================*/
+
+    async updateAvatar(avatar){
+
+        return await this.update({
+
+            avatar
+
+        });
+
+    },
+
+/*=========================================================
+UPDATE BANNER
+=========================================================*/
+
+    async updateBanner(banner){
+
+        return await this.update({
+
+            banner
+
+        });
+
+    },
+
+/*=========================================================
+UPDATE BIO
+=========================================================*/
+
+    async updateBio(bio){
+
+        return await this.update({
+
+            bio
+
+        });
+
+    },
+
+/*=========================================================
+CLEAR CACHE
+=========================================================*/
+
+    clear(){
+
+        this.user=null;
+
+        this.profile=null;
+
+    },
+
+/*=========================================================
+SIGN OUT
+=========================================================*/
+
+    async logout(){
+
+        this.clear();
+
+        await auth.signOut();
+
+    },
+
+/*=========================================================
+GETTERS
+=========================================================*/
+
+    get uid(){
+
+        return this.user
+
+            ? this.user.uid
+
+            : null;
+
+    },
+
+    get email(){
+
+        return this.user
+
+            ? this.user.email
+
+            : null;
+
+    },
+
+    get name(){
+
+        return this.profile
+
+            ? this.profile.full_name
+
+            : "";
+
+    },
+
+    get avatar(){
+
+        return this.profile
+
+            ? this.profile.avatar
+
+            : "";
+
+    },
+
+    get level(){
+
+        return this.profile
+
+            ? this.profile.level
+
+            : 1;
+
+    },
+
+    get xp(){
+
+        return this.profile
+
+            ? this.profile.xp
+
+            : 0;
+
+    },
+
+    get magnopoints(){
+
+        return this.profile
+
+            ? this.profile.magnopoints
+
+            : 0;
+
+    },
+
+    get microcoins(){
+
+        return this.profile
+
+            ? this.profile.microcoins
+
+            : 0;
+
+    },
+
+    get reputation(){
+
+        return this.profile
+
+            ? this.profile.reputation
+
+            : 0;
+
     }
 
-}
+};
 
 /*=========================================================
 EXPORT
 =========================================================*/
 
-const profileService = new ProfileService();
-
-export default profileService;
+export default ProfileService;
 
 /*=========================================================
 END
@@ -431,9 +679,8 @@ END
 
 console.log(
 
-"%cProfile Service Ready",
+    "%c✓ Profile Service Ready",
 
-"color:#00FFD5;font-size:14px;font-weight:bold;"
+    "color:#00FFD5;font-size:15px;font-weight:bold;"
 
-);
-
+);   
