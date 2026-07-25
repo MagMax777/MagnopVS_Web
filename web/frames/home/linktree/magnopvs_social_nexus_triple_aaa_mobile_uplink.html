@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>SOCIAL_NEXUS | MagnopVS Terminal</title>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#0e0e0f",
+                    "secondary": "#ffabf3",
+                    "on-primary-container": "#006970",
+                    "background": "#131314",
+                    "on-error-container": "#ffdad6",
+                    "on-primary": "#00363a",
+                    "surface-dim": "#131314",
+                    "inverse-on-surface": "#313031",
+                    "surface-container-low": "#1c1b1c",
+                    "secondary-fixed": "#ffd7f5",
+                    "primary-fixed-dim": "#00dbe9",
+                    "surface-container-high": "#2a2a2b",
+                    "surface-container": "#201f20",
+                    "surface-container-highest": "#353436",
+                    "inverse-primary": "#006970",
+                    "outline": "#849495",
+                    "tertiary-fixed-dim": "#59d8de",
+                    "secondary-container": "#fe00fe",
+                    "on-error": "#690005",
+                    "tertiary": "#d7fdff",
+                    "on-primary-fixed-variant": "#004f54",
+                    "on-secondary-container": "#500050",
+                    "on-primary-fixed": "#002022",
+                    "surface-tint": "#00dbe9",
+                    "tertiary-fixed": "#79f5fb",
+                    "surface-variant": "#353436",
+                    "primary-container": "#00f0ff",
+                    "primary-fixed": "#7df4ff",
+                    "error-container": "#93000a",
+                    "secondary-fixed-dim": "#ffabf3",
+                    "outline-variant": "#3b494b",
+                    "surface-bright": "#3a393a",
+                    "surface": "#131314",
+                    "on-tertiary-fixed": "#002021",
+                    "tertiary-container": "#6fecf2",
+                    "error": "#ffb4ab",
+                    "on-surface": "#e5e2e3",
+                    "on-secondary-fixed": "#380038",
+                    "on-secondary": "#5b005b",
+                    "on-tertiary": "#003739",
+                    "on-secondary-fixed-variant": "#810081",
+                    "primary": "#dbfcff",
+                    "on-tertiary-fixed-variant": "#004f52",
+                    "on-tertiary-container": "#006a6e",
+                    "on-surface-variant": "#b9cacb",
+                    "inverse-surface": "#e5e2e3",
+                    "on-background": "#e5e2e3"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "grid-unit": "8px",
+                    "margin-mobile": "16px",
+                    "max-width": "1440px",
+                    "margin-desktop": "64px"
+            },
+            "fontFamily": {
+                    "data-mono": ["Orbitron"],
+                    "headline-lg-mobile": ["Audiowide"],
+                    "headline-lg": ["Audiowide"],
+                    "body-md": ["Orbitron"],
+                    "label-caps": ["Orbitron"],
+                    "display-xl": ["Audiowide"],
+                    "headline-md": ["Audiowide"],
+                    "headline-md-mobile": ["Audiowide"],
+                    "body-lg": ["Orbitron"],
+                    "label-telemetry": ["Orbitron"]
+            },
+            "fontSize": {
+                    "data-mono": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "400"}],
+                    "headline-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.2em", "fontWeight": "700"}],
+                    "display-xl": ["72px", {"lineHeight": "80px", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                    "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "400"}],
+                    "headline-md-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                    "label-telemetry": ["10px", {"lineHeight": "12px", "letterSpacing": "0.1em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0e0e0f;
+            color: #e5e2e3;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .hex-grid {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60L4.02 45V15z' fill-rule='evenodd' stroke='%2300f0ff' stroke-width='0.5' fill='none' opacity='0.05'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+        }
+
+        .glass-card {
+            background: rgba(32, 31, 32, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: inset 0 0 15px rgba(0, 240, 255, 0.03);
+        }
+
+        .energy-stroke {
+            border: 1px solid transparent;
+            background: linear-gradient(#201f20, #201f20) padding-box,
+                        linear-gradient(to bottom right, #00dbe9, transparent, #fe00fe) border-box;
+        }
+
+        .active-glow {
+            box-shadow: 0 0 15px rgba(0, 219, 233, 0.4);
+        }
+
+        .glitch-text:hover {
+            animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .nexus-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .floating-artifact {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="max-w-[480px] mx-auto min-h-screen relative flex flex-col font-body-md">
+<!-- Background Layers -->
+<div class="fixed inset-0 z-0 bg-surface-container-lowest"></div>
+<div class="fixed inset-0 z-[1] hex-grid opacity-20"></div>
+<div class="fixed top-[-10%] right-[-10%] w-64 h-64 bg-primary-container/10 blur-[80px] rounded-full z-[1]"></div>
+<div class="fixed bottom-[5%] left-[-10%] w-80 h-80 bg-secondary-container/5 blur-[100px] rounded-full z-[1]"></div>
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 h-16 max-w-[480px] mx-auto bg-surface/10 backdrop-blur-xl border-b border-outline-variant/30">
+<div class="flex items-center gap-3">
+<div class="relative w-10 h-10 rounded-full border border-primary/30 overflow-hidden bg-surface-container shadow-[0_0_10px_rgba(0,219,233,0.3)]">
+<img class="w-full h-full object-cover grayscale brightness-125" data-alt="A highly detailed holographic profile portrait of a futuristic digital operator wearing a sleek tech-wear visor. The aesthetic is clean and high-fidelity sci-fi, using a palette of deep obsidian blacks and vibrant celestial blue accents. Subtle data streams and digital artifacts float around the subject against a blurred high-tech void background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCScEDSCSFA_can0tmHYMhetmrG3V-3LRF4-9CK37WTKU9EFS_XebNUTkwP0nQMNzETi1R_rZgh13VW5gZEVBnaemKOv6es5AUOnNCKsfsrzK5q1Cs2ll8LidTXERw9iyZWd3DgFIHz4v3-RY0Ar6HrZkYGYAobChMFWm_qVdpJCvPhl15uPVmNjPgOoCHkwKFm8IfQlKh8VFv7Nn4qafBMfzNyse40OT98b-PmRLaBU4CZ3jRyDqtMpK3J1S96_HkrPjO4CsjzoOHT"/>
+</div>
+<h1 class="font-headline-md-mobile text-headline-md-mobile text-primary tracking-widest">SOCIAL_NEXUS</h1>
+</div>
+<button class="text-primary hover:text-secondary transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined">sensors</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="relative z-10 pt-20 pb-24 px-6 flex flex-col gap-8 flex-1">
+<!-- Content Visors Section -->
+<section class="space-y-4">
+<div class="flex justify-between items-end px-1">
+<h2 class="font-headline-md-mobile text-[18px] text-primary-fixed-dim tracking-tight">ACTIVE_VISORS</h2>
+<span class="font-data-mono text-[10px] text-outline opacity-60">TRANS: 12.4GB</span>
+</div>
+<div class="flex flex-col gap-4">
+<!-- YouTube Feature Visor -->
+<div class="group relative energy-stroke rounded-xl overflow-hidden glass-card transition-all duration-300 hover:active-glow">
+<div class="aspect-video relative">
+<img class="w-full h-full object-cover" data-alt="A cinematic still from a high-budget sci-fi narrative video. A character in bioluminescent armor stands overlooking a sprawling neon-lit megacity at night under a magenta sky. The scene is rendered with ultra-realistic textures and dramatic volumetric lighting in shades of aquamarine and violet, capturing a sense of epic scale and high-tech mystery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAar2vLM6S2xR_qDgI8Gd4ZPm3Lu0aJ_XaIXzpGnrFDwn9IniFeYbhXnZFbtOdwDL4J5XP5xsFrvMzlLGNNPm2ni1mHDwNNn_7H_uItzwlxizIcpAC8zRRuSsBLEtFn9DFMWsI7sCA2cGKRkP8sAfKGm5Jagd2dF3FLIqPP50xt5a59uVjP-xjoNwVXWHQ3i4s2AhPqG1JN4sIKy1PLgnZxrXnFwYh_gB0CrxJ4_9hYiwD1MmeqcqKng8XPeIXePYR943ah1u_Uqvap"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4">
+<span class="font-label-caps text-secondary text-[10px] mb-1 block">LATEST SAGA TRANSMISSION</span>
+<h3 class="font-headline-md-mobile text-[16px] text-primary leading-tight">QUANTVM MATRIX: THE AWAKENING</h3>
+</div>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<div class="w-12 h-12 rounded-full bg-primary/20 backdrop-blur-md flex items-center justify-center border border-primary/40">
+<span class="material-symbols-outlined text-primary text-3xl">play_arrow</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Instagram Grid Visor (Asymmetric) -->
+<div class="grid grid-cols-2 gap-3">
+<div class="relative aspect-square rounded-xl overflow-hidden glass-card border border-outline-variant/30 group">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A minimalist close-up of a high-tech artifact, a crystalline device pulsing with deep violet internal light. The background is a matte black studio setting with sharp editorial shadows. The visual style is premium sci-fi, focusing on material quality and light refraction through the crystal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlFam7HvbrdzzI62vWkPPqc2t3vBuUgadWnB5sBP21FswNDG4GlqwPfWjLNtHvIVozJinKvWk1rF3iLouLQy6G1suVpxdukk5fta3TTjHbXT5sA5ovXvyPoBQdt5Ra-C_J_15APYuO2yq5g-R-X0UIDp9zBE74tzw_YwItWApV9GJNrixHCx6Qn-JrH_RINib6D2WM9Qgi3DxE_mkqi8P3BdCovSmIkUKZGnBt2rujixjijRpyff3VX8hO6eYQ0Isrb0ZFVmceHki-"/>
+<div class="absolute top-2 right-2 bg-black/60 backdrop-blur-sm p-1 rounded-md">
+<span class="material-symbols-outlined text-primary text-sm">filter_none</span>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<div class="h-1/2 relative rounded-xl overflow-hidden glass-card border border-outline-variant/30">
+<img class="w-full h-full object-cover" data-alt="Abstract digital artwork showing a network of glowing celestial blue data lines connecting floating geometric shards. The style is editorial tech-art, using a high-contrast palette of black and neon blue with a slight chromatic aberration effect at the edges." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoTWNwiAvAPIDNws0XwtuIP8hq54gBJsppKhbp2EN9jyMs8WVtXwR95WfB8FAmkhTXgw2IEWdwjPxbdDS1uDwiAyfPvXEjJ8Byc33ovIQUCYVPCkt9wbKzenCFWJayY-Dpvz5uui8BSo3bEjec8KpeZp9iGyr-wt0zEt8VFBWZrd20UDMTXx_SQMptu38Ul6YsJs4_XW3lCGRlKLU4-qPoVM3ADTL503K5gqoTLpSS27acKpZjP6Yz8eKiSr-qdHzxgYD-xH6_MWGG"/>
+</div>
+<div class="h-1/2 flex items-center justify-center glass-card rounded-xl border border-outline-variant/30 bg-primary/5">
+<div class="text-center">
+<p class="font-headline-md-mobile text-[12px] text-primary">VISUAL</p>
+<p class="font-data-mono text-[10px] text-secondary">VIGNETTES</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Tactical Uplink Nodes -->
+<section class="space-y-4">
+<div class="flex justify-between items-end px-1">
+<h2 class="font-headline-md-mobile text-[18px] text-primary-fixed-dim tracking-tight">UPLINK_NODES</h2>
+<span class="font-data-mono text-[10px] text-outline opacity-60">NODES: 07_ACTIVE</span>
+</div>
+<div class="grid grid-cols-1 gap-3">
+<!-- Node: YouTube -->
+<a class="group flex items-center justify-between p-4 rounded-xl glass-card border border-outline-variant/30 hover:border-primary/50 transition-all duration-300" href="#">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center border border-outline-variant/50 group-hover:border-primary/40 group-hover:bg-primary/5">
+<span class="material-symbols-outlined text-primary">videocam</span>
+</div>
+<div>
+<span class="font-headline-md-mobile text-[14px] text-on-surface block tracking-wide">YOUTUBE</span>
+<span class="font-data-mono text-[10px] text-outline">CHANNEL_MAIN</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-data-mono text-[12px] text-secondary-fixed block">99.8% SYNC</span>
+<span class="font-data-mono text-[8px] text-tertiary-fixed-dim opacity-50 uppercase">Latency: 12ms</span>
+</div>
+</a>
+<!-- Node: Instagram -->
+<a class="group flex items-center justify-between p-4 rounded-xl glass-card border border-outline-variant/30 hover:border-secondary/50 transition-all duration-300" href="#">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center border border-outline-variant/50 group-hover:border-secondary/40 group-hover:bg-secondary/5">
+<span class="material-symbols-outlined text-secondary">camera</span>
+</div>
+<div>
+<span class="font-headline-md-mobile text-[14px] text-on-surface block tracking-wide">INSTAGRAM</span>
+<span class="font-data-mono text-[10px] text-outline">VISUAL_FEED</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-data-mono text-[12px] text-secondary-fixed block">100% SYNC</span>
+<span class="font-data-mono text-[8px] text-tertiary-fixed-dim opacity-50 uppercase">Buffer: 0.0ms</span>
+</div>
+</a>
+<!-- Node: Discord -->
+<a class="group flex items-center justify-between p-4 rounded-xl glass-card border border-outline-variant/30 hover:border-primary-fixed/50 transition-all duration-300" href="#">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center border border-outline-variant/50 group-hover:border-primary-fixed/40 group-hover:bg-primary-fixed/5">
+<span class="material-symbols-outlined text-primary-fixed">forum</span>
+</div>
+<div>
+<span class="font-headline-md-mobile text-[14px] text-on-surface block tracking-wide">DISCORD</span>
+<span class="font-data-mono text-[10px] text-outline">COUNCIL_BASE</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-data-mono text-[12px] text-secondary-fixed block">98.4% SYNC</span>
+<span class="font-data-mono text-[8px] text-tertiary-fixed-dim opacity-50 uppercase">Voices: 1.2k</span>
+</div>
+</a>
+<!-- Grid Node Row -->
+<div class="grid grid-cols-2 gap-3">
+<!-- WhatsApp -->
+<a class="group p-4 rounded-xl glass-card border border-outline-variant/30 hover:border-tertiary/50 transition-all duration-300" href="#">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-tertiary text-[20px]">chat</span>
+<span class="font-headline-md-mobile text-[12px] text-on-surface tracking-wider">WHATSAPP</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-data-mono text-[10px] text-outline">SECURE</span>
+<span class="font-data-mono text-[10px] text-tertiary">99.9%</span>
+</div>
+</a>
+<!-- Twitch -->
+<a class="group p-4 rounded-xl glass-card border border-outline-variant/30 hover:border-secondary-container/50 transition-all duration-300" href="#">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-secondary-container text-[20px]">stream</span>
+<span class="font-headline-md-mobile text-[12px] text-on-surface tracking-wider">TWITCH</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-data-mono text-[10px] text-outline">LIVE_SOON</span>
+<span class="font-data-mono text-[10px] text-secondary-container">READY</span>
+</div>
+</a>
+</div>
+<!-- Footer Nodes Small -->
+<div class="grid grid-cols-2 gap-3">
+<a class="group flex items-center justify-between px-4 py-3 rounded-xl glass-card border border-outline-variant/30 hover:border-primary/40 transition-all" href="#">
+<span class="font-headline-md-mobile text-[11px] text-on-surface/80">FACEBOOK</span>
+<span class="font-data-mono text-[9px] text-outline">LINKED</span>
+</a>
+<a class="group flex items-center justify-between px-4 py-3 rounded-xl glass-card border border-outline-variant/30 hover:border-secondary/40 transition-all" href="#">
+<span class="font-headline-md-mobile text-[11px] text-on-surface/80">KICK</span>
+<span class="font-data-mono text-[9px] text-outline">UPLINK</span>
+</a>
+</div>
+</div>
+</section>
+<!-- The CBC Guide Peripheral -->
+<div class="flex justify-center py-4">
+<div class="p-4 rounded-full glass-card border border-primary/20 flex items-center gap-3 floating-artifact">
+<div class="w-6 h-6 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-fixed-dim text-lg">cruelty_free</span>
+</div>
+<p class="font-data-mono text-[10px] text-primary/70 tracking-widest uppercase">CBC: Follow the White Rabbit to more lore...</p>
+</div>
+</div>
+</main>
+<!-- Footer Telemetry -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex flex-col items-center pb-6 space-y-2 bg-gradient-to-t from-background to-transparent">
+<div class="w-full h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent mb-2"></div>
+<div class="flex items-center gap-8 px-8">
+<div class="flex flex-col items-center">
+<span class="font-label-telemetry text-tertiary uppercase">Latency</span>
+<span class="font-data-mono text-[10px] text-secondary animate-pulse">0.04ms</span>
+</div>
+<div class="w-[1px] h-4 bg-outline-variant/30"></div>
+<div class="flex flex-col items-center">
+<span class="font-label-telemetry text-tertiary uppercase">Sync Status</span>
+<span class="font-data-mono text-[10px] text-secondary">SYNC: 100%</span>
+</div>
+<div class="w-[1px] h-4 bg-outline-variant/30"></div>
+<div class="flex flex-col items-center">
+<span class="font-label-telemetry text-tertiary uppercase">Signal</span>
+<span class="font-data-mono text-[10px] text-secondary animate-pulse">LIVE SIGNAL</span>
+</div>
+</div>
+</footer>
+<!-- Interactive Layer: Glitch Overlay -->
+<div class="fixed inset-0 pointer-events-none z-[100] bg-primary/5 mix-blend-overlay opacity-0" id="glitch-overlay"></div>
+<script>
+        // Micro-interactions and Atmospheric Effects
+        document.addEventListener('DOMContentLoaded', () => {
+            const nodes = document.querySelectorAll('a');
+            const overlay = document.getElementById('glitch-overlay');
+
+            nodes.forEach(node => {
+                node.addEventListener('mouseenter', () => {
+                    overlay.style.opacity = '0.3';
+                    setTimeout(() => overlay.style.opacity = '0', 50);
+                });
+                
+                node.addEventListener('mousedown', () => {
+                    node.style.transform = 'scale(0.98)';
+                });
+                
+                node.addEventListener('mouseup', () => {
+                    node.style.transform = 'scale(1)';
+                });
+            });
+
+            // Random Telemetry Updates
+            const latencyEl = document.querySelector('footer .animate-pulse');
+            setInterval(() => {
+                if (latencyEl) {
+                    const newVal = (Math.random() * 0.1).toFixed(2);
+                    latencyEl.innerText = `${newVal}ms`;
+                }
+            }, 3000);
+        });
+    </script>
+</body></html>
