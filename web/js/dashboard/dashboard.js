@@ -866,3 +866,34 @@ async start(){
     this.listen();
 
 }
+
+/*=========================================================
+DAYSYNC
+=========================================================*/
+
+const daySyncModal=document.getElementById("daySyncModal");
+
+const closeDaySync=document.getElementById("closeDaySync");
+
+const claimReward=document.getElementById("claimReward");
+
+
+window.addEventListener("load",()=>{
+
+daySyncModal.style.display="flex";
+
+});
+
+
+closeDaySync.addEventListener("click",()=>{
+
+daySyncModal.style.display="none";
+
+});
+
+
+claimReward.addEventListener("click",()=>{
+
+daySyncModal.style.display="none";
+
+});
