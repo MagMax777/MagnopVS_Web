@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VESSEL_OS // PHYSIOLOGY_HUD</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Space+Grotesk:wght@400;600;700&amp;family=Orbitron:wght@400;700&amp;family=Audiowide&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-bright": "#333b3b",
+                        "on-tertiary": "#3b2f00",
+                        "primary": "#dbfcff",
+                        "on-primary-container": "#006970",
+                        "surface-container-highest": "#2e3637",
+                        "on-secondary": "#3c0090",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-low": "#151d1e",
+                        "surface-container": "#192122",
+                        "outline-variant": "#3b494b",
+                        "on-secondary-container": "#ddcdff",
+                        "surface-tint": "#00dbe9",
+                        "error-container": "#93000a",
+                        "primary-fixed-dim": "#00dbe9",
+                        "inverse-on-surface": "#2a3233",
+                        "tertiary-fixed": "#ffe179",
+                        "surface-dim": "#0d1515",
+                        "tertiary-fixed-dim": "#eac324",
+                        "on-primary-fixed": "#002022",
+                        "secondary-fixed": "#e9ddff",
+                        "on-background": "#dce4e5",
+                        "secondary-fixed-dim": "#d1bcff",
+                        "primary-container": "#00f0ff",
+                        "on-primary-fixed-variant": "#004f54",
+                        "on-primary": "#00363a",
+                        "tertiary": "#fff5de",
+                        "on-secondary-fixed-variant": "#5700c9",
+                        "secondary": "#d1bcff",
+                        "on-tertiary-fixed": "#231b00",
+                        "primary-fixed": "#7df4ff",
+                        "surface-variant": "#2e3637",
+                        "on-surface-variant": "#b9cacb",
+                        "surface": "#0d1515",
+                        "on-tertiary-container": "#715d00",
+                        "on-surface": "#dce4e5",
+                        "on-secondary-fixed": "#23005b",
+                        "inverse-surface": "#dce4e5",
+                        "outline": "#849495",
+                        "surface-container-lowest": "#080f10",
+                        "tertiary-container": "#fed639",
+                        "background": "#0d1515",
+                        "surface-container-high": "#232b2c",
+                        "on-tertiary-fixed-variant": "#554500",
+                        "inverse-primary": "#006970",
+                        "error": "#ffb4ab",
+                        "on-error": "#690005",
+                        "secondary-container": "#7000ff"
+                    },
+                    fontFamily: {
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-lg": ["Space Grotesk"],
+                        "display-lg": ["Space Grotesk"],
+                        "data-mono": ["JetBrains Mono"],
+                        "orbitron": ["Orbitron"],
+                        "audiowide": ["Audiowide"]
+                    },
+                    fontSize: {
+                        "label-caps": ["12px", { lineHeight: "1.0", letterSpacing: "0.1em", fontWeight: "500" }],
+                        "headline-lg": ["32px", { lineHeight: "1.2", fontWeight: "600" }],
+                        "display-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "data-mono": ["14px", { lineHeight: "1.4", fontWeight: "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #0d1515;
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDP2cVWksJ_B8cNpFOPegyKyr0bFgIeeS60IAa3xStYXIWrAnVWlMvtA77nplWQCgbrYwZTTBbY-nVMPlbar31-nrlwXAEeDLwGmtVwVsnsCC1ABWhvZ36wOOL_U6GcqqhHP_GMxJiiLmy1PdN5jLWgGd-4fB5cj8xD4kpr6ksb74aDmPJP0x30mXgkvyLxjZJP3XKMtI7wqQs0p6HOg4iy-Xs9QXYBuAgZEI6PlmFV_-1Zeo1D4o8VpGATUE3Fw_ClC_DQyd9kXaBc');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #dce4e5;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(13, 21, 21, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 219, 233, 0.2);
+            transition: all 0.3s ease-out;
+        }
+
+        .glass-panel:hover {
+            border-color: rgba(0, 219, 233, 0.4);
+            box-shadow: 0 0 15px rgba(0, 219, 233, 0.1);
+        }
+
+        .scanline {
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 219, 233, 0.05) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+
+        .glow-cyan { text-shadow: 0 0 10px rgba(0, 219, 233, 0.6); }
+        .glow-magenta { text-shadow: 0 0 10px rgba(255, 0, 255, 0.6); }
+        .glow-violet { text-shadow: 0 0 10px rgba(138, 43, 226, 0.6); }
+
+        .coordinate-label {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            font-size: 8px;
+            font-family: 'JetBrains Mono';
+            color: rgba(185, 202, 203, 0.5);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+        .pulse-active { animation: pulse 2s infinite ease-in-out; }
+    </style>
+</head>
+<body class="font-body-md text-on-background min-h-screen flex flex-col">
+<!-- Header Section -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface/20 backdrop-blur-xl border-b border-primary/20">
+<div class="flex justify-between items-center w-full px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="flex flex-col">
+<span class="font-display-lg text-headline-lg tracking-tighter text-surface-tint drop-shadow-[0_0_8px_rgba(0,219,233,0.6)] font-audiowide uppercase">
+                    VESSEL-OS // COMMAND-01
+                </span>
+<span class="font-label-caps text-[10px] text-primary/60">SYSTEM STATUS: OPTIMAL // ENCRYPTED_STREAM_01</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-primary border-b-2 border-primary-container pb-1 font-label-caps transition-all" href="#">Telemetry</a>
+<a class="text-on-surface-variant font-label-caps hover:text-primary transition-all" href="#">Optimization</a>
+<a class="text-on-surface-variant font-label-caps hover:text-primary transition-all" href="#">Calibration</a>
+<a class="text-on-surface-variant font-label-caps hover:text-primary transition-all" href="#">Logs</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary-fixed hover:bg-surface-bright/30 p-2 transition-all">notifications_active</button>
+<button class="material-symbols-outlined text-primary-fixed hover:bg-surface-bright/30 p-2 transition-all">settings</button>
+<div class="w-10 h-10 border border-primary/40 p-0.5">
+<img class="w-full h-full object-cover grayscale brightness-125" data-alt="A professional biometric operator portrait with sharp, focused lighting against a dark technical background. The subject has subtle cybernetic interface lines faintly visible on their temple. The style is cinematic, high-contrast, and clean, matching a futuristic command center aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCt8IEkcGRiaBtEmJoPy6tb0NkKjNMnyhJtGeXQswU01SZRor4mVgX6WcCv1de5At0LrO2EmVT5-J9fXdVqn8QcBVEbiJaAnXwZjEWB-eahsN5a1Vk49biN2Y1GeUwAiZU2wd5NSZp5yiDqlGFNjhe4TRhMdhL21KqR5v7e7omPwXtInqfkF6o4d4tiRjwRf0w-2J4rEm3rLRP15Dv2kUXQMS-mpSCnJ18zDikmYwFsVYTafSVcYZXn4aUmJ5Na-8Kl3AE-cDJw9K_W"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Side Navigation (Mobile/Tablet Pivot) -->
+<aside class="fixed left-0 top-0 h-full z-40 flex flex-col pt-24 border-r border-outline-variant/20 bg-surface-dim/40 backdrop-blur-md w-16 md:w-64 hidden md:flex">
+<div class="px-6 py-4 border-b border-outline-variant/10">
+<h2 class="font-audiowide text-primary-fixed text-sm">OPERATOR_01</h2>
+<p class="text-[10px] font-label-caps text-surface-tint">VITALITY_OPTIMAL</p>
+</div>
+<div class="flex flex-col mt-4">
+<a class="text-primary-container bg-primary/10 border-l-4 border-primary-container p-4 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps text-xs">Neural</span>
+</a>
+<a class="text-on-surface-variant p-4 flex items-center gap-3 hover:bg-surface-container-highest/50 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="font-label-caps text-xs">Somatic</span>
+</a>
+<a class="text-on-surface-variant p-4 flex items-center gap-3 hover:bg-surface-container-highest/50 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">biotech</span>
+<span class="font-label-caps text-xs">Metabolic</span>
+</a>
+<a class="text-on-surface-variant p-4 flex items-center gap-3 hover:bg-surface-container-highest/50 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">monitor_heart</span>
+<span class="font-label-caps text-xs">Vitals</span>
+</a>
+<a class="text-on-surface-variant p-4 flex items-center gap-3 hover:bg-surface-container-highest/50 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">database</span>
+<span class="font-label-caps text-xs">Archive</span>
+</a>
+</div>
+<div class="mt-auto p-4">
+<button class="w-full bg-primary/10 border border-primary text-primary font-label-caps py-2 hover:bg-primary hover:text-on-primary transition-all">SYNC VESSEL</button>
+</div>
+</aside>
+<!-- Main Dashboard Area -->
+<main class="flex-grow pt-24 pb-24 md:pl-64 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full">
+<div class="grid grid-cols-12 gap-6 h-full mt-4">
+<!-- Left Panel: Biometric Telemetry -->
+<section class="col-span-12 lg:col-span-3 space-y-6">
+<div class="glass-panel relative p-4">
+<span class="coordinate-label">SECTOR-01 // TELEMETRY</span>
+<h3 class="font-audiowide text-xs text-primary mb-4 border-l-2 border-primary pl-2 uppercase">Biorhythms</h3>
+<div class="space-y-6">
+<!-- Chart Mockups -->
+<div class="space-y-1">
+<div class="flex justify-between text-[10px] font-label-caps text-on-surface-variant">
+<span>Physical</span>
+<span class="text-primary">94%</span>
+</div>
+<div class="h-12 w-full bg-surface-container-low overflow-hidden relative border-b border-primary/20">
+<svg class="absolute inset-0 w-full h-full" preserveaspectratio="none">
+<path class="drop-shadow-[0_0_4px_#00dbe9]" d="M0 40 Q 50 10 100 40 T 200 20 T 300 40 T 400 10" fill="none" stroke="#00dbe9" stroke-width="1"></path>
+</svg>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-[10px] font-label-caps text-on-surface-variant">
+<span>Emotional</span>
+<span class="text-secondary">72%</span>
+</div>
+<div class="h-12 w-full bg-surface-container-low overflow-hidden relative border-b border-secondary/20">
+<svg class="absolute inset-0 w-full h-full" preserveaspectratio="none">
+<path class="drop-shadow-[0_0_4px_#d1bcff]" d="M0 30 Q 80 50 150 10 T 250 40 T 400 25" fill="none" stroke="#d1bcff" stroke-width="1"></path>
+</svg>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-[10px] font-label-caps text-on-surface-variant">
+<span>Intellectual</span>
+<span class="text-tertiary-container">88%</span>
+</div>
+<div class="h-12 w-full bg-surface-container-low overflow-hidden relative border-b border-tertiary-container/20">
+<svg class="absolute inset-0 w-full h-full" preserveaspectratio="none">
+<path class="drop-shadow-[0_0_4px_#fed639]" d="M0 20 Q 30 10 70 30 T 150 10 T 250 40 T 400 30" fill="none" stroke="#fed639" stroke-width="1"></path>
+</svg>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-panel relative p-4 flex flex-col items-center justify-center min-h-[200px]">
+<span class="coordinate-label">SECTOR-02 // CARDIAC</span>
+<h3 class="font-audiowide text-xs text-primary mb-4 border-l-2 border-primary pl-2 w-full uppercase text-left">Heart Hub</h3>
+<div class="relative flex flex-col items-center">
+<span class="material-symbols-outlined text-primary-fixed text-5xl pulse-active mb-2" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<div class="font-orbitron text-4xl text-primary font-bold">58 <span class="text-sm font-normal text-on-surface-variant">BPM</span></div>
+<div class="text-[10px] font-label-caps text-on-surface-variant mt-2">HRV: 112ms // STABLE</div>
+</div>
+</div>
+</section>
+<!-- Center Panel: Somatic Map -->
+<section class="col-span-12 lg:col-span-6 relative flex flex-col">
+<div class="glass-panel relative flex-grow p-6 flex flex-col items-center justify-center overflow-hidden">
+<span class="coordinate-label">CORE-00 // VESSEL_MAP</span>
+<div class="absolute inset-0 opacity-10 scanline"></div>
+<div class="text-center mb-8 relative z-10">
+<h1 class="font-audiowide text-2xl md:text-3xl text-primary glow-cyan uppercase">Physiology_HUD</h1>
+<p class="font-label-caps text-xs text-surface-tint/60">COORDINATE MAPPING // HUMAN_AS_SYSTEM</p>
+</div>
+<!-- Avatar Wireframe -->
+<div class="relative w-full max-w-sm h-full flex items-center justify-center">
+<img class="max-h-[500px] opacity-80 mix-blend-screen" data-alt="A stylized, high-tech human silhouette wireframe glowing in cyan blue against a deep black background. The image features medical-grade data points and scanning lines intersecting the body regions. Hexagonal grid patterns are subtly overlaid on the skin surface. The overall aesthetic is clean, medical, and futuristic, reminiscent of an advanced medical diagnostic screen." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfALcgE9hEDQXV2QD6dOi6Lodeb14alIo8GiCiKNP5Vhb0XKi1w_ptd25zEgUSGjzCB346SiITj02ZmMW4DOUZb1wmRPIMh43DUmTdFgoZyvMO1Yqq9ySxt_-WHi-B33sx7lwAoKciA16Bou9NxB-PHmADqkqc6SVGNjaMhZmHFNCmWdbxRSyNTDg0WGzAbQAmQMUdh46C2nSrl80Z6rvNofNtAobudaWr4PK-VYBfK2SQA2muSsXvGO4Wt41-1dcBdatgiQQLny0y"/>
+<!-- Data Callouts -->
+<div class="absolute top-1/4 left-0 border-l border-primary/50 pl-2">
+<p class="font-orbitron text-[10px] text-primary">BRAIN_WAVE</p>
+<p class="font-label-caps text-[8px] text-on-surface-variant">GAMMA_PEAK: 40Hz</p>
+</div>
+<div class="absolute top-1/2 right-0 border-r border-magenta/50 pr-2 text-right">
+<p class="font-orbitron text-[10px] text-surface-tint">METABOLIC_FLUX</p>
+<p class="font-label-caps text-[8px] text-on-surface-variant">KETONES: 1.8 mmol/L</p>
+</div>
+<div class="absolute bottom-1/4 left-10 border-l border-violet/50 pl-2">
+<p class="font-orbitron text-[10px] text-secondary">KINETIC_LOAD</p>
+<p class="font-label-caps text-[8px] text-on-surface-variant">CNS_FATIGUE: 12%</p>
+</div>
+</div>
+<!-- SOF.IA Tactical Advice (Floating Terminal) -->
+<div class="absolute bottom-6 right-6 w-64 glass-panel border-l-4 border-primary p-3 shadow-2xl animate-pulse-slow">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-sm">precision_manufacturing</span>
+<span class="font-audiowide text-[10px] text-primary">SOF.IA ADVISORY</span>
+</div>
+<p class="font-data-mono text-[10px] leading-relaxed text-primary/80">
+                            &gt; CALIBRATION REQUIRED: SOMATIC COHERENCE AT 84%. INCREASE MAGNESIUM INTAKE BEFORE NEXT KINETIC PHASE. NEURAL SYNC OPTIMAL.
+                        </p>
+</div>
+</div>
+</section>
+<!-- Right Panel: Fuel & Kinetic Status -->
+<section class="col-span-12 lg:col-span-3 space-y-6">
+<div class="glass-panel relative p-4">
+<span class="coordinate-label">FUEL-03 // NUTRITION</span>
+<h3 class="font-audiowide text-xs text-primary mb-4 border-l-2 border-primary pl-2 uppercase">Dietary Sync</h3>
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-center bg-surface-container-highest/20 p-2 border-l-2 border-tertiary-container">
+<div>
+<p class="font-orbitron text-[10px] text-on-surface">Ketogenic</p>
+<p class="font-label-caps text-[8px] text-on-surface-variant">PHASE: ADAPTED</p>
+</div>
+<span class="font-orbitron text-sm text-tertiary-container">ACTIVE</span>
+</div>
+<div class="space-y-2 mt-2">
+<p class="font-label-caps text-[8px] text-on-surface-variant uppercase">Supplement Stack</p>
+<div class="flex flex-wrap gap-2">
+<span class="bg-surface-container-high px-2 py-1 font-data-mono text-[8px] text-primary border border-primary/20">Creatine [85%]</span>
+<span class="bg-surface-container-high px-2 py-1 font-data-mono text-[8px] text-secondary border border-secondary/20">NMN [42%]</span>
+<span class="bg-surface-container-high px-2 py-1 font-data-mono text-[8px] text-tertiary-container border border-tertiary-container/20">Omega-3 [100%]</span>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-panel relative p-4">
+<span class="coordinate-label">KINETIC-04 // STRENGTH</span>
+<h3 class="font-audiowide text-xs text-primary mb-4 border-l-2 border-primary pl-2 uppercase">Kinetic Status</h3>
+<div class="flex flex-col gap-3">
+<div class="flex justify-between items-baseline">
+<span class="font-orbitron text-xl text-primary font-bold">Hypertrophy</span>
+<span class="font-label-caps text-[8px] text-on-surface-variant">CURRENT_PHASE</span>
+</div>
+<div class="w-full bg-surface-container-low h-1 relative overflow-hidden">
+<div class="absolute left-0 top-0 h-full bg-primary" style="width: 65%;"></div>
+</div>
+<div class="flex justify-between text-[9px] font-label-caps">
+<span class="text-on-surface-variant">WEEK 3/4</span>
+<span class="text-primary">LOAD: 850kg</span>
+</div>
+<div class="mt-4 border-t border-primary/10 pt-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full border border-primary/40 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm">bolt</span>
+</div>
+<div>
+<p class="font-label-caps text-[9px] text-on-surface">ENERGY OUTPUT</p>
+<p class="font-orbitron text-xs text-primary">2,450 KCAL/DAY</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom Panel: Clinical & Aesthetic Logs -->
+<section class="col-span-12">
+<div class="glass-panel relative p-4 flex flex-col md:flex-row gap-6">
+<span class="coordinate-label">LOGS-05 // BIO_HISTORY</span>
+<div class="flex-grow">
+<h3 class="font-audiowide text-xs text-primary mb-3 uppercase">Active Protocols</h3>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="flex items-center gap-3 border-r border-primary/10 pr-4">
+<span class="material-symbols-outlined text-primary-fixed">ac_unit</span>
+<div>
+<p class="font-label-caps text-[10px] text-on-surface uppercase">Cryotherapy</p>
+<p class="font-data-mono text-[8px] text-on-surface-variant">Next: 14:00h</p>
+</div>
+</div>
+<div class="flex items-center gap-3 border-r border-primary/10 pr-4">
+<span class="material-symbols-outlined text-secondary">vaccines</span>
+<div>
+<p class="font-label-caps text-[10px] text-on-surface uppercase">NAD+ IV</p>
+<p class="font-data-mono text-[8px] text-on-surface-variant">Last: 48h ago</p>
+</div>
+</div>
+<div class="flex items-center gap-3 border-r border-primary/10 pr-4">
+<span class="material-symbols-outlined text-tertiary-container">bedtime</span>
+<div>
+<p class="font-label-caps text-[10px] text-on-surface uppercase">Deep Sleep</p>
+<p class="font-data-mono text-[8px] text-on-surface-variant">Efficiency: 89%</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-surface-tint">exposure</span>
+<div>
+<p class="font-label-caps text-[10px] text-on-surface uppercase">Photobiomod</p>
+<p class="font-data-mono text-[8px] text-on-surface-variant">Daily Cap: Met</p>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full md:w-64 border-t md:border-t-0 md:border-l border-primary/10 pt-4 md:pt-0 md:pl-6">
+<h3 class="font-audiowide text-xs text-primary mb-2 uppercase">Image Coherence</h3>
+<div class="flex items-end gap-2">
+<span class="font-orbitron text-3xl font-bold text-primary">0.92</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant pb-1">/ 1.00</span>
+</div>
+<p class="text-[8px] font-label-caps text-on-surface-variant mt-1">SYMMETRY_OPTIMIZED // DERMAL_CLARITY_HIGH</p>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-2xl border-t border-primary/30 flex justify-around items-center px-4 pb-safe py-2">
+<a class="flex flex-col items-center justify-center bg-primary-container/20 text-primary-container rounded-none p-2 border-t-2 border-primary-container" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps text-[10px]">Command</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2" href="#">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-label-caps text-[10px]">Health</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2" href="#">
+<span class="material-symbols-outlined">visibility</span>
+<span class="font-label-caps text-[10px]">Bio-Scan</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2" href="#">
+<span class="material-symbols-outlined">settings_input_component</span>
+<span class="font-label-caps text-[10px]">Calibrate</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction for data pulsing
+        document.addEventListener('DOMContentLoaded', () => {
+            const dataPoints = document.querySelectorAll('.font-orbitron');
+            dataPoints.forEach(point => {
+                point.addEventListener('mouseenter', () => {
+                    point.classList.add('glow-cyan');
+                });
+                point.addEventListener('mouseleave', () => {
+                    point.classList.remove('glow-cyan');
+                });
+            });
+        });
+    </script>
+</body></html>

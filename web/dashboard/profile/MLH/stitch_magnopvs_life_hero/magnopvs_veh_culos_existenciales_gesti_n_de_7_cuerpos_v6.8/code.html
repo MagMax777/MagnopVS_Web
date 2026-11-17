@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Vehículos Existenciales - MAGNOPVS OS v4.2.0</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Space+Grotesk:wght@700&amp;family=Hanken+Grotesk:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#7c3e5e",
+                    "surface-container-lowest": "#0b0f11",
+                    "on-tertiary-fixed-variant": "#6e3252",
+                    "surface-dim": "#101417",
+                    "secondary-fixed-dim": "#47ddc1",
+                    "tertiary-fixed-dim": "#ffafd4",
+                    "background": "#101417",
+                    "on-surface": "#e0e3e6",
+                    "glow-cyan": "#2da8e0",
+                    "inverse-on-surface": "#2d3134",
+                    "on-primary-fixed-variant": "#004c6a",
+                    "secondary-fixed": "#6af9dc",
+                    "surface-tint": "#7fd0ff",
+                    "on-primary-container": "#00597b",
+                    "tertiary": "#ffd8e7",
+                    "on-secondary-container": "#004439",
+                    "secondary": "#47ddc1",
+                    "on-secondary-fixed-variant": "#005144",
+                    "background-deep": "#0a0b12",
+                    "outline-variant": "#3f484e",
+                    "on-error": "#690005",
+                    "surface-panel": "rgba(255, 255, 255, 0.03)",
+                    "outline": "#899299",
+                    "tertiary-container": "#ffafd4",
+                    "tertiary-fixed": "#ffd8e7",
+                    "surface-container-high": "#272a2d",
+                    "primary": "#c5e7ff",
+                    "inverse-primary": "#00658b",
+                    "inverse-surface": "#e0e3e6",
+                    "on-surface-variant": "#bfc8cf",
+                    "error": "#ffb4ab",
+                    "primary-fixed-dim": "#7fd0ff",
+                    "on-tertiary": "#531c3b",
+                    "grid-line": "rgba(127, 208, 255, 0.05)",
+                    "primary-fixed": "#c5e7ff",
+                    "on-secondary": "#00382e",
+                    "on-secondary-fixed": "#00201a",
+                    "on-primary-fixed": "#001e2d",
+                    "surface-container-low": "#181c1f",
+                    "surface-bright": "#363a3d",
+                    "surface": "#101417",
+                    "on-tertiary-fixed": "#390625",
+                    "surface-container": "#1c2023",
+                    "primary-container": "#7fd0ff",
+                    "on-background": "#e0e3e6",
+                    "surface-variant": "#313538",
+                    "error-container": "#93000a",
+                    "on-error-container": "#ffdad6",
+                    "status-critical": "#93000a",
+                    "surface-container-highest": "#313538",
+                    "on-primary": "#00344a",
+                    "secondary-container": "#00bba0"
+            },
+            fontFamily: {
+              "audiowide": ["Audiowide", "sans-serif"],
+              "orbitron": ["Orbitron", "sans-serif"],
+              "micro-tag": ["JetBrains Mono"],
+              "headline-md": ["Space Grotesk"],
+              "label-caps": ["JetBrains Mono"],
+              "mono-data": ["JetBrains Mono"],
+              "display-lg": ["Space Grotesk"],
+              "body-md": ["Hanken Grotesk"],
+              "data-point": ["Hanken Grotesk"]
+            }
+          }
+        }
+      }
+    </script>
+<style>@keyframes neon-pulse {
+    0%, 100% {
+        filter: drop-shadow(0 0 2px var(--tw-shadow-color));
+        } 50% {
+        filter: drop-shadow(0 0 10px var(--tw-shadow-color));
+        }
+    }
+.neon-pulse-cyan {
+    --tw-shadow-color: #2da8e0;
+    animation: neon-pulse 3s infinite
+    }
+.neon-pulse-magenta {
+    --tw-shadow-color: #ffafd4;
+    animation: neon-pulse 4s infinite
+    }
+.hex-bg {
+    background-image: linear-gradient(to bottom, rgba(16, 20, 23, 0.95), rgba(10, 11, 18, 0.98)), url(https://lh3.googleusercontent.com/aida-public/AB6AXuA2kZ13PY1tImdKNDpEWGULZdODHj56rIlJBcIB5Qw0_6qMqbzA7NVng4kKSpSTVkeF3xZbc-6i8kmvHlP0bKJ4v-kWt2kMUIDezXmBVeVnXajg2sQNOuwSYuDaYpkHxMS-wAY3Ng-125YY8hFOCvu-z8mP0uywOif5TxRwEiuHmUty_QVy7dfbNe5Xh5w3RNsH2gwioho1XIvE38B_okvIgUgYb9bQjkBmN8HUTrpo_oq-O_dnCb7lNnturD-TYPoEXttRXK1XCTuT);
+    background-size: cover;
+    background-attachment: fixed
+    }
+.cyber-grid {
+    background-image: radial-gradient(circle, rgba(127, 208, 255, 0.1) 1px, transparent 1px);
+    background-size: 32px 32px
+    }
+.glass-panel {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(127, 208, 255, 0.15);
+    transition: all 0.3s ease
+    }
+.glass-panel:hover {
+    border-color: rgba(127, 208, 255, 0.4);
+    background: rgba(255, 255, 255, 0.05)
+    }
+.segmented-progress div {
+    height: 6px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    margin-right: 2px
+    }
+.segmented-progress div.active {
+    background: #47ddc1;
+    box-shadow: 0 0 8px #47ddc1
+    }
+.material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24
+    }
+.tab-active {
+    border-left: 2px solid #c5e7ff;
+    background: rgba(197, 231, 255, 0.05);
+    color: #c5e7ff;
+    font-weight: 700;
+    box-shadow: inset 4px 0 10px rgba(127, 208, 255, 0.1)
+    }</style>
+</head>
+<body class="bg-background text-on-surface font-orbitron selection:bg-primary selection:text-on-primary">
+<!-- Background Pattern -->
+<div class="fixed inset-0 z-[-1] hex-bg overflow-hidden" data-alt="A dark, high-tech background pattern featuring interlocking matte black hexagons with glowing cyan and electric blue light trails tracing the edges. The aesthetic is cyber-alchemical, with faint technical schematics and data points flickering in the deep space darkness. The lighting is low-key and atmospheric, emphasizing depth and futuristic mystery.">
+<div class="absolute inset-0 cyber-grid opacity-30"></div>
+</div>
+<!-- Side Navigation Shell -->
+<aside class="hidden lg:flex flex-col fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-low/50 backdrop-blur-2xl border-r border-primary/20 shadow-2xl shadow-primary/5">
+<div class="p-8 border-b border-primary/10">
+<h1 class="font-audiowide text-primary text-xl tracking-tighter">OPERATOR_01</h1>
+<p class="font-micro-tag text-[10px] text-primary/60 tracking-[0.3em] mt-1 uppercase">LVL 42 // TITAN</p>
+</div>
+<nav class="flex-1 mt-6">
+<a class="flex items-center gap-4 px-8 py-4 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps text-sm uppercase tracking-widest">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 px-8 py-4 tab-active" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label-caps text-sm uppercase tracking-widest">13 Houses</span>
+</a>
+<a class="flex items-center gap-4 px-8 py-4 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps text-sm uppercase tracking-widest">Missions</span>
+</a>
+<a class="flex items-center gap-4 px-8 py-4 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps text-sm uppercase tracking-widest">Attributes</span>
+</a>
+<a class="flex items-center gap-4 px-8 py-4 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">vitals</span>
+<span class="font-label-caps text-sm uppercase tracking-widest">Alchemy</span>
+</a>
+</nav>
+<div class="p-8 border-t border-primary/10 opacity-40">
+<div class="flex items-center gap-2 text-primary font-mono-data text-xs">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+                SYSTEM_STABLE v4.2.0
+            </div>
+</div>
+</aside>
+<!-- Top App Bar -->
+<header class="fixed top-0 left-0 w-full z-50 lg:pl-64 flex justify-between items-center px-6 md:px-10 h-20 bg-surface/30 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="flex flex-col">
+<span class="font-audiowide text-primary text-xl tracking-widest uppercase">Vehículos Existenciales</span>
+<span class="font-micro-tag text-secondary text-[10px] tracking-[0.2em] uppercase">Gestión Integral de los 7 Cuerpos</span>
+</div>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-outline hover:text-secondary transition-all">bolt</button>
+<button class="material-symbols-outlined text-outline hover:text-secondary transition-all">stars</button>
+<div class="h-10 w-10 rounded-full border border-primary/30 flex items-center justify-center bg-primary/5 cursor-pointer hover:border-primary transition-all">
+<span class="material-symbols-outlined text-primary">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-32 pb-32 lg:pl-80 pr-6 md:pr-10 min-h-screen">
+<div class="max-w-7xl mx-auto">
+<!-- Global Metrics Bar -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<div class="glass-panel p-6 border-l-4 border-l-secondary relative overflow-hidden group">
+<div class="absolute -right-4 -bottom-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-9xl">hdr_strong</span>
+</div>
+<p class="font-micro-tag text-[10px] text-secondary tracking-widest uppercase mb-1">Status: Balance</p>
+<h3 class="font-audiowide text-4xl text-primary drop-shadow-[0_0_8px_#2da8e0]">88.4%</h3>
+<div class="mt-4 flex gap-1 segmented-progress">
+<div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class=""></div><div class=""></div>
+</div>
+</div>
+<div class="glass-panel p-6 border-l-4 border-l-error relative overflow-hidden group">
+<div class="absolute -right-4 -bottom-4 opacity-10 group-hover:opacity-20 transition-opacity text-error">
+<span class="material-symbols-outlined text-9xl">pest_control_rodent</span>
+</div>
+<p class="font-micro-tag text-[10px] text-error tracking-widest uppercase mb-1">Status: Qliphot</p>
+<h3 class="font-audiowide text-4xl text-error/90 drop-shadow-[0_0_8px_#ffb4ab]">12.2%</h3>
+<div class="mt-4 flex gap-1 segmented-progress">
+<div class="bg-error shadow-[0_0_8px_#ffb4ab] active"></div><div class=""></div><div class=""></div><div class=""></div><div class=""></div><div class=""></div><div class=""></div><div class=""></div><div class=""></div><div class=""></div>
+</div>
+</div>
+<div class="glass-panel p-6 border-l-4 border-l-tertiary relative overflow-hidden group">
+<div class="absolute -right-4 -bottom-4 opacity-10 group-hover:opacity-20 transition-opacity text-tertiary">
+<span class="material-symbols-outlined text-9xl">auto_awesome</span>
+</div>
+<p class="font-micro-tag text-[10px] text-tertiary tracking-widest uppercase mb-1">Status: Estado</p>
+<h3 class="font-audiowide text-4xl text-tertiary drop-shadow-[0_0_8px_#ffafd4]">LVL 07</h3>
+<div class="mt-4 flex gap-1 segmented-progress">
+<div class="bg-tertiary shadow-[0_0_8px_#ffafd4] active"></div><div class="bg-tertiary shadow-[0_0_8px_#ffafd4] active"></div><div class="bg-tertiary shadow-[0_0_8px_#ffafd4] active"></div><div class="bg-tertiary shadow-[0_0_8px_#ffafd4] active"></div><div class="bg-tertiary shadow-[0_0_8px_#ffafd4] active"></div><div class="bg-tertiary shadow-[0_0_8px_#ffafd4] active"></div><div class="bg-tertiary shadow-[0_0_8px_#ffafd4] active"></div><div class=""></div><div class=""></div><div class=""></div>
+</div>
+</div>
+</section>
+<!-- Vehicles Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Vehicle Card Template -->
+<div class="glass-panel p-6 cursor-pointer group relative" onclick="toggleModal('modal-fisico')">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 flex items-center justify-center bg-primary/10 border border-primary/20 neon-pulse-cyan">
+<span class="material-symbols-outlined text-primary text-3xl">fitness_center</span>
+</div>
+<div>
+<h4 class="font-audiowide text-primary tracking-tight">FÍSICO</h4>
+<span class="font-micro-tag text-[8px] bg-secondary-container/20 text-secondary px-2 py-0.5 border border-secondary/20">ESTADO: ÓPTIMO</span>
+</div>
+</div>
+<span class="font-audiowide text-primary/40 group-hover:text-primary transition-colors">94%</span>
+</div>
+<div class="space-y-4">
+<div class="flex gap-1 segmented-progress h-2">
+<div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class=""></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="border border-primary/10 p-2">
+<p class="font-micro-tag text-[8px] text-outline uppercase">Nutrición</p>
+<p class="font-audiowide text-sm text-secondary">A+</p>
+</div>
+<div class="border border-primary/10 p-2">
+<p class="font-micro-tag text-[8px] text-outline uppercase">Descanso</p>
+<p class="font-audiowide text-sm text-secondary">08H</p>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-panel p-6 cursor-pointer group" onclick="toggleModal('modal-vital')">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 flex items-center justify-center bg-secondary/10 border border-secondary/20 neon-pulse-magenta">
+<span class="material-symbols-outlined text-secondary text-3xl">bolt</span>
+</div>
+<div>
+<h4 class="font-audiowide text-secondary tracking-tight">VITAL</h4>
+<span class="font-micro-tag text-[8px] bg-secondary-container/20 text-secondary px-2 py-0.5 border border-secondary/20">ESTADO: ESTABLE</span>
+</div>
+</div>
+<span class="font-audiowide text-secondary/40 group-hover:text-secondary transition-colors">72%</span>
+</div>
+<div class="space-y-4">
+<div class="flex gap-1 segmented-progress h-2">
+<div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class=""></div><div class=""></div><div class=""></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="border border-primary/10 p-2">
+<p class="font-micro-tag text-[8px] text-outline uppercase">Prana</p>
+<p class="font-audiowide text-sm text-primary">High</p>
+</div>
+<div class="border border-primary/10 p-2">
+<p class="font-micro-tag text-[8px] text-outline uppercase">Estrés</p>
+<p class="font-audiowide text-sm text-error">Lo</p>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-panel p-6 cursor-pointer group">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 flex items-center justify-center bg-tertiary/10 border border-tertiary/20">
+<span class="material-symbols-outlined text-tertiary text-3xl">favorite</span>
+</div>
+<div>
+<h4 class="font-audiowide text-tertiary tracking-tight">EMOCIONAL</h4>
+<span class="font-micro-tag text-[8px] bg-on-tertiary-container/20 text-tertiary px-2 py-0.5 border border-tertiary/20">ESTADO: ALERTA</span>
+</div>
+</div>
+<span class="font-audiowide text-tertiary/40 group-hover:text-tertiary transition-colors">58%</span>
+</div>
+<div class="space-y-4">
+<div class="flex gap-1 segmented-progress h-2">
+<div class="bg-tertiary active"></div><div class="bg-tertiary active"></div><div class="bg-tertiary active"></div><div class="bg-tertiary active"></div><div class="bg-tertiary active"></div><div class="bg-tertiary active"></div><div class=""></div><div class=""></div><div class=""></div><div class=""></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="border border-primary/10 p-2">
+<p class="font-micro-tag text-[8px] text-outline uppercase">Resiliencia</p>
+<p class="font-audiowide text-sm text-primary">Med</p>
+</div>
+<div class="border border-primary/10 p-2">
+<p class="font-micro-tag text-[8px] text-outline uppercase">Sombras</p>
+<p class="font-audiowide text-sm text-error">Active</p>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-panel p-6 cursor-pointer group">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 flex items-center justify-center bg-primary/10 border border-primary/20">
+<span class="material-symbols-outlined text-primary text-3xl">psychology</span>
+</div>
+<div>
+<h4 class="font-audiowide text-primary tracking-tight">MENTAL</h4>
+<span class="font-micro-tag text-[8px] bg-primary-container/20 text-primary px-2 py-0.5 border border-primary/20">ESTADO: ENFOQUE</span>
+</div>
+</div>
+<span class="font-audiowide text-primary/40 group-hover:text-primary transition-colors">81%</span>
+</div>
+<div class="space-y-4">
+<div class="flex gap-1 segmented-progress h-2">
+<div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class=""></div><div class=""></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="border border-primary/10 p-2">
+<p class="font-micro-tag text-[8px] text-outline uppercase">Cognición</p>
+<p class="font-audiowide text-sm text-secondary">High</p>
+</div>
+<div class="border border-primary/10 p-2">
+<p class="font-micro-tag text-[8px] text-outline uppercase">Atención</p>
+<p class="font-audiowide text-sm text-secondary">Max</p>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-panel p-6 cursor-pointer group">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 flex items-center justify-center bg-secondary/10 border border-secondary/20">
+<span class="material-symbols-outlined text-secondary text-3xl">auto_fix_high</span>
+</div>
+<div>
+<h4 class="font-audiowide text-secondary tracking-tight">CAUSAL</h4>
+<span class="font-micro-tag text-[8px] bg-secondary-container/20 text-secondary px-2 py-0.5 border border-secondary/20">ESTADO: ALINEADO</span>
+</div>
+</div>
+<span class="font-audiowide text-secondary/40 group-hover:text-secondary transition-colors">65%</span>
+</div>
+<div class="space-y-4">
+<div class="flex gap-1 segmented-progress h-2">
+<div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class=""></div><div class=""></div><div class=""></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="border border-primary/10 p-2">
+<p class="font-micro-tag text-[8px] text-outline uppercase">Karma</p>
+<p class="font-audiowide text-sm text-primary">Clear</p>
+</div>
+<div class="border border-primary/10 p-2">
+<p class="font-micro-tag text-[8px] text-outline uppercase">Dharma</p>
+<p class="font-audiowide text-sm text-secondary">+12</p>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-panel p-6 cursor-pointer group">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 flex items-center justify-center bg-tertiary/10 border border-tertiary/20">
+<span class="material-symbols-outlined text-tertiary text-3xl">self_improvement</span>
+</div>
+<div>
+<h4 class="font-audiowide text-tertiary tracking-tight">ESPIRITUAL</h4>
+<span class="font-micro-tag text-[8px] bg-on-tertiary-container/20 text-tertiary px-2 py-0.5 border border-tertiary/20">ESTADO: DESPIERTO</span>
+</div>
+</div>
+<span class="font-audiowide text-tertiary/40 group-hover:text-tertiary transition-colors">42%</span>
+</div>
+<div class="space-y-4">
+<div class="flex gap-1 segmented-progress h-2">
+<div class="bg-tertiary active"></div><div class="bg-tertiary active"></div><div class="bg-tertiary active"></div><div class="bg-tertiary active"></div><div class=""></div><div class=""></div><div class=""></div><div class=""></div><div class=""></div><div class=""></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="border border-primary/10 p-2">
+<p class="font-micro-tag text-[8px] text-outline uppercase">Conexión</p>
+<p class="font-audiowide text-sm text-primary">Flux</p>
+</div>
+<div class="border border-primary/10 p-2">
+<p class="font-micro-tag text-[8px] text-outline uppercase">Silencio</p>
+<p class="font-audiowide text-sm text-secondary">Active</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Featured Vehicle: Cosmic (Spans 2 columns) -->
+<div class="md:col-span-2 xl:col-span-3 glass-panel p-8 border border-primary/40 bg-primary/5 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 font-mono-data text-[10px] text-primary/30">
+                        PROTOCOL_V6.8 // FINAL_ASCENSION
+                    </div>
+<div class="flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex items-center gap-6">
+<div class="w-20 h-20 flex items-center justify-center bg-primary/20 border-2 border-primary shadow-[0_0_20px_rgba(45,168,224,0.3)] animate-pulse">
+<span class="material-symbols-outlined text-primary text-5xl">auto_awesome_motion</span>
+</div>
+<div>
+<h3 class="font-audiowide text-3xl text-primary tracking-tighter">VEHÍCULO CÓSMICO</h3>
+<div class="flex gap-4 mt-2">
+<span class="font-micro-tag text-[10px] text-secondary tracking-widest px-3 py-1 border border-secondary/30 bg-secondary/5 uppercase">Estado: Trascendente</span>
+<span class="font-micro-tag text-[10px] text-tertiary tracking-widest px-3 py-1 border border-tertiary/30 bg-tertiary/5 uppercase">#Infinite_Loop</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end gap-2 w-full md:w-auto">
+<span class="font-audiowide text-5xl text-primary">12%</span>
+<div class="w-full md:w-64 h-3 bg-white/10 rounded-none overflow-hidden flex gap-0.5">
+<div class="w-[12%] h-full bg-primary shadow-[0_0_15px_#7fd0ff]"></div>
+</div>
+<span class="font-micro-tag text-[10px] text-outline uppercase">Progreso de Integración Universal</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Bottom Nav (Mobile Only) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 pb-safe bg-surface-container/80 backdrop-blur-lg border-t border-primary/20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">space_dashboard</span>
+<span class="font-label-caps text-[8px] uppercase">Dash</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-110" href="#">
+<span class="material-symbols-outlined">temple_hindu</span>
+<span class="font-label-caps text-[8px] uppercase">Houses</span>
+</a>
+<div class="w-12 h-12 -mt-8 flex items-center justify-center bg-primary text-on-primary rounded-full shadow-lg border-4 border-background">
+<span class="material-symbols-outlined">bolt</span>
+</div>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-caps text-[8px] uppercase">Stats</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">autorenew</span>
+<span class="font-label-caps text-[8px] uppercase">Cycle</span>
+</a>
+</nav>
+<!-- Modal Diagnostic Overlay (Hidden by default) -->
+<div class="fixed inset-0 z-[60] hidden flex items-center justify-center p-6 md:p-12" id="modal-fisico">
+<div class="absolute inset-0 bg-background-deep/90 backdrop-blur-md" onclick="toggleModal('modal-fisico')"></div>
+<div class="glass-panel w-full max-w-4xl max-h-[819px] overflow-y-auto relative z-10 p-8 md:p-12 border-2 border-primary/30">
+<button class="absolute top-6 right-6 text-outline hover:text-primary transition-colors" onclick="toggleModal('modal-fisico')">
+<span class="material-symbols-outlined text-3xl">close</span>
+</button>
+<div class="flex flex-col md:flex-row gap-12">
+<div class="md:w-1/3">
+<div class="w-full aspect-square border-2 border-primary/20 flex items-center justify-center relative bg-primary/5">
+<span class="material-symbols-outlined text-8xl text-primary neon-pulse-cyan">fitness_center</span>
+<div class="absolute inset-2 border border-primary/10"></div>
+<div class="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-primary"></div>
+<div class="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-primary"></div>
+</div>
+<div class="mt-8 space-y-4">
+<div class="flex justify-between items-end">
+<span class="font-micro-tag text-[10px] text-outline uppercase">Vigor</span>
+<span class="font-audiowide text-secondary">98%</span>
+</div>
+<div class="h-1 bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-secondary w-[98%] shadow-[0_0_8px_#47ddc1]"></div>
+</div>
+<div class="flex justify-between items-end">
+<span class="font-micro-tag text-[10px] text-outline uppercase">Resistencia</span>
+<span class="font-audiowide text-primary">82%</span>
+</div>
+<div class="h-1 bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-primary w-[82%] shadow-[0_0_8px_#7fd0ff]"></div>
+</div>
+</div>
+</div>
+<div class="flex-1">
+<h2 class="font-audiowide text-4xl text-primary mb-2 uppercase tracking-tighter">DIAGNÓSTICO FÍSICO</h2>
+<p class="font-micro-tag text-secondary text-xs tracking-widest mb-8">REALITY_DEP_SYNC: STABLE</p>
+<div class="grid grid-cols-2 gap-8 mb-12">
+<div class="space-y-2">
+<p class="font-micro-tag text-[10px] text-outline uppercase">Dependencia: #Karma</p>
+<div class="p-3 bg-surface-container-low border border-primary/10">
+<p class="font-orbitron text-sm text-on-surface">Cero acumulaciones residuales detectadas en fibras musculares.</p>
+</div>
+</div>
+<div class="space-y-2">
+<p class="font-micro-tag text-[10px] text-outline uppercase">Dependencia: #Sueño</p>
+<div class="p-3 bg-surface-container-low border border-primary/10">
+<p class="font-orbitron text-sm text-on-surface">Fase REM optimizada. Recuperación celular a tasa 1.2x.</p>
+</div>
+</div>
+</div>
+<div class="space-y-6">
+<h5 class="font-audiowide text-sm text-primary tracking-widest uppercase">Métricas Detalladas</h5>
+<div class="space-y-4">
+<div class="flex items-center gap-4">
+<span class="font-micro-tag text-[10px] text-outline w-32 uppercase">Bio-Simetría</span>
+<div class="flex-1 h-2 flex gap-0.5">
+<div class="flex-1 bg-secondary shadow-[0_0_4px_#47ddc1]"></div>
+<div class="flex-1 bg-secondary shadow-[0_0_4px_#47ddc1]"></div>
+<div class="flex-1 bg-secondary shadow-[0_0_4px_#47ddc1]"></div>
+<div class="flex-1 bg-white/10"></div>
+<div class="flex-1 bg-white/10"></div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-micro-tag text-[10px] text-outline w-32 uppercase">Transmisión Nerviosa</span>
+<div class="flex-1 h-2 flex gap-0.5">
+<div class="flex-1 bg-primary shadow-[0_0_4px_#7fd0ff]"></div>
+<div class="flex-1 bg-primary shadow-[0_0_4px_#7fd0ff]"></div>
+<div class="flex-1 bg-primary shadow-[0_0_4px_#7fd0ff]"></div>
+<div class="flex-1 bg-primary shadow-[0_0_4px_#7fd0ff]"></div>
+<div class="flex-1 bg-white/10"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="w-full max-w-7xl mx-auto px-6 md:px-10 py-12 flex flex-col items-center gap-4 opacity-40 hover:opacity-100 transition-opacity duration-500">
+<div class="flex gap-8 font-micro-tag text-[10px] tracking-widest uppercase">
+<a class="hover:text-primary transition-colors" href="#">System Reset</a>
+<a class="hover:text-primary transition-colors" href="#">Log Export</a>
+<a class="hover:text-primary transition-colors" href="#">Protocol-9</a>
+</div>
+<p class="font-mono-data text-xs text-outline">MAGNOPVS OS v4.2.0 // SYSTEM_STABLE // © 2142 OPERATOR_01</p>
+</footer>
+<script>
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                document.body.classList.add('overflow-hidden');
+            } else {
+                modal.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            }
+        }
+        
+        // Add subtle parallax effect on mouse move
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+            const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+            document.querySelector('.hex-bg').style.transform = `scale(1.05) translate(${moveX}px, ${moveY}px)`;
+        });
+    </script>
+</body></html>

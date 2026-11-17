@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS | Legacy-OS v6.8</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;600;700&amp;family=Geist:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration Injection -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#353435",
+                    "secondary-fixed": "#ffd7f5",
+                    "surface-bright": "#3a3939",
+                    "tertiary-container": "#001111",
+                    "outline": "#919095",
+                    "surface-container": "#201f20",
+                    "error-container": "#93000a",
+                    "tertiary-fixed-dim": "#00dddd",
+                    "primary-fixed-dim": "#c7c6cd",
+                    "primary": "#c7c6cd",
+                    "surface-container-highest": "#353435",
+                    "on-error-container": "#ffdad6",
+                    "on-secondary-fixed": "#380038",
+                    "inverse-surface": "#e5e2e2",
+                    "on-error": "#690005",
+                    "secondary": "#ffabf3",
+                    "primary-container": "#0d0e13",
+                    "inverse-on-surface": "#313030",
+                    "error": "#ffb4ab",
+                    "outline-variant": "#46464b",
+                    "on-primary-fixed-variant": "#46464c",
+                    "surface-container-high": "#2a2a2a",
+                    "on-secondary-fixed-variant": "#810081",
+                    "surface-dim": "#141314",
+                    "on-primary-fixed": "#1a1b21",
+                    "surface-container-lowest": "#0e0e0e",
+                    "tertiary": "#00dddd",
+                    "secondary-fixed-dim": "#ffabf3",
+                    "surface-tint": "#c7c6cd",
+                    "on-tertiary-container": "#008989",
+                    "on-tertiary": "#003737",
+                    "primary-fixed": "#e3e1e9",
+                    "on-primary-container": "#7b7b81",
+                    "background": "#141314",
+                    "on-tertiary-fixed-variant": "#004f4f",
+                    "on-secondary-container": "#500050",
+                    "secondary-container": "#fe00fe",
+                    "surface": "#141314",
+                    "inverse-primary": "#5e5e64",
+                    "on-secondary": "#5b005b",
+                    "on-surface-variant": "#c7c6cb",
+                    "surface-container-low": "#1c1b1c",
+                    "on-primary": "#2f3036",
+                    "tertiary-fixed": "#00fbfb",
+                    "on-surface": "#e5e2e2",
+                    "on-background": "#e5e2e2",
+                    "on-tertiary-fixed": "#002020"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "margin-edge": "40px",
+                    "hex-unit": "24px",
+                    "stack-loose": "32px",
+                    "stack-tight": "4px"
+            },
+            "fontFamily": {
+                    "hud-header-md": ["Space Grotesk"],
+                    "body-standard": ["Inter"],
+                    "data-display-xl": ["Geist"],
+                    "hud-header-lg": ["Space Grotesk"],
+                    "data-label-sm": ["Geist"],
+                    "body-caps": ["Inter"]
+            },
+            "fontSize": {
+                    "hud-header-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "0.03em", "fontWeight": "600"}],
+                    "body-standard": ["16px", {"lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                    "data-display-xl": ["36px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "800"}],
+                    "hud-header-lg": ["42px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "data-label-sm": ["12px", {"lineHeight": "1.5", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                    "body-caps": ["11px", {"lineHeight": "1.4", "letterSpacing": "0.2em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #141314;
+            color: #e5e2e2;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .hex-clip {
+            clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
+        }
+
+        .hex-card {
+            clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px), 0 20px);
+            background: rgba(20, 19, 20, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 221, 221, 0.2);
+        }
+
+        .scanning-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00dddd, transparent);
+            animation: scan 5s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0%; opacity: 0; }
+            5% { opacity: 1; }
+            95% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        .shutter-blur {
+            filter: blur(12px) contrast(1.2) brightness(0.8);
+            transition: filter 0.4s ease;
+        }
+
+        .shutter-blur:active {
+            filter: blur(0);
+        }
+
+        .pulse-bio {
+            animation: pulse-bio-frames 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-bio-frames {
+            0%, 100% { opacity: 0.6; box-shadow: 0 0 5px rgba(255, 171, 243, 0.2); }
+            50% { opacity: 1; box-shadow: 0 0 15px rgba(255, 171, 243, 0.5); }
+        }
+
+        .orbital-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            border: 1px solid rgba(0, 221, 221, 0.1);
+            border-radius: 50%;
+        }
+
+        .orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px dashed rgba(255, 171, 243, 0.3);
+            border-radius: 50%;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.1);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #00dddd;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background selection:bg-tertiary selection:text-on-tertiary">
+<!-- Global Layout Shell -->
+<div class="fixed inset-0 z-0 pointer-events-none opacity-20">
+
+</div>
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-edge h-hex-unit bg-surface/30 backdrop-blur-xl border-b border-outline-variant/20 shadow-[0px_0px_15px_rgba(0,221,221,0.1)]">
+<div class="flex items-center gap-4">
+<span class="font-hud-header-md text-hud-header-md text-tertiary tracking-widest">MagnopVS</span>
+<span class="hidden md:block h-4 w-px bg-outline-variant/40 mx-2"></span>
+<div class="hidden md:flex gap-6">
+<a class="text-tertiary font-bold font-hud-header-md text-hud-header-md hover:text-tertiary-fixed transition-colors duration-300" href="#">Family Planning</a>
+<a class="text-on-surface-variant font-hud-header-md text-hud-header-md hover:text-tertiary-fixed transition-colors duration-300" href="#">Sexual Health</a>
+</div>
+</div>
+<div class="flex items-center gap-4 text-tertiary-fixed-dim">
+<span class="material-symbols-outlined hover:text-tertiary-fixed transition-colors cursor-pointer" data-icon="lock">lock</span>
+<span class="material-symbols-outlined hover:text-tertiary-fixed transition-colors cursor-pointer" data-icon="psychology">psychology</span>
+<div class="w-8 h-8 rounded-full bg-tertiary/20 border border-tertiary flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover opacity-80" data-alt="A high-tech digital portrait of a futuristic user with subtle cyan biometric lines across their face, set in a dark clinical environment with rose gold lighting accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsMkQWLBiDakjbExNpFyE9WTMTS0DBYbNXKUaHLiKLQr8ut6zBSHNYaR4oHv5UcTDqr484eyYC2kMJS7N-f8vg3cJFMJNuXEiXBDFj3_Da2y6FrGfsmmufBIJ05dJ2HB3npi0v6P1CW1J22UnO8L34k4BxN-oh7CniUoNm3XLD0cl9FN5Nzp5gWGye4m1oRnshnBqckHJ4Y19jOY1kPBWquV9P8GQZwF41OBaZb652is932Jq1e_O3qw"/>
+</div>
+</div>
+</nav>
+<!-- Side Navigation (Legacy OS Style) -->
+<aside class="fixed left-0 top-0 h-full z-40 flex flex-col py-margin-edge bg-surface-container-lowest/40 backdrop-blur-2xl border-r border-outline-variant/30 shadow-[5px_0px_20px_rgba(0,0,0,0.5)] w-64 translate-x-0 transition-transform hidden lg:flex">
+<div class="px-6 mb-10 mt-12">
+<h2 class="font-hud-header-lg text-hud-header-lg text-primary">BIO-SYNC</h2>
+<p class="font-body-caps text-body-caps text-secondary-fixed-dim mt-1">Pulse: 72bpm | Sync: 94%</p>
+</div>
+<nav class="flex-1 space-y-2 px-3">
+<a class="flex items-center gap-3 bg-secondary-container/20 text-secondary-fixed border-l-2 border-secondary p-3 rounded-r-full shadow-[0px_0px_10px_rgba(255,0,255,0.2)] transition-all translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="water_drop">water_drop</span>
+<span class="font-body-caps text-body-caps">Menstrual</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant p-3 hover:bg-surface-variant/40 hover:backdrop-blur-md hover:text-on-surface transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+<span class="font-body-caps text-body-caps">Sexual</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant p-3 hover:bg-surface-variant/40 hover:backdrop-blur-md hover:text-on-surface transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="diversity_1">diversity_1</span>
+<span class="font-body-caps text-body-caps">Family Planning</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant p-3 hover:bg-surface-variant/40 hover:backdrop-blur-md hover:text-on-surface transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="medical_services">medical_services</span>
+<span class="font-body-caps text-body-caps">Treatments</span>
+</a>
+</nav>
+<div class="p-6 mt-auto">
+<button class="w-full bg-error-container/30 border border-error text-error py-3 font-body-caps text-body-caps rounded-lg hover:bg-error-container/50 transition-colors">
+                Emergency Clinician
+            </button>
+<div class="mt-6 flex flex-col gap-2">
+<a class="flex items-center gap-2 text-on-surface-variant text-xs font-body-caps" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="settings">settings</span> Settings
+                </a>
+<a class="flex items-center gap-2 text-on-surface-variant text-xs font-body-caps" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="help">help</span> Support
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pt-24 lg:ml-64 px- gutter md:px-margin-edge pb-32">
+<!-- Header Unit -->
+<header class="mb-12">
+<h1 class="font-hud-header-lg text-hud-header-lg text-on-surface drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">Family Planning &amp; Sexual Health Hub</h1>
+<p class="font-body-standard text-body-standard text-outline mt-2 max-w-2xl">V6.8 Integrated Legacy-OS Ecosystem. Managing bio-reproductive data with starship-grade precision.</p>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+<!-- 1. Fertility Window Holographic Calendar -->
+<section class="md:col-span-8 hex-card relative p-8 group">
+<div class="scanning-line"></div>
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-hud-header-md text-hud-header-md text-tertiary flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+                        Fertility Window
+                    </h3>
+<div class="flex gap-2">
+<span class="bg-tertiary/10 text-tertiary-fixed text-[10px] font-bold px-2 py-1 rounded border border-tertiary/30">HOLOGRAPHIC MODE</span>
+</div>
+</div>
+<div class="grid grid-cols-7 gap-2 text-center text-outline font-body-caps text-[10px] mb-4">
+<span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span><span>SUN</span>
+</div>
+<div class="grid grid-cols-7 gap-2 h-64">
+<!-- Placeholder Calendar Grid -->
+<script>
+                        for(let i=1; i<=31; i++) {
+                            let statusClasses = "border border-outline-variant/10 bg-surface-container/20";
+                            let glow = "";
+                            if(i >= 12 && i <= 17) {
+                                statusClasses = "border border-secondary bg-secondary/10 text-secondary-fixed";
+                                glow = "shadow-[0_0_15px_rgba(255,171,243,0.3)]";
+                            }
+                            if(i == 15) statusClasses += " border-2 border-secondary scale-105 z-10 font-bold";
+                            
+                            document.write(`
+                                <div class="relative flex items-center justify-center rounded-sm transition-all duration-300 hover:bg-tertiary/10 hover:border-tertiary/50 group/day cursor-pointer ${statusClasses} ${glow}">
+                                    <span class="z-10">${i}</span>
+                                    ${i >= 12 && i <= 17 ? '<div class="absolute inset-0 bg-secondary/5 animate-pulse"></div>' : ''}
+                                    <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-secondary opacity-0 group-hover/day:opacity-100"></div>
+                                </div>
+                            `);
+                        }
+                    </script>
+</div>
+<div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-surface-container-high/50 p-4 rounded-xl border border-outline-variant/20">
+<p class="text-outline font-body-caps text-[9px] uppercase">Peak Ovulation</p>
+<p class="text-secondary font-data-display-xl text-lg">In 3 Days</p>
+</div>
+<div class="bg-surface-container-high/50 p-4 rounded-xl border border-outline-variant/20">
+<p class="text-outline font-body-caps text-[9px] uppercase">Cycle Day</p>
+<p class="text-tertiary font-data-display-xl text-lg">Day 12 / 28</p>
+</div>
+<div class="bg-surface-container-high/50 p-4 rounded-xl border border-outline-variant/20">
+<p class="text-outline font-body-caps text-[9px] uppercase">Prob. Conception</p>
+<p class="text-secondary-fixed-dim font-data-display-xl text-lg">High (84%)</p>
+</div>
+<div class="bg-surface-container-high/50 p-4 rounded-xl border border-outline-variant/20">
+<p class="text-outline font-body-caps text-[9px] uppercase">Next Period</p>
+<p class="text-outline font-data-display-xl text-lg">16 Days</p>
+</div>
+</div>
+</section>
+<!-- 2. SOF.IA 'Health Advisor' Widget -->
+<section class="md:col-span-4 hex-card p-6 bg-gradient-to-br from-tertiary-container/40 to-surface-container relative overflow-hidden">
+<div class="absolute -right-10 -top-10 w-40 h-40 bg-tertiary/10 blur-[60px] rounded-full"></div>
+<div class="flex items-center gap-3 mb-6">
+<div class="w-12 h-12 rounded-lg bg-tertiary/20 border border-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary animate-pulse" data-icon="smart_toy">smart_toy</span>
+</div>
+<div>
+<h3 class="font-hud-header-md text-hud-header-md text-tertiary">SOF.IA</h3>
+<p class="text-[10px] font-body-caps text-outline">NEURAL HEALTH ADVISOR</p>
+</div>
+</div>
+<div class="bg-black/40 rounded-lg p-4 border border-outline-variant/30 mb-4 h-48 overflow-y-auto custom-scrollbar">
+<div class="mb-4">
+<p class="text-[10px] text-tertiary uppercase font-bold mb-1">SOF.IA Advice</p>
+<p class="text-sm font-body-standard leading-relaxed">
+                            Based on your current fertile window, I recommend barrier methods if conception is not the goal. Your recent STI checkup remains "Verified".
+                        </p>
+</div>
+<div class="flex items-center gap-2 mb-4">
+<div class="w-1 h-1 bg-tertiary rounded-full"></div>
+<p class="text-[11px] text-outline italic">Analyzing clinical exams from June 12...</p>
+</div>
+</div>
+<div class="space-y-2">
+<button class="w-full text-left px-4 py-2 bg-surface-variant/50 hover:bg-tertiary/20 border border-outline-variant/30 rounded-lg text-xs font-body-caps flex justify-between items-center group transition-all">
+                        STI Prevention Tips
+                        <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform" data-icon="chevron_right">chevron_right</span>
+</button>
+<button class="w-full text-left px-4 py-2 bg-surface-variant/50 hover:bg-tertiary/20 border border-outline-variant/30 rounded-lg text-xs font-body-caps flex justify-between items-center group transition-all">
+                        Safe Practice Guide
+                        <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- 3. Contraception Tracking Module -->
+<section class="md:col-span-5 hex-card p-6 min-h-[400px]">
+<h3 class="font-hud-header-md text-hud-header-md text-secondary mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="medication">medication</span>
+                    Contraception Hub
+                </h3>
+<div class="space-y-6">
+<div class="p-4 bg-secondary/5 border-l-4 border-secondary rounded-r-lg">
+<div class="flex justify-between items-start mb-2">
+<div>
+<p class="text-sm font-bold text-secondary-fixed">Oral Contraceptive</p>
+<p class="text-xs text-outline">Combination Pill · Day 12/21</p>
+</div>
+<span class="bg-secondary/20 text-secondary-fixed-dim text-[10px] px-2 py-0.5 rounded border border-secondary/30">ACTIVE</span>
+</div>
+<div class="w-full bg-outline-variant/20 h-1.5 rounded-full mt-4 overflow-hidden">
+<div class="bg-secondary h-full shadow-[0_0_8px_rgba(255,171,243,1)]" style="width: 57%"></div>
+</div>
+<div class="flex justify-between mt-2 text-[10px] font-body-caps text-outline">
+<span>Last taken: 08:00 AM</span>
+<span>Efficacy: 99.7%</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-3 border border-outline-variant/20 rounded-lg bg-surface-container-low">
+<p class="text-[9px] text-outline font-body-caps">NEXT DOSE</p>
+<p class="text-lg font-data-display-xl text-on-surface">20:45</p>
+<div class="flex items-center gap-1 text-[10px] text-tertiary">
+<span class="material-symbols-outlined text-xs" data-icon="alarm">alarm</span> Reminder Set
+                            </div>
+</div>
+<div class="p-3 border border-outline-variant/20 rounded-lg bg-surface-container-low">
+<p class="text-[9px] text-outline font-body-caps">SUPPLY LEFT</p>
+<p class="text-lg font-data-display-xl text-on-surface">9 Days</p>
+<button class="text-[10px] text-secondary font-bold underline">ORDER REFILL</button>
+</div>
+</div>
+<div class="relative h-32 flex items-center justify-center">
+<!-- Tiny Data Stream Visualizer -->
+<div class="absolute inset-0 opacity-40">
+
+</div>
+<p class="z-10 text-[10px] font-body-caps text-tertiary-fixed-dim tracking-[0.3em] uppercase">Tracking hormonal pulse...</p>
+</div>
+</div>
+</section>
+<!-- 4. Legacy Engine: Partner Sync -->
+<section class="md:col-span-7 hex-card p-6 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-hud-header-md text-hud-header-md text-primary flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+                            Legacy Engine
+                        </h3>
+<div class="flex -space-x-3">
+<div class="w-10 h-10 rounded-full border-2 border-background overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Futuristic masculine profile silhouette, neon cyan highlights, deep space background, cinematic medical UI style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0qGDAq27_b3CHJIp-Lou2y2j_57TVd7aBy70COB9qFny4JXjCa2IUMFIn4IF9CUCN813gdpeEODN4f5MWVS9CjFNfgJlwqnWedezkjjnFYjzp68IvmZW2jlQSNrUbBvUbY_ewgjb-KfWIZP6_lQOUrMSSaSU9xgy4CXVM4QdSaEN20EsbEakrYndODPjWGsF6PNfs8rT3zZXknT610lCen3RWACkYuWrnNuh2awNiTtYs1LQJ-5BUGw"/>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-background overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Futuristic feminine profile silhouette, rose gold neon highlights, tech-noir laboratory background, ultra-fine clinical aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxVO3nXbjJvzgpYhkrqj1ifFf-QrTNIt5FfnYhk4bGSUoyKPeDZ4DRJS0rq4tmh1hGF5GezltMxvE8KH9EygzO5gMTDYjx3-tnyTDvEYksXr-NVlg_D6oDAvaShnpA6s0kwuP4ZofiJjTk3-PuaNG_RrLmvlPqZ83xslx5zm8uQUOZLXqLATzF0UhDFaZXiWSNoxf6_URQ86qXg406KNY1aMnTjwNhT13Au_2y7_RKvbY3u1RMs2egzQ"/>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-background bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-outline" data-icon="add">add</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div>
+<p class="text-xs font-body-caps text-outline mb-4">SHARED FAMILY GOALS</p>
+<ul class="space-y-4">
+<li class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-tertiary shadow-[0_0_5px_#00dddd]"></div>
+<span class="text-sm">Pre-conception vitamins (Both)</span>
+<span class="ml-auto material-symbols-outlined text-tertiary text-sm" data-icon="check_circle">check_circle</span>
+</li>
+<li class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-secondary shadow-[0_0_5px_#ffabf3]"></div>
+<span class="text-sm">Legacy Financial Lock (2025)</span>
+<span class="ml-auto text-[10px] text-outline">80%</span>
+</li>
+<li class="flex items-center gap-3 opacity-50">
+<div class="w-2 h-2 rounded-full bg-outline"></div>
+<span class="text-sm">Home Biometric Registry</span>
+<span class="ml-auto material-symbols-outlined text-outline text-sm" data-icon="lock">lock</span>
+</li>
+</ul>
+</div>
+<!-- Complex Orbital Chart Placeholder -->
+<div class="relative flex items-center justify-center">
+<div class="orbital-container border-outline/10">
+<div class="orbit w-48 h-48 border-tertiary/20"></div>
+<div class="orbit w-32 h-32 border-secondary/20"></div>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<p class="font-data-display-xl text-2xl text-on-surface">94%</p>
+<p class="font-body-caps text-[8px] text-outline">SYNC RATE</p>
+</div>
+<!-- Moving Orbital Points -->
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 bg-tertiary rounded-full shadow-[0_0_10px_#00dddd] animate-ping"></div>
+<div class="absolute bottom-10 right-10 w-2 h-2 bg-secondary rounded-full shadow-[0_0_8px_#ffabf3] animate-pulse"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-8 p-4 bg-surface-container-highest/20 border border-outline-variant/10 rounded-lg flex items-center justify-between">
+<p class="text-xs text-outline italic">Partner "Alex" is currently reviewing shared fertile days...</p>
+<button class="bg-primary/10 text-primary-fixed-dim border border-primary/20 px-4 py-2 rounded-lg text-xs font-body-caps hover:bg-primary/20 transition-all">Send Sync Request</button>
+</div>
+</section>
+<!-- 5. Sexual Health Check-up Log -->
+<section class="md:col-span-12 hex-card p-8">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+<div>
+<h3 class="font-hud-header-md text-hud-header-md text-tertiary flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
+                            Health Check-up Log
+                        </h3>
+<p class="text-xs text-outline font-body-standard">End-to-end encrypted clinical diagnostics</p>
+</div>
+<button class="flex items-center gap-2 bg-tertiary/10 border border-tertiary text-tertiary px-6 py-2 rounded-full font-body-caps text-[11px] hover:bg-tertiary/20 transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="add_moderator">add_moderator</span>
+                        UPLOAD NEW LAB REPORT
+                    </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="text-outline font-body-caps text-[10px] border-b border-outline-variant/20">
+<th class="pb-4 px-2">DIAGNOSTIC TYPE</th>
+<th class="pb-4 px-2">DATE</th>
+<th class="pb-4 px-2">CLINIC / PROVIDER</th>
+<th class="pb-4 px-2">STATUS</th>
+<th class="pb-4 px-2">BADGE</th>
+<th class="pb-4 px-2 text-right">ACTION</th>
+</tr>
+</thead>
+<tbody class="text-sm font-body-standard">
+<tr class="border-b border-outline-variant/10 hover:bg-surface-variant/10 transition-colors">
+<td class="py-4 px-2 text-on-surface font-medium">Full STI Screening (v4.0)</td>
+<td class="py-4 px-2 text-outline">Oct 12, 2024</td>
+<td class="py-4 px-2 text-outline">Neo-Gen Medical Hub</td>
+<td class="py-4 px-2">
+<span class="text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span> Clear
+                                    </span>
+</td>
+<td class="py-4 px-2">
+<span class="bg-tertiary/20 text-tertiary-fixed-dim text-[9px] font-bold px-2 py-0.5 rounded border border-tertiary/40">VERIFIED</span>
+</td>
+<td class="py-4 px-2 text-right">
+<button class="text-outline hover:text-tertiary transition-colors"><span class="material-symbols-outlined" data-icon="visibility">visibility</span></button>
+</td>
+</tr>
+<tr class="border-b border-outline-variant/10 hover:bg-surface-variant/10 transition-colors">
+<td class="py-4 px-2 text-on-surface font-medium">Pelvic Health Exam</td>
+<td class="py-4 px-2 text-outline">Aug 05, 2024</td>
+<td class="py-4 px-2 text-outline">Clinical Collective</td>
+<td class="py-4 px-2">
+<span class="text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="info">info</span> Archived
+                                    </span>
+</td>
+<td class="py-4 px-2">
+<span class="bg-outline/20 text-outline text-[9px] font-bold px-2 py-0.5 rounded border border-outline/40">LEGACY</span>
+</td>
+<td class="py-4 px-2 text-right">
+<button class="text-outline hover:text-tertiary transition-colors"><span class="material-symbols-outlined" data-icon="visibility">visibility</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-variant/10 transition-colors group">
+<td class="py-4 px-2 text-on-surface font-medium">Biometric Fluid Sync</td>
+<td class="py-4 px-2 text-outline">Scheduled</td>
+<td class="py-4 px-2 text-outline">Remote Scan-Pod</td>
+<td class="py-4 px-2">
+<span class="text-secondary flex items-center gap-1 animate-pulse">
+<span class="material-symbols-outlined text-sm" data-icon="pending">pending</span> Pending
+                                    </span>
+</td>
+<td class="py-4 px-2">
+<span class="bg-secondary/20 text-secondary-fixed-dim text-[9px] font-bold px-2 py-0.5 rounded border border-secondary/40">URGENT</span>
+</td>
+<td class="py-4 px-2 text-right">
+<button class="text-secondary hover:underline text-xs font-body-caps">START SCAN</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Privacy Shutter Example -->
+<div class="mt-8 p-6 bg-surface-container-highest/30 rounded-xl border border-dashed border-outline-variant/40 relative overflow-hidden group">
+<div class="shutter-blur absolute inset-0 bg-surface-container-highest/60 flex items-center justify-center z-10 opacity-100 group-active:opacity-0 transition-opacity cursor-pointer">
+<div class="text-center flex flex-col items-center">
+<span class="material-symbols-outlined text-tertiary text-4xl mb-2" data-icon="fingerprint">fingerprint</span>
+<p class="font-body-caps text-xs text-tertiary-fixed tracking-widest">LONG PRESS TO REVEAL SENSITIVE METRICS</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 opacity-40 group-active:opacity-100 transition-opacity">
+<div>
+<p class="text-[10px] text-outline font-body-caps">HORMONE: PROGESTERONE</p>
+<p class="text-2xl font-data-display-xl text-on-surface">18.4 ng/mL</p>
+</div>
+<div>
+<p class="text-[10px] text-outline font-body-caps">HORMONE: ESTRADIOL</p>
+<p class="text-2xl font-data-display-xl text-on-surface">142 pg/mL</p>
+</div>
+<div>
+<p class="text-[10px] text-outline font-body-caps">LH SURGE STATUS</p>
+<p class="text-2xl font-data-display-xl text-secondary-fixed">PEAK REACHED</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mobile & Focus) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter py-4 bg-surface-dim/60 backdrop-blur-lg border-t border-tertiary/10 shadow-[0px_-4px_20px_rgba(0,221,221,0.05)] md:hidden">
+<div class="flex flex-col items-center justify-center text-outline opacity-60 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined" data-icon="baby_changing_station">baby_changing_station</span>
+<span class="font-data-label-sm text-data-label-sm">Reproductive</span>
+</div>
+<div class="flex flex-col items-center justify-center text-tertiary-fixed scale-110 drop-shadow-[0_0_8px_rgba(0,221,221,0.5)]">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-data-label-sm text-data-label-sm">Menstrual</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline opacity-60 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined" data-icon="clinical_notes">clinical_notes</span>
+<span class="font-data-label-sm text-data-label-sm">Clinical</span>
+</div>
+</nav>
+<!-- Floating Action Button (Contextual: Home/Hub) -->
+<button class="fixed bottom-24 right-8 w-16 h-16 bg-tertiary text-on-tertiary rounded-full shadow-[0_0_30px_rgba(0,221,221,0.4)] flex items-center justify-center hover:scale-110 transition-transform active:scale-90 z-50 border-4 border-background">
+<span class="material-symbols-outlined font-bold" data-icon="emergency_home">emergency_home</span>
+</button>
+<script>
+        // Micro-interactions and subtle effects
+        document.addEventListener('mousemove', (e) => {
+            const parallaxElements = document.querySelectorAll('.hex-card');
+            const x = (window.innerWidth - e.pageX * 2) / 100;
+            const y = (window.innerHeight - e.pageY * 2) / 100;
+
+            parallaxElements.forEach(el => {
+                el.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+
+        // Simulating the "Comet-tail" slider glow or pulse bio effect
+        const bioChips = document.querySelectorAll('.pulse-bio');
+        bioChips.forEach(chip => {
+            setInterval(() => {
+                chip.style.opacity = Math.random() * 0.5 + 0.5;
+            }, 1000);
+        });
+    </script>
+</body></html>

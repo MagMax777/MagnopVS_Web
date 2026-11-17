@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · Registro de Sanación</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Hanken+Grotesk:wght@300;400;700&amp;family=Orbitron:wght@400;700&amp;family=Audiowide&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-blur: 24px;
+            --cyber-cyan: #7fd0ff;
+        }
+
+        body {
+            background-color: #101417;
+            background-image: 
+                linear-gradient(to right, rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            color: #e0e3e6;
+            overflow-x: hidden;
+        }
+
+        .parchment-glass {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+            backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid rgba(127, 208, 255, 0.2);
+            position: relative;
+        }
+
+        .parchment-glass::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url("https://www.transparenttextures.com/patterns/p6.png");
+            opacity: 0.05;
+            pointer-events: none;
+        }
+
+        .corner-bracket {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-color: var(--cyber-cyan);
+            border-width: 2px;
+        }
+
+        .bracket-tl { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+        .bracket-tr { top: -1px; right: -1px; border-left: 0; border-bottom: 0; }
+        .bracket-bl { bottom: -1px; left: -1px; border-right: 0; border-top: 0; }
+        .bracket-br { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
+
+        .neon-pulse {
+            animation: neon-pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes neon-pulse {
+            0%, 100% { filter: drop-shadow(0 0 2px var(--cyber-cyan)); }
+            50% { filter: drop-shadow(0 0 12px var(--cyber-cyan)); }
+        }
+
+        .slanted-edge {
+            clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+        }
+
+        .audiowide { font-family: 'Audiowide', cursive; }
+        .orbitron { font-family: 'Orbitron', sans-serif; }
+
+        .status-block {
+            width: 10px;
+            height: 20px;
+            background: #313538;
+            margin: 0 2px;
+        }
+        .status-block.active {
+            background: var(--cyber-cyan);
+            box-shadow: 0 0 10px var(--cyber-cyan);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error-container": "#93000a",
+                      "inverse-surface": "#e0e3e6",
+                      "secondary-fixed-dim": "#47ddc1",
+                      "outline-variant": "#3f484e",
+                      "primary-container": "#7fd0ff",
+                      "surface-variant": "#313538",
+                      "tertiary": "#ffd8e7",
+                      "tertiary-fixed-dim": "#ffafd4",
+                      "primary-fixed-dim": "#7fd0ff",
+                      "on-secondary": "#00382e",
+                      "surface-container-high": "#272a2d",
+                      "on-error-container": "#ffdad6",
+                      "surface-container": "#1c2023",
+                      "surface-panel": "rgba(255, 255, 255, 0.03)",
+                      "on-primary": "#00344a",
+                      "surface-container-low": "#181c1f",
+                      "on-secondary-container": "#004439",
+                      "surface-container-lowest": "#0b0f11",
+                      "surface-bright": "#363a3d",
+                      "background": "#101417",
+                      "surface-container-highest": "#313538",
+                      "inverse-primary": "#00658b",
+                      "inverse-on-surface": "#2d3134",
+                      "on-secondary-fixed-variant": "#005144",
+                      "status-critical": "#93000a",
+                      "surface": "#101417",
+                      "tertiary-fixed": "#ffd8e7",
+                      "background-deep": "#0a0b12",
+                      "secondary-container": "#00bba0",
+                      "surface-tint": "#7fd0ff",
+                      "on-tertiary-fixed-variant": "#6e3252",
+                      "glow-cyan": "#2da8e0",
+                      "on-surface-variant": "#bfc8cf",
+                      "on-background": "#e0e3e6",
+                      "on-tertiary-fixed": "#390625",
+                      "on-secondary-fixed": "#00201a",
+                      "on-error": "#690005",
+                      "tertiary-container": "#ffafd4",
+                      "on-tertiary-container": "#7c3e5e",
+                      "grid-line": "rgba(127, 208, 255, 0.05)",
+                      "primary": "#c5e7ff",
+                      "on-surface": "#e0e3e6",
+                      "on-primary-fixed": "#001e2d",
+                      "secondary": "#47ddc1",
+                      "on-primary-container": "#00597b",
+                      "secondary-fixed": "#6af9dc",
+                      "error": "#ffb4ab",
+                      "surface-dim": "#101417",
+                      "on-tertiary": "#531c3b",
+                      "outline": "#899299",
+                      "primary-fixed": "#c5e7ff",
+                      "on-primary-fixed-variant": "#004c6a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "20px",
+                      "unit": "4px",
+                      "section-padding": "128px",
+                      "panel-gap": "12px",
+                      "margin-desktop": "40px",
+                      "gutter": "16px"
+              },
+              "fontFamily": {
+                      "display-lg-mobile": ["Space Grotesk"],
+                      "display-lg": ["Space Grotesk"],
+                      "label-caps": ["JetBrains Mono"],
+                      "data-point": ["Hanken Grotesk"],
+                      "micro-tag": ["JetBrains Mono"],
+                      "headline-md": ["Space Grotesk"],
+                      "mono-data": ["JetBrains Mono"],
+                      "body-md": ["Hanken Grotesk"]
+              },
+              "fontSize": {
+                      "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                      "data-point": ["20px", {"lineHeight": "28px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                      "micro-tag": ["10px", {"letterSpacing": "0.3em", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                      "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="flex flex-col min-h-screen">
+<!-- Top Navigation Anchor (Manual Implementation based on Blueprint) -->
+<header class="fixed top-0 w-full z-50 bg-surface/20 backdrop-blur-xl border-b border-primary-container/20 px-margin-desktop h-16 flex justify-between items-center">
+<div class="flex items-center gap-4">
+<img alt="MagnopVS Logo" class="h-8 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7Gf4MeGP0O6o6Fg08Bx1YINGtguED_H05_GoeERcaLdGhYpfv8DpxH9snH0McYpAdL7KRkJ6PHcIPxMMzqRlaEwiJmUObh-HSd_wCCAfWxc78EiUKTOwW533VfI6YRkK8q7_7w6SRR5nzHxcEi-3zBBJ6wMriq5-m2odxhHFkPE0L2a1twtKddqtE7yU-4Wyc02DK8ecqT7P3P8BxVSOgAXX9sy-9IX4_wThH2miYj-z6h77LIm7AuYfuB5aBwgBZhq0"/>
+<span class="font-display-lg text-headline-md tracking-tighter text-primary-container audiowide">MagnopVS</span>
+</div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary-container transition-all" href="#">Nutrition</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary-container transition-all" href="#">Fitness</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary-container transition-all" href="#">Medical</a>
+<a class="text-primary-container border-b-2 border-primary-container pb-1 font-label-caps text-label-caps" href="#">Reports</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-container cursor-pointer">notifications</span>
+<span class="material-symbols-outlined text-primary-container cursor-pointer">settings</span>
+<div class="w-8 h-8 rounded-full border border-primary-container/50 bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Cyber-Alchemical portrait of a high-tech healer user profile icon in neon cyan and deep space black, digital enlightenment style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1zVTk3PjZTPOllPFDCbEacuVHBJcMs-8VsByykyr0VFyfqokorptWKq7QTXd8O_4O0CG8QOedpRub9_GnVjPDbE-YPiKZLZWbppYDFAmFjWgHwAigCHksuJUHzpZdf7p3Lse7k-hdNUZgo5FXSfK5Cl30YDOoGCj5BYjE1v5kUI1FwFYyW4Ve4wyKD4kAs42ejw44Q-1ELpyexrreuHolDbT6AvnZiO9sV2zH9ZOYlJXGOj6ucxtRpA"/>
+</div>
+</div>
+</header>
+<!-- Side Navigation Anchor (Desktop Only) -->
+<aside class="hidden md:flex fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-low/40 backdrop-blur-2xl border-r border-primary-container/20 flex-col py-24 gap-4 px-6">
+<div class="mb-8">
+<p class="font-micro-tag text-micro-tag text-primary-container uppercase tracking-widest">Core Interface</p>
+<h2 class="font-display-lg-mobile text-headline-md orbitron text-primary-container">SOR_OS v2.4</h2>
+</div>
+<div class="flex flex-col gap-2">
+<button class="flex items-center gap-3 py-3 px-4 bg-primary-container/10 text-primary-container border-l-4 border-primary-container transition-all">
+<span class="material-symbols-outlined">restaurant</span>
+<span class="font-mono-data text-mono-data">Nutrition</span>
+</button>
+<button class="flex items-center gap-3 py-3 px-4 text-on-surface-variant hover:bg-surface-bright/10 transition-all">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="font-mono-data text-mono-data">Fitness</span>
+</button>
+<button class="flex items-center gap-3 py-3 px-4 text-on-surface-variant hover:bg-surface-bright/10 transition-all">
+<span class="material-symbols-outlined">medical_services</span>
+<span class="font-mono-data text-mono-data">Medical</span>
+</button>
+<button class="flex items-center gap-3 py-3 px-4 text-on-surface-variant hover:bg-surface-bright/10 transition-all">
+<span class="material-symbols-outlined">face</span>
+<span class="font-mono-data text-mono-data">Aesthetic</span>
+</button>
+</div>
+<div class="mt-auto pt-8 border-t border-primary-container/10">
+<button class="w-full py-2 mb-4 slanted-edge bg-primary-container text-on-primary font-label-caps text-label-caps orbitron">Infect Update</button>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 text-on-surface-variant font-mono-data text-mono-data hover:text-on-surface" href="#">
+<span class="material-symbols-outlined">emergency</span> Emergency
+                </a>
+<a class="flex items-center gap-3 text-on-surface-variant font-mono-data text-mono-data hover:text-on-surface" href="#">
+<span class="material-symbols-outlined">folder_special</span> Archive
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 pt-24 pb-section-padding px-margin-mobile md:px-margin-desktop">
+<div class="max-w-5xl mx-auto space-y-12">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-end gap-6 border-b border-primary-container/10 pb-8">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary-container text-sm">terminal</span>
+<p class="font-micro-tag text-micro-tag text-primary-container uppercase">System_Log :: medical_export_v6.8</p>
+</div>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg orbitron text-on-surface">MagnopVS · Registro de Sanación</h1>
+<p class="font-body-md text-on-surface-variant max-w-2xl mt-2 italic">An alchemical synthesis of your biometric journey. Perfect adherence yields digital enlightenment.</p>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-3 border border-primary-container/30 text-primary-container slanted-edge hover:bg-primary-container/10 transition-all font-label-caps text-label-caps flex items-center gap-2">
+<span class="material-symbols-outlined">download</span> Export PDF
+                    </button>
+<button class="px-6 py-3 bg-primary-container text-on-primary slanted-edge orbitron font-bold flex items-center gap-2 shadow-[0_0_20px_rgba(127,208,255,0.3)]">
+<span class="material-symbols-outlined">auto_fix_high</span> Transmit to Oracle
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Sincronía del Ciclo (Calendar) -->
+<section class="md:col-span-8 parchment-glass p-8 relative">
+<div class="corner-bracket bracket-tl"></div>
+<div class="corner-bracket bracket-tr"></div>
+<div class="corner-bracket bracket-bl"></div>
+<div class="corner-bracket bracket-br"></div>
+<div class="flex justify-between items-center mb-8">
+<div>
+<h3 class="font-headline-md text-headline-md orbitron text-primary-container">Sincronía del Ciclo</h3>
+<p class="font-micro-tag text-micro-tag text-on-surface-variant">28-DAY ADHERENCE FLOW</p>
+</div>
+<div class="flex items-center gap-4 bg-surface-container px-4 py-2 border border-primary-container/20">
+<span class="font-label-caps text-label-caps text-secondary-container">94% Stability</span>
+<div class="flex">
+<div class="status-block active"></div>
+<div class="status-block active"></div>
+<div class="status-block active"></div>
+<div class="status-block active"></div>
+<div class="status-block active"></div>
+<div class="status-block"></div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-7 gap-3">
+<!-- Simplified 28-day logic -->
+<script>
+                            const days = 28;
+                            for (let i = 1; i <= days; i++) {
+                                const isMissed = i === 12 || i === 24;
+                                const isPartial = i === 7;
+                                let colorClass = "bg-primary-container/20 border-primary-container/40";
+                                let icon = "radio_button_unchecked";
+                                
+                                if (!isMissed && !isPartial) {
+                                    colorClass = "bg-secondary-container/20 border-secondary-container text-secondary-container shadow-[0_0_10px_rgba(71,221,193,0.2)]";
+                                    icon = "check_circle";
+                                } else if (isMissed) {
+                                    colorClass = "bg-error-container/20 border-error text-error";
+                                    icon = "error";
+                                } else if (isPartial) {
+                                    colorClass = "bg-tertiary-container/20 border-tertiary text-tertiary";
+                                    icon = "pending";
+                                }
+
+                                document.write(`
+                                    <div class="aspect-square flex flex-col items-center justify-center border ${colorClass} transition-all hover:scale-105 cursor-help">
+                                        <span class="font-micro-tag text-[8px] mb-1 opacity-50">DAY ${i}</span>
+                                        <span class="material-symbols-outlined text-lg">${icon}</span>
+                                    </div>
+                                `);
+                            }
+                        </script>
+</div>
+</section>
+<!-- Achievement Badges -->
+<section class="md:col-span-4 parchment-glass p-8 flex flex-col gap-6">
+<h3 class="font-headline-md text-headline-md orbitron text-primary-container">Ascension Rank</h3>
+<div class="space-y-4">
+<div class="flex items-center gap-4 p-4 border border-secondary-container/30 bg-secondary-container/5">
+<div class="w-12 h-12 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary-container neon-pulse">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+<div>
+<h4 class="font-label-caps text-label-caps text-on-surface">Master Alchemist</h4>
+<p class="font-micro-tag text-micro-tag text-on-surface-variant">30 DAYS PERFECT ADHERENCE</p>
+</div>
+</div>
+<div class="flex items-center gap-4 p-4 border border-primary-container/20 bg-primary-container/5 opacity-80">
+<div class="w-12 h-12 rounded-full bg-primary-container/20 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-3xl">fluid_med</span>
+</div>
+<div>
+<h4 class="font-label-caps text-label-caps text-on-surface">Essence Keeper</h4>
+<p class="font-micro-tag text-micro-tag text-on-surface-variant">VITAL STREAM SYNC (7D)</p>
+</div>
+</div>
+<div class="flex items-center gap-4 p-4 border border-on-surface-variant/10 grayscale opacity-40">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-3xl">auto_awesome</span>
+</div>
+<div>
+<h4 class="font-label-caps text-label-caps text-on-surface">Oracle Link</h4>
+<p class="font-micro-tag text-micro-tag text-on-surface-variant">SECURE TRANSMISSION (LOCKED)</p>
+</div>
+</div>
+</div>
+<div class="mt-auto pt-6 border-t border-primary-container/10">
+<p class="font-body-md text-on-surface-variant italic text-sm">"The medicine of the soul is found in the discipline of the body."</p>
+</div>
+</section>
+<!-- Bio-Telemetry Export -->
+<section class="md:col-span-12 parchment-glass p-8">
+<div class="flex items-center gap-4 mb-8">
+<span class="material-symbols-outlined text-primary-container text-4xl neon-pulse">biotech</span>
+<div>
+<h3 class="font-headline-md text-headline-md orbitron text-on-surface">Vital Data Streams</h3>
+<p class="font-micro-tag text-micro-tag text-primary-container">REAL-TIME BIOMETRIC TELEMETRY</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="border-l-2 border-primary-container pl-6 py-2">
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase">Body Mass Index</p>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-display-lg text-headline-md orbitron text-on-surface">74.2</span>
+<span class="font-mono-data text-mono-data text-primary-container">KG</span>
+</div>
+<div class="h-1 w-full bg-surface-container mt-4 relative">
+<div class="absolute h-full bg-primary-container w-[74%] shadow-[0_0_10px_rgba(127,208,255,0.5)]"></div>
+</div>
+<p class="font-micro-tag text-micro-tag mt-2 text-secondary-container">STABLE (Δ-0.4)</p>
+</div>
+<div class="border-l-2 border-secondary-container pl-6 py-2">
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase">Pulse Rhythm</p>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-display-lg text-headline-md orbitron text-on-surface">68</span>
+<span class="font-mono-data text-mono-data text-secondary-container">BPM</span>
+</div>
+<div class="h-1 w-full bg-surface-container mt-4 flex gap-1">
+<div class="h-full bg-secondary-container w-2"></div>
+<div class="h-full bg-secondary-container w-2"></div>
+<div class="h-full bg-secondary-container w-2"></div>
+<div class="h-full bg-secondary-container w-2"></div>
+<div class="h-full bg-secondary-container w-2"></div>
+</div>
+<p class="font-micro-tag text-micro-tag mt-2 text-secondary-container">OPTIMAL RANGE</p>
+</div>
+<div class="border-l-2 border-error pl-6 py-2">
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase">Symptom Intensity</p>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-display-lg text-headline-md orbitron text-on-surface">Low</span>
+<span class="font-mono-data text-mono-data text-error">LEVEL 1</span>
+</div>
+<p class="font-body-md text-on-surface-variant text-sm mt-4">Isolated reports of morning fatigue. Correlated with Day 12 cycle lapse.</p>
+</div>
+</div>
+</section>
+<!-- Visualization/Abstract Asset -->
+<div class="md:col-span-12 h-64 relative overflow-hidden parchment-glass">
+
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="text-center p-8 bg-surface/80 backdrop-blur-md border border-primary-container/20 max-w-lg">
+<span class="material-symbols-outlined text-primary-container text-5xl mb-4">analytics</span>
+<h4 class="font-display-lg-mobile text-headline-md orbitron text-on-surface uppercase tracking-widest">Cognitive Mapping</h4>
+<p class="font-body-md text-on-surface-variant">Synthesizing neuro-patterns over the observation period.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Anchor (Mobile Only) -->
+<footer class="md:hidden fixed bottom-0 left-0 w-full z-50 bg-surface-container-highest/30 backdrop-blur-lg border-t border-primary-container/30 flex justify-around items-center px-4 pb-4 h-20">
+<button class="flex flex-col items-center justify-center text-outline p-2 transition-transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+<span class="font-label-caps text-label-caps">Optimize</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline p-2 transition-transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="format_list_bulleted">format_list_bulleted</span>
+<span class="font-label-caps text-label-caps">Protocol</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-none p-3 shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="biotech">biotech</span>
+<span class="font-label-caps text-label-caps">Clinical</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline p-2 transition-transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+<span class="font-label-caps text-label-caps">Image</span>
+</button>
+</footer>
+<script>
+        // Micro-interaction for buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mouseenter', () => {
+                const icon = btn.querySelector('.material-symbols-outlined');
+                if (icon) icon.classList.add('neon-pulse');
+            });
+            btn.addEventListener('mouseleave', () => {
+                const icon = btn.querySelector('.material-symbols-outlined');
+                if (icon) icon.classList.remove('neon-pulse');
+            });
+        });
+
+        // Simulating some dynamic log entries
+        const titles = ["SYNAPTIC_LINK_ESTABLISHED", "BIOMETRIC_DATA_FETCHED", "ORACLE_MODE_STANDBY"];
+        setInterval(() => {
+            const tag = document.querySelector('.font-micro-tag');
+            if (tag) {
+                tag.style.opacity = '0.5';
+                setTimeout(() => {
+                    tag.textContent = `System_Log :: ${titles[Math.floor(Math.random() * titles.length)]}`;
+                    tag.style.opacity = '1';
+                }, 200);
+            }
+        }, 5000);
+    </script>
+</body></html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PHANTOM_NAVIGATOR // SHADOW_DOMAINS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --glow-cyan: rgba(45, 168, 224, 0.3);
+            --glow-red: rgba(147, 1, 0, 0.4);
+        }
+
+        body {
+            background-color: #0a0b12;
+            overflow-x: hidden;
+            font-family: 'Hanken Grotesk', sans-serif;
+        }
+
+        .cyber-grid {
+            background-image: 
+                linear-gradient(to right, rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(197, 231, 255, 0.1);
+        }
+
+        .neon-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 5px var(--glow-cyan)); }
+            50% { opacity: .7; filter: drop-shadow(0 0 15px var(--glow-cyan)); }
+        }
+
+        .skew-slanted {
+            clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+        }
+
+        .hex-clip {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        .status-block {
+            width: 8px;
+            height: 16px;
+            margin-right: 2px;
+            background: #1c2023;
+        }
+
+        .status-block.active {
+            background: #47ddc1;
+            box-shadow: 0 0 8px #47ddc1;
+        }
+
+        .status-block.critical {
+            background: #93000a;
+            box-shadow: 0 0 8px #93000a;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#7fd0ff",
+                        "secondary-container": "#00bba0",
+                        "primary-fixed-dim": "#7fd0ff",
+                        "on-secondary": "#00382e",
+                        "on-secondary-container": "#004439",
+                        "grid-line": "rgba(127, 208, 255, 0.05)",
+                        "on-tertiary-fixed-variant": "#6e3252",
+                        "tertiary-container": "#ffafd4",
+                        "outline": "#899299",
+                        "on-tertiary-container": "#7c3e5e",
+                        "on-primary-fixed-variant": "#004c6a",
+                        "on-tertiary": "#531c3b",
+                        "surface-bright": "#363a3d",
+                        "on-tertiary-fixed": "#390625",
+                        "tertiary": "#ffd8e7",
+                        "on-surface": "#e0e3e6",
+                        "status-critical": "#93000a",
+                        "background-deep": "#0a0b12",
+                        "primary": "#c5e7ff",
+                        "inverse-primary": "#00658b",
+                        "on-primary-container": "#00597b",
+                        "surface-container-lowest": "#0b0f11",
+                        "surface-container-highest": "#313538",
+                        "surface": "#101417",
+                        "inverse-on-surface": "#2d3134",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed-dim": "#ffafd4",
+                        "on-primary": "#00344a",
+                        "on-secondary-fixed": "#00201a",
+                        "surface-container-low": "#181c1f",
+                        "background": "#101417",
+                        "primary-container": "#7fd0ff",
+                        "outline-variant": "#3f484e",
+                        "on-surface-variant": "#bfc8cf",
+                        "error-container": "#93000a",
+                        "secondary-fixed-dim": "#47ddc1",
+                        "secondary-fixed": "#6af9dc",
+                        "on-error": "#690005",
+                        "surface-dim": "#101417",
+                        "inverse-surface": "#e0e3e6",
+                        "primary-fixed": "#c5e7ff",
+                        "on-primary-fixed": "#001e2d",
+                        "surface-container-high": "#272a2d",
+                        "on-error-container": "#ffdad6",
+                        "surface-container": "#1c2023",
+                        "on-background": "#e0e3e6",
+                        "on-secondary-fixed-variant": "#005144",
+                        "tertiary-fixed": "#ffd8e7",
+                        "surface-variant": "#313538",
+                        "surface-panel": "rgba(255, 255, 255, 0.03)",
+                        "secondary": "#47ddc1",
+                        "glow-cyan": "#2da8e0"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Space Grotesk"],
+                        "micro-tag": ["JetBrains Mono"],
+                        "headline-md": ["Space Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "data-point": ["Hanken Grotesk"],
+                        "mono-data": ["JetBrains Mono"],
+                        "body-md": ["Hanken Grotesk"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="text-on-surface selection:bg-primary selection:text-on-primary">
+<!-- ATMOSPHERIC BACKGROUND -->
+<div class="fixed inset-0 cyber-grid z-0 opacity-40"></div>
+<div class="fixed inset-0 bg-gradient-to-br from-background via-transparent to-background-deep z-0 pointer-events-none"></div>
+<!-- TOP BAR -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-gutter h-16 bg-surface/80 backdrop-blur-xl dark:bg-surface/80 border-b-4 border-primary-container shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] docked full-width top-0 clip-path-[polygon(0_0,100%_0,98%_100%,2%_90%)]">
+<div class="flex items-center gap-4">
+<span class="font-headline-lg text-headline-lg italic font-black text-primary-container skew-x-[-12deg]">PHANTOM_NAVIGATOR</span>
+<span class="hidden md:block h-6 w-px bg-outline-variant mx-2"></span>
+<span class="hidden md:block font-micro-tag text-micro-tag text-secondary">ACTIVE_DOMAIN: SHADOW_SELECT</span>
+</div>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all">calendar_today</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all relative">
+                notifications_active
+                <span class="absolute -top-1 -right-1 w-2 h-2 bg-status-critical rounded-full animate-ping"></span>
+</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all">settings</button>
+</div>
+</header>
+<!-- SIDE NAV BAR (PHANTOM_OPERATIVE) -->
+<nav class="hidden lg:flex flex-col pt-24 pb-8 px-6 gap-4 fixed left-0 top-0 h-full w-72 clip-path-[polygon(0_0,100%_0,85%_100%,0_100%)] bg-surface-container/90 backdrop-blur-lg border-r-8 border-primary shadow-[12px_0px_0px_0px_rgba(147,1,0,0.5)] z-40">
+<div class="mb-8">
+<h2 class="font-display-hero text-headline-lg text-primary">PHANTOM_OPERATIVE</h2>
+<p class="font-action-callout text-action-callout italic text-on-surface-variant">RANK: JOKER</p>
+</div>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-4 py-3 px-4 transition-all text-on-surface hover:text-primary hover:translate-x-2" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-action-callout text-action-callout italic uppercase">DASHBOARD</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 transition-all text-on-surface hover:text-primary hover:translate-x-2" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-action-callout text-action-callout italic uppercase">CONFIDANTS</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 transition-all bg-primary text-on-primary -skew-x-7 translate-x-4 shadow-[4px_4px_0px_0px_rgba(0,219,233,1)]" href="#">
+<span class="material-symbols-outlined">security</span>
+<span class="font-action-callout text-action-callout italic uppercase">INFILTRATE</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 transition-all text-on-surface hover:text-primary hover:translate-x-2" href="#">
+<span class="material-symbols-outlined">swords</span>
+<span class="font-action-callout text-action-callout italic uppercase">ARSENAL</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 transition-all text-on-surface hover:text-primary hover:translate-x-2" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-action-callout text-action-callout italic uppercase">ARCHIVE</span>
+</a>
+</div>
+<div class="mt-auto pt-8">
+<div class="glass-panel p-4 border-l-4 border-secondary mb-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-secondary text-sm animate-pulse">monitoring</span>
+<span class="font-micro-tag text-micro-tag text-secondary uppercase">SOF.IA TACTICAL FEED</span>
+</div>
+<p class="font-mono-data text-mono-data text-on-surface-variant leading-tight">
+                    "Presence detected in internal block 04. Ego Labyrinth fragmentation at 84%. Suggest immediate sync."
+                </p>
+</div>
+<button class="w-full bg-primary text-on-primary font-bold py-3 uppercase tracking-widest -skew-x-12 hover:bg-white transition-colors">
+                SYNC_SOUL
+            </button>
+</div>
+</nav>
+<!-- MAIN CANVAS -->
+<main class="lg:ml-72 pt-28 px-margin-mobile md:px-margin-desktop pb-section-padding min-h-screen relative z-10">
+<div class="max-w-7xl mx-auto">
+<!-- PAGE HEADER -->
+<div class="mb-12">
+<div class="flex items-baseline gap-2 mb-1">
+<span class="text-status-critical font-bold text-headline-md">//</span>
+<h1 class="font-display-lg text-display-lg uppercase tracking-widest text-primary">SHADOW DOMAINS</h1>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-micro-tag text-micro-tag bg-status-critical/20 text-status-critical px-2 py-1 border border-status-critical/40 uppercase">Danger: High Sync Required</span>
+<div class="flex">
+<div class="status-block active"></div>
+<div class="status-block active"></div>
+<div class="status-block active"></div>
+<div class="status-block"></div>
+<div class="status-block"></div>
+</div>
+</div>
+</div>
+<!-- BENTO MISSION GRID -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+<!-- DOMAIN 1: FORTRESS OF FEAR -->
+<div class="md:col-span-8 group">
+<div class="glass-panel relative overflow-hidden group-hover:border-primary/40 transition-all duration-500 cursor-pointer h-[400px]">
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1000 opacity-60" data-alt="A dark, oppressive architectural structure resembling a futuristic brutalist fortress with sharp spikes and red glowing corridors. The atmosphere is filled with thick digital fog and glitching shadows, illuminated by harsh crimson lighting. It feels like a high-security psychological prison in a cyberpunk universe." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDzHSQ5zhaNSLp0zXPD5fwVT-jApllfEhGnQZcJ72zPYJnZwC3bpqxD5ntozvj4EGd73QQvCVCl2wgVUXFwoCTxDdwGjSMkT_on5BYOg2FBA8CQY0-l8QgOK1vpKGSem3eFs-hW6PSRasLjmcnboXAubxuqk5kmWGxPzs57U4QhBUI8c_lHSHqnApl8CWPRulsjSx5rv7jXpswpI_fPyZa8X3Jd6wgGWBGewxILR4ldka5Jjy4EB6IY6A')"></div>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-background-deep via-transparent to-transparent"></div>
+<div class="absolute top-6 right-6 flex flex-col items-end">
+<div class="flex items-center gap-2 bg-status-critical text-on-error px-4 py-1 skew-x-[-15deg] mb-2 font-bold uppercase tracking-tighter">
+<span class="material-symbols-outlined text-[18px]">warning</span>
+                                BOSS BATTLE DETECTED
+                            </div>
+<span class="font-micro-tag text-white bg-black/50 px-2 py-1">SYS_ID: BLOCK_001</span>
+</div>
+<div class="absolute bottom-0 left-0 p-8 w-full">
+<h3 class="font-display-lg text-display-lg text-white mb-2 tracking-tighter">FORTRESS OF FEAR</h3>
+<p class="font-body-md text-on-surface-variant max-w-xl mb-6">
+                                The foundational barrier of the psyche. Heavily fortified with ancestral doubts and reactive shielding. Breach required to access core emotional memory.
+                            </p>
+<div class="flex items-center gap-4">
+<button class="bg-secondary text-on-secondary font-bold px-8 py-3 uppercase -skew-x-12 hover:scale-105 active:scale-95 transition-all">
+                                    INITIALIZE_INFILTRATION
+                                </button>
+<div class="flex gap-1">
+<div class="w-2 h-8 bg-secondary"></div>
+<div class="w-2 h-8 bg-secondary opacity-50"></div>
+<div class="w-2 h-8 bg-secondary opacity-20"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- SOF.IA TACTICAL SIDEBAR -->
+<div class="md:col-span-4 space-y-6">
+<div class="glass-panel p-6 border-t-4 border-secondary relative overflow-hidden">
+<div class="absolute -right-10 -top-10 opacity-10">
+<span class="material-symbols-outlined text-[120px] text-secondary">psychology</span>
+</div>
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-secondary neon-pulse">smart_toy</span>
+<h4 class="font-label-caps text-label-caps text-secondary">SOF.IA TACTICAL ADVICE</h4>
+</div>
+<div class="space-y-4 relative z-10">
+<div class="bg-surface-container p-3 border-l-2 border-primary/30">
+<p class="font-mono-data text-mono-data text-on-surface-variant italic">
+                                    "The Fortress of Fear uses iterative loops. Do not hesitate at the threshold. Tactical speed is your only armor."
+                                </p>
+</div>
+<div class="bg-surface-container p-3 border-l-2 border-primary/30">
+<p class="font-mono-data text-mono-data text-on-surface-variant italic">
+                                    "Ego Labyrinth signatures are shifting. Maintain a tether to the Status core or risk permanent fragmentation."
+                                </p>
+</div>
+</div>
+<div class="mt-6 pt-6 border-t border-outline-variant flex justify-between items-center">
+<span class="font-micro-tag text-on-surface-variant">SYNC_LEVEL</span>
+<span class="font-data-point text-data-point text-primary">88.4%</span>
+</div>
+</div>
+<div class="glass-panel p-6 bg-status-critical/10 border border-status-critical/30">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-status-critical">priority_high</span>
+<h4 class="font-label-caps text-label-caps text-status-critical">CRITICAL_TASKS</h4>
+</div>
+<ul class="font-mono-data text-mono-data space-y-2 text-on-surface-variant">
+<li class="flex items-center gap-2">
+<span class="w-2 h-2 bg-status-critical"></span>
+                                Defeat 'The Perfectionist' Boss
+                            </li>
+<li class="flex items-center gap-2">
+<span class="w-2 h-2 bg-status-critical"></span>
+                                Collect 5 Fragment Shards
+                            </li>
+<li class="flex items-center gap-2 opacity-40 line-through">
+<span class="w-2 h-2 bg-on-surface-variant"></span>
+                                Unlock Arsenal Bay 02
+                            </li>
+</ul>
+</div>
+</div>
+<!-- DOMAIN 2: EGO LABYRINTH -->
+<div class="md:col-span-6 group">
+<div class="glass-panel relative overflow-hidden group-hover:border-secondary/40 transition-all duration-500 cursor-pointer h-[350px]">
+<div class="absolute inset-0">
+<div class="w-full h-full object-cover group-hover:rotate-1 transition-transform duration-1000 opacity-50" data-alt="A surreal, infinite maze of mirrors and glass walkways floating in a void of cyan light and deep space black. Reflective surfaces create optical illusions of infinite depth. High-contrast lighting with cyan neon accents and geometric patterns etched into the glass. The mood is disorienting and technically complex." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBMOGc3nHj6GeC3ztnuQK83pLiIsXHTaD9hYXC59ioPOJIRCj1pB41DcxZ867v8UTr_81JiGHq536Vo03ksg70fGmc0X-TzETp9OfhBmsD8P7x4P6_KGsDDGVBIK1tjIx1H5zqYPBMidIygfDB-CMWYoVr6WqhLlbFBZjRx2s6JbaAg98OKMt5OGdR-L-bWNM3KNXDalAMOkfkWp8HfqlpCWTvoToPHqlK2_y_4typ-09vMw8nhTkMmvw')"></div>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-background-deep to-transparent"></div>
+<div class="absolute p-6 bottom-0 left-0">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-secondary">alt_route</span>
+<span class="font-micro-tag text-secondary">NON-LINEAR NAVIGATION</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-white">EGO LABYRINTH</h3>
+<p class="font-body-md text-on-surface-variant mt-2 mb-4">A shifting sequence of self-projections. Success requires objective awareness.</p>
+<div class="flex gap-2">
+<span class="px-2 py-1 bg-surface-container-highest text-primary font-micro-tag">MODIFIER: RECURSION</span>
+<span class="px-2 py-1 bg-surface-container-highest text-primary font-micro-tag">DIFFICULTY: ELITE</span>
+</div>
+</div>
+</div>
+</div>
+<!-- DOMAIN 3: PROCRASTINATION CITY -->
+<div class="md:col-span-6 group">
+<div class="glass-panel relative overflow-hidden group-hover:border-tertiary/40 transition-all duration-500 cursor-pointer h-[350px]">
+<div class="absolute inset-0">
+<div class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-50" data-alt="A sprawling, decadent digital metropolis that appears half-finished or decaying into data static. Warm amber and deep purple lights contrast with cold grey architecture. Holographic advertisements for distractions fill the air like glowing neon moths. A sense of beautiful stagnation and wasted potential in a cyber-alchemical style." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAVUj2wzbCRwSCUhd2t0qvLJxLzXHcCUV2DH4AJ9ATlk7JvWhMo2g0y5gGB9ve9CW1oRrr-9ah7hYM6Nntu8gLoHJf5xwra-JKDoXnHbmyX_mr9-ci4s1NYzdNXCL7omyAIbwn6WCI8UPH8V0sGRKw97qZCypqYGJ4Eo9GHY1H11gWTrMKHbUkwaJ054CVpcI_aQv6mDVvXUU4jMcvrJT9e-fF5jL_zFMHoXWUnrEoP0dk92K9tOhTmUg')"></div>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-background-deep to-transparent"></div>
+<div class="absolute p-6 bottom-0 left-0">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-tertiary">schedule</span>
+<span class="font-micro-tag text-tertiary">TIME_DILATION_ZONE</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-white">PROCRASTINATION CITY</h3>
+<p class="font-body-md text-on-surface-variant mt-2 mb-4">The zone of comfortable delays. High risk of task-exhaustion and idle loops.</p>
+<div class="flex gap-2">
+<span class="px-2 py-1 bg-surface-container-highest text-tertiary font-micro-tag">MODIFIER: FATIGUE</span>
+<span class="px-2 py-1 bg-surface-container-highest text-tertiary font-micro-tag">YIELD: HIGH_DATA</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BOTTOM NAV BAR (MOBILE ONLY) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 bg-surface-container-lowest dark:bg-surface-container-lowest h-20 clip-path-[polygon(2%_10%,98%_0,100%_100%,0_100%)] z-50 shadow-[0px_-4px_10px_rgba(255,85,64,0.3)]">
+<div class="flex flex-col items-center justify-center text-on-surface-variant opacity-70">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-mono text-[10px] uppercase">STATUS</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container -skew-x-12 px-6 py-2 border-r-4 border-tertiary">
+<span class="material-symbols-outlined">sync_alt</span>
+<span class="font-label-mono text-[10px] uppercase">SYNC</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant opacity-70">
+<span class="material-symbols-outlined">warning</span>
+<span class="font-label-mono text-[10px] uppercase">ALERTS</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant opacity-70">
+<span class="material-symbols-outlined">memory</span>
+<span class="font-label-mono text-[10px] uppercase">CORE</span>
+</div>
+</nav>
+<!-- INTERACTIVE SCRIPTS -->
+<script>
+        // Micro-interactions for glass panels
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mousemove', (e) => {
+                const rect = panel.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                panel.style.setProperty('--mouse-x', `${x}px`);
+                panel.style.setProperty('--mouse-y', `${y}px`);
+                
+                // Subtle tilt effect
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 50;
+                const rotateY = (centerX - x) / 50;
+                panel.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+
+            panel.addEventListener('mouseleave', () => {
+                panel.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+            });
+        });
+
+        // Typing effect for tactical advice
+        const tacticalFeed = document.querySelector('.tactical-feed-text');
+        if (tacticalFeed) {
+            const originalText = tacticalFeed.innerText;
+            tacticalFeed.innerText = '';
+            let i = 0;
+            const type = () => {
+                if (i < originalText.length) {
+                    tacticalFeed.innerText += originalText.charAt(i);
+                    i++;
+                    setTimeout(type, 30);
+                }
+            };
+            type();
+        }
+    </script>
+</body></html>

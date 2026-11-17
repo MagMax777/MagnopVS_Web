@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · Ingeniería Cronogramatical (v6.8)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Space+Grotesk:wght@300;500;700&amp;family=Hanken+Grotesk:wght@300;400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --neon-cyan: #7fd0ff;
+            --neon-magenta: #ffafd4;
+            --neon-gold: #ffd8e7; /* Using tertiary for gold-ish feel */
+            --void: #0a0b12;
+        }
+
+        body {
+            background-color: var(--void);
+            color: #e0e3e6;
+            font-family: 'Orbitron', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .cyber-grid {
+            background-image: 
+                linear-gradient(to right, rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(127, 208, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .glass-panel:hover {
+            border-color: rgba(127, 208, 255, 0.4);
+            box-shadow: 0 0 20px rgba(127, 208, 255, 0.1);
+        }
+
+        .hexagon-mask {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        .status-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .terminal-text {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .slanted-btn {
+            clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.2);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-cyan);
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "outline": "#899299",
+                        "on-primary": "#00344a",
+                        "surface-variant": "#313538",
+                        "outline-variant": "#3f484e",
+                        "on-secondary-fixed": "#00201a",
+                        "on-error": "#690005",
+                        "surface-dim": "#101417",
+                        "on-primary-fixed": "#001e2d",
+                        "on-secondary-container": "#004439",
+                        "background-deep": "#0a0b12",
+                        "on-tertiary-fixed": "#390625",
+                        "on-primary-container": "#00597b",
+                        "on-surface-variant": "#bfc8cf",
+                        "error": "#ffb4ab",
+                        "on-secondary": "#00382e",
+                        "inverse-surface": "#e0e3e6",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#005144",
+                        "secondary": "#47ddc1",
+                        "secondary-container": "#00bba0",
+                        "glow-cyan": "#2da8e0",
+                        "surface-container-lowest": "#0b0f11",
+                        "surface-container-low": "#181c1f",
+                        "secondary-fixed": "#6af9dc",
+                        "primary-fixed-dim": "#7fd0ff",
+                        "on-surface": "#e0e3e6",
+                        "tertiary-fixed": "#ffd8e7",
+                        "surface-tint": "#7fd0ff",
+                        "on-tertiary": "#531c3b",
+                        "surface-bright": "#363a3d",
+                        "surface-container-high": "#272a2d",
+                        "grid-line": "rgba(127, 208, 255, 0.05)",
+                        "tertiary-container": "#ffafd4",
+                        "tertiary-fixed-dim": "#ffafd4",
+                        "surface-container": "#1c2023",
+                        "primary": "#c5e7ff",
+                        "primary-container": "#7fd0ff",
+                        "status-critical": "#93000a",
+                        "primary-fixed": "#c5e7ff",
+                        "inverse-on-surface": "#2d3134",
+                        "on-primary-fixed-variant": "#004c6a",
+                        "on-background": "#e0e3e6",
+                        "tertiary": "#ffd8e7",
+                        "surface-container-highest": "#313538",
+                        "inverse-primary": "#00658b",
+                        "on-tertiary-container": "#7c3e5e",
+                        "error-container": "#93000a",
+                        "surface": "#101417",
+                        "on-tertiary-fixed-variant": "#6e3252",
+                        "secondary-fixed-dim": "#47ddc1",
+                        "surface-panel": "rgba(255, 255, 255, 0.03)",
+                        "background": "#101417"
+                    },
+                    fontFamily: {
+                        "mono-data": ["JetBrains Mono"],
+                        "micro-tag": ["JetBrains Mono"],
+                        "headline-md": ["Space Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "data-point": ["Hanken Grotesk"],
+                        "display-lg": ["Space Grotesk"],
+                        "display-lg-mobile": ["Space Grotesk"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background-deep min-h-screen">
+<!-- Atmospheric Background -->
+<div class="fixed inset-0 z-[-1] cyber-grid opacity-30"></div>
+<div class="fixed inset-0 z-[-2] bg-cover bg-center opacity-10" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBFqD7c_8lZI2OHzF3NRAVa4Sxwls-Wo0DXbHzg5G-026o0fEpCTD3zRxLa2YmbC20bPUyHwoVtdegWW2uBP-rsXBTmeVHT8ygmge-RteuSVrsytxjOUO3QMRPaUQRUQK3XLEQIUz1UpPvTlZKkf52tN1ugNVw0-67-IvMK0izkD3-gpQCCXF7S7j4scgSyLV9maXGRK91eIJ_h3JHdQZ8BLwlquNYm74NQPLmk9yvLVu0Np3V27ubheEKVBIEGA_IjCpGhYePYVvSj')"></div>
+<div class="fixed top-0 left-0 w-full h-full pointer-events-none overflow-hidden z-[-1]">
+<div class="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[150px]"></div>
+<div class="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-secondary/10 rounded-full blur-[150px]"></div>
+</div>
+<!-- Top Navigation Anchor -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/30 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="flex items-center gap-4">
+<h1 class="font-display-lg-mobile md:font-display-lg text-primary tracking-widest uppercase">MagnopVS · Life Hero <span class="text-[12px] align-top text-secondary/70 font-mono-data opacity-60">v6.8</span></h1>
+</div>
+<div class="hidden md:flex items-center gap-6">
+<div class="flex flex-col items-end">
+<span class="font-label-caps text-[10px] text-secondary">SYSTEM_STABLE</span>
+<span class="font-mono-data text-outline text-xs">CYC_24 // 00:42:01</span>
+</div>
+<div class="flex gap-2">
+<button class="text-primary hover:text-secondary transition-all"><span class="material-symbols-outlined">bolt</span></button>
+<button class="text-primary hover:text-secondary transition-all"><span class="material-symbols-outlined">stars</span></button>
+<div class="w-10 h-10 rounded-full border border-primary/30 flex items-center justify-center bg-primary/10">
+<span class="material-symbols-outlined text-primary">account_circle</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Side Navigation -->
+<nav class="hidden lg:flex flex-col fixed left-0 top-0 h-full z-40 bg-surface-container-low/50 backdrop-blur-2xl w-64 border-r border-primary/20 shadow-2xl shadow-primary/5 pt-24">
+<div class="px-6 mb-8">
+<h2 class="font-display-lg text-primary text-xl leading-tight">OPERATOR_01</h2>
+<p class="font-label-caps text-outline text-[10px] tracking-[0.2em]">LVL 42 // TITAN</p>
+</div>
+<div class="flex flex-col flex-1 gap-1">
+<a class="flex items-center gap-4 px-6 py-4 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all group" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-primary border-l-2 border-primary bg-primary/5 font-bold shadow-[inset_4px_0_10px_rgba(127,208,255,0.1)] group" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label-caps">13 Houses</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all group" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps">Missions</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all group" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps">Attributes</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all group" href="#">
+<span class="material-symbols-outlined">vitals</span>
+<span class="font-label-caps">Alchemy</span>
+</a>
+</div>
+<div class="p-6 border-t border-primary/10">
+<div class="flex justify-between mb-2">
+<span class="text-[10px] font-label-caps text-outline">Life Energy</span>
+<span class="text-[10px] font-label-caps text-primary">88%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden flex gap-1">
+<div class="h-full bg-primary shadow-[0_0_8px_#7fd0ff]" style="width: 10%"></div>
+<div class="h-full bg-primary shadow-[0_0_8px_#7fd0ff]" style="width: 10%"></div>
+<div class="h-full bg-primary shadow-[0_0_8px_#7fd0ff]" style="width: 10%"></div>
+<div class="h-full bg-primary shadow-[0_0_8px_#7fd0ff]" style="width: 10%"></div>
+<div class="h-full bg-primary shadow-[0_0_8px_#7fd0ff]" style="width: 10%"></div>
+<div class="h-full bg-primary shadow-[0_0_8px_#7fd0ff]" style="width: 10%"></div>
+<div class="h-full bg-primary shadow-[0_0_8px_#7fd0ff]" style="width: 10%"></div>
+<div class="h-full bg-primary shadow-[0_0_8px_#7fd0ff]" style="width: 10%"></div>
+<div class="h-full bg-surface-container-highest" style="width: 10%"></div>
+<div class="h-full bg-surface-container-highest" style="width: 10%"></div>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="lg:pl-64 pt-24 pb-32 px-margin-mobile md:px-margin-desktop">
+<div class="max-w-7xl mx-auto space-y-panel-gap">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+<div>
+<h2 class="text-[32px] md:text-[48px] font-display-lg text-primary uppercase leading-tight tracking-tight" style="font-family: 'Audiowide', cursive;">Ingeniería Cronogramatical</h2>
+<p class="font-mono-data text-secondary/80 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                        TEMPORAL_FLOW_STABLE // SYNC_ACTIVE
+                    </p>
+</div>
+<div class="flex gap-2">
+<button class="bg-primary hover:bg-primary-container text-on-primary px-6 py-2 rounded-sm slanted-btn font-label-caps transition-all active:scale-95">
+                        FORGE_SYNC
+                    </button>
+</div>
+</div>
+<!-- Bento Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- 1. Astral Calendar (Large Left) -->
+<div class="md:col-span-8 flex flex-col gap-6">
+<section class="glass-panel p-6 rounded-xl relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[120px]">public</span>
+</div>
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-primary flex items-center gap-2">
+<span class="material-symbols-outlined">calendar_month</span>
+                                Calendario Astral
+                            </h3>
+<div class="flex items-center gap-4 bg-surface-container/50 px-4 py-2 rounded-full border border-outline-variant/20">
+<button class="text-primary hover:text-secondary"><span class="material-symbols-outlined">chevron_left</span></button>
+<span class="font-label-caps text-sm">OCTUBRE 202X</span>
+<button class="text-primary hover:text-secondary"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+<!-- Calendar Grid -->
+<div class="grid grid-cols-7 gap-2">
+<!-- Weekdays -->
+<div class="text-center py-2 font-label-caps text-[10px] text-outline">LUN</div>
+<div class="text-center py-2 font-label-caps text-[10px] text-outline">MAR</div>
+<div class="text-center py-2 font-label-caps text-[10px] text-outline">MIE</div>
+<div class="text-center py-2 font-label-caps text-[10px] text-outline">JUE</div>
+<div class="text-center py-2 font-label-caps text-[10px] text-outline">VIE</div>
+<div class="text-center py-2 font-label-caps text-[10px] text-secondary">SAB</div>
+<div class="text-center py-2 font-label-caps text-[10px] text-secondary">DOM</div>
+<!-- Calendar Days -->
+<!-- Row 1 -->
+<div class="aspect-square glass-panel flex flex-col items-center justify-center rounded-lg opacity-30 border-transparent">
+<span class="text-xs">28</span>
+</div>
+<div class="aspect-square glass-panel flex flex-col items-center justify-center rounded-lg opacity-30 border-transparent">
+<span class="text-xs">29</span>
+</div>
+<div class="aspect-square glass-panel flex flex-col items-center justify-center rounded-lg opacity-30 border-transparent">
+<span class="text-xs">30</span>
+</div>
+<div class="aspect-square glass-panel flex flex-col items-center justify-center rounded-lg border-primary/10">
+<span class="text-xs font-bold text-primary">01</span>
+</div>
+<div class="aspect-square glass-panel flex flex-col items-center justify-center rounded-lg border-primary/10">
+<span class="text-xs font-bold text-primary">02</span>
+</div>
+<div class="aspect-square glass-panel flex flex-col items-center justify-center rounded-lg border-secondary/20">
+<span class="text-xs font-bold text-secondary">03</span>
+</div>
+<div class="aspect-square glass-panel flex flex-col items-center justify-center rounded-lg border-secondary/20">
+<span class="text-xs font-bold text-secondary">04</span>
+</div>
+<!-- Row 2 -->
+<div class="aspect-square glass-panel flex flex-col items-center justify-center rounded-lg border-primary/10 relative overflow-hidden group/day">
+<span class="text-xs font-bold text-primary">05</span>
+<div class="absolute bottom-1 flex gap-0.5">
+<div class="w-1 h-1 bg-secondary rounded-full"></div>
+<div class="w-1 h-1 bg-tertiary rounded-full"></div>
+</div>
+</div>
+<!-- Current Day -->
+<div class="aspect-square bg-primary/20 border-2 border-primary flex flex-col items-center justify-center rounded-lg shadow-[0_0_15px_rgba(127,208,255,0.4)]">
+<span class="text-lg font-bold text-primary">06</span>
+<span class="text-[8px] font-mono-data text-primary">NOW</span>
+</div>
+<!-- Fill the rest of grid conceptually -->
+<div class="aspect-square glass-panel flex flex-col items-center justify-center rounded-lg border-primary/10"><span class="text-xs">07</span></div>
+<div class="aspect-square glass-panel flex flex-col items-center justify-center rounded-lg border-primary/10"><span class="text-xs">08</span></div>
+<div class="aspect-square glass-panel flex flex-col items-center justify-center rounded-lg border-primary/10 relative">
+<span class="text-xs">09</span>
+<div class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full status-pulse"></div>
+</div>
+<div class="aspect-square glass-panel flex flex-col items-center justify-center rounded-lg border-secondary/10"><span class="text-xs">10</span></div>
+<div class="aspect-square glass-panel flex flex-col items-center justify-center rounded-lg border-secondary/10"><span class="text-xs">11</span></div>
+<!-- Rows 3-5 (Condensed visualization) -->
+<div class="col-span-7 py-4 flex justify-center">
+<span class="text-outline-variant font-mono-data text-[10px] tracking-widest uppercase">Visualizing stream // cycles 3 to 6</span>
+</div>
+</div>
+</section>
+<!-- Mission Deck -->
+<section class="glass-panel p-6 rounded-xl">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-primary flex items-center gap-2">
+<span class="material-symbols-outlined">assignment_late</span>
+                                Pendientes &amp; Misiones
+                            </h3>
+<span class="font-mono-data text-[10px] px-2 py-1 bg-surface-container-highest rounded border border-outline-variant/30 text-outline">QUEUE_CAPACITY: 82%</span>
+</div>
+<div class="space-y-3">
+<!-- Mission Item: Active -->
+<div class="flex items-center gap-4 p-4 glass-panel border-l-4 border-l-secondary bg-secondary/5 rounded-r-lg group cursor-pointer">
+<div class="w-10 h-10 hexagon-mask bg-secondary/20 flex items-center justify-center border border-secondary/40">
+<span class="material-symbols-outlined text-secondary">psychology</span>
+</div>
+<div class="flex-1">
+<h4 class="font-bold text-sm text-on-surface">Calibrar Alquimia de Metas</h4>
+<p class="text-[10px] font-mono-data text-outline">PRIORITY: HIGH // HOUSE: THE_SAGE</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="h-1 w-20 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[65%]"></div>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">more_vert</span>
+</div>
+</div>
+<!-- Mission Item: Critical -->
+<div class="flex items-center gap-4 p-4 glass-panel border-l-4 border-l-error bg-error/5 rounded-r-lg group cursor-pointer">
+<div class="w-10 h-10 hexagon-mask bg-error/20 flex items-center justify-center border border-error/40">
+<span class="material-symbols-outlined text-error">priority_high</span>
+</div>
+<div class="flex-1">
+<h4 class="font-bold text-sm text-on-surface">Reparar Filtración de Energía en Sector VII</h4>
+<p class="text-[10px] font-mono-data text-outline">PRIORITY: CRITICAL // SYSTEM_BREACH</p>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-[10px] text-error font-bold uppercase animate-pulse">OVERDUE</span>
+<span class="material-symbols-outlined text-outline group-hover:text-error transition-colors">warning</span>
+</div>
+</div>
+<!-- Mission Item: Completed -->
+<div class="flex items-center gap-4 p-4 glass-panel border-l-4 border-l-outline opacity-50 rounded-r-lg hover:opacity-80 transition-opacity">
+<div class="w-10 h-10 hexagon-mask bg-outline/20 flex items-center justify-center border border-outline/40">
+<span class="material-symbols-outlined text-outline">check_circle</span>
+</div>
+<div class="flex-1">
+<h4 class="font-bold text-sm text-outline line-through">Meditación de Frecuencia Alfa</h4>
+<p class="text-[10px] font-mono-data text-outline-variant">COMPLETED // GAIN: +15 LP</p>
+</div>
+<div class="shadow-[0_0_10px_rgba(71,221,193,0.3)] bg-secondary/20 px-2 py-0.5 rounded text-[8px] text-secondary">GAINED</div>
+</div>
+</div>
+<!-- Add Mission Input -->
+<div class="mt-6 flex gap-2">
+<input class="flex-1 bg-surface-container-lowest/50 border border-outline-variant/30 rounded-sm font-mono-data text-xs px-4 py-3 focus:border-primary focus:ring-0 transition-all text-primary placeholder:text-outline-variant" placeholder="INICIAR NUEVA SECUENCIA DE MISIÓN..." type="text"/>
+<button class="bg-secondary/20 hover:bg-secondary/30 text-secondary border border-secondary/40 px-6 py-2 rounded-sm font-label-caps transition-all">
+                                ENCRYPT
+                            </button>
+</div>
+</section>
+</div>
+<!-- 2. Smart Engineering (Right Sidebar) -->
+<div class="md:col-span-4 flex flex-col gap-6">
+<!-- Management Insight -->
+<section class="glass-panel p-6 rounded-xl border-tertiary/20 bg-gradient-to-br from-tertiary/5 to-transparent relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-tertiary/10 rounded-full blur-2xl"></div>
+<h3 class="font-headline-md text-tertiary flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined">insights</span>
+                            Gestión Inteligente
+                        </h3>
+<div class="space-y-4 mb-6">
+<div class="p-4 rounded-lg bg-surface-container-highest/30 border border-tertiary/10">
+<p class="text-xs text-on-surface-variant leading-relaxed">
+                                    "Tu flujo temporal muestra una divergencia del <span class="text-tertiary font-bold">12%</span> en las Casas de la Creatividad. Se recomienda reasignar ciclos de 'Descanso' a 'Enfoque Profundo' durante la ventana de las 14:00."
+                                </p>
+</div>
+<div class="flex items-center justify-between p-3 glass-panel rounded">
+<span class="text-[10px] font-label-caps text-outline">Puntos de Vida (LP)</span>
+<span class="text-sm font-bold text-tertiary">14,204</span>
+</div>
+</div>
+<button class="w-full py-4 bg-tertiary/20 hover:bg-tertiary/30 border border-tertiary/40 text-tertiary rounded-sm font-label-caps text-xs tracking-widest transition-all shadow-[0_0_20px_rgba(255,216,231,0.1)] active:scale-95">
+                            GENERATE SMART AGENDA
+                        </button>
+</section>
+<!-- AI Agenda Output -->
+<section class="glass-panel p-6 rounded-xl border-primary/20 bg-black/40 min-h-[300px] flex flex-col">
+<div class="flex items-center gap-2 mb-4">
+<div class="w-2 h-2 rounded-full bg-primary animate-ping"></div>
+<h3 class="font-mono-data text-xs text-primary uppercase tracking-[0.2em]">ORACLE_TRANSMISSION</h3>
+</div>
+<div class="flex-1 terminal-text text-[11px] space-y-3 text-primary/80 overflow-y-auto pr-2">
+<p class="text-outline">&gt;&gt; SYSTEM_INIT: LOAD_DAILY_PROTOCOLS</p>
+<div class="border-l border-primary/30 pl-3">
+<p class="font-bold text-primary">08:00 - PROTOCOLO_DESPERTAR</p>
+<p class="text-[9px] text-outline-variant">Hidratación + Sync Mental (15min)</p>
+</div>
+<div class="border-l border-primary/30 pl-3">
+<p class="font-bold text-primary">09:30 - CICLO_CONTRACCIÓN</p>
+<p class="text-[9px] text-outline-variant">Bloque de trabajo profundo: Ingeniería (120min)</p>
+</div>
+<div class="border-l border-primary/30 pl-3 opacity-60">
+<p class="font-bold text-primary">12:00 - RECARGA_ALQUÍMICA</p>
+<p class="text-[9px] text-outline-variant">Nutrición Nivel 3 (45min)</p>
+</div>
+<div class="border-l border-primary/30 pl-3">
+<p class="font-bold text-primary">15:00 - EXPANSIÓN_SOCIAL</p>
+<p class="text-[9px] text-outline-variant">Comunicaciones y Sync de Equipo (60min)</p>
+</div>
+<p class="animate-pulse text-secondary">_</p>
+</div>
+<div class="mt-4 flex justify-between items-center border-t border-primary/10 pt-4">
+<span class="text-[9px] font-mono-data text-outline-variant uppercase">E2EE Secured</span>
+<div class="flex gap-2">
+<button class="p-1 hover:text-primary"><span class="material-symbols-outlined text-sm">download</span></button>
+<button class="p-1 hover:text-primary"><span class="material-symbols-outlined text-sm">share</span></button>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Footer Stats -->
+<footer class="w-full max-w-7xl mx-auto py-8 flex flex-col items-center gap-2 opacity-40 hover:opacity-100 transition-opacity duration-500 border-t border-outline-variant/10">
+<p class="font-mono-data text-outline text-[12px]">MAGNOPVS OS v4.2.0 // SYSTEM_STABLE</p>
+<div class="flex gap-6">
+<a class="font-mono-data text-[10px] text-outline-variant hover:text-primary transition-colors" href="#">System Reset</a>
+<a class="font-mono-data text-[10px] text-outline-variant hover:text-primary transition-colors" href="#">Log Export</a>
+<a class="font-mono-data text-[10px] text-outline-variant hover:text-primary transition-colors" href="#">Protocol-9</a>
+</div>
+</footer>
+</div>
+</main>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 pb-safe px-4 bg-surface-container/80 backdrop-blur-lg border-t border-primary/20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70 active:scale-90 transition-all">
+<span class="material-symbols-outlined">space_dashboard</span>
+<span class="text-[8px] font-label-caps uppercase">Dash</span>
+</button>
+<button class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-110 active:scale-90 transition-all">
+<span class="material-symbols-outlined">temple_hindu</span>
+<span class="text-[8px] font-label-caps uppercase">Houses</span>
+</button>
+<button class="bg-primary text-on-primary w-12 h-12 rounded-full -mt-8 shadow-[0_0_20px_rgba(127,208,255,0.5)] border-4 border-background flex items-center justify-center active:scale-90 transition-all">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70 active:scale-90 transition-all">
+<span class="material-symbols-outlined">assignment_late</span>
+<span class="text-[8px] font-label-caps uppercase">Missions</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70 active:scale-90 transition-all">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="text-[8px] font-label-caps uppercase">Stats</span>
+</button>
+</nav>
+<!-- Interactive Layer: Floating Action Bubbles -->
+<div class="fixed bottom-24 right-8 z-40 hidden md:flex flex-col gap-3">
+<div class="w-12 h-12 rounded-full glass-panel flex items-center justify-center text-secondary border-secondary/40 shadow-lg cursor-pointer hover:scale-110 active:scale-95 transition-all">
+<span class="material-symbols-outlined">chat_bubble</span>
+</div>
+<div class="w-12 h-12 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-[0_0_15px_rgba(127,208,255,0.4)] cursor-pointer hover:scale-110 active:scale-95 transition-all">
+<span class="material-symbols-outlined">add</span>
+</div>
+</div>
+<script>
+        // Micro-interaction for calendar day selection
+        document.querySelectorAll('.aspect-square.glass-panel').forEach(day => {
+            day.addEventListener('click', function() {
+                document.querySelectorAll('.aspect-square.glass-panel').forEach(d => {
+                    d.classList.remove('border-primary', 'bg-primary/10');
+                });
+                this.classList.add('border-primary', 'bg-primary/10');
+            });
+        });
+
+        // Simple terminal text typing effect simulator
+        const terminal = document.querySelector('.terminal-text');
+        if (terminal) {
+            const cursor = terminal.querySelector('.animate-pulse');
+            setInterval(() => {
+                const log = document.createElement('p');
+                log.className = 'text-[9px] text-outline-variant/60';
+                log.innerText = `>> LOG_T_${Date.now().toString().slice(-4)}: TRACE_FLOW_OK`;
+                terminal.insertBefore(log, cursor);
+                if (terminal.children.length > 15) {
+                    terminal.removeChild(terminal.children[1]);
+                }
+            }, 5000);
+        }
+    </script>
+</body></html>

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS | Venture Matrix v6.8</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Orbitron:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#d1bcff",
+                    "surface-variant": "#343535",
+                    "error": "#ffb4ab",
+                    "surface-container-lowest": "#0d0e0f",
+                    "surface-container-highest": "#343535",
+                    "primary-fixed-dim": "#accccf",
+                    "outline": "#8b9292",
+                    "on-background": "#e3e2e2",
+                    "primary-container": "#c8e9ec",
+                    "on-primary": "#163538",
+                    "tertiary-container": "#e9ddff",
+                    "surface-tint": "#accccf",
+                    "inverse-surface": "#e3e2e2",
+                    "on-secondary-container": "#00686f",
+                    "on-tertiary-container": "#7829ff",
+                    "on-secondary": "#00363a",
+                    "secondary-fixed-dim": "#00dbe9",
+                    "secondary-container": "#00eefc",
+                    "on-surface": "#e3e2e2",
+                    "surface": "#121414",
+                    "surface-container": "#1e2020",
+                    "on-secondary-fixed": "#002022",
+                    "on-secondary-fixed-variant": "#004f54",
+                    "primary": "#ffffff",
+                    "on-surface-variant": "#c1c8c8",
+                    "on-tertiary-fixed-variant": "#5700c9",
+                    "outline-variant": "#414849",
+                    "surface-container-low": "#1a1c1c",
+                    "background": "#121414",
+                    "on-error": "#690005",
+                    "on-tertiary": "#3c0090",
+                    "surface-container-high": "#292a2a",
+                    "primary-fixed": "#c8e9ec",
+                    "surface-bright": "#383939",
+                    "on-primary-container": "#4b6a6c",
+                    "tertiary": "#ffffff",
+                    "secondary": "#d3fbff",
+                    "on-error-container": "#ffdad6",
+                    "on-primary-fixed": "#002022",
+                    "tertiary-fixed": "#e9ddff",
+                    "on-primary-fixed-variant": "#2e4c4e",
+                    "surface-dim": "#121414",
+                    "on-tertiary-fixed": "#23005b",
+                    "inverse-primary": "#456366",
+                    "secondary-fixed": "#7df4ff",
+                    "error-container": "#93000a",
+                    "inverse-on-surface": "#2f3131"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Space Grotesk"],
+                    "body-md": ["Orbitron"],
+                    "code-label": ["JetBrains Mono"],
+                    "data-lg": ["Orbitron"],
+                    "headline-md": ["Space Grotesk"],
+                    "headline-md-mobile": ["Space Grotesk"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "code-label": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "data-lg": ["20px", {"lineHeight": "28px", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                    "headline-md": ["32px", {"lineHeight": "40px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #121414;
+            color: #e3e2e2;
+            overflow-x: hidden;
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.1;
+        }
+
+        .hex-bg {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60 4.02 45V15z' fill-opacity='0.03' fill='%23ffffff' fill-rule='evenodd' stroke='%23414849' stroke-width='0.5'/%3E%3C/svg%3E");
+            background-attachment: fixed;
+        }
+
+        .glass-panel {
+            backdrop-filter: blur(12px);
+            background: rgba(18, 20, 20, 0.6);
+            border: 1px solid rgba(139, 146, 146, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-panel::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00dbe9, transparent);
+            opacity: 0.3;
+        }
+
+        .glow-cyan { box-shadow: 0 0 15px rgba(0, 219, 233, 0.15); }
+        .glow-magenta { box-shadow: 0 0 15px rgba(255, 180, 171, 0.15); }
+
+        .glitch-hover:hover {
+            animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .segmented-progress {
+            display: flex;
+            gap: 2px;
+        }
+        .segment {
+            height: 8px;
+            flex: 1;
+            background: rgba(65, 72, 73, 0.3);
+        }
+        .segment.active-cyan { background: #00dbe9; box-shadow: 0 0 5px #00dbe9; }
+        .segment.active-magenta { background: #ffb4ab; box-shadow: 0 0 5px #ffb4ab; }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #121414; }
+        ::-webkit-scrollbar-thumb { background: #414849; }
+    </style>
+</head>
+<body class="font-body-md text-body-md hex-bg">
+<div class="scanlines"></div>
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/60 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(172,204,207,0.1)] flex justify-between items-center px-6 h-16 w-full">
+<div class="flex items-center gap-8">
+<h1 class="font-display-lg text-display-lg tracking-tighter text-primary">MagnopVS</h1>
+<div class="hidden md:flex items-center bg-surface-container-high/50 border border-outline-variant/50 px-3 py-1.5 rounded">
+<span class="material-symbols-outlined text-on-surface-variant mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-code-label font-code-label placeholder-on-surface-variant/40 w-64" placeholder="QUERY VENTURE ENGINE..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:text-secondary transition-colors" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-secondary transition-colors" data-icon="monitoring">monitoring</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-secondary transition-colors" data-icon="sync">sync</span>
+</div>
+<div class="flex items-center gap-3 border-l border-outline-variant/30 pl-6">
+<div class="text-right hidden sm:block">
+<p class="text-code-label font-code-label text-primary">OPERATOR_AXON</p>
+<p class="text-[10px] font-code-label text-secondary-fixed-dim">CLEARANCE: LEVEL 7</p>
+</div>
+<img class="w-10 h-10 rounded-full border border-secondary/50 p-0.5 object-cover" data-alt="A futuristic portrait of a high-tech corporate executive with cybernetic eye enhancements, wearing a sleek matte black command suit. The lighting is dominated by sharp cyan rim lights against a dark, tech-infused background with glowing data interfaces. The style is hyper-realistic cinematic sci-fi, conveying authority and cold precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHat-8t9S1CMSEY0dfpVuJzBzFeq7mk1ba2hZSWzyY9P9BW7N58wiNVcLTcEwBl-hOZCPNZBojZ2RlT_yzPZjajgLSwffzIpW0aXhksftgvm6tdPu_WWzyH-yHNTfVtZ4EmGEX9jRXQ2ZjHbrccOEFNEEfhksZT_ckHjCSaUrjJfTI80nLI7HV1v3aPCEfT6PgtuAxd55NuY10dnVsl9y9UoA_78XSw3_fTveAtDfIC9b6BnhC29MAaw"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-surface-container-low/80 backdrop-blur-md border-r border-outline-variant/20 flex flex-col py-4 z-40">
+<div class="px-6 mb-8">
+<p class="font-code-label text-code-label uppercase tracking-widest text-outline">13 HOUSES</p>
+<p class="text-[10px] font-code-label text-secondary-fixed-dim/60">Venture Protocol v4.02</p>
+</div>
+<div class="flex-1 space-y-1">
+<div class="bg-secondary-container/20 text-secondary border-r-2 border-secondary px-6 py-3 flex items-center gap-4 transition-all duration-200 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined" data-icon="business_center">business_center</span>
+<span class="font-body-md text-body-md">Ventures</span>
+</div>
+<div class="text-on-surface-variant/70 hover:bg-surface-variant/40 hover:text-primary px-6 py-3 flex items-center gap-4 transition-all duration-200 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-body-md text-body-md">Inventory</span>
+</div>
+<div class="text-on-surface-variant/70 hover:bg-surface-variant/40 hover:text-primary px-6 py-3 flex items-center gap-4 transition-all duration-200 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="font-body-md text-body-md">Ledger</span>
+</div>
+<div class="text-on-surface-variant/70 hover:bg-surface-variant/40 hover:text-primary px-6 py-3 flex items-center gap-4 transition-all duration-200 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined" data-icon="biotech">biotech</span>
+<span class="font-body-md text-body-md">Incubator</span>
+</div>
+</div>
+<div class="mt-auto pt-4 border-t border-outline-variant/10">
+<div class="text-on-surface-variant/70 hover:bg-surface-variant/40 hover:text-primary px-6 py-3 flex items-center gap-4 transition-all duration-200 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+<span class="font-body-md text-body-md">Security</span>
+</div>
+<div class="text-on-surface-variant/70 hover:bg-surface-variant/40 hover:text-primary px-6 py-3 flex items-center gap-4 transition-all duration-200 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="ml-64 pt-20 pb-12 px-8 min-h-screen">
+<!-- Top HUD Metrics -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+<div class="glass-panel p-6 glow-cyan flex flex-col justify-between">
+<div>
+<p class="font-code-label text-code-label text-outline uppercase tracking-wider mb-1">Total Capital Transmuted</p>
+<h2 class="font-display-lg text-display-lg text-primary">8,241.92 <span class="text-secondary-fixed-dim text-2xl">MC</span></h2>
+</div>
+<div class="mt-4 flex items-center justify-between text-secondary-fixed-dim">
+<span class="text-xs font-code-label">STABILITY POSITIVE</span>
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+</div>
+</div>
+<div class="glass-panel p-6 flex flex-col justify-between">
+<div>
+<p class="font-code-label text-code-label text-outline uppercase tracking-wider mb-1">ROI Pulse</p>
+<div class="flex items-baseline gap-2">
+<h2 class="font-display-lg text-display-lg text-secondary-fixed-dim">+14.2%</h2>
+<span class="text-code-label text-outline">/CYCLE</span>
+</div>
+</div>
+<div class="mt-4 h-2 w-full bg-surface-container-highest overflow-hidden rounded-full">
+<div class="h-full bg-secondary shadow-[0_0_8px_#00dbe9]" style="width: 72%"></div>
+</div>
+</div>
+<div class="glass-panel p-6 flex flex-col justify-between border-magenta-variant">
+<div>
+<p class="font-code-label text-code-label text-outline uppercase tracking-wider mb-1">Global Experience</p>
+<h2 class="font-display-lg text-display-lg text-tertiary-fixed-dim">420,950 <span class="text-tertiary-fixed-dim text-2xl">XP</span></h2>
+</div>
+<p class="text-xs font-code-label text-on-surface-variant/50 uppercase">Next Level: Arch-Magnate in 4.2k XP</p>
+</div>
+<div class="glass-panel p-6 flex flex-col justify-between">
+<div class="absolute inset-0 z-0 opacity-20 pointer-events-none">
+
+</div>
+<div class="relative z-10">
+<p class="font-code-label text-code-label text-outline uppercase tracking-wider mb-1">Matrix Latency</p>
+<h2 class="font-display-lg text-display-lg text-primary">14 <span class="text-sm">MS</span></h2>
+</div>
+<div class="relative z-10 mt-4 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+<span class="text-xs font-code-label text-on-surface-variant">REALITY-SYNC: OPTIMAL</span>
+</div>
+</div>
+</div>
+<!-- Dashboard Layout: Bento Grid -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Active Ventures Grid (Left/Center) -->
+<div class="col-span-12 lg:col-span-8 space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" data-icon="token">token</span>
+                        ACTIVE VENTURES
+                    </h3>
+<button class="bg-primary text-surface font-code-label px-4 py-2 text-xs hover:scale-105 transition-transform">INITIALIZE NEW NODE</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Venture Card 1 -->
+<div class="glass-panel p-6 group hover:border-secondary transition-colors cursor-pointer">
+<div class="flex justify-between items-start mb-4">
+<span class="font-code-label text-[10px] text-outline">VNT-082</span>
+<span class="bg-secondary-container/20 text-secondary-fixed-dim text-[10px] px-2 py-0.5 font-code-label border border-secondary/30">ACTIVE</span>
+</div>
+<h4 class="font-headline-md text-2xl text-primary mb-1">Alchemical Supplies</h4>
+<p class="text-xs text-on-surface-variant font-code-label mb-6">REAGENT REFINING &amp; DISTRIBUTION</p>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-xs font-code-label mb-1">
+<span class="text-outline">INVENTORY HEALTH</span>
+<span class="text-secondary">94%</span>
+</div>
+<div class="segmented-progress">
+<div class="segment active-cyan"></div>
+<div class="segment active-cyan"></div>
+<div class="segment active-cyan"></div>
+<div class="segment active-cyan"></div>
+<div class="segment active-cyan"></div>
+<div class="segment"></div>
+</div>
+</div>
+<div class="flex justify-between items-end">
+<div>
+<p class="text-[10px] text-outline font-code-label uppercase">Daily Flux</p>
+<p class="font-data-lg text-xl text-primary">142.50 <span class="text-xs">MC</span></p>
+</div>
+<div class="text-right">
+<p class="text-[10px] text-outline font-code-label uppercase">Karmic Debt</p>
+<p class="font-data-lg text-xl text-error">0.00 <span class="text-xs">MC</span></p>
+</div>
+</div>
+</div>
+</div>
+<!-- Venture Card 2 -->
+<div class="glass-panel p-6 group hover:border-secondary transition-colors cursor-pointer">
+<div class="flex justify-between items-start mb-4">
+<span class="font-code-label text-[10px] text-outline">VNT-104</span>
+<span class="bg-tertiary-container/20 text-tertiary-fixed-dim text-[10px] px-2 py-0.5 font-code-label border border-tertiary/30">INCUBATING</span>
+</div>
+<h4 class="font-headline-md text-2xl text-primary mb-1">Digital Scriptorium</h4>
+<p class="text-xs text-on-surface-variant font-code-label mb-6">NEURAL LOGS &amp; SCROLL ARCHIVES</p>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-xs font-code-label mb-1">
+<span class="text-outline">ARCHIVE STABILITY</span>
+<span class="text-secondary">62%</span>
+</div>
+<div class="segmented-progress">
+<div class="segment active-cyan"></div>
+<div class="segment active-cyan"></div>
+<div class="segment active-cyan"></div>
+<div class="segment"></div>
+<div class="segment"></div>
+<div class="segment"></div>
+</div>
+</div>
+<div class="flex justify-between items-end">
+<div>
+<p class="text-[10px] text-outline font-code-label uppercase">Daily Flux</p>
+<p class="font-data-lg text-xl text-primary">84.20 <span class="text-xs">MC</span></p>
+</div>
+<div class="text-right">
+<p class="text-[10px] text-outline font-code-label uppercase">Karmic Debt</p>
+<p class="font-data-lg text-xl text-error">12.50 <span class="text-xs">MC</span></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Transaction Stream -->
+<div class="glass-panel p-6">
+<h3 class="font-headline-md text-xl mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="history_edu">history_edu</span>
+                        TRANSACTION STREAM
+                    </h3>
+<div class="space-y-3 overflow-y-auto max-h-[300px] pr-2">
+<div class="flex items-center justify-between py-2 border-b border-outline-variant/10 hover:bg-surface-variant/20 px-2 transition-colors">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="add_circle">add_circle</span>
+<div>
+<p class="font-code-label text-sm text-primary">REAGENT SALE #429</p>
+<p class="text-[10px] text-outline">TIME: 14:22:01 | SECTOR: ALCHEMY</p>
+</div>
+</div>
+<span class="font-data-lg text-secondary">+12.40 MC</span>
+</div>
+<div class="flex items-center justify-between py-2 border-b border-outline-variant/10 hover:bg-surface-variant/20 px-2 transition-colors">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-error" data-icon="remove_circle">remove_circle</span>
+<div>
+<p class="font-code-label text-sm text-primary">RAW ESSENCE RESTOCK</p>
+<p class="text-[10px] text-outline">TIME: 14:15:55 | SECTOR: LOGISTICS</p>
+</div>
+</div>
+<span class="font-data-lg text-error">-45.00 MC</span>
+</div>
+<div class="flex items-center justify-between py-2 border-b border-outline-variant/10 hover:bg-surface-variant/20 px-2 transition-colors">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="add_circle">add_circle</span>
+<div>
+<p class="font-code-label text-sm text-primary">SCROLL DECRYPTION FEE</p>
+<p class="text-[10px] text-outline">TIME: 13:58:12 | SECTOR: SCRIPTORIUM</p>
+</div>
+</div>
+<span class="font-data-lg text-secondary">+8.00 MC</span>
+</div>
+<div class="flex items-center justify-between py-2 border-b border-outline-variant/10 hover:bg-surface-variant/20 px-2 transition-colors">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-tertiary-fixed-dim" data-icon="stars">stars</span>
+<div>
+<p class="font-code-label text-sm text-primary">XP MILESTONE REACHED</p>
+<p class="text-[10px] text-outline">TIME: 13:45:00 | SECTOR: SYSTEM</p>
+</div>
+</div>
+<span class="font-data-lg text-tertiary-fixed-dim">+500 XP</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Side Panels (Right) -->
+<div class="col-span-12 lg:col-span-4 space-y-6">
+<!-- Inventory Scan -->
+<div class="glass-panel p-6 h-full flex flex-col">
+<h3 class="font-headline-md text-xl mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="biotech">biotech</span>
+                        INVENTORY SCAN
+                    </h3>
+<div class="flex-1 space-y-4">
+<div class="p-3 border border-outline-variant/20 bg-surface-container-low hover:border-secondary/40 transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<span class="font-code-label text-primary">Purified Quicksilver</span>
+<span class="bg-secondary/10 text-secondary text-[10px] px-1 font-bold">RARE</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-xs text-on-surface-variant font-code-label">QTY: 14.5 Liters</span>
+<div class="w-16 h-1 bg-secondary-container/30">
+<div class="h-full bg-secondary" style="width: 80%"></div>
+</div>
+</div>
+</div>
+<div class="p-3 border border-outline-variant/20 bg-surface-container-low hover:border-secondary/40 transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<span class="font-code-label text-primary">Void-Tempered Ink</span>
+<span class="bg-error/10 text-error text-[10px] px-1 font-bold">MYTHIC</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-xs text-on-surface-variant font-code-label">QTY: 2 Units</span>
+<div class="w-16 h-1 bg-surface-variant">
+<div class="h-full bg-error" style="width: 15%"></div>
+</div>
+</div>
+</div>
+<div class="p-3 border border-outline-variant/20 bg-surface-container-low hover:border-secondary/40 transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<span class="font-code-label text-primary">Crystalline Vellum</span>
+<span class="bg-outline-variant/30 text-outline text-[10px] px-1 font-bold">COMMON</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-xs text-on-surface-variant font-code-label">QTY: 1,402 Sheets</span>
+<div class="w-16 h-1 bg-secondary-container/30">
+<div class="h-full bg-secondary" style="width: 95%"></div>
+</div>
+</div>
+</div>
+<div class="p-3 border border-outline-variant/20 bg-surface-container-low hover:border-secondary/40 transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<span class="font-code-label text-primary">Aetheric Conductors</span>
+<span class="bg-tertiary/10 text-tertiary-fixed-dim text-[10px] px-1 font-bold">EPIC</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-xs text-on-surface-variant font-code-label">QTY: 12 Nodes</span>
+<div class="w-16 h-1 bg-secondary-container/30">
+<div class="h-full bg-tertiary-fixed-dim" style="width: 45%"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant/20">
+<div class="w-full h-32 bg-cover bg-center border border-outline-variant/30" data-alt="A macro photography shot of crystalline alchemical ingredients glowing with internal cyan energy. The scene is set on a dark, industrial workbench with shallow depth of field. High-tech sensors and holographic UI elements are partially visible in the blur. The lighting is moody and focused, highlighting the intricate geometric structures of the crystals." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCWE9Z0Wwru2zxLBYBBGFT6z42aN3iL5O7MyzJ-blt9h3ZliSZBVU8Z338M_G7yPiOakqDct197FyRy-CRC9PHqY4nqagsSq6Ibwb4kN00_-EBOxhk3nnPCobTutIh6lDhTOZzbTKcMnmBJmqw-smgN-C2BP5r4slX-hgxH1TJhdquJI-yYUCOY1rZrqE12zlTtdEu8uSL81_jRAdK-FIZnhvTLile1Q9dPvW5gv9OtFstfmcLcXQwGPg')"></div>
+<p class="text-[10px] font-code-label text-on-surface-variant/60 mt-2 text-center uppercase">Real-time Visual Feed: Cargo-Bay 04</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="fixed bottom-0 w-full h-8 z-50 bg-surface-container-lowest border-t border-outline-variant/10 flex items-center justify-between px-4 uppercase tracking-tighter font-code-label text-code-label text-on-surface-variant">
+<div class="flex items-center gap-4">
+<span class="text-secondary">STABILITY: 99.98%</span>
+<span class="opacity-50">|</span>
+<span class="text-primary animate-pulse">REALITY-SYNC: ACTIVE</span>
+</div>
+<div class="flex items-center gap-6">
+<a class="hover:text-secondary opacity-80 hover:opacity-100 transition-colors" href="#">System Logs</a>
+<a class="hover:text-secondary opacity-80 hover:opacity-100 transition-colors" href="#">Latency: 14ms</a>
+<span class="text-outline">© 2077 MAGNOP VENTURES</span>
+</div>
+</footer>
+<script>
+        // Micro-interactions and atmospheric effects
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mousemove', (e) => {
+                const rect = panel.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                panel.style.setProperty('--mouse-x', `${x}px`);
+                panel.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // Simulating real-time data pulses
+        setInterval(() => {
+            const mcDisplay = document.querySelector('h2');
+            if(mcDisplay) {
+                const current = parseFloat(mcDisplay.innerText.replace(',', ''));
+                const fluctuation = (Math.random() - 0.5) * 0.1;
+                const newVal = (current + fluctuation).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                // mcDisplay.innerHTML = `${newVal} <span class="text-secondary-fixed-dim text-2xl">MC</span>`;
+                // Intentionally left for visual effect but muted for stability in the static demo
+            }
+        }, 3000);
+    </script>
+</body></html>

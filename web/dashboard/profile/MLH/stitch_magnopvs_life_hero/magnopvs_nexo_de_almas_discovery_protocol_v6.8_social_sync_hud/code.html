@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Soul Nexus | Nexo de Almas</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#c5e7ff",
+                        "on-tertiary-container": "#7c3e5e",
+                        "on-secondary-fixed": "#00201a",
+                        "surface-container": "#1c2023",
+                        "on-background": "#e0e3e6",
+                        "surface-tint": "#7fd0ff",
+                        "on-primary-fixed-variant": "#004c6a",
+                        "background": "#101417",
+                        "surface-bright": "#363a3d",
+                        "surface-container-lowest": "#0b0f11",
+                        "on-surface-variant": "#bfc8cf",
+                        "on-primary-container": "#00597b",
+                        "secondary": "#47ddc1",
+                        "primary-container": "#7fd0ff",
+                        "secondary-fixed-dim": "#47ddc1",
+                        "surface-container-low": "#181c1f",
+                        "tertiary-container": "#ffafd4",
+                        "secondary-fixed": "#6af9dc",
+                        "on-error": "#690005",
+                        "surface-container-highest": "#313538",
+                        "surface": "#101417",
+                        "on-secondary-container": "#004439",
+                        "on-surface": "#e0e3e6",
+                        "tertiary": "#ffd8e7",
+                        "status-critical": "#93000a",
+                        "surface-panel": "rgba(255, 255, 255, 0.03)",
+                        "secondary-container": "#00bba0",
+                        "outline": "#899299",
+                        "error-container": "#93000a",
+                        "on-error-container": "#ffdad6",
+                        "inverse-surface": "#e0e3e6",
+                        "primary": "#c5e7ff",
+                        "on-secondary": "#00382e",
+                        "on-tertiary-fixed": "#390625",
+                        "surface-variant": "#313538",
+                        "error": "#ffb4ab",
+                        "on-secondary-fixed-variant": "#005144",
+                        "glow-cyan": "#2da8e0",
+                        "outline-variant": "#3f484e",
+                        "background-deep": "#0a0b12",
+                        "on-tertiary-fixed-variant": "#6e3252",
+                        "primary-fixed-dim": "#7fd0ff",
+                        "grid-line": "rgba(127, 208, 255, 0.05)",
+                        "inverse-on-surface": "#2d3134",
+                        "tertiary-fixed": "#ffd8e7",
+                        "tertiary-fixed-dim": "#ffafd4",
+                        "on-primary": "#00344a",
+                        "inverse-primary": "#00658b",
+                        "surface-dim": "#101417",
+                        "surface-container-high": "#272a2d",
+                        "on-tertiary": "#531c3b",
+                        "on-primary-fixed": "#001e2d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "panel-gap": "12px",
+                        "margin-desktop": "40px",
+                        "unit": "4px",
+                        "section-padding": "128px",
+                        "margin-mobile": "20px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Space Grotesk"],
+                        "micro-tag": ["JetBrains Mono"],
+                        "display-lg": ["Space Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "display-lg-mobile": ["Space Grotesk"],
+                        "data-point": ["Hanken Grotesk"],
+                        "mono-data": ["JetBrains Mono"],
+                        "audiowide": ["Audiowide"],
+                        "orbitron": ["Orbitron"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "micro-tag": ["10px", {"letterSpacing": "0.3em", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                        "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "data-point": ["20px", {"lineHeight": "28px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .cyber-grid {
+            background-image: 
+                linear-gradient(to right, rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .scanline {
+            background: linear-gradient(to bottom, transparent 50%, rgba(127, 208, 255, 0.02) 50%);
+            background-size: 100% 4px;
+        }
+        .glow-cyan { text-shadow: 0 0 10px rgba(45,168,224,0.8); }
+        .border-glow { box-shadow: 0 0 15px rgba(45,168,224,0.15); }
+        .hex-clip { clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); }
+        
+        @keyframes neon-pulse {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 5px rgba(45,168,224,0.5)); }
+            50% { opacity: 0.7; filter: drop-shadow(0 0 12px rgba(45,168,224,0.8)); }
+        }
+        .neon-pulse { animation: neon-pulse 2s infinite ease-in-out; }
+
+        @keyframes radar-spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .radar-line { animation: radar-spin 4s linear infinite; }
+
+        .slanted-edge { clip-path: polygon(0 0, 95% 0, 100% 100%, 5% 100%); }
+        .slanted-button { clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%); }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary/30 overflow-hidden">
+<!-- GLOBAL BACKGROUND LAYER -->
+<div class="fixed inset-0 z-[-1] pointer-events-none">
+<div class="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-screen" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAXxirbrm2kwck1uPHlwEtKmsFdDMuNwvH2158u-kBuq2H3ozE6v0PhiubhWY297ETsl8We-Vgc8b-EoPg1_aOsCWGSxEgd7qHcMYtbB2tCjABmBHnk_tdTT3r-aN3cw7SH2rGeRNDXUiWkZuamirEL57vrRy__FLGsNpv9Mz9u-1uzkp3QJCHBGR5VlYCsKDdL7oxV4IvlxtgncP3kzQ2S7NC2hZdF9ct4eYTXhzwQj5AxgHN_lOGr2UbFdKUu3UK5nr-zgoau1Yhz')"></div>
+<div class="absolute inset-0 cyber-grid"></div>
+<div class="absolute inset-0 scanline"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/80"></div>
+</div>
+<!-- TOP NAV BAR -->
+<header class="fixed top-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-3xl border-b border-primary/20 flex justify-between items-center px-margin-desktop py-4 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="flex items-center gap-8">
+<div class="flex items-center">
+<img alt="MagnopVS Logo" class="h-10 w-auto brightness-150" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJvm7LsNzulRAVV11P-25v7kXym611j84UceXnCkJhrV-iYkUz1980Qp4jXzsCrQMYOseNLiCHQ1oK2lhEi9eJ1pJb44Fey12GWv6CYT_lemYwCrSP1yHchcqEubEtZgvJhuoD68hD4whm79S30M9wpf48lRx__7Ee8q2OICeHTwNmW7xrcreAH1jsQpLlqfCqFL2LHIvV7CAZpM-gKoAETddYk8UGd5eEMDst7P4wqLd__hp_hbKHVU7hlKP2ltdB3FERk3th-ZxQ"/>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="font-label-caps text-label-caps text-primary glow-cyan transition-all duration-300" href="#">DISCOVERY</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-all duration-300" href="#">NEXUS_MAP</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-all duration-300" href="#">TERMINAL</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden lg:flex flex-col items-end mr-4">
+<span class="font-micro-tag text-micro-tag text-primary uppercase">System_Status: Optimal</span>
+<span class="font-micro-tag text-micro-tag text-on-surface-variant">Sync_Ratio: 98.4%</span>
+</div>
+<button class="material-symbols-outlined text-primary p-2 active:scale-95 transition-transform" data-icon="notifications">notifications</button>
+<button class="material-symbols-outlined text-primary p-2 active:scale-95 transition-transform" data-icon="bolt">bolt</button>
+<div class="w-10 h-10 border border-primary/40 p-0.5 hex-clip bg-primary/10">
+<img class="w-full h-full object-cover hex-clip" data-alt="A futuristic holographic avatar portrait of a user with glowing blue circuit lines on their face, set against a dark tech-noir background with magenta highlights, in a cyber-alchemical visual style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq1JQg_qPmqYkRy4FDrdSDLT0gAqtjcShL6vP6FxZlh9bZsH9tRI0uVJeg1FHBzc6B7EAYEOkL_siina3ohJu5iv5t0AfJuLM9-jpIUw58NCCZ9A14XghjurogZiO7oJTdDHWKOOAmnpk6IoNqODn8w6dUM1voju72-aRCjN8fvB-FlqAsujMNuiIwgpcieyjEn3NNMk_FVjtu0pHKK6-WCg2gZGxbki4A11Wd0GPDpBa5hrzwTOWwkntm9MvABq9Y7SdUP_bHSq6t"/>
+</div>
+</div>
+</header>
+<!-- SIDE NAV BAR (Desktop) -->
+<aside class="fixed left-0 top-0 h-full w-64 hidden md:flex flex-col py-24 z-40 bg-surface-container/40 backdrop-blur-2xl border-r border-secondary/20">
+<div class="px-6 mb-8">
+<h2 class="font-micro-tag text-micro-tag text-primary mb-1">HERO_SYNC</h2>
+<p class="font-micro-tag text-micro-tag text-secondary opacity-60">Protocol 7.4-A</p>
+</div>
+<nav class="flex-grow flex flex-col gap-2">
+<!-- Active Discovery -->
+<a class="flex items-center gap-4 px-6 py-4 text-secondary border-l-2 border-secondary bg-secondary/10 glow-cyan transition-colors font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined" data-icon="search_check">search_check</span>
+<span>Discovery</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant opacity-60 hover:bg-white/5 transition-colors font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined" data-icon="radar">radar</span>
+<span>Pairing</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant opacity-60 hover:bg-white/5 transition-colors font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined" data-icon="group_work">group_work</span>
+<span>Clusters</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant opacity-60 hover:bg-white/5 transition-colors font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+<span>Messages</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant opacity-60 hover:bg-white/5 transition-colors font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined" data-icon="database">database</span>
+<span>Archive</span>
+</a>
+</nav>
+<div class="px-6 py-8 border-t border-white/5">
+<button class="w-full py-3 bg-secondary text-on-secondary font-label-caps text-label-caps slanted-button hover:bg-secondary-fixed transition-colors border-glow neon-pulse">
+                INITIATE_SYNC
+            </button>
+<div class="mt-8 flex flex-col gap-4">
+<a class="flex items-center gap-2 text-on-surface-variant opacity-60 hover:opacity-100 transition-opacity font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-2 text-on-surface-variant opacity-60 hover:opacity-100 transition-opacity font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="sensors">sensors</span>
+<span>Status</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- MAIN CONTENT CANVAS -->
+<main class="md:ml-64 pt-24 pb-20 md:pb-0 h-screen overflow-y-auto px-4 md:px-margin-desktop">
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 py-8 h-full">
+<!-- LEFT: RESONANCE FILTERS -->
+<section class="lg:col-span-3 space-y-6">
+<div class="bg-surface-container/30 backdrop-blur-2xl border border-primary/20 p-6 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-primary"></div>
+<div class="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-primary"></div>
+<h3 class="font-audiowide text-headline-md text-primary mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+                        RESONANCE
+                    </h3>
+<div class="space-y-6">
+<div>
+<label class="font-label-caps text-label-caps text-on-surface-variant block mb-3">ALIGNMENT</label>
+<div class="flex flex-col gap-2">
+<button class="flex items-center justify-between px-3 py-2 border border-primary/10 bg-primary/5 hover:bg-primary/20 transition-colors text-primary font-mono-data text-mono-data">
+<span>LIGHT_WEAVER</span>
+<span class="w-2 h-2 bg-primary rounded-full glow-cyan"></span>
+</button>
+<button class="flex items-center justify-between px-3 py-2 border border-tertiary/10 bg-tertiary/5 hover:bg-tertiary/20 transition-colors text-tertiary font-mono-data text-mono-data">
+<span>VOID_WALKER</span>
+<span class="w-2 h-2 bg-tertiary rounded-full shadow-[0_0_8px_rgba(255,175,212,0.6)]"></span>
+</button>
+<button class="flex items-center justify-between px-3 py-2 border border-secondary/10 bg-secondary/5 hover:bg-secondary/20 transition-colors text-secondary font-mono-data text-mono-data opacity-50">
+<span>NEUTRAL_NODE</span>
+<span class="w-2 h-2 bg-secondary rounded-full"></span>
+</button>
+</div>
+</div>
+<div>
+<label class="font-label-caps text-label-caps text-on-surface-variant block mb-3">13_HOUSES</label>
+<div class="grid grid-cols-4 gap-2">
+<div class="aspect-square bg-surface-container-highest border border-primary/20 flex items-center justify-center hover:bg-primary/20 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div class="aspect-square bg-primary/40 border border-primary flex items-center justify-center cursor-pointer shadow-[0_0_10px_rgba(127,208,255,0.4)]">
+<span class="material-symbols-outlined text-on-primary text-sm" data-icon="pentagon">pentagon</span>
+</div>
+<div class="aspect-square bg-surface-container-highest border border-primary/20 flex items-center justify-center hover:bg-primary/20 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="water_drop">water_drop</span>
+</div>
+<div class="aspect-square bg-surface-container-highest border border-primary/20 flex items-center justify-center hover:bg-primary/20 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="diamond">diamond</span>
+</div>
+</div>
+</div>
+<div>
+<label class="font-label-caps text-label-caps text-on-surface-variant block mb-3">PROXIMITY_FIELD</label>
+<input class="w-full accent-primary bg-surface-container-highest h-1 rounded-none appearance-none" type="range"/>
+<div class="flex justify-between mt-2 font-mono-data text-[10px] text-on-surface-variant">
+<span>0KM</span>
+<span>GLOBAL</span>
+</div>
+</div>
+</div>
+</div>
+<!-- PAIRING PULSE (RADAR) -->
+<div class="bg-surface-container/30 backdrop-blur-2xl border border-secondary/20 p-6 relative">
+<h3 class="font-orbitron text-label-caps text-secondary mb-4 tracking-widest">PAIRING_PULSE</h3>
+<div class="relative w-full aspect-square border border-secondary/10 rounded-full flex items-center justify-center mb-4 overflow-hidden">
+<div class="absolute inset-0 radar-line border-r border-secondary/40 bg-gradient-to-r from-transparent to-secondary/5 origin-center"></div>
+<div class="absolute w-3/4 h-3/4 border border-secondary/10 rounded-full"></div>
+<div class="absolute w-1/2 h-1/2 border border-secondary/10 rounded-full"></div>
+<div class="absolute w-1/4 h-1/4 border border-secondary/10 rounded-full"></div>
+<!-- Identified Nodes -->
+<div class="absolute top-1/4 right-1/3 w-2 h-2 bg-secondary rounded-full glow-cyan animate-pulse"></div>
+<div class="absolute bottom-1/3 left-1/4 w-1.5 h-1.5 bg-primary rounded-full glow-cyan animate-pulse" style="animation-delay: 0.5s"></div>
+<div class="z-10 text-center">
+<span class="font-micro-tag text-[8px] text-secondary block mb-1">SCANNING_NODES...</span>
+<span class="font-mono-data text-label-caps text-on-surface font-bold">OPERATOR_X</span>
+</div>
+</div>
+<p class="font-micro-tag text-[10px] text-on-surface-variant leading-relaxed uppercase">
+                        Searching for compatible neural architectures in your sector...
+                    </p>
+</div>
+</section>
+<!-- CENTER: DISCOVERY DECK -->
+<section class="lg:col-span-6 flex flex-col items-center">
+<div class="relative w-full max-w-md aspect-[3/4] group">
+<!-- CARD STACK DECORATION -->
+<div class="absolute -inset-2 bg-primary/5 rounded-2xl transform rotate-2 -z-10 border border-primary/10"></div>
+<div class="absolute -inset-1 bg-secondary/5 rounded-2xl transform -rotate-1 -z-10 border border-secondary/10"></div>
+<!-- HERO CARD -->
+<div class="relative w-full h-full bg-surface-container-low border border-primary/20 overflow-hidden shadow-2xl flex flex-col">
+<div class="absolute top-0 left-0 p-4 z-20">
+<div class="bg-background-deep/80 backdrop-blur-md px-3 py-1 border-l-2 border-primary font-micro-tag text-primary">
+                                CLASS: ASTRO_MAGE
+                            </div>
+</div>
+<div class="relative h-2/3 overflow-hidden">
+<img class="w-full h-full object-cover grayscale-[0.2] hover:grayscale-0 transition-all duration-700" data-alt="A cinematic portrait of a cosmic celestial being with translucent skin revealing nebulas within, wearing intricate alchemical jewelry. The scene is lit by cyan and magenta starlight, creating a high-fidelity ethereal and cybernetic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2RbvKNooNJJA_FRO0vdF9OCD6TRoeiS9edIl-FR0wK0qVaWnzTUdHiA4zfnDFhRiyZvhcxEtBHl4OlG0gWIJzi1kOqdEsrRzIWNHvEjgLb6HFvdGq3mG4uFMi3rZMoBtTZvFI9-LUo_cPnbiBYpQZ_-Fasq73rXDWAyVtcSdNg8Gzu-uJW6Ohf8VQ6IVGgJOFlAEaXBc8a08vcgydoZdhUAYJNGkwYt1vTQ_PBUxAyu11MZmY32BVcm2tPlgks4TlnAJZS8MgDMk0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent"></div>
+<!-- Card HUD elements -->
+<div class="absolute bottom-4 left-4 right-4 flex justify-between items-end">
+<div>
+<h2 class="font-audiowide text-display-lg text-white mb-1 glow-cyan">XENON_42</h2>
+<div class="flex items-center gap-2">
+<span class="font-mono-data text-label-caps text-secondary">ALIGN: CHAOTIC_LIGHT</span>
+<span class="w-1 h-1 bg-white/40 rounded-full"></span>
+<span class="font-mono-data text-label-caps text-on-surface-variant">LVL: 88</span>
+</div>
+</div>
+<div class="bg-primary/20 backdrop-blur-lg p-2 border border-primary/40">
+<span class="material-symbols-outlined text-primary" data-icon="verified_user">verified_user</span>
+</div>
+</div>
+</div>
+<div class="flex-grow p-6 flex flex-col justify-between">
+<div class="space-y-4">
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1">
+<span class="font-micro-tag text-micro-tag text-on-surface-variant uppercase">Soul Resonance</span>
+<div class="flex gap-1">
+<div class="h-1.5 w-full bg-primary shadow-[0_0_5px_rgba(127,208,255,0.6)]"></div>
+<div class="h-1.5 w-full bg-primary"></div>
+<div class="h-1.5 w-full bg-primary"></div>
+<div class="h-1.5 w-full bg-primary/20"></div>
+<div class="h-1.5 w-full bg-primary/20"></div>
+</div>
+</div>
+<div class="space-y-1">
+<span class="font-micro-tag text-micro-tag text-on-surface-variant uppercase">Sync Rate</span>
+<span class="font-orbitron text-label-caps text-secondary block">94.8%</span>
+</div>
+</div>
+<p class="font-body-md text-on-surface-variant text-sm line-clamp-3 italic">
+                                    "Seeking neural clusters for deep-space exploration and ancient protocol decryption. Resonance preferred in the 4th and 9th houses."
+                                </p>
+</div>
+<div class="flex gap-4 mt-6">
+<button class="flex-1 py-4 border border-status-critical/40 text-status-critical font-audiowide text-label-caps slanted-button hover:bg-status-critical/10 transition-all uppercase flex items-center justify-center gap-2 group">
+<span class="material-symbols-outlined text-[18px] group-hover:rotate-12 transition-transform" data-icon="close">close</span>
+                                    Drift
+                                </button>
+<button class="flex-1 py-4 bg-primary text-on-primary font-audiowide text-label-caps slanted-button hover:bg-primary-fixed transition-all uppercase flex items-center justify-center gap-2 group border-glow">
+<span class="material-symbols-outlined text-[18px] group-hover:scale-125 transition-transform" data-icon="sync">sync</span>
+                                    Sync
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-8 flex gap-8 items-center">
+<div class="flex flex-col items-center gap-1 opacity-40">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="keyboard_arrow_left">keyboard_arrow_left</span>
+<span class="font-micro-tag text-[8px]">PREV</span>
+</div>
+<div class="h-1 w-32 bg-surface-container-highest relative">
+<div class="absolute inset-y-0 left-0 w-1/3 bg-primary glow-cyan"></div>
+</div>
+<div class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-primary" data-icon="keyboard_arrow_right">keyboard_arrow_right</span>
+<span class="font-micro-tag text-[8px] text-primary">NEXT</span>
+</div>
+</div>
+</section>
+<!-- RIGHT: LIVE CLUSTERS -->
+<section class="lg:col-span-3 space-y-6">
+<div class="flex justify-between items-center mb-2">
+<h3 class="font-audiowide text-label-caps text-white tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary" data-icon="podcasts">podcasts</span>
+                        LIVE_CLUSTERS
+                    </h3>
+<span class="bg-status-critical text-white px-2 py-0.5 font-micro-tag text-[9px] animate-pulse">LIVE</span>
+</div>
+<div class="grid grid-cols-1 gap-4">
+<!-- Cluster Item 1 -->
+<div class="group relative aspect-video bg-surface-container-low border border-white/5 overflow-hidden cursor-pointer">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-60 group-hover:opacity-100" data-alt="A live stream thumbnail showing a group of neon-lit digital avatars in a virtual lounge that looks like a futuristic observatory overlooking a black hole. High-contrast lighting with magenta and deep blues." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCu-rzr0a8UI_aDKbs_ANczFzVTOtmzWbadKPpoXffr4-JEbwJ5WQVKJUdz2UWbN3Y1ZqRpuUninj1ejQeC77Urrlgxc1hBs2BistuS8FWt316zGGxABz5znp5yWz_M2J_cT0xYfKw-hBdcaEHdVXbnfFQYNGUY-4C7xbl_s0EsK-H4snJ9eUxC3Ss6b8lbxQwE0JDkMQ1_tD9SUWpfgwHam1NMm6AXhIHp476DQIqgXOUvDjJ_cRoGMlNKWeJKq9t56564Iw8e3chM"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-deep via-transparent to-transparent"></div>
+<div class="absolute bottom-2 left-2 right-2 flex justify-between items-end">
+<div>
+<span class="font-micro-tag text-[9px] text-primary block">H_CLUSTER_VOID</span>
+<span class="font-mono-data text-xs text-white">Neural Archiving Session</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-secondary" data-icon="group">group</span>
+<span class="font-mono-data text-[10px] text-secondary">4.2K</span>
+</div>
+</div>
+<div class="absolute top-2 right-2">
+<div class="w-1.5 h-1.5 bg-status-critical rounded-full animate-ping"></div>
+</div>
+</div>
+<!-- Cluster Item 2 -->
+<div class="group relative aspect-video bg-surface-container-low border border-white/5 overflow-hidden cursor-pointer">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-60 group-hover:opacity-100" data-alt="A high-tech terminal interface with scrolling lines of green code and digital alchemical symbols, representing a live transmission room for developers and cryptographers." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDlLmhkSVitddau2PPDDX2E-ptnnkWKN-ybAhNzZRa1qrhDSR1dyfINgQo5VX_HqXiTPCRejtSDv7X5b0Vp0alFwwmrzDisB_l_R_tk4uYcqTf0-AO_c4qGD8gt7_4CICEd1tjG21mQ1Zh6kIa5c28rBRgNKgYo9L0cpA-wdLGQzOquvB6F4PO3-sHE-gooUNsmx_t5rm2rI7Qhsec6d7J5HXwktxUKKHlLkhW0wYtaYQ_Eo3DqF0Un4-USa-QHAti3gIdhr7ZVPD-"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-deep via-transparent to-transparent"></div>
+<div class="absolute bottom-2 left-2 right-2 flex justify-between items-end">
+<div>
+<span class="font-micro-tag text-[9px] text-primary block">T_CLUSTER_PROTOCOL</span>
+<span class="font-mono-data text-xs text-white">House of Keys Daily</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-secondary" data-icon="group">group</span>
+<span class="font-mono-data text-[10px] text-secondary">1.8K</span>
+</div>
+</div>
+</div>
+<!-- Cluster Item 3 -->
+<div class="group relative aspect-video bg-surface-container-low border border-white/5 overflow-hidden cursor-pointer">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-60 group-hover:opacity-100" data-alt="A group of cybernetic explorers in a 3D digital landscape with glowing floating crystals and ancient alchemical structures, captured in a panoramic cinematic wide shot." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC65ozt-6TGgzMDLdhoTLpcMhuzUDt4Iq44j4juSszBQv_0UQKL9gJWssTmiZvDylODc0MReFTDi3iXrh93ifxhkKxtgTzbw5JpWhwXH42_Vm6hdNbhvn7tBgKnVTQw5dVYLu76yqI1GsjVB-2M19mikXqEe0i-dGWDOn1p2E8YmGXejAP05CdXkwE9krpsY2fHXXzl8RMxEWGT1trWWLfuQA1ej5NM7P3QpFBUcxaDqrwnAlVgcjhGtJO2ktdCv_DO_tBOWiEdHn0C"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-deep via-transparent to-transparent"></div>
+<div class="absolute bottom-2 left-2 right-2 flex justify-between items-end">
+<div>
+<span class="font-micro-tag text-[9px] text-primary block">A_CLUSTER_ENLIGHTEN</span>
+<span class="font-mono-data text-xs text-white">Mystic Data Mining</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-secondary" data-icon="group">group</span>
+<span class="font-mono-data text-[10px] text-secondary">842</span>
+</div>
+</div>
+</div>
+</div>
+<button class="w-full py-3 border border-primary/20 text-primary font-label-caps text-label-caps hover:bg-primary/5 transition-all flex items-center justify-center gap-2">
+                    VIEW_ALL_TRANSMISSIONS
+                    <span class="material-symbols-outlined text-[18px]" data-icon="trending_flat">trending_flat</span>
+</button>
+<div class="bg-surface-container-highest/20 border-l-2 border-primary p-4 space-y-2">
+<span class="font-micro-tag text-[9px] text-primary block uppercase">System_Log [Transmission]</span>
+<p class="font-mono-data text-[11px] text-on-surface-variant leading-tight">
+                        [14:02] Connection established to Cluster_7.<br/>
+                        [14:05] Voice link encrypted via RSA-4096.<br/>
+                        [14:09] 14 nodes ready for synchronization.
+                    </p>
+</div>
+</section>
+</div>
+</main>
+<!-- BOTTOM NAV BAR (Mobile) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-surface-container-lowest/60 backdrop-blur-2xl border-t border-primary/20 flex justify-around items-center px-4 py-2 pb-safe shadow-[0_-10px_30px_rgba(45,168,224,0.15)]">
+<a class="flex flex-col items-center justify-center text-primary glow-cyan scale-110 font-label-caps text-label-caps-mobile" href="#">
+<span class="material-symbols-outlined" data-icon="style">style</span>
+<span>Deck</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant font-label-caps text-label-caps-mobile" href="#">
+<span class="material-symbols-outlined" data-icon="wifi_tethering">wifi_tethering</span>
+<span>Pulse</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant font-label-caps text-label-caps-mobile" href="#">
+<span class="material-symbols-outlined" data-icon="videocam">videocam</span>
+<span>Stream</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant font-label-caps text-label-caps-mobile" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span>Hero</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction for radar and HUD elements
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    btn.classList.add('scale-95');
+                    setTimeout(() => btn.classList.remove('scale-95'), 100);
+                });
+            });
+
+            // Random log updates simulation
+            const logEntries = [
+                "[14:15] Signal interference from House of Serpents.",
+                "[14:22] Neural match found in sector 7G.",
+                "[14:28] Cluster resonance peaking at 14Hz.",
+                "[14:35] Sync stream stabilized.",
+                "[14:41] Archetype collision detected. Auto-resolving..."
+            ];
+            
+            const logElement = document.querySelector('p.font-mono-data');
+            setInterval(() => {
+                const randomEntry = logEntries[Math.floor(Math.random() * logEntries.length)];
+                const lines = logElement.innerHTML.split('<br>');
+                lines.shift();
+                lines.push(randomEntry);
+                logElement.innerHTML = lines.join('<br>');
+            }, 5000);
+        });
+    </script>
+</body></html>

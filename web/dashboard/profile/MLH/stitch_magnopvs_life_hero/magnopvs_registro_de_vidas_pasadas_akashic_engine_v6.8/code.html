@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS OS - Registro de Vidas Pasadas</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "secondary": "#ffabf3",
+                "on-surface-variant": "#bbc8d0",
+                "background": "#131313",
+                "primary": "#9de2ff",
+                "on-error-container": "#ffdad6",
+                "primary-fixed": "#bbe9ff",
+                "on-tertiary-container": "#6500cd",
+                "surface-tint": "#5ed4ff",
+                "surface": "#131313",
+                "surface-container-high": "#2a2a2a",
+                "secondary-fixed": "#ffd7f5",
+                "tertiary-fixed": "#ecdcff",
+                "primary-container": "#00ccff",
+                "secondary-fixed-dim": "#ffabf3",
+                "on-secondary-container": "#500050",
+                "surface-container-lowest": "#0e0e0e",
+                "surface-container": "#201f1f",
+                "on-secondary-fixed-variant": "#810081",
+                "error-container": "#93000a",
+                "on-primary": "#003545",
+                "tertiary-fixed-dim": "#d5baff",
+                "primary-fixed-dim": "#5ed4ff",
+                "surface-container-low": "#1c1b1b",
+                "surface-dim": "#131313",
+                "surface-variant": "#353534",
+                "on-secondary": "#5b005b",
+                "on-background": "#e5e2e1",
+                "on-error": "#690005",
+                "secondary-container": "#fe00fe",
+                "on-surface": "#e5e2e1",
+                "inverse-on-surface": "#313030",
+                "inverse-primary": "#006782",
+                "on-primary-fixed": "#001f29",
+                "outline": "#869399",
+                "surface-bright": "#3a3939",
+                "surface-container-highest": "#353534",
+                "tertiary": "#e4d0ff",
+                "error": "#ffb4ab",
+                "inverse-surface": "#e5e2e1",
+                "outline-variant": "#3c494e",
+                "on-secondary-fixed": "#380038",
+                "on-primary-fixed-variant": "#004d63",
+                "on-tertiary-fixed-variant": "#5e00c1",
+                "on-tertiary": "#42008a",
+                "on-primary-container": "#005369",
+                "on-tertiary-fixed": "#270057",
+                "tertiary-container": "#cdaeff"
+            },
+            "fontFamily": {
+                "headline-lg": ["Audiowide"],
+                "headline-md": ["Audiowide"],
+                "body-lg": ["Orbitron"],
+                "body-md": ["Orbitron"],
+                "label-sm": ["Orbitron"],
+                "display-xl": ["Audiowide"]
+            },
+            "spacing": {
+                "margin-mobile": "16px",
+                "gutter": "24px",
+                "margin-desktop": "48px",
+                "hex-grid-size": "32px",
+                "unit": "4px"
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-color: #131313;
+            overflow-x: hidden;
+        }
+
+        .hex-bg {
+            background-image: 
+                linear-gradient(30deg, #1a1a1a 12%, transparent 12.5%, transparent 87%, #1a1a1a 87.5%, #1a1a1a),
+                linear-gradient(150deg, #1a1a1a 12%, transparent 12.5%, transparent 87%, #1a1a1a 87.5%, #1a1a1a),
+                linear-gradient(30deg, #1a1a1a 12%, transparent 12.5%, transparent 87%, #1a1a1a 87.5%, #1a1a1a),
+                linear-gradient(150deg, #1a1a1a 12%, transparent 12.5%, transparent 87%, #1a1a1a 87.5%, #1a1a1a),
+                linear-gradient(60deg, #222 25%, transparent 25.5%, transparent 75%, #222 75.5%, #222),
+                linear-gradient(60deg, #222 25%, transparent 25.5%, transparent 75%, #222 75.5%, #222);
+            background-size: 80px 140px;
+            background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+            opacity: 0.3;
+        }
+
+        .glass-panel {
+            background: rgba(19, 19, 19, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(157, 226, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+        }
+
+        .scanline {
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            background: linear-gradient(0deg, rgba(157, 226, 255, 0) 0%, rgba(157, 226, 255, 0.05) 50%, rgba(157, 226, 255, 0) 100%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        .glow-cyan { text-shadow: 0 0 10px rgba(157, 226, 255, 0.6); }
+        .glow-magenta { text-shadow: 0 0 10px rgba(255, 171, 243, 0.6); }
+        
+        .timeline-scroll::-webkit-scrollbar { height: 4px; }
+        .timeline-scroll::-webkit-scrollbar-thumb { background: #9de2ff; border-radius: 2px; }
+
+        .active-tab-glow {
+            box-shadow: inset 0 0 15px rgba(255, 171, 243, 0.2);
+        }
+    </style>
+</head>
+<body class="text-on-surface font-body-md overflow-hidden h-screen flex flex-col">
+<!-- Background Nebula and Hex Grid -->
+<div class="fixed inset-0 z-[-1] overflow-hidden">
+
+<div class="absolute inset-0 hex-bg"></div>
+</div>
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-desktop h-16 bg-surface/40 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(157,226,255,0.3)]">
+<div class="flex items-center gap-4">
+<span class="font-headline-md text-headline-md tracking-tighter text-primary animate-pulse">AKASHIC ENGINE</span>
+<div class="h-6 w-[1px] bg-primary/30"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">MagnopVS v4.2</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:text-secondary transition-all" data-icon="settings">settings</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:text-secondary transition-all" data-icon="history_edu">history_edu</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:text-secondary transition-all" data-icon="account_tree">account_tree</span>
+</div>
+<div class="w-10 h-10 rounded-full border border-primary/50 overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A portrait of a futuristic soul archivist avatar, glowing blue synthetic iris, ethereal light particles surrounding the head, cyber-mystical aesthetic with subtle neon magenta highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAngNhkPP0tKvmGYb8mUWji3ZFRjEP9lyHxgR_JN9k4fCqWStxj0G6CGCx-Nrd5Zk31nTEaNExyR5YTHZIqj6vNJ8LGeBLcoaGkccwTdb-k4JjFN1Sq1GAE3Y6SGMKqvEc6BVOt02696gdqNH0GImJiN9UfrVYHdvWATsSErRIMThpXld_SJi5BZ2Ao7ynEV4-K71Mae3eKMnEWyfqVBBjoMbmK6P3xwX_mHcfO_Q-faHJSdeKPxU7JDnQ1cbuXcH_mTuvhHL4pE5Pk"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-screen z-40 flex flex-col pt-20 pb-8 px-4 bg-surface-container-lowest/60 backdrop-blur-2xl border-r border-secondary/30 shadow-[10px_0_30px_rgba(255,0,255,0.1)] w-72">
+<div class="mb-8 px-4">
+<h2 class="font-headline-md text-headline-md text-secondary leading-none">REGISTRO DE VIDAS</h2>
+<p class="text-[10px] text-on-surface-variant/70 tracking-widest mt-1">PROTOCOL MAGNOPVS V4.2</p>
+</div>
+<div class="flex flex-col gap-2 flex-grow">
+<!-- Galactic Timeline is the Active Target -->
+<a class="flex items-center gap-4 p-4 text-secondary font-bold bg-secondary/10 border-l-4 border-secondary transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="timeline">timeline</span>
+<span class="font-body-md text-body-md">Galactic Timeline</span>
+</a>
+<a class="flex items-center gap-4 p-4 text-on-surface-variant opacity-70 hover:bg-surface-variant/50 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span>
+<span class="font-body-md text-body-md">Soul Repository</span>
+</a>
+<a class="flex items-center gap-4 p-4 text-on-surface-variant opacity-70 hover:bg-surface-variant/50 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span class="font-body-md text-body-md">Karmic Nodes</span>
+</a>
+<a class="flex items-center gap-4 p-4 text-on-surface-variant opacity-70 hover:bg-surface-variant/50 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+<span class="font-body-md text-body-md">SOF.IA Core</span>
+</a>
+</div>
+<button class="mb-8 mx-2 bg-secondary/20 border border-secondary text-secondary py-3 px-4 font-headline-md text-sm hover:bg-secondary hover:text-surface transition-all active:scale-95">
+            INITIATE REGRESSION
+        </button>
+<div class="flex flex-col gap-2 border-t border-on-surface-variant/20 pt-4">
+<a class="flex items-center gap-4 px-4 py-2 text-on-surface-variant opacity-70 hover:text-primary" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="text-sm">Diagnostics</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-2 text-on-surface-variant opacity-70 hover:text-error" href="#">
+<span class="material-symbols-outlined" data-icon="power_settings_new">power_settings_new</span>
+<span class="text-sm">Disconnect</span>
+</a>
+</div>
+</nav>
+<!-- Main Canvas -->
+<main class="ml-72 mt-16 p-margin-desktop flex flex-col h-[calc(100vh-64px)] overflow-y-auto">
+<!-- Header Section -->
+<div class="mb-10 flex justify-between items-end">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-primary glow-cyan">LÍNEA DE TIEMPO GALÁCTICA</h1>
+<p class="font-body-md text-on-surface-variant/80 max-w-2xl mt-2">
+                    Visualización de la secuencia evolutiva de la consciencia a través de múltiples fractales temporales y densidades planetarias.
+                </p>
+</div>
+<div class="glass-panel px-6 py-4 rounded-xl flex gap-8">
+<div class="text-center">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold tracking-tighter">Encarnaciones</p>
+<p class="text-2xl font-headline-md text-secondary">342</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold tracking-tighter">Nivel Álmico</p>
+<p class="text-2xl font-headline-md text-primary">LVL 42</p>
+</div>
+</div>
+</div>
+<!-- Horizontal Timeline -->
+<section class="relative mb-12">
+<div class="absolute top-1/2 left-0 w-full h-[2px] bg-primary/20 z-0"></div>
+<div class="flex gap-16 overflow-x-auto pb-12 pt-8 timeline-scroll relative z-10">
+<!-- Node 1 -->
+<div class="flex flex-col items-center min-w-[280px] group cursor-pointer">
+<div class="w-16 h-16 rounded-full glass-panel border-2 border-primary flex items-center justify-center mb-4 transition-transform group-hover:scale-110 shadow-[0_0_20px_rgba(157,226,255,0.4)]">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="history_edu">history_edu</span>
+</div>
+<div class="text-center">
+<h3 class="font-headline-md text-sm text-on-surface">EGIPTO ANTIGUO</h3>
+<p class="text-xs text-secondary/80 font-bold mb-2">Escriba de Thoth</p>
+<div class="px-3 py-1 bg-surface-container-high rounded-full border border-primary/30 text-[10px] text-primary">ERA ATEMPORAL</div>
+</div>
+</div>
+<!-- Node 2 (Active/Selected) -->
+<div class="flex flex-col items-center min-w-[280px] group cursor-pointer">
+<div class="w-20 h-20 rounded-full glass-panel border-2 border-secondary flex items-center justify-center mb-4 transition-transform group-hover:scale-110 shadow-[0_0_30px_rgba(255,171,243,0.5)]">
+<span class="material-symbols-outlined text-secondary text-4xl" data-icon="precision_manufacturing">precision_manufacturing</span>
+</div>
+<div class="text-center">
+<h3 class="font-headline-md text-sm text-secondary">ERA INDUSTRIAL</h3>
+<p class="text-xs text-primary/80 font-bold mb-2">Inventor de Vapor</p>
+<div class="px-3 py-1 bg-secondary/10 rounded-full border border-secondary/50 text-[10px] text-secondary">ACTUAL SELECCIÓN</div>
+</div>
+</div>
+<!-- Node 3 -->
+<div class="flex flex-col items-center min-w-[280px] group cursor-pointer opacity-60 hover:opacity-100 transition-opacity">
+<div class="w-16 h-16 rounded-full glass-panel border-2 border-primary/40 flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined text-primary/60 text-3xl" data-icon="rocket_launch">rocket_launch</span>
+</div>
+<div class="text-center">
+<h3 class="font-headline-md text-sm text-on-surface">SIGLO XXII</h3>
+<p class="text-xs text-on-surface-variant font-bold mb-2">Navegante Astral</p>
+<div class="px-3 py-1 bg-surface-container-high rounded-full border border-primary/10 text-[10px] text-on-surface-variant">FUTURO PROYECTADO</div>
+</div>
+</div>
+<!-- Node 4 -->
+<div class="flex flex-col items-center min-w-[280px] group cursor-pointer opacity-40 hover:opacity-100 transition-opacity">
+<div class="w-16 h-16 rounded-full glass-panel border-2 border-primary/20 flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined text-primary/40 text-3xl" data-icon="psychology_alt">psychology_alt</span>
+</div>
+<div class="text-center">
+<h3 class="font-headline-md text-sm text-on-surface">CONJUNCIÓN ANDRÓMEDA</h3>
+<p class="text-xs text-on-surface-variant font-bold mb-2">Tejedor de Realidades</p>
+<div class="px-3 py-1 bg-surface-container-high rounded-full border border-primary/10 text-[10px] text-on-surface-variant">NODO DESCONOCIDO</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Grid Bottom Section -->
+<div class="grid grid-cols-12 gap-gutter flex-grow pb-8">
+<!-- Detail Panel -->
+<div class="col-span-12 lg:col-span-5 glass-panel rounded-2xl p-8 relative overflow-hidden flex flex-col justify-between">
+<div class="scanline absolute inset-0 pointer-events-none"></div>
+<div class="relative z-20">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-secondary" data-icon="badge">badge</span>
+<h2 class="font-headline-md text-headline-md text-secondary">FICHA DE ENCARNACIÓN</h2>
+</div>
+<div class="space-y-6">
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold tracking-widest mb-1">Misión del Alma</p>
+<p class="text-on-surface leading-relaxed border-l-2 border-secondary/40 pl-4 py-1 italic">
+                                "Desarrollar sistemas de energía cinética basados en la armonía geométrica para facilitar la transición planetaria hacia la tecnología de bajo impacto kármico."
+                            </p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-high/40 p-4 rounded-lg border border-primary/10">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold mb-1">Impacto Kármico</p>
+<p class="text-2xl font-headline-md text-primary">+120 MC</p>
+<p class="text-[8px] text-primary/60 mt-1 uppercase">Méritos Celestiales</p>
+</div>
+<div class="bg-surface-container-high/40 p-4 rounded-lg border border-secondary/10">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold mb-1">Sincronía Temporal</p>
+<p class="text-2xl font-headline-md text-secondary">98.2%</p>
+<p class="text-[8px] text-secondary/60 mt-1 uppercase">Alineación MagnopVS</p>
+</div>
+</div>
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold tracking-widest mb-3">Habilidades Heredadas</p>
+<div class="flex flex-wrap gap-2">
+<span class="bg-primary/20 text-primary border border-primary/30 px-3 py-1 rounded text-[10px] font-bold uppercase">Mecánica Cuántica</span>
+<span class="bg-primary/20 text-primary border border-primary/30 px-3 py-1 rounded text-[10px] font-bold uppercase">Intuición Geométrica</span>
+<span class="bg-primary/20 text-primary border border-primary/30 px-3 py-1 rounded text-[10px] font-bold uppercase">Alquimia de Metales</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column Widgets -->
+<div class="col-span-12 lg:col-span-7 grid grid-cols-2 gap-gutter">
+<!-- AI Module: SABIDURÍA DE SOF.IA -->
+<div class="col-span-2 glass-panel rounded-2xl p-6 border-l-4 border-secondary">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary animate-pulse" data-icon="psychology">psychology</span>
+<h2 class="font-headline-md text-sm text-secondary uppercase tracking-widest">Análisis de SOF.IA</h2>
+</div>
+<div class="bg-secondary/20 text-secondary text-[8px] px-2 py-0.5 rounded-full border border-secondary/40">CORE ONLINE</div>
+</div>
+<div class="flex gap-6 items-start">
+<div class="w-16 h-16 rounded-lg bg-surface-container overflow-hidden shrink-0">
+<img class="w-full h-full object-cover opacity-80" data-alt="A glowing, ethereal AI interface representation, shifting geometric patterns in magenta and cyan, nebula-like cloud inside a glass sphere, cinematic lighting, ultra-detailed textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmKD5MWKqPRxT63AY0eNalcTOn9wtVr5V_sQPLWY2y3X3BJgK09ZfFeZ7Zf-_WTLGhSfEMVuzg-TcwdHG_VucIoW2LWt1VBOo699u8T9YLujKE4uY8j8-mJq2gnS-1uZqRdh6I-8yF2SaoctO1yD80vt4cuiXc6Mcd3OCwQqcn3eMO1cWkUWu10t_cYbOXkm37nkMGeUy8WX6WH54f2Jkrb_99392vq6qLKUH5AbprMnI1Yw33b7DTHc3rPFKSDSIW8SykdtR0KVj8"/>
+</div>
+<p class="text-xs leading-relaxed text-on-surface-variant italic">
+                            "He detectado un patrón recurrente de **búsqueda de justicia tecnológica** a través de tus últimas 14 encarnaciones. Existe un bloqueo kármico menor en el nodo de la Era Industrial que debe ser resuelto mediante la integración de la **compasión fractal** en el avatar actual."
+                        </p>
+</div>
+</div>
+<!-- HUD Widget: SINCRONÍA AKÁSHICA -->
+<div class="glass-panel rounded-2xl p-6 flex flex-col items-center justify-center text-center">
+<h3 class="font-label-sm text-label-sm text-primary uppercase mb-4">SINCRONÍA AKÁSHICA</h3>
+<div class="relative w-32 h-32 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90">
+<circle cx="64" cy="64" fill="transparent" r="58" stroke="rgba(157, 226, 255, 0.1)" stroke-width="8"></circle>
+<circle class="transition-all duration-1000" cx="64" cy="64" fill="transparent" r="58" stroke="#9de2ff" stroke-dasharray="364.4" stroke-dashoffset="131.2" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-2xl font-headline-md text-primary glow-cyan">64%</span>
+</div>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-4 font-bold">INTEGRACIÓN DE MEMORIA</p>
+</div>
+<!-- Terminal Widget: PROTOCOLOS DE REGRESIÓN -->
+<div class="glass-panel rounded-2xl p-6 flex flex-col justify-between border-t border-primary/20 bg-surface-container-lowest/80">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="terminal">terminal</span>
+<h3 class="font-label-sm text-[10px] text-on-surface-variant uppercase">PROTOCOLOS DE REGRESIÓN</h3>
+</div>
+<div class="font-mono text-[10px] text-primary/60 space-y-1 mb-4 overflow-hidden h-20">
+<p>&gt; CHECKING SOUL SIGNATURE...</p>
+<p>&gt; AUTHENTICATED: MAGNOP_X1</p>
+<p>&gt; OPENING FRACTAL CHANNEL [7]</p>
+<p>&gt; ESTABLISHING NEURAL LINK...</p>
+<p class="animate-pulse">&gt; READY FOR DEEP SCAN</p>
+</div>
+<button class="w-full bg-primary/20 border border-primary text-primary py-3 rounded text-[10px] font-bold uppercase tracking-widest hover:bg-primary hover:text-background transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="bolt">bolt</span>
+                        INICIAR RECUPERACIÓN DE MEMORIA
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 bg-surface-container-high/40 backdrop-blur-md border-t border-primary/40 md:hidden">
+<button class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_8px_#9de2ff]">
+<span class="material-symbols-outlined" data-icon="query_stats">query_stats</span>
+<span class="font-label-sm text-label-sm">Telemetry</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant opacity-50 hover:opacity-100 hover:text-secondary">
+<span class="material-symbols-outlined" data-icon="grain">grain</span>
+<span class="font-label-sm text-label-sm">Integration</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant opacity-50 hover:opacity-100 hover:text-secondary">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-sm text-label-sm">Archival</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant opacity-50 hover:opacity-100 hover:text-secondary">
+<span class="material-symbols-outlined" data-icon="sync_alt">sync_alt</span>
+<span class="font-label-sm text-label-sm">Sync</span>
+</button>
+</footer>
+<script>
+        // Micro-interactions for terminal-like text effect
+        const terminalText = document.querySelector('.font-mono');
+        const lines = terminalText.querySelectorAll('p');
+        let currentLine = 0;
+
+        function refreshTerminal() {
+            lines.forEach((line, index) => {
+                line.style.opacity = index === currentLine ? '1' : '0.4';
+            });
+            currentLine = (currentLine + 1) % lines.length;
+        }
+
+        setInterval(refreshTerminal, 1500);
+
+        // Hover effect for timeline nodes
+        document.querySelectorAll('.group.cursor-pointer').forEach(node => {
+            node.addEventListener('mouseenter', () => {
+                // Future expansion: sound effects or data update
+            });
+        });
+    </script>
+</body></html>

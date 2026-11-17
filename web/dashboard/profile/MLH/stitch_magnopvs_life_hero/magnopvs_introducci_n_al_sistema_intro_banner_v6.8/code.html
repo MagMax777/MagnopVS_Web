@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · Life Hero</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@300;400;700&amp;family=Orbitron:wght@400;700&amp;family=Audiowide&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container": "#1c2023",
+                    "on-error-container": "#ffdad6",
+                    "surface-tint": "#7fd0ff",
+                    "error-container": "#93000a",
+                    "on-secondary-container": "#004439",
+                    "primary": "#c5e7ff",
+                    "grid-line": "rgba(127, 208, 255, 0.05)",
+                    "surface-panel": "rgba(255, 255, 255, 0.03)",
+                    "tertiary-fixed": "#ffd8e7",
+                    "secondary-fixed": "#6af9dc",
+                    "on-primary-fixed": "#001e2d",
+                    "secondary-fixed-dim": "#47ddc1",
+                    "on-primary-fixed-variant": "#004c6a",
+                    "secondary": "#47ddc1",
+                    "background-deep": "#0a0b12",
+                    "outline": "#899299",
+                    "surface-container-lowest": "#0b0f11",
+                    "surface-container-high": "#272a2d",
+                    "on-tertiary-fixed-variant": "#6e3252",
+                    "inverse-primary": "#00658b",
+                    "status-critical": "#93000a",
+                    "surface-bright": "#363a3d",
+                    "on-tertiary": "#531c3b",
+                    "surface-container-low": "#181c1f",
+                    "outline-variant": "#3f484e",
+                    "on-secondary": "#00382e",
+                    "surface-container-highest": "#313538",
+                    "on-primary-container": "#00597b",
+                    "primary-fixed-dim": "#7fd0ff",
+                    "inverse-on-surface": "#2d3134",
+                    "on-background": "#e0e3e6",
+                    "tertiary-fixed-dim": "#ffafd4",
+                    "surface-dim": "#101417",
+                    "glow-cyan": "#2da8e0",
+                    "primary-container": "#7fd0ff",
+                    "surface-variant": "#313538",
+                    "primary-fixed": "#c5e7ff",
+                    "on-surface-variant": "#bfc8cf",
+                    "on-primary": "#00344a",
+                    "on-tertiary-fixed": "#390625",
+                    "tertiary": "#ffd8e7",
+                    "on-secondary-fixed-variant": "#005144",
+                    "inverse-surface": "#e0e3e6",
+                    "tertiary-container": "#ffafd4",
+                    "background": "#101417",
+                    "surface": "#101417",
+                    "on-tertiary-container": "#7c3e5e",
+                    "on-surface": "#e0e3e6",
+                    "on-secondary-fixed": "#00201a",
+                    "on-error": "#690005",
+                    "secondary-container": "#00bba0",
+                    "error": "#ffb4ab",
+                    "magenta-glow": "#ff00ff",
+                    "celestial": "#2da8e0"
+            },
+            "fontFamily": {
+                    "data-point": ["Hanken Grotesk"],
+                    "micro-tag": ["JetBrains Mono"],
+                    "label-caps": ["JetBrains Mono"],
+                    "mono-data": ["JetBrains Mono"],
+                    "display-lg-mobile": ["Space Grotesk"],
+                    "headline-md": ["Space Grotesk"],
+                    "body-md": ["Hanken Grotesk"],
+                    "display-lg": ["Space Grotesk"],
+                    "orbitron": ["Orbitron", "sans-serif"],
+                    "audiowide": ["Audiowide", "cursive"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.6; filter: drop-shadow(0 0 5px #2da8e0); }
+            50% { opacity: 1; filter: drop-shadow(0 0 15px #2da8e0); }
+        }
+        @keyframes rotation {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .cyber-grid {
+            background-image: 
+                linear-gradient(to right, rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .hex-bg {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBWhT1XuNeihoW01Qd-JsgoamTCZGB5AR7AB_QRUIqwW4LK8Oa3hsZysc5tpxqK-KtTyS3pfbeAqeMIkJyIEC0oPMy5noN3LoWjUv1xPO0IMbtEEwJ1wskUbTmAKho4HpR71QVBeJA7-0AJ104vEu_COTc1OjfrZBcvPG3HCPbC5wH77Aj7aybgP0ngJqCW_DNgDYXaglrNmAQxs_GbWjXQgi29mdGm6cz5Y9dhhEfpy8Ua5J-gzLZ5imcKBGDls88g_6-8mKsU-nBB');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            mix-blend-mode: overlay;
+        }
+        .hud-border {
+            clip-path: polygon(10% 0, 90% 0, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0 90%, 0 10%);
+        }
+        .neon-button {
+            clip-path: polygon(15% 0, 100% 0, 100% 70%, 85% 100%, 0 100%, 0 30%);
+        }
+        .text-glow {
+            text-shadow: 0 0 10px rgba(127, 208, 255, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-background-deep text-on-background font-body-md min-h-screen overflow-x-hidden selection:bg-secondary selection:text-on-secondary">
+<!-- Global Background Elements -->
+<div class="fixed inset-0 z-[-1]">
+<div class="absolute inset-0 cyber-grid"></div>
+<div class="absolute inset-0 hex-bg"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-background-deep via-transparent to-background-deep"></div>
+</div>
+<!-- Top Navigation -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/30 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="font-orbitron font-bold text-[24px] text-primary tracking-widest uppercase">
+            MAGNOPVS <span class="text-secondary opacity-70">· Life Hero</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-label-caps text-label-caps text-primary drop-shadow-[0_0_8px_#7fd0ff] hover:text-secondary transition-all" href="#">DASHBOARD</a>
+<a class="font-label-caps text-label-caps text-outline hover:text-secondary transition-all" href="#">MISSIONS</a>
+<a class="font-label-caps text-label-caps text-outline hover:text-secondary transition-all" href="#">ALCHEMY</a>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-outline hover:text-primary cursor-pointer transition-all">bolt</span>
+<span class="material-symbols-outlined text-outline hover:text-primary cursor-pointer transition-all">stars</span>
+<div class="w-10 h-10 rounded-full border border-primary/30 flex items-center justify-center overflow-hidden bg-surface-container">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+</div>
+</div>
+</nav>
+<!-- Side UI Telemetry (Desktop Only) -->
+<aside class="hidden lg:flex flex-col fixed left-0 top-0 h-full z-40 w-64 pt-24 px-6 border-r border-primary/20 bg-surface-container-low/30 backdrop-blur-xl">
+<div class="space-y-8">
+<div>
+<p class="font-micro-tag text-micro-tag text-primary/50 mb-2">SYSTEM_OPERATOR</p>
+<p class="font-orbitron text-headline-md text-primary">OPERATOR_01</p>
+<p class="font-mono-data text-mono-data text-secondary">LVL 42 // TITAN</p>
+</div>
+<div class="space-y-4">
+<div class="p-3 border border-outline-variant/30 rounded bg-surface-panel">
+<div class="flex justify-between text-[10px] font-mono-data mb-1">
+<span>SYNC_RATE</span>
+<span class="text-secondary">98.2%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden flex gap-0.5">
+<div class="h-full bg-secondary w-2 shadow-[0_0_8px_#47ddc1]"></div>
+<div class="h-full bg-secondary w-2 shadow-[0_0_8px_#47ddc1]"></div>
+<div class="h-full bg-secondary w-2 shadow-[0_0_8px_#47ddc1]"></div>
+<div class="h-full bg-secondary w-2 shadow-[0_0_8px_#47ddc1]"></div>
+<div class="h-full bg-secondary w-2 shadow-[0_0_8px_#47ddc1]"></div>
+<div class="h-full bg-secondary w-2 shadow-[0_0_8px_#47ddc1]"></div>
+<div class="h-full bg-secondary w-2 shadow-[0_0_8px_#47ddc1]"></div>
+<div class="h-full bg-secondary w-2 shadow-[0_0_8px_#47ddc1]"></div>
+<div class="h-full bg-outline-variant/30 w-2"></div>
+<div class="h-full bg-outline-variant/30 w-2"></div>
+</div>
+</div>
+<div class="p-3 border border-outline-variant/30 rounded bg-surface-panel">
+<p class="font-micro-tag text-micro-tag text-outline-variant mb-2">LIVE_TELEMETRY</p>
+<div class="text-[10px] font-mono-data space-y-1 opacity-60">
+<p class="flex justify-between"><span>LATITUDE:</span> <span>40.7128 N</span></p>
+<p class="flex justify-between"><span>LONGITUDE:</span> <span>74.0060 W</span></p>
+<p class="flex justify-between"><span>ELEVATION:</span> <span>42m MSL</span></p>
+<p class="text-secondary animate-pulse mt-2">LINK_ESTABLISHED</p>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Hero Content -->
+<main class="relative pt-32 pb-24 lg:pl-64 min-h-screen flex flex-col items-center justify-center px-6">
+<!-- Header Text -->
+<div class="text-center mb-12 space-y-4 max-w-4xl z-10">
+<div class="inline-block px-4 py-1 border border-secondary/40 bg-secondary/5 rounded-full mb-4">
+<span class="font-micro-tag text-micro-tag text-secondary uppercase tracking-[0.4em]">Protocolo de Iniciación v4.2</span>
+</div>
+<h1 class="font-audiowide text-4xl md:text-6xl lg:text-7xl text-primary leading-tight tracking-tighter text-glow">
+                BIENVENIDO AL SISTEMA OPERATIVO DE REALIDAD
+            </h1>
+<p class="font-hanken text-lg md:text-xl text-outline-variant tracking-widest uppercase opacity-80">
+                Inicia tu Sincronización con el Destino
+            </p>
+</div>
+<!-- Video HUD Interface -->
+<div class="relative w-full max-w-5xl aspect-video group">
+<!-- HUD Decorative Elements - Outer -->
+<div class="absolute -inset-6 border border-primary/10 rounded-lg pointer-events-none"></div>
+<div class="absolute -top-10 -left-10 w-24 h-24 border-t-2 border-l-2 border-primary/40 pointer-events-none"></div>
+<div class="absolute -bottom-10 -right-10 w-24 h-24 border-b-2 border-r-2 border-magenta-glow/40 pointer-events-none"></div>
+<!-- Scanning Line -->
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-primary/10 to-transparent h-1 w-full z-20 pointer-events-none" style="animation: scanline 4s linear infinite;"></div>
+<!-- Video Container with Hex Clip Frame -->
+<div class="relative w-full h-full p-1 bg-gradient-to-br from-primary via-magenta-glow/50 to-secondary rounded-xl overflow-hidden shadow-[0_0_50px_rgba(45,168,224,0.2)]">
+<div class="absolute inset-0 bg-background-deep z-0"></div>
+<div class="relative z-10 w-full h-full overflow-hidden rounded-lg bg-black">
+<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" class="w-full h-full object-cover scale-105 pointer-events-none" frameborder="0" src="https://www.youtube.com/embed/5qU0TeH5V70?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=5qU0TeH5V70&amp;controls=0&amp;showinfo=0&amp;rel=0&amp;modestbranding=1" title="Hero Cinematic">
+</iframe>
+</div>
+<!-- Inner HUD Overlays -->
+<div class="absolute inset-4 pointer-events-none z-20 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div class="font-mono-data text-[10px] text-primary bg-background-deep/60 p-2 backdrop-blur-md border-l-2 border-primary">
+                            REC [LIVE]<br/>DATA_STREAM: 4K_UHD
+                        </div>
+<div class="w-16 h-16 border border-primary/20 rounded-full flex items-center justify-center">
+<div class="w-12 h-12 border-2 border-dashed border-secondary/40 rounded-full animate-[rotation_10s_linear_infinite]"></div>
+<span class="absolute material-symbols-outlined text-secondary text-sm">target</span>
+</div>
+</div>
+<div class="flex justify-between items-end">
+<div class="font-mono-data text-[10px] text-magenta-glow bg-background-deep/60 p-2 backdrop-blur-md border-r-2 border-magenta-glow">
+                            NEURAL_LINK: STABLE<br/>BUFFER: 0.003ms
+                        </div>
+<div class="flex gap-1 items-end">
+<div class="w-1 bg-primary h-4"></div>
+<div class="w-1 bg-primary h-8"></div>
+<div class="w-1 bg-primary h-6"></div>
+<div class="w-1 bg-magenta-glow h-10 animate-pulse"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Side Brackets for 'Neural Interface' -->
+<div class="absolute top-1/2 -left-12 -translate-y-1/2 flex flex-col gap-4 opacity-40">
+<div class="w-8 h-1 bg-primary"></div>
+<div class="w-12 h-1 bg-secondary"></div>
+<div class="w-6 h-1 bg-primary"></div>
+</div>
+<div class="absolute top-1/2 -right-12 -translate-y-1/2 flex flex-col gap-4 items-end opacity-40">
+<div class="w-8 h-1 bg-magenta-glow"></div>
+<div class="w-12 h-1 bg-primary"></div>
+<div class="w-6 h-1 bg-magenta-glow"></div>
+</div>
+</div>
+<!-- Call to Action -->
+<div class="mt-20 z-10 flex flex-col items-center gap-6">
+<button class="neon-button relative px-12 py-5 bg-primary text-background-deep font-orbitron font-bold text-xl tracking-[0.2em] transition-all hover:scale-105 active:scale-95 group overflow-hidden">
+<span class="relative z-10">ENTRAR AL SANTUARIO</span>
+<div class="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12"></div>
+<!-- Neon Shadow Effect -->
+<div class="absolute -inset-1 bg-secondary blur-lg opacity-30 group-hover:opacity-60 transition-opacity"></div>
+</button>
+<p class="font-mono-data text-xs text-outline tracking-widest animate-pulse">ESPERANDO RESPUESTA DEL NÚCLEO...</p>
+</div>
+</main>
+<!-- Footer Area -->
+<footer class="lg:pl-64 py-12 border-t border-outline-variant/10">
+<div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop flex flex-col items-center gap-4">
+<div class="flex gap-8">
+<a class="font-mono-data text-mono-data text-outline-variant hover:text-primary transition-all" href="#">System Reset</a>
+<a class="font-mono-data text-mono-data text-outline-variant hover:text-primary transition-all" href="#">Log Export</a>
+<a class="font-mono-data text-mono-data text-outline-variant hover:text-primary transition-all" href="#">Protocol-9</a>
+</div>
+<p class="font-mono-data text-xs text-outline-variant opacity-40">
+                MAGNOPVS OS v4.2.0 // SYSTEM_STABLE // © 2024 REALITY_ENGIN
+            </p>
+</div>
+</footer>
+<!-- Mobile Bottom Navigation -->
+<div class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 bg-surface-container/80 backdrop-blur-lg border-t border-primary/20 pb-safe">
+<div class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-110">
+<span class="material-symbols-outlined">space_dashboard</span>
+<span class="font-label-caps text-[10px]">DASH</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">temple_hindu</span>
+<span class="font-label-caps text-[10px]">HOUSES</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">assignment_late</span>
+<span class="font-label-caps text-[10px]">MISS</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-caps text-[10px]">STATS</span>
+</div>
+</div>
+<!-- Background Atmospheric Particles (Canvas simulation via inline JS) -->
+<canvas class="fixed inset-0 pointer-events-none z-[-1] opacity-30" id="atmosphere"></canvas>
+<script>
+        const canvas = document.getElementById('atmosphere');
+        const ctx = canvas.getContext('2d');
+        let width, height, particles;
+
+        function init() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            particles = [];
+            for (let i = 0; i < 60; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    size: Math.random() * 2,
+                    speedX: (Math.random() - 0.5) * 0.5,
+                    speedY: (Math.random() - 0.5) * 0.5,
+                    color: Math.random() > 0.5 ? '#2da8e0' : '#ff00ff'
+                });
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => {
+                p.x += p.speedX;
+                p.y += p.speedY;
+                if (p.x < 0 || p.x > width) p.speedX *= -1;
+                if (p.y < 0 || p.y > height) p.speedY *= -1;
+                
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', init);
+        init();
+        animate();
+    </script>
+</body></html>

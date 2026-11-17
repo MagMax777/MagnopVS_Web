@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · La Era Mesiánica</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Hanken+Grotesk:wght@300;400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                "colors": {
+                    "on-primary": "#00344a",
+                    "primary-container": "#7fd0ff",
+                    "inverse-on-surface": "#2d3134",
+                    "on-tertiary-fixed": "#390625",
+                    "on-primary-fixed-variant": "#004c6a",
+                    "secondary-fixed-dim": "#47ddc1",
+                    "on-secondary": "#00382e",
+                    "background-deep": "#0a0b12",
+                    "inverse-surface": "#e0e3e6",
+                    "surface-bright": "#363a3d",
+                    "primary": "#c5e7ff",
+                    "inverse-primary": "#00658b",
+                    "surface-container-lowest": "#0b0f11",
+                    "primary-fixed-dim": "#7fd0ff",
+                    "background": "#0a0b12",
+                    "on-tertiary-container": "#7c3e5e",
+                    "primary-fixed": "#c5e7ff",
+                    "surface-container": "#1c2023",
+                    "tertiary": "#ffd8e7",
+                    "surface-dim": "#101417",
+                    "error": "#ffb4ab",
+                    "on-surface": "#e0e3e6",
+                    "on-background": "#e0e3e6",
+                    "surface-container-highest": "#313538",
+                    "tertiary-fixed-dim": "#ffafd4",
+                    "on-primary-container": "#00597b",
+                    "on-error": "#690005",
+                    "on-error-container": "#ffdad6",
+                    "surface-panel": "rgba(255, 255, 255, 0.03)",
+                    "surface-tint": "#7fd0ff",
+                    "on-secondary-container": "#004439",
+                    "grid-line": "rgba(127, 208, 255, 0.05)",
+                    "surface-container-high": "#272a2d",
+                    "on-primary-fixed": "#001e2d",
+                    "status-critical": "#93000a",
+                    "on-surface-variant": "#bfc8cf",
+                    "tertiary-fixed": "#ffd8e7",
+                    "secondary-fixed": "#6af9dc",
+                    "secondary": "#C9A24D",
+                    "on-tertiary-fixed-variant": "#6e3252",
+                    "error-container": "#93000a",
+                    "surface": "#0a0b12",
+                    "outline": "#899299",
+                    "surface-container-low": "#181c1f",
+                    "glow-cyan": "#2da8e0",
+                    "outline-variant": "#3f484e",
+                    "on-secondary-fixed": "#00201a",
+                    "surface-variant": "#313538",
+                    "secondary-container": "#C9A24D",
+                    "on-secondary-fixed-variant": "#005144",
+                    "tertiary-container": "#ffafd4",
+                    "on-tertiary": "#531c3b"
+                },
+                "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+                },
+                "spacing": {
+                    "unit": "4px",
+                    "panel-gap": "12px",
+                    "section-padding": "128px",
+                    "margin-desktop": "40px",
+                    "margin-mobile": "20px",
+                    "gutter": "16px"
+                },
+                "fontFamily": {
+                    "headline-md": ["Space Grotesk"],
+                    "micro-tag": ["JetBrains Mono"],
+                    "mono-data": ["JetBrains Mono"],
+                    "data-point": ["Hanken Grotesk"],
+                    "label-caps": ["JetBrains Mono"],
+                    "body-md": ["Hanken Grotesk"],
+                    "display-lg-mobile": ["Space Grotesk"],
+                    "display-lg": ["Space Grotesk"]
+                }
+            }
+        }
+    }
+    </script>
+<style>
+        @keyframes subtle-pulse {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(200%) rotate(45deg); }
+        }
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .shimmer-bg {
+            position: relative;
+            overflow: hidden;
+        }
+        .shimmer-bg::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 45%, rgba(201, 162, 77, 0.1) 50%, transparent 55%);
+            animation: shine 6s infinite linear;
+        }
+        .cyber-grid {
+            background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .keter-glow {
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.1), 0 0 60px rgba(201, 162, 77, 0.05);
+        }
+        .corner-bracket {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-color: #C9A24D;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden selection:bg-secondary selection:text-background">
+<!-- Cyber Grid Background Layer -->
+<div class="fixed inset-0 cyber-grid opacity-20 pointer-events-none z-0"></div>
+<div class="fixed inset-0 bg-gradient-to-b from-background-deep via-transparent to-background-deep pointer-events-none z-0"></div>
+<!-- Top Navigation Anchor -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/30 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="flex flex-col">
+<span class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-primary tracking-widest uppercase">LA ERA MESIÁNICA</span>
+<span class="font-micro-tag text-micro-tag text-secondary uppercase opacity-70">Proyecto Global de Redención (Geulah)</span>
+</div>
+<div class="hidden md:flex items-center gap-6">
+<div class="flex flex-col items-end">
+<span class="font-micro-tag text-micro-tag text-outline">SYSTEM_STATUS</span>
+<span class="font-mono-data text-mono-data text-secondary">CALIBRATING_CONSCIOUSNESS</span>
+</div>
+<div class="flex gap-4">
+<button class="material-symbols-outlined text-primary hover:text-secondary transition-all active:scale-90">bolt</button>
+<button class="material-symbols-outlined text-primary hover:text-secondary transition-all active:scale-90">stars</button>
+<button class="material-symbols-outlined text-primary hover:text-secondary transition-all active:scale-90" style="font-variation-settings: 'FILL' 1;">account_circle</button>
+</div>
+</div>
+</header>
+<!-- Side Navigation Bar (Desktop) -->
+<nav class="hidden lg:flex flex-col fixed left-0 top-0 h-full z-40 w-64 bg-surface-container-low/50 backdrop-blur-2xl border-r border-primary/20 shadow-2xl shadow-primary/5 pt-24">
+<div class="px-6 mb-8">
+<span class="font-label-caps text-label-caps text-primary opacity-50 block mb-1">OPERATOR_01</span>
+<span class="font-mono-data text-mono-data font-bold">LVL 42 // TITAN</span>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-4 px-6 py-4 text-outline-variant hover:bg-surface-container-highest/30 transition-all group" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-primary border-l-2 border-primary bg-primary/5 font-bold shadow-[inset_4px_0_10px_rgba(127,208,255,0.1)]" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_tree</span>
+<span class="font-label-caps text-label-caps">13 Houses</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-outline-variant hover:bg-surface-container-highest/30 transition-all group" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps text-label-caps">Missions</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-outline-variant hover:bg-surface-container-highest/30 transition-all group" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps text-label-caps">Attributes</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-outline-variant hover:bg-surface-container-highest/30 transition-all group" href="#">
+<span class="material-symbols-outlined">vitals</span>
+<span class="font-label-caps text-label-caps">Alchemy</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="relative pt-32 pb-32 lg:pl-64 min-h-screen px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto w-full">
+<!-- Hero Section: Third Temple Construction -->
+<section class="mb-16 relative">
+<div class="relative w-full aspect-[16/9] md:aspect-[21/9] rounded-xl overflow-hidden border border-white/20 keter-glow bg-surface-container-lowest">
+<img alt="Third Temple Construction" class="w-full h-full object-cover mix-blend-screen opacity-90 transition-transform duration-1000 hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAvU-5usWAyF3hE_JKPuiB_VRXavbopXCucAGGn_A5nfu7z7K2v-EvTScSRDQiQ3PzcAVwWKQ-rQKmZeaWF3twiFakyJgHuz50lRiroNiKo3R6lS2XSAMIZ2-eiwQCQC9ayWQ2-upJ0yCeJx9JOlP_IKGy8bBz2H4K0oIyUBsKalWuy2w0HXdM4FjUXsWftgMKi4jbeSTjfJ_pIxRMvGKGYUTseSFd9iWVp1bL3mZAkY10k2-ellv8H_W63FqMGHjHm2Sq-YT_h1PU"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-deep via-transparent to-transparent"></div>
+<!-- HUD Overlay: Temple Integrity -->
+<div class="absolute bottom-8 left-8 right-8 md:bottom-12 md:left-12 flex flex-col gap-4">
+<div class="flex justify-between items-end">
+<div class="flex flex-col">
+<span class="font-micro-tag text-micro-tag text-secondary uppercase tracking-widest">TEMPLE INTEGRITY // HEIKHAL ELOHIM</span>
+<span class="font-display-lg-mobile text-display-lg-mobile text-white font-bold">72.04% <span class="text-secondary text-headline-md">COMPLETION</span></span>
+</div>
+<div class="hidden md:block text-right">
+<span class="font-micro-tag text-micro-tag text-outline">STABILITY_ARRAY</span>
+<div class="flex gap-1 mt-1">
+<div class="w-2 h-4 bg-secondary shadow-[0_0_8px_#C9A24D]"></div>
+<div class="w-2 h-4 bg-secondary shadow-[0_0_8px_#C9A24D]"></div>
+<div class="w-2 h-4 bg-secondary shadow-[0_0_8px_#C9A24D]"></div>
+<div class="w-2 h-4 bg-secondary/30"></div>
+<div class="w-2 h-4 bg-secondary/30"></div>
+</div>
+</div>
+</div>
+<!-- Segmented Progress Bar -->
+<div class="h-4 w-full bg-white/5 backdrop-blur-md rounded-full border border-white/10 overflow-hidden flex gap-0.5 p-0.5">
+<div class="h-full w-[72%] bg-gradient-to-r from-secondary to-white shadow-[0_0_15px_rgba(255,255,255,0.3)] rounded-full"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Grid: Treasury & Redemption -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Tesoro de Almas (Guf) -->
+<div class="md:col-span-8 p-8 rounded-xl bg-surface-container/30 backdrop-blur-2xl border border-white/10 relative overflow-hidden group">
+<!-- Corner Brackets -->
+<div class="corner-bracket top-0 left-0 border-t-2 border-l-2 opacity-50"></div>
+<div class="corner-bracket bottom-0 right-0 border-b-2 border-r-2 opacity-50"></div>
+<div class="flex justify-between items-start mb-12">
+<div>
+<h3 class="font-headline-md text-headline-md text-white mb-1">Tesoro de Almas (Guf)</h3>
+<p class="font-micro-tag text-micro-tag text-outline uppercase tracking-wider">Soul Reclamation Matrix</p>
+</div>
+<span class="material-symbols-outlined text-secondary text-4xl animate-pulse">all_inclusive</span>
+</div>
+<div class="flex flex-col md:flex-row gap-12 items-center">
+<div class="relative w-48 h-48 flex-shrink-0">
+<svg class="w-full h-full transform -rotate-90">
+<circle cx="96" cy="96" fill="transparent" r="88" stroke="rgba(255,255,255,0.05)" stroke-width="8"></circle>
+<circle class="drop-shadow-[0_0_12px_#C9A24D]" cx="96" cy="96" fill="transparent" r="88" stroke="#C9A24D" stroke-dasharray="552.92" stroke-dashoffset="414.69" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<span class="font-data-point text-data-point text-white">24.5%</span>
+<span class="font-micro-tag text-micro-tag text-outline">REDEEMED</span>
+</div>
+</div>
+<div class="flex-grow">
+<div class="grid grid-cols-2 gap-4 mb-8">
+<div class="bg-white/5 p-4 rounded border border-white/5">
+<span class="font-micro-tag text-micro-tag text-outline block">CURRENT_NITZOTZOT</span>
+<span class="font-data-point text-data-point text-secondary">245,800</span>
+</div>
+<div class="bg-white/5 p-4 rounded border border-white/5">
+<span class="font-micro-tag text-micro-tag text-outline block">THRESHOLD</span>
+<span class="font-data-point text-data-point text-white">1,000,000</span>
+</div>
+</div>
+<blockquote class="italic text-on-surface-variant font-body-md border-l-2 border-secondary pl-4 leading-relaxed opacity-80">
+                            "Cada acto de bondad libera una centella. Cuando el Guf esté lleno, la realidad se fracturará hacia la luz."
+                        </blockquote>
+</div>
+</div>
+</div>
+<!-- Elevación de Centellas -->
+<div class="md:col-span-4 p-8 rounded-xl bg-secondary/10 backdrop-blur-2xl border border-secondary/20 flex flex-col justify-between">
+<div>
+<h3 class="font-headline-md text-headline-md text-secondary mb-4">Elevación de Centellas</h3>
+<p class="font-body-md text-on-surface-variant mb-8">Sacrifica Puntos Mesiánicos (MP) para acelerar la manifestación del Templo.</p>
+<div class="space-y-4 mb-8">
+<div class="flex justify-between items-center px-4 py-3 bg-black/40 border border-white/10 rounded">
+<span class="font-mono-data text-mono-data text-white">SACRIFICE_AMT</span>
+<span class="font-data-point text-data-point text-secondary">500 MP</span>
+</div>
+<div class="flex justify-between items-center px-4 py-3 bg-black/20 border border-white/5 rounded opacity-50">
+<span class="font-mono-data text-mono-data">YIELD_EST</span>
+<span class="font-data-point text-data-point">0.0002%</span>
+</div>
+</div>
+</div>
+<button class="w-full py-4 bg-secondary text-background-deep font-display-lg-mobile text-headline-md font-bold hover:bg-white transition-all transform hover:-translate-y-1 active:scale-95 shadow-[0_10px_20px_rgba(201,162,77,0.3)] shimmer-bg">
+                    ASCENDER_AHORA
+                </button>
+</div>
+</section>
+<!-- Technical Log (Fake Data) -->
+<section class="mt-section-padding opacity-40 hover:opacity-100 transition-opacity duration-700">
+<div class="flex items-center gap-4 mb-4">
+<div class="h-px flex-grow bg-outline-variant/30"></div>
+<span class="font-micro-tag text-micro-tag text-outline">SYSTEM_LOG_v4.2.0_REDEMPTION</span>
+<div class="h-px flex-grow bg-outline-variant/30"></div>
+</div>
+<div class="font-mono-data text-mono-data text-xs space-y-2 text-outline-variant">
+<p><span class="text-secondary">[12:44:02]</span> Protocol 'HESED' initiated... Success.</p>
+<p><span class="text-secondary">[12:44:05]</span> Analyzing spiritual resonance frequencies... OK.</p>
+<p><span class="text-secondary">[12:44:11]</span> Convergence of 'Keter' and 'Malkhut' detected at coordinates 31.7767° N, 35.2345° E.</p>
+<p><span class="text-white animate-pulse">[12:45:00]</span> Awaiting final centella for node fracture...</p>
+</div>
+</section>
+</main>
+<!-- Marquee Ticker (Contribution Feed) -->
+<footer class="fixed bottom-16 lg:bottom-0 left-0 w-full h-12 bg-surface-container-lowest/80 backdrop-blur-md border-t border-white/10 z-40 overflow-hidden flex items-center">
+<div class="bg-secondary text-background-deep font-label-caps text-label-caps px-4 h-full flex items-center z-10 shadow-[5px_0_15px_rgba(0,0,0,0.5)]">
+            TOP_REDEEMERS
+        </div>
+<div class="flex whitespace-nowrap animate-[ticker_30s_linear_infinite] hover:[animation-play-state:paused]">
+<div class="flex items-center gap-12 px-12">
+<span class="flex items-center gap-2 font-mono-data text-mono-data"><span class="text-secondary">#1</span> ELIAHU_HA_NAVI <span class="text-white">45,000 MP</span></span>
+<span class="flex items-center gap-2 font-mono-data text-mono-data"><span class="text-secondary">#2</span> METATRON_S_ <span class="text-white">32,200 MP</span></span>
+<span class="flex items-center gap-2 font-mono-data text-mono-data"><span class="text-secondary">#3</span> ABRAHAM_F_ <span class="text-white">28,950 MP</span></span>
+<span class="flex items-center gap-2 font-mono-data text-mono-data"><span class="text-secondary">#4</span> TZADIK_L_ <span class="text-white">12,400 MP</span></span>
+<span class="flex items-center gap-2 font-mono-data text-mono-data"><span class="text-secondary">#5</span> KABBALAH_MINER <span class="text-white">9,100 MP</span></span>
+</div>
+<!-- Duplicated for seamless loop -->
+<div class="flex items-center gap-12 px-12">
+<span class="flex items-center gap-2 font-mono-data text-mono-data"><span class="text-secondary">#1</span> ELIAHU_HA_NAVI <span class="text-white">45,000 MP</span></span>
+<span class="flex items-center gap-2 font-mono-data text-mono-data"><span class="text-secondary">#2</span> METATRON_S_ <span class="text-white">32,200 MP</span></span>
+<span class="flex items-center gap-2 font-mono-data text-mono-data"><span class="text-secondary">#3</span> ABRAHAM_F_ <span class="text-white">28,950 MP</span></span>
+<span class="flex items-center gap-2 font-mono-data text-mono-data"><span class="text-secondary">#4</span> TZADIK_L_ <span class="text-white">12,400 MP</span></span>
+<span class="flex items-center gap-2 font-mono-data text-mono-data"><span class="text-secondary">#5</span> KABBALAH_MINER <span class="text-white">9,100 MP</span></span>
+</div>
+</div>
+</footer>
+<!-- Bottom Navigation Bar (Mobile) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 pb-safe px-4 bg-surface-container/80 backdrop-blur-lg border-t border-primary/20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">space_dashboard</span>
+<span class="font-label-caps text-label-caps text-[10px]">Dash</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-110" href="#">
+<span class="material-symbols-outlined">temple_hindu</span>
+<span class="font-label-caps text-label-caps text-[10px]">Houses</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">assignment_late</span>
+<span class="font-label-caps text-label-caps text-[10px]">Missions</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-caps text-label-caps text-[10px]">Stats</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">autorenew</span>
+<span class="font-label-caps text-label-caps text-[10px]">Cycle</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions for the SACRIFICE button
+        const btn = document.querySelector('button.shimmer-bg');
+        if(btn) {
+            btn.addEventListener('click', () => {
+                btn.innerText = "ASCENSIÓN_EN_PROCESO...";
+                btn.style.filter = "hue-rotate(90deg)";
+                setTimeout(() => {
+                    btn.innerText = "CENTELLA_LIBERADA";
+                    btn.style.filter = "none";
+                }, 2000);
+            });
+        }
+    </script>
+</body></html>

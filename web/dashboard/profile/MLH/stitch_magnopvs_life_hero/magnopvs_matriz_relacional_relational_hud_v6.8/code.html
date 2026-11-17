@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS_OS | Relational Matrix v6.8</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Space+Grotesk:wght@400;600;700&amp;family=Audiowide&amp;family=Orbitron:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --glow-cyan: rgba(45, 168, 224, 0.5);
+            --glow-magenta: rgba(255, 175, 212, 0.3);
+            --glow-secondary: rgba(71, 221, 193, 0.4);
+        }
+
+        body {
+            background-color: #0b0f11;
+            color: #e0e3e6;
+            font-family: 'Orbitron', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .cyber-grid {
+            background-image: 
+                linear-gradient(to right, rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .hex-bg {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCxmCIiId_LPT9knNr-jj2KXgIZ80Rbwl3HMarGKzCfKJ7Ew5p7y0ivmVeqGznddNCOpTqwIlS9JExfMb74YZN69X7RHx49VIvu6NEQjxlyFP4LKJ0-S3IGzN0iCMgTDrVaG39Yk0bd_tjTPU1NkwO2XjRfzDH7oDGjpP-4lNYuzau1YcU5TSClqMogzGLSTZ3txCzoUp34DLfKk8C8cw7JVpKzZkFb0zjCVUbBIsq9vM3DAWSkOT4CyZBMefqIIg6Jl3Sy-yPfwQ6k');
+            background-size: cover;
+            background-blend-mode: overlay;
+            opacity: 0.15;
+        }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(127, 208, 255, 0.1);
+            position: absolute;
+            animation: scanline 8s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+
+        .neon-border {
+            box-shadow: 0 0 10px var(--glow-cyan), inset 0 0 5px var(--glow-cyan);
+        }
+
+        .slanted-edge {
+            clip-path: polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(127, 208, 255, 0.2);
+        }
+
+        .segmented-progress div {
+            height: 8px;
+            width: 8%;
+            background: rgba(31, 35, 38, 0.8);
+            border: 1px solid rgba(127, 208, 255, 0.1);
+        }
+
+        .segmented-progress div.active {
+            background: #47ddc1;
+            box-shadow: 0 0 8px #47ddc1;
+        }
+
+        .title-glow {
+            text-shadow: 0 0 15px rgba(45, 168, 224, 0.8);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .active-glow {
+            box-shadow: inset 4px 0 12px rgba(71, 221, 193, 0.1);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-error": "#690005",
+                        "status-critical": "#93000a",
+                        "surface-container-lowest": "#0b0f11",
+                        "on-secondary-fixed": "#00201a",
+                        "on-secondary-container": "#004439",
+                        "secondary-container": "#00bba0",
+                        "on-error-container": "#ffdad6",
+                        "surface-variant": "#313538",
+                        "background": "#101417",
+                        "secondary": "#47ddc1",
+                        "surface": "#101417",
+                        "primary": "#c5e7ff",
+                        "surface-container-low": "#181c1f",
+                        "primary-container": "#7fd0ff",
+                        "on-primary-container": "#00597b",
+                        "on-surface-variant": "#bfc8cf",
+                        "glow-cyan": "#2da8e0"
+                    },
+                    fontFamily: {
+                        "label-caps": ["JetBrains Mono"],
+                        "display-lg": ["Space Grotesk"],
+                        "mono-data": ["JetBrains Mono"],
+                        "audiowide": ["Audiowide"],
+                        "orbitron": ["Orbitron"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="dark selection:bg-secondary selection:text-background">
+<!-- Global Layout Container -->
+<div class="relative min-h-screen flex flex-col">
+<!-- Background Layers -->
+<div class="fixed inset-0 z-0 cyber-grid"></div>
+<div class="fixed inset-0 z-0 hex-bg"></div>
+<div class="fixed inset-0 z-10 pointer-events-none overflow-hidden">
+<div class="scanline"></div>
+</div>
+<!-- TopNavBar Execution -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 bg-background/80 border-b border-outline-variant/20 backdrop-blur-2xl">
+<div class="flex items-center gap-4">
+<span class="font-audiowide text-headline-md tracking-tighter text-primary drop-shadow-[0_0_8px_rgba(45,168,224,0.3)]">MagnopVS_OS</span>
+<div class="hidden md:flex gap-6 items-center ml-8">
+<a class="text-primary border-b-2 border-primary pb-1 font-label-caps text-xs" href="#">DIVINE</a>
+<a class="text-on-surface-variant font-label-caps text-xs hover:text-secondary transition-all" href="#">STRATEGIC</a>
+<a class="text-on-surface-variant font-label-caps text-xs hover:text-secondary transition-all" href="#">ANCESTRAL</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center bg-surface-container/50 border border-outline-variant/20 px-3 py-1 rounded">
+<span class="material-symbols-outlined text-primary text-sm mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-xs font-mono-data w-48 uppercase" placeholder="QUERY_RELATIONS..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform" data-icon="account_tree">account_tree</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform" data-icon="notifications_active">notifications_active</span>
+<div class="w-8 h-8 rounded-full border border-primary/40 p-0.5">
+<img class="w-full h-full rounded-full object-cover" data-alt="A high-fidelity 3D render of a futuristic cybernetic avatar head, featuring glowing magenta neural pathways and polished matte black chrome plating. The background is a dark, atmospheric technical grid, and the lighting is high-contrast cyan neon, evoking a high-end sci-fi interface identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWl9c6_R7npoWPV36bzP9vqeRvdnSvYUUpxmVcWJM8BD-dZi02zSaK9lBfbJkOXGOxwfgRWRcRkv0fGTTPLksfl_QbNNAIVmcIw4GtWyfBmHBfswfoAS8wBeFi1maoG5AzI0cNuPmSu2O4LuOux1HJJoWwbqWWaDmMpa20YiZ_zkUzfvefZWgr_1yMreOosKvnSnUDKMmm4gc1FRoOLzUneK6-fgaddQ--cq4-hj8PFwAN0hpbF4OfsEtbWb16ceeyvCYyqhUPzNiP"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- SideNavBar Execution (Desktop) -->
+<aside class="hidden md:flex flex-col fixed left-0 top-16 bottom-0 z-40 py-8 w-64 bg-surface-container-lowest/80 border-r border-outline-variant/20 backdrop-blur-3xl">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 border border-secondary bg-secondary/10 flex items-center justify-center slanted-edge">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">terminal</span>
+</div>
+<div>
+<div class="text-primary font-audiowide text-sm tracking-widest">MAGNOP_VS</div>
+<div class="text-[10px] text-on-surface-variant font-mono-data opacity-60">Relational_HUD_v2.4</div>
+</div>
+</div>
+<button class="w-full mt-4 py-2 bg-secondary text-background font-bold text-[10px] tracking-widest slanted-edge hover:brightness-110 active:scale-95 transition-all">INITIATE_SYNC</button>
+</div>
+<div class="flex-1 overflow-y-auto">
+<nav class="space-y-1">
+<!-- Nav items based on JSON -->
+<a class="flex items-center gap-4 px-6 py-3 border-l-2 border-secondary bg-secondary/10 text-secondary font-bold shadow-[inset_4px_0_12px_rgba(71,221,193,0.1)] transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-label-caps text-xs">Divine</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant/60 hover:text-primary hover:bg-surface-panel transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="person_celebrate">person_celebrate</span>
+<span class="font-label-caps text-xs">Ego</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant/60 hover:text-primary hover:bg-surface-panel transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+<span class="font-label-caps text-xs">Resonance</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant/60 hover:text-primary hover:bg-surface-panel transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="humidity_low">humidity_low</span>
+<span class="font-label-caps text-xs">Ancestral</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant/60 hover:text-primary hover:bg-surface-panel transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-caps text-xs">Loyalty</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant/60 hover:text-primary hover:bg-surface-panel transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="handshake">handshake</span>
+<span class="font-label-caps text-xs">Strategic</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant/60 hover:text-primary hover:bg-surface-panel transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="bubble_chart">bubble_chart</span>
+<span class="font-label-caps text-xs">Peripheral</span>
+</a>
+</nav>
+</div>
+<div class="px-6 pt-6 border-t border-outline-variant/10">
+<div class="flex items-center gap-3 text-on-surface-variant/40 mb-4 hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-sm" data-icon="terminal">terminal</span>
+<span class="font-label-caps text-[10px]">System_Log</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant/40 hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-sm" data-icon="analytics">analytics</span>
+<span class="font-label-caps text-[10px]">Terminal</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<main class="flex-1 md:ml-64 mt-16 p-6 md:p-10 relative z-20">
+<!-- Header Section -->
+<header class="mb-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="font-audiowide text-4xl md:text-5xl text-primary title-glow mb-2">MATRIZ_RELACIONAL_V6.8</h1>
+<div class="h-1 w-64 bg-gradient-to-right from-glow-cyan to-transparent rounded-full neon-border"></div>
+</div>
+<div class="flex gap-4">
+<div class="px-4 py-2 glass-panel slanted-edge border-secondary/30 flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-mono-data text-[10px] tracking-widest text-secondary">GLOBAL_SYNC_ACTIVE</span>
+</div>
+<div class="px-4 py-2 glass-panel slanted-edge border-primary/30 flex items-center gap-3">
+<span class="font-mono-data text-[10px] tracking-widest text-primary">NODES: 12,482</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Grid Layout: Map & Telemetry -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter mb-12">
+<!-- Central Map (Social Constellation) -->
+<section class="lg:col-span-8 h-[500px] glass-panel relative overflow-hidden group">
+<div class="absolute inset-0 flex items-center justify-center">
+<!-- Animated Map Placeholder (Logic for social constellation) -->
+<div class="relative w-full h-full flex items-center justify-center">
+<div class="absolute w-48 h-48 border border-primary/20 rounded-full animate-[spin_20s_linear_infinite]"></div>
+<div class="absolute w-80 h-80 border border-secondary/10 rounded-full animate-[spin_35s_linear_infinite_reverse]"></div>
+<!-- Central Node -->
+<div class="relative z-10 w-20 h-20 bg-background-deep border-2 border-primary p-1 rounded-full shadow-[0_0_30px_rgba(45,168,224,0.4)]">
+<img class="w-full h-full rounded-full object-cover grayscale brightness-125" data-alt="A portrait of a highly detailed futuristic protagonist in profile, wearing sleek obsidian-colored high-tech headgear with integrated HUD glass. The lighting is dominated by intense celestial blue and aquamarine neons, highlighting the sharp edges of the gear. The artistic style is heavy cinematic sci-fi concept art with deep black background and atmospheric smoke." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2snurj9M4awDp-_Wil2616dh0D-1v30qJAjUA_OkY7yovt4amR4w6tNVytpFiI6yz2B0Gl56feSNBcXyga3N85iBfMZNVYwldIlgoHbp_yGkMa-6It5hrbLw7gUyC9VZf6p9nwtNl9WuDu7T0es47J44nUvzljIm3fLmKbIsSbBd46z9W2qZ2nMlIwYWGJJVUalYRcsXj2P14diA9nKW0AyqeApsoQDY3pcPK8EwKUOhhsPNdt52famr1zgL18VfDqa8r4TLNhu-5"/>
+</div>
+<!-- Floating Spheres (Interactive Nodes) -->
+<div class="absolute translate-x-40 -translate-y-20 flex flex-col items-center">
+<div class="w-4 h-4 bg-secondary rounded-full neon-border animate-bounce"></div>
+<span class="font-micro-tag text-[8px] mt-2 bg-background/80 px-1 border border-secondary/40">DIVINO</span>
+</div>
+<div class="absolute -translate-x-32 translate-y-24 flex flex-col items-center">
+<div class="w-3 h-3 bg-primary rounded-full neon-border"></div>
+<span class="font-micro-tag text-[8px] mt-2 bg-background/80 px-1 border-primary/40">PAREJA</span>
+</div>
+</div>
+</div>
+<!-- HUD Overlay Elements -->
+<div class="absolute top-4 left-4 font-mono-data text-[10px] text-primary/60">
+                        LATENCY: 0.04ms<br/>
+                        COORDS: 42.92 // 11.04
+                    </div>
+<div class="absolute bottom-4 right-4">
+<button class="p-2 border border-primary/20 text-primary hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined">zoom_in</span>
+</button>
+</div>
+</section>
+<!-- Relational Telemetry Panel -->
+<section class="lg:col-span-4 glass-panel p-6 flex flex-col">
+<h2 class="font-audiowide text-sm text-secondary mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">monitoring</span>
+                        RELATIONAL_TELEMETRY
+                    </h2>
+<div class="space-y-6 flex-1">
+<!-- Sync Rate -->
+<div>
+<div class="flex justify-between items-end mb-2">
+<span class="font-label-caps text-[10px] text-on-surface-variant">SYNC_RATE</span>
+<span class="font-mono-data text-secondary text-sm">88.4%</span>
+</div>
+<div class="segmented-progress flex gap-1">
+<div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class=""></div><div class=""></div>
+</div>
+</div>
+<!-- Bond Type Tags -->
+<div>
+<span class="font-label-caps text-[10px] text-on-surface-variant block mb-3">BOND_CLASSIFICATION</span>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 border border-secondary/40 bg-secondary/10 text-secondary font-micro-tag uppercase">Resonant</span>
+<span class="px-2 py-1 border border-primary/40 bg-primary/10 text-primary font-micro-tag uppercase">High-Value</span>
+<span class="px-2 py-1 border border-status-critical/40 bg-status-critical/10 text-status-critical font-micro-tag uppercase">Volatile</span>
+</div>
+</div>
+<!-- Metaphysical Impact -->
+<div class="glass-panel p-4 bg-surface-container-low/40">
+<span class="font-label-caps text-[10px] text-secondary block mb-3">METAPHYSICAL_IMPACT (13_HOUSES)</span>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-primary">temple_hindu</span>
+<span class="font-mono-data text-[10px]">House IV: +12%</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-primary">stadium</span>
+<span class="font-mono-data text-[10px]">House IX: -04%</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-primary">account_balance</span>
+<span class="font-mono-data text-[10px]">House II: +22%</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-primary">diversity_3</span>
+<span class="font-mono-data text-[10px]">House XI: +08%</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Spheres of Connection: Bento Grid -->
+<section class="mb-12">
+<h2 class="font-audiowide text-xl text-primary mb-8 flex items-center gap-4">
+<span class="h-px w-12 bg-primary/30"></span>
+                    SPHERES_OF_CONNECTION
+                </h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-4">
+<!-- Card 1: Divine -->
+<div class="glass-panel p-4 slanted-edge hover:border-secondary transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-secondary group-hover:scale-110 transition-transform">auto_awesome</span>
+<span class="font-mono-data text-[10px] text-secondary">98.4%</span>
+</div>
+<h3 class="font-audiowide text-xs text-on-surface mb-1">DIVINO</h3>
+<p class="font-mono-data text-[10px] text-on-surface-variant/60 mb-4 uppercase">Spiritual sync active</p>
+<div class="py-1 px-2 border border-secondary/20 bg-secondary/5 text-secondary font-micro-tag text-[8px]">BUFF: UNITY</div>
+</div>
+<!-- Card 2: Self -->
+<div class="glass-panel p-4 slanted-edge hover:border-primary transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">person_celebrate</span>
+<span class="font-mono-data text-[10px] text-primary">75.0%</span>
+</div>
+<h3 class="font-audiowide text-xs text-on-surface mb-1">UNO MISMO</h3>
+<p class="font-mono-data text-[10px] text-on-surface-variant/60 mb-4 uppercase">Ego/Shadow Balance</p>
+<div class="py-1 px-2 border border-primary/20 bg-primary/5 text-primary font-micro-tag text-[8px]">BUFF: SELF-RESPECT</div>
+</div>
+<!-- Card 3: Partner -->
+<div class="glass-panel p-4 slanted-edge hover:border-status-critical transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-status-critical group-hover:scale-110 transition-transform">favorite</span>
+<span class="font-mono-data text-[10px] text-status-critical">88.0%</span>
+</div>
+<h3 class="font-audiowide text-xs text-on-surface mb-1">PAREJA</h3>
+<p class="font-mono-data text-[10px] text-on-surface-variant/60 mb-4 uppercase">Intimate Resonance</p>
+<div class="py-1 px-2 border border-status-critical/20 bg-status-critical/5 text-status-critical font-micro-tag text-[8px]">BUFF: SYNERGY</div>
+</div>
+<!-- Card 4: Family -->
+<div class="glass-panel p-4 slanted-edge transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:scale-110 transition-transform">humidity_low</span>
+<span class="font-mono-data text-[10px] text-on-surface-variant">62.0%</span>
+</div>
+<h3 class="font-audiowide text-xs text-on-surface mb-1">FAMILIA</h3>
+<p class="font-mono-data text-[10px] text-on-surface-variant/60 mb-4 uppercase">Ancestral Cohesion</p>
+<div class="py-1 px-2 border border-white/10 bg-white/5 text-on-surface-variant font-micro-tag text-[8px]">ROOT: LINEAGE</div>
+</div>
+<!-- Card 5: Friends -->
+<div class="glass-panel p-4 slanted-edge transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-secondary group-hover:scale-110 transition-transform">groups</span>
+<span class="font-mono-data text-[10px] text-secondary">ACTIVE</span>
+</div>
+<h3 class="font-audiowide text-xs text-on-surface mb-1">AMIGOS</h3>
+<p class="font-mono-data text-[10px] text-on-surface-variant/60 mb-4 uppercase">12 Nodes Identified</p>
+<div class="py-1 px-2 border border-secondary/20 bg-secondary/5 text-secondary font-micro-tag text-[8px]">LOYALTY_NET</div>
+</div>
+<!-- Card 6: Partners -->
+<div class="glass-panel p-4 slanted-edge transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">handshake</span>
+<span class="font-mono-data text-[10px] text-primary">92.0%</span>
+</div>
+<h3 class="font-audiowide text-xs text-on-surface mb-1">SOCIOS</h3>
+<p class="font-mono-data text-[10px] text-on-surface-variant/60 mb-4 uppercase">Strategic Alignment</p>
+<div class="py-1 px-2 border border-primary/20 bg-primary/5 text-primary font-micro-tag text-[8px]">ROI_KARMICO</div>
+</div>
+<!-- Card 7: Acquaintances -->
+<div class="glass-panel p-4 slanted-edge transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-on-surface-variant/40 group-hover:scale-110 transition-transform">bubble_chart</span>
+<span class="font-mono-data text-[10px] text-on-surface-variant/40">ID: 45</span>
+</div>
+<h3 class="font-audiowide text-xs text-on-surface mb-1">CONOCIDOS</h3>
+<p class="font-mono-data text-[10px] text-on-surface-variant/60 mb-4 uppercase">Peripheral Network</p>
+<div class="py-1 px-2 border border-white/5 bg-white/5 text-on-surface-variant/40 font-micro-tag text-[8px]">OBSERVED</div>
+</div>
+</div>
+</section>
+<!-- Sync Stream (Comms Log) -->
+<section class="max-w-4xl">
+<h2 class="font-audiowide text-sm text-on-surface-variant mb-4 flex items-center gap-3">
+<span class="material-symbols-outlined text-lg animate-pulse">broadcast_on_home</span>
+                    SYNC_STREAM_LIVE
+                </h2>
+<div class="glass-panel font-mono-data text-[10px] p-4 space-y-2 border-primary/10">
+<div class="flex gap-4 items-center border-b border-white/5 pb-2">
+<span class="text-secondary">[ 14:22:01 ]</span>
+<span class="text-primary">SYNC_EVENT:</span>
+<span class="text-on-surface-variant">Spiritual resonance threshold exceeded in DIVINE sphere. +2.4% Unity.</span>
+</div>
+<div class="flex gap-4 items-center border-b border-white/5 pb-2">
+<span class="text-secondary">[ 13:45:55 ]</span>
+<span class="text-primary">NODE_UPDATE:</span>
+<span class="text-on-surface-variant">Strategic alignment with SOCIOS finalized. KARMIC_ROI calibrated to 92%.</span>
+</div>
+<div class="flex gap-4 items-center border-b border-white/5 pb-2">
+<span class="text-secondary">[ 11:10:30 ]</span>
+<span class="text-status-critical">ALERT:</span>
+<span class="text-on-surface-variant">Dissonance detected in FAMILIA lineage root. Immediate cohesion required.</span>
+</div>
+<div class="flex gap-4 items-center">
+<span class="text-secondary">[ 09:00:12 ]</span>
+<span class="text-primary">SYSTEM:</span>
+<span class="text-on-surface-variant">Matrix visualization refreshed. All peripheral nodes tracking normal.</span>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 pb-safe bg-surface-container-low/90 border-t border-primary/20 backdrop-blur-xl shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant/50 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="grain">grain</span>
+<span class="font-micro-tag text-[8px] mt-1">Spheres</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/50 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span class="font-micro-tag text-[8px] mt-1">Map</span>
+</a>
+<div class="flex flex-col items-center justify-center text-secondary scale-110 drop-shadow-[0_0_10px_rgba(71,221,193,0.4)]">
+<span class="material-symbols-outlined text-3xl" data-icon="sync_alt">sync_alt</span>
+<span class="font-micro-tag text-[8px] mt-1">Sync</span>
+</div>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/50 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-micro-tag text-[8px] mt-1">Log</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/50 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="identity_platform">identity_platform</span>
+<span class="font-micro-tag text-[8px] mt-1">Profile</span>
+</a>
+</nav>
+</div>
+<script>
+        // Simple micro-interaction for clicking sphere cards
+        document.querySelectorAll('.glass-panel.slanted-edge').forEach(card => {
+            card.addEventListener('mousedown', () => {
+                card.style.transform = 'scale(0.98)';
+            });
+            card.addEventListener('mouseup', () => {
+                card.style.transform = 'scale(1)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+
+        // Dynamic log stream simulator
+        const logContent = document.querySelector('.glass-panel.font-mono-data.p-4');
+        const updateLog = () => {
+            const time = new Date().toLocaleTimeString('en-GB', { hour12: false });
+            const events = [
+                { type: 'SYNC_EVENT', msg: 'Subtle shift in Ego/Shadow balance detected.' },
+                { type: 'NODE_UPDATE', msg: 'New acquaintance node identified in Peripheral network.' },
+                { type: 'SYSTEM', msg: 'Recalibrating high-value resonance filters.' }
+            ];
+            const event = events[Math.floor(Math.random() * events.length)];
+            
+            const newEntry = document.createElement('div');
+            newEntry.className = 'flex gap-4 items-center border-b border-white/5 pb-2 animate-pulse';
+            newEntry.innerHTML = `<span class="text-secondary">[ ${time} ]</span>
+                                  <span class="text-primary">${event.type}:</span>
+                                  <span class="text-on-surface-variant">${event.msg}</span>`;
+            
+            logContent.insertBefore(newEntry, logContent.firstChild);
+            if (logContent.children.length > 5) logContent.lastElementChild.remove();
+        };
+
+        setInterval(updateLog, 12000);
+    </script>
+</body></html>

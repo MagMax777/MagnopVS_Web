@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · Tu Héroe</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Space+Grotesk:wght@300;500;700&amp;family=Hanken+Grotesk:wght@300;400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --celestial-blue: #2da8e0;
+            --aquamarine: #47ddc1;
+            --magenta: #ffafd4;
+            --violet: #7c3e5e;
+            --matte-black: #0a0b12;
+        }
+
+        body {
+            background-color: var(--matte-black);
+            color: #e0e3e6;
+            font-family: 'Orbitron', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .font-display { font-family: 'Audiowide', cursive; }
+        .font-body { font-family: 'Orbitron', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        .cyber-grid {
+            background-image: linear-gradient(rgba(45, 168, 224, 0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(45, 168, 224, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(127, 208, 255, 0.2);
+            position: relative;
+        }
+
+        .hex-bg {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBIMwqECAYnEFODRkYDqna5GQjuc3xYTkpvvn-ztLEyoOkWZjIQRN4-_wtFD_B381_aNrWv8fZg6i9zJDMKNSbfOQSZqfAXCOBeG9waCEbBR_W9lakh-6oBmRQIRzySLFHklsKmT24W0pLpYjjcCnuJOhwB6ohFVT-hu8-g01EYiSpEvFld13g-LCbGjm5-waHoRENwOOXfu1jttXmc977OZTG4gxIr5Wi85g_cRj7eauOntNtW_s5ML0B0VKFvZ7aj-8ai_WRt7z8d');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            mix-blend-mode: overlay;
+        }
+
+        .stat-bar-segment {
+            height: 8px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+        }
+
+        .stat-bar-active {
+            background: var(--celestial-blue);
+            box-shadow: 0 0 10px var(--celestial-blue);
+        }
+
+        .hexagon-frame {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        .neon-text-blue { text-shadow: 0 0 8px rgba(45, 168, 224, 0.8); }
+        .neon-text-green { text-shadow: 0 0 8px rgba(71, 221, 193, 0.8); }
+        .neon-border-magenta { border-color: var(--magenta); box-shadow: inset 0 0 10px rgba(255, 175, 212, 0.2), 0 0 10px rgba(255, 175, 212, 0.2); }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .animate-pulse-fast { animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+        .slanted-button {
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+            transition: all 0.3s ease;
+        }
+        .slanted-button:hover {
+            transform: skewX(-5deg) scale(1.05);
+            filter: brightness(1.2);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#c5e7ff",
+                        "secondary": "#47ddc1",
+                        "tertiary": "#ffafd4",
+                        "surface": "#101417",
+                        "on-surface": "#e0e3e6",
+                        "outline": "#899299",
+                        "outline-variant": "#3f484e"
+                    },
+                    fontFamily: {
+                        "display": ["Audiowide"],
+                        "body": ["Orbitron"],
+                        "mono-data": ["JetBrains Mono"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background-deep min-h-screen selection:bg-primary/30">
+<!-- Background Layering -->
+<div class="fixed inset-0 z-[-1] cyber-grid"></div>
+<div class="fixed inset-0 z-[-2] hex-bg"></div>
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 md:px-10 h-20 bg-surface/30 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="flex items-center gap-4">
+<img alt="Logo" class="h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCW60-smg4pqMBQTFCspZxAC9d_RBDbQTwYvYvQ2NRX2285yjSm8Dr9JaKcmrqpaQ2902tlvPvjG8NjsHnCBCr6KI1Su0oDNl-JIp8kE50V7VaaUbq77dZpY9dn_NATRozs88Mesmk7rQn8-c_YCpOCbD2loPZw1gAdmKMmY-zA5J6Giu4fzlkYAamcLo0qzoTdnMucY16g7xuQRNtgXKExn3eRqFd8pYtvInYCfcGuQcj58gy_eD53uy8Cv4qW-tedtb8o_-27hddk"/>
+<span class="hidden md:block font-display text-xl text-primary tracking-widest uppercase">MagnopVS · Life Hero</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden lg:flex gap-8">
+<a class="text-primary drop-shadow-[0_0_8px_#7fd0ff] font-body text-xs tracking-tighter" href="#">OPERATOR_LOG</a>
+<a class="text-outline hover:text-secondary transition-all font-body text-xs tracking-tighter" href="#">ARCHIVES</a>
+<a class="text-outline hover:text-secondary transition-all font-body text-xs tracking-tighter" href="#">PROTOCOLS</a>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">stars</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">bolt</span>
+<div class="w-8 h-8 rounded-full border border-primary/50 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A futuristic close-up portrait of a digital avatar with subtle glowing circuit patterns on the skin, cyan neon eyes, and a sleek matte black headset. The lighting is dramatic and cinematic, emphasizing deep shadows and sharp blue highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAN5NeybqZJUOdkH0FzPRgjJRwCU_5Nk6arxRLeOOV4-Xm_30XGNlEL9PcOd8e8aA-JenNyCS4GfmF5Ide_C2GJC7NFTdfTlPyF0esyRqVtVZ-gXwiTGCNfex2mh64-elcqPEmap1mUk3QxjVmVANofqY5p2e3Cp7oCUPZVr-QFHo56RCs9cJ60UTAqaFqM3vGrwL0WzkUc6UwSTKodjM5cEcj5AMnM-ojfUYtXQiovg0W0g384bDrVW_PGrA59kiR95gArfZaXKxiW"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Side Navigation (Desktop) -->
+<nav class="hidden lg:flex flex-col fixed left-0 top-20 h-[calc(100vh-80px)] w-64 z-40 bg-surface-container-low/50 backdrop-blur-2xl border-r border-primary/20">
+<div class="p-8 border-b border-primary/10">
+<div class="text-[10px] font-mono text-primary/60 mb-1">SYSTEM_STATUS</div>
+<div class="font-display text-primary text-lg">OPERATOR_01</div>
+<div class="font-mono text-[10px] text-secondary">LVL 42 // TITAN</div>
+</div>
+<div class="flex-1 py-6">
+<div class="px-4 space-y-2">
+<a class="flex items-center gap-4 px-4 py-3 text-primary border-l-2 border-primary bg-primary/5 font-bold shadow-[inset_4px_0_10px_rgba(127,208,255,0.1)] group" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-mono text-xs tracking-widest">DASHBOARD</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-outline-variant hover:text-on-surface hover:bg-surface-container-highest/30 transition-all group" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-mono text-xs tracking-widest">13 HOUSES</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-outline-variant hover:text-on-surface hover:bg-surface-container-highest/30 transition-all group" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-mono text-xs tracking-widest">MISSIONS</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-outline-variant hover:text-on-surface hover:bg-surface-container-highest/30 transition-all group" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-mono text-xs tracking-widest">ATTRIBUTES</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-outline-variant hover:text-on-surface hover:bg-surface-container-highest/30 transition-all group" href="#">
+<span class="material-symbols-outlined">vitals</span>
+<span class="font-mono text-xs tracking-widest">ALCHEMY</span>
+</a>
+</div>
+</div>
+<div class="p-6 opacity-30">
+<div class="h-1 w-full bg-primary/20 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-2/3"></div>
+</div>
+<div class="flex justify-between mt-2 font-mono text-[8px]">
+<span>SYNC_PROGRESS</span>
+<span>66.7%</span>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="pt-24 pb-20 lg:pl-72 px-6 md:px-10 max-w-[1600px] mx-auto">
+<!-- Hero Header Section -->
+<section class="mb-12 flex flex-col md:flex-row items-end justify-between gap-8">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-0.5 bg-primary/10 border border-primary/30 text-primary font-mono text-[10px] tracking-[0.3em]">HERO_PROFILE</span>
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+</div>
+<h1 class="font-display text-5xl md:text-7xl text-white tracking-tighter uppercase leading-none">
+                    Tu <span class="text-primary neon-text-blue">Héroe</span>
+</h1>
+<p class="font-body text-outline mt-4 max-w-xl text-sm leading-relaxed">
+                    Visualiza el estado actual de tu avatar biológico. Sincroniza tus misiones diarias para transmutar tu potencial en poder absoluto.
+                </p>
+</div>
+<!-- Melkizedek Guide Panel -->
+<div class="glass-panel p-6 w-full md:w-80 border-l-4 border-l-secondary">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 hexagon-frame bg-secondary/20 flex items-center justify-center border border-secondary/50">
+<span class="material-symbols-outlined text-secondary text-2xl">neurology</span>
+</div>
+<div>
+<div class="font-display text-xs text-secondary">MELKIZEDEK</div>
+<div class="font-mono text-[10px] text-outline">DIRECTOR IA // V4.2</div>
+</div>
+</div>
+<div class="font-mono text-[11px] text-on-surface italic leading-snug">
+                    "Operator, tus niveles de VIGOR están un 12% por debajo de la línea base. Sugiero priorizar la misión 'Agua del Despertar' para recalibrar el sistema."
+                </div>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Column 1: Stats & Attributes -->
+<div class="lg:col-span-4 space-y-6">
+<div class="glass-panel p-8">
+<div class="flex items-center justify-between mb-8">
+<h3 class="font-display text-lg text-primary tracking-widest">ATRIBUTOS</h3>
+<span class="material-symbols-outlined text-primary/40">settings_input_component</span>
+</div>
+<div class="space-y-6">
+<!-- VIGOR -->
+<div>
+<div class="flex justify-between mb-2 font-mono text-xs">
+<span class="text-white">VIGOR</span>
+<span class="text-primary">85/100</span>
+</div>
+<div class="flex gap-1">
+<div class="stat-bar-segment stat-bar-active"></div>
+<div class="stat-bar-segment stat-bar-active"></div>
+<div class="stat-bar-segment stat-bar-active"></div>
+<div class="stat-bar-segment stat-bar-active"></div>
+<div class="stat-bar-segment stat-bar-active"></div>
+<div class="stat-bar-segment stat-bar-active"></div>
+<div class="stat-bar-segment stat-bar-active"></div>
+<div class="stat-bar-segment stat-bar-active"></div>
+<div class="stat-bar-segment"></div>
+<div class="stat-bar-segment"></div>
+</div>
+</div>
+<!-- FOCUS -->
+<div>
+<div class="flex justify-between mb-2 font-mono text-xs">
+<span class="text-white">FOCUS</span>
+<span class="text-secondary">92/100</span>
+</div>
+<div class="flex gap-1">
+<div class="stat-bar-segment bg-secondary shadow-[0_0_8px_#47ddc1]"></div>
+<div class="stat-bar-segment bg-secondary shadow-[0_0_8px_#47ddc1]"></div>
+<div class="stat-bar-segment bg-secondary shadow-[0_0_8px_#47ddc1]"></div>
+<div class="stat-bar-segment bg-secondary shadow-[0_0_8px_#47ddc1]"></div>
+<div class="stat-bar-segment bg-secondary shadow-[0_0_8px_#47ddc1]"></div>
+<div class="stat-bar-segment bg-secondary shadow-[0_0_8px_#47ddc1]"></div>
+<div class="stat-bar-segment bg-secondary shadow-[0_0_8px_#47ddc1]"></div>
+<div class="stat-bar-segment bg-secondary shadow-[0_0_8px_#47ddc1]"></div>
+<div class="stat-bar-segment bg-secondary shadow-[0_0_8px_#47ddc1]"></div>
+<div class="stat-bar-segment"></div>
+</div>
+</div>
+<!-- AURA -->
+<div>
+<div class="flex justify-between mb-2 font-mono text-xs">
+<span class="text-white">AURA</span>
+<span class="text-tertiary">64/100</span>
+</div>
+<div class="flex gap-1">
+<div class="stat-bar-segment bg-tertiary shadow-[0_0_8px_#ffafd4]"></div>
+<div class="stat-bar-segment bg-tertiary shadow-[0_0_8px_#ffafd4]"></div>
+<div class="stat-bar-segment bg-tertiary shadow-[0_0_8px_#ffafd4]"></div>
+<div class="stat-bar-segment bg-tertiary shadow-[0_0_8px_#ffafd4]"></div>
+<div class="stat-bar-segment bg-tertiary shadow-[0_0_8px_#ffafd4]"></div>
+<div class="stat-bar-segment bg-tertiary shadow-[0_0_8px_#ffafd4]"></div>
+<div class="stat-bar-segment"></div>
+<div class="stat-bar-segment"></div>
+<div class="stat-bar-segment"></div>
+<div class="stat-bar-segment"></div>
+</div>
+</div>
+<!-- WILL -->
+<div>
+<div class="flex justify-between mb-2 font-mono text-xs">
+<span class="text-white">WILL</span>
+<span class="text-primary">77/100</span>
+</div>
+<div class="flex gap-1">
+<div class="stat-bar-segment stat-bar-active"></div>
+<div class="stat-bar-segment stat-bar-active"></div>
+<div class="stat-bar-segment stat-bar-active"></div>
+<div class="stat-bar-segment stat-bar-active"></div>
+<div class="stat-bar-segment stat-bar-active"></div>
+<div class="stat-bar-segment stat-bar-active"></div>
+<div class="stat-bar-segment stat-bar-active"></div>
+<div class="stat-bar-segment"></div>
+<div class="stat-bar-segment"></div>
+<div class="stat-bar-segment"></div>
+</div>
+</div>
+<!-- GNOSIS -->
+<div>
+<div class="flex justify-between mb-2 font-mono text-xs">
+<span class="text-white">GNOSIS</span>
+<span class="text-primary">42/100</span>
+</div>
+<div class="flex gap-1">
+<div class="stat-bar-segment stat-bar-active"></div>
+<div class="stat-bar-segment stat-bar-active"></div>
+<div class="stat-bar-segment stat-bar-active"></div>
+<div class="stat-bar-segment stat-bar-active"></div>
+<div class="stat-bar-segment"></div>
+<div class="stat-bar-segment"></div>
+<div class="stat-bar-segment"></div>
+<div class="stat-bar-segment"></div>
+<div class="stat-bar-segment"></div>
+<div class="stat-bar-segment"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-panel p-6 border-t-2 border-t-tertiary/40">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-tertiary">auto_fix_high</span>
+<h4 class="font-display text-sm tracking-widest text-tertiary">TRANSMUTACIÓN ACTIVA</h4>
+</div>
+<div class="bg-black/40 p-4 rounded-sm border border-outline-variant/30">
+<div class="flex justify-between items-center">
+<div>
+<div class="font-mono text-[10px] text-outline mb-1">PROTOCOLO</div>
+<div class="font-body text-xs text-white">ESTOICISMO DIGITAL</div>
+</div>
+<div class="text-right">
+<div class="font-mono text-[10px] text-outline mb-1">DURACIÓN</div>
+<div class="font-body text-xs text-secondary">04:22:15</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Column 2: Missions & Main Grid -->
+<div class="lg:col-span-8 space-y-6">
+<!-- Mission Hub -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Agua del Despertar -->
+<div class="glass-panel p-6 hover:bg-primary/5 transition-all group border-b-2 border-b-primary/20">
+<div class="flex justify-between items-start mb-6">
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary group-hover:scale-125 transition-transform">water_drop</span>
+</div>
+<span class="font-mono text-[8px] text-primary/40">ID: MISSION_01</span>
+</div>
+<h4 class="font-display text-sm mb-2 text-white">AGUA DEL DESPERTAR</h4>
+<p class="font-body text-[10px] text-outline leading-relaxed mb-4">Hidratación consciente y reset metabólico inmediato.</p>
+<button class="w-full py-2 slanted-button bg-primary text-matte-black font-display text-[10px] tracking-wider uppercase">LOG_ACTION</button>
+</div>
+<!-- Línea de Intención -->
+<div class="glass-panel p-6 hover:bg-secondary/5 transition-all group border-b-2 border-b-secondary/20">
+<div class="flex justify-between items-start mb-6">
+<div class="p-2 bg-secondary/10 rounded-lg">
+<span class="material-symbols-outlined text-secondary group-hover:scale-125 transition-transform">linear_scale</span>
+</div>
+<span class="font-mono text-[8px] text-secondary/40">ID: MISSION_02</span>
+</div>
+<h4 class="font-display text-sm mb-2 text-white">LÍNEA DE INTENCIÓN</h4>
+<p class="font-body text-[10px] text-outline leading-relaxed mb-4">Define el vector de éxito para las próximas 12 horas.</p>
+<button class="w-full py-2 slanted-button bg-secondary text-matte-black font-display text-[10px] tracking-wider uppercase">LOG_ACTION</button>
+</div>
+<!-- Lectura Profunda -->
+<div class="glass-panel p-6 hover:bg-tertiary/5 transition-all group border-b-2 border-b-tertiary/20">
+<div class="flex justify-between items-start mb-6">
+<div class="p-2 bg-tertiary/10 rounded-lg">
+<span class="material-symbols-outlined text-tertiary group-hover:scale-125 transition-transform">menu_book</span>
+</div>
+<span class="font-mono text-[8px] text-tertiary/40">ID: MISSION_03</span>
+</div>
+<h4 class="font-display text-sm mb-2 text-white">LECTURA PROFUNDA</h4>
+<p class="font-body text-[10px] text-outline leading-relaxed mb-4">Asimilación de datos y expansión del campo de GNOSIS.</p>
+<button class="w-full py-2 slanted-button bg-tertiary text-matte-black font-display text-[10px] tracking-wider uppercase">LOG_ACTION</button>
+</div>
+</div>
+<!-- Central Data Display / HUD -->
+<div class="glass-panel relative overflow-hidden h-[400px]">
+<!-- HUD Overlays -->
+<div class="absolute top-4 left-4 p-4 border-l border-t border-primary/40 pointer-events-none">
+<div class="font-mono text-[8px] text-primary/60 mb-1">SCANNING_FIELD_01</div>
+<div class="font-mono text-[10px] text-white">HEART_RATE: 72 BPM</div>
+</div>
+<div class="absolute bottom-4 right-4 p-4 border-r border-b border-primary/40 text-right pointer-events-none">
+<div class="font-mono text-[8px] text-primary/60 mb-1">COORDINATES</div>
+<div class="font-mono text-[10px] text-white">40.7128° N, 74.0060° W</div>
+</div>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<!-- Holographic Avatar Visualization -->
+<div class="relative w-64 h-64">
+<div class="absolute inset-0 rounded-full border-[1px] border-primary/20 animate-spin" style="animation-duration: 20s;"></div>
+<div class="absolute inset-4 rounded-full border-[1px] border-secondary/20 animate-spin" style="animation-duration: 15s; animation-direction: reverse;"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-48 h-48 hexagon-frame bg-gradient-to-br from-primary/10 to-transparent border border-primary/30 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover mix-blend-screen opacity-70" data-alt="A stylized 3D wireframe bust of a human hero, glowing with ethereal blue and cyan energy. The head is partially transparent, revealing glowing data nodes inside. The style is ultra-high-tech, resembling a medical scan or a sci-fi tactical hologram against a dark, minimalist background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeosRWCmihcTcCnCMshsS4xQb1OzSjuK9TqU8dQci3EA77cJJau_Vd-QkUhLed9S8fyOuVBHpXk-IetH-ayQrrkVYGcbZHQAJvpNp72KIlFHryTmtUbiGcZl_P-o-dJ3idrQ6dof47kDMAs3uyyQW8XwXCfYkoX82Vfwn6CYU0FPhQgDwJYYvmE6_IgaRbm9qeuRLyX8Y8uO7xKQu4u2DXmUJQNuVpgh2uCNDMxT71LT0762lg1LF3_v8jxfatyT_wr8pVco85nc0Q"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Data Logs -->
+<div class="absolute bottom-6 left-6 max-w-xs pointer-events-none">
+<div class="space-y-1 font-mono text-[9px]">
+<div class="flex gap-2 text-secondary">
+<span>[10:24:01]</span>
+<span>VIGOR_CHECK: OPTIMAL</span>
+</div>
+<div class="flex gap-2 text-primary/50">
+<span>[10:25:44]</span>
+<span>SYNCING_WITH_CORE...</span>
+</div>
+<div class="flex gap-2 text-tertiary">
+<span>[10:27:12]</span>
+<span>WILL_UPGRADE_PENDING</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Secondary Info Panels -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="glass-panel p-6 border-l-2 border-primary">
+<h5 class="font-display text-xs text-primary mb-4 tracking-[0.2em]">EQUIPAMIENTO DE ALMA</h5>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-lg">shield</span>
+<span class="font-body text-xs">Escudo Mental Lv.4</span>
+</div>
+<span class="font-mono text-[10px] text-outline">ACTIVE</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-lg">electric_bolt</span>
+<span class="font-body text-xs">Vínculo de Enfoque</span>
+</div>
+<span class="font-mono text-[10px] text-outline">STANDBY</span>
+</div>
+</div>
+</div>
+<div class="glass-panel p-6 border-l-2 border-secondary">
+<h5 class="font-display text-xs text-secondary mb-4 tracking-[0.2em]">PRÓXIMO HITO</h5>
+<div class="flex items-end justify-between">
+<div>
+<div class="font-body text-lg text-white">RENACIMIENTO</div>
+<div class="font-mono text-[10px] text-secondary">3,450 XP TO GO</div>
+</div>
+<div class="w-16 h-16 border-2 border-secondary/30 rounded-full flex items-center justify-center">
+<span class="font-display text-xs text-secondary">82%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Area -->
+<footer class="w-full max-w-7xl mx-auto px-6 md:px-10 py-12 flex flex-col items-center gap-4 opacity-40 hover:opacity-100 transition-opacity duration-500">
+<div class="h-[1px] w-full bg-gradient-to-r from-transparent via-primary/30 to-transparent mb-4"></div>
+<div class="font-mono text-[10px] text-outline tracking-widest uppercase">
+            MAGNOPVS OS v4.2.0 // SYSTEM_STABLE // NO_ERRORS_DETECTED
+        </div>
+<div class="flex gap-8">
+<a class="font-mono text-[9px] text-outline-variant hover:text-primary transition-colors" href="#">SYSTEM RESET</a>
+<a class="font-mono text-[9px] text-outline-variant hover:text-primary transition-colors" href="#">LOG EXPORT</a>
+<a class="font-mono text-[9px] text-outline-variant hover:text-primary transition-colors" href="#">PROTOCOL-9</a>
+</div>
+<div class="mt-4 text-primary/40 font-display text-[10px]">
+            © 2024 MAGNOPVS. ALL RIGHTS RESERVED.
+        </div>
+</footer>
+<!-- Mobile Bottom Navigation -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 pb-safe px-4 bg-surface-container/80 backdrop-blur-lg border-t border-primary/20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+<button class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-110">
+<span class="material-symbols-outlined">space_dashboard</span>
+<span class="font-mono text-[8px] mt-1">DASH</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">temple_hindu</span>
+<span class="font-mono text-[8px] mt-1">HOUSES</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">assignment_late</span>
+<span class="font-mono text-[8px] mt-1">MISSIONS</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-mono text-[8px] mt-1">STATS</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">autorenew</span>
+<span class="font-mono text-[8px] mt-1">CYCLE</span>
+</button>
+</nav>
+<script>
+        // Micro-interactions and reactive HUD elements
+        document.addEventListener('DOMContentLoaded', () => {
+            // Randomize minor log entry timestamps and status codes
+            const logs = document.querySelectorAll('.font-mono.text-\\[9px\\] div');
+            setInterval(() => {
+                const now = new Date();
+                const timeStr = `[${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}]`;
+                if (logs.length > 0) {
+                    const randomLog = logs[Math.floor(Math.random() * logs.length)];
+                    const timeSpan = randomLog.querySelector('span:first-child');
+                    if (timeSpan) timeSpan.innerText = timeStr;
+                }
+            }, 3000);
+
+            // Add hover sound placeholder or glow intensification logic
+            const buttons = document.querySelectorAll('.slanted-button');
+            buttons.forEach(btn => {
+                btn.addEventListener('mouseenter', () => {
+                    // Visual feedback intensification
+                });
+            });
+        });
+    </script>
+</body></html>

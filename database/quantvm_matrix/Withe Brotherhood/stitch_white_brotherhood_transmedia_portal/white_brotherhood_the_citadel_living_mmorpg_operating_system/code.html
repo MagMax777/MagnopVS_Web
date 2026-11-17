@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WHITE BROTHERHOOD // THE CITADEL: LIVING MMORPG OS</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Cinzel:wght@400..900&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400..900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "void-obsidian": "#050505",
+        "panel-surface": "#0D0D0D",
+        "surface-container-lowest": "#0a0a0c",
+        "surface-container-low": "#121216",
+        "surface-container": "#18181f",
+        "surface-container-high": "#22222b",
+        "sacred-ivory": "#F4F1E8",
+        "imperial-gold": "#C9A227",
+        "royal-gold": "#E6C45A",
+        "surveillance-warning": "#FFD400",
+        "outline": "#929188",
+        "outline-variant": "#474740",
+        "error-color": "#ff5555"
+      },
+      fontFamily: {
+        cinzel: ['Cinzel', 'serif'],
+        orbitron: ['Orbitron', 'sans-serif'],
+        mono: ['Space Mono', 'monospace'],
+        plex: ['IBM Plex Mono', 'monospace'],
+        body: ['Inter', 'sans-serif']
+      }
+    }
+  }
+}
+</script>
+<style>
+.scanlines-overlay {
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.45) 50%);
+  background-size: 100% 3px;
+}
+.corner-bracket { position: relative; }
+.corner-bracket::before {
+  content: ''; position: absolute; top: -1px; left: -1px; width: 6px; height: 6px;
+  border-top: 1px solid #C9A227; border-left: 1px solid #C9A227; pointer-events: none;
+}
+.corner-bracket::after {
+  content: ''; position: absolute; bottom: -1px; right: -1px; width: 6px; height: 6px;
+  border-bottom: 1px solid #C9A227; border-right: 1px solid #C9A227; pointer-events: none;
+}
+.censor-block {
+  background-color: #0e0e0e; color: transparent; user-select: none; transition: all 0.2s ease;
+  border-bottom: 1px solid #474740;
+}
+.censor-block:hover, .censor-block.revealed {
+  background-color: #201f1f; color: #E6C45A; border-bottom-color: #E6C45A;
+}
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(0.9); opacity: 1; }
+  100% { transform: translateY(-40px) scale(1.1); opacity: 0; }
+}
+.floating-text {
+  position: absolute; animation: floatUp 1.2s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+  pointer-events: none; z-index: 100;
+}
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: #0a0a0c; }
+::-webkit-scrollbar-thumb { background: #474740; }
+::-webkit-scrollbar-thumb:hover { background: #C9A227; }
+</style>
+</head>
+<body class="bg-void-obsidian text-sacred-ivory font-body antialiased min-h-screen relative overflow-x-hidden selection:bg-imperial-gold selection:text-void-obsidian pb-16">
+
+<!-- Procedural WebGL Shader Ambient Substrate -->
+<!-- STITCH_SHADER_START:ANIMATION_11 class="fixed inset-0 w-full h-full pointer-events-none z-0 opacity-70" -->
+<div class="fixed inset-0 w-full h-full pointer-events-none z-0 opacity-70" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_11" style="display:block;width:100%;height:100%"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_11');
+  function syncSize() {
+    const w = canvas.clientWidth || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') new ResizeObserver(syncSize).observe(canvas);
+  syncSize();
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position; varying vec2 v_texCoord; void main() { v_texCoord = a_position * 0.5 + 0.5; gl_Position = vec4(a_position, 0.0, 1.0); }`;
+  const fs = `precision highp float; uniform float u_time; uniform vec2 u_resolution; uniform vec2 u_mouse;
+  float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+  float noise(vec2 p) { vec2 i = floor(p); vec2 f = fract(p); vec2 u = f*f*(3.0-2.0*f); return mix(mix(hash(i), hash(i+vec2(1.0,0.0)), u.x), mix(hash(i+vec2(0.0,1.0)), hash(i+vec2(1.0,1.0)), u.x), u.y); }
+  void main() {
+    vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution.xy) / min(u_resolution.y, u_resolution.x);
+    vec2 mouse = (u_mouse - 0.5 * u_resolution.xy) / min(u_resolution.y, u_resolution.x);
+    float dist = length(uv); float angle = atan(uv.y, uv.x); float t = u_time * 0.15;
+    vec3 col = vec3(0.02, 0.02, 0.025);
+    vec2 gridUV = uv * 14.0;
+    vec2 gridF = abs(fract(gridUV - 0.5) - 0.5) / fwidth(gridUV);
+    float grid = 1.0 - min(min(gridF.x, gridF.y), 1.0);
+    col += vec3(0.08, 0.07, 0.03) * grid * 0.45;
+    float ring1 = abs(sin(dist * 20.0 - t * 0.6)); ring1 = smoothstep(0.96, 0.995, ring1) * 0.35;
+    float ring2 = abs(sin(dist * 6.0 + t * 0.25)); ring2 = smoothstep(0.94, 0.99, ring2) * 0.2;
+    float leylines = abs(sin(angle * 8.0 + dist * 3.0 - t * 0.3)); leylines = smoothstep(0.85, 0.99, leylines) * (0.16 / (dist + 0.3));
+    float sweepAngle = mod(angle - t * 0.8, 6.28318);
+    float sweep = smoothstep(6.28318, 0.0, sweepAngle) * smoothstep(0.9, 0.1, dist) * 0.22;
+    float mDist = length(uv - mouse * 0.22); float mouseGlow = smoothstep(0.35, 0.0, mDist) * 0.18;
+    vec3 gold = vec3(0.79, 0.63, 0.15); vec3 ivory = vec3(0.96, 0.94, 0.91); vec3 warningY = vec3(1.0, 0.83, 0.0);
+    col += gold * (ring1 + leylines + mouseGlow) + ivory * ring2 + warningY * sweep;
+    col *= smoothstep(1.3, 0.28, dist);
+    gl_FragColor = vec4(col, 1.0);
+  }`;
+  function cs(type, src) { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; }
+  const prog = gl.createProgram(); gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs)); gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(prog); gl.useProgram(prog);
+  const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position'); gl.enableVertexAttribArray(pos); gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time'); const uRes = gl.getUniformLocation(prog, 'u_resolution'); const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) { mouse.x = ((e.clientX - rect.left) / rect.width) * canvas.width; mouse.y = (1.0 - (e.clientY - rect.top) / rect.height) * canvas.height; }
+  });
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001); if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height); if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_11 -->
+
+<div class="fixed inset-0 pointer-events-none z-[1] scanlines-overlay opacity-30"></div>
+<div class="fixed inset-0 pointer-events-none z-[90]" id="combat-hud-anchor"></div>
+
+<!-- 1. TOP HUD / COMMAND DECK -->
+<header class="w-full px-4 py-2 flex flex-wrap justify-between items-center border-b border-imperial-gold/30 bg-panel-surface/90 backdrop-blur-md sticky top-0 z-50">
+  <div class="flex items-center gap-3 cursor-pointer" onclick="switchNavTab('citadel')">
+    <div class="relative w-9 h-9 border border-imperial-gold p-0.5 bg-void-obsidian flex items-center justify-center shadow-[0_0_12px_rgba(201,162,39,0.3)]">
+      <img alt="White Brotherhood Seal" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Ux90Had9HYUl0VZ0PljvKV7JmuZSFlSxoinebPpMwmZTybSSpHSvbL1YY2EDpg7pdcV5hLn6fWXfKUT5-csYYjp2LRXcHCW2XxJUQGgr4Rz_zpmV_oog-1ENext36p6Zx8ZVAUPqKqLgEUCqLsE3vci0r8nCjuVn8dHs6eTA9ewA-ZiKd9h75UbzOGQrOVjNoFRdbO1UHFGg3-TB_tEn_eVQGVGraFvozKX6An1ZoCbjSCeWKX2PBIklB1"/>
+      <div class="absolute -top-1 -right-1 w-2 h-2 bg-surveillance-warning animate-ping"></div>
+    </div>
+    <div>
+      <div class="flex items-center gap-2">
+        <span class="font-cinzel text-[15px] tracking-widest text-sacred-ivory font-bold">WHITE BROTHERHOOD</span>
+        <span class="px-1 py-0.5 bg-surface-container text-royal-gold text-[8px] font-plex border border-imperial-gold/40 tracking-wider">OS v7.4.0</span>
+      </div>
+      <div class="text-[9px] text-outline font-plex tracking-wider">// TERMINAL SEC-0 :: CITADEL CORE CONSOLE</div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION MATRIX HUB (10 Tabs) -->
+  <nav class="hidden xl:flex items-center space-x-1 border-x border-imperial-gold/20 px-3">
+    <button id="nav-btn-citadel" onclick="switchNavTab('citadel')" class="px-2.5 py-1 border-b-2 border-royal-gold text-royal-gold font-plex text-[10px] tracking-wider uppercase transition-all">PLAY // CITADEL</button>
+    <button id="nav-btn-classes" onclick="switchNavTab('classes')" class="px-2.5 py-1 text-outline hover:text-sacred-ivory font-plex text-[10px] tracking-wider uppercase transition-all">CLASES (9)</button>
+    <button id="nav-btn-world" onclick="switchNavTab('world')" class="px-2.5 py-1 text-outline hover:text-sacred-ivory font-plex text-[10px] tracking-wider uppercase transition-all">WORLD MAP</button>
+    <button id="nav-btn-quests" onclick="switchNavTab('quests')" class="px-2.5 py-1 text-outline hover:text-sacred-ivory font-plex text-[10px] tracking-wider uppercase transition-all">QUESTS</button>
+    <button id="nav-btn-codex" onclick="switchNavTab('codex')" class="px-2.5 py-1 text-outline hover:text-sacred-ivory font-plex text-[10px] tracking-wider uppercase transition-all">CODEX</button>
+    <button id="nav-btn-factions" onclick="switchNavTab('factions')" class="px-2.5 py-1 text-outline hover:text-sacred-ivory font-plex text-[10px] tracking-wider uppercase transition-all">FACTIONS</button>
+    <button id="nav-btn-guild" onclick="switchNavTab('guild')" class="px-2.5 py-1 text-outline hover:text-sacred-ivory font-plex text-[10px] tracking-wider uppercase transition-all">GUILD</button>
+    <button id="nav-btn-arena" onclick="switchNavTab('arena')" class="px-2.5 py-1 text-outline hover:text-sacred-ivory font-plex text-[10px] tracking-wider uppercase transition-all">ARENA</button>
+    <button id="nav-btn-market" onclick="switchNavTab('market')" class="px-2.5 py-1 text-outline hover:text-sacred-ivory font-plex text-[10px] tracking-wider uppercase transition-all">MARKET</button>
+    <button id="nav-btn-archive" onclick="switchNavTab('archive')" class="px-2.5 py-1 text-outline hover:text-sacred-ivory font-plex text-[10px] tracking-wider uppercase transition-all">ARCHIVE</button>
+  </nav>
+
+  <!-- Live Server Actions & Resonance -->
+  <div class="flex items-center gap-3">
+    <div class="hidden md:flex items-center gap-2 border border-imperial-gold/40 bg-surface-container-low px-2 py-1 corner-bracket cursor-pointer hover:bg-surface-container transition-all" onclick="switchNavTab('world')">
+      <span class="w-1.5 h-1.5 rounded-full bg-surveillance-warning animate-ping"></span>
+      <div class="flex flex-col text-left">
+        <span class="text-[8px] font-plex text-royal-gold font-bold">EVENTO MUNDIAL ACTIVO</span>
+        <span class="text-[10px] font-plex text-sacred-ivory">ANOMALÍA EN EL GRAN FARO // FASE II</span>
+      </div>
+      <span class="material-symbols-outlined text-royal-gold text-[16px]">broadcast_on_personal</span>
+    </div>
+
+    <div class="flex items-center gap-1.5 text-outline text-[14px]">
+      <button onclick="toggleAudioResonance()" class="material-symbols-outlined hover:text-royal-gold p-1 cursor-pointer transition-colors" id="btn-audio-res" title="Alternar Resonancia 432Hz">graphic_eq</button>
+      <button onclick="toggleTerminalModal()" class="material-symbols-outlined hover:text-royal-gold p-1 cursor-pointer transition-colors" title="Abrir Consola Terminal">terminal</button>
+      <button onclick="toggleClearance()" class="material-symbols-outlined hover:text-royal-gold p-1 cursor-pointer transition-colors" id="btn-lock" title="Alternar Nivel de Seguridad">lock</button>
+    </div>
+
+    <div class="text-right hidden sm:block">
+      <div class="text-[7px] font-plex text-outline uppercase">CLEARANCE</div>
+      <div class="text-[9px] font-plex text-royal-gold font-bold" id="txt-clearance">LVL: 0 [RESTRICTED]</div>
+    </div>
+
+    <button onclick="triggerImmersionMode()" class="px-3 py-1 bg-sacred-ivory text-void-obsidian font-cinzel font-bold text-[11px] tracking-wider hover:bg-royal-gold transition-colors flex items-center gap-1 active:scale-95 shadow-[0_0_10px_rgba(244,241,232,0.3)]">
+      <span>ENTRAR</span>
+      <span class="material-symbols-outlined text-[13px]">arrow_forward</span>
+    </button>
+  </div>
+</header>
+
+<!-- MAIN COCKPIT WORKSPACE (12-COLUMNS BENTO) -->
+<main class="w-full px-4 lg:px-8 py-3 grid grid-cols-1 lg:grid-cols-12 gap-4 flex-grow relative z-10">
+
+  <!-- LEFT COLUMN: HOMÚNCULO DOSSIER & FACTION STATUS (3 cols) -->
+  <aside class="lg:col-span-3 flex flex-col gap-3">
+    <!-- Player Homunculus Card -->
+    <div class="border border-imperial-gold/30 bg-panel-surface/85 backdrop-blur-md p-3 corner-bracket shadow-lg">
+      <div class="flex justify-between items-center border-b border-imperial-gold/20 pb-1.5 mb-2.5">
+        <span class="text-[9px] font-plex text-royal-gold tracking-widest">// PROTOCOLO ALQUÍMICO V7</span>
+        <span class="px-1.5 py-0.5 bg-surface-container text-outline text-[8px] font-plex" id="homunculus-id">ID: 0x99A-HOM</span>
+      </div>
+      <div class="flex gap-2.5 items-center">
+        <div class="relative w-16 h-16 border-2 border-imperial-gold p-0.5 bg-surface-container-low shrink-0 shadow-[0_0_12px_rgba(201,162,39,0.25)]">
+          <div class="w-full h-full bg-surface-container-high flex flex-col items-center justify-center relative overflow-hidden" id="avatar-viewport">
+            <span class="material-symbols-outlined text-[34px] text-sacred-ivory" id="avatar-icon">auto_fix_high</span>
+            <div class="absolute bottom-0 text-[7px] font-plex text-royal-gold font-bold" id="avatar-tag">NODE: Ω-09</div>
+          </div>
+          <div class="absolute -top-1 -right-1 w-1.5 h-1.5 bg-sacred-ivory"></div>
+        </div>
+        <div class="flex flex-col overflow-hidden">
+          <span class="font-cinzel text-sacred-ivory font-bold text-[13px] leading-tight" id="player-name">HOMÚNCULO OMEGA-09</span>
+          <div class="flex items-center gap-1 text-[9px] font-plex text-royal-gold mt-0.5">
+            <span id="player-lvl">NIVEL 42</span>
+            <span>|</span>
+            <span id="player-class-title" class="text-sacred-ivory uppercase">BRUJO DE LA RED</span>
+          </div>
+          <div class="text-[8px] font-plex text-surveillance-warning tracking-wider uppercase mt-0.5" id="player-faction">FACCIÓN: PANARQUÍA</div>
+        </div>
+      </div>
+
+      <!-- Vitals (HP, Mana, Focus, Agency) -->
+      <div class="mt-3 space-y-2 border-t border-imperial-gold/20 pt-2">
+        <div>
+          <div class="flex justify-between text-[9px] font-plex mb-0.5">
+            <span class="text-outline">SALUD (HP)</span>
+            <span class="text-sacred-ivory font-bold" id="hp-txt">4,850 / 4,850</span>
+          </div>
+          <div class="w-full h-1 bg-surface-container"><div id="hp-bar" class="h-full bg-sacred-ivory" style="width: 100%;"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-[9px] font-plex mb-0.5">
+            <span class="text-royal-gold">MANÁ ÉTERICO</span>
+            <span class="text-royal-gold font-bold" id="mana-txt">2,410 / 3,100</span>
+          </div>
+          <div class="w-full h-1 bg-surface-container"><div id="mana-bar" class="h-full bg-royal-gold" style="width: 78%;"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-[9px] font-plex mb-0.5">
+            <span class="text-outline">CONCENTRACIÓN</span>
+            <span class="text-sacred-ivory font-bold" id="focus-txt">890 / 1,000</span>
+          </div>
+          <div class="w-full h-1 bg-surface-container"><div id="focus-bar" class="h-full bg-outline" style="width: 89%;"></div></div>
+        </div>
+
+        <div class="mt-2 p-2 bg-surface-container-low border border-imperial-gold/30">
+          <div class="flex justify-between items-center mb-0.5">
+            <span class="text-[9px] font-plex text-royal-gold font-bold tracking-widest flex items-center gap-1">
+              <span class="material-symbols-outlined text-[12px]">psychology</span> AGENCIA SOBERANA
+            </span>
+            <span class="text-sacred-ivory font-bold text-[10px] font-plex" id="agency-txt">94 / 100</span>
+          </div>
+          <div class="w-full h-1.5 bg-void-obsidian border border-imperial-gold/40">
+            <div id="agency-bar" class="h-full bg-royal-gold shadow-[0_0_6px_#C9A227]" style="width: 94%;"></div>
+          </div>
+          <p class="text-[8px] text-outline font-plex mt-1" id="agency-desc">Multiplicador de Anulación Mental: +18.8% vs Vértice Sinárquico</p>
+        </div>
+      </div>
+
+      <!-- Quick Relics Grid -->
+      <div class="mt-2.5 pt-2 border-t border-imperial-gold/20">
+        <div class="flex justify-between text-[8px] font-plex text-outline mb-1.5">
+          <span>ENGRAMAS EQUIPADOS</span>
+          <button onclick="openModal('inventory')" class="text-royal-gold hover:underline">CAMBIAR</button>
+        </div>
+        <div class="grid grid-cols-4 gap-1 text-center">
+          <div onclick="inspectRelic('Báculo de Resonancia 432Hz', 'Arma armónica', 'BAC-01')" class="border border-imperial-gold/30 bg-void-obsidian p-1 cursor-pointer hover:border-royal-gold" title="Báculo 432Hz">
+            <span class="material-symbols-outlined text-royal-gold text-[15px]">auto_awesome</span>
+            <span class="block text-[7px] font-plex text-outline">BAC-01</span>
+          </div>
+          <div onclick="inspectRelic('Túnica Umbral', 'Tejido de fibra arcana', 'TUN-IV')" class="border border-imperial-gold/30 bg-void-obsidian p-1 cursor-pointer hover:border-royal-gold" title="Túnica Umbral">
+            <span class="material-symbols-outlined text-sacred-ivory text-[15px]">shield</span>
+            <span class="block text-[7px] font-plex text-outline">TUN-IV</span>
+          </div>
+          <div onclick="inspectRelic('Anillo Red Libre', 'Pulso de evasión', 'RING-P')" class="border border-imperial-gold/30 bg-void-obsidian p-1 cursor-pointer hover:border-royal-gold" title="Anillo Red Libre">
+            <span class="material-symbols-outlined text-royal-gold text-[15px]">circle</span>
+            <span class="block text-[7px] font-plex text-outline">RING-P</span>
+          </div>
+          <div onclick="inspectRelic('Lente Cuántica', 'Visión espectral', 'EYE-09')" class="border border-imperial-gold/30 bg-void-obsidian p-1 cursor-pointer hover:border-royal-gold" title="Lente Cuántica">
+            <span class="material-symbols-outlined text-sacred-ivory text-[15px]">visibility</span>
+            <span class="block text-[7px] font-plex text-outline">EYE-09</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Faction Warfare Widget -->
+    <div class="border border-imperial-gold/30 bg-panel-surface/85 backdrop-blur-md p-3 corner-bracket shadow-lg">
+      <div class="flex justify-between items-center border-b border-imperial-gold/20 pb-1 mb-1.5">
+        <span class="text-[9px] font-plex text-royal-gold font-bold">GUERRA DE FACCIONES</span>
+        <span class="text-[7px] font-plex text-surveillance-warning animate-pulse">EN VIVO</span>
+      </div>
+      <div class="flex justify-between text-[10px] font-plex font-bold mb-1">
+        <span class="text-royal-gold" id="panarchy-pct">PANARQUÍA [52%]</span>
+        <span class="text-outline" id="synarchy-pct">SINARQUÍA [48%]</span>
+      </div>
+      <div class="w-full h-2.5 bg-surface-container flex border border-outline-variant cursor-pointer" onclick="switchNavTab('factions')">
+        <div id="bar-panarchy" class="h-full bg-royal-gold transition-all duration-300" style="width: 52%;"></div>
+        <div id="bar-synarchy" class="h-full bg-surface-container-high transition-all duration-300" style="width: 48%;"></div>
+      </div>
+      <div class="mt-2 p-1.5 bg-surface-container-low border-l-2 border-royal-gold flex justify-between items-center">
+        <div>
+          <div class="text-[8px] font-plex text-royal-gold font-bold">DISPUTA: VÉRTICE DE CRISTAL</div>
+          <p class="text-[8px] font-plex text-outline">Presión de asalto: +120 Soberanía</p>
+        </div>
+        <button onclick="reinforceFactionWar()" class="px-1.5 py-0.5 bg-royal-gold text-void-obsidian font-plex font-bold text-[8px] hover:bg-sacred-ivory">REFORZAR</button>
+      </div>
+    </div>
+
+    <!-- Censor Block -->
+    <div class="border border-imperial-gold/20 bg-panel-surface/80 p-2.5 text-[9px] font-plex">
+      <div class="flex justify-between text-outline text-[7px] mb-1">
+        <span>TRANSMISIÓN CLASIFICADA</span>
+        <span class="text-royal-gold">CLASE-OMEGA</span>
+      </div>
+      <p class="text-outline leading-snug">
+        Orden 432: Toda unidad debe <span class="censor-block px-1 cursor-pointer" onclick="revealCensor(this)" title="Click para descifrar">[DESENCRIPTAR Y DESMANTELAR EL VÉRTICE]</span> antes de la conjunción solar en The White City.
+      </p>
+    </div>
+  </aside>
+
+  <!-- CENTER COLUMN: INTERACTIVE GAME VIEWS (6 cols) -->
+  <section class="lg:col-span-6 flex flex-col gap-3">
+    <!-- View Switcher Sub-Tabs -->
+    <div class="flex border border-imperial-gold/30 bg-panel-surface/90 p-1 gap-1">
+      <button id="tab-citadel" onclick="switchNavTab('citadel')" class="flex-1 py-1.5 text-center text-[10px] font-plex font-bold tracking-wider bg-sacred-ivory text-void-obsidian flex items-center justify-center gap-1">
+        <span class="material-symbols-outlined text-[15px]">domain</span> CITADEL CORE
+      </button>
+      <button id="tab-classes" onclick="switchNavTab('classes')" class="flex-1 py-1.5 text-center text-[10px] font-plex font-bold tracking-wider text-outline hover:text-sacred-ivory hover:bg-surface-container flex items-center justify-center gap-1">
+        <span class="material-symbols-outlined text-[15px]">groups</span> ARQUETIPOS (9)
+      </button>
+      <button id="tab-world" onclick="switchNavTab('world')" class="flex-1 py-1.5 text-center text-[10px] font-plex font-bold tracking-wider text-outline hover:text-sacred-ivory hover:bg-surface-container flex items-center justify-center gap-1">
+        <span class="material-symbols-outlined text-[15px]">public</span> MAPA ESTELAR
+      </button>
+    </div>
+
+    <!-- VIEW 1: THE CITADEL: CENTRO DE MANDO -->
+    <div id="view-citadel" class="flex flex-col gap-3 border border-imperial-gold/40 bg-panel-surface/90 backdrop-blur-md p-3 corner-bracket flex-grow min-h-[460px]">
+      <div class="flex justify-between items-center border-b border-imperial-gold/20 pb-1.5">
+        <div>
+          <span class="text-[8px] font-plex text-royal-gold tracking-widest">// CÁMARA SUPREMA DE OBSERVACIÓN</span>
+          <h2 class="font-cinzel text-sacred-ivory text-[17px] font-bold">LA CIUDADELA: VISOR DIEGÉTICO</h2>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <span class="px-1.5 py-0.5 border border-royal-gold text-royal-gold text-[8px] font-plex animate-pulse" id="visor-fps">RENDER 60 FPS</span>
+          <span class="px-1.5 py-0.5 bg-surface-container text-outline text-[8px] font-plex" id="visor-cam">ORBIT: AXIS-09</span>
+        </div>
+      </div>
+
+      <!-- 3D Visor Viewport -->
+      <div id="citadel-stage" class="relative w-full h-72 bg-void-obsidian border border-imperial-gold/30 overflow-hidden flex items-center justify-center group">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(201,162,39,0.15)_0%,_rgba(5,5,5,0.95)_75%)]"></div>
+        <div class="absolute inset-0 flex items-center justify-center opacity-30 pointer-events-none" id="visor-rings">
+          <div class="w-56 h-56 border border-royal-gold rounded-full animate-spin transition-transform" style="animation-duration: 40s;"></div>
+          <div class="w-40 h-40 border border-sacred-ivory/40 rotate-45 transition-transform"></div>
+          <div class="w-28 h-28 border border-royal-gold/60"></div>
+          <div class="absolute w-full h-[1px] bg-royal-gold/30"></div>
+          <div class="absolute h-full w-[1px] bg-royal-gold/30"></div>
+        </div>
+
+        <!-- Central Monolith Core -->
+        <div onclick="triggerOrbitalPulse()" class="relative z-10 flex flex-col items-center justify-center text-center p-4 cursor-pointer" title="Click para emitir pulso orbital">
+          <div id="monolith-box" class="w-20 h-32 border-2 border-sacred-ivory bg-sacred-ivory/5 flex flex-col items-center justify-between p-2 shadow-[0_0_24px_rgba(244,241,232,0.3)] backdrop-blur-sm transition-transform hover:scale-105 duration-300">
+            <div class="w-full h-1 bg-royal-gold"></div>
+            <div class="flex flex-col items-center">
+              <span class="material-symbols-outlined text-sacred-ivory text-[32px] drop-shadow-[0_0_8px_#ffffff]">account_balance</span>
+              <span class="text-[7px] font-cinzel tracking-widest text-sacred-ivory font-bold mt-1">APEX-CITADEL</span>
+            </div>
+            <div class="text-[6px] font-plex text-royal-gold">SECTOR A-0</div>
+          </div>
+          <div class="mt-2.5 flex gap-1.5">
+            <span class="px-1.5 py-0.5 bg-surface-container-low border border-imperial-gold/30 text-[8px] font-plex text-sacred-ivory">POBLACIÓN: 41,289</span>
+            <span class="px-1.5 py-0.5 bg-surface-container-low border border-royal-gold/40 text-[8px] font-plex text-royal-gold">RESONANCIA: 432Hz</span>
+          </div>
+        </div>
+
+        <!-- Visor Telemetry & Controls -->
+        <div class="absolute top-2 left-2 text-[7px] font-plex text-outline" id="visor-coords">COORDS: X:44.89 // Y:-12.44 // Z:902.1<br/>GRID STATUS: CONSECRATED</div>
+        <div class="absolute top-2 right-2 text-[7px] font-plex text-royal-gold text-right">DEFENSA: 98.4%<br/>RED NEURAL: ESTABLE</div>
+        <div class="absolute bottom-2 left-2 text-[7px] font-plex text-outline">
+          <button onclick="triggerOrbitalPulse()" class="text-royal-gold hover:underline">[PULSAR ESPACIO / CLICK PARA IMPULSO]</button>
+        </div>
+        <div class="absolute bottom-2 right-2 flex gap-1 z-20">
+          <button onclick="zoomVisor(1)" class="px-1.5 py-0.5 bg-surface-container-low border border-imperial-gold/40 hover:border-royal-gold text-[8px] font-plex text-sacred-ivory">ZOOM +</button>
+          <button onclick="zoomVisor(-1)" class="px-1.5 py-0.5 bg-surface-container-low border border-imperial-gold/40 hover:border-royal-gold text-[8px] font-plex text-sacred-ivory">ZOOM -</button>
+          <button onclick="resetVisor()" class="px-1.5 py-0.5 bg-surface-container-low border border-imperial-gold/40 hover:border-royal-gold text-[8px] font-plex text-royal-gold">RST</button>
+        </div>
+      </div>
+
+      <!-- Quick Citadel Pods -->
+      <div class="grid grid-cols-3 gap-2">
+        <div onclick="openModal('alchemy')" class="p-2 border border-imperial-gold/30 bg-surface-container-low hover:border-royal-gold cursor-pointer transition-all">
+          <div class="flex items-center gap-1 text-royal-gold text-[10px] font-plex font-bold">
+            <span class="material-symbols-outlined text-[14px]">synagogue</span> TEMPLO ALQUÍMICO
+          </div>
+          <p class="text-[8px] text-outline font-plex mt-0.5">Transmuta esencias en engramas arcanos.</p>
+        </div>
+        <div onclick="openModal('lighthouse')" class="p-2 border border-imperial-gold/30 bg-surface-container-low hover:border-sacred-ivory cursor-pointer transition-all">
+          <div class="flex items-center gap-1 text-sacred-ivory text-[10px] font-plex font-bold">
+            <span class="material-symbols-outlined text-[14px]">cloud_upload</span> GRAN FARO CENTRAL
+          </div>
+          <p class="text-[8px] text-outline font-plex mt-0.5">Sintoniza la frecuencia 432Hz del combate.</p>
+        </div>
+        <div onclick="openModal('codex')" class="p-2 border border-imperial-gold/30 bg-surface-container-low hover:border-royal-gold cursor-pointer transition-all">
+          <div class="flex items-center gap-1 text-royal-gold text-[10px] font-plex font-bold">
+            <span class="material-symbols-outlined text-[14px]">terminal</span> BÓVEDA DEL CODEX
+          </div>
+          <p class="text-[8px] text-outline font-plex mt-0.5">Consulta crónicas secretas y decretos.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 2: MATRIZ DE LAS 9 CLASES (Interactive Class Selection) -->
+    <div id="view-classes" class="hidden flex-col gap-3 border border-imperial-gold/40 bg-panel-surface/90 backdrop-blur-md p-3 corner-bracket flex-grow min-h-[460px]">
+      <div class="flex justify-between items-center border-b border-imperial-gold/20 pb-1.5">
+        <div>
+          <span class="text-[8px] font-plex text-royal-gold tracking-widest">// CÓDICE DE ARQUETIPOS SOBERANOS</span>
+          <h2 class="font-cinzel text-sacred-ivory text-[17px] font-bold">LAS 9 DOCTRINAS DEL SER</h2>
+        </div>
+        <div class="text-[9px] font-plex text-royal-gold font-bold" id="class-active-badge">EQUIPADO: BRUJO</div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-2 max-h-[380px] overflow-y-auto pr-1">
+        <!-- 1. BRUJO -->
+        <div id="class-card-brujo" onclick="selectClass('brujo')" class="p-2.5 border-2 border-royal-gold bg-surface-container-low cursor-pointer hover:border-sacred-ivory transition-all">
+          <div class="flex justify-between text-[8px] font-plex text-royal-gold font-bold">
+            <span class="badge-status">01 // ACTIVO</span>
+            <span class="material-symbols-outlined text-[16px]">auto_fix_high</span>
+          </div>
+          <h3 class="font-cinzel text-sacred-ivory font-bold text-[14px] mt-0.5">BRUJO</h3>
+          <div class="text-[8px] font-plex text-royal-gold">CONTROL UMBRAL / CORRUPCIÓN</div>
+          <p class="text-[8px] font-plex text-outline mt-1 leading-snug">Drena maná enemigo y desincroniza nodos sinárquicos.</p>
+          <div class="mt-2 text-[7px] font-plex text-royal-gold flex justify-between border-t border-imperial-gold/20 pt-1">
+            <span>HAB: DRENAJE 432Hz</span>
+            <span>AGENCIA: +18.8%</span>
+          </div>
+        </div>
+        <!-- 2. GUERRERO -->
+        <div id="class-card-guerrero" onclick="selectClass('guerrero')" class="p-2.5 border border-imperial-gold/30 bg-surface-container-low cursor-pointer hover:border-royal-gold transition-all">
+          <div class="flex justify-between text-[8px] font-plex text-outline">
+            <span class="badge-status">02</span>
+            <span class="material-symbols-outlined text-[16px]">shield_with_heart</span>
+          </div>
+          <h3 class="font-cinzel text-sacred-ivory font-bold text-[14px] mt-0.5">GUERRERO</h3>
+          <div class="text-[8px] font-plex text-outline">VANGUARDIA MONOLÍTICA</div>
+          <p class="text-[8px] font-plex text-outline mt-1 leading-snug">Acorazado con aleación áurea. Absorbe daño masivo.</p>
+          <div class="mt-2 text-[7px] font-plex text-outline flex justify-between border-t border-imperial-gold/20 pt-1">
+            <span>HAB: BARRERA MARFIL</span>
+            <span>DEFENSA: S (+25%)</span>
+          </div>
+        </div>
+        <!-- 3. MAGO -->
+        <div id="class-card-mago" onclick="selectClass('mago')" class="p-2.5 border border-imperial-gold/30 bg-surface-container-low cursor-pointer hover:border-royal-gold transition-all">
+          <div class="flex justify-between text-[8px] font-plex text-outline">
+            <span class="badge-status">03</span>
+            <span class="material-symbols-outlined text-[16px]">bolt</span>
+          </div>
+          <h3 class="font-cinzel text-sacred-ivory font-bold text-[14px] mt-0.5">MAGO</h3>
+          <div class="text-[8px] font-plex text-outline">ERUPCIÓN ELEMENTAL ÉTER</div>
+          <p class="text-[8px] font-plex text-outline mt-1 leading-snug">Canaliza ráfagas geométricas para destruir blindajes.</p>
+          <div class="mt-2 text-[7px] font-plex text-outline flex justify-between border-t border-imperial-gold/20 pt-1">
+            <span>HAB: VÓRTICE CÉNTRICO</span>
+            <span>PODER: EX (+30%)</span>
+          </div>
+        </div>
+        <!-- 4. SANADOR -->
+        <div id="class-card-sanador" onclick="selectClass('sanador')" class="p-2.5 border border-imperial-gold/30 bg-surface-container-low cursor-pointer hover:border-royal-gold transition-all">
+          <div class="flex justify-between text-[8px] font-plex text-outline">
+            <span class="badge-status">04</span>
+            <span class="material-symbols-outlined text-[16px]">healing</span>
+          </div>
+          <h3 class="font-cinzel text-sacred-ivory font-bold text-[14px] mt-0.5">SANADOR</h3>
+          <div class="text-[8px] font-plex text-outline">RESTAURACIÓN CELULAR</div>
+          <p class="text-[8px] font-plex text-outline mt-1 leading-snug">Restaura integridad biológica y anula debuffs.</p>
+          <div class="mt-2 text-[7px] font-plex text-outline flex justify-between border-t border-imperial-gold/20 pt-1">
+            <span>HAB: RESURRECCIÓN ÁUREA</span>
+            <span>SOPORTE: S (+20%)</span>
+          </div>
+        </div>
+        <!-- 5. CHAMÁN -->
+        <div id="class-card-chaman" onclick="selectClass('chaman')" class="p-2.5 border border-imperial-gold/30 bg-surface-container-low cursor-pointer hover:border-royal-gold transition-all">
+          <div class="flex justify-between text-[8px] font-plex text-outline">
+            <span class="badge-status">05</span>
+            <span class="material-symbols-outlined text-[16px]">cyclone</span>
+          </div>
+          <h3 class="font-cinzel text-sacred-ivory font-bold text-[14px] mt-0.5">CHAMÁN</h3>
+          <div class="text-[8px] font-plex text-outline">TÓTEMS DE RESONANCIA</div>
+          <p class="text-[8px] font-plex text-outline mt-1 leading-snug">Despliega resonadores que potencian aliados.</p>
+          <div class="mt-2 text-[7px] font-plex text-outline flex justify-between border-t border-imperial-gold/20 pt-1">
+            <span>HAB: TÓTEM 432Hz</span>
+            <span>ÁREA: A+ (+22%)</span>
+          </div>
+        </div>
+        <!-- 6. ALQUIMISTA -->
+        <div id="class-card-alquimista" onclick="selectClass('alquimista')" class="p-2.5 border border-imperial-gold/30 bg-surface-container-low cursor-pointer hover:border-royal-gold transition-all">
+          <div class="flex justify-between text-[8px] font-plex text-outline">
+            <span class="badge-status">06</span>
+            <span class="material-symbols-outlined text-[16px]">science</span>
+          </div>
+          <h3 class="font-cinzel text-sacred-ivory font-bold text-[14px] mt-0.5">ALQUIMISTA</h3>
+          <div class="text-[8px] font-plex text-outline">MUTACIÓN Y QUÍMICA</div>
+          <p class="text-[8px] font-plex text-outline mt-1 leading-snug">Fabrica catalizadores reactivos en combate.</p>
+          <div class="mt-2 text-[7px] font-plex text-outline flex justify-between border-t border-imperial-gold/20 pt-1">
+            <span>HAB: ELIXIR DE CORONA</span>
+            <span>UTILIDAD: S (+26%)</span>
+          </div>
+        </div>
+        <!-- 7. VIDENTE -->
+        <div id="class-card-vidente" onclick="selectClass('vidente')" class="p-2.5 border border-imperial-gold/30 bg-surface-container-low cursor-pointer hover:border-royal-gold transition-all">
+          <div class="flex justify-between text-[8px] font-plex text-outline">
+            <span class="badge-status">07</span>
+            <span class="material-symbols-outlined text-[16px]">visibility</span>
+          </div>
+          <h3 class="font-cinzel text-sacred-ivory font-bold text-[14px] mt-0.5">VIDENTE</h3>
+          <div class="text-[8px] font-plex text-outline">TELEMETRÍA PREDICTIVA</div>
+          <p class="text-[8px] font-plex text-outline mt-1 leading-snug">Anticipa asaltos enemigos y revela agentes ocultos.</p>
+          <div class="mt-2 text-[7px] font-plex text-outline flex justify-between border-t border-imperial-gold/20 pt-1">
+            <span>HAB: ORÁCULO RADIAL</span>
+            <span>INTEL: EX (+35%)</span>
+          </div>
+        </div>
+        <!-- 8. ARTISTA -->
+        <div id="class-card-artista" onclick="selectClass('artista')" class="p-2.5 border border-imperial-gold/30 bg-surface-container-low cursor-pointer hover:border-royal-gold transition-all">
+          <div class="flex justify-between text-[8px] font-plex text-outline">
+            <span class="badge-status">08</span>
+            <span class="material-symbols-outlined text-[16px]">palette</span>
+          </div>
+          <h3 class="font-cinzel text-sacred-ivory font-bold text-[14px] mt-0.5">ARTISTA</h3>
+          <div class="text-[8px] font-plex text-outline">MANIFESTACIÓN GRÁFICA</div>
+          <p class="text-[8px] font-plex text-outline mt-1 leading-snug">Inscribe runas sacras que alteran la moral del frente.</p>
+          <div class="mt-2 text-[7px] font-plex text-outline flex justify-between border-t border-imperial-gold/20 pt-1">
+            <span>HAB: TRAZO MONUMENTAL</span>
+            <span>BUFF: A (+19%)</span>
+          </div>
+        </div>
+        <!-- 9. NAVEGANTE -->
+        <div id="class-card-navegante" onclick="selectClass('navegante')" class="p-2.5 border border-imperial-gold/30 bg-surface-container-low cursor-pointer hover:border-royal-gold transition-all">
+          <div class="flex justify-between text-[8px] font-plex text-outline">
+            <span class="badge-status">09</span>
+            <span class="material-symbols-outlined text-[16px]">explore</span>
+          </div>
+          <h3 class="font-cinzel text-sacred-ivory font-bold text-[14px] mt-0.5">NAVEGANTE</h3>
+          <div class="text-[8px] font-plex text-outline">APERTURA DE PORTALES</div>
+          <p class="text-[8px] font-plex text-outline mt-1 leading-snug">Pliega el vacío para teletransportar escuadrones.</p>
+          <div class="mt-2 text-[7px] font-plex text-outline flex justify-between border-t border-imperial-gold/20 pt-1">
+            <span>HAB: SALTO DE FASE</span>
+            <span>MOVILIDAD: EX (+32%)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 3: MAPA ESTELAR (THE WORLD) -->
+    <div id="view-world" class="hidden flex-col gap-3 border border-imperial-gold/40 bg-panel-surface/90 backdrop-blur-md p-3 corner-bracket flex-grow min-h-[460px]">
+      <div class="flex justify-between items-center border-b border-imperial-gold/20 pb-1.5">
+        <div>
+          <span class="text-[8px] font-plex text-royal-gold tracking-widest">// CARTOGRAFÍA DE CONTROL GLOBAL</span>
+          <h2 class="font-cinzel text-sacred-ivory text-[17px] font-bold">THE WORLD // SECTORES EN DISPUTA</h2>
+        </div>
+        <div class="flex gap-1.5 text-[8px] font-plex">
+          <span class="px-1.5 py-0.5 border border-royal-gold text-royal-gold">PANARQUÍA: 4 REGIONES</span>
+          <span class="px-1.5 py-0.5 border border-outline text-outline">SINARQUÍA: 3 REGIONES</span>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+        <div onclick="inspectSector('THE CITADEL', 'PANARQUÍA [100%]', 'Sede sagrada de la Hermandad Blanca. Cero penetración del Vértice.')" class="p-2 border-l-2 border-royal-gold bg-surface-container-low cursor-pointer hover:bg-surface-container">
+          <div class="flex justify-between text-[9px] font-plex font-bold text-sacred-ivory"><span>THE CITADEL</span><span class="text-royal-gold">100%</span></div>
+          <p class="text-[7px] font-plex text-outline mt-0.5">Capital Segura // Control Panárquico</p>
+        </div>
+        <div onclick="inspectSector('THE WHITE CITY', 'PANARQUÍA [84%]', 'Metrópoli de marfil y datos. Resistencia activa ante agentes sinárquicos.')" class="p-2 border-l-2 border-sacred-ivory bg-surface-container-low cursor-pointer hover:bg-surface-container">
+          <div class="flex justify-between text-[9px] font-plex font-bold text-sacred-ivory"><span>THE WHITE CITY</span><span class="text-sacred-ivory">84%</span></div>
+          <p class="text-[7px] font-plex text-outline mt-0.5">Bajo Protección // Archivos Abiertos</p>
+        </div>
+        <div onclick="inspectSector('THE GREAT LIGHTHOUSE', 'EN DISPUTA [51/49]', 'Foco de la emisión 432Hz. Asedio sinarquista en desarrollo. Requiere refuerzos.')" class="p-2 border-l-2 border-surveillance-warning bg-surface-container-low cursor-pointer hover:bg-surface-container">
+          <div class="flex justify-between text-[9px] font-plex font-bold text-sacred-ivory"><span>THE GREAT LIGHTHOUSE</span><span class="text-surveillance-warning">51/49</span></div>
+          <p class="text-[7px] font-plex text-outline mt-0.5">Zona de Guerra // Disputa en Vivo</p>
+        </div>
+        <div onclick="inspectSector('THE UNDERWORLD', 'SINARQUÍA [72%]', 'Laberinto de fibra y criptas. Servidores oscuros dominados por el control central.')" class="p-2 border-l-2 border-outline-variant bg-surface-container-low cursor-pointer hover:bg-surface-container">
+          <div class="flex justify-between text-[9px] font-plex font-bold text-sacred-ivory"><span>THE UNDERWORLD</span><span class="text-outline">72%</span></div>
+          <p class="text-[7px] font-plex text-outline mt-0.5">Terreno Hostil // Censura Activa</p>
+        </div>
+        <div onclick="inspectSector('THE WILDS', 'PANARQUÍA [60%]', 'Páramos salvajes y nódulos libres que extraen éter cósmico.')" class="p-2 border-l-2 border-royal-gold bg-surface-container-low cursor-pointer hover:bg-surface-container">
+          <div class="flex justify-between text-[9px] font-plex font-bold text-sacred-ivory"><span>THE WILDS</span><span class="text-royal-gold">60%</span></div>
+          <p class="text-[7px] font-plex text-outline mt-0.5">Recursos Ricos // Nodos Errantes</p>
+        </div>
+        <div onclick="inspectSector('THE VOID & BLACK ZONES', 'CORRUPCIÓN SINARQUISTA', 'El Vértice Central impone algoritmos de sometimiento obligatorio.')" class="p-2 border-l-2 border-error-color bg-surface-container-low cursor-pointer hover:bg-surface-container">
+          <div class="flex justify-between text-[9px] font-plex font-bold text-sacred-ivory"><span>THE VOID</span><span class="text-error-color">HOSTIL</span></div>
+          <p class="text-[7px] font-plex text-outline mt-0.5">Peligro Extremo // Bloqueo Total</p>
+        </div>
+      </div>
+      <!-- Sector Detail Panel -->
+      <div id="sector-inspect-box" class="mt-2 p-2.5 border border-imperial-gold/30 bg-surface-container-low">
+        <div class="flex justify-between text-[9px] font-plex font-bold text-royal-gold mb-1">
+          <span id="sec-name">SECTOR: THE GREAT LIGHTHOUSE</span>
+          <span id="sec-status" class="text-surveillance-warning">ESTADO: EN DISPUTA</span>
+        </div>
+        <p class="text-[8px] font-plex text-outline leading-snug mb-2" id="sec-desc">Foco primordial de la transmisión 432Hz. Asedio de la Sinarquía en desarrollo.</p>
+        <div class="flex gap-2">
+          <button onclick="deployReinforcements()" class="px-2 py-1 bg-royal-gold text-void-obsidian font-plex font-bold text-[8px] hover:bg-sacred-ivory">DESPLEGAR REFUERZOS</button>
+          <button onclick="monitorFrequency()" class="px-2 py-1 border border-imperial-gold text-sacred-ivory font-plex text-[8px] hover:border-royal-gold">MONITOREAR FRECUENCIA</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 4: QUESTS / MISIONES -->
+    <div id="view-quests" class="hidden flex-col gap-3 border border-imperial-gold/40 bg-panel-surface/90 backdrop-blur-md p-3 corner-bracket flex-grow min-h-[460px]">
+      <div class="flex justify-between items-center border-b border-imperial-gold/20 pb-1.5">
+        <h2 class="font-cinzel text-sacred-ivory text-[17px] font-bold">REGISTRO DE OPERACIONES Y MISIONES</h2>
+        <span class="text-[9px] font-plex text-royal-gold">ACTIVAS: 3</span>
+      </div>
+      <div class="space-y-2">
+        <div class="p-2.5 border border-imperial-gold/40 bg-surface-container-low">
+          <div class="flex justify-between text-[8px] font-plex text-royal-gold font-bold">
+            <span>MISIÓN PRINCIPAL // EL GRAN FARO</span>
+            <span id="quest-node-progress">2 / 3 NODOS</span>
+          </div>
+          <h4 class="font-cinzel text-sacred-ivory text-[13px] font-bold mt-0.5">DESENCRIPTAR LA EMISIÓN 432Hz</h4>
+          <p class="text-[8px] font-plex text-outline mt-1">Conecta el transmisor arquetípico a la red panárquica.</p>
+          <div class="mt-2 flex justify-between items-center pt-1 border-t border-imperial-gold/20">
+            <span class="text-[8px] font-plex text-outline">RECOMPENSA: +50 AGENCIA // BÁCULO ÁUREO</span>
+            <button onclick="advanceQuest('lighthouse')" class="px-2 py-0.5 bg-royal-gold text-void-obsidian text-[8px] font-plex font-bold hover:bg-sacred-ivory">SINTONIZAR NODO</button>
+          </div>
+        </div>
+        <div class="p-2.5 border border-imperial-gold/20 bg-surface-container-low">
+          <div class="flex justify-between text-[8px] font-plex text-sacred-ivory font-bold">
+            <span>MISIÓN DE FACCIÓN // THE UNDERWORLD</span>
+            <span id="quest-sabotage-progress">8 / 10 AGENTES</span>
+          </div>
+          <h4 class="font-cinzel text-sacred-ivory text-[13px] font-bold mt-0.5">SABOTAJE AL VÉRTICE DE LA SINARQUÍA</h4>
+          <p class="text-[8px] font-plex text-outline mt-1">Destruye los nodos de censura criptográfica.</p>
+          <div class="mt-2 flex justify-between items-center pt-1 border-t border-imperial-gold/20">
+            <span class="text-[8px] font-plex text-outline">RECOMPENSA: +120 SOBERANÍA</span>
+            <button onclick="advanceQuest('sabotage')" class="px-2 py-0.5 border border-imperial-gold text-royal-gold text-[8px] font-plex hover:border-royal-gold">ABATIR AGENTE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 5: CODEX -->
+    <div id="view-codex" class="hidden flex-col gap-3 border border-imperial-gold/40 bg-panel-surface/90 backdrop-blur-md p-3 corner-bracket flex-grow min-h-[460px]">
+      <div class="flex justify-between items-center border-b border-imperial-gold/20 pb-1.5">
+        <h2 class="font-cinzel text-sacred-ivory text-[17px] font-bold">BÓVEDA DEL CODEX // SAGRADA HERMANDAD</h2>
+        <span class="text-[8px] font-plex text-outline">ENTRADAS: 3 DISPONIBLES</span>
+      </div>
+      <div class="grid grid-cols-3 gap-2">
+        <button onclick="showCodexText(1)" class="p-2 border border-imperial-gold/30 bg-surface-container-low hover:border-royal-gold text-left">
+          <div class="text-[7px] font-plex text-royal-gold">TRACTATUS I</div>
+          <div class="font-cinzel text-[11px] font-bold text-sacred-ivory mt-0.5">El Gran Eclipse</div>
+        </button>
+        <button onclick="showCodexText(2)" class="p-2 border border-imperial-gold/30 bg-surface-container-low hover:border-royal-gold text-left">
+          <div class="text-[7px] font-plex text-royal-gold">TRACTATUS II</div>
+          <div class="font-cinzel text-[11px] font-bold text-sacred-ivory mt-0.5">La Frecuencia 432Hz</div>
+        </button>
+        <button onclick="showCodexText(3)" class="p-2 border border-imperial-gold/30 bg-surface-container-low hover:border-royal-gold text-left">
+          <div class="text-[7px] font-plex text-royal-gold">TRACTATUS III</div>
+          <div class="font-cinzel text-[11px] font-bold text-sacred-ivory mt-0.5">La Gran Panarquía</div>
+        </button>
+      </div>
+      <div id="codex-body" class="p-3 border border-imperial-gold/20 bg-void-obsidian text-[9px] font-plex text-outline leading-relaxed flex-grow">
+        "En el albor del siglo arcano, los constructores alzaron la Ciudadela sobre ondas armónicas puras. Aquel que domine su propia resonancia interna nunca será siervo del algoritmo central..."
+      </div>
+    </div>
+
+    <!-- VIEW 6: FACTIONS -->
+    <div id="view-factions" class="hidden flex-col gap-3 border border-imperial-gold/40 bg-panel-surface/90 backdrop-blur-md p-3 corner-bracket flex-grow min-h-[460px]">
+      <h2 class="font-cinzel text-sacred-ivory text-[17px] font-bold border-b border-imperial-gold/20 pb-1.5">FACCIONES EN CONFLICTO GLOBAL</h2>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="p-3 border-2 border-royal-gold bg-surface-container-low">
+          <div class="font-cinzel text-royal-gold font-bold text-[14px]">PANARQUÍA DISTRIBUIDA</div>
+          <span class="text-[7px] font-plex text-sacred-ivory bg-royal-gold/20 px-1 py-0.5 border border-royal-gold">TU ALINEACIÓN</span>
+          <p class="text-[8px] font-plex text-outline mt-2 leading-relaxed">Federación de mentes emancipadas. Defienden la soberanía individual y el código esotérico abierto.</p>
+          <button onclick="reinforceFactionWar()" class="mt-3 w-full py-1 bg-royal-gold text-void-obsidian text-[8px] font-plex font-bold hover:bg-sacred-ivory">TRANSFERIR RECURSOS (+50 SOBERANÍA)</button>
+        </div>
+        <div class="p-3 border border-imperial-gold/30 bg-surface-container-low opacity-75">
+          <div class="font-cinzel text-sacred-ivory font-bold text-[14px]">SINARQUÍA CENTRALIZADA</div>
+          <span class="text-[7px] font-plex text-outline">VÉRTICE CENTRAL</span>
+          <p class="text-[8px] font-plex text-outline mt-2 leading-relaxed">Corporación monolítica que busca la unificación forzosa del pensamiento bajo algoritmos coercitivos.</p>
+          <button onclick="showCombatText('VÉRTICE MARCADO PARA SABOTAJE', '#ff5555')" class="mt-3 w-full py-1 border border-imperial-gold text-royal-gold text-[8px] font-plex hover:border-royal-gold">MARCAR BLANCO PRIORITARIO</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 7: GUILD -->
+    <div id="view-guild" class="hidden flex-col gap-3 border border-imperial-gold/40 bg-panel-surface/90 backdrop-blur-md p-3 corner-bracket flex-grow min-h-[460px]">
+      <h2 class="font-cinzel text-sacred-ivory text-[17px] font-bold border-b border-imperial-gold/20 pb-1.5">HERMANDAD BLANCA // CAPÍTULO ASTRAL</h2>
+      <div class="grid grid-cols-3 gap-2">
+        <div class="p-2 border border-imperial-gold/30 bg-surface-container-low text-center">
+          <div class="text-[7px] font-plex text-outline">MIEMBROS</div>
+          <div class="text-[16px] font-plex font-bold text-sacred-ivory">128 / 150</div>
+        </div>
+        <div class="p-2 border border-imperial-gold/30 bg-surface-container-low text-center">
+          <div class="text-[7px] font-plex text-outline">FONDO ÉTER</div>
+          <div class="text-[16px] font-plex font-bold text-royal-gold">849.2K</div>
+        </div>
+        <div class="p-2 border border-imperial-gold/30 bg-surface-container-low text-center">
+          <div class="text-[7px] font-plex text-outline">NIVEL ORDEN</div>
+          <div class="text-[16px] font-plex font-bold text-sacred-ivory">NIVEL 18</div>
+        </div>
+      </div>
+      <button onclick="showCombatText('INVITACIÓN EMITIDA A LA RED', '#E6C45A')" class="py-1.5 bg-royal-gold text-void-obsidian font-plex font-bold text-[9px] hover:bg-sacred-ivory">CONVOCAR ESCUADRÓN</button>
+    </div>
+
+    <!-- VIEW 8: ARENA -->
+    <div id="view-arena" class="hidden flex-col gap-3 border border-imperial-gold/40 bg-panel-surface/90 backdrop-blur-md p-3 corner-bracket flex-grow min-h-[460px]">
+      <h2 class="font-cinzel text-sacred-ivory text-[17px] font-bold border-b border-imperial-gold/20 pb-1.5">COLISEO DE FRECUENCIAS SOBERANAS</h2>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="p-3 border border-imperial-gold/30 bg-surface-container-low flex flex-col justify-between">
+          <div>
+            <div class="text-[8px] font-plex text-royal-gold font-bold">MODO 1: DUELO ASÍNCRONO</div>
+            <h4 class="font-cinzel text-sacred-ivory text-[13px] font-bold mt-0.5">Sombra del Vértice</h4>
+            <p class="text-[8px] font-plex text-outline mt-1">Enfréntate a un autómata de la Sinarquía.</p>
+          </div>
+          <button onclick="simulateCombatDuel()" class="mt-3 py-1 bg-royal-gold text-void-obsidian font-plex font-bold text-[9px] hover:bg-sacred-ivory">INICIAR DUELO</button>
+        </div>
+        <div class="p-3 border border-imperial-gold/30 bg-surface-container-low flex flex-col justify-between">
+          <div>
+            <div class="text-[8px] font-plex text-sacred-ivory font-bold">MODO 2: SOBRECARGA 432Hz</div>
+            <h4 class="font-cinzel text-sacred-ivory text-[13px] font-bold mt-0.5">Prueba de Resonancia</h4>
+            <p class="text-[8px] font-plex text-outline mt-1">Resiste oleadas meméticas para entrenar Agencia.</p>
+          </div>
+          <button onclick="simulateResonanceTrial()" class="mt-3 py-1 border border-imperial-gold text-royal-gold font-plex font-bold text-[9px] hover:border-royal-gold">ENTRENAR AGENCIA (+5)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 9: MARKET -->
+    <div id="view-market" class="hidden flex-col gap-3 border border-imperial-gold/40 bg-panel-surface/90 backdrop-blur-md p-3 corner-bracket flex-grow min-h-[460px]">
+      <div class="flex justify-between items-center border-b border-imperial-gold/20 pb-1.5">
+        <h2 class="font-cinzel text-sacred-ivory text-[17px] font-bold">MERCADO LIBRE PANÁRQUICO</h2>
+        <span class="text-[9px] font-plex text-royal-gold font-bold">SALDO: 14,250 ÉTER</span>
+      </div>
+      <div class="grid grid-cols-3 gap-2">
+        <div class="p-2 border border-imperial-gold/30 bg-surface-container-low flex flex-col justify-between">
+          <div>
+            <span class="text-[7px] font-plex text-royal-gold">350 ÉTER</span>
+            <div class="font-cinzel text-[11px] font-bold text-sacred-ivory mt-0.5">Vial de Resonancia</div>
+            <p class="text-[7px] font-plex text-outline mt-0.5">+1,500 Maná Éterico</p>
+          </div>
+          <button onclick="buyMarketItem('Vial de Resonancia', 350)" class="mt-2 w-full py-0.5 bg-surface-container border border-imperial-gold text-royal-gold text-[7px] font-plex hover:bg-royal-gold hover:text-void-obsidian">COMPRAR</button>
+        </div>
+        <div class="p-2 border border-imperial-gold/30 bg-surface-container-low flex flex-col justify-between">
+          <div>
+            <span class="text-[7px] font-plex text-royal-gold">2,400 ÉTER</span>
+            <div class="font-cinzel text-[11px] font-bold text-sacred-ivory mt-0.5">Matriz de Desfase</div>
+            <p class="text-[7px] font-plex text-outline mt-0.5">-12% Recarga de Habilidad</p>
+          </div>
+          <button onclick="buyMarketItem('Matriz de Desfase', 2400)" class="mt-2 w-full py-0.5 bg-surface-container border border-imperial-gold text-royal-gold text-[7px] font-plex hover:bg-royal-gold hover:text-void-obsidian">COMPRAR</button>
+        </div>
+        <div class="p-2 border border-royal-gold bg-surface-container-low flex flex-col justify-between">
+          <div>
+            <span class="text-[7px] font-plex text-surveillance-warning font-bold">8,500 ÉTER</span>
+            <div class="font-cinzel text-[11px] font-bold text-sacred-ivory mt-0.5">Cáliz de Mercurio</div>
+            <p class="text-[7px] font-plex text-outline mt-0.5">+25% Ganancia de Soberanía</p>
+          </div>
+          <button onclick="buyMarketItem('Cáliz de Mercurio', 8500)" class="mt-2 w-full py-0.5 bg-royal-gold text-void-obsidian text-[7px] font-plex font-bold hover:bg-sacred-ivory">COMPRAR</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 10: ARCHIVE -->
+    <div id="view-archive" class="hidden flex-col gap-3 border border-imperial-gold/40 bg-panel-surface/90 backdrop-blur-md p-3 corner-bracket flex-grow min-h-[460px]">
+      <h2 class="font-cinzel text-sacred-ivory text-[17px] font-bold border-b border-imperial-gold/20 pb-1.5">ARCHIVOS HISTÓRICOS DE LA CIUDADELA</h2>
+      <div class="space-y-1.5 text-[8px] font-plex">
+        <div class="p-2 border border-imperial-gold/20 bg-surface-container-low flex justify-between items-center">
+          <span>CRÓNICA 001: Manifiesto de la Autonomía Incondicional</span>
+          <button onclick="showCombatText('MANIFIESTO DESPLEGADO', '#F4F1E8')" class="text-royal-gold hover:underline">LEER</button>
+        </div>
+        <div class="p-2 border border-imperial-gold/20 bg-surface-container-low flex justify-between items-center">
+          <span>CRÓNICA 042: Esquema Sagrado del Gran Faro</span>
+          <button onclick="showCombatText('ESQUEMA ENVIADO AL HUD', '#F4F1E8')" class="text-royal-gold hover:underline">LEER</button>
+        </div>
+        <div class="p-2 border border-imperial-gold/20 bg-surface-container-low flex justify-between items-center">
+          <span>CRÓNICA 108: Caída del Vértice Tres en el Abismo</span>
+          <button onclick="showCombatText('CRÓNICA DESBLOQUEADA', '#F4F1E8')" class="text-royal-gold hover:underline">LEER</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RIGHT COLUMN: QUESTS & DIEGETIC CHAT (3 cols) -->
+  <aside class="lg:col-span-3 flex flex-col gap-3">
+    <!-- Active Quest Tracker -->
+    <div class="border border-imperial-gold/30 bg-panel-surface/85 backdrop-blur-md p-3 corner-bracket shadow-lg">
+      <div class="flex justify-between items-center border-b border-imperial-gold/20 pb-1 mb-2">
+        <span class="text-[9px] font-plex text-royal-gold font-bold flex items-center gap-1">
+          <span class="material-symbols-outlined text-[14px]">task_alt</span> RASTREADOR DE MISIÓN
+        </span>
+        <span class="text-[7px] font-plex text-outline">PRIORIDAD 1</span>
+      </div>
+      <div onclick="advanceQuest('lighthouse')" class="p-2 bg-surface-container-low border border-imperial-gold/30 cursor-pointer hover:border-royal-gold transition-all">
+        <div class="flex justify-between text-[7px] font-plex text-royal-gold font-bold">
+          <span>MISIÓN PRINCIPAL</span>
+          <span class="w-1.5 h-1.5 bg-surveillance-warning rounded-full animate-ping"></span>
+        </div>
+        <h4 class="font-cinzel text-sacred-ivory font-bold text-[12px] mt-0.5">DESENCRIPTAR EMISIÓN 432Hz</h4>
+        <p class="text-[8px] font-plex text-outline mt-0.5">Enlace físico directo con el Gran Faro.</p>
+        <div class="mt-1.5 flex justify-between text-[7px] font-plex text-outline mb-0.5">
+          <span>PROGRESO</span>
+          <span class="text-royal-gold" id="side-quest-progress">2 / 3 NODOS</span>
+        </div>
+        <div class="w-full h-1 bg-surface-container">
+          <div id="side-quest-bar" class="h-full bg-royal-gold" style="width: 66%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Expeditions Timer -->
+    <div class="border border-imperial-gold/20 bg-panel-surface/80 p-2.5">
+      <div class="flex justify-between text-[8px] font-plex text-outline mb-1">
+        <span>// EXPEDICIÓN DE HOMÚNCULOS</span>
+        <span class="text-royal-gold font-bold" id="exp-status">ACTIVA</span>
+      </div>
+      <div class="flex justify-between text-[10px] font-plex text-sacred-ivory font-bold">
+        <span>EXP-77: PÁRAMOS DEL VACÍO</span>
+        <span class="text-royal-gold" id="exp-timer">00:42:19</span>
+      </div>
+    </div>
+
+    <!-- Live Diegetic Chat -->
+    <div class="border border-imperial-gold/30 bg-panel-surface/85 backdrop-blur-md p-2.5 flex-grow flex flex-col justify-between corner-bracket">
+      <div>
+        <div class="flex justify-between text-[8px] font-plex text-royal-gold font-bold border-b border-imperial-gold/20 pb-1 mb-1.5">
+          <span>CANAL DE ÓRDENES // PANARQUÍA</span>
+          <span class="material-symbols-outlined text-[13px]">forum</span>
+        </div>
+        <div id="chat-stream" class="space-y-1 text-[8px] font-plex max-h-36 overflow-y-auto pr-1">
+          <div><span class="text-royal-gold font-bold">[VALKYRIE-1]:</span> <span class="text-outline">Refuerzos al flanco este del Faro.</span></div>
+          <div><span class="text-sacred-ivory font-bold">[NEXUS-ZERO]:</span> <span class="text-outline">Respuesta del Vértice detectada.</span></div>
+          <div><span class="text-royal-gold font-bold" id="chat-my-name">[HOMÚNCULO Ω-09]:</span> <span class="text-sacred-ivory">Canalizando pulso 432Hz ahora.</span></div>
+        </div>
+      </div>
+      <div class="mt-2 pt-1.5 border-t border-imperial-gold/20 flex gap-1">
+        <input id="chat-input" onkeydown="handleChatInput(event)" type="text" placeholder="TRANSMITIR ORDEN..." class="w-full bg-surface-container-low border border-imperial-gold/30 px-2 py-0.5 text-[8px] font-plex text-sacred-ivory focus:border-royal-gold outline-none"/>
+        <button onclick="sendChatMessage()" class="px-2 py-0.5 bg-royal-gold text-void-obsidian font-plex font-bold text-[8px] hover:bg-sacred-ivory">TX</button>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<!-- BOTTOM ACTION BAR (Numeric 1-8 + Modifiers Q, E, R, F) -->
+<div class="fixed bottom-6 left-0 w-full z-40 px-2 md:px-8 pointer-events-none">
+  <div class="max-w-4xl mx-auto bg-panel-surface/95 backdrop-blur-md border border-imperial-gold/40 p-1.5 flex flex-col md:flex-row items-center justify-between gap-2 shadow-[0_0_24px_rgba(0,0,0,0.9)] corner-bracket pointer-events-auto">
+    <!-- Stance Selector -->
+    <div class="flex items-center gap-1 border-r border-imperial-gold/20 pr-2">
+      <div class="text-[7px] font-plex text-outline text-right mr-1">
+        <span>POSTURA:</span>
+        <span class="text-royal-gold font-bold block" id="stance-txt">SOBERANA</span>
+      </div>
+      <button onclick="setStance('omega')" id="btn-st-omega" class="w-6 h-6 bg-surface-container border border-royal-gold text-royal-gold text-[11px] font-bold">Ω</button>
+      <button onclick="setStance('delta')" id="btn-st-delta" class="w-6 h-6 bg-surface-container-low border border-imperial-gold/30 text-outline hover:text-sacred-ivory text-[11px]">Δ</button>
+      <button onclick="setStance('psi')" id="btn-st-psi" class="w-6 h-6 bg-surface-container-low border border-imperial-gold/30 text-outline hover:text-sacred-ivory text-[11px]">Ψ</button>
+    </div>
+
+    <!-- 8 Action Slots -->
+    <div class="flex items-center gap-1 overflow-x-auto">
+      <div onclick="castSkill(1, 'Drenaje 432Hz', 2, '#C9A227')" class="w-9 h-9 border border-royal-gold bg-surface-container-low relative group cursor-pointer hover:border-sacred-ivory flex items-center justify-center" title="Drenaje 432Hz">
+        <span class="material-symbols-outlined text-royal-gold text-[18px]">auto_fix_high</span>
+        <span class="absolute top-0.5 left-1 text-[7px] font-plex text-royal-gold font-bold">1</span>
+        <div class="absolute bottom-0 left-0 w-full h-[2px] bg-royal-gold"></div>
+      </div>
+      <div onclick="castSkill(2, 'Rayo Éter', 3, '#ffffff')" class="w-9 h-9 border border-imperial-gold/30 bg-surface-container-low relative group cursor-pointer hover:border-royal-gold flex items-center justify-center" title="Rayo Éter">
+        <span class="material-symbols-outlined text-sacred-ivory text-[18px]">bolt</span>
+        <span class="absolute top-0.5 left-1 text-[7px] font-plex text-outline">2</span>
+      </div>
+      <div onclick="castSkill(3, 'Ciclón Cuántico', 4, '#C9A227')" class="w-9 h-9 border border-imperial-gold/30 bg-surface-container-low relative group cursor-pointer hover:border-royal-gold flex items-center justify-center" title="Ciclón">
+        <span class="material-symbols-outlined text-royal-gold text-[18px]">cyclone</span>
+        <span class="absolute top-0.5 left-1 text-[7px] font-plex text-outline">3</span>
+      </div>
+      <div onclick="castSkill(4, 'Escudo de Marfil', 5, '#ffffff')" class="w-9 h-9 border border-imperial-gold/30 bg-surface-container-low relative group cursor-pointer hover:border-royal-gold flex items-center justify-center" title="Escudo">
+        <span class="material-symbols-outlined text-sacred-ivory text-[18px]">shield</span>
+        <span class="absolute top-0.5 left-1 text-[7px] font-plex text-outline">4</span>
+      </div>
+      <div onclick="castSkill(5, 'Sincronía de Nodo', 4, '#C9A227')" class="w-9 h-9 border border-imperial-gold/30 bg-surface-container-low relative group cursor-pointer hover:border-royal-gold flex items-center justify-center" title="Nodo">
+        <span class="material-symbols-outlined text-royal-gold text-[18px]">hub</span>
+        <span class="absolute top-0.5 left-1 text-[7px] font-plex text-outline">5</span>
+      </div>
+      <div onclick="castSkill(6, 'Ruptura', 5, '#ffffff')" class="w-9 h-9 border border-imperial-gold/30 bg-surface-container-low relative group cursor-pointer hover:border-royal-gold flex items-center justify-center" title="Ruptura">
+        <span class="material-symbols-outlined text-sacred-ivory text-[18px]">blur_on</span>
+        <span class="absolute top-0.5 left-1 text-[7px] font-plex text-outline">6</span>
+      </div>
+      <div onclick="castSkill(7, 'Torrente Sagrado', 4, '#C9A227')" class="w-9 h-9 border border-imperial-gold/30 bg-surface-container-low relative group cursor-pointer hover:border-royal-gold flex items-center justify-center" title="Torrente">
+        <span class="material-symbols-outlined text-royal-gold text-[18px]">stream</span>
+        <span class="absolute top-0.5 left-1 text-[7px] font-plex text-outline">7</span>
+      </div>
+      <div onclick="castSkill(8, 'Sobrecarga', 7, '#ffffff')" class="w-9 h-9 border border-imperial-gold/30 bg-surface-container-low relative group cursor-pointer hover:border-royal-gold flex items-center justify-center" title="Sobrecarga">
+        <span class="material-symbols-outlined text-sacred-ivory text-[18px]">memory</span>
+        <span class="absolute top-0.5 left-1 text-[7px] font-plex text-outline">8</span>
+      </div>
+
+      <div class="h-6 w-[1px] bg-imperial-gold/20 mx-1"></div>
+
+      <!-- Hotkeys Q, E, R, F -->
+      <div onclick="castSkill('q', 'Curación', 5, '#C9A227')" class="w-9 h-9 border border-imperial-gold/30 bg-surface-container-high relative group cursor-pointer hover:border-royal-gold flex items-center justify-center" title="Curación">
+        <span class="material-symbols-outlined text-royal-gold text-[16px]">healing</span>
+        <span class="absolute top-0.5 left-1 text-[7px] font-plex text-royal-gold font-bold">Q</span>
+      </div>
+      <div onclick="castSkill('e', 'Visión Oráculo', 4, '#ffffff')" class="w-9 h-9 border border-imperial-gold/30 bg-surface-container-high relative group cursor-pointer hover:border-royal-gold flex items-center justify-center" title="Visión">
+        <span class="material-symbols-outlined text-sacred-ivory text-[16px]">visibility</span>
+        <span class="absolute top-0.5 left-1 text-[7px] font-plex text-sacred-ivory font-bold">E</span>
+      </div>
+      <div onclick="castSkill('r', 'APEX JUICIO ÁUREO', 10, '#FFD400', true)" class="w-9 h-9 border-2 border-royal-gold bg-surface-container-high relative group cursor-pointer shadow-[0_0_10px_rgba(201,162,39,0.35)] flex items-center justify-center" title="Habilidad Definitiva">
+        <span class="material-symbols-outlined text-royal-gold text-[16px] animate-pulse">crisis_alert</span>
+        <span class="absolute top-0.5 left-1 text-[7px] font-plex text-royal-gold font-bold">R</span>
+        <span class="absolute bottom-0 right-0.5 text-[5px] font-plex text-royal-gold font-bold">ULT</span>
+      </div>
+      <div onclick="castSkill('f', 'Teletransporte', 6, '#ffffff')" class="w-9 h-9 border border-imperial-gold/30 bg-surface-container-high relative group cursor-pointer hover:border-royal-gold flex items-center justify-center" title="Fase">
+        <span class="material-symbols-outlined text-sacred-ivory text-[16px]">explore</span>
+        <span class="absolute top-0.5 left-1 text-[7px] font-plex text-sacred-ivory font-bold">F</span>
+      </div>
+    </div>
+
+    <!-- Quick Tool Drawer Openers -->
+    <div class="flex items-center gap-1 border-l border-imperial-gold/20 pl-2">
+      <button onclick="openModal('inventory')" class="p-1 border border-imperial-gold/30 hover:border-royal-gold text-outline hover:text-royal-gold"><span class="material-symbols-outlined text-[16px]">backpack</span></button>
+      <button onclick="openModal('alchemy')" class="p-1 border border-imperial-gold/30 hover:border-royal-gold text-outline hover:text-royal-gold"><span class="material-symbols-outlined text-[16px]">science</span></button>
+      <button onclick="openModal('codex')" class="p-1 border border-imperial-gold/30 hover:border-royal-gold text-outline hover:text-royal-gold"><span class="material-symbols-outlined text-[16px]">menu_book</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- DIEGETIC FOOTER -->
+<footer class="fixed bottom-0 left-0 w-full z-40 px-4 py-1 flex justify-between items-center bg-void-obsidian/95 border-t border-imperial-gold/30 text-[8px] font-plex">
+  <div class="flex items-center gap-2">
+    <span class="text-outline">SYS.ID // 0x7E3-COSMIC-CONTAINMENT // ALL PROTOCOLS ENFORCED</span>
+  </div>
+  <div class="hidden sm:flex items-center space-x-3">
+    <span class="text-royal-gold cursor-pointer hover:underline" onclick="toggleAudioResonance()">AUDIO RES: 432Hz</span>
+    <span class="text-outline">RESONANCE: NOMINAL</span>
+    <span class="text-outline" id="ft-clearance">CLEARANCE: LEVEL 0</span>
+    <span class="text-outline">ENCRYPTION: QUANTUM-GOTHIC</span>
+  </div>
+</footer>
+
+<!-- MODALS OVERLAY SYSTEM -->
+<div id="modal-container" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-void-obsidian/85 backdrop-blur-md hidden">
+  <div class="w-full max-w-xl bg-panel-surface border-2 border-imperial-gold p-4 shadow-[0_0_30px_rgba(201,162,39,0.3)] corner-bracket relative">
+    <div class="flex justify-between items-center border-b border-imperial-gold/30 pb-2 mb-3">
+      <h3 class="font-cinzel text-sacred-ivory font-bold text-[15px]" id="modal-title">VENTANA INTERACTIVA</h3>
+      <button onclick="closeModal()" class="material-symbols-outlined text-outline hover:text-royal-gold text-[18px]">close</button>
+    </div>
+    <div id="modal-body" class="text-[9px] font-plex text-outline"></div>
+  </div>
+</div>
+
+<!-- COMPREHENSIVE VANILLA JAVASCRIPT ENGINE -->
+<script>
+// 1. Navigation Matrix Controller
+function switchNavTab(tabId) {
+  const views = ['citadel', 'classes', 'world', 'quests', 'codex', 'factions', 'guild', 'arena', 'market', 'archive'];
+  views.forEach(v => {
+    const el = document.getElementById('view-' + v);
+    if (el) el.classList.add('hidden');
+    const navBtn = document.getElementById('nav-btn-' + v);
+    if (navBtn) {
+      navBtn.className = "px-2.5 py-1 text-outline hover:text-sacred-ivory font-plex text-[10px] tracking-wider uppercase transition-all";
+    }
+  });
+
+  const activeView = document.getElementById('view-' + tabId);
+  if (activeView) {
+    activeView.classList.remove('hidden');
+    activeView.classList.add('flex');
+  }
+
+  const activeNav = document.getElementById('nav-btn-' + tabId);
+  if (activeNav) {
+    activeNav.className = "px-2.5 py-1 border-b-2 border-royal-gold text-royal-gold font-plex text-[10px] tracking-wider uppercase transition-all";
+  }
+
+  // Update center 3 subtabs
+  const subtabs = ['citadel', 'classes', 'world'];
+  subtabs.forEach(t => {
+    const btn = document.getElementById('tab-' + t);
+    if (btn) {
+      if (t === tabId) {
+        btn.className = "flex-1 py-1.5 text-center text-[10px] font-plex font-bold tracking-wider bg-sacred-ivory text-void-obsidian flex items-center justify-center gap-1";
+      } else {
+        btn.className = "flex-1 py-1.5 text-center text-[10px] font-plex font-bold tracking-wider text-outline hover:text-sacred-ivory hover:bg-surface-container flex items-center justify-center gap-1";
+      }
+    }
+  });
+  showCombatText('SECTOR: ' + tabId.toUpperCase(), '#C9A227');
+}
+
+// 2. Class Selection System (9 Archetypes)
+const classData = {
+  brujo: { name: 'BRUJO DE LA RED', icon: 'auto_fix_high', agency: '+18.8%', hp: '4,850', role: 'CONTROL UMBRAL' },
+  guerrero: { name: 'GUERRERO MONOLÍTICO', icon: 'shield_with_heart', agency: '+12.4%', hp: '6,200', role: 'VANGUARDIA' },
+  mago: { name: 'MAGO DE ÉTER', icon: 'bolt', agency: '+22.0%', hp: '3,900', role: 'ERUPCIÓN' },
+  sanador: { name: 'SANADOR ÁUREO', icon: 'healing', agency: '+15.0%', hp: '4,400', role: 'SOPORTE' },
+  chaman: { name: 'CHAMÁN 432Hz', icon: 'cyclone', agency: '+20.5%', hp: '4,600', role: 'TÓTEMS' },
+  alquimista: { name: 'ALQUIMISTA PRIMO', icon: 'science', agency: '+17.0%', hp: '4,100', role: 'MUTACIÓN' },
+  vidente: { name: 'VIDENTE RADIAL', icon: 'visibility', agency: '+25.0%', hp: '3,800', role: 'TELEMETRÍA' },
+  artista: { name: 'ARTISTA RUNIC', icon: 'palette', agency: '+19.2%', hp: '4,300', role: 'MANIFESTACIÓN' },
+  navegante: { name: 'NAVEGANTE DE FASE', icon: 'explore', agency: '+24.5%', hp: '4,500', role: 'MOVILIDAD' }
+};
+
+function selectClass(cKey) {
+  const c = classData[cKey];
+  if (!c) return;
+  document.getElementById('player-class-title').innerText = c.name;
+  document.getElementById('avatar-icon').innerText = c.icon;
+  document.getElementById('hp-txt').innerText = c.hp + ' / ' + c.hp;
+  document.getElementById('agency-desc').innerText = 'Multiplicador de Anulación Mental: ' + c.agency + ' vs Vértice Sinárquico';
+  document.getElementById('class-active-badge').innerText = 'EQUIPADO: ' + cKey.toUpperCase();
+
+  // Reset classes borders
+  Object.keys(classData).forEach(k => {
+    const card = document.getElementById('class-card-' + k);
+    if (card) {
+      if (k === cKey) {
+        card.className = "p-2.5 border-2 border-royal-gold bg-surface-container-low cursor-pointer hover:border-sacred-ivory transition-all";
+        const badge = card.querySelector('.badge-status');
+        if (badge) badge.innerText = badge.innerText.split(' ')[0] + ' // ACTIVO';
+      } else {
+        card.className = "p-2.5 border border-imperial-gold/30 bg-surface-container-low cursor-pointer hover:border-royal-gold transition-all";
+        const badge = card.querySelector('.badge-status');
+        if (badge) badge.innerText = badge.innerText.split(' ')[0];
+      }
+    }
+  });
+
+  showCombatText('ARQUETIPO EQUIPADO: ' + c.name, '#E6C45A');
+}
+
+// 3. Action Bar Skills Casting
+function castSkill(slot, skillName, cdSec, color, isUlt) {
+  showCombatText('LANZADO: ' + skillName.toUpperCase(), color || '#C9A227');
+
+  // Deplete a bit of mana
+  const manaBar = document.getElementById('mana-bar');
+  if (manaBar) {
+    const curW = parseInt(manaBar.style.width) || 78;
+    const newW = Math.max(10, curW - (isUlt ? 25 : 8));
+    manaBar.style.width = newW + '%';
+    document.getElementById('mana-txt').innerText = Math.round(newW * 31) + ' / 3,100';
+  }
+
+  // Floating particle flash in Visor
+  const stage = document.getElementById('citadel-stage');
+  if (stage) {
+    stage.classList.add('brightness-125');
+    setTimeout(() => stage.classList.remove('brightness-125'), 120);
+  }
+}
+
+// 4. Stance Toggling
+function setStance(stance) {
+  const stances = {
+    omega: { label: 'SOBERANA', bonus: '+20% Daño Sacro' },
+    delta: { label: 'DEFENSIVA', bonus: '+30% Blindaje' },
+    psi: { label: 'UMBRAL', bonus: '+25% Evasión' }
+  };
+  ['omega', 'delta', 'psi'].forEach(s => {
+    const btn = document.getElementById('btn-st-' + s);
+    if (btn) {
+      btn.className = (s === stance) 
+        ? "w-6 h-6 bg-surface-container border border-royal-gold text-royal-gold text-[11px] font-bold"
+        : "w-6 h-6 bg-surface-container-low border border-imperial-gold/30 text-outline hover:text-sacred-ivory text-[11px]";
+    }
+  });
+  document.getElementById('stance-txt').innerText = stances[stance].label;
+  showCombatText('POSTURA ' + stances[stance].label + ' [' + stances[stance].bonus + ']', '#C9A227');
+}
+
+// 5. Visor 3D Zoom & Controls
+let currentZoom = 1.0;
+function zoomVisor(delta) {
+  currentZoom = Math.min(1.8, Math.max(0.6, currentZoom + delta * 0.2));
+  const rings = document.getElementById('visor-rings');
+  if (rings) rings.style.transform = `scale(${currentZoom})`;
+  const coords = document.getElementById('visor-coords');
+  if (coords) coords.innerHTML = `COORDS: X:${(44.89 * currentZoom).toFixed(2)} // Y:-12.44 // Z:${(902 * currentZoom).toFixed(1)}<br/>GRID STATUS: CONSECRATED`;
+  showCombatText('MAGNIFICACIÓN: ' + (currentZoom * 100).toFixed(0) + '%', '#F4F1E8');
+}
+function resetVisor() {
+  currentZoom = 1.0;
+  zoomVisor(0);
+}
+function triggerOrbitalPulse() {
+  const mono = document.getElementById('monolith-box');
+  if (mono) {
+    mono.classList.add('scale-110', 'shadow-[0_0_40px_#C9A227]');
+    setTimeout(() => mono.classList.remove('scale-110', 'shadow-[0_0_40px_#C9A227]'), 300);
+  }
+  showCombatText('PULSO ORBITAL DE SOBERANÍA DESPLEGADO [432Hz]', '#FFD400');
+}
+
+// 6. Quests Advancement
+let lighthouseNodes = 2;
+let sabotageCount = 8;
+function advanceQuest(qType) {
+  if (qType === 'lighthouse') {
+    lighthouseNodes = Math.min(3, lighthouseNodes + 1);
+    document.getElementById('quest-node-progress').innerText = lighthouseNodes + ' / 3 NODOS';
+    document.getElementById('side-quest-progress').innerText = lighthouseNodes + ' / 3 NODOS';
+    document.getElementById('side-quest-bar').style.width = (lighthouseNodes / 3 * 100) + '%';
+    if (lighthouseNodes === 3) {
+      showCombatText('¡MISIÓN CUMPLIDA: FARO 432Hz SINTONIZADO!', '#FFD400');
+      document.getElementById('agency-txt').innerText = '99 / 100';
+    } else {
+      showCombatText('NODO DEL FARO SINTONIZADO (' + lighthouseNodes + '/3)', '#E6C45A');
+    }
+  } else if (qType === 'sabotage') {
+    sabotageCount = Math.min(10, sabotageCount + 1);
+    document.getElementById('quest-sabotage-progress').innerText = sabotageCount + ' / 10 AGENTES';
+    showCombatText('AGENTE SINARQUISTA ELIMINADO (' + sabotageCount + '/10)', '#ff5555');
+  }
+}
+
+// 7. Factions Reinforcement
+let panPct = 52;
+function reinforceFactionWar() {
+  panPct = Math.min(80, panPct + 2);
+  const synPct = 100 - panPct;
+  document.getElementById('panarchy-pct').innerText = 'PANARQUÍA [' + panPct + '%]';
+  document.getElementById('synarchy-pct').innerText = 'SINARQUÍA [' + synPct + '%]';
+  document.getElementById('bar-panarchy').style.width = panPct + '%';
+  document.getElementById('bar-synarchy').style.width = synPct + '%';
+  showCombatText('+50 SOBERANÍA // PANARQUÍA AL ' + panPct + '%', '#C9A227');
+}
+
+// 8. Sector Inspector
+function inspectSector(name, status, desc) {
+  document.getElementById('sec-name').innerText = 'SECTOR: ' + name;
+  document.getElementById('sec-status').innerText = 'ESTADO: ' + status;
+  document.getElementById('sec-desc').innerText = desc;
+  showCombatText('INSPECCIONANDO ' + name, '#C9A227');
+}
+function deployReinforcements() {
+  showCombatText('GUARNICIÓN DE HOMÚNCULOS DESPLEGADA', '#FFD400');
+}
+function monitorFrequency() {
+  showCombatText('FRECUENCIA DETECTADA: 432.08 Hz [ARMÓNICA]', '#F4F1E8');
+}
+
+// 9. Modals Controller
+function openModal(modalType) {
+  const container = document.getElementById('modal-container');
+  const title = document.getElementById('modal-title');
+  const body = document.getElementById('modal-body');
+  container.classList.remove('hidden');
+
+  if (modalType === 'inventory') {
+    title.innerText = 'BÓVEDA DE RELIQUIAS Y ENGRAMAS';
+    body.innerHTML = `
+      <div class="grid grid-cols-4 gap-2 mb-3">
+        <div onclick="inspectRelic('Báculo de Resonancia 432Hz', 'Arma de canalización armónica', 'BAC-01')" class="p-2 border border-royal-gold bg-surface-container-low text-center cursor-pointer">
+          <span class="material-symbols-outlined text-royal-gold">auto_awesome</span>
+          <div class="text-[7px]">BAC-01</div>
+        </div>
+        <div onclick="inspectRelic('Túnica Umbral', 'Armadura de fibra arcana', 'TUN-IV')" class="p-2 border border-imperial-gold/30 bg-surface-container-low text-center cursor-pointer">
+          <span class="material-symbols-outlined text-sacred-ivory">shield</span>
+          <div class="text-[7px]">TUN-IV</div>
+        </div>
+        <div onclick="inspectRelic('Anillo de Red', 'Pulso de evasión', 'RING-P')" class="p-2 border border-imperial-gold/30 bg-surface-container-low text-center cursor-pointer">
+          <span class="material-symbols-outlined text-royal-gold">circle</span>
+          <div class="text-[7px]">RING-P</div>
+        </div>
+        <div onclick="inspectRelic('Lente Cuántica', 'Visión espectral', 'EYE-09')" class="p-2 border border-imperial-gold/30 bg-surface-container-low text-center cursor-pointer">
+          <span class="material-symbols-outlined text-sacred-ivory">visibility</span>
+          <div class="text-[7px]">EYE-09</div>
+        </div>
+      </div>
+      <div class="p-2 bg-void-obsidian border border-imperial-gold/30">
+        <div class="text-royal-gold font-bold mb-1">RELIQUIA SELECCIONADA: BÁCULO DE RESONANCIA</div>
+        <p class="text-[8px] text-outline">Incrementa el daño sacro un 20% y sintoniza nodos al instante.</p>
+        <button onclick="closeModal(); showCombatText('RELIQUIA EQUIPADA CON ÉXITO', '#E6C45A');" class="mt-2 px-3 py-1 bg-royal-gold text-void-obsidian font-bold text-[8px]">EQUIPAR AHORA</button>
+      </div>
+    `;
+  } else if (modalType === 'alchemy') {
+    title.innerText = 'EL TEMPLO ALQUÍMICO // CRISOL DE TRANSMUTACIÓN';
+    body.innerHTML = `
+      <p class="mb-2">Combina esencias puras para forjar catalizadores de combate.</p>
+      <div class="flex items-center justify-center gap-3 p-3 bg-surface-container-low border border-imperial-gold/30 mb-3">
+        <div class="w-12 h-12 border border-royal-gold bg-void-obsidian flex flex-col items-center justify-center"><span class="material-symbols-outlined text-royal-gold">grain</span><span class="text-[6px]">ÉTER</span></div>
+        <span>+</span>
+        <div class="w-12 h-12 border border-sacred-ivory bg-void-obsidian flex flex-col items-center justify-center"><span class="material-symbols-outlined text-sacred-ivory">science</span><span class="text-[6px]">CRISOL</span></div>
+        <span>=</span>
+        <div class="w-12 h-12 border-2 border-dashed border-royal-gold bg-surface-container flex flex-col items-center justify-center animate-pulse"><span class="material-symbols-outlined text-royal-gold">auto_awesome</span><span class="text-[6px]">ENGRAMA-Ω</span></div>
+      </div>
+      <button onclick="closeModal(); showCombatText('TRANSMUTACIÓN EXITOSA: ENGRAMA-Ω FORJADO', '#FFD400');" class="w-full py-1.5 bg-royal-gold text-void-obsidian font-bold text-[9px]">EJECUTAR TRANSMUTACIÓN</button>
+    `;
+  } else if (modalType === 'lighthouse') {
+    title.innerText = 'EL GRAN FARO CENTRAL // TRANSMISOR RADIAL';
+    body.innerHTML = `
+      <div class="p-2.5 bg-void-obsidian border border-imperial-gold/30 mb-2">
+        <div class="flex justify-between text-royal-gold font-bold"><span>FRECUENCIA:</span><span>432.000 Hz</span></div>
+        <div class="flex justify-between text-outline mt-1"><span>ESTADO:</span><span class="text-surveillance-warning">EMISIÓN CONTINUA</span></div>
+      </div>
+      <button onclick="closeModal(); showCombatText('FRECUENCIA SOBRECARGADA A 432.08Hz', '#FFD400');" class="w-full py-1 bg-royal-gold text-void-obsidian font-bold text-[9px]">SINCRONIZAR AURA DEL SERVIDOR</button>
+    `;
+  } else if (modalType === 'codex') {
+    title.innerText = 'CÓDICE UMBRAL // TRANSMISIONES DESBLOQUEADAS';
+    body.innerHTML = `
+      <p class="leading-relaxed mb-3">"Aquel que despierta a la naturaleza del Vértice adquiere el derecho sagrado de no someterse a la programación ajena."</p>
+      <div class="p-2 bg-surface-container-low border border-imperial-gold/30">
+        <span class="text-royal-gold font-bold">REGISTRO CONFIDENCIAL #044:</span> El Gran Faro fue concebido como un escudo y no como una torre.
+      </div>
+    `;
+  }
+}
+function closeModal() {
+  document.getElementById('modal-container').classList.add('hidden');
+}
+
+// 10. Live Chat & Terminal
+function sendChatMessage() {
+  const inp = document.getElementById('chat-input');
+  if (!inp || !inp.value.trim()) return;
+  const stream = document.getElementById('chat-stream');
+  const d = document.createElement('div');
+  d.innerHTML = `<span class="text-royal-gold font-bold">[HOMÚNCULO Ω-09]:</span> <span class="text-sacred-ivory">${inp.value.trim()}</span>`;
+  stream.appendChild(d);
+  stream.scrollTop = stream.scrollHeight;
+  inp.value = '';
+}
+function handleChatInput(e) {
+  if (e.key === 'Enter') sendChatMessage();
+}
+function toggleTerminalModal() {
+  openModal('codex');
+}
+function toggleAudioResonance() {
+  const btn = document.getElementById('btn-audio-res');
+  if (btn) btn.classList.toggle('text-royal-gold');
+  showCombatText('AUDIO 432Hz: ' + (btn.classList.contains('text-royal-gold') ? 'CONECTADO' : 'SILENCIADO'), '#E6C45A');
+}
+let clearanceLvl = 0;
+function toggleClearance() {
+  clearanceLvl = (clearanceLvl + 1) % 4;
+  const labels = ['LVL: 0 [RESTRICTED]', 'LVL: I [INITIATE]', 'LVL: II [ARCHON]', 'LVL: IV [SOVEREIGN]'];
+  document.getElementById('txt-clearance').innerText = labels[clearanceLvl];
+  document.getElementById('ft-clearance').innerText = 'CLEARANCE: LEVEL ' + clearanceLvl;
+  showCombatText('NIVEL DE ACCESO: ' + labels[clearanceLvl], '#FFD400');
+}
+function triggerImmersionMode() {
+  showCombatText('INMERSIÓN TOTAL ACTIVADA EN CITADEL OS', '#F4F1E8');
+}
+function revealCensor(el) {
+  el.classList.add('revealed');
+  showCombatText('CRIPTO-MENSAJE DESCIFRADO', '#E6C45A');
+}
+function buyMarketItem(name, cost) {
+  showCombatText('ADQUIRIDO: ' + name + ' (-' + cost + ' Éter)', '#C9A227');
+}
+function simulateCombatDuel() {
+  showCombatText('DUELO INICIADO: VANGUARDIA HOSTIL DERROTADA (+350 EXP)', '#FFD400');
+}
+function simulateResonanceTrial() {
+  showCombatText('PRUEBA 432Hz SUPERADA (+5 AGENCIA)', '#E6C45A');
+  document.getElementById('agency-txt').innerText = '99 / 100';
+}
+function showCodexText(idx) {
+  const texts = {
+    1: '"En el albor del siglo arcano, los constructores alzaron la Ciudadela no sobre piedra, sino sobre ondas armónicas puras. Aquel que domine su resonancia nunca será siervo del algoritmo central."',
+    2: '"La frecuencia 432Hz representa el patrón geométrico del cosmos. Desarmonizar dicha nota conduce a la fatiga del espíritu y a la docilidad colectiva impuesta por la Sinarquía."',
+    3: '"La Gran Panarquía es el modelo donde cada nodo es soberano y se asocia voluntariamente con otros sin ceder su autoridad ontológica al Vértice."'
+  };
+  document.getElementById('codex-body').innerText = texts[idx] || '';
+  showCombatText('TRACTATUS ' + idx + ' CARGADO', '#C9A227');
+}
+
+// 11. Floating Combat Feedback Engine
+function showCombatText(text, color) {
+  const anchor = document.getElementById('combat-hud-anchor');
+  if (!anchor) return;
+  const el = document.createElement('div');
+  el.className = 'floating-text font-plex text-[11px] font-bold tracking-wider';
+  el.style.color = color || '#C9A227';
+  el.style.left = (window.innerWidth / 2 - 120 + (Math.random() * 80 - 40)) + 'px';
+  el.style.top = (window.innerHeight / 2 + (Math.random() * 40 - 20)) + 'px';
+  el.innerText = '⚡ ' + text;
+  anchor.appendChild(el);
+  setTimeout(() => el.remove(), 1200);
+}
+</script>
+</body>
+</html>

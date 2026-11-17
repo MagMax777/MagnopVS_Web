@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GENOS-OS v6.8 | Family Constellations HUD</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&amp;family=Space+Grotesk:wght@300;500;700&amp;family=JetBrains+Mono:wght@400;700&amp;family=Audiowide&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --neon-cyan: #00f0ff;
+            --neon-violet: #d1bcff;
+            --surface: #121318;
+        }
+
+        body {
+            background-color: var(--surface);
+            color: #e3e1e9;
+            font-family: 'Orbitron', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .font-audiowide { font-family: 'Audiowide', cursive; }
+        .font-mono-data { font-family: 'JetBrains Mono', monospace; }
+        
+        .hex-grid {
+            background-image: radial-gradient(circle at 2px 2px, rgba(0, 240, 255, 0.05) 1px, transparent 0);
+            background-size: 32px 32px;
+        }
+
+        .glass-panel {
+            background: rgba(26, 0, 51, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.05);
+        }
+
+        .lucid-border {
+            border: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 240, 255, 0.1);
+            position: absolute;
+            animation: scan 4s linear infinite;
+            z-index: 10;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        .pulse-node {
+            animation: pulse-glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            from { filter: drop-shadow(0 0 2px var(--neon-cyan)); opacity: 0.7; }
+            to { filter: drop-shadow(0 0 8px var(--neon-cyan)); opacity: 1; }
+        }
+
+        .karmic-tangle {
+            stroke: #ff0055;
+            stroke-dasharray: 4;
+            animation: dash 1s linear infinite;
+        }
+
+        @keyframes dash {
+            to { stroke-dashoffset: -8; }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#dbfcff",
+                        "primary-container": "#00f0ff",
+                        "secondary": "#d1bcff",
+                        "secondary-container": "#7000ff",
+                        "surface": "#121318",
+                        "surface-container": "#1e1f25",
+                        "on-surface-variant": "#b9cacb",
+                        "outline-variant": "#3b494b",
+                        "primary-fixed-dim": "#00dbe9"
+                    },
+                    spacing: {
+                        "panel-gap": "12px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "64px"
+                    },
+                    fontFamily: {
+                        "mono-data": ["JetBrains Mono"],
+                        "headline-sm": ["Orbitron"],
+                        "display-lg": ["Orbitron"],
+                        "label-caps": ["Space Grotesk"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="hex-grid min-h-screen">
+<!-- TOP NAVIGATION BAR -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20 shadow-[0_0_15px_rgba(0,240,255,0.1)] flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16">
+<div class="flex items-center gap-4">
+<span class="font-audiowide text-primary-container text-2xl tracking-widest">MAGNOPVS</span>
+<span class="hidden md:block h-6 w-[1px] bg-outline-variant/40"></span>
+<span class="hidden md:block font-mono-data text-xs text-secondary tracking-tighter uppercase">GENOS-OS v6.8 // SYSTEMIC_FIELD_ACTIVE</span>
+</div>
+<nav class="hidden md:flex gap-8">
+<a class="text-primary border-b-2 border-primary-container pb-1 font-label-caps text-xs tracking-widest cursor-pointer">TELEMETRY</a>
+<a class="text-on-surface-variant font-label-caps text-xs tracking-widest hover:text-primary-fixed-dim transition-colors cursor-pointer">LOGS</a>
+<a class="text-on-surface-variant font-label-caps text-xs tracking-widest hover:text-primary-fixed-dim transition-colors cursor-pointer uppercase">SOF.IA</a>
+</nav>
+<div class="flex items-center gap-6">
+<div class="flex flex-col items-end">
+<span class="font-mono-data text-[10px] text-primary/60">LIFE POINTS</span>
+<span class="font-mono-data text-sm text-primary-container">1,240 LP</span>
+</div>
+<div class="material-symbols-outlined text-primary cursor-pointer active:scale-95">settings</div>
+<div class="material-symbols-outlined text-primary cursor-pointer active:scale-95">notifications</div>
+</div>
+</header>
+<!-- SIDE NAVIGATION -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-20 md:w-64 z-40 bg-surface-container/60 backdrop-blur-2xl border-r border-outline-variant/20 flex flex-col py-panel-gap">
+<div class="px-6 py-4 mb-4 border-b border-outline-variant/10">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full border border-primary-container p-0.5">
+<div class="w-full h-full rounded-full bg-cover bg-center" data-alt="A futuristic bio-signature portrait of a user with glowing cyan geometric lines across their face, set against a dark astral background. The style is hyper-detailed digital art with high-tech HUD overlays and subtle violet lighting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDNYflHGt-nYhUbeUv5rOhiWphKFo21a_RmrP26zw6ZAJsv8lBk9ChFjTe5Qxu2iqEeF2UkzdVUFOK_MCZXcNiWj4BfBnvFCVOUFdbaPd2XyEzyRBOF1JW5IW-vobaV0L7b3cpY3pgRkdB-94uGvuGk2FBnFLqwMWkhMQbLUzeYn6yk5QVBCwugfZEBu7pO71GweVDwxpoBnN7PLcMAKtyRYJjcRhuAnTl4Z7Oq1qcTmgLHyipOiCJf7G93eZ_S6uaJLTxisrkjLBUQ')"></div>
+</div>
+<div class="hidden md:block">
+<p class="font-audiowide text-sm text-primary">ONEIRONAUT_01</p>
+<p class="font-mono-data text-[10px] text-secondary">LUCIDITY_94%</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-3 space-y-2">
+<div class="group flex items-center gap-4 px-4 py-3 bg-primary-container/10 text-primary-container border-l-4 border-primary shadow-[0_0_10px_rgba(0,240,255,0.2)] cursor-pointer">
+<span class="material-symbols-outlined">psychology</span>
+<span class="hidden md:block font-label-caps text-xs tracking-widest">NEURAL</span>
+</div>
+<div class="group flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-variant/30 transition-all cursor-pointer">
+<span class="material-symbols-outlined">vital_signs</span>
+<span class="hidden md:block font-label-caps text-xs tracking-widest">SOMATIC</span>
+</div>
+<div class="group flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-variant/30 transition-all cursor-pointer">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="hidden md:block font-label-caps text-xs tracking-widest">ASTRAL</span>
+</div>
+<div class="group flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-variant/30 transition-all cursor-pointer">
+<span class="material-symbols-outlined">memory</span>
+<span class="hidden md:block font-label-caps text-xs tracking-widest">RECALL</span>
+</div>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full py-3 bg-primary-container text-surface font-audiowide text-xs tracking-widest hover:bg-secondary transition-colors uppercase">
+                INITIATE_REM
+            </button>
+</div>
+</aside>
+<!-- MAIN HUD CANVAS -->
+<main class="ml-20 md:ml-64 pt-20 p-margin-mobile md:p-8 min-h-screen grid grid-cols-12 gap-6 relative">
+
+<!-- CENTRAL ANCESTRAL FIELD MAPPER -->
+<section class="col-span-12 lg:col-span-8 glass-panel rounded-lg p-6 relative overflow-hidden h-[600px] flex flex-col">
+<div class="scanline"></div>
+<div class="flex justify-between items-start mb-6">
+<div>
+<h2 class="font-audiowide text-xl text-primary-container tracking-tighter">ANCESTRAL FIELD MAPPER</h2>
+<p class="font-mono-data text-[10px] text-secondary/60">COORD_SYSTEM: MULTI-GEN_TREE_BETA</p>
+</div>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-secondary/10 border border-secondary text-secondary text-[10px] font-mono-data rounded-full">SYSTEMIC_FIELD: ACTIVE</span>
+<span class="px-3 py-1 bg-primary-container/10 border border-primary-container text-primary-container text-[10px] font-mono-data rounded-full">MODE: LUCID_VISUALIZER</span>
+</div>
+</div>
+<!-- THE FIELD (Visual Representation) -->
+<div class="flex-1 relative border border-outline-variant/10 bg-black/40 rounded flex items-center justify-center">
+<svg class="w-full h-full" viewbox="0 0 800 500">
+<!-- Connections -->
+<path d="M400 450 L400 350" stroke="rgba(0, 240, 255, 0.3)" stroke-width="2"></path>
+<path d="M400 350 L200 250" stroke="rgba(0, 240, 255, 0.3)" stroke-width="2"></path>
+<path d="M400 350 L600 250" stroke="rgba(0, 240, 255, 0.3)" stroke-width="2"></path>
+<!-- Tangle Connection -->
+<path class="karmic-tangle" d="M200 250 L100 150" stroke-width="2"></path>
+<path d="M200 250 L300 150" stroke="rgba(0, 240, 255, 0.3)" stroke-width="2"></path>
+<!-- Nodes -->
+<!-- Root: User -->
+<g class="pulse-node" transform="translate(400, 450)">
+<circle fill="var(--neon-cyan)" r="12"></circle>
+<circle fill="none" r="20" stroke="var(--neon-cyan)" stroke-dasharray="2" stroke-width="1"></circle>
+<text class="fill-primary font-mono-data text-[10px]" text-anchor="middle" y="30">YOU (BASE_0)</text>
+</g>
+<!-- Parents -->
+<g transform="translate(200, 250)">
+<circle fill="var(--neon-cyan)" opacity="0.6" r="8"></circle>
+<text class="fill-primary/60 font-mono-data text-[10px]" text-anchor="middle" y="-15">PATERNAL_L1</text>
+</g>
+<g transform="translate(600, 250)">
+<circle fill="var(--neon-cyan)" opacity="0.6" r="8"></circle>
+<text class="fill-primary/60 font-mono-data text-[10px]" text-anchor="middle" y="-15">MATERNAL_L1</text>
+</g>
+<!-- Grandparents / Tangle Node -->
+<g transform="translate(100, 150)">
+<circle fill="#ff0055" r="8"></circle>
+<circle class="animate-ping" fill="none" r="15" stroke="#ff0055" stroke-width="1"></circle>
+<text class="fill-[#ff0055] font-audiowide text-[8px] tracking-widest" text-anchor="middle" y="-25">SYSTEMIC_TANGLE</text>
+<text class="fill-white font-mono-data text-[10px]" text-anchor="middle" y="-15">G_PAT_ALPHA</text>
+</g>
+</svg>
+<!-- Floating Interpretation Chips -->
+<div class="absolute top-4 left-4 space-y-2">
+<div class="p-3 glass-panel border-l-4 border-red-500 max-w-xs">
+<p class="font-audiowide text-[10px] text-red-500 mb-1">ENREDO SISTÉMICO (TANGLE)</p>
+<p class="font-mono-data text-[11px] text-white">Detection: Unresolved exclusion in 3rd paternal branch. Resource leakage identified.</p>
+</div>
+</div>
+</div>
+<div class="mt-4 grid grid-cols-3 gap-4">
+<div class="p-3 bg-surface-container border border-outline-variant/20 rounded">
+<p class="font-mono-data text-[9px] text-secondary mb-1">KARMIC INHERITANCE</p>
+<div class="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+<div class="bg-violet-500 h-full w-[65%] shadow-[0_0_8px_rgba(139,92,246,0.5)]"></div>
+</div>
+</div>
+<div class="p-3 bg-surface-container border border-outline-variant/20 rounded">
+<p class="font-mono-data text-[9px] text-primary-container mb-1">SYSTEMIC ORDER</p>
+<div class="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+<div class="bg-cyan-400 h-full w-[42%] shadow-[0_0_8px_rgba(0,240,255,0.5)]"></div>
+</div>
+</div>
+<div class="p-3 bg-surface-container border border-outline-variant/20 rounded">
+<p class="font-mono-data text-[9px] text-white mb-1">LINEAGE STRENGTH</p>
+<div class="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+<div class="bg-white h-full w-[88%]"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- RIGHT PANEL: TELEMETRY & SOF.IA -->
+<aside class="col-span-12 lg:col-span-4 space-y-6">
+<!-- TRANSGENERATIONAL TELEMETRY -->
+<div class="glass-panel rounded-lg p-6">
+<h3 class="font-audiowide text-sm text-primary-container mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">analytics</span>
+                    TRANSGENERATIONAL TELEMETRY
+                </h3>
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<div>
+<p class="font-mono-data text-[11px] text-on-surface-variant">BELONGING INDEX</p>
+<p class="font-audiowide text-lg text-primary">84.2%</p>
+</div>
+<div class="relative w-16 h-16 flex items-center justify-center">
+<svg class="absolute inset-0 w-full h-full -rotate-90">
+<circle cx="32" cy="32" fill="none" r="28" stroke="rgba(0,240,255,0.1)" stroke-width="4"></circle>
+<circle cx="32" cy="32" fill="none" r="28" stroke="var(--neon-cyan)" stroke-dasharray="175" stroke-dashoffset="30" stroke-width="4"></circle>
+</svg>
+<span class="material-symbols-outlined text-primary text-xl">group</span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="font-mono-data text-[11px] text-on-surface-variant">HIERARCHY ALIGNMENT</p>
+<p class="font-audiowide text-lg text-secondary">12.5% <span class="text-[10px] text-red-400">CRITICAL</span></p>
+</div>
+<div class="relative w-16 h-16 flex items-center justify-center">
+<svg class="absolute inset-0 w-full h-full -rotate-90">
+<circle cx="32" cy="32" fill="none" r="28" stroke="rgba(209,188,255,0.1)" stroke-width="4"></circle>
+<circle cx="32" cy="32" fill="none" r="28" stroke="var(--neon-violet)" stroke-dasharray="175" stroke-dashoffset="150" stroke-width="4"></circle>
+</svg>
+<span class="material-symbols-outlined text-secondary text-xl">stat_2</span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="font-mono-data text-[11px] text-on-surface-variant">GIVE &amp; TAKE BALANCE</p>
+<p class="font-audiowide text-lg text-primary">0.985 <span class="text-[10px] text-green-400">OPTIMAL</span></p>
+</div>
+<div class="relative w-16 h-16 flex items-center justify-center">
+<svg class="absolute inset-0 w-full h-full -rotate-90">
+<circle cx="32" cy="32" fill="none" r="28" stroke="rgba(0,240,255,0.1)" stroke-width="4"></circle>
+<circle cx="32" cy="32" fill="none" r="28" stroke="var(--neon-cyan)" stroke-dasharray="175" stroke-dashoffset="10" stroke-width="4"></circle>
+</svg>
+<span class="material-symbols-outlined text-primary text-xl">balance</span>
+</div>
+</div>
+</div>
+</div>
+<!-- EPIGENETIC INSIGHT BY SOF.IA -->
+<div class="glass-panel border-l-4 border-primary-container rounded-lg p-6 bg-gradient-to-br from-primary-container/10 to-transparent">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded bg-primary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container">neurology</span>
+</div>
+<div>
+<h3 class="font-audiowide text-sm text-white">SOF.IA COGNITION</h3>
+<p class="font-mono-data text-[9px] text-primary-container tracking-tighter">AI_TRANSGENERATIONAL_ANALYSIS</p>
+</div>
+</div>
+<div class="font-mono-data text-xs text-primary/80 space-y-3 leading-relaxed">
+<p>&gt; Exclusion detected in the 3rd paternal branch. Subject 'G_PAT_ALPHA' omitted from family narrative.</p>
+<p>&gt; Pattern 'Scarcity Resonance' observed across 3 generations. Correlation: 0.92.</p>
+<div class="p-2 border border-primary-container/30 bg-primary-container/5 rounded">
+<p class="text-white font-bold mb-1 underline">SUGGESTED_PROTOCOL:</p>
+<p>Initiate 'Ritual of Re-inclusion' to stabilize 'Belonging Index'.</p>
+</div>
+</div>
+<button class="mt-4 w-full py-2 border border-primary-container text-primary-container font-mono-data text-[10px] tracking-widest hover:bg-primary-container hover:text-surface transition-all">
+                    GENERATE_DETAILED_REPORT
+                </button>
+</div>
+</aside>
+<!-- BOTTOM SECTION: HEALING & LOGS -->
+<section class="col-span-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- HEALING PROTOCOLS -->
+<div class="glass-panel rounded-lg p-6">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-audiowide text-sm text-primary-container uppercase tracking-widest">ACTIVE HEALING MISSIONS</h3>
+<span class="font-mono-data text-[10px] text-secondary">3 PENDING</span>
+</div>
+<div class="space-y-4">
+<div class="flex items-center gap-4 p-4 border border-outline-variant/30 rounded group hover:lucid-border transition-all cursor-pointer">
+<div class="w-12 h-12 flex-shrink-0 bg-secondary/10 border border-secondary/40 rounded flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">restart_alt</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-audiowide text-xs text-white">Ritual of Re-inclusion</h4>
+<span class="font-mono-data text-[9px] text-secondary">+500 LP</span>
+</div>
+<p class="font-mono-data text-[10px] text-on-surface-variant">Acknowledge the forgotten ancestor G_PAT_ALPHA.</p>
+</div>
+<span class="material-symbols-outlined text-primary-container opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward_ios</span>
+</div>
+<div class="flex items-center gap-4 p-4 border border-outline-variant/30 rounded group hover:lucid-border transition-all cursor-pointer">
+<div class="w-12 h-12 flex-shrink-0 bg-primary-container/10 border border-primary-container/40 rounded flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined">diversity_1</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-audiowide text-xs text-white">Honoring the Lineage</h4>
+<span class="font-mono-data text-[9px] text-primary-container">+250 MC</span>
+</div>
+<p class="font-mono-data text-[10px] text-on-surface-variant">Gratitude meditation for maternal life-stream L2.</p>
+</div>
+<span class="material-symbols-outlined text-primary-container opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward_ios</span>
+</div>
+<div class="flex items-center gap-4 p-4 border border-outline-variant/30 rounded group hover:lucid-border transition-all cursor-pointer">
+<div class="w-12 h-12 flex-shrink-0 bg-red-500/10 border border-red-500/40 rounded flex items-center justify-center text-red-500">
+<span class="material-symbols-outlined">link_off</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-audiowide text-xs text-white">Breaking the Cycle</h4>
+<span class="font-mono-data text-[9px] text-red-400">HARD</span>
+</div>
+<p class="font-mono-data text-[10px] text-on-surface-variant">Dissolving loyalty to inherited scarcity patterns.</p>
+</div>
+<span class="material-symbols-outlined text-primary-container opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward_ios</span>
+</div>
+</div>
+</div>
+<!-- LEGACY LOGS (TERMINAL STYLE) -->
+<div class="glass-panel rounded-lg p-6 bg-black/60 flex flex-col h-full border-2 border-outline-variant/10">
+<div class="flex items-center justify-between mb-4 pb-2 border-b border-outline-variant/20">
+<div class="flex gap-2">
+<div class="w-3 h-3 rounded-full bg-red-500/50"></div>
+<div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+<div class="w-3 h-3 rounded-full bg-green-500/50"></div>
+</div>
+<span class="font-mono-data text-[10px] text-secondary">TERMINAL://SYSTEMIC_LOGS_v6.8</span>
+</div>
+<div class="flex-1 font-mono-data text-[11px] text-green-400/80 space-y-2 overflow-y-auto max-h-[300px] scrollbar-hide">
+<p class="text-white/40">[2023.10.27 14:02:11] INITIALIZING FIELD SCAN...</p>
+<p class="text-white/40">[2023.10.27 14:02:15] ANCESTRAL DATA RECOVERED: 7 GENERATIONS.</p>
+<p><span class="text-blue-400">[SUCCESS]</span> Ancestral Burden 'UNMET_MOURNING' resolved.</p>
+<p><span class="text-primary-container">[STRENGTH]</span> Integrated 'Resilience' trait from 4th generation.</p>
+<p><span class="text-yellow-400">[PENDING]</span> Synchronization with 'Great-Grandmother_Y' required.</p>
+<p><span class="text-primary-container">[SYNC]</span> Flow established between G1 and G0. Current flow: 450 LP/sec.</p>
+<p class="text-white/40">[2023.10.27 14:15:33] SYSTEMIC PRESSURE STABILIZED AT 4.2 BAR.</p>
+<p><span class="text-red-500">[ALERT]</span> Repeating pattern detected: 'Geographic Displacement'.</p>
+<p class="animate-pulse">_</p>
+</div>
+<div class="mt-4 pt-4 border-t border-outline-variant/20 flex gap-4">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary-container shadow-[0_0_8px_var(--neon-cyan)]"></div>
+<span class="font-mono-data text-[9px] text-white">MAGNOPOINTS: 12,450 MC</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-secondary shadow-[0_0_8px_var(--neon-violet)]"></div>
+<span class="font-mono-data text-[9px] text-white">LEGACY LEVEL: 68</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- FLOATING ACTION BUTTON (HUD CONTEXT) -->
+<div class="fixed bottom-8 right-8 z-50">
+<button class="w-16 h-16 rounded-full bg-primary-container text-surface shadow-[0_0_20px_rgba(0,240,255,0.6)] flex items-center justify-center group relative overflow-hidden active:scale-95 transition-transform">
+<div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">add</span>
+<span class="absolute -top-12 right-0 bg-surface border border-primary-container px-3 py-1 rounded text-[10px] font-audiowide text-primary-container opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">INITIATE_CONSTELACIÓN</span>
+</button>
+</div>
+<script>
+        // Micro-interaction for HUD elements
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mousemove', (e) => {
+                const rect = panel.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                panel.style.setProperty('--mouse-x', `${x}px`);
+                panel.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // Simple terminal text flicker effect
+        setInterval(() => {
+            const cursor = document.querySelector('.animate-pulse');
+            if(cursor) {
+                cursor.style.opacity = cursor.style.opacity === '0' ? '1' : '0';
+            }
+        }, 500);
+    </script>
+</body></html>

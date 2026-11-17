@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS // EXPENSE HUD</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;family=Audiowide&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --hex-pattern: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60 4.02 45V15z' fill-opacity='0.05' fill='%237fd0ff' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        body {
+            background-color: #0a0b10;
+            background-image: var(--hex-pattern);
+            background-attachment: fixed;
+            color: #dfe3e8;
+            font-family: 'Space Mono', monospace;
+            overflow-x: hidden;
+        }
+        .audiowide { font-family: 'Audiowide', cursive; }
+        .glass-panel {
+            background: rgba(15, 20, 23, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(127, 208, 255, 0.2);
+            position: relative;
+        }
+        .glass-panel::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, #7fd0ff, transparent);
+            opacity: 0.5;
+        }
+        .neon-border {
+            border: 1px solid #7fd0ff;
+            box-shadow: 0 0 10px rgba(127, 208, 255, 0.3);
+        }
+        .neon-text-magenta {
+            color: #ffafd4;
+            text-shadow: 0 0 8px rgba(255, 175, 212, 0.5);
+        }
+        .scanner-line {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #7fd0ff, transparent);
+            position: absolute;
+            animation: scan 4s linear infinite;
+        }
+        @keyframes scan {
+            0% { top: 0; opacity: 0; }
+            50% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        .data-bar-segment {
+            height: 8px;
+            width: 12px;
+            margin-right: 2px;
+            background: #2da8e0;
+        }
+        .data-bar-segment.inactive {
+            background: rgba(62, 72, 79, 0.5);
+        }
+        .chamfer {
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#7fd0ff",
+                        "secondary": "#48ddc1",
+                        "tertiary": "#ffafd4",
+                        "background": "#0f1417",
+                        "surface": "#0f1417",
+                        "on-surface": "#dfe3e8",
+                        "on-surface-variant": "#bec8d0",
+                        "outline": "#88929a",
+                        "primary-container": "#2da8e0",
+                        "tertiary-container": "#ff64ba",
+                        "surface-container": "#1b2024",
+                    },
+                    spacing: {
+                        "margin-mobile": "16px",
+                        "margin-desktop": "64px",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "label-caps": ["Space Mono", "monospace"],
+                        "data-mono": ["Space Mono", "monospace"],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen">
+<!-- TOP APP BAR -->
+<header class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl border-b border-tertiary-container flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 shadow-tint">
+<div class="flex items-center gap-4">
+<span class="font-display-xl-mobile text-headline-lg-mobile text-on-surface tracking-widest uppercase audiowide">TEATRO DEL DESTINO</span>
+<div class="hidden md:block h-6 w-px bg-outline/30 mx-4"></div>
+<span class="hidden md:block font-label-caps text-label-caps text-secondary opacity-80 uppercase">Financial Telemetry // V.S. 8.2</span>
+</div>
+<nav class="hidden md:flex items-center gap-8 font-label-caps text-label-caps">
+<a class="text-tertiary transition-colors duration-500" href="#">DASHBOARD</a>
+<a class="text-on-surface-variant hover:text-tertiary transition-colors duration-500" href="#">TRANSACTIONS</a>
+<a class="text-on-surface-variant hover:text-tertiary transition-colors duration-500" href="#">MC REWARDS</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">language</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">settings</span>
+</div>
+</header>
+<!-- SIDE NAVIGATION (DESKTOP) -->
+<aside class="hidden md:flex fixed left-0 top-0 h-full w-72 z-40 bg-surface/95 backdrop-blur-2xl border-r border-tertiary/20 flex-col py-24 px-6 space-y-6 shadow-2xl shadow-tertiary/5">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-12 h-12 rounded-full border border-primary p-1">
+<img class="w-full h-full rounded-full object-cover" data-alt="A futuristic holographic profile portrait of a cybernetic alchemist, glowing with soft cyan and magenta light against a deep space background. The figure has intricate technical markings on their face and eyes that look like digital lenses. The style is high-fidelity cinematic sci-fi with sharp focus and bokeh cosmic particles." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVj26ymaSTXcK-568qtsreKgnjCEUKyr9QuubK_QJlZ7z1iioL1VWQvbFu0iMZaXhPKP3E9zSK3zQf3FCDRjxqD6Y-_mwancV80x2xZOw_qLbyUcNd2oEyu4IMSSAvlcHiMnMSV-ChiqsQ4LWsvUu2bLh2mXDywb3Z9kKHFUWUwQG-Rx36EPqWs6zs2-HBiD48oEdp2LcILTg5qBS_b8anxpfOpbbUlagyNSQb_qIU57y6t2doLrJLjg"/>
+</div>
+<div>
+<h3 class="font-label-caps text-label-caps text-tertiary">Ciclo Rubedo</h3>
+<p class="text-[10px] text-on-surface-variant opacity-60">Arquitecto del Destino</p>
+</div>
+</div>
+<div class="space-y-2">
+<button class="w-full flex items-center gap-4 px-4 py-3 text-tertiary-fixed border-l-2 border-tertiary-fixed bg-tertiary-container/10 transition-all duration-700">
+<span class="material-symbols-outlined">architecture</span>
+<span class="font-label-caps text-label-caps">EL ARCHITETO</span>
+</button>
+<button class="w-full flex items-center gap-4 px-4 py-3 text-on-surface-variant opacity-60 hover:bg-on-tertiary/10 hover:text-tertiary transition-all duration-700">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-label-caps text-label-caps">EL MÍSTICO</span>
+</button>
+<button class="w-full flex items-center gap-4 px-4 py-3 text-on-surface-variant opacity-60 hover:bg-on-tertiary/10 hover:text-tertiary transition-all duration-700">
+<span class="material-symbols-outlined">visibility_off</span>
+<span class="font-label-caps text-label-caps">LA SOMBRA</span>
+</button>
+<button class="w-full flex items-center gap-4 px-4 py-3 text-on-surface-variant opacity-60 hover:bg-on-tertiary/10 hover:text-tertiary transition-all duration-700">
+<span class="material-symbols-outlined">cyclone</span>
+<span class="font-label-caps text-label-caps">EL GRAN TRABAJO</span>
+</button>
+</div>
+<div class="mt-auto pt-8 border-t border-outline/20">
+<button class="w-full py-4 px-2 border border-primary bg-primary/5 text-primary audiowide text-sm hover:bg-primary hover:text-background transition-all duration-500 chamfer">
+                REINICIAR EL CICLO
+            </button>
+</div>
+</aside>
+<!-- MAIN CONTENT -->
+<main class="pt-24 pb-12 px-margin-mobile md:pl-80 md:pr-margin-desktop min-h-screen">
+<!-- HUD HEADER SECTION -->
+<section class="mb-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2 glass-panel p-8 chamfer overflow-hidden">
+<div class="scanner-line"></div>
+<div class="flex justify-between items-start mb-6">
+<div>
+<h1 class="audiowide text-3xl md:text-5xl text-primary mb-2">FINANCIAL HUD</h1>
+<p class="text-secondary font-label-caps text-xs tracking-[0.2em]">CURRENT BALANCE: 124,500.80 MC</p>
+</div>
+<div class="text-right">
+<div class="text-[10px] text-outline font-label-caps mb-1">REAL-TIME TELEMETRY</div>
+<div class="flex gap-1 justify-end">
+<div class="w-2 h-4 bg-primary animate-pulse"></div>
+<div class="w-2 h-4 bg-primary/60"></div>
+<div class="w-2 h-4 bg-primary/30"></div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+<div class="border-l-2 border-primary pl-4">
+<div class="text-[10px] text-on-surface-variant uppercase mb-1">Daily Flow</div>
+<div class="text-xl font-data-mono text-on-surface">+1,240 <span class="text-xs text-primary">MC</span></div>
+</div>
+<div class="border-l-2 border-secondary pl-4">
+<div class="text-[10px] text-on-surface-variant uppercase mb-1">Vital Needs</div>
+<div class="text-xl font-data-mono text-on-surface">-450 <span class="text-xs text-secondary">MC</span></div>
+</div>
+<div class="border-l-2 border-tertiary pl-4">
+<div class="text-[10px] text-on-surface-variant uppercase mb-1">Spiritual ROI</div>
+<div class="text-xl font-data-mono text-on-surface">+85 <span class="text-xs text-tertiary">MC</span></div>
+</div>
+<div class="border-l-2 border-outline pl-4">
+<div class="text-[10px] text-on-surface-variant uppercase mb-1">Efficiency</div>
+<div class="text-xl font-data-mono text-on-surface">94.2%</div>
+</div>
+</div>
+</div>
+<!-- FINANCIAL LEAK DETECTOR -->
+<div class="glass-panel p-6 border-red-500/30">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-red-500 animate-ping">warning</span>
+<h2 class="audiowide text-red-500 text-lg uppercase tracking-tighter">Leak Detection</h2>
+</div>
+<div class="space-y-4">
+<div class="p-3 bg-red-500/10 border border-red-500/20">
+<div class="flex justify-between text-xs font-label-caps mb-1">
+<span class="text-red-400">Impulse Vector</span>
+<span class="text-red-400">CRITICAL</span>
+</div>
+<div class="text-sm">Excessive Micro-transfers in Sector 7G</div>
+<div class="mt-2 h-1 bg-red-900 overflow-hidden">
+<div class="h-full bg-red-500 w-3/4"></div>
+</div>
+</div>
+<div class="p-3 bg-surface-container border border-outline/20">
+<div class="text-[10px] text-on-surface-variant mb-1">SUGGESTED COUNTER-MEASURE</div>
+<div class="text-sm italic">"Engage Spiritual Filter to mitigate trivial material drain."</div>
+</div>
+</div>
+</div>
+</section>
+<!-- PURCHASE LOG DATA GRID -->
+<section class="grid grid-cols-1 xl:grid-cols-4 gap-6 mb-10">
+<div class="xl:col-span-3 glass-panel p-6 overflow-hidden">
+<div class="flex justify-between items-center mb-6">
+<h2 class="audiowide text-xl text-primary uppercase">Transaction Log</h2>
+<div class="flex gap-2">
+<button class="px-3 py-1 bg-primary/20 text-primary font-label-caps text-[10px] border border-primary/40 hover:bg-primary hover:text-background transition-all">MATERIAL</button>
+<button class="px-3 py-1 bg-surface-container text-on-surface-variant font-label-caps text-[10px] border border-outline/40">VITAL</button>
+<button class="px-3 py-1 bg-surface-container text-on-surface-variant font-label-caps text-[10px] border border-outline/40">SPIRITUAL</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left font-data-mono text-sm border-separate border-spacing-y-2">
+<thead>
+<tr class="text-[10px] text-outline uppercase tracking-widest border-b border-outline/20">
+<th class="pb-2">Timestamp</th>
+<th class="pb-2">Sector / Category</th>
+<th class="pb-2">Entity</th>
+<th class="pb-2 text-right">Value (MC)</th>
+<th class="pb-2 text-center">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="group hover:bg-primary/5 transition-colors">
+<td class="py-4 border-b border-outline/10 text-on-surface-variant">2024.11.08 // 14:02</td>
+<td class="py-4 border-b border-outline/10">
+<span class="px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-label-caps rounded">MATERIAL</span>
+</td>
+<td class="py-4 border-b border-outline/10 text-on-surface">Nanite Fuel Refill</td>
+<td class="py-4 border-b border-outline/10 text-right text-primary">-842.00</td>
+<td class="py-4 border-b border-outline/10 text-center">
+<span class="material-symbols-outlined text-green-400 text-sm">verified</span>
+</td>
+</tr>
+<tr class="group hover:bg-primary/5 transition-colors">
+<td class="py-4 border-b border-outline/10 text-on-surface-variant">2024.11.08 // 12:45</td>
+<td class="py-4 border-b border-outline/10">
+<span class="px-2 py-0.5 bg-tertiary/10 text-tertiary text-[10px] font-label-caps rounded">SPIRITUAL</span>
+</td>
+<td class="py-4 border-b border-outline/10 text-on-surface">Zen-Mesh Subscription</td>
+<td class="py-4 border-b border-outline/10 text-right text-tertiary">-150.00</td>
+<td class="py-4 border-b border-outline/10 text-center">
+<span class="material-symbols-outlined text-green-400 text-sm">verified</span>
+</td>
+</tr>
+<tr class="group hover:bg-primary/5 transition-colors">
+<td class="py-4 border-b border-outline/10 text-on-surface-variant">2024.11.08 // 09:12</td>
+<td class="py-4 border-b border-outline/10">
+<span class="px-2 py-0.5 bg-secondary/10 text-secondary text-[10px] font-label-caps rounded">VITAL</span>
+</td>
+<td class="py-4 border-b border-outline/10 text-on-surface">Nutrient Paste (Bulk)</td>
+<td class="py-4 border-b border-outline/10 text-right text-secondary">-2,400.00</td>
+<td class="py-4 border-b border-outline/10 text-center">
+<span class="material-symbols-outlined text-green-400 text-sm">verified</span>
+</td>
+</tr>
+<tr class="group hover:bg-primary/5 transition-colors">
+<td class="py-4 border-b border-outline/10 text-on-surface-variant">2024.11.07 // 22:50</td>
+<td class="py-4 border-b border-outline/10">
+<span class="px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-label-caps rounded">REWARD</span>
+</td>
+<td class="py-4 border-b border-outline/10 text-on-surface">Conscious Spending Bonus</td>
+<td class="py-4 border-b border-outline/10 text-right text-green-400">+500.00</td>
+<td class="py-4 border-b border-outline/10 text-center">
+<span class="material-symbols-outlined text-green-400 text-sm">verified</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mt-4 flex justify-end">
+<p class="text-[8px] font-data-mono text-outline uppercase tracking-widest">TSN: 8829-QX-019-DELTA</p>
+</div>
+</div>
+<!-- MC REWARDS & STATS -->
+<div class="flex flex-col gap-6">
+<div class="glass-panel p-6 flex flex-col items-center justify-center text-center">
+<div class="w-24 h-24 mb-4 relative">
+
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="audiowide text-2xl text-secondary">MC</span>
+</div>
+</div>
+<h3 class="audiowide text-sm text-secondary uppercase mb-1">REWARDS ACCUMULATED</h3>
+<div class="text-3xl font-data-mono text-on-surface">12,850</div>
+<p class="text-[10px] text-outline mt-2 px-4">Level 4 Alchemist Tier Active. 12% Bonus on Spiritual Spending.</p>
+</div>
+<div class="glass-panel p-6">
+<h3 class="font-label-caps text-label-caps text-primary mb-4 border-b border-primary/20 pb-2">SPENDING FLOW</h3>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-[10px] font-label-caps mb-1">
+<span>MATERIAL</span>
+<span>65%</span>
+</div>
+<div class="flex">
+<div class="data-bar-segment"></div>
+<div class="data-bar-segment"></div>
+<div class="data-bar-segment"></div>
+<div class="data-bar-segment"></div>
+<div class="data-bar-segment"></div>
+<div class="data-bar-segment"></div>
+<div class="data-bar-segment inactive"></div>
+<div class="data-bar-segment inactive"></div>
+<div class="data-bar-segment inactive"></div>
+<div class="data-bar-segment inactive"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-[10px] font-label-caps mb-1">
+<span>SPIRITUAL</span>
+<span>15%</span>
+</div>
+<div class="flex">
+<div class="data-bar-segment bg-tertiary"></div>
+<div class="data-bar-segment bg-tertiary"></div>
+<div class="data-bar-segment inactive"></div>
+<div class="data-bar-segment inactive"></div>
+<div class="data-bar-segment inactive"></div>
+<div class="data-bar-segment inactive"></div>
+<div class="data-bar-segment inactive"></div>
+<div class="data-bar-segment inactive"></div>
+<div class="data-bar-segment inactive"></div>
+<div class="data-bar-segment inactive"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-[10px] font-label-caps mb-1">
+<span>VITAL</span>
+<span>20%</span>
+</div>
+<div class="flex">
+<div class="data-bar-segment bg-secondary"></div>
+<div class="data-bar-segment bg-secondary"></div>
+<div class="data-bar-segment bg-secondary"></div>
+<div class="data-bar-segment inactive"></div>
+<div class="data-bar-segment inactive"></div>
+<div class="data-bar-segment inactive"></div>
+<div class="data-bar-segment inactive"></div>
+<div class="data-bar-segment inactive"></div>
+<div class="data-bar-segment inactive"></div>
+<div class="data-bar-segment inactive"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- VISUAL DATA GRID (BENTO STYLE) -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="glass-panel p-6 md:col-span-1">
+<div class="flex items-center justify-between mb-4">
+<span class="audiowide text-xs text-primary">SECTOR ANALYTICS</span>
+<span class="text-[8px] font-data-mono">SCT_001</span>
+</div>
+<div class="h-48 flex items-end justify-between gap-1">
+<div class="w-full bg-primary/20 h-[30%] hover:bg-primary/40 transition-all cursor-help" title="Mon"></div>
+<div class="w-full bg-primary/20 h-[50%] hover:bg-primary/40 transition-all cursor-help" title="Tue"></div>
+<div class="w-full bg-primary/40 h-[90%] hover:bg-primary/60 transition-all cursor-help border-t-2 border-primary" title="Wed"></div>
+<div class="w-full bg-primary/20 h-[40%] hover:bg-primary/40 transition-all cursor-help" title="Thu"></div>
+<div class="w-full bg-primary/20 h-[60%] hover:bg-primary/40 transition-all cursor-help" title="Fri"></div>
+<div class="w-full bg-primary/20 h-[20%] hover:bg-primary/40 transition-all cursor-help" title="Sat"></div>
+<div class="w-full bg-primary/20 h-[10%] hover:bg-primary/40 transition-all cursor-help" title="Sun"></div>
+</div>
+<p class="text-[10px] text-outline mt-4 font-label-caps">Weekly Consumption Pattern (Sector Blue)</p>
+</div>
+<div class="glass-panel p-0 md:col-span-2 overflow-hidden flex flex-col md:flex-row">
+<div class="w-full md:w-1/2 p-6 flex flex-col justify-center">
+<h3 class="audiowide text-tertiary text-xl mb-4">CONSCIOUS PATHWAY</h3>
+<p class="text-sm text-on-surface-variant mb-6">Your spending in the Spiritual sector has increased by 4.2% this cycle. This aligns with the 'Great Work' trajectory.</p>
+<button class="w-fit px-6 py-2 border border-tertiary text-tertiary font-label-caps text-xs hover:bg-tertiary hover:text-background transition-all">VIEW PATHWAY</button>
+</div>
+<div class="w-full md:w-1/2 min-h-[200px] relative">
+<img class="absolute inset-0 w-full h-full object-cover" data-alt="A highly detailed cosmic nebula aesthetic with geometric celestial diagrams overlaid. Vibrant pink and deep blue colors blend into a star-filled void. Intricate gold-line technical wireframes form a path through the stars, suggesting a spiritual and financial journey. The mood is majestic, epic, and high-fidelity sci-fi." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAp78KtvodoaLDmajiO8aDDvxZblHyyr83vRuxZ5zwH5GPGoUIpPhz1WzwP4NzpWqNhTAZswBAOXRKM0WX6W2zgDDztRQxFm353t10KA104BL7t8jff_0N-3pDC8njc-hW8RBvoWbfn-3GbJjhG7wVlZSkEiovGPzSRhn1AMrXtGIjzyNBm2zoeyVZBCSS1FGV3ffQ-sTk5jT6jP9yCok3E6fuaOHoyavBffjJnZZtAj96DefMMckTZ7A"/>
+<div class="absolute inset-0 bg-gradient-to-r from-background to-transparent"></div>
+</div>
+</div>
+</section>
+</main>
+<!-- FOOTER -->
+<footer class="w-full py-12 bg-background/90 border-t border-outline-variant/30 flex flex-col items-center justify-center space-y-4 px-margin-desktop">
+<div class="font-label-caps text-label-caps text-primary tracking-[0.4em] audiowide">TEATRO DEL DESTINO</div>
+<div class="flex gap-8 font-data-mono text-data-mono text-xs">
+<a class="text-on-secondary-container hover:text-primary underline decoration-tertiary/50" href="#">Términos del Destino</a>
+<a class="text-on-secondary-container hover:text-primary underline decoration-tertiary/50" href="#">Privacidad Alquímica</a>
+<a class="text-on-secondary-container hover:text-primary underline decoration-tertiary/50" href="#">Manifiesto</a>
+</div>
+<p class="text-on-surface-variant font-data-mono text-[10px] opacity-60">© 2024 TEATRO DEL DESTINO - EL GRAN TRABAJO COMPLETADO</p>
+</footer>
+<!-- INTERACTIVE SCRIPTS -->
+<script>
+        // Simple micro-interaction for panel hover lighting
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mousemove', (e) => {
+                const rect = panel.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                panel.style.setProperty('--mouse-x', `${x}px`);
+                panel.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // Simulating live data updates
+        setInterval(() => {
+            const flow = document.querySelector('.font-data-mono.text-on-surface');
+            if (flow) {
+                const randomChange = (Math.random() * 5).toFixed(2);
+                const current = parseFloat(flow.textContent.replace('+', '').replace(',', ''));
+                const nextValue = (current + parseFloat(randomChange)).toLocaleString();
+                flow.innerHTML = `+${nextValue} <span class="text-xs text-primary">MC</span>`;
+            }
+        }, 3000);
+    </script>
+</body></html>

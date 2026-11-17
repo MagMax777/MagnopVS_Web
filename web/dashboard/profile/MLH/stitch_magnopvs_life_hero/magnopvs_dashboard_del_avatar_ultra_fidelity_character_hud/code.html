@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · Aetheris HUD</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error": "#ffb4ab",
+                    "on-primary-container": "#00566a",
+                    "surface-tint": "#47d6ff",
+                    "primary-fixed-dim": "#47d6ff",
+                    "tertiary-fixed-dim": "#fface8",
+                    "surface-bright": "#333a3d",
+                    "surface": "#0e1417",
+                    "secondary-fixed": "#e9ddff",
+                    "outline-variant": "#3c494e",
+                    "on-secondary-container": "#ddcdff",
+                    "surface-dim": "#0e1417",
+                    "surface-container-low": "#161d1f",
+                    "surface-container-highest": "#2f3639",
+                    "on-error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#d1bcff",
+                    "on-tertiary-fixed": "#3a0033",
+                    "on-tertiary-container": "#920083",
+                    "on-surface": "#dde3e7",
+                    "outline": "#859399",
+                    "on-secondary-fixed-variant": "#5700c9",
+                    "inverse-surface": "#dde3e7",
+                    "surface-variant": "#2f3639",
+                    "surface-container-high": "#242b2e",
+                    "on-primary": "#003543",
+                    "tertiary-fixed": "#ffd7f0",
+                    "surface-container-lowest": "#090f12",
+                    "on-background": "#dde3e7",
+                    "primary": "#a5e7ff",
+                    "on-primary-fixed-variant": "#004e60",
+                    "surface-container": "#1a2123",
+                    "on-surface-variant": "#bbc9cf",
+                    "on-tertiary": "#5e0053",
+                    "on-secondary": "#3c0090",
+                    "secondary-container": "#7000ff",
+                    "on-primary-fixed": "#001f28",
+                    "inverse-primary": "#00677f",
+                    "secondary": "#d1bcff",
+                    "primary-container": "#00d2ff",
+                    "on-secondary-fixed": "#23005b",
+                    "error-container": "#93000a",
+                    "inverse-on-surface": "#2b3134",
+                    "on-error": "#690005",
+                    "tertiary-container": "#ffa3e7",
+                    "tertiary": "#ffcfee",
+                    "primary-fixed": "#b6ebff",
+                    "on-tertiary-fixed-variant": "#840076",
+                    "background": "#0e1417"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "margin-edge": "32px",
+                    "hex-grid-size": "64px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Audiowide"],
+                    "data-header": ["Orbitron"],
+                    "display-xl": ["Audiowide"],
+                    "label-caps": ["Orbitron"],
+                    "body-md": ["Orbitron"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                    "data-header": ["18px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "display-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                    "label-caps": ["10px", {"lineHeight": "1", "letterSpacing": "0.2em", "fontWeight": "900"}],
+                    "body-md": ["14px", {"lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #090f12;
+            background-image: radial-gradient(circle at 2px 2px, rgba(71, 214, 255, 0.05) 1px, transparent 0);
+            background-size: 32px 32px;
+            color: #dde3e7;
+            overflow-x: hidden;
+        }
+
+        .hex-clip {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        .bento-panel {
+            background: rgba(26, 33, 35, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(165, 231, 255, 0.1);
+            position: relative;
+        }
+
+        .bento-panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 8px; height: 8px;
+            border-top: 2px solid #47d6ff;
+            border-left: 2px solid #47d6ff;
+            opacity: 0.5;
+        }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(71, 214, 255, 0.05);
+            position: absolute;
+            top: 0;
+            animation: scan 10s linear infinite;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+
+        .hud-progress-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 1px;
+            background: rgba(71, 214, 255, 0.1);
+        }
+        .hud-progress-dot.active {
+            background: #47d6ff;
+            box-shadow: 0 0 8px #47d6ff;
+        }
+
+        .range-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 4px;
+            background: rgba(133, 147, 153, 0.2);
+            outline: none;
+        }
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            background: #47d6ff;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(71, 214, 255, 0.8);
+        }
+    </style>
+</head>
+<body class="font-body-md selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-8 h-20 bg-surface/40 backdrop-blur-xl border-b border-primary/10">
+<div class="flex items-center gap-6">
+<h1 class="font-headline-lg text-primary tracking-widest uppercase">
+            MagnopVS · Aetheris
+        </h1>
+<div class="h-8 w-[1px] bg-primary/20"></div>
+<div class="flex flex-col">
+<span class="font-label-caps text-outline">SYSTEM_ACTIVE</span>
+<span class="font-data-header text-secondary text-sm uppercase">Hoja de Personaje</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex flex-col items-end px-4">
+<span class="font-label-caps text-outline">LATENCY</span>
+<span class="font-label-caps text-primary">0.02ms</span>
+</div>
+<div class="w-10 h-10 hex-clip bg-primary/20 border border-primary/40 flex items-center justify-center">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCN6me4jX7VPf6-r4-q1qtcFx3Z0yu1RQC6I-sMtesFBAWFTq2vxP2IpGlpAQxA7dUWbewZTgkW5NoQqNFpAUzt30NonUnBxX6yV9rZcCATTVIHOCcEcLJakazFuPweNnDJLw8ySUq1lZYJ9huAWzGt7IghzvmE5TzIgd6c3ZQTCRFB7vTKIFFpUmpDGkLZZ5ey6MTmNfjce3koHaJrJw8WUTfhmXtt_vLmGQIxKekfaT_5mXlXNJGi8G6D7nqxapYnwCISC0on6gT"/>
+</div>
+</div>
+</header>
+<!-- Main Interface -->
+<main class="pt-24 pb-12 px-8 min-h-screen">
+<div class="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- BIOMETRIC CORE & CHARACTER IMAGE -->
+<section class="md:col-span-4 lg:col-span-3 flex flex-col gap-6">
+<div class="bento-panel p-6 flex flex-col gap-6">
+<div class="aspect-[3/4] bg-surface-container-highest/50 relative overflow-hidden border border-primary/20">
+<img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCN6me4jX7VPf6-r4-q1qtcFx3Z0yu1RQC6I-sMtesFBAWFTq2vxP2IpGlpAQxA7dUWbewZTgkW5NoQqNFpAUzt30NonUnBxX6yV9rZcCATTVIHOCcEcLJakazFuPweNnDJLw8ySUq1lZYJ9huAWzGt7IghzvmE5TzIgd6c3ZQTCRFB7vTKIFFpUmpDGkLZZ5ey6MTmNfjce3koHaJrJw8WUTfhmXtt_vLmGQIxKekfaT_5mXlXNJGi8G6D7nqxapYnwCISC0on6gT"/>
+<div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent">
+<div class="font-headline-lg text-primary text-xl">OPERATOR_01</div>
+<div class="font-label-caps text-secondary text-[10px]">VERIFIED_ID // TITAN_CLASS</div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="border-b border-primary/10 pb-2">
+<span class="font-label-caps text-outline block">BIOMETRIC_CORE</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<span class="font-label-caps text-outline text-[8px] block">NOMBRE</span>
+<span class="font-body-md text-on-surface">MAGNOPVS</span>
+</div>
+<div>
+<span class="font-label-caps text-outline text-[8px] block">APODO</span>
+<span class="font-body-md text-on-surface">GHOST_PRIME</span>
+</div>
+<div>
+<span class="font-label-caps text-outline text-[8px] block">RAZA</span>
+<span class="font-body-md text-on-surface">CYBER_HUMAN</span>
+</div>
+<div>
+<span class="font-label-caps text-outline text-[8px] block">ALINEACIÓN</span>
+<span class="font-body-md text-primary">CHAOTIC_NEUTRAL</span>
+</div>
+<div>
+<span class="font-label-caps text-outline text-[8px] block">EDAD</span>
+<span class="font-body-md text-on-surface">28Y // 108C</span>
+</div>
+<div>
+<span class="font-label-caps text-outline text-[8px] block">GÉNERO</span>
+<span class="font-body-md text-on-surface">MALE</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 13 HOUSES INTEGRATION -->
+<div class="bento-panel p-6 flex-grow">
+<div class="font-label-caps text-outline mb-4">SYNERGY_RADAR</div>
+<div class="relative w-full aspect-square flex items-center justify-center">
+<svg class="w-full h-full opacity-60" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="45" stroke="rgba(71, 214, 255, 0.1)" stroke-width="0.5"></circle>
+<circle cx="50" cy="50" fill="none" r="30" stroke="rgba(71, 214, 255, 0.1)" stroke-width="0.5"></circle>
+<path d="M50 15 L65 30 L80 50 L65 70 L50 85 L35 70 L20 50 L35 30 Z" fill="rgba(71, 214, 255, 0.1)" stroke="#47d6ff" stroke-width="1"></path>
+</svg>
+<span class="absolute top-2 font-label-caps text-[8px] text-primary">VITALITY</span>
+<span class="absolute right-2 font-label-caps text-[8px] text-secondary">WEALTH</span>
+<span class="absolute bottom-2 font-label-caps text-[8px] text-tertiary">MIND</span>
+<span class="absolute left-2 font-label-caps text-[8px] text-primary-container">SPIRIT</span>
+</div>
+</div>
+</section>
+<!-- CENTER STATS GRID -->
+<section class="md:col-span-8 lg:col-span-6 flex flex-col gap-6">
+<!-- SOMATIC & NEURAL GRID -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<!-- SOMATIC CALIBRATION (CUERPO) -->
+<div class="bento-panel p-6">
+<div class="font-label-caps text-primary border-b border-primary/20 pb-2 mb-4 flex justify-between items-center">
+<span>SOMATIC_CALIBRATION</span>
+<span class="text-[8px] text-outline">CUERPO</span>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center text-[10px]">
+<span class="font-label-caps">ALTURA/PESO</span>
+<span class="font-body-md">185cm / 82kg</span>
+</div>
+<div class="h-[1px] bg-outline-variant/10"></div>
+<!-- Progress Rows -->
+<div class="space-y-2">
+<template id="stat-row">
+<div class="flex justify-between items-center">
+<span class="font-label-caps text-[10px]">STRENGTH</span>
+<div class="flex gap-1">
+<div class="hud-progress-dot active"></div><div class="hud-progress-dot active"></div><div class="hud-progress-dot active"></div><div class="hud-progress-dot active"></div><div class="hud-progress-dot"></div>
+</div>
+</div>
+</template>
+<div class="flex justify-between items-center"><span class="font-label-caps text-[10px]">FUERZA</span><div class="flex gap-1"><div class="hud-progress-dot active"></div><div class="hud-progress-dot active"></div><div class="hud-progress-dot active"></div><div class="hud-progress-dot active"></div><div class="hud-progress-dot"></div></div></div>
+<div class="flex justify-between items-center"><span class="font-label-caps text-[10px]">DESTREZA</span><div class="flex gap-1"><div class="hud-progress-dot active"></div><div class="hud-progress-dot active"></div><div class="hud-progress-dot active"></div><div class="hud-progress-dot active"></div><div class="hud-progress-dot active"></div></div></div>
+<div class="flex justify-between items-center"><span class="font-label-caps text-[10px]">SALUD</span><div class="flex gap-1"><div class="hud-progress-dot active"></div><div class="hud-progress-dot active"></div><div class="hud-progress-dot active"></div><div class="hud-progress-dot active"></div><div class="hud-progress-dot"></div></div></div>
+<div class="flex justify-between items-center"><span class="font-label-caps text-[10px]">ENERGÍA</span><div class="flex gap-1"><div class="hud-progress-dot active"></div><div class="hud-progress-dot active"></div><div class="hud-progress-dot active"></div><div class="hud-progress-dot"></div><div class="hud-progress-dot"></div></div></div>
+<div class="flex justify-between items-center"><span class="font-label-caps text-[10px]">ESTILO</span><div class="flex gap-1"><div class="hud-progress-dot active"></div><div class="hud-progress-dot active"></div><div class="hud-progress-dot"></div><div class="hud-progress-dot"></div><div class="hud-progress-dot"></div></div></div>
+<div class="flex justify-between items-center"><span class="font-label-caps text-[10px]">HIGIENE</span><div class="flex gap-1"><div class="hud-progress-dot active"></div><div class="hud-progress-dot active"></div><div class="hud-progress-dot active"></div><div class="hud-progress-dot active"></div><div class="hud-progress-dot active"></div></div></div>
+</div>
+</div>
+</div>
+<!-- NEURAL MATRIX (MENTE) -->
+<div class="bento-panel p-6 border-tertiary/10">
+<div class="font-label-caps text-tertiary border-b border-tertiary/20 pb-2 mb-4 flex justify-between items-center">
+<span>NEURAL_MATRIX</span>
+<span class="text-[8px] text-outline">MENTE</span>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center"><span class="font-label-caps text-[10px]">INTELIGENCIA</span><div class="flex gap-1"><div class="hud-progress-dot active bg-tertiary shadow-tertiary"></div><div class="hud-progress-dot active bg-tertiary shadow-tertiary"></div><div class="hud-progress-dot active bg-tertiary shadow-tertiary"></div><div class="hud-progress-dot active bg-tertiary shadow-tertiary"></div><div class="hud-progress-dot"></div></div></div>
+<div class="flex justify-between items-center"><span class="font-label-caps text-[10px]">FELICIDAD</span><div class="flex gap-1"><div class="hud-progress-dot active bg-tertiary shadow-tertiary"></div><div class="hud-progress-dot active bg-tertiary shadow-tertiary"></div><div class="hud-progress-dot active bg-tertiary shadow-tertiary"></div><div class="hud-progress-dot"></div><div class="hud-progress-dot"></div></div></div>
+<div class="flex justify-between items-center"><span class="font-label-caps text-[10px]">ESPIRITUALIDAD</span><div class="flex gap-1"><div class="hud-progress-dot active bg-tertiary shadow-tertiary"></div><div class="hud-progress-dot active bg-tertiary shadow-tertiary"></div><div class="hud-progress-dot"></div><div class="hud-progress-dot"></div><div class="hud-progress-dot"></div></div></div>
+<div class="flex justify-between items-center"><span class="font-label-caps text-[10px]">HUMOR</span><div class="flex gap-1"><div class="hud-progress-dot active bg-tertiary shadow-tertiary"></div><div class="hud-progress-dot active bg-tertiary shadow-tertiary"></div><div class="hud-progress-dot active bg-tertiary shadow-tertiary"></div><div class="hud-progress-dot active bg-tertiary shadow-tertiary"></div><div class="hud-progress-dot active bg-tertiary shadow-tertiary"></div></div></div>
+<div class="flex justify-between items-center"><span class="font-label-caps text-[10px]">ANSIEDAD</span><div class="flex gap-1"><div class="hud-progress-dot active bg-error shadow-error"></div><div class="hud-progress-dot active bg-error shadow-error"></div><div class="hud-progress-dot"></div><div class="hud-progress-dot"></div><div class="hud-progress-dot"></div></div></div>
+<div class="flex justify-between items-center"><span class="font-label-caps text-[10px]">PACIENCIA</span><div class="flex gap-1"><div class="hud-progress-dot active bg-tertiary shadow-tertiary"></div><div class="hud-progress-dot active bg-tertiary shadow-tertiary"></div><div class="hud-progress-dot active bg-tertiary shadow-tertiary"></div><div class="hud-progress-dot"></div><div class="hud-progress-dot"></div></div></div>
+</div>
+</div>
+</div>
+<!-- PSYCHOLOGICAL SPECTRUM -->
+<div class="bento-panel p-6">
+<div class="font-label-caps text-secondary border-b border-secondary/20 pb-2 mb-6">PSYCHOLOGICAL_SPECTRUM</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-4">
+<div class="space-y-1">
+<div class="flex justify-between font-label-caps text-[8px] text-outline"><span>AGRADABLE</span><span>MALO</span></div>
+<input class="range-slider" type="range" value="70"/>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-label-caps text-[8px] text-outline"><span>VALIENTE</span><span>COBARDE</span></div>
+<input class="range-slider" type="range" value="85"/>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-label-caps text-[8px] text-outline"><span>REFLEXIVO</span><span>IMPULSIVO</span></div>
+<input class="range-slider" type="range" value="40"/>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-label-caps text-[8px] text-outline"><span>AHORRADOR</span><span>GASTADOR</span></div>
+<input class="range-slider" type="range" value="20"/>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-label-caps text-[8px] text-outline"><span>EXTROVERTIDO</span><span>INTROVERTIDO</span></div>
+<input class="range-slider" type="range" value="30"/>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-label-caps text-[8px] text-outline"><span>TRANQUILO</span><span>SALVAJE</span></div>
+<input class="range-slider" type="range" value="50"/>
+</div>
+</div>
+</div>
+<!-- SOCIAL SYNERGY -->
+<div class="bento-panel p-6 border-secondary/10">
+<div class="font-label-caps text-secondary border-b border-secondary/20 pb-2 mb-4 flex justify-between items-center">
+<span>SOCIAL_SYNERGY</span>
+<span class="text-[8px] text-outline">SOCIAL</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="space-y-2">
+<div class="flex justify-between items-center"><span class="font-label-caps text-[10px]">CARISMA</span><div class="flex gap-1"><div class="hud-progress-dot active bg-secondary shadow-secondary"></div><div class="hud-progress-dot active bg-secondary shadow-secondary"></div><div class="hud-progress-dot active bg-secondary shadow-secondary"></div><div class="hud-progress-dot active bg-secondary shadow-secondary"></div><div class="hud-progress-dot"></div></div></div>
+<div class="flex justify-between items-center"><span class="font-label-caps text-[10px]">EMPATÍA</span><div class="flex gap-1"><div class="hud-progress-dot active bg-secondary shadow-secondary"></div><div class="hud-progress-dot active bg-secondary shadow-secondary"></div><div class="hud-progress-dot active bg-secondary shadow-secondary"></div><div class="hud-progress-dot"></div><div class="hud-progress-dot"></div></div></div>
+<div class="flex justify-between items-center"><span class="font-label-caps text-[10px]">RIQUEZA</span><div class="flex gap-1"><div class="hud-progress-dot active bg-secondary shadow-secondary"></div><div class="hud-progress-dot active bg-secondary shadow-secondary"></div><div class="hud-progress-dot active bg-secondary shadow-secondary"></div><div class="hud-progress-dot active bg-secondary shadow-secondary"></div><div class="hud-progress-dot active bg-secondary shadow-secondary"></div></div></div>
+</div>
+<div class="space-y-4">
+<div class="flex items-center gap-4">
+<input checked="" class="w-3 h-3 bg-transparent border-primary/40 rounded text-primary focus:ring-0" type="checkbox"/>
+<span class="font-label-caps text-[10px]">LÍDER</span>
+</div>
+<div class="flex items-center gap-4">
+<input checked="" class="w-3 h-3 bg-transparent border-primary/40 rounded text-primary focus:ring-0" type="checkbox"/>
+<span class="font-label-caps text-[10px]">HONESTO</span>
+</div>
+<div class="flex items-center gap-4">
+<input class="w-3 h-3 bg-transparent border-primary/40 rounded text-primary focus:ring-0" type="checkbox"/>
+<span class="font-label-caps text-[10px]">POLÍTICO</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- RIGHT SIDEBAR (BELIEFS & PRIORITIES) -->
+<section class="md:col-span-12 lg:col-span-3 flex flex-col gap-6">
+<div class="bento-panel p-6 border-on-secondary-container/10">
+<div class="font-label-caps text-on-secondary-container border-b border-on-secondary-container/20 pb-2 mb-4">BELIEF_SYSTEM</div>
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="font-label-caps text-[10px]">PODERES MAYORES</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary/20"></div>
+<span class="font-label-caps text-[10px]">DESTINO</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="font-label-caps text-[10px]">MAGIA</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="font-label-caps text-[10px]">ALMAS GEMELAS</span>
+</div>
+</div>
+</div>
+<div class="bento-panel p-6 border-error/10 flex-grow">
+<div class="font-label-caps text-error border-b border-error/20 pb-2 mb-4">CORE_PRIORITIES</div>
+<div class="grid grid-cols-1 gap-4">
+<div class="bg-surface-container-low p-3 border-l-2 border-primary">
+<span class="font-label-caps text-[8px] text-outline block">PRIORITY_01</span>
+<span class="font-label-caps text-[12px] text-on-surface">JUSTICE</span>
+</div>
+<div class="bg-surface-container-low p-3 border-l-2 border-secondary/40">
+<span class="font-label-caps text-[8px] text-outline block">PRIORITY_02</span>
+<span class="font-label-caps text-[12px] text-on-surface">KNOWLEDGE</span>
+</div>
+<div class="bg-surface-container-low p-3 border-l-2 border-tertiary/40">
+<span class="font-label-caps text-[8px] text-outline block">PRIORITY_03</span>
+<span class="font-label-caps text-[12px] text-on-surface">FAMILY</span>
+</div>
+<div class="bg-surface-container-low p-3 border-l-2 border-outline-variant">
+<span class="font-label-caps text-[8px] text-outline block">PRIORITY_04</span>
+<span class="font-label-caps text-[12px] text-on-surface">WEALTH</span>
+</div>
+</div>
+<div class="mt-8 p-4 bg-primary/5 border border-primary/20 flex flex-col items-center gap-2">
+<div class="font-label-caps text-label-caps text-outline">CYCLES_REMAINING</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-4xl text-primary drop-shadow-[0_0_10px_#47d6ff]">all_inclusive</span>
+<span class="font-display-xl text-primary text-4xl">108</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full max-w-7xl mx-auto px-8 py-8 opacity-40 hover:opacity-100 transition-opacity duration-500">
+<div class="h-[1px] w-full bg-outline-variant/20 mb-4"></div>
+<div class="flex justify-between items-center flex-wrap gap-4">
+<div class="flex gap-6">
+<a class="font-label-caps text-[10px] text-outline hover:text-primary transition-colors" href="#">SYS_RESET</a>
+<a class="font-label-caps text-[10px] text-outline hover:text-primary transition-colors" href="#">LOG_EXPORT</a>
+<a class="font-label-caps text-[10px] text-outline hover:text-primary transition-colors" href="#">AETHER_LINK</a>
+</div>
+<p class="font-label-caps text-[10px] text-outline tracking-widest uppercase">AETHERIS_OS v5.0.1 // ENCRYPTION_STABLE</p>
+</div>
+</footer>
+<div class="scanline"></div>
+<script>
+    // Simple micro-interaction for panel hover
+    document.querySelectorAll('.bento-panel').forEach(panel => {
+        panel.addEventListener('mouseenter', () => {
+            panel.style.borderColor = 'rgba(71, 214, 255, 0.4)';
+            panel.style.boxShadow = '0 0 20px rgba(71, 214, 255, 0.05)';
+        });
+        panel.addEventListener('mouseleave', () => {
+            panel.style.borderColor = 'rgba(165, 231, 255, 0.1)';
+            panel.style.boxShadow = 'none';
+        });
+    });
+</script>
+</body></html>

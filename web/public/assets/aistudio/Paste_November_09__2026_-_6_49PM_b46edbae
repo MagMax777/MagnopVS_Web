@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QUANTVM MATRIX // MULTIVERSE PORTAL V1.1</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Sora:wght@300;400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with CDN plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "background": "#10131a",
+            "on-primary": "#00363d",
+            "on-background": "#e1e2ec",
+            "primary-fixed-dim": "#00daf3",
+            "primary": "#c3f5ff",
+            "tertiary-fixed-dim": "#ffb1c4",
+            "on-secondary-fixed-variant": "#004b70",
+            "error": "#ffb4ab",
+            "surface-container-highest": "#32353d",
+            "on-primary-fixed-variant": "#004f58",
+            "primary-fixed": "#9cf0ff",
+            "on-tertiary-fixed-variant": "#8f0044",
+            "on-tertiary-fixed": "#3f001a",
+            "surface-container": "#1d1f27",
+            "surface-dim": "#10131a",
+            "inverse-on-surface": "#2d3038",
+            "secondary-fixed": "#cae6ff",
+            "on-surface": "#e1e2ec",
+            "surface-tint": "#00daf3",
+            "on-primary-container": "#00626e",
+            "surface-container-low": "#191b23",
+            "error-container": "#93000a",
+            "surface-container-lowest": "#0b0e15",
+            "outline": "#849396",
+            "surface-variant": "#32353d",
+            "on-tertiary": "#65002e",
+            "on-primary-fixed": "#001f24",
+            "on-secondary-fixed": "#001e30",
+            "secondary-fixed-dim": "#8dcdff",
+            "tertiary-container": "#ffc0cf",
+            "primary-container": "#00e5ff",
+            "tertiary": "#ffe7eb",
+            "surface-bright": "#363941",
+            "on-secondary": "#00344f",
+            "inverse-primary": "#006875",
+            "outline-variant": "#3b494c",
+            "on-tertiary-container": "#b10056",
+            "tertiary-fixed": "#ffd9e1",
+            "on-secondary-container": "#003f5f",
+            "surface-container-high": "#272a32",
+            "secondary": "#8dcdff",
+            "on-error-container": "#ffdad6",
+            "on-surface-variant": "#bac9cc",
+            "inverse-surface": "#e1e2ec",
+            "on-error": "#690005",
+            "surface": "#10131a",
+            "secondary-container": "#00affe"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin": "2.5rem",
+            "space-lg": "1.5rem",
+            "gutter": "1.5rem",
+            "space-xs": "0.25rem",
+            "gutter-mobile": "0.75rem",
+            "margin-mobile": "1rem",
+            "space-xl": "2.5rem",
+            "space-sm": "0.5rem",
+            "space-md": "1rem"
+          },
+          "fontFamily": {
+            "label-sm": ["JetBrains Mono"],
+            "body-lg": ["Sora"],
+            "headline-xl-mobile": ["Space Grotesk"],
+            "headline-lg": ["Space Grotesk"],
+            "body-md": ["Sora"],
+            "label-lg": ["JetBrains Mono"],
+            "body-sm": ["Sora"],
+            "headline-lg-mobile": ["Space Grotesk"],
+            "headline-xl": ["Space Grotesk"],
+            "headline-sm": ["Space Grotesk"],
+            "headline-md": ["Space Grotesk"],
+            "label-md": ["JetBrains Mono"]
+          },
+          "fontSize": {
+            "label-sm": ["0.625rem", { "lineHeight": "0.875rem", "letterSpacing": "0.2em", "fontWeight": "500" }],
+            "body-lg": ["1rem", { "lineHeight": "1.6rem", "letterSpacing": "0.02em", "fontWeight": "400" }],
+            "headline-xl-mobile": ["2rem", { "lineHeight": "2.5rem", "letterSpacing": "0.08em", "fontWeight": "700" }],
+            "headline-lg": ["2rem", { "lineHeight": "2.5rem", "letterSpacing": "0.1em", "fontWeight": "700" }],
+            "body-md": ["0.875rem", { "lineHeight": "1.4rem", "letterSpacing": "0.02em", "fontWeight": "400" }],
+            "label-lg": ["0.875rem", { "lineHeight": "1.25rem", "letterSpacing": "0.15em", "fontWeight": "600" }],
+            "body-sm": ["0.75rem", { "lineHeight": "1.2rem", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "headline-lg-mobile": ["1.5rem", { "lineHeight": "2rem", "letterSpacing": "0.06em", "fontWeight": "700" }],
+            "headline-xl": ["3rem", { "lineHeight": "3.5rem", "letterSpacing": "0.12em", "fontWeight": "700" }],
+            "headline-sm": ["1.125rem", { "lineHeight": "1.5rem", "letterSpacing": "0.06em", "fontWeight": "600" }],
+            "headline-md": ["1.375rem", { "lineHeight": "1.75rem", "letterSpacing": "0.08em", "fontWeight": "600" }],
+            "label-md": ["0.75rem", { "lineHeight": "1rem", "letterSpacing": "0.18em", "fontWeight": "500" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    /* Chamfer & HUD geometric cutouts */
+    .clip-chamfer-corner {
+      clip-path: polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px);
+    }
+    .clip-chamfer-sm {
+      clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+    }
+    .clip-badge {
+      clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+    }
+    /* Dynamic Scanlines & Reticle Aura */
+    .hud-grid-pattern {
+      background-size: 32px 32px;
+      background-image: linear-gradient(to right, rgba(59, 73, 76, 0.2) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(59, 73, 76, 0.2) 1px, transparent 1px);
+    }
+    .hud-glow-primary {
+      box-shadow: 0 0 16px rgba(0, 229, 255, 0.15);
+    }
+    .hud-glow-active {
+      box-shadow: 0 0 24px rgba(0, 229, 255, 0.35), inset 0 0 12px rgba(0, 229, 255, 0.2);
+    }
+    .hud-glow-magenta {
+      box-shadow: 0 0 20px rgba(255, 0, 127, 0.35);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden font-body-md">
+<!-- ================= TOP NAVIGATION BAR (Shared Component Anchor) ================= -->
+<header class="sticky top-0 z-50 bg-surface/75 dark:bg-surface/75 backdrop-blur-md shadow-[0_0_16px_rgba(0,229,255,0.15)] border-b border-outline-variant/40">
+<div class="flex justify-between items-center w-full px-6 lg:px-10 h-16 max-w-full mx-auto">
+<!-- Brand & Version Segment -->
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-none border border-primary-container bg-primary-container/10 flex items-center justify-center relative">
+<span class="material-symbols-outlined text-primary-container" style="font-size: 20px;">all_inclusive</span>
+<div class="absolute -top-1 -right-1 w-1.5 h-1.5 bg-primary-container animate-pulse"></div>
+</div>
+<div>
+<span class="text-headline-sm font-headline-sm font-bold tracking-widest text-primary uppercase">QUANTVM MATRIX</span>
+<span class="hidden md:inline-block ml-2 text-label-sm font-label-sm text-outline tracking-wider border-l border-outline-variant/60 pl-2">MULTIVERSE PORTAL // V1.1</span>
+</div>
+</div>
+</div>
+<!-- Navigation Links (Desktop) -->
+<nav class="hidden lg:flex items-center gap-6">
+<a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md py-1" href="#explore">EXPLORE</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md py-1 flex items-center gap-1.5" href="#sagas">
+<span>SAGAS</span>
+<span class="bg-surface-container-high px-1.5 py-0.5 text-label-sm font-label-sm text-primary-container border border-outline-variant/50">13</span>
+</a>
+<a class="text-primary-container border-b-2 border-primary-container pb-1 font-bold shadow-[0_0_8px_rgba(0,229,255,0.4)] text-label-md font-label-md flex items-center gap-1.5" href="#player">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-ping"></span>
+<span>EPISODE PLAYER</span>
+</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md py-1" href="#engines">ENGINES</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md py-1" href="#matrix-tv">MATRIX TV</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md py-1" href="#community">COMMUNITY</a>
+</nav>
+<!-- Trailing Action / Operator HUD Stats -->
+<div class="flex items-center gap-4">
+<!-- Telemetry Currencies -->
+<div class="hidden sm:flex items-center gap-3 bg-surface-container-low px-3 py-1.5 border border-outline-variant/60">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary-container text-sm">toll</span>
+<span class="text-label-sm font-label-sm text-on-surface tracking-wider">2,950 <span class="text-outline">MP</span></span>
+</div>
+<div class="w-px h-3 bg-outline-variant"></div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-secondary text-sm">monetization_on</span>
+<span class="text-label-sm font-label-sm text-on-surface tracking-wider">220 <span class="text-outline">MC</span></span>
+</div>
+</div>
+<!-- Terminal & Notification Icons -->
+<button class="relative p-2 text-outline hover:text-primary hover:bg-surface-variant/30 transition-all border border-transparent hover:border-outline-variant/40" title="Notifications">
+<span class="material-symbols-outlined text-xl">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-primary-container"></span>
+</button>
+<!-- Operator Kaizen Profile -->
+<div class="flex items-center gap-2.5 pl-2 border-l border-outline-variant/40">
+<div class="relative group cursor-pointer">
+<div class="w-9 h-9 border border-primary-container/80 p-0.5 bg-surface-container-high clip-chamfer-sm">
+<img class="w-full h-full object-cover" data-alt="High-tech holographic close-up avatar of a cybernetic space operative named Operator Kaizen with luminous neon-cyan ocular visor, chrome biomechanical cranial implants, and obsidian armor collar, reflecting galactic telemetry data and celestial star maps." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMP45eZ_fv3YreH9mBecPhiaiGijbVaWMOlsYytze8am3_imA8J_xuszt4W8h13n2TQtaFjMnd-uKJKiKM9vqGR3DrT-BSJ7sHq_ogToTDoXMK7zhCdhD1zzC2YA4hvG35r5YNw--VTVx7xp9Q3CMPyNBCpt5Yx59xfZyNMBiIKUMb4icNfD98nlIu6ubvvMJcS9NOSiIx9LGGN8B40f1t5zYN1_UIfyY-l5xvuRU"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-surface-container-lowest border border-outline px-1 text-[8px] font-label-sm text-primary">R15</div>
+</div>
+<div class="hidden xl:flex flex-col text-left">
+<span class="text-label-md font-label-md text-on-surface font-semibold">OP. KAIZEN</span>
+<span class="text-label-sm font-label-sm text-primary-container tracking-wider">UEL LINKED</span>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- ================= MAIN MULTIVERSE CANVAS ================= -->
+<main class="flex-grow w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-10 py-6 space-y-12">
+<!-- SUB-HUD TELEMETRY TICKER -->
+<div class="w-full bg-surface-container-lowest border-y border-outline-variant/40 py-2 px-4 flex flex-wrap items-center justify-between gap-4 text-label-sm font-label-sm text-outline">
+<div class="flex items-center gap-6 overflow-x-auto whitespace-nowrap">
+<span class="flex items-center gap-2 text-primary">
+<span class="w-1.5 h-1.5 bg-primary-container animate-pulse"></span>
+          SYS.RUN: UEL RUNTIME V1.1 ONLINE
+        </span>
+<span>NODE LATENCY: <span class="text-on-surface">14ms</span></span>
+<span>ACTIVE INSTANCES: <span class="text-on-surface">14,892 PILOTS</span></span>
+<span>VOID PARADOX: <span class="text-primary-container">0.0042 STABLE</span></span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-label-sm font-label-sm tracking-wider">COORDINATES: [48.2082° N, 16.3738° E // SECTOR 09]</span>
+</div>
+</div>
+<!-- ================= HERO SECTION: MULTIVERSE OPERATING SYSTEM ================= -->
+<section class="relative rounded-none border border-outline-variant/60 bg-surface-container-low overflow-hidden hud-grid-pattern">
+<!-- Ambient Hologram Glows -->
+<div class="absolute -top-32 -left-32 w-96 h-96 bg-primary-container/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-32 -right-32 w-96 h-96 bg-secondary/10 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Corner Alignment Vector Elements -->
+<div class="absolute top-2 left-2 text-label-sm font-label-sm text-outline/60 tracking-widest select-none">TL-REF::001//GRID-SYS</div>
+<div class="absolute top-2 right-2 text-label-sm font-label-sm text-outline/60 tracking-widest select-none">TR-ANG::884.21</div>
+<div class="absolute bottom-2 left-2 text-label-sm font-label-sm text-outline/60 tracking-widest select-none">BL-CHASSIS::CORE-HUD</div>
+<div class="absolute bottom-2 right-2 text-label-sm font-label-sm text-outline/60 tracking-widest select-none">BR-INTEGRITY::100%</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 p-6 sm:p-10 relative z-10 items-center">
+<!-- Left Hero Content (7 Cols) -->
+<div class="lg:col-span-7 space-y-6">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container border border-primary-container/50">
+<span class="material-symbols-outlined text-primary-container text-base">satellite_alt</span>
+<span class="text-label-sm font-label-sm text-primary-container tracking-widest">PUBLIC MATRIX // MULTIVERSE HOME</span>
+</div>
+<div class="space-y-2">
+<h1 class="text-headline-xl font-headline-xl text-on-surface uppercase tracking-wider leading-tight">
+              WELCOME TO THE <br/>
+<span class="text-primary-container drop-shadow-[0_0_12px_rgba(0,229,255,0.4)]">MULTIVERSE</span> OPERATING SYSTEM
+            </h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant max-w-xl">
+              Traverse branching non-linear realities, activate multi-engine narrative cycles, and synchronize deep space decisions through the Universal Episode Loop runtime architecture.
+            </p>
+</div>
+<!-- Quick Action Triggers -->
+<div class="flex flex-wrap items-center gap-4 pt-2">
+<!-- Primary Action -->
+<a class="group relative px-6 py-3.5 bg-primary-container/15 hover:bg-primary-container border border-primary-container transition-all duration-200 clip-chamfer-sm flex items-center gap-3" href="#player">
+<span class="material-symbols-outlined text-primary-container group-hover:text-background transition-colors">play_circle</span>
+<span class="text-label-lg font-label-lg text-primary group-hover:text-background font-bold tracking-widest transition-colors uppercase">ENTER NARRATIVE PLAYER (S01E01)</span>
+</a>
+<!-- Secondary Action -->
+<a class="px-6 py-3.5 bg-surface-container-high hover:bg-surface-variant border border-outline-variant hover:border-secondary transition-all clip-chamfer-sm flex items-center gap-2" href="#sagas">
+<span class="material-symbols-outlined text-secondary text-base">auto_stories</span>
+<span class="text-label-md font-label-md text-on-surface tracking-wider uppercase">EXPLORE 13 SAGAS</span>
+</a>
+</div>
+<!-- Live Telemetry KPI Matrix -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-outline-variant/40">
+<div class="bg-surface-container/60 border border-outline-variant/40 p-3">
+<div class="text-label-sm font-label-sm text-outline">SAGAS ACTIVE</div>
+<div class="text-headline-sm font-headline-sm font-bold text-primary-container">13</div>
+<div class="text-label-sm font-label-sm text-on-surface-variant">Independent</div>
+</div>
+<div class="bg-surface-container/60 border border-outline-variant/40 p-3">
+<div class="text-label-sm font-label-sm text-outline">REALMS / ENV</div>
+<div class="text-headline-sm font-headline-sm font-bold text-secondary">3 CORE</div>
+<div class="text-label-sm font-label-sm text-on-surface-variant">Pub / Crea / Intel</div>
+</div>
+<div class="bg-surface-container/60 border border-outline-variant/40 p-3">
+<div class="text-label-sm font-label-sm text-outline">MATRIX ENGINES</div>
+<div class="text-headline-sm font-headline-sm font-bold text-on-surface">8 SHARED</div>
+<div class="text-label-sm font-label-sm text-on-surface-variant">Synchronized</div>
+</div>
+<div class="bg-surface-container/60 border border-outline-variant/40 p-3">
+<div class="text-label-sm font-label-sm text-outline">UEL RUNTIME</div>
+<div class="text-headline-sm font-headline-sm font-bold text-primary">V1.1</div>
+<div class="text-label-sm font-label-sm text-primary-container flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span> ONLINE
+              </div>
+</div>
+</div>
+</div>
+<!-- Right Hero Banner Visual (5 Cols - Bento Holographic Display) -->
+<div class="lg:col-span-5 relative">
+<div class="relative border border-primary-container/60 bg-surface-container p-2 hud-glow-active">
+<!-- Header Tag Micro-strip -->
+<div class="flex items-center justify-between pb-2 px-1 border-b border-outline-variant/50 text-label-sm font-label-sm">
+<span class="text-primary tracking-widest">TACTICAL HOLO-PROJECTION</span>
+<span class="text-outline font-mono">TARGET: BUTSU NO BAKA</span>
+</div>
+<!-- Visual Asset Frame -->
+<div class="relative w-full h-[320px] sm:h-[380px] overflow-hidden mt-2 bg-surface-container-lowest">
+<img class="w-full h-full object-cover opacity-90 transition-transform duration-700 hover:scale-105" data-alt="An expansive panoramic tactical sci-fi holographic cockpit observation deck looking out over a glowing planetary sphere and deep cosmic void. Inside, cybernetic figures stand around an illuminated cyan holographic terminal table displaying sacred geometric mandalas, glowing constellation pathways, and hyper-detailed telemetry rings rendered in deep obsidian, celestial blue, and bright aquamarine light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8WZgiHsTSAyF23SM3lvC2b8ZYk-N0EmAJ-QxuF9TXhZViVJhl8CBxDuVkFrQaeF4pbXE7tDxuutoixKoFw-KsFApfdzJlhPx1D-OgtwtqIZ0cLNUMJ9dcpQ1iOisgtA9r0zU4XuJ3Yu-Yftt_CiySOMgdUmeXg7c24z_fqDk7jk-5beCYVB_DDDoPtBdFjiVPgeCgY5ZVqvPaxXtwTgvyaSTWYXNPTseAAaw2l9g"/>
+<!-- Subtle Hologram Mesh Overlays -->
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent pointer-events-none"></div>
+<!-- Reticle Vector HUD Center -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="w-36 h-36 rounded-full border border-primary-container/30 border-dashed animate-spin" style="animation-duration: 40s;"></div>
+<div class="absolute w-28 h-28 rounded-full border border-secondary/40"></div>
+<div class="absolute w-2 h-2 bg-primary-container"></div>
+</div>
+<!-- Lower Floating Indicator -->
+<div class="absolute bottom-3 left-3 right-3 bg-surface-container-lowest/90 backdrop-blur border border-primary-container/40 p-2.5 flex items-center justify-between">
+<div>
+<div class="text-label-sm font-label-sm text-primary uppercase">CURRENT ANOMALY: SAGA 01</div>
+<div class="text-body-sm font-body-sm text-on-surface font-semibold">El bucle de Yurei // Loop Phase 08</div>
+</div>
+<span class="text-label-sm font-label-sm px-2 py-1 bg-primary-container/20 text-primary-container border border-primary-container/60">LIVE</span>
+</div>
+</div>
+<!-- Bottom Chamfer Sub-telemetry -->
+<div class="flex items-center justify-between pt-2 px-1 text-label-sm font-label-sm text-outline">
+<span>LATITUDE: 04.992 // SECTOR ZERO</span>
+<span class="text-primary-container">FPS: 60.0 LOCKED</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= SECTION 3: LIVE UNIVERSAL EPISODE LOOP SPOTLIGHT ================= -->
+<section class="space-y-4" id="player">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-2 border-b border-outline-variant/40 pb-3">
+<div>
+<div class="flex items-center gap-2 text-label-sm font-label-sm text-primary-container">
+<span class="w-2 h-2 bg-primary-container"></span>
+            ACTIVE RUNTIME TELEMETRY
+          </div>
+<h2 class="text-headline-lg font-headline-lg text-on-surface uppercase tracking-wide">
+            UNIVERSAL EPISODE LOOP <span class="text-primary-container">(UEL V1.1)</span>
+</h2>
+</div>
+<div class="text-label-sm font-label-sm text-outline flex items-center gap-4">
+<span>PARALLEL TIMELINES: <strong class="text-primary">12 ACTIVE</strong></span>
+<span>DISCOVERED CANON: <strong class="text-on-surface">3/8</strong></span>
+</div>
+</div>
+<!-- Interactive Loop Feature Dashboard Card -->
+<div class="bg-surface-container border border-outline-variant p-6 relative clip-chamfer-corner hud-glow-primary">
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-8 items-center">
+<!-- Loop Telemetry Data (7 Cols) -->
+<div class="xl:col-span-7 space-y-6">
+<div class="flex flex-wrap items-center gap-3">
+<span class="px-2.5 py-1 bg-surface-container-high border border-outline-variant text-label-sm font-label-sm text-primary uppercase">
+                S01E01 // CONTINUITY HUB
+              </span>
+<span class="px-2.5 py-1 bg-primary-container/10 border border-primary-container/50 text-label-sm font-label-sm text-primary-container flex items-center gap-1.5">
+<span class="material-symbols-outlined text-xs">sync</span> RECURSION CYCLE: #14
+              </span>
+<span class="px-2.5 py-1 bg-surface-variant/40 border border-outline text-label-sm font-label-sm text-on-surface-variant">
+                DIFFICULTY: QUANTUM DIALECTIC
+              </span>
+</div>
+<div>
+<h3 class="text-headline-md font-headline-md text-on-surface font-bold">
+                El bucle de Yurei: <span class="text-secondary font-normal">The Paradox Convergence</span>
+</h3>
+<p class="text-body-md font-body-md text-on-surface-variant mt-2 max-w-2xl">
+                You have reached temporal nexus Phase 08. The synthetic monk at the Shinjuku gateway has deciphered the first fragmented seal, revealing Final 01: 'The Lotus Dissolution'. Additional branch paths remain veiled in the void matrix.
+              </p>
+</div>
+<!-- Segmented Timeline Progress Nodes -->
+<div class="space-y-2">
+<div class="flex justify-between items-center text-label-sm font-label-sm">
+<span class="text-outline">TIMELINE SYNCHRONIZATION INDEX</span>
+<span class="text-primary-container font-mono">PHASE 08 / 12 (72%)</span>
+</div>
+<div class="grid grid-cols-12 gap-1.5 h-3">
+<div class="bg-primary-container shadow-[0_0_8px_rgba(0,229,255,0.6)]"></div>
+<div class="bg-primary-container"></div>
+<div class="bg-primary-container"></div>
+<div class="bg-primary-container"></div>
+<div class="bg-primary-container"></div>
+<div class="bg-primary-container"></div>
+<div class="bg-primary-container"></div>
+<div class="bg-primary-container animate-pulse border border-white"></div>
+<div class="bg-surface-container-high border border-outline-variant/60"></div>
+<div class="bg-surface-container-high border border-outline-variant/60"></div>
+<div class="bg-surface-container-high border border-outline-variant/60"></div>
+<div class="bg-surface-container-high border border-outline-variant/60"></div>
+</div>
+</div>
+<!-- UEL Action Buttons -->
+<div class="flex flex-wrap items-center gap-4 pt-2">
+<button class="px-6 py-3 bg-primary-container text-on-primary-container hover:bg-primary transition-all font-label-md font-bold tracking-widest clip-chamfer-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-base">restart_alt</span>
+                RESUME PHASE 08 (FINAL 01 DISCOVERED)
+              </button>
+<button class="px-5 py-3 bg-surface-container-high hover:bg-surface-variant border border-outline-variant hover:border-secondary transition-all text-on-surface text-label-md font-label-md tracking-wider flex items-center gap-2">
+<span class="material-symbols-outlined text-base text-secondary">history</span>
+                REPLAY CHECKPOINT CP-06
+              </button>
+</div>
+</div>
+<!-- Holographic Decision Tree Node Preview (5 Cols) -->
+<div class="xl:col-span-5 bg-surface-container-lowest border border-outline-variant/60 p-4 relative">
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/40 text-label-sm font-label-sm">
+<span class="text-outline">DECISION TREE GRAPH</span>
+<span class="text-secondary">UEL_SYS_01.DIAG</span>
+</div>
+<div class="py-6 space-y-4 font-mono text-xs">
+<div class="flex items-center gap-3">
+<span class="w-3 h-3 rounded-none bg-primary-container"></span>
+<span class="text-on-surface font-semibold">[ROOT] Awakening in Sector 00</span>
+<span class="ml-auto text-label-sm text-outline">RESOLVED</span>
+</div>
+<div class="pl-6 border-l border-primary-container/40 space-y-3">
+<div class="flex items-center gap-3">
+<span class="w-2.5 h-2.5 bg-primary-container"></span>
+<span class="text-on-surface">[NODE A-1] Enter Neon Pagoda</span>
+<span class="ml-auto text-label-sm text-primary">PASSED</span>
+</div>
+<div class="pl-6 border-l border-outline-variant space-y-3">
+<div class="flex items-center gap-3 bg-surface-container-high p-2 border-l-2 border-primary-container">
+<span class="w-2 h-2 bg-primary-container animate-ping"></span>
+<span class="text-primary-container font-bold">[CP-08] Transcribe Sutra of Yurei</span>
+<span class="ml-auto text-label-sm text-primary-container">CURRENT</span>
+</div>
+<div class="flex items-center gap-3 opacity-40">
+<span class="w-2 h-2 bg-outline"></span>
+<span class="text-outline">[BRANCH B-2] The Iron Bell Catastrophe</span>
+<span class="ml-auto text-label-sm text-outline">LOCKED</span>
+</div>
+</div>
+</div>
+</div>
+<div class="pt-2 border-t border-outline-variant/40 flex justify-between items-center text-label-sm font-label-sm text-outline">
+<span>ENDINGS LOGGED: 1 / 4 CANONICAL</span>
+<a class="text-primary hover:underline" href="#">VIEW FULL ARCHIVE →</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= SECTION 4: FEATURED SAGAS DIRECTORY ================= -->
+<section class="space-y-6" id="sagas">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-3 border-b border-outline-variant/40 pb-3">
+<div>
+<div class="flex items-center gap-2 text-label-sm font-label-sm text-secondary">
+<span class="material-symbols-outlined text-sm">hub</span>
+            COSMIC CANON REGISTRY
+          </div>
+<h2 class="text-headline-lg font-headline-lg text-on-surface uppercase tracking-wide">
+            THE 13 MULTIVERSE SAGAS
+          </h2>
+</div>
+<!-- Filter Tabs -->
+<div class="flex items-center gap-1.5 overflow-x-auto">
+<button class="px-3 py-1 bg-primary-container text-on-primary-container font-label-sm font-bold text-label-sm">ALL (13)</button>
+<button class="px-3 py-1 bg-surface-container hover:bg-surface-variant text-on-surface-variant font-label-sm text-label-sm border border-outline-variant/40">CYBER-MYSTIC</button>
+<button class="px-3 py-1 bg-surface-container hover:bg-surface-variant text-on-surface-variant font-label-sm text-label-sm border border-outline-variant/40">DEEP VOID</button>
+<button class="px-3 py-1 bg-surface-container hover:bg-surface-variant text-on-surface-variant font-label-sm text-label-sm border border-outline-variant/40">TRANSHUMAN</button>
+</div>
+</div>
+<!-- Sagas Bento / Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- SAGA 01: BUTSU NO BAKA (Lead Featured Card) -->
+<div class="group bg-surface-container border border-primary-container/80 p-3 clip-chamfer-corner hover:border-primary-container transition-all flex flex-col justify-between hud-glow-primary">
+<div class="relative h-60 w-full overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Cybernetic android monk meditating in full lotus position amidst a dark neon-lit rain-soaked futuristic shrine. In the backdrop, translucent holographic lotus mandalas and glowing cyan code rain float across ancient stone lanterns and cyber-temple gates with vibrant celestial blue and deep aquamarine reflections." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6KZFkxfEHG6SNN-A08RQxkfgV84EGhERGlQIt3Si0LB3YEV_mMXpS6FsTSUuHuS6XrYKFtFCHCl-dwiT5ef9rVok2RapdrZgi4NZ9s7mxBi8kMIBZasfH0LlPedBYLNSTyK4dZ3S2AXrKoWmkF0LVCX23E_5PLaViN-nATp-4MG10q7af1popGylTtDGPq-aO06ZvJsu68FyUwlLMITZYvOcCxZvULTfVGilzFic"/>
+<div class="absolute top-2 left-2 px-2 py-0.5 bg-surface-container-lowest/90 border border-primary-container text-[10px] font-label-sm text-primary-container">
+              SAGA 01 // LEAD CANON
+            </div>
+<div class="absolute bottom-2 right-2 px-2 py-0.5 bg-background/80 text-[10px] font-label-sm text-on-surface">
+              8 EPISODES
+            </div>
+</div>
+<div class="pt-4 pb-2 space-y-2 flex-grow">
+<div class="flex items-center justify-between text-label-sm font-label-sm text-outline">
+<span>ENDINGS: 4 DISCOVERED / 12</span>
+<span class="text-primary-container">UEL COMPATIBLE</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface group-hover:text-primary-container transition-colors">
+              BUTSU NO BAKA
+            </h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant line-clamp-2">
+              The paradox of the automated saint who discovered enlightenment inside a cold machine matrix.
+            </p>
+</div>
+<div class="pt-3 border-t border-outline-variant/50 flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-outline">SYNCHRONIZED</span>
+<button class="px-3 py-1.5 bg-primary-container/15 hover:bg-primary-container border border-primary-container text-primary hover:text-on-primary-container text-label-sm font-label-sm tracking-wider uppercase transition-colors">
+              LAUNCH SAGA
+            </button>
+</div>
+</div>
+<!-- SAGA 02: WHITE BROTHERHOOD -->
+<div class="group bg-surface-container border border-outline-variant p-3 clip-chamfer-corner hover:border-secondary transition-all flex flex-col justify-between">
+<div class="relative h-60 w-full overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An ethereal high-tech white cathedral in orbit around a ringed purple gas giant. Astral navigators wearing sleek pearl-white and silver environmental suits with glowing cyan visors stand before massive holographic star-charts and cosmic geometrical alignments." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsaRvH9Rf4ad5zPBf1uBrZX-pBuSFwqoHeJE4qN2cB8XK9XIaOSWE9TBDpt_Zm9ZZHAdRbsZODUTkBsRZTOMjsyVLWM0ACNtRd1Og7TAEwpdBtzesTXPLICDHpA2Grz6VboeIMw21uAY4ibTCbxv-7J5NT-Fjz7gFVv5p_6psEAwpiO4hCqZcA5W1z4C9ytgeXgnvvwWlfkzVdhL7BEgsWFVe4-2nK8R3qW2wmSb0"/>
+<div class="absolute top-2 left-2 px-2 py-0.5 bg-surface-container-lowest/90 border border-secondary text-[10px] font-label-sm text-secondary">
+              SAGA 02
+            </div>
+<div class="absolute bottom-2 right-2 px-2 py-0.5 bg-background/80 text-[10px] font-label-sm text-on-surface">
+              12 EPISODES
+            </div>
+</div>
+<div class="pt-4 pb-2 space-y-2 flex-grow">
+<div class="flex items-center justify-between text-label-sm font-label-sm text-outline">
+<span>ENDINGS: 2 DISCOVERED / 16</span>
+<span class="text-secondary">DEEP ASTRAL</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface group-hover:text-secondary transition-colors">
+              WHITE BROTHERHOOD
+            </h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant line-clamp-2">
+              Ascended astral navigators seeking the prime frequency of the primeval cosmological architects.
+            </p>
+</div>
+<div class="pt-3 border-t border-outline-variant/50 flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-outline">UNEXPLORED</span>
+<button class="px-3 py-1.5 bg-surface-container-high hover:bg-secondary hover:text-on-secondary border border-outline-variant text-on-surface text-label-sm font-label-sm tracking-wider uppercase transition-colors">
+              LAUNCH SAGA
+            </button>
+</div>
+</div>
+<!-- SAGA 03: MASTERS PATH -->
+<div class="group bg-surface-container border border-outline-variant p-3 clip-chamfer-corner hover:border-primary-container transition-all flex flex-col justify-between">
+<div class="relative h-60 w-full overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Futuristic cyber-samurai duel on the metallic precipice of a high-altitude orbital elevator during an aurora borealis storm. Radiant cyan and magenta plasma katanas clash, showering luminescent particle sparks against deep space darkness." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMk0ECXvNXRHdNFKPaOOrrWJqqK9ChgblG8xWlF-eZnfVuaL82g0v-YFMwJTwc7fpS7fo4P-lyfM7-MS8EpO994YSh-NsTXIjM0wwIs_I7IRV1HQIlTo-WerrqZqDszDYM4WpPEXw0eyP_tkiNIQ_DGEakqDuNGDcPOPiMNZtOnTdc98fzaXFbMndQXOLdD7YEUOj2b7GmNvVfNHEXGZRO-0orvbliPqDDmhfac5o"/>
+<div class="absolute top-2 left-2 px-2 py-0.5 bg-surface-container-lowest/90 border border-outline-variant text-[10px] font-label-sm text-primary">
+              SAGA 03
+            </div>
+<div class="absolute bottom-2 right-2 px-2 py-0.5 bg-background/80 text-[10px] font-label-sm text-on-surface">
+              6 EPISODES
+            </div>
+</div>
+<div class="pt-4 pb-2 space-y-2 flex-grow">
+<div class="flex items-center justify-between text-label-sm font-label-sm text-outline">
+<span>ENDINGS: ALL COMPLETE</span>
+<span class="text-primary-container">MASTERED</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface group-hover:text-primary-container transition-colors">
+              MASTERS PATH
+            </h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant line-clamp-2">
+              The sacred martial algorithms taught by the planetary war machines to their mortal disciples.
+            </p>
+</div>
+<div class="pt-3 border-t border-outline-variant/50 flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-primary-container">100% CANON</span>
+<button class="px-3 py-1.5 bg-surface-container-high hover:bg-primary hover:text-on-primary border border-outline-variant text-on-surface text-label-sm font-label-sm tracking-wider uppercase transition-colors">
+              LAUNCH SAGA
+            </button>
+</div>
+</div>
+<!-- SAGA 04: THE SINGULARITY THRESHOLD -->
+<div class="group bg-surface-container border border-outline-variant p-3 clip-chamfer-corner hover:border-tertiary-container transition-all flex flex-col justify-between">
+<div class="relative h-60 w-full overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A gigantic gravitational singularity accretion disk glowing with intense neon magenta and brilliant cyan cosmic rings. A monolithic research starship enters the event horizon surrounded by intricate holographic coordinate grids and celestial calculations." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZlkK0OTDGungzaTZpsaZdLB25wwKn4NUZVx3jNIbVi_9c2ec4EmBAKV-ICumQvR48coXEaiutE7lw1ZFb_6fg_JKUdbZLTe7c61SSxUxvh2n4Nr_9TYFcT7XI-hqklG35LpEBFuUASnKrEpxKThHFJY5SqOM837kCXekhL1zkeqj2H6UZuomsxaMH1XndwdXMWRRDhPrERAzFp5r7O8KyAQGR7zQeNDslnKTi5wA"/>
+<div class="absolute top-2 left-2 px-2 py-0.5 bg-surface-container-lowest/90 border border-tertiary-fixed-dim text-[10px] font-label-sm text-tertiary-fixed-dim">
+              SAGA 04
+            </div>
+<div class="absolute bottom-2 right-2 px-2 py-0.5 bg-background/80 text-[10px] font-label-sm text-on-surface">
+              10 EPISODES
+            </div>
+</div>
+<div class="pt-4 pb-2 space-y-2 flex-grow">
+<div class="flex items-center justify-between text-label-sm font-label-sm text-outline">
+<span>ENDINGS: 0 DISCOVERED / 20</span>
+<span class="text-error">EXTREME LEVEL</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface group-hover:text-tertiary transition-colors">
+              SINGULARITY THRESHOLD
+            </h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant line-clamp-2">
+              Beyond the event horizon, time bends backward and the creator's intelligence begins to question reality itself.
+            </p>
+</div>
+<div class="pt-3 border-t border-outline-variant/50 flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-outline">NEW RELEASE</span>
+<button class="px-3 py-1.5 bg-surface-container-high hover:bg-surface-bright border border-outline-variant text-on-surface text-label-sm font-label-sm tracking-wider uppercase transition-colors">
+              LAUNCH SAGA
+            </button>
+</div>
+</div>
+</div>
+<!-- Archive Browser Footer -->
+<div class="p-4 bg-surface-container-low border border-outline-variant/60 flex flex-col sm:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container">explore</span>
+<span class="text-body-sm font-body-sm text-on-surface-variant">Looking for the remaining 9 sagas? Access the full cross-multiverse index with filters.</span>
+</div>
+<button class="px-4 py-2 border border-outline-variant hover:border-primary-container text-label-md font-label-md text-primary tracking-wider uppercase">
+          OPEN SAGA ARCHIVE (ALL 13)
+        </button>
+</div>
+</section>
+<!-- ================= SECTION 5: THE 8 MATRIX SHARED ENGINES ================= -->
+<section class="space-y-6" id="engines">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-3 border-b border-outline-variant/40 pb-3">
+<div>
+<div class="flex items-center gap-2 text-label-sm font-label-sm text-primary-container">
+<span class="material-symbols-outlined text-sm">developer_board</span>
+            COMPUTATIONAL MATRIX ARCHITECTURE
+          </div>
+<h2 class="text-headline-lg font-headline-lg text-on-surface uppercase tracking-wide">
+            THE 8 MATRIX SHARED ENGINES
+          </h2>
+</div>
+<div class="text-label-sm font-label-sm text-outline">
+          STATUS: <span class="text-primary">8 / 8 RUNNING IN PARALLEL</span>
+</div>
+</div>
+<!-- 8 Engine Interactive Cards Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Engine 1 -->
+<div class="bg-surface-container-low border border-outline-variant p-5 hover:border-primary-container hover:bg-surface-container transition-all group">
+<div class="flex items-center justify-between mb-4">
+<span class="material-symbols-outlined text-primary-container text-2xl group-hover:scale-110 transition-transform">view_carousel</span>
+<span class="text-[10px] font-label-sm text-outline bg-surface-container-high px-2 py-0.5 border border-outline-variant/50">ENG-01</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface font-semibold mb-1">Dual-Axis Narrative Player</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-4">
+            Non-linear branch execution handling time-dilation, loop checks, and dynamic choices.
+          </p>
+<div class="text-label-sm font-label-sm text-primary-container flex items-center gap-1">
+<span>ACTIVE RUNTIME</span> →
+          </div>
+</div>
+<!-- Engine 2 -->
+<div class="bg-surface-container-low border border-outline-variant p-5 hover:border-primary-container hover:bg-surface-container transition-all group">
+<div class="flex items-center justify-between mb-4">
+<span class="material-symbols-outlined text-secondary text-2xl group-hover:scale-110 transition-transform">groups_3</span>
+<span class="text-[10px] font-label-sm text-outline bg-surface-container-high px-2 py-0.5 border border-outline-variant/50">ENG-02</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface font-semibold mb-1">Multiplayer Chapter Rooms</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-4">
+            Consensus voting nodes across cooperative squads unlocking collective timelines.
+          </p>
+<div class="text-label-sm font-label-sm text-secondary flex items-center gap-1">
+<span>CONNECT SQUAD</span> →
+          </div>
+</div>
+<!-- Engine 3 -->
+<div class="bg-surface-container-low border border-outline-variant p-5 hover:border-primary-container hover:bg-surface-container transition-all group">
+<div class="flex items-center justify-between mb-4">
+<span class="material-symbols-outlined text-error text-2xl group-hover:scale-110 transition-transform">swords</span>
+<span class="text-[10px] font-label-sm text-outline bg-surface-container-high px-2 py-0.5 border border-outline-variant/50">ENG-03</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface font-semibold mb-1">VS System Arena</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-4">
+            Tactical cosmic combat matrix combining pilot cards and tactical weapon loadouts.
+          </p>
+<div class="text-label-sm font-label-sm text-error flex items-center gap-1">
+<span>STANDBY ARENA</span> →
+          </div>
+</div>
+<!-- Engine 4 -->
+<div class="bg-surface-container-low border border-outline-variant p-5 hover:border-primary-container hover:bg-surface-container transition-all group">
+<div class="flex items-center justify-between mb-4">
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-2xl group-hover:scale-110 transition-transform">cruelty_free</span>
+<span class="text-[10px] font-label-sm text-outline bg-surface-container-high px-2 py-0.5 border border-outline-variant/50">ENG-04</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface font-semibold mb-1">MagFam Companions</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-4">
+            Autonomous bio-synthetic cyber pets that explore sub-matrix channels while offline.
+          </p>
+<div class="text-label-sm font-label-sm text-tertiary-fixed-dim flex items-center gap-1">
+<span>DISPATCH FAMILIARS</span> →
+          </div>
+</div>
+<!-- Engine 5 -->
+<div class="bg-surface-container-low border border-outline-variant p-5 hover:border-primary-container hover:bg-surface-container transition-all group">
+<div class="flex items-center justify-between mb-4">
+<span class="material-symbols-outlined text-primary text-2xl group-hover:scale-110 transition-transform">nfc</span>
+<span class="text-[10px] font-label-sm text-outline bg-surface-container-high px-2 py-0.5 border border-outline-variant/50">ENG-05</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface font-semibold mb-1">MagnoCards NFC Hub</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-4">
+            Physical card bridge injecting real-world artifacts into the digital runtime ledger.
+          </p>
+<div class="text-label-sm font-label-sm text-primary flex items-center gap-1">
+<span>SCAN HARDWARE</span> →
+          </div>
+</div>
+<!-- Engine 6 -->
+<div class="bg-surface-container-low border border-outline-variant p-5 hover:border-primary-container hover:bg-surface-container transition-all group">
+<div class="flex items-center justify-between mb-4">
+<span class="material-symbols-outlined text-secondary-fixed text-2xl group-hover:scale-110 transition-transform">menu_book</span>
+<span class="text-[10px] font-label-sm text-outline bg-surface-container-high px-2 py-0.5 border border-outline-variant/50">ENG-06</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface font-semibold mb-1">MagZine Dynamic Reader</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-4">
+            Living editorial feed with interactive tactical footnotes, lore codex, and schematics.
+          </p>
+<div class="text-label-sm font-label-sm text-secondary-fixed flex items-center gap-1">
+<span>BROWSE ISSUES</span> →
+          </div>
+</div>
+<!-- Engine 7 -->
+<div class="bg-surface-container-low border border-outline-variant p-5 hover:border-primary-container hover:bg-surface-container transition-all group">
+<div class="flex items-center justify-between mb-4">
+<span class="material-symbols-outlined text-primary-container text-2xl group-hover:scale-110 transition-transform">public</span>
+<span class="text-[10px] font-label-sm text-outline bg-surface-container-high px-2 py-0.5 border border-outline-variant/50">ENG-07</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface font-semibold mb-1">World Dominion Strategy</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-4">
+            Sector-wide territory influence simulator driven by multiverse faction conquests.
+          </p>
+<div class="text-label-sm font-label-sm text-primary-container flex items-center gap-1">
+<span>WAR MAP</span> →
+          </div>
+</div>
+<!-- Engine 8 -->
+<div class="bg-surface-container-low border border-outline-variant p-5 hover:border-primary-container hover:bg-surface-container transition-all group">
+<div class="flex items-center justify-between mb-4">
+<span class="material-symbols-outlined text-on-surface text-2xl group-hover:scale-110 transition-transform">psychology</span>
+<span class="text-[10px] font-label-sm text-outline bg-surface-container-high px-2 py-0.5 border border-outline-variant/50">ENG-08</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface font-semibold mb-1">IOH Intelligence Engine</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-4">
+            Adaptive narrative generation engine synchronizing synthetic voice, dialogue, and lore.
+          </p>
+<div class="text-label-sm font-label-sm text-on-surface flex items-center gap-1">
+<span>QUERY NEURAL</span> →
+          </div>
+</div>
+</div>
+</section>
+<!-- ================= THREE ENVIRONMENTS STATUS PANEL ================= -->
+<section class="border border-outline-variant/50 bg-surface-container-lowest p-6">
+<div class="text-label-sm font-label-sm text-outline mb-3 tracking-widest uppercase">THE THREE MATRIX REALMS</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="p-4 border-l-2 border-primary-container bg-surface-container/40">
+<div class="text-label-sm font-label-sm text-primary-container">ENVIRONMENT 01</div>
+<div class="text-headline-sm font-headline-sm text-on-surface font-bold">Public Matrix</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">Universal open access for all connected human and synthetic explorers.</p>
+</div>
+<div class="p-4 border-l-2 border-secondary bg-surface-container/40">
+<div class="text-label-sm font-label-sm text-secondary">ENVIRONMENT 02</div>
+<div class="text-headline-sm font-headline-sm text-on-surface font-bold">Creator Matrix</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">Authoring suite for new narrative loops, branches, and card decks.</p>
+</div>
+<div class="p-4 border-l-2 border-outline bg-surface-container/40">
+<div class="text-label-sm font-label-sm text-outline">ENVIRONMENT 03</div>
+<div class="text-headline-sm font-headline-sm text-on-surface font-bold">Intelligence Matrix</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">Autonomous neural simulations running perpetual non-observed sagas.</p>
+</div>
+</div>
+</section>
+</main>
+<!-- ================= FOOTER (Shared Component Anchor) ================= -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-outline-variant/40 mt-16">
+<div class="w-full py-8 px-6 lg:px-12 flex flex-col md:flex-row justify-between items-center gap-4 max-w-full mx-auto">
+<!-- Brand & Copyright -->
+<div class="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+<span class="text-headline-sm font-headline-sm text-primary dark:text-primary uppercase tracking-wider font-bold">
+          QUANTVM MATRIX
+        </span>
+<span class="hidden sm:inline-block text-outline">|</span>
+<span class="text-body-sm font-body-sm text-outline">
+          © 2025 QUANTVM MATRIX Interactive Entertainment. Universal Episode Loop Runtime v1.1.
+        </span>
+</div>
+<!-- Telemetry Navigation Links from JSON Anchor -->
+<div class="flex flex-wrap justify-center items-center gap-6 text-label-sm font-label-sm">
+<a class="text-outline dark:text-outline hover:text-on-surface dark:hover:text-on-surface hover:text-primary-container dark:hover:text-primary-container transition-colors" href="#diagnostics">
+          TERMINAL DIAGNOSTICS
+        </a>
+<a class="text-outline dark:text-outline hover:text-on-surface dark:hover:text-on-surface hover:text-primary-container dark:hover:text-primary-container transition-colors" href="#protocols">
+          COSMIC PROTOCOLS
+        </a>
+<a class="text-outline dark:text-outline hover:text-on-surface dark:hover:text-on-surface hover:text-primary-container dark:hover:text-primary-container transition-colors" href="#privacy">
+          PRIVACY ARCHIVE
+        </a>
+<a class="text-primary dark:text-primary font-bold hover:text-primary-container dark:hover:text-primary-container transition-colors flex items-center gap-1" href="#status">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+          UEL RUNTIME STATUS
+        </a>
+<a class="text-outline dark:text-outline hover:text-on-surface dark:hover:text-on-surface hover:text-primary-container dark:hover:text-primary-container transition-colors" href="#support">
+          TRANSMISSION SUPPORT
+        </a>
+</div>
+</div>
+</footer>
+</body></html>

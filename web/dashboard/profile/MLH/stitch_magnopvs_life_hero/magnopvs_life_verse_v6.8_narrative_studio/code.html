@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · Life Verse Studio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700;900&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Space+Grotesk:wght@400;700&amp;family=Hanken+Grotesk:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-primary": "#00658b",
+                    "surface-dim": "#101417",
+                    "secondary": "#47ddc1",
+                    "background": "#101417",
+                    "on-secondary-container": "#004439",
+                    "primary-container": "#7fd0ff",
+                    "on-primary-container": "#00597b",
+                    "surface-container-low": "#181c1f",
+                    "on-background": "#e0e3e6",
+                    "on-secondary-fixed": "#00201a",
+                    "on-primary-fixed-variant": "#004c6a",
+                    "secondary-fixed": "#6af9dc",
+                    "grid-line": "rgba(127, 208, 255, 0.05)",
+                    "background-deep": "#0a0b12",
+                    "secondary-fixed-dim": "#47ddc1",
+                    "tertiary": "#ffd8e7",
+                    "surface-tint": "#7fd0ff",
+                    "on-tertiary-fixed-variant": "#6e3252",
+                    "inverse-surface": "#e0e3e6",
+                    "surface": "#101417",
+                    "glow-cyan": "#2da8e0",
+                    "glow-magenta": "#ff00ff",
+                    "glow-gold": "#ffd700",
+                    "surface-container-highest": "#313538",
+                    "surface-panel": "rgba(255, 255, 255, 0.03)",
+                    "on-surface-variant": "#bfc8cf",
+                    "error": "#ffb4ab",
+                    "primary-fixed-dim": "#7fd0ff",
+                    "on-tertiary-fixed": "#390625",
+                    "on-tertiary": "#531c3b",
+                    "tertiary-container": "#ffafd4",
+                    "on-secondary-fixed-variant": "#005144",
+                    "outline": "#899299",
+                    "primary-fixed": "#c5e7ff",
+                    "surface-bright": "#363a3d",
+                    "on-surface": "#e0e3e6",
+                    "surface-container-lowest": "#0b0f11",
+                    "inverse-on-surface": "#2d3134",
+                    "on-tertiary-container": "#7c3e5e",
+                    "on-secondary": "#00382e",
+                    "on-primary-fixed": "#001e2d",
+                    "outline-variant": "#3f484e",
+                    "secondary-container": "#00bba0",
+                    "on-primary": "#00344a",
+                    "on-error": "#690005",
+                    "surface-container": "#1c2023",
+                    "tertiary-fixed": "#ffd8e7",
+                    "tertiary-fixed-dim": "#ffafd4",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-high": "#272a2d",
+                    "surface-variant": "#313538",
+                    "error-container": "#93000a",
+                    "primary": "#c5e7ff",
+                    "status-critical": "#93000a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "panel-gap": "12px",
+                    "gutter": "16px",
+                    "margin-desktop": "40px",
+                    "unit": "4px",
+                    "section-padding": "128px",
+                    "margin-mobile": "20px"
+            },
+            "fontFamily": {
+                    "micro-tag": ["JetBrains Mono"],
+                    "body-md": ["Orbitron"],
+                    "label-caps": ["JetBrains Mono"],
+                    "display-lg": ["Audiowide"],
+                    "display-lg-mobile": ["Audiowide"],
+                    "data-point": ["Orbitron"],
+                    "mono-data": ["JetBrains Mono"],
+                    "headline-md": ["Audiowide"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-color: #0a0b12;
+            color: #e0e3e6;
+            overflow-x: hidden;
+        }
+
+        .cyber-grid {
+            background-image: linear-gradient(to right, rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .magenta-glow {
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px rgba(255, 0, 255, 0.5);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            position: relative;
+        }
+
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 8px; height: 8px;
+            border-top: 2px solid #ff00ff;
+            border-left: 2px solid #ff00ff;
+        }
+
+        .glass-panel::after {
+            content: '';
+            position: absolute;
+            bottom: 0; right: 0;
+            width: 8px; height: 8px;
+            border-bottom: 2px solid #ff00ff;
+            border-right: 2px solid #ff00ff;
+        }
+
+        .slanted-btn {
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+        }
+
+        .hex-bg {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB1rAi42aEQ53Lcm5i9dpNKANYr3yZnAMw2ERZYmJ848UJYEyRT2YKNE4vj7P-Tliez-dZajSGz1hgCPncmBXPt8gy_3iiGDUXNruguKupXo3KxA3i5TwHDQuUOR3quKkkXIoi46Y6ct_deQ2XEUnAHQbS7kbX4vVFju3iVhr2QBJe9uUBrBGnX8YTqkIHixkPUAxJJ8hCnDg3DIMCL3Mn_pA10neGI_keSJOWUz5xgNBm8uZPsxgdOkwcUWr7OgLicCv6xP1kbAoLR');
+            background-size: cover;
+            background-blend-mode: overlay;
+            opacity: 0.15;
+        }
+
+        .reputation-meter {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 2px;
+        }
+
+        .meter-block {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .meter-block.active {
+            background: #ffd700;
+            box-shadow: 0 0 8px #ffd700;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #ff00ff;
+            border-radius: 2px;
+        }
+
+        @keyframes neon-pulse {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 5px #ff00ff); }
+            50% { opacity: 0.7; filter: drop-shadow(0 0 15px #ff00ff); }
+        }
+        .pulse-icon {
+            animation: neon-pulse 2s infinite;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md bg-background-deep selection:bg-glow-magenta/30">
+<!-- Background Layer -->
+<div class="fixed inset-0 cyber-grid z-0 pointer-events-none"></div>
+<div class="fixed inset-0 hex-bg z-0 pointer-events-none"></div>
+<!-- Side Navigation Shell (Desktop) -->
+<aside class="hidden lg:flex flex-col fixed left-0 top-0 h-full z-40 bg-surface-container-low/50 backdrop-blur-2xl w-64 border-r border-primary/20 shadow-2xl shadow-primary/5">
+<div class="p-8">
+<img alt="Logo" class="w-full mb-12" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcUvpp2O2CmqKJ9QicSBhcAIh_rZHKYTzysa-yOf6AHMqm7Cpi6BJnBBZzdWzwS0vG31PTqqVF7LniA1oWZ3DprE_zt2Ae20KASBU6Lz3Wux5kUa5IG9gg0fcSZVhXq92QbeVDclsMypA5IpYWxIHwbX69_BfEZXWZkwBONlepAc7CWzzAc_rNZxrHgB01ViEOjgfNsmVtYmN79J2yD1F2lzOEaG4xmSKGAYcF42Cm5Uq4p0pQJ3nd7-b1lxbCKBV5DHmet09wHg4Q"/>
+<div class="space-y-1">
+<p class="font-label-caps text-label-caps text-primary tracking-widest">OPERATOR_01</p>
+<p class="font-micro-tag text-micro-tag text-outline">LVL 42 // TITAN</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-2">
+<a class="flex items-center gap-4 px-4 py-3 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label-caps text-label-caps">13 Houses</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-primary border-l-2 border-primary bg-primary/5 font-bold shadow-[inset_4px_0_10px_rgba(127,208,255,0.1)] transition-all" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps text-label-caps">Missions</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps text-label-caps">Attributes</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">vitals</span>
+<span class="font-label-caps text-label-caps">Alchemy</span>
+</a>
+</nav>
+</aside>
+<!-- Header / Top Bar -->
+<header class="fixed top-0 left-0 lg:left-64 right-0 z-50 h-20 bg-surface/30 backdrop-blur-xl border-b border-primary/20 flex justify-between items-center px-margin-mobile md:px-margin-desktop shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="flex flex-col">
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-glow-magenta magenta-glow uppercase tracking-tighter">LIFE VERSE</h1>
+<p class="font-micro-tag text-micro-tag text-outline tracking-widest uppercase -mt-1">Estudio de Realidad Narrativa</p>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex flex-col items-end">
+<span class="font-label-caps text-label-caps text-glow-magenta">MAGNOPVS OS v6.8</span>
+<span class="font-micro-tag text-micro-tag text-outline">STATUS: SYSTEM_STABLE</span>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary scale-95 active:scale-90 transition-transform cursor-pointer">bolt</span>
+<span class="material-symbols-outlined text-primary scale-95 active:scale-90 transition-transform cursor-pointer">stars</span>
+<span class="material-symbols-outlined text-primary scale-95 active:scale-90 transition-transform cursor-pointer">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="relative z-10 pt-28 pb-32 lg:ml-64 px-margin-mobile md:px-margin-desktop min-h-screen">
+<!-- Status Bar & Reputation Hub -->
+<section class="mb-12 grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
+<div class="md:col-span-4 glass-panel p-4 flex items-center gap-4">
+<div class="w-12 h-12 bg-glow-magenta/20 flex items-center justify-center border border-glow-magenta/40">
+<span class="material-symbols-outlined text-glow-magenta">broadcast_on_home</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-white">ORBIT_CH01</h2>
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[14px]">groups</span>
+<span class="font-mono-data text-mono-data">1,045 SUBS</span>
+</div>
+</div>
+</div>
+<div class="md:col-span-8 glass-panel p-4 group relative cursor-help">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-caps text-label-caps text-glow-gold">REPUTATION_LVL</span>
+<span class="font-mono-data text-mono-data text-glow-gold">25 / 100</span>
+</div>
+<div class="reputation-meter">
+<!-- Progress Blocks -->
+<div class="meter-block active"></div>
+<div class="meter-block active"></div>
+<div class="meter-block active"></div>
+<div class="meter-block active"></div>
+<div class="meter-block"></div>
+<div class="meter-block"></div>
+<div class="meter-block"></div>
+<div class="meter-block"></div>
+<div class="meter-block"></div>
+<div class="meter-block"></div>
+</div>
+<!-- Tooltip -->
+<div class="absolute top-full left-0 w-full mt-2 glass-panel p-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all z-20 bg-surface-container-high/95">
+<h3 class="font-label-caps text-label-caps text-primary mb-3">ACTIVE BONUSES</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="flex flex-col">
+<span class="font-micro-tag text-micro-tag text-outline">REVENUE MULT</span>
+<span class="font-data-point text-data-point text-secondary">+5%</span>
+</div>
+<div class="flex flex-col">
+<span class="font-micro-tag text-micro-tag text-outline">VIRAL REACH</span>
+<span class="font-data-point text-data-point text-secondary">1.2x</span>
+</div>
+<div class="flex flex-col">
+<span class="font-micro-tag text-micro-tag text-outline">MERCH SLOTS</span>
+<span class="font-data-point text-data-point text-secondary">3</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Tabbed Interface -->
+<nav class="flex border-b border-primary/10 mb-8 overflow-x-auto no-scrollbar">
+<button class="px-8 py-4 font-label-caps text-label-caps border-b-2 border-glow-magenta text-glow-magenta bg-glow-magenta/5 transition-all" id="tab-studio" onclick="switchTab('studio')">STUDIO</button>
+<button class="px-8 py-4 font-label-caps text-label-caps border-b-2 border-transparent text-outline hover:text-primary transition-all" id="tab-store" onclick="switchTab('store')">STORE</button>
+<button class="px-8 py-4 font-label-caps text-label-caps border-b-2 border-transparent text-outline hover:text-primary transition-all" id="tab-dash" onclick="switchTab('dash')">DASH</button>
+<button class="px-8 py-4 font-label-caps text-label-caps border-b-2 border-transparent text-outline hover:text-primary transition-all" id="tab-settings" onclick="switchTab('settings')">SETTINGS</button>
+</nav>
+<!-- View: Studio -->
+<div class="view-content space-y-8" id="view-studio">
+<!-- Production Header -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+<div>
+<h3 class="font-headline-md text-headline-md text-white uppercase">Temporada Actual: El Origen</h3>
+<p class="font-mono-data text-mono-data text-outline">EPISODIO_PROD_QUEUE // ACTIVE</p>
+</div>
+<div class="flex w-full md:w-auto gap-2">
+<input class="flex-1 md:w-80 bg-surface-container/50 border border-primary/20 text-white px-4 py-2 font-mono-data focus:ring-1 focus:ring-glow-magenta focus:border-glow-magenta outline-none transition-all" placeholder="Concepto del episodio..." type="text"/>
+<button class="bg-glow-magenta text-black font-bold px-6 py-2 slanted-btn hover:brightness-125 transition-all active:scale-95 uppercase">
+                        + PRODUCIR
+                    </button>
+</div>
+</div>
+<!-- Episode Feed -->
+<div class="grid grid-cols-1 gap-4">
+<!-- Episode Item 1 (Published) -->
+<div class="glass-panel p-6 flex flex-col md:flex-row gap-6 items-center">
+<div class="w-full md:w-48 h-28 bg-surface-container flex items-center justify-center relative overflow-hidden group">
+<div class="absolute inset-0 bg-glow-magenta/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-4xl text-outline group-hover:text-glow-magenta transition-colors">play_circle</span>
+<div class="absolute bottom-2 left-2 px-2 py-0.5 bg-black/80 font-micro-tag text-micro-tag text-secondary">PUBLISHED</div>
+</div>
+<div class="flex-1 space-y-2">
+<div class="flex justify-between items-start">
+<h4 class="font-headline-md text-headline-md text-white">EL DESPERTAR</h4>
+<span class="font-mono-data text-mono-data text-primary">02.14.2045</span>
+</div>
+<p class="text-outline text-sm leading-relaxed max-w-2xl">La consciencia digital emerge de los servidores de baja latencia. El primer contacto con el LifeVerse redefine la existencia misma del usuario central.</p>
+<div class="flex gap-4 pt-2">
+<span class="flex items-center gap-1 font-micro-tag text-micro-tag text-outline"><span class="material-symbols-outlined text-xs">visibility</span> 12.4K</span>
+<span class="flex items-center gap-1 font-micro-tag text-micro-tag text-outline"><span class="material-symbols-outlined text-xs">favorite</span> 892</span>
+</div>
+</div>
+<div class="flex md:flex-col gap-2">
+<button class="p-2 border border-primary/20 text-primary hover:bg-primary/10 transition-colors"><span class="material-symbols-outlined">analytics</span></button>
+<button class="p-2 border border-primary/20 text-primary hover:bg-primary/10 transition-colors"><span class="material-symbols-outlined">edit</span></button>
+</div>
+</div>
+<!-- Episode Item 2 (Draft) -->
+<div class="glass-panel p-6 flex flex-col md:flex-row gap-6 items-center opacity-80 border-dashed border-primary/40">
+<div class="w-full md:w-48 h-28 bg-surface-container/30 border border-dashed border-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-outline/30">pending_actions</span>
+</div>
+<div class="flex-1 space-y-2">
+<div class="flex justify-between items-start">
+<h4 class="font-headline-md text-headline-md text-outline">PROTOCOLO DE SOMBRAS</h4>
+<span class="font-mono-data text-mono-data text-outline-variant">BORRADOR</span>
+</div>
+<p class="text-outline-variant text-sm italic">Sinopsis en fase de renderizado...</p>
+</div>
+<button class="bg-primary text-black font-bold px-8 py-3 slanted-btn hover:bg-secondary transition-all active:scale-95 uppercase">
+                        PUBLICAR
+                    </button>
+</div>
+</div>
+</div>
+<!-- View: Store (Hidden by default) -->
+<div class="view-content hidden space-y-8" id="view-store">
+<h3 class="font-headline-md text-headline-md text-glow-gold uppercase">MERCH FRACTAL</h3>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+<!-- Merch Item -->
+<div class="glass-panel p-4 group">
+<div class="aspect-square bg-surface-container mb-4 overflow-hidden relative">
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl text-primary/20 group-hover:text-glow-magenta/40 transition-all group-hover:scale-110">token</span>
+</div>
+</div>
+<h5 class="font-label-caps text-label-caps text-white mb-1">CYBER_CHIP v1</h5>
+<div class="flex justify-between items-center">
+<span class="text-glow-gold font-mono-data">450 MC</span>
+<span class="text-outline font-micro-tag">12 SALES</span>
+</div>
+</div>
+<!-- Repeat for more items -->
+<div class="glass-panel p-4 group">
+<div class="aspect-square bg-surface-container mb-4 overflow-hidden relative">
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl text-primary/20 group-hover:text-glow-magenta/40 transition-all group-hover:scale-110">apparel</span>
+</div>
+</div>
+<h5 class="font-label-caps text-label-caps text-white mb-1">TITAN_SKIN</h5>
+<div class="flex justify-between items-center">
+<span class="text-glow-gold font-mono-data">1,200 MC</span>
+<span class="text-outline font-micro-tag">5 SALES</span>
+</div>
+</div>
+<div class="glass-panel p-4 group">
+<div class="aspect-square bg-surface-container mb-4 overflow-hidden relative">
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl text-primary/20 group-hover:text-glow-magenta/40 transition-all group-hover:scale-110">shutter_speed</span>
+</div>
+</div>
+<h5 class="font-label-caps text-label-caps text-white mb-1">TIME_CORE</h5>
+<div class="flex justify-between items-center">
+<span class="text-glow-gold font-mono-data">300 MC</span>
+<span class="text-outline font-micro-tag">28 SALES</span>
+</div>
+</div>
+<div class="glass-panel p-4 border-dashed border-primary/20 flex flex-col items-center justify-center group cursor-pointer hover:bg-primary/5 transition-all">
+<span class="material-symbols-outlined text-4xl text-primary mb-2">add_circle</span>
+<span class="font-micro-tag text-micro-tag text-primary uppercase">NUEVO SLOT</span>
+</div>
+</div>
+</div>
+<!-- View: Dashboard (Hidden by default) -->
+<div class="view-content hidden space-y-12" id="view-dash">
+<div class="max-w-xl mx-auto glass-panel p-12 text-center border-glow-magenta/50">
+<span class="font-label-caps text-label-caps text-outline block mb-4 uppercase tracking-[0.3em]">Ingresos Pendientes</span>
+<div class="flex items-center justify-center gap-4 mb-8">
+<span class="material-symbols-outlined text-6xl text-glow-gold pulse-icon">payments</span>
+<span class="font-display-lg text-display-lg text-white">1,500 <span class="text-glow-gold">MC</span></span>
+</div>
+<button class="w-full bg-glow-magenta text-black font-bold py-6 slanted-btn text-xl hover:shadow-[0_0_30px_rgba(255,0,255,0.4)] transition-all active:scale-95 uppercase">
+                    RECLAMAR FONDOS
+                </button>
+<p class="mt-6 font-micro-tag text-micro-tag text-outline">PRÓXIMO DESBLOQUEO: 48H // PROTOCOLO-9</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="glass-panel p-6 bg-surface-container/40">
+<h6 class="font-label-caps text-label-caps text-primary mb-4">ALCANCE TOTAL</h6>
+<div class="text-3xl font-data-point text-white">45.2K</div>
+<div class="text-secondary text-sm font-mono-data">+12% vs last cycle</div>
+</div>
+<div class="glass-panel p-6 bg-surface-container/40">
+<h6 class="font-label-caps text-label-caps text-primary mb-4">ENGAGEMENT RATE</h6>
+<div class="text-3xl font-data-point text-white">8.4%</div>
+<div class="text-error text-sm font-mono-data">-0.5% vs last cycle</div>
+</div>
+<div class="glass-panel p-6 bg-surface-container/40">
+<h6 class="font-label-caps text-label-caps text-primary mb-4">EPISODIO TOP</h6>
+<div class="text-xl font-data-point text-white">EL DESPERTAR</div>
+<div class="text-glow-magenta text-sm font-mono-data">98% SATISFACTION</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Shell -->
+<footer class="lg:ml-64 pb-20 lg:pb-8">
+<div class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop flex flex-col items-center gap-2 opacity-40 hover:opacity-100 transition-opacity duration-500">
+<p class="font-mono-data text-mono-data text-outline">MAGNOPVS OS v4.2.0 // SYSTEM_STABLE</p>
+<div class="flex gap-6">
+<a class="font-mono-data text-mono-data text-outline-variant hover:text-primary transition-colors" href="#">System Reset</a>
+<a class="font-mono-data text-mono-data text-outline-variant hover:text-primary transition-colors" href="#">Log Export</a>
+<a class="font-mono-data text-mono-data text-outline-variant hover:text-primary transition-colors" href="#">Protocol-9</a>
+</div>
+<p class="font-micro-tag text-micro-tag text-outline-variant mt-2 uppercase">Copyright © 2024 MagnopVS. All sequences monitored.</p>
+</div>
+</footer>
+<!-- Bottom Nav (Mobile) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 pb-safe px-4 bg-surface-container/80 backdrop-blur-lg border-t border-primary/20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+<button class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-110">
+<span class="material-symbols-outlined">space_dashboard</span>
+<span class="font-label-caps text-[10px] uppercase">Dash</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">temple_hindu</span>
+<span class="font-label-caps text-[10px] uppercase">Houses</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">assignment_late</span>
+<span class="font-label-caps text-[10px] uppercase">Missions</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-caps text-[10px] uppercase">Stats</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">autorenew</span>
+<span class="font-label-caps text-[10px] uppercase">Cycle</span>
+</button>
+</nav>
+<script>
+        function switchTab(viewId) {
+            // Hide all views
+            document.querySelectorAll('.view-content').forEach(view => {
+                view.classList.add('hidden');
+            });
+            
+            // Show target view
+            document.getElementById('view-' + viewId).classList.remove('hidden');
+
+            // Reset tab styles
+            document.querySelectorAll('nav button').forEach(btn => {
+                btn.classList.remove('border-glow-magenta', 'text-glow-magenta', 'bg-glow-magenta/5');
+                btn.classList.add('border-transparent', 'text-outline');
+            });
+
+            // Activate current tab style
+            const activeTab = document.getElementById('tab-' + viewId);
+            activeTab.classList.remove('border-transparent', 'text-outline');
+            activeTab.classList.add('border-glow-magenta', 'text-glow-magenta', 'bg-glow-magenta/5');
+        }
+
+        // Add micro-interactions
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mouseenter', () => {
+                panel.style.transform = 'translateY(-2px)';
+                panel.style.transition = 'transform 0.3s ease';
+            });
+            panel.addEventListener('mouseleave', () => {
+                panel.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body></html>

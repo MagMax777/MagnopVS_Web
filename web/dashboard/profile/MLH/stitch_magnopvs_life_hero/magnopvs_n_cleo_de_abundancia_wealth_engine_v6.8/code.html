@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS - Wealth Engine HUD</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&amp;family=Audiowide&amp;family=Space+Grotesk:wght@300;700&amp;family=Space+Mono:wght@400;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Design System Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed-dim": "#7fd0ff",
+                    "surface-container": "#1b2024",
+                    "surface-bright": "#353a3e",
+                    "surface": "#0f1417",
+                    "on-error": "#690005",
+                    "inverse-on-surface": "#2c3135",
+                    "on-tertiary-fixed-variant": "#8b005d",
+                    "on-secondary-fixed": "#00201a",
+                    "secondary-fixed": "#6af9dc",
+                    "tertiary-container": "#ff64ba",
+                    "surface-dim": "#0f1417",
+                    "error": "#ffb4ab",
+                    "on-tertiary-container": "#6a0046",
+                    "inverse-surface": "#dfe3e8",
+                    "on-error-container": "#ffdad6",
+                    "secondary": "#48ddc1",
+                    "on-tertiary-fixed": "#3d0026",
+                    "outline-variant": "#3e484f",
+                    "inverse-primary": "#00658c",
+                    "surface-tint": "#7fd0ff",
+                    "secondary-fixed-dim": "#48ddc1",
+                    "on-secondary-fixed-variant": "#005144",
+                    "background": "#0f1417",
+                    "on-surface-variant": "#bec8d0",
+                    "on-primary-fixed": "#001e2d",
+                    "on-secondary-container": "#004439",
+                    "surface-container-high": "#262b2e",
+                    "primary": "#7fd0ff",
+                    "outline": "#88929a",
+                    "on-primary-container": "#003951",
+                    "tertiary-fixed": "#ffd8e7",
+                    "surface-variant": "#303539",
+                    "on-primary": "#00344a",
+                    "on-background": "#dfe3e8",
+                    "error-container": "#93000a",
+                    "tertiary": "#ffafd4",
+                    "surface-container-highest": "#303539",
+                    "on-surface": "#dfe3e8",
+                    "tertiary-fixed-dim": "#ffafd4",
+                    "surface-container-lowest": "#0a0f12",
+                    "primary-container": "#2da8e0",
+                    "surface-container-low": "#171c20",
+                    "secondary-container": "#00bba0",
+                    "on-secondary": "#00382e",
+                    "on-tertiary": "#620041",
+                    "on-primary-fixed-variant": "#004c6a",
+                    "primary-fixed": "#c5e7ff",
+                    "gold-accent": "#D4AF37"
+            },
+            "fontFamily": {
+                    "display-lg": ["Audiowide", "sans-serif"],
+                    "display-lg-mobile": ["Audiowide", "sans-serif"],
+                    "label-caps": ["Orbitron", "monospace"],
+                    "body-lg": ["Space Mono", "monospace"],
+                    "body-sm": ["Space Mono", "monospace"],
+                    "data-viz": ["Orbitron", "monospace"],
+                    "headline-md": ["Audiowide", "sans-serif"]
+            },
+            "backgroundImage": {
+              "hex-grid": "url(\"data:image/svg+xml,%3Csvg width='60' height='104' viewBox='0 0 60 104' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l30 17.32v34.64L30 69.28 0 51.96V17.32L30 0z' fill-opacity='0.05' fill='%237fd0ff' fill-rule='evenodd'/%3E%3C/svg%3E\")"
+            }
+          }
+        }
+      }
+    </script>
+<style>
+      body {
+        background-color: #0a0b10;
+        cursor: crosshair;
+        overflow-x: hidden;
+      }
+      .glass-panel {
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(127, 208, 255, 0.2);
+        background: linear-gradient(135deg, rgba(27, 32, 36, 0.7) 0%, rgba(10, 15, 18, 0.9) 100%);
+      }
+      .neon-border-primary {
+        box-shadow: 0 0 10px rgba(127, 208, 255, 0.3), inset 0 0 10px rgba(127, 208, 255, 0.1);
+        border: 1px solid #7fd0ff;
+      }
+      .neon-border-gold {
+        box-shadow: 0 0 10px rgba(212, 175, 55, 0.3), inset 0 0 10px rgba(212, 175, 55, 0.1);
+        border: 1px solid #D4AF37;
+      }
+      .scanline {
+        width: 100%;
+        height: 100px;
+        z-index: 99;
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(127, 208, 255, 0.05) 50%, rgba(0, 0, 0, 0) 100%);
+        opacity: 0.1;
+        position: absolute;
+        bottom: 100%;
+        animation: scanline 10s linear infinite;
+      }
+      @keyframes scanline {
+        0% { bottom: 100%; }
+        100% { bottom: -100px; }
+      }
+      .hud-bracket {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-color: #7fd0ff;
+      }
+      .segment-bar div {
+        height: 8px;
+        width: 12px;
+        background-color: #1b2024;
+        margin-right: 2px;
+        transition: all 0.3s ease;
+      }
+      .segment-bar div.active {
+        background-color: #7fd0ff;
+        box-shadow: 0 0 5px #7fd0ff;
+      }
+    </style>
+</head>
+<body class="text-on-surface selection:bg-primary selection:text-on-primary">
+<div class="fixed inset-0 bg-hex-grid opacity-20 pointer-events-none"></div>
+<div class="scanline"></div>
+<!-- Top Navigation Bar (Shared Component Anchor) -->
+<header class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl border-b border-tertiary-container shadow-tint flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary text-3xl">currency_exchange</span>
+<h1 class="font-display-xl-mobile text-headline-lg-mobile text-on-surface tracking-widest uppercase">TEATRO DEL DESTINO</h1>
+</div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-tertiary transition-colors duration-500" href="#">WEALTH HUB</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-tertiary transition-colors duration-500" href="#">MARKETS</a>
+<a class="font-label-caps text-label-caps text-tertiary transition-colors duration-500" href="#">KARMIC UNIT</a>
+</nav>
+<div class="flex items-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined hover:text-tertiary transition-colors cursor-pointer">language</span>
+<span class="material-symbols-outlined hover:text-tertiary transition-colors cursor-pointer">settings</span>
+<div class="w-10 h-10 rounded-full border border-primary/30 flex items-center justify-center bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A sophisticated digital portrait of a cybernetic alchemist with glowing blue eyes and gold circuitry patterns on their face, set against a dark void background with geometric data particles. The lighting is dramatic and moody, reflecting a high-fidelity scifi fantasy aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBr4ASJ0NyuTQB02s0SWg7PI5rBl-ZzUAG7fGhKXV7jy1DIOflc9qYffxoT4ut_EUkq8qMAEmGsdEoQfFdRsa9zE3B6hcB5bQ0yAwgN3ItuiJN-TovIYviYIJu4dPi3pBALqNjEGjZTw-N-88LsTeX2xs0h0fVGiunVSs7EyJd_LdRlF_K6lVy2ODYXc6G72QqPMYVUQi2KPh0tJ8xrnKtwjw6xujiOrWqAkKrPU05DeilXYUMxL7rAQg"/>
+</div>
+</div>
+</header>
+<!-- Side Navigation (Shared Component Anchor) -->
+<aside class="hidden md:flex fixed left-0 top-0 h-full w-72 z-50 bg-surface/95 backdrop-blur-2xl border-r border-tertiary/20 shadow-2xl shadow-tertiary/5 flex-col py-24 px-6 space-y-6">
+<div class="mb-10 px-2">
+<p class="font-label-caps text-label-caps text-tertiary opacity-60">ARCHITECT STATUS</p>
+<h2 class="font-headline-md text-headline-md text-on-surface">Ciclo Rubedo</h2>
+<div class="flex items-center gap-2 mt-2">
+<div class="w-2 h-2 rounded-full bg-secondary animate-pulse"></div>
+<span class="font-body-sm text-body-sm text-secondary">TRANSMUTER ONLINE</span>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<div class="group flex items-center gap-4 py-3 px-4 transition-all duration-700 ease-in-out text-on-surface-variant opacity-60 hover:bg-on-tertiary/10 hover:text-tertiary cursor-pointer">
+<span class="material-symbols-outlined">architecture</span>
+<span class="font-label-caps text-label-caps">El Architeto</span>
+</div>
+<div class="group flex items-center gap-4 py-3 px-4 transition-all duration-700 ease-in-out text-tertiary-fixed border-l-2 border-tertiary-fixed bg-tertiary-container/10">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-label-caps text-label-caps">El Místico</span>
+</div>
+<div class="group flex items-center gap-4 py-3 px-4 transition-all duration-700 ease-in-out text-on-surface-variant opacity-60 hover:bg-on-tertiary/10 hover:text-tertiary cursor-pointer">
+<span class="material-symbols-outlined">visibility_off</span>
+<span class="font-label-caps text-label-caps">La Sombra</span>
+</div>
+<div class="group flex items-center gap-4 py-3 px-4 transition-all duration-700 ease-in-out text-on-surface-variant opacity-60 hover:bg-on-tertiary/10 hover:text-tertiary cursor-pointer">
+<span class="material-symbols-outlined">cyclone</span>
+<span class="font-label-caps text-label-caps">El Gran Trabajo</span>
+</div>
+</nav>
+<div class="mt-auto pt-6 border-t border-outline-variant/30">
+<button class="w-full py-4 bg-tertiary-container/20 border border-tertiary text-tertiary font-label-caps text-label-caps tracking-widest hover:bg-tertiary hover:text-on-tertiary transition-all active:scale-95">
+                REINICIAR EL CICLO
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-72 pt-24 pb-12 px-margin-mobile md:px-margin-desktop min-h-screen relative">
+<!-- Section 1: Wealth Overview -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+<!-- Balance Card -->
+<div class="lg:col-span-2 glass-panel p-8 relative overflow-hidden">
+<span class="absolute top-2 right-4 font-label-caps text-[8px] opacity-30">SN-4492-WEALTH-CORE</span>
+<div class="flex justify-between items-start mb-8">
+<div>
+<p class="font-label-caps text-label-caps text-primary mb-2">TOTAL MAGNOCOIN BALANCE</p>
+<h2 class="font-display-lg text-display-lg text-on-surface tracking-tighter">MC 8,244,192.00</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">≈ $12,402,192.88 USD</p>
+</div>
+<div class="text-right">
+<p class="font-label-caps text-label-caps text-secondary">ROI EXISTENTIAL</p>
+<p class="font-data-viz text-data-viz text-secondary">+14.2%</p>
+</div>
+</div>
+<div class="w-full h-32 relative">
+
+</div>
+</div>
+<!-- Global Status Orb -->
+<div class="glass-panel p-8 flex flex-col items-center justify-center text-center group border-gold-accent/20">
+<span class="absolute top-2 right-4 font-label-caps text-[8px] opacity-30">HUB-STAT-01</span>
+<div class="relative w-32 h-32 mb-6">
+<div class="absolute inset-0 rounded-full border-2 border-primary/20 animate-[spin_10s_linear_infinite]"></div>
+<div class="absolute inset-2 rounded-full border-2 border-secondary/40 animate-[spin_15s_linear_infinite_reverse]"></div>
+<div class="absolute inset-4 rounded-full bg-gradient-to-tr from-primary/10 to-gold-accent/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-primary group-hover:scale-110 transition-transform">insights</span>
+</div>
+</div>
+<h3 class="font-label-caps text-label-caps text-on-surface mb-2">SYSTEM LUMINANCE</h3>
+<div class="flex gap-1 segment-bar">
+<div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div></div><div></div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-4">84% Transmutation Efficiency</p>
+</div>
+</div>
+<!-- Section 2: Karmic Transmuter (The Core) -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12 items-center">
+<div class="space-y-6">
+<h2 class="font-display-lg text-headline-md text-primary flex items-center gap-3">
+<span class="material-symbols-outlined text-4xl">energy_savings_leaf</span>
+                    KARMIC TRANSMUTER
+                </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg">
+                    Harness the raw volatility of the fiat markets. Convert standard currency into MagnoCoins (MC) to fuel your existential expansion. High-fidelity transmutation ensures 0.001% leakage.
+                </p>
+<div class="space-y-4">
+<div class="bg-surface-container-low border border-outline-variant/30 p-4 rounded-lg flex items-center justify-between">
+<div>
+<p class="font-label-caps text-[10px] text-on-surface-variant mb-1">INPUT: FIAT RESERVE</p>
+<input class="bg-transparent border-none p-0 font-data-viz text-xl focus:ring-0 w-32" type="text" value="10,000.00"/>
+</div>
+<span class="font-label-caps text-label-caps">USD</span>
+</div>
+<div class="flex justify-center">
+<span class="material-symbols-outlined text-primary text-3xl animate-bounce">south</span>
+</div>
+<div class="bg-surface-container-low border-2 border-primary/50 p-4 rounded-lg flex items-center justify-between neon-border-primary">
+<div>
+<p class="font-label-caps text-[10px] text-primary mb-1">OUTPUT: MAGNOCOINS</p>
+<p class="font-data-viz text-xl">MC 6,842.12</p>
+</div>
+<span class="font-label-caps text-label-caps text-primary">MAGNO</span>
+</div>
+<button class="w-full py-5 bg-primary text-on-primary font-label-caps text-label-caps tracking-[0.3em] hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-primary/20">
+                        EXECUTE TRANSMUTATION
+                    </button>
+</div>
+</div>
+<!-- Transmuter Visualizer -->
+<div class="h-[400px] glass-panel relative flex items-center justify-center">
+
+<div class="z-10 text-center bg-background/40 backdrop-blur-md p-6 border border-white/10 rounded-full">
+<p class="font-label-caps text-[10px] text-on-surface-variant">CURRENT GASP</p>
+<p class="font-data-viz text-2xl text-secondary">0.00042 MC</p>
+</div>
+</div>
+</div>
+<!-- Section 3 & 4: Investment Vault & Debt Neutralizer -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<!-- Investment Vault -->
+<div class="glass-panel p-8">
+<div class="flex justify-between items-center mb-8">
+<h3 class="font-headline-md text-headline-md flex items-center gap-3 text-gold-accent">
+<span class="material-symbols-outlined">lock</span>
+                        INVESTMENT VAULT
+                    </h3>
+<span class="font-label-caps text-[10px] opacity-50">STAKING STATUS: ACTIVE</span>
+</div>
+<div class="space-y-4">
+<!-- Vault Item -->
+<div class="p-4 border border-outline-variant/20 hover:border-gold-accent/50 transition-colors bg-surface-container-lowest flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-gold-accent/10 flex items-center justify-center text-gold-accent">
+<span class="material-symbols-outlined">bubble_chart</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface">Neural Expansion Project</p>
+<p class="font-body-sm text-[10px] text-on-surface-variant">ROI Estimate: 140% Existential</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-data-viz text-sm text-gold-accent">MC 500,000</p>
+<span class="font-label-caps text-[8px] py-0.5 px-2 bg-magenta-fixed text-white bg-[#ff00ff]">EPIC</span>
+</div>
+</div>
+<!-- Vault Item -->
+<div class="p-4 border border-outline-variant/20 hover:border-gold-accent/50 transition-colors bg-surface-container-lowest flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">dataset</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface">Memory Harvest Cloud</p>
+<p class="font-body-sm text-[10px] text-on-surface-variant">ROI Estimate: 22% Data-Yield</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-data-viz text-sm text-primary">MC 125,000</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Debt Neutralizer -->
+<div class="glass-panel p-8 flex flex-col">
+<div class="flex justify-between items-center mb-8">
+<h3 class="font-headline-md text-headline-md flex items-center gap-3 text-error">
+<span class="material-symbols-outlined">shield_with_heart</span>
+                        DEBT NEUTRALIZER
+                    </h3>
+<div class="px-3 py-1 border border-error/50 rounded-full flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-error animate-ping"></div>
+<span class="font-label-caps text-[10px] text-error">LEAKS DETECTED</span>
+</div>
+</div>
+<div class="flex-grow flex flex-col justify-center gap-6">
+<div class="relative h-4 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="absolute inset-y-0 left-0 bg-error w-3/4 shadow-[0_0_15px_rgba(255,180,171,0.5)]"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-[shimmer_2s_infinite]"></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-4 bg-error/5 border border-error/20">
+<p class="font-label-caps text-[10px] text-error/80 mb-1">UNSECURED DEBT</p>
+<p class="font-data-viz text-lg">MC -242,000</p>
+</div>
+<div class="p-4 bg-secondary/5 border border-secondary/20">
+<p class="font-label-caps text-[10px] text-secondary/80 mb-1">NEUTRALIZED</p>
+<p class="font-data-viz text-lg">MC 1,040,000</p>
+</div>
+</div>
+<button class="group w-full py-4 border-2 border-error text-error font-label-caps text-label-caps tracking-widest hover:bg-error hover:text-on-error transition-all flex items-center justify-center gap-4">
+<span class="material-symbols-outlined group-hover:rotate-180 transition-transform">bolt</span>
+                        INITIATE SYMBOLIC COMBAT
+                    </button>
+</div>
+</div>
+</div>
+<!-- Withdrawal Portal -->
+<div class="mt-12 glass-panel p-8 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4">
+<span class="material-symbols-outlined text-primary/20 text-9xl">output</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-8">MULTI-CURRENCY PORTAL</h3>
+<div class="flex flex-wrap gap-4">
+<button class="px-6 py-3 border border-outline-variant hover:border-primary transition-all flex items-center gap-3">
+<img class="w-6 h-6" data-alt="Close up of a stylized digital coin icon representing Bitcoin with neon orange circuitry patterns against a matte black surface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWE4H-7kqyjaVk_elCGweltIZ4LIDNehB-BxXv2wH6iXtEkYb0vdApOOvyxEyOsR-D2Igv7L20X4KZwnUBrfYqBm6YYnglu4KlOfk4k0Ax7WPPbE3rqwLLFTllCKEPG6pbNjeLzdyeQM5zkc3AFagmQuxYRLvUnpGRvv8zicT_js5obNdQZ4J-LExScnKgi5PRj5re50zeipo2Z2reqNdCBwlVUOqzSjq67Agga954xBdF1_5M0yQDuQ"/>
+<span class="font-label-caps text-label-caps">BTC</span>
+</button>
+<button class="px-6 py-3 border border-outline-variant hover:border-primary transition-all flex items-center gap-3">
+<img class="w-6 h-6" data-alt="Close up of a stylized digital coin icon representing Ethereum with vibrant purple and blue glow effects on a sleek metallic finish." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBigY4JLNI5-ImppHDu2gO9IoOTDpgqS4zxhy3u_5YPe1XvfK5Y64OYhoa6Vz0DbygphXaWZNcpcVNaiF0C7RVzhMoKVWI9eophXugWEd0t79AYTHXeWLwpR3mE0rRUGe-khLF7TJN8JMgnyqcjsk62o_o40TIpEcWk05ydTb9CrdoruG8gzux5Z9Ja9fXyousaTHXIegjvioipo_YRMuQ3NYCeSh1tSFoX1rkQFyAvX5PXNW_VWzPSig"/>
+<span class="font-label-caps text-label-caps">ETH</span>
+</button>
+<button class="px-6 py-3 border border-outline-variant hover:border-primary transition-all flex items-center gap-3">
+<img class="w-6 h-6" data-alt="Icon of a United States Dollar sign rendered in 3D liquid chrome with emerald green highlights and data stream reflections." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMBxpd4z5et0dZr_6Op_jbO_f6NtGa0tgH4Hl3_W1IyXdr9Kg3a11iuKQtjGSIpU6Og0JnKw7FoNMHB-zn-Rrox02LuJ-ESFGyzPYZ4eQXNAfSc-5Mkf1GlBRBHSsk3rYlDnbZW1-90w_b1lrAbgHN0fOjCu14E0w3SZaEbyuVLAumRGXzhhA3m8zd4gPO1055of22zB7seWo0LWeGofOMVsO00Pwq2SXqMms46F8RTOGg0l-1ZX4N6Q"/>
+<span class="font-label-caps text-label-caps">USD</span>
+</button>
+<button class="px-6 py-3 border border-outline-variant hover:border-primary transition-all flex items-center gap-3">
+<img class="w-6 h-6" data-alt="A futuristic currency symbol representing a fictional intergalactic credit with glowing cyan light and sharp geometric angles." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9ZgUJPTynbjsf-JaY6k0DWTt2G_Y4GZ1YLX_i8nBN5iERtY6-4csceM0DoGQHhqBMBUbhzP1WT49jThs_QoEmN4zsW10O-_Dq1ou9eel7Lq7N-n5gE5jHdUSy6w223lFic1CKn8J_sM5vkrk7T8mci0Tsx7nyQfJUyo2yWzL-5ULcl50UY9pbJHkYEaIwyIjix689e91QZ2yse8XxWb-mE4m-NbHQvzhdV1yc7urSw_D8p0QPngwQFA"/>
+<span class="font-label-caps text-label-caps">MAGNO-FIXED</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Footer (Shared Component Anchor) -->
+<footer class="w-full py-12 bg-background/90 border-t border-outline-variant/30 flex flex-col items-center justify-center space-y-4 px-margin-desktop">
+<p class="font-label-caps text-label-caps text-primary">TEATRO DEL DESTINO</p>
+<div class="flex gap-8">
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary underline decoration-tertiary/50 transition-all duration-300" href="#">Términos del Destino</a>
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary underline decoration-tertiary/50 transition-all duration-300" href="#">Privacidad Alquímica</a>
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary underline decoration-tertiary/50 transition-all duration-300" href="#">Manifiesto</a>
+</div>
+<p class="font-data-mono text-data-mono text-on-surface-variant opacity-50">© 2024 TEATRO DEL DESTINO - EL GRAN TRABAJO COMPLETADO</p>
+</footer>
+<!-- HUD Brackets -->
+<div class="fixed top-20 left-4 hud-bracket border-t-2 border-l-2 pointer-events-none md:left-[304px]"></div>
+<div class="fixed top-20 right-4 hud-bracket border-t-2 border-r-2 pointer-events-none"></div>
+<div class="fixed bottom-4 left-4 hud-bracket border-b-2 border-l-2 pointer-events-none md:left-[304px]"></div>
+<div class="fixed bottom-4 right-4 hud-bracket border-b-2 border-r-2 pointer-events-none"></div>
+<script>
+        // Micro-interactions for segment bars
+        document.querySelectorAll('.segment-bar').forEach(bar => {
+            const segments = bar.querySelectorAll('div');
+            segments.forEach((seg, i) => {
+                setTimeout(() => {
+                    seg.classList.add('active');
+                }, i * 100);
+            });
+        });
+
+        // Background subtle parallax or movement could be added here
+        window.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+            const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+            document.querySelector('.bg-hex-grid').style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
+    </script>
+</body></html>

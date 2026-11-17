@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QUANTVM_STREAM // CLAN_BROADCAST_CENTER</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Hanken+Grotesk:wght@400;700&amp;family=Audiowide&amp;family=Orbitron:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --glow-cyan: rgba(45, 168, 224, 0.5);
+            --glow-magenta: rgba(255, 175, 212, 0.3);
+        }
+        body {
+            background-color: #0a0b12;
+            color: #e0e3e6;
+            overflow-x: hidden;
+        }
+        .cyber-grid {
+            background-image: 
+                linear-gradient(to right, rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .hex-pattern {
+            mask-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60 4.02 45V15z' fill-rule='evenodd' fill='%23000'/%3E%3C/svg%3E");
+            mask-size: 30px;
+        }
+        .glow-cyan { filter: drop-shadow(0 0 8px #2da8e0); }
+        .glow-magenta { filter: drop-shadow(0 0 8px #ffafd4); }
+        .slanted-edge { clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%); }
+        .terminal-scroll::-webkit-scrollbar { width: 4px; }
+        .terminal-scroll::-webkit-scrollbar-track { background: transparent; }
+        .terminal-scroll::-webkit-scrollbar-thumb { background: rgba(71, 221, 193, 0.3); }
+        
+        @keyframes neon-pulse {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 5px #2da8e0); }
+            50% { opacity: 0.7; filter: drop-shadow(0 0 15px #2da8e0); }
+        }
+        .neon-pulse { animation: neon-pulse 2s infinite; }
+        
+        .hud-bracket {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-color: #2da8e0;
+            border-width: 2px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                "tertiary-fixed": "#ffd8e7",
+                "secondary": "#47ddc1",
+                "on-primary": "#00344a",
+                "tertiary": "#ffd8e7",
+                "on-error": "#690005",
+                "surface-container": "#1c2023",
+                "on-surface-variant": "#bfc8cf",
+                "surface-bright": "#363a3d",
+                "surface": "#101417",
+                "on-background": "#e0e3e6",
+                "surface-container-high": "#272a2d",
+                "on-tertiary-container": "#7c3e5e",
+                "surface-variant": "#313538",
+                "error-container": "#93000a",
+                "on-primary-container": "#00597b",
+                "on-tertiary-fixed": "#390625",
+                "outline-variant": "#3f484e",
+                "on-primary-fixed-variant": "#004c6a",
+                "on-secondary-container": "#004439",
+                "surface-container-low": "#181c1f",
+                "secondary-fixed": "#6af9dc",
+                "on-secondary-fixed": "#00201a",
+                "error": "#ffb4ab",
+                "primary-fixed-dim": "#7fd0ff",
+                "surface-tint": "#7fd0ff",
+                "glow-cyan": "#2da8e0",
+                "surface-dim": "#101417",
+                "secondary-container": "#00bba0",
+                "on-tertiary-fixed-variant": "#6e3252",
+                "on-secondary": "#00382e",
+                "inverse-on-surface": "#2d3134",
+                "on-surface": "#e0e3e6",
+                "primary-container": "#7fd0ff",
+                "tertiary-container": "#ffafd4",
+                "on-tertiary": "#531c3b",
+                "inverse-surface": "#e0e3e6",
+                "grid-line": "rgba(127, 208, 255, 0.05)",
+                "inverse-primary": "#00658b",
+                "on-secondary-fixed-variant": "#005144",
+                "background-deep": "#0a0b12",
+                "primary": "#c5e7ff",
+                "status-critical": "#93000a",
+                "primary-fixed": "#c5e7ff",
+                "on-error-container": "#ffdad6",
+                "surface-panel": "rgba(255, 255, 255, 0.03)",
+                "secondary-fixed-dim": "#47ddc1",
+                "background": "#101417",
+                "tertiary-fixed-dim": "#ffafd4",
+                "outline": "#899299",
+                "surface-container-lowest": "#0b0f11",
+                "on-primary-fixed": "#001e2d",
+                "surface-container-highest": "#313538"
+              },
+              "fontFamily": {
+                "headline-md": ["Space Grotesk"],
+                "label-caps": ["JetBrains Mono"],
+                "display-lg": ["Space Grotesk"],
+                "body-md": ["Hanken Grotesk"],
+                "audiowide": ["Audiowide"],
+                "orbitron": ["Orbitron"],
+                "micro-tag": ["JetBrains Mono"]
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="font-body-md selection:bg-primary/30">
+<!-- ATMOSPHERIC BACKGROUND -->
+<div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+<div class="absolute inset-0 cyber-grid opacity-20"></div>
+
+<div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-background-deep via-transparent to-background-deep opacity-80"></div>
+</div>
+<!-- TOP NAVIGATION BAR -->
+<nav class="fixed top-0 w-full bg-surface-container-lowest/80 backdrop-blur-3xl border-b border-primary/20 flex justify-between items-center px-margin-desktop py-4 z-50 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="font-display-lg text-[24px] lg:text-display-lg text-primary glow-cyan uppercase tracking-widest font-audiowide">
+            MagnopVS
+        </div>
+<div class="hidden md:flex items-center gap-8 font-label-caps text-on-surface-variant">
+<a class="text-primary glow-cyan transition-all duration-300" href="#">EXPLORE</a>
+<a class="hover:text-primary transition-all duration-300" href="#">NEURAL_DECK</a>
+<a class="hover:text-primary transition-all duration-300" href="#">CLANS</a>
+<a class="hover:text-primary transition-all duration-300" href="#">MARKET</a>
+</div>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">notifications</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">bolt</span>
+<div class="w-10 h-10 rounded-full border border-primary/40 p-0.5">
+<img class="w-full h-full rounded-full object-cover" data-alt="A high-tech digital portrait of a futuristic cosmic avatar. The face is partially obscured by holographic circuitry and glowing cyan data streams. The aesthetic is sleek, minimalist, and deeply digital, with a backdrop of soft dark cosmic nebulae." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPZzgQhi6o-4sd2OBJm4zclo_iZHWaLoxfUVq5FYGZX_hVRoQt8eBzgrLiOgLUItXuG8oHfWRSYe-Arr33DA3mNVq2cyD1of4OAs06Y6PD00eKlC3uDEOCIBqGBrYpW_PFSt2lla1syqPP0ocvivRhUFNsAOqb3odk6H1O3RMfhmJS62_3XTC3r1JGzr6Aug8W5AM4-79350miFaeQ-Tkjht4fsF9LR11VbUw92Etgq2HQCMu1y6ZIjvaLKO8FM6DOWPqogX6wOlMt"/>
+</div>
+</div>
+</nav>
+<!-- SIDE NAVIGATION BAR (Left) -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-surface-container/40 backdrop-blur-2xl border-r border-secondary/20 hidden md:flex flex-col py-24 z-40">
+<div class="px-6 mb-10">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-2 h-2 bg-secondary rounded-full neon-pulse"></div>
+<span class="font-micro-tag text-primary tracking-widest">HERO_SYNC</span>
+</div>
+<p class="font-orbitron text-[10px] text-secondary/60">Protocol 7.4-A</p>
+</div>
+<div class="flex flex-col gap-1 w-full">
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant opacity-60 hover:bg-white/5 transition-colors font-label-caps" href="#">
+<span class="material-symbols-outlined">group</span> My Clan
+            </a>
+<a class="flex items-center gap-4 px-6 py-4 text-secondary border-l-2 border-secondary bg-secondary/10 glow-cyan font-label-caps" href="#">
+<span class="material-symbols-outlined">radar</span> Top Broadcasters
+            </a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant opacity-60 hover:bg-white/5 transition-colors font-label-caps" href="#">
+<span class="material-symbols-outlined">history</span> History
+            </a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant opacity-60 hover:bg-white/5 transition-colors font-label-caps" href="#">
+<span class="material-symbols-outlined">terminal</span> Comms
+            </a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant opacity-60 hover:bg-white/5 transition-colors font-label-caps" href="#">
+<span class="material-symbols-outlined">database</span> Archive
+            </a>
+</div>
+<div class="mt-auto px-6 space-y-4">
+<button class="w-full py-3 bg-secondary/10 border border-secondary text-secondary font-orbitron text-[12px] tracking-widest hover:bg-secondary hover:text-background-deep transition-all duration-300 slanted-edge">
+                INITIATE_SYNC
+            </button>
+<div class="flex justify-between text-on-surface-variant/40 pt-4 border-t border-white/10">
+<span class="material-symbols-outlined text-[20px] hover:text-primary cursor-pointer">settings</span>
+<span class="material-symbols-outlined text-[20px] hover:text-primary cursor-pointer">sensors</span>
+</div>
+</div>
+</aside>
+<!-- MAIN CONTENT CANVAS -->
+<main class="md:ml-64 pt-28 px-4 md:px-margin-desktop pb-24">
+<!-- HEADER SECTION -->
+<header class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="relative">
+<div class="flex items-center gap-4 mb-2">
+<span class="px-3 py-1 bg-primary/10 border border-primary/20 text-primary font-micro-tag">LIVE_TRANSMISSION</span>
+<span class="font-orbitron text-[12px] text-on-surface-variant/60 tracking-widest">LOC: //CLAN_OMEGA_CORE</span>
+</div>
+<h1 class="font-audiowide text-4xl md:text-5xl text-white tracking-tighter">
+                    QUANTVM_STREAM <span class="text-secondary opacity-50">//</span> <span class="text-primary">CLAN_BROADCAST</span>
+</h1>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-3 bg-primary text-background-deep font-orbitron font-bold uppercase slanted-edge active:scale-95 transition-transform">
+                    JOIN_SYNC
+                </button>
+<button class="px-6 py-3 border border-primary text-primary font-orbitron font-bold uppercase slanted-edge hover:bg-primary/10 active:scale-95 transition-transform">
+                    DONATE_MC
+                </button>
+</div>
+</header>
+<div class="grid grid-cols-12 gap-8">
+<!-- MAIN STREAM PLAYER (Neural Interlink) -->
+<div class="col-span-12 xl:col-span-8">
+<div class="relative bg-black rounded-lg border border-primary/30 overflow-hidden shadow-[0_0_50px_rgba(45,168,224,0.1)] group">
+<!-- HUD Decorative Brackets -->
+<div class="hud-bracket top-4 left-4 border-t border-l"></div>
+<div class="hud-bracket top-4 right-4 border-t border-r"></div>
+<div class="hud-bracket bottom-4 left-4 border-b border-l"></div>
+<div class="hud-bracket bottom-4 right-4 border-b border-r"></div>
+<!-- Live Telemetry Overlay (Top Left) -->
+<div class="absolute top-8 left-8 z-10 flex flex-col gap-3">
+<div class="bg-black/60 backdrop-blur-md border-l-2 border-secondary p-3 w-48">
+<p class="font-micro-tag text-secondary mb-1">SYNC_RATIO</p>
+<div class="flex gap-1 h-2">
+<div class="w-full bg-secondary glow-cyan"></div>
+<div class="w-full bg-secondary glow-cyan"></div>
+<div class="w-full bg-secondary glow-cyan"></div>
+<div class="w-full bg-secondary/20"></div>
+<div class="w-full bg-secondary/20"></div>
+</div>
+<p class="font-orbitron text-[14px] mt-1 text-white">94.8% <span class="text-[10px] text-secondary opacity-50">STABLE</span></p>
+</div>
+<div class="bg-black/60 backdrop-blur-md border-l-2 border-primary p-3 w-48">
+<p class="font-micro-tag text-primary mb-1">SOUL_RESONANCE</p>
+<div class="flex gap-1 h-2">
+<div class="w-full bg-primary"></div>
+<div class="w-full bg-primary"></div>
+<div class="w-full bg-primary/20"></div>
+<div class="w-full bg-primary/20"></div>
+<div class="w-full bg-primary/20"></div>
+</div>
+<p class="font-orbitron text-[14px] mt-1 text-white">0.44 <span class="text-[10px] text-primary opacity-50">m_MAGNO</span></p>
+</div>
+</div>
+<!-- Viewer Count (Top Right) -->
+<div class="absolute top-8 right-8 z-10">
+<div class="bg-black/60 backdrop-blur-md px-4 py-2 flex items-center gap-3 border border-white/10">
+<span class="material-symbols-outlined text-secondary text-[18px] neon-pulse">hub</span>
+<div class="text-right">
+<p class="font-micro-tag text-[8px] text-on-surface-variant">NODES_ATTACHED</p>
+<p class="font-orbitron text-[16px] text-white">12,408</p>
+</div>
+</div>
+</div>
+<!-- Main Stream Media Container -->
+<div class="aspect-video w-full bg-neutral-900 flex items-center justify-center relative overflow-hidden">
+<div class="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="A cinematic, ultra-wide view of a futuristic cyber-temple interior. Neon cyan light patterns crawl across hexagonal obsidian floors. In the center, several hooded silhouettes sit in meditation pods, connected by fiber-optic cables to a massive glowing crystal. The mood is ritualistic, technical, and high-stakes." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBa9nhJsx_7re-2oGTsINNlPPAR-zctzHUTImvA7MzrEU3bwqk9x1c1932HF9F27IYeqs8rX1aSxAGc5JkzIQV2HBJnvxazPGhbGieXvA5343P7TW613YEm0OmfA0XyUX7sdKvc1KKhYFHBF8s7moZ-p3lLznIfRVFqc_10l2mSiKQp4rVTHcYO4heoKZhWWrKnFYElkq9JDM34aKWIW_9-2cvdlyg0lYa6OFf_OqxHcXWwkUqIMEYOPP_thiptOEmlxP6PBrwP0f7r')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<!-- Floating Scan Lines Animation -->
+<div class="absolute inset-0 pointer-events-none opacity-20 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%]"></div>
+<div class="z-10 flex flex-col items-center">
+<div class="w-20 h-20 border-2 border-primary rounded-full flex items-center justify-center cursor-pointer hover:bg-primary/20 transition-all duration-300 group">
+<span class="material-symbols-outlined text-primary text-[40px] translate-x-1">play_arrow</span>
+</div>
+<p class="mt-4 font-orbitron text-primary tracking-[0.3em] uppercase">Connect_Neural_Link</p>
+</div>
+</div>
+<!-- Player Controls -->
+<div class="bg-surface-container-low/90 backdrop-blur-xl border-t border-primary/20 p-4 flex items-center justify-between">
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-primary cursor-pointer">volume_up</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">settings_ethernet</span>
+<span class="font-micro-tag text-on-surface-variant">STREAM_BITRATE: 12.4GBPS</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer">fullscreen</span>
+</div>
+</div>
+</div>
+<!-- BROADCAST DETAILS -->
+<div class="mt-6 flex flex-col md:flex-row md:items-start justify-between gap-6 p-6 bg-surface-container/20 border border-white/5 backdrop-blur-md">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 bg-secondary/20 border border-secondary flex items-center justify-center p-1 overflow-hidden">
+<img class="w-full h-full object-contain" data-alt="A minimalist vector-style logo for Clan Omega. A stylized Greek Omega symbol integrated into a circuit board pattern. Neon cyan lines on a dark obsidian texture. High contrast, technical, and sharp." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-PzuXzraskDBxTRH1wGE39p79YJLfttWPlzcYB0YI7mUWno-wfT4cV4CoV5xwfpb8EF1gvdTyYFviUyp7QMNjeLkA8b-4pI9YxqexqlAxKbRnJLIf4zrHOKTnOeSI0GxLqFRcvGXEzM15dJn88YqDVRA3ozxBgFhdlQEHg__THhbDfvegTtndA6Lbr3zAEIrExWvU7vg8eJocwcKz_Jtbh-XhHlhbRNGFLlU-_tEcVqbhgtRQAlV5GdaTi1N0RipS4dNQYSX7pQGC"/>
+</div>
+<div>
+<h2 class="font-audiowide text-2xl text-white">CLAN OMEGA // SECTOR_9</h2>
+<p class="text-on-surface-variant font-body-md max-w-lg mt-1">Establishing global resonance protocols for the upcoming Solstice Merge. Join our nodes for optimal sync rewards.</p>
+</div>
+</div>
+<button class="bg-secondary/10 border border-secondary text-secondary font-orbitron px-8 py-3 slanted-edge hover:bg-secondary hover:text-black transition-all">
+                        CLAN_APPLICATION
+                    </button>
+</div>
+</div>
+<!-- SIDE PANEL (Comms Terminal) -->
+<div class="col-span-12 xl:col-span-4 flex flex-col gap-6">
+<!-- Chat Terminal -->
+<div class="h-[600px] bg-surface-container-lowest/80 backdrop-blur-xl border border-primary/20 flex flex-col relative">
+<div class="p-4 border-b border-primary/20 flex justify-between items-center bg-primary/5">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-primary rounded-full neon-pulse"></div>
+<span class="font-orbitron text-[12px] text-primary tracking-widest uppercase">Comms_Terminal</span>
+</div>
+<span class="font-micro-tag text-on-surface-variant">SECURE_CHANNEL</span>
+</div>
+<!-- Chat Messages -->
+<div class="flex-1 p-4 overflow-y-auto terminal-scroll font-mono-data space-y-4">
+<div class="flex flex-col gap-1">
+<span class="text-[10px] text-secondary opacity-60 uppercase tracking-widest">System_Log [14:02:11]</span>
+<p class="text-secondary/80">User_0098 connected to stream hub.</p>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="text-[10px] text-primary font-bold">ARCANE_V0ID</span>
+<span class="px-1.5 py-0.5 bg-primary/20 text-[8px] text-primary border border-primary/30">ELDER</span>
+</div>
+<p class="text-on-surface text-[13px]">Is the Resonance Chamber stabilized yet? I'm getting interference in sector 3.</p>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="text-[10px] text-white">CYBER_PHANTOM</span>
+</div>
+<p class="text-on-surface text-[13px]">Donated 500 MagnoCoins! GLORY TO THE OMEGA.</p>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="text-[10px] text-secondary font-bold">MOD_X</span>
+<span class="px-1.5 py-0.5 bg-secondary/20 text-[8px] text-secondary border border-secondary/30">GUARDIAN</span>
+</div>
+<p class="text-on-surface text-[13px]">@ARCANE_V0ID Stabilizing now. Pulse cycle in 30s.</p>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-[10px] text-primary/60 uppercase tracking-widest">Resonance_Event [14:05:44]</span>
+<p class="text-primary/80">Magnitude 0.7 detected. Sync rewards multiplier active x1.5</p>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="text-[10px] text-white">NEON_DRIFTER</span>
+</div>
+<p class="text-on-surface text-[13px]">LFG! The visual effects on this stream are insane.</p>
+</div>
+</div>
+<!-- Chat Input -->
+<div class="p-4 border-t border-primary/20 bg-surface-container-high/40">
+<div class="relative">
+<input class="w-full bg-black/40 border border-primary/20 px-4 py-3 font-mono-data text-primary placeholder:text-primary/30 focus:border-primary focus:ring-0 outline-none transition-all" placeholder="Type command..." type="text"/>
+<div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110">send</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Rewards Widget -->
+<div class="bg-surface-panel border border-secondary/20 p-6 backdrop-blur-md relative overflow-hidden group">
+<div class="absolute inset-0 hex-pattern opacity-10 group-hover:opacity-20 transition-opacity"></div>
+<h3 class="font-audiowide text-secondary mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined">diamond</span> MAGNO_REWARDS
+                    </h3>
+<div class="space-y-4 relative z-10">
+<div class="flex justify-between items-center">
+<span class="font-orbitron text-[10px] text-on-surface-variant">NEXT_UNLOCK</span>
+<span class="font-orbitron text-[12px] text-white">4:22 MIN</span>
+</div>
+<div class="h-2 bg-white/5 flex gap-1">
+<div class="w-1/10 bg-secondary shadow-[0_0_10px_#47ddc1]"></div>
+<div class="w-1/10 bg-secondary shadow-[0_0_10px_#47ddc1]"></div>
+<div class="w-1/10 bg-secondary shadow-[0_0_10px_#47ddc1]"></div>
+<div class="w-1/10 bg-secondary shadow-[0_0_10px_#47ddc1]"></div>
+<div class="w-1/10 bg-white/10"></div>
+<div class="w-1/10 bg-white/10"></div>
+<div class="w-1/10 bg-white/10"></div>
+<div class="w-1/10 bg-white/10"></div>
+<div class="w-1/10 bg-white/10"></div>
+<div class="w-1/10 bg-white/10"></div>
+</div>
+<p class="text-[11px] text-on-surface-variant italic">Maintain 90%+ sync for 'Neural Shard' drops.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- CLAN DECK (Active Streams) -->
+<section class="mt-20">
+<div class="flex items-center justify-between mb-8 border-b border-primary/10 pb-4">
+<h2 class="font-audiowide text-3xl text-white">CLAN_DECK</h2>
+<div class="flex gap-4">
+<button class="font-micro-tag px-4 py-2 border border-primary/40 text-primary hover:bg-primary/10 transition-colors">ALL_ALIGNS</button>
+<button class="font-micro-tag px-4 py-2 border border-secondary/40 text-secondary hover:bg-secondary/10 transition-colors">LIGHT</button>
+<button class="font-micro-tag px-4 py-2 border border-white/40 text-on-surface hover:bg-white/10 transition-colors">BALANCE</button>
+<button class="font-micro-tag px-4 py-2 border border-tertiary-container/40 text-tertiary-container hover:bg-tertiary/10 transition-colors">SHADOW</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Stream Card 1 -->
+<div class="group relative bg-surface-container-low border border-white/10 hover:border-primary/50 transition-all duration-300">
+<div class="relative aspect-video overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A wide angle shot of a digital sci-fi landscape with floating glowing obelisks under a purple and magenta sky. The environment feels sacred and ancient, yet powered by intense advanced technology. High-fidelity textures with cinematic depth of field." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1Miom0NPiemjBRDY97scsy3PiDRc8Hty73SCL4r403TP7BPAw6vWmxUepv3UYanxKoM844L1sVR5NbfchUunAv-yFgK_L34oZ1TeNrx44ZaeFifvAMQzVrNlOJFCsZQCrrjusPAC5Au3psTE_CSWA7GEbRg5vh4gq4tfs7hfblTzcZzxfanxsSswAp2La20DIoiWS8_5bTOpLBYoDaMHtY4WfBgzT9KzpahkGS59kFEdc3kbuJkgTI6nE2mg3eAq1dUugXAU2FG2l"/>
+<div class="absolute top-2 left-2 bg-status-critical px-2 py-1 flex items-center gap-1">
+<span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
+<span class="font-orbitron text-[10px] text-white">LIVE</span>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[48px]">play_circle</span>
+</div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-orbitron text-[14px] text-white">CLAN LUMINA</h4>
+<span class="font-micro-tag text-secondary">LIGHT</span>
+</div>
+<p class="text-on-surface-variant text-[12px] line-clamp-1 mb-4">Establishing a beacon of truth in the void.</p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">group</span>
+<span class="font-orbitron text-[11px] text-on-surface-variant">4.2K</span>
+</div>
+<span class="font-micro-tag text-[10px] text-primary/60">SYNC: 98%</span>
+</div>
+</div>
+</div>
+<!-- Stream Card 2 -->
+<div class="group relative bg-surface-container-low border border-white/10 hover:border-primary/50 transition-all duration-300">
+<div class="relative aspect-video overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A close-up view of a complex 3D holographic interface showing planetary data and tactical maps. The lighting is dominated by amber and gold hues, reflecting a balance of power. Numerous detailed data points and flowing numbers are visible. Style is technical and sophisticated." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAWYHZRLOOISJjeG_Mbc5v2KUdKvhzXUS5SzblcplUisaGYT70x02TGDvzJY12HuxoDcB34IdW2IRbil4RPwVp4zlmyyN9cAeWxets97LvTx00q8bFA-FUJhaQdd7BIZ4z_nn-LDpr763TWmsB03rHTjQnaB6Xi6CF7yHZWZJEY-H8FVtUqSiteUvS91HqB6x_IazrlJy3HRlllm0qVb0az8ybm2wOu0xKrtg7VUnMmXBkADqvanGvqcQLUCcAbDGmJU1xfv4nyG64"/>
+<div class="absolute top-2 left-2 bg-status-critical px-2 py-1 flex items-center gap-1">
+<span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
+<span class="font-orbitron text-[10px] text-white">LIVE</span>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[48px]">play_circle</span>
+</div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-orbitron text-[14px] text-white">EQUILIBRIUM</h4>
+<span class="font-micro-tag text-on-surface">BALANCE</span>
+</div>
+<p class="text-on-surface-variant text-[12px] line-clamp-1 mb-4">Maintaining the flow between dimensions.</p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">group</span>
+<span class="font-orbitron text-[11px] text-on-surface-variant">1.9K</span>
+</div>
+<span class="font-micro-tag text-[10px] text-primary/60">SYNC: 72%</span>
+</div>
+</div>
+</div>
+<!-- Stream Card 3 -->
+<div class="group relative bg-surface-container-low border border-white/10 hover:border-primary/50 transition-all duration-300">
+<div class="relative aspect-video overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A dark, moody interior of an underground data center. The only light comes from rows of servers with intense magenta and crimson status lights. Smoke or steam curls through the cold blue air. The atmosphere is secretive and dangerous. Cyberpunk aesthetics with heavy shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5h0EJcJyL6ppBFYaHxuupEAA0pPe11renLgaw-dmIOndQaXY1f9kRZoZTIEE0SYmlsXxxXBTIs8JV4b-viBneIvXn90sJ2s_i5K2MWtLKQzslmLrzkoF8twvc4jF7CLeEd4ERt9eL2fryHDoeQljqBKi4mLioZxPjdi0OZZ5CuomL40f0EvskXhu_M31Bq1VF2SkUWpsO1wZP0Lodfu1gv03V-7C1dwTtuEBgZf32G8nRxRT20uglTDjnNc5oA0JbL3KjX-egVmsw"/>
+<div class="absolute top-2 left-2 bg-status-critical px-2 py-1 flex items-center gap-1">
+<span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
+<span class="font-orbitron text-[10px] text-white">LIVE</span>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[48px]">play_circle</span>
+</div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-orbitron text-[14px] text-white">VOID_WALKERS</h4>
+<span class="font-micro-tag text-tertiary-container">SHADOW</span>
+</div>
+<p class="text-on-surface-variant text-[12px] line-clamp-1 mb-4">Navigating the unseen protocols of the abyss.</p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">group</span>
+<span class="font-orbitron text-[11px] text-on-surface-variant">8.6K</span>
+</div>
+<span class="font-micro-tag text-[10px] text-primary/60">SYNC: 44%</span>
+</div>
+</div>
+</div>
+<!-- Stream Card 4 -->
+<div class="group relative bg-surface-container-low border border-white/10 hover:border-primary/50 transition-all duration-300">
+<div class="relative aspect-video overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A portrait of a futuristic DJ or stream controller wearing a visor that displays complex wave forms in neon green and yellow. They are surrounded by holographic turntables and volume sliders. The background is a blurred high-tech studio environment with moody atmospheric lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPCM_1XyvmHR3VD3HdUKwFqUiL_vM0qW0BD-lLb-w7LnwG91T77w4XeJHqpS1VJ8NQN0iNQUdTAcUmTzVoIzwnm2lulsRv1uqKxFEj5wQ_F1wDL78jspTaNy1DzZ7LnFHOtudX4CqESJxhBerhld2NKuS_ShIiOf71bASrIeOeU1n8ZXkFlYvEZ8WhybIes2tlNNCDxfUA9L4FgAL7FDrTpPxMzBDqljgKsNPeVys16blIJytXaZo6F8Mcr33mLCeyVVt679Ms2RIs"/>
+<div class="absolute top-2 left-2 bg-status-critical px-2 py-1 flex items-center gap-1">
+<span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
+<span class="font-orbitron text-[10px] text-white">LIVE</span>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[48px]">play_circle</span>
+</div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-orbitron text-[14px] text-white">SYNTH_WAVE_CLAN</h4>
+<span class="font-micro-tag text-secondary">LIGHT</span>
+</div>
+<p class="text-on-surface-variant text-[12px] line-clamp-1 mb-4">Broadcast of the latest OS patch harmonies.</p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">group</span>
+<span class="font-orbitron text-[11px] text-on-surface-variant">3.1K</span>
+</div>
+<span class="font-micro-tag text-[10px] text-primary/60">SYNC: 89%</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BOTTOM NAVIGATION BAR (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-surface-container-lowest/60 backdrop-blur-2xl border-t border-primary/20 flex justify-around items-center px-4 py-2 pb-safe shadow-[0_-10px_30px_rgba(45,168,224,0.15)]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant font-label-caps-mobile" href="#">
+<span class="material-symbols-outlined">style</span>
+<span class="text-[10px]">Deck</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary glow-cyan scale-110 font-label-caps-mobile" href="#">
+<span class="material-symbols-outlined">wifi_tethering</span>
+<span class="text-[10px]">Pulse</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant font-label-caps-mobile" href="#">
+<span class="material-symbols-outlined">videocam</span>
+<span class="text-[10px]">Stream</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant font-label-caps-mobile" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px]">Hero</span>
+</a>
+</nav>
+<!-- HUD Micro-Interactions Script -->
+<script>
+        // Simple micro-interaction for simulating terminal typing or status updates
+        const input = document.querySelector('input');
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && input.value.trim() !== '') {
+                const message = input.value;
+                const container = document.querySelector('.terminal-scroll');
+                const msgDiv = document.createElement('div');
+                msgDiv.className = 'flex flex-col gap-1 opacity-0 translate-y-2 transition-all duration-300';
+                msgDiv.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="text-[10px] text-primary font-bold">USER_ALPHA</span>
+                        <span class="px-1.5 py-0.5 bg-primary/10 text-[8px] text-primary border border-primary/20">ME</span>
+                    </div>
+                    <p class="text-on-surface text-[13px]">${message}</p>
+                `;
+                container.appendChild(msgDiv);
+                setTimeout(() => {
+                    msgDiv.classList.remove('opacity-0', 'translate-y-2');
+                    container.scrollTop = container.scrollHeight;
+                }, 50);
+                input.value = '';
+            }
+        });
+    </script>
+</body></html>

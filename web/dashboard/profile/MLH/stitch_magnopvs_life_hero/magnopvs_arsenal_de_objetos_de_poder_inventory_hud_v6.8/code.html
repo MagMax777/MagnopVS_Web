@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS // Arsenal of Power Objects</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --glass-bg: rgba(219, 252, 255, 0.05);
+            --glass-border: rgba(219, 252, 255, 0.1);
+        }
+        body {
+            background-color: #121318;
+            color: #e3e1e9;
+            overflow-x: hidden;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .hud-glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+        }
+        .hud-glass::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, transparent 1px, transparent 4px);
+            pointer-events: none;
+        }
+        .hex-grid {
+            background-image: radial-gradient(circle at 2px 2px, rgba(219, 252, 255, 0.05) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+        .glow-cyan { box-shadow: 0 0 15px rgba(219, 252, 255, 0.2); }
+        .glow-magenta { box-shadow: 0 0 15px rgba(255, 171, 243, 0.2); }
+        .clip-corner {
+            clip-path: polygon(10px 0%, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(219, 252, 255, 0.1);
+            position: absolute;
+            top: -2px;
+            animation: scan 8s linear infinite;
+            z-index: 10;
+        }
+        @keyframes scan {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+        .glitch-hover:hover {
+            animation: glitch 0.2s ease;
+        }
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#dbfcff",
+                        "secondary": "#ffabf3",
+                        "tertiary": "#faf3ff",
+                        "surface": "#121318",
+                        "surface-container": "#1e1f25",
+                        "surface-container-low": "#1a1b21",
+                        "surface-container-highest": "#34343a",
+                        "outline": "#849495",
+                        "outline-variant": "#3b494b",
+                    },
+                    fontFamily: {
+                        "display-lg": ["Audiowide"],
+                        "body-md": ["Space Grotesk"],
+                        "data-mono": ["Space Mono"],
+                        "label-caps": ["Space Mono"]
+                    },
+                    spacing: {
+                        "margin-desktop": "64px",
+                        "margin-mobile": "16px"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary selection:text-surface">
+<!-- TOP APP BAR -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/30 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-primary tracking-widest uppercase text-display-lg-mobile md:text-2xl">MagnopVS · Life Hero</span>
+</div>
+<!-- RESOURCE MONITOR -->
+<div class="hidden md:flex items-center gap-8 px-6 py-2 bg-surface-container/50 border border-primary/20 clip-corner">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<div>
+<p class="font-label-caps text-[10px] text-outline">MAGNOCONTROLS (MC)</p>
+<p class="font-data-mono text-primary leading-none">12,450.88</p>
+</div>
+</div>
+<div class="w-[1px] h-8 bg-outline-variant/30"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">stars</span>
+<div>
+<p class="font-label-caps text-[10px] text-outline">SOUL FRAGMENTS</p>
+<p class="font-data-mono text-secondary leading-none">08</p>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors">bolt</button>
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors">stars</button>
+<button class="material-symbols-outlined text-primary drop-shadow-[0_0_8px_#7fd0ff]">account_circle</button>
+</div>
+</header>
+<!-- SIDE NAV BAR -->
+<nav class="hidden lg:flex flex-col fixed left-0 top-0 h-full z-40 w-64 bg-surface-container-low/50 backdrop-blur-2xl border-r border-primary/20 pt-24 pb-8">
+<div class="px-6 mb-10">
+<p class="font-label-caps text-outline text-[10px] tracking-widest">OPERATOR_01</p>
+<p class="font-display-lg text-primary text-xl">LVL 42 // TITAN</p>
+</div>
+<div class="flex flex-col gap-1 px-2">
+<a class="flex items-center gap-4 px-4 py-3 text-outline-variant hover:bg-surface-container-highest/30 transition-all font-label-caps" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-primary border-l-2 border-primary bg-primary/5 font-bold shadow-[inset_4px_0_10px_rgba(127,208,255,0.1)] font-label-caps" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span>Arsenal</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-outline-variant hover:bg-surface-container-highest/30 transition-all font-label-caps" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span>13 Houses</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-outline-variant hover:bg-surface-container-highest/30 transition-all font-label-caps" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span>Missions</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-outline-variant hover:bg-surface-container-highest/30 transition-all font-label-caps" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span>Alchemy</span>
+</a>
+</div>
+<div class="mt-auto px-6">
+<div class="p-4 bg-primary/5 border border-primary/10 rounded-lg">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-caps text-[10px] text-primary">CORE STABILITY</span>
+<span class="font-data-mono text-[10px] text-primary">88%</span>
+</div>
+<div class="h-1 bg-outline-variant/30 overflow-hidden">
+<div class="h-full bg-primary w-[88%] shadow-[0_0_10px_#7fd0ff]"></div>
+</div>
+</div>
+</div>
+</nav>
+<!-- MAIN CANVAS -->
+<main class="lg:ml-64 pt-24 pb-20 px-4 md:px-8 hex-grid min-h-screen">
+<div class="max-w-7xl mx-auto space-y-8">
+<!-- SECTION 1: ACTIVE LOADOUT -->
+<section>
+<div class="flex items-center gap-2 mb-4">
+<div class="w-1 h-4 bg-primary"></div>
+<h2 class="font-label-caps text-primary tracking-widest text-sm">ACTIVE LOADOUT // EQUIPPED ITEMS</h2>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+<!-- SLOT 1: CHRONOS RING -->
+<div class="hud-glass p-4 border-l-4 border-l-secondary/50 group hover:border-l-secondary transition-all">
+<div class="flex justify-between items-start mb-4">
+<span class="font-label-caps text-[10px] text-secondary">EPIC // VITAL</span>
+<span class="font-data-mono text-[10px] text-outline">REF: CR-99</span>
+</div>
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 bg-secondary/10 border border-secondary/30 flex items-center justify-center relative overflow-hidden">
+<span class="material-symbols-outlined text-secondary text-3xl">history_toggle_off</span>
+<div class="absolute inset-0 bg-gradient-to-tr from-secondary/20 to-transparent"></div>
+</div>
+<div>
+<h3 class="font-display-lg text-sm text-on-surface">CHRONOS RING</h3>
+<p class="text-[10px] text-outline font-label-caps">+12% Time Dilation</p>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-[10px] font-data-mono">
+<span class="text-outline">RESONANCE</span>
+<span class="text-secondary">94%</span>
+</div>
+<div class="h-1 bg-surface-container-highest rounded-full">
+<div class="h-full bg-secondary w-[94%]"></div>
+</div>
+</div>
+</div>
+<!-- SLOT 2: AETHER LENS -->
+<div class="hud-glass p-4 border-l-4 border-l-primary/50 group hover:border-l-primary transition-all">
+<div class="flex justify-between items-start mb-4">
+<span class="font-label-caps text-[10px] text-primary">LEGENDARY // MENTAL</span>
+<span class="font-data-mono text-[10px] text-outline">REF: AL-02</span>
+</div>
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 bg-primary/10 border border-primary/30 flex items-center justify-center relative overflow-hidden">
+<span class="material-symbols-outlined text-primary text-3xl">visibility</span>
+</div>
+<div>
+<h3 class="font-display-lg text-sm text-on-surface">AETHER LENS</h3>
+<p class="text-[10px] text-outline font-label-caps">+25% Pattern Recognition</p>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-[10px] font-data-mono">
+<span class="text-outline">RESONANCE</span>
+<span class="text-primary">62%</span>
+</div>
+<div class="h-1 bg-surface-container-highest rounded-full">
+<div class="h-full bg-primary w-[62%]"></div>
+</div>
+</div>
+</div>
+<!-- SLOT 3: NEURAL LINK -->
+<div class="hud-glass p-4 border-l-4 border-l-primary/50 group hover:border-l-primary transition-all opacity-50 grayscale hover:opacity-100 hover:grayscale-0">
+<div class="flex justify-between items-start mb-4">
+<span class="font-label-caps text-[10px] text-primary">RARE // MATERIAL</span>
+<span class="font-data-mono text-[10px] text-outline">REF: NL-84</span>
+</div>
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 bg-primary/10 border border-primary/30 flex items-center justify-center relative">
+<span class="material-symbols-outlined text-primary text-3xl">bolt</span>
+</div>
+<div>
+<h3 class="font-display-lg text-sm text-on-surface">NEURAL LINK</h3>
+<p class="text-[10px] text-outline font-label-caps">+5% Processing Speed</p>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-[10px] font-data-mono">
+<span class="text-outline">RESONANCE</span>
+<span class="text-primary">100%</span>
+</div>
+<div class="h-1 bg-surface-container-highest rounded-full">
+<div class="h-full bg-primary w-full"></div>
+</div>
+</div>
+</div>
+<!-- SLOT 4: EMPTY -->
+<div class="hud-glass p-4 border border-dashed border-outline/30 flex flex-col items-center justify-center group cursor-pointer hover:border-primary/50 transition-all">
+<span class="material-symbols-outlined text-outline/50 group-hover:text-primary transition-colors text-4xl mb-2">add_circle</span>
+<p class="font-label-caps text-[10px] text-outline/50 group-hover:text-primary">EQUIP OBJECT</p>
+</div>
+</div>
+</section>
+<!-- BENTO GRID FOR INVENTORY & INSPECTOR -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- SECTION 2: DIGITAL VAULT -->
+<div class="lg:col-span-2 space-y-4">
+<div class="flex justify-between items-end">
+<div class="flex items-center gap-2">
+<div class="w-1 h-4 bg-primary"></div>
+<h2 class="font-label-caps text-primary tracking-widest text-sm">DIGITAL VAULT // INVENTORY</h2>
+</div>
+<div class="flex gap-4">
+<button class="font-label-caps text-[10px] text-primary border-b border-primary">ALL</button>
+<button class="font-label-caps text-[10px] text-outline hover:text-primary transition-colors">MATERIAL</button>
+<button class="font-label-caps text-[10px] text-outline hover:text-primary transition-colors">MENTAL</button>
+<button class="font-label-caps text-[10px] text-outline hover:text-primary transition-colors">SPIRITUAL</button>
+</div>
+</div>
+<div class="hud-glass p-6 grid grid-cols-4 sm:grid-cols-6 gap-4">
+<!-- Inventory Slots -->
+<script>
+                            const rarities = ['primary', 'secondary', 'outline', 'tertiary', 'primary'];
+                            const icons = ['diamond', 'hexagon', 'shield', 'auto_fix_high', 'token', 'verified', 'psychology', 'vitals'];
+                            for(let i=0; i<24; i++) {
+                                const color = rarities[Math.floor(Math.random() * rarities.length)];
+                                const icon = icons[Math.floor(Math.random() * icons.length)];
+                                document.write(`
+                                    <div class="aspect-square bg-surface-container/30 border border-outline-variant/30 flex items-center justify-center group cursor-pointer hover:border-${color} transition-all relative overflow-hidden glitch-hover">
+                                        <span class="material-symbols-outlined text-outline group-hover:text-${color} transition-colors">${icon}</span>
+                                        <div class="absolute bottom-0 right-0 w-2 h-2 bg-${color}/40"></div>
+                                        ${i === 0 ? '<div class="absolute top-1 right-1 w-1 h-1 bg-primary rounded-full animate-pulse"></div>' : ''}
+                                    </div>
+                                `);
+                            }
+                        </script>
+</div>
+<!-- SECTION 4: TRANSMUTATION LAB -->
+<div class="hud-glass p-6 grid grid-cols-1 md:grid-cols-2 gap-8 relative overflow-hidden">
+<div class="scanline"></div>
+<div>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">science</span>
+<h2 class="font-label-caps text-secondary tracking-widest text-sm">TRANSMUTATION LAB</h2>
+</div>
+<p class="text-xs text-outline mb-6 font-body-md">Fuse karmic credits with material objects to increase sync frequency. Risk of destabilization: 4%.</p>
+<div class="flex items-center gap-4 mb-6">
+<div class="w-16 h-16 bg-surface-container border border-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl">bolt</span>
+</div>
+<span class="material-symbols-outlined text-outline">arrow_forward</span>
+<div class="w-16 h-16 bg-primary/10 border border-primary flex items-center justify-center relative">
+<span class="material-symbols-outlined text-primary text-3xl">bolt</span>
+<span class="absolute -top-2 -right-2 bg-primary text-surface font-data-mono text-[10px] px-1 font-bold">+1</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col justify-center gap-4">
+<div class="flex justify-between font-label-caps text-[10px]">
+<span class="text-outline">UPGRADE COST</span>
+<span class="text-primary">1,200 MC</span>
+</div>
+<div class="flex justify-between font-label-caps text-[10px]">
+<span class="text-outline">SYNC PROBABILITY</span>
+<span class="text-primary">96%</span>
+</div>
+<button class="clip-corner bg-primary text-surface font-label-caps py-3 hover:bg-primary-fixed-dim transition-all active:scale-95 font-bold tracking-widest mt-2">
+                                INITIATE SYNC
+                            </button>
+</div>
+</div>
+</div>
+<!-- SECTION 3: ITEM INSPECTOR -->
+<aside class="space-y-4">
+<div class="flex items-center gap-2">
+<div class="w-1 h-4 bg-secondary"></div>
+<h2 class="font-label-caps text-secondary tracking-widest text-sm">ITEM INSPECTOR // ANALYSIS</h2>
+</div>
+<div class="hud-glass p-0 flex flex-col h-full min-h-[600px] border-secondary/20">
+<div class="relative w-full h-64 bg-surface-container-highest/20 overflow-hidden">
+<!-- Technical Blueprint Placeholder -->
+<div class="absolute inset-0 flex items-center justify-center opacity-40">
+<span class="material-symbols-outlined text-secondary text-[120px]" style="font-variation-settings: 'wght' 100;">history_toggle_off</span>
+</div>
+<div class="absolute inset-0 p-4 flex flex-col justify-between">
+<div class="flex justify-between">
+<span class="font-data-mono text-[8px] text-secondary">SCANNING AREA 04...</span>
+<span class="font-data-mono text-[8px] text-secondary">LOCKED</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-data-mono text-[8px] text-secondary">STRUCTURAL_INTEGRITY: 94.2%</span>
+<span class="font-data-mono text-[8px] text-secondary">FREQ: 432Hz</span>
+</div>
+</div>
+<div class="absolute inset-0 border-[20px] border-surface pointer-events-none opacity-20"></div>
+</div>
+<div class="p-6 space-y-6 flex-1 bg-surface-container-low/50">
+<div>
+<h3 class="font-display-lg text-primary text-xl mb-1">CHRONOS RING</h3>
+<p class="font-label-caps text-secondary text-[10px] tracking-widest">TYPE: VITAL // RANK: EPIC</p>
+</div>
+<div class="space-y-3">
+<h4 class="font-label-caps text-outline text-[10px] border-b border-outline-variant/30 pb-1">CODEX OF THE GREATS</h4>
+<p class="text-xs font-body-md text-on-surface-variant leading-relaxed italic">
+                                    "Forged in the silence between breaths, the Chronos Ring doesn't stop time—it makes the wearer large enough to inhabit the milliseconds others discard."
+                                </p>
+</div>
+<div class="space-y-4">
+<h4 class="font-label-caps text-outline text-[10px] border-b border-outline-variant/30 pb-1">ATTRIBUTE MODIFIERS</h4>
+<div class="grid grid-cols-1 gap-2">
+<div class="flex items-center justify-between bg-primary/5 p-2 border border-primary/10">
+<span class="text-[10px] font-label-caps text-primary">INTELLIGENCE</span>
+<span class="text-[10px] font-data-mono text-primary">+15.0%</span>
+</div>
+<div class="flex items-center justify-between bg-secondary/5 p-2 border border-secondary/10">
+<span class="text-[10px] font-label-caps text-secondary">EGO FRICTION</span>
+<span class="text-[10px] font-data-mono text-secondary">-5.2%</span>
+</div>
+<div class="flex items-center justify-between bg-surface-container-highest p-2 border border-outline-variant/30">
+<span class="text-[10px] font-label-caps text-outline">PRESENCE DEPTH</span>
+<span class="text-[10px] font-data-mono text-outline">+2.4 pts</span>
+</div>
+</div>
+</div>
+<div class="pt-4 mt-auto">
+<button class="w-full border border-primary text-primary font-label-caps py-2 text-[10px] hover:bg-primary hover:text-surface transition-all tracking-widest">
+                                    UNEQUIP OBJECT
+                                </button>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</main>
+<!-- BOTTOM NAV BAR (Mobile) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 pb-safe px-4 bg-surface-container/80 backdrop-blur-lg border-t border-primary/20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">space_dashboard</span>
+<span class="font-label-caps text-[8px]">DASH</span>
+</button>
+<button class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-110">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-caps text-[8px]">ARSENAL</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">temple_hindu</span>
+<span class="font-label-caps text-[8px]">HOUSES</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">assignment_late</span>
+<span class="font-label-caps text-[8px]">MISSIONS</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">autorenew</span>
+<span class="font-label-caps text-[8px]">CYCLE</span>
+</button>
+</nav>
+<!-- FOOTER -->
+<footer class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop flex flex-col items-center gap-2 opacity-40 hover:opacity-100 transition-opacity duration-500 py-12 mb-20 lg:mb-8 lg:ml-64">
+<div class="flex gap-4 font-data-mono text-[10px] text-outline">
+<a class="hover:text-primary transition-colors" href="#">SYSTEM RESET</a>
+<span class="text-outline-variant">/</span>
+<a class="hover:text-primary transition-colors" href="#">LOG EXPORT</a>
+<span class="text-outline-variant">/</span>
+<a class="hover:text-primary transition-colors" href="#">PROTOCOL-9</a>
+</div>
+<p class="font-data-mono text-[10px] text-outline uppercase tracking-[0.2em]">MAGNOPVS OS v4.2.0 // SYSTEM_STABLE</p>
+</footer>
+<script>
+        // Micro-interaction for inventory items
+        document.querySelectorAll('.aspect-square').forEach(item => {
+            item.addEventListener('click', () => {
+                // Flash effect
+                item.style.backgroundColor = 'rgba(219, 252, 255, 0.2)';
+                setTimeout(() => {
+                    item.style.backgroundColor = '';
+                }, 100);
+                
+                // Sound effect or state update could go here
+                console.log('Item selected');
+            });
+        });
+
+        // Background Atmosphere effect (floating particles)
+        const canvas = document.createElement('canvas');
+        canvas.className = 'fixed inset-0 pointer-events-none z-[-1] opacity-20';
+        document.body.appendChild(canvas);
+        const ctx = canvas.getContext('2d');
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        const particles = Array.from({ length: 50 }, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 2,
+            speedX: (Math.random() - 0.5) * 0.5,
+            speedY: (Math.random() - 0.5) * 0.5
+        }));
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#dbfcff';
+            particles.forEach(p => {
+                p.x += p.speedX;
+                p.y += p.speedY;
+                if (p.x < 0) p.x = canvas.width;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height;
+                if (p.y > canvas.height) p.y = 0;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body></html>

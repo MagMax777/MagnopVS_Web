@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SOR_OS | MISSION_MOTOR</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&amp;family=Audiowide&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed-variant": "#544600",
+                    "on-secondary": "#3a3000",
+                    "error-container": "#93000a",
+                    "on-primary": "#2f3131",
+                    "on-background": "#e5e2e1",
+                    "surface-bright": "#3a3939",
+                    "secondary": "#fff9ef",
+                    "surface": "#131313",
+                    "outline-variant": "#444748",
+                    "on-surface": "#e5e2e1",
+                    "inverse-surface": "#e5e2e1",
+                    "surface-container-lowest": "#0e0e0e",
+                    "on-primary-container": "#636565",
+                    "on-primary-fixed": "#1a1c1c",
+                    "surface-container-low": "#1c1b1b",
+                    "primary-container": "#e2e2e2",
+                    "on-surface-variant": "#c4c7c8",
+                    "tertiary-fixed-dim": "#00daf3",
+                    "tertiary": "#ffffff",
+                    "on-error": "#690005",
+                    "tertiary-container": "#9cf0ff",
+                    "error": "#ffb4ab",
+                    "surface-dim": "#131313",
+                    "secondary-fixed-dim": "#e9c400",
+                    "secondary-container": "#ffdb3c",
+                    "on-primary-fixed-variant": "#454747",
+                    "primary": "#ffffff",
+                    "primary-fixed": "#e2e2e2",
+                    "secondary-fixed": "#ffe16d",
+                    "on-secondary-container": "#725f00",
+                    "surface-tint": "#c6c6c7",
+                    "outline": "#8e9192",
+                    "on-tertiary-container": "#006f7c",
+                    "on-secondary-fixed": "#221b00",
+                    "surface-variant": "#353534",
+                    "surface-container": "#201f1f",
+                    "primary-fixed-dim": "#c6c6c7",
+                    "surface-container-highest": "#353534",
+                    "on-tertiary-fixed-variant": "#004f58",
+                    "on-error-container": "#ffdad6",
+                    "on-tertiary-fixed": "#001f24",
+                    "on-tertiary": "#00363d",
+                    "surface-container-high": "#2a2a2a",
+                    "inverse-primary": "#5d5f5f",
+                    "inverse-on-surface": "#313030",
+                    "background": "#131313",
+                    "tertiary-fixed": "#9cf0ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sacred-ratio": "1.618",
+                    "gutter": "24px",
+                    "unit": "8px",
+                    "margin-safe": "40px"
+            },
+            "fontFamily": {
+                    "label-caps": ["Orbitron"],
+                    "display-hero": ["Audiowide"],
+                    "headline-lg-mobile": ["Audiowide"],
+                    "body-md": ["Orbitron"],
+                    "data-mono": ["Orbitron"],
+                    "headline-lg": ["Audiowide"]
+            },
+            "fontSize": {
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.3em", "fontWeight": "700"}],
+                    "display-hero": ["64px", {"lineHeight": "1.1", "letterSpacing": "0.2em", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                    "data-mono": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.15em", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #050505;
+            color: #e5e2e1;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 100%);
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .sacred-divider {
+            position: relative;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+            width: 100%;
+            margin: 2rem 0;
+        }
+        .sacred-divider::after {
+            content: "interface";
+            font-family: 'Orbitron';
+            font-size: 8px;
+            text-transform: uppercase;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: #050505;
+            padding: 0 10px;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 2px;
+        }
+        .glow-cyan { text-shadow: 0 0 10px rgba(0, 218, 243, 0.5); }
+        .glow-gold { text-shadow: 0 0 10px rgba(233, 196, 0, 0.5); }
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 218, 243, 0.1);
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: scanline 4s linear infinite;
+            z-index: 10;
+            pointer-events: none;
+        }
+        @keyframes scanline {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md selection:bg-tertiary-fixed-dim selection:text-black">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-safe h-20 bg-surface/30 backdrop-blur-xl border-b border-white/10">
+<div class="flex items-center gap-4">
+<span class="font-display-hero text-headline-lg-mobile text-primary tracking-widest">SOR_OS</span>
+<div class="h-6 w-px bg-white/20 hidden md:block"></div>
+<span class="font-data-mono text-data-mono text-tertiary-fixed-dim hidden md:block uppercase">Mission Motor v4.2</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">13 Houses</a>
+<a class="font-label-caps text-label-caps text-primary border-b-2 border-secondary-fixed-dim transition-colors duration-300" href="#">Missions</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Attributes</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Alchemy Bench</a>
+</nav>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-all duration-200">sync</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-all duration-200">hub</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-all duration-200">settings</span>
+<div class="w-10 h-10 rounded-full border border-primary/20 overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A highly detailed portrait of a futuristic divine hero, with luminous cyan skin and metallic gold circuitry patterns on their face. The figure is set against a deep void background with floating crystalline shards. The lighting is ethereal and sharp, reflecting a high-tech spiritual aesthetic with heavy glassmorphism elements." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQSgI-iaFP6_1alb1Or_Yxrx2c-e5-hwiBxyQfE5fCtqVRLw-oB8wokn1mpPgL7EY36Y5iFGdxwHPwRo19fR6NOOFpKRdFEsiTq-apuSyfUNfjlgvFKye1u8A-DQm6-rV8EXh5HauFOFMMZKrVMv6i5LvLx2tUupROJhDQWh_aq8iLEWJYv63hU-WZDs0Z4bfuYGBqR42ZEgh_VkyjyY_FXTKzATGvuxWI40AmuYw3OW60Lzf62Enye4gSs4FFeYdZWsJ_jU8TYWE5"/>
+</div>
+</div>
+</header>
+<!-- Side Navigation Bar -->
+<aside class="fixed left-0 top-0 h-full hidden lg:flex flex-col pt-24 pb-8 w-64 border-r border-white/10 bg-surface/20 backdrop-blur-2xl z-40">
+<div class="px-6 mb-12">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">pentagon</span>
+<span class="font-display-hero text-primary text-xl tracking-tighter">HERO_SYNC</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-[10px] text-tertiary-fixed-dim">REALITY LEVEL 7</span>
+<div class="flex gap-1">
+<div class="w-1 h-1 bg-tertiary-fixed-dim rounded-full"></div>
+<div class="w-1 h-1 bg-tertiary-fixed-dim rounded-full"></div>
+<div class="w-1 h-1 bg-white/20 rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="flex-1 px-4 space-y-2">
+<a class="flex items-center gap-4 p-3 rounded-lg bg-secondary-container/10 text-secondary-fixed-dim border-r-2 border-secondary-fixed-dim transition-all duration-500" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-label-caps text-label-caps">Missions</span>
+</a>
+<a class="flex items-center gap-4 p-3 rounded-lg text-outline-variant hover:bg-white/5 hover:text-primary transition-all duration-500" href="#">
+<span class="material-symbols-outlined">castle</span>
+<span class="font-label-caps text-label-caps">13 Houses</span>
+</a>
+<a class="flex items-center gap-4 p-3 rounded-lg text-outline-variant hover:bg-white/5 hover:text-primary transition-all duration-500" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps text-label-caps">Attributes</span>
+</a>
+<a class="flex items-center gap-4 p-3 rounded-lg text-outline-variant hover:bg-white/5 hover:text-primary transition-all duration-500" href="#">
+<span class="material-symbols-outlined">biotech</span>
+<span class="font-label-caps text-label-caps">Alchemy Bench</span>
+</a>
+</div>
+<div class="px-4 pt-6 border-t border-white/5">
+<button class="w-full py-4 glass border-white/20 font-label-caps text-[10px] text-primary tracking-widest hover:bg-white/10 transition-all duration-300">
+                INITIATE_ASCENSION
+            </button>
+<div class="mt-8 space-y-4">
+<a class="flex items-center gap-3 px-2 text-on-surface-variant hover:text-primary text-xs font-label-caps" href="#">
+<span class="material-symbols-outlined text-lg">settings</span>
+                    Settings
+                </a>
+<a class="flex items-center gap-3 px-2 text-on-surface-variant hover:text-primary text-xs font-label-caps" href="#">
+<span class="material-symbols-outlined text-lg">help</span>
+                    Support
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:pl-64 pt-24 pb-20 min-h-screen px-gutter relative overflow-hidden">
+<!-- Background Grid/Pattern -->
+<div class="absolute inset-0 z-0 opacity-5 pointer-events-none">
+
+</div>
+<div class="relative z-10 max-w-7xl mx-auto">
+<!-- Header Section -->
+<div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-primary mb-2">MISSION_MOTOR</h1>
+<p class="font-data-mono text-data-mono text-on-surface-variant max-w-xl">
+                        Operational status: <span class="text-tertiary-fixed-dim">OPTIMAL</span>. Tracking karmic trajectories and daily discipline scripts. Your current reality anchor is set to Level 7.
+                    </p>
+</div>
+<div class="glass p-4 border-tertiary-fixed-dim/30 flex items-center gap-6">
+<div class="text-center">
+<div class="text-[10px] font-label-caps text-outline-variant">ACTIVE_SCRIPTS</div>
+<div class="text-xl font-display-hero text-tertiary-fixed-dim">08</div>
+</div>
+<div class="w-px h-10 bg-white/10"></div>
+<div class="text-center">
+<div class="text-[10px] font-label-caps text-outline-variant">TRANSMUTATION_RATE</div>
+<div class="text-xl font-display-hero text-secondary-fixed-dim">44%</div>
+</div>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Daily Quests: Scripts for Discipline -->
+<section class="md:col-span-4 flex flex-col gap-6">
+<div class="glass p-6 relative group overflow-hidden">
+<div class="scanline"></div>
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-label-caps text-label-caps text-primary tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-tertiary-fixed-dim">terminal</span>
+                                DAILY_SCRIPTS
+                            </h2>
+<span class="text-[10px] font-data-mono text-tertiary-fixed-dim">03/08 COMPLETED</span>
+</div>
+<div class="space-y-4">
+<!-- Daily Habit Item -->
+<div class="flex items-center gap-4 p-3 bg-white/5 border border-white/5 hover:border-tertiary-fixed-dim/50 transition-all cursor-pointer group/item">
+<div class="w-6 h-6 border border-tertiary-fixed-dim flex items-center justify-center text-tertiary-fixed-dim transition-all group-hover/item:bg-tertiary-fixed-dim group-hover/item:text-black">
+<span class="material-symbols-outlined text-sm">check</span>
+</div>
+<div class="flex-1">
+<div class="text-xs font-label-caps text-primary">MORNING_VOID_MEDITATION</div>
+<div class="text-[10px] text-outline-variant">Status: Executed</div>
+</div>
+</div>
+<div class="flex items-center gap-4 p-3 bg-white/5 border border-white/5 hover:border-tertiary-fixed-dim/50 transition-all cursor-pointer group/item">
+<div class="w-6 h-6 border border-white/20 flex items-center justify-center text-transparent">
+<span class="material-symbols-outlined text-sm">check</span>
+</div>
+<div class="flex-1">
+<div class="text-xs font-label-caps text-on-surface-variant">CODE_SYNCHRONIZATION</div>
+<div class="text-[10px] text-outline-variant">Status: Pending</div>
+</div>
+<span class="material-symbols-outlined text-xs text-tertiary-fixed-dim animate-pulse">timer</span>
+</div>
+<div class="flex items-center gap-4 p-3 bg-white/5 border border-white/5 hover:border-tertiary-fixed-dim/50 transition-all cursor-pointer group/item">
+<div class="w-6 h-6 border border-white/20 flex items-center justify-center text-transparent">
+<span class="material-symbols-outlined text-sm">check</span>
+</div>
+<div class="flex-1">
+<div class="text-xs font-label-caps text-on-surface-variant">VESSEL_STRENGTHENING</div>
+<div class="text-[10px] text-outline-variant">Status: Queued</div>
+</div>
+</div>
+<div class="flex items-center gap-4 p-3 bg-white/5 border border-white/5 hover:border-tertiary-fixed-dim/50 transition-all cursor-pointer group/item opacity-50">
+<div class="w-6 h-6 border border-white/20 flex items-center justify-center text-transparent">
+<span class="material-symbols-outlined text-sm">check</span>
+</div>
+<div class="flex-1">
+<div class="text-xs font-label-caps text-on-surface-variant">NOURISHMENT_LOG</div>
+<div class="text-[10px] text-outline-variant">Status: Idle</div>
+</div>
+</div>
+</div>
+<div class="mt-6">
+<button class="w-full py-2 border border-dashed border-white/20 text-[10px] font-label-caps text-outline-variant hover:text-primary hover:border-primary transition-all">
+                                + ADD_NEW_SCRIPT
+                            </button>
+</div>
+</div>
+<div class="glass p-6 border-secondary-fixed-dim/20 bg-secondary-fixed-dim/5">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-secondary-fixed-dim" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<h3 class="font-label-caps text-label-caps text-secondary-fixed-dim">DISCIPLINE_STREAK</h3>
+</div>
+<div class="flex gap-2">
+<div class="flex-1 h-1 bg-secondary-fixed-dim"></div>
+<div class="flex-1 h-1 bg-secondary-fixed-dim"></div>
+<div class="flex-1 h-1 bg-secondary-fixed-dim"></div>
+<div class="flex-1 h-1 bg-secondary-fixed-dim"></div>
+<div class="flex-1 h-1 bg-white/10"></div>
+<div class="flex-1 h-1 bg-white/10"></div>
+<div class="flex-1 h-1 bg-white/10"></div>
+</div>
+<div class="mt-2 text-[10px] font-data-mono text-on-surface-variant uppercase tracking-widest text-center">4 Days Unified</div>
+</div>
+</section>
+<!-- Side & Epic Quests: Long Term Transformation -->
+<section class="md:col-span-8 space-y-6">
+<div class="glass p-8 relative min-h-[300px] flex flex-col justify-between overflow-hidden">
+<!-- Background artwork for Epic Quest -->
+<div class="absolute inset-0 z-0 opacity-20 transition-transform duration-700 group-hover:scale-110">
+<div class="w-full h-full bg-cover bg-center" data-alt="An expansive digital vista of a floating crystalline cathedral in a nebula of dark purples and neon magentas. Geometric light paths connect various platforms. The art style is cinematic concept art with high refraction and glass-like surfaces, embodying a divine technology aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDwC03gQ3rlIpb994EqfvIqRWXEh9Ta3nHF5eUk97gtUQqA-ymJbcVsaSwW-wRIi9gTiKmxQr5eLICy50yxqdukIYjRztA4OBlD0rX7NKAdxg6e-kZWo2vGmllv8I3c3DF7HUzgVfj9bSsYc2SNvtxj0GvLGV1_JS5ZuGFzZbtvbNwfEsh5PrGc2u38HBataRwZhcJVEHoXzEl--0cEaVbKpefMEI-FF7ZbgTJ6K5hGok0_y335SkMLXIMtUPo8Bgu7EcW5zIKOdsBP')"></div>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-transparent z-1"></div>
+<div class="relative z-10">
+<div class="flex items-center justify-between mb-4">
+<span class="px-2 py-1 bg-secondary-fixed-dim/20 text-secondary-fixed-dim font-label-caps text-[10px] tracking-[0.2em] border border-secondary-fixed-dim/40">EPIC_QUEST_ACTIVE</span>
+<span class="font-data-mono text-xs text-on-surface-variant">EST_COMPLETION: Q4_SYNC</span>
+</div>
+<h2 class="font-display-hero text-3xl text-primary mb-2">THE_METATRON_INITIATIVE</h2>
+<p class="text-on-surface-variant font-body-md text-sm max-w-lg mb-6">
+                                Reconstructing the internal architecture to support higher dimensional consciousness. This transformation requires the total integration of the shadow self.
+                            </p>
+<div class="w-full bg-white/5 h-2 rounded-full overflow-hidden mb-2">
+<div class="bg-gradient-to-r from-tertiary-fixed-dim to-secondary-fixed-dim h-full w-[68%] relative">
+<div class="absolute inset-0 shimmer opacity-50"></div>
+</div>
+</div>
+<div class="flex justify-between text-[10px] font-label-caps text-outline-variant">
+<span>68% INTEGRATED</span>
+<span>STAGE_4: VOID_WALKING</span>
+</div>
+</div>
+<div class="relative z-10 flex gap-4 mt-8">
+<button class="px-6 py-2 bg-primary text-black font-label-caps text-xs hover:bg-secondary-fixed-dim transition-colors">RESUME_SYNC</button>
+<button class="px-6 py-2 border border-white/20 text-white font-label-caps text-xs hover:bg-white/5 transition-colors">DETAILS</button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<!-- Side Quest 1 -->
+<div class="glass p-5 border-l-4 border-l-tertiary-fixed-dim group hover:bg-white/5 transition-all">
+<div class="flex items-center justify-between mb-3">
+<span class="font-label-caps text-[9px] text-tertiary-fixed-dim">SIDE_QUEST</span>
+<span class="material-symbols-outlined text-sm text-outline-variant">more_vert</span>
+</div>
+<h3 class="font-label-caps text-sm text-primary mb-2">Pleroma Networking</h3>
+<p class="text-[11px] text-on-surface-variant font-data-mono mb-4">Establish 12 high-vibrational connections within the local sector.</p>
+<div class="flex items-center gap-2">
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full border border-surface bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait icon of a futuristic entity with translucent visor and holographic jewelry, cyberpunk aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmxpwzrhY4ruK_PTxffJzEOELndSmBMBXD9ld9lQGMHmpOZ5VTmS3wu6qKdSpoh3Oesxhtr_y3NPgfr-iyRTcxV3eW7ZvaeLFg4NmMLGV-2cRadVKCh9PSA40XtFdLuAGjUUxF79sZVL0k-XfqRHVJkfeLnKPzErAiRsG1jvd1YzLKrNaw1H2uC6CZUco7ESw50Jkd8vsU3Hj477kKUMAm-Vl3a6dzu6J4NS9_xnOX5cNk587bz4UgZ3e0Es-IG8jS0AKPVoRxpx6P"/>
+</div>
+<div class="w-6 h-6 rounded-full border border-surface bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A profile icon of a digital sage with glowing white eyes and silver robes, high tech spiritual style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlKKMmm4u6D_tBql2w4Q5Cqva9HbmBY3QeSGlUXS7ramP1cXybRqiEFzrHlGRqSsrHCcr1_3lai24dQYy8mlJR4GMuprHFM3vpSwvNwKz14k1AD1-cK6pgW58WXCejuQNhsqwWV-Ben7UXqwJNwBzZ3x6tD9uxBNk5pnm_Hxr8tHckqeIXccOMFEpOEjL_WkmMooJMlPASpA0_P0s1dEcAQNrfURMLMK84jimqoZUVmlBegqJvQHexox-jJjkUNg688iNbJlE6Gwmd"/>
+</div>
+<div class="w-6 h-6 rounded-full border border-surface bg-white/10 flex items-center justify-center text-[8px] font-label-caps">+5</div>
+</div>
+<span class="text-[10px] font-data-mono text-outline-variant">07/12 Synced</span>
+</div>
+</div>
+<!-- Side Quest 2 -->
+<div class="glass p-5 border-l-4 border-l-secondary-fixed-dim group hover:bg-white/5 transition-all">
+<div class="flex items-center justify-between mb-3">
+<span class="font-label-caps text-[9px] text-secondary-fixed-dim">SIDE_QUEST</span>
+<span class="material-symbols-outlined text-sm text-outline-variant">more_vert</span>
+</div>
+<h3 class="font-label-caps text-sm text-primary mb-2">Kernel Refactor</h3>
+<p class="text-[11px] text-on-surface-variant font-data-mono mb-4">Optimize metabolic functions and sleep hygiene for Level 8 readiness.</p>
+<div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary-fixed-dim h-full w-[25%]"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Boss Battles: Existential Crisis Tracking -->
+<section class="md:col-span-12">
+<div class="sacred-divider"></div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+<div class="lg:col-span-2 glass p-8 border-error/20 bg-error/5 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-8xl text-error" style="font-variation-settings: 'wght' 200;">warning</span>
+</div>
+<div class="relative z-10">
+<h2 class="font-headline-lg text-error mb-4 flex items-center gap-3">
+<span class="material-symbols-outlined">skull</span>
+                                    BOSS_BATTLE: EXISTENTIAL_DREAD
+                                </h2>
+<p class="font-body-md text-on-surface-variant max-w-2xl mb-8">
+                                    Current Threat Level: <span class="text-error font-bold">CRITICAL</span>. The entity 'Imposter_Syndrome' has breached the inner sanctum. Initiate transmutation protocol immediately to prevent core instability.
+                                </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="space-y-4">
+<h4 class="font-label-caps text-[10px] text-outline-variant">TRANSMUTATION_STRATEGY</h4>
+<div class="space-y-3">
+<div class="flex items-center gap-3 text-sm font-data-mono text-on-surface">
+<span class="w-1.5 h-1.5 bg-error rounded-full"></span>
+                                                Document 3 Objective Achievements
+                                            </div>
+<div class="flex items-center gap-3 text-sm font-data-mono text-on-surface">
+<span class="w-1.5 h-1.5 bg-error rounded-full"></span>
+                                                Silence Internal Critic via Breath-Sync
+                                            </div>
+<div class="flex items-center gap-3 text-sm font-data-mono text-on-surface opacity-50">
+<span class="w-1.5 h-1.5 bg-white/20 rounded-full"></span>
+                                                Execute 'Gratitude.exe'
+                                            </div>
+</div>
+</div>
+<div class="flex flex-col justify-end">
+<button class="w-full py-4 bg-error text-black font-label-caps text-sm tracking-[0.2em] hover:bg-error/80 transition-all shadow-lg shadow-error/20 uppercase">
+                                            ENGAGE_TRANSMUTATION
+                                        </button>
+</div>
+</div>
+</div>
+</div>
+<div class="glass p-6 h-full flex flex-col justify-between">
+<div>
+<h3 class="font-label-caps text-label-caps text-primary mb-6">CRISIS_LOG</h3>
+<div class="space-y-6">
+<div class="border-b border-white/5 pb-4">
+<div class="text-[10px] font-data-mono text-outline-variant mb-1">REALITY_STAMP: 2023.10.24</div>
+<div class="text-xs font-label-caps text-on-tertiary-container">Ego Death v2.0</div>
+<div class="text-[10px] text-on-surface-variant mt-1">Transmuted into: Creative Spark</div>
+</div>
+<div class="border-b border-white/5 pb-4">
+<div class="text-[10px] font-data-mono text-outline-variant mb-1">REALITY_STAMP: 2023.09.12</div>
+<div class="text-xs font-label-caps text-on-tertiary-container">The Great Procrastination</div>
+<div class="text-[10px] text-on-surface-variant mt-1">Transmuted into: System Efficiency</div>
+</div>
+</div>
+</div>
+<div class="mt-8">
+<div class="text-center font-label-caps text-[8px] text-outline-variant uppercase mb-2">Total Transmutations</div>
+<div class="flex justify-center gap-1">
+<div class="w-2 h-4 bg-tertiary-fixed-dim"></div>
+<div class="w-2 h-4 bg-tertiary-fixed-dim"></div>
+<div class="w-2 h-4 bg-tertiary-fixed-dim"></div>
+<div class="w-2 h-4 bg-tertiary-fixed-dim"></div>
+<div class="w-2 h-4 bg-tertiary-fixed-dim"></div>
+<div class="w-2 h-4 bg-tertiary-fixed-dim/20"></div>
+<div class="w-2 h-4 bg-tertiary-fixed-dim/20"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Floating UI Atmosphere Elements -->
+<div class="fixed bottom-10 right-10 z-50 flex flex-col items-end gap-2 pointer-events-none opacity-40">
+<div class="text-[8px] font-data-mono text-tertiary-fixed-dim">DATA_STREAM_INCOMING...</div>
+<div class="w-48 h-px bg-tertiary-fixed-dim/30"></div>
+<div class="text-[8px] font-data-mono text-on-surface-variant">NODE_CONNECTED: PLEROMA_CENTRAL</div>
+</div>
+</main>
+<!-- Footer Status Bar -->
+<footer class="fixed bottom-0 w-full z-40 flex justify-between items-center px-gutter py-2 bg-surface-container-lowest/50 backdrop-blur-md border-t border-white/10 font-data-mono text-data-mono">
+<div class="flex items-center gap-8">
+<span class="text-secondary font-label-caps text-xs">SOR_OS CORE</span>
+<span class="text-on-surface-variant/60 hidden md:block">SYSTEM STATUS: <span class="text-tertiary-fixed-dim">OPTIMAL</span></span>
+<span class="text-on-surface-variant/60 hidden md:block">REALITY_SYNC: 99.9%</span>
+</div>
+<div class="flex items-center gap-6 text-[10px]">
+<a class="text-on-surface-variant/60 hover:text-tertiary-fixed-dim transition-colors uppercase" href="#">LOGS</a>
+<a class="text-on-surface-variant/60 hover:text-tertiary-fixed-dim transition-colors uppercase" href="#">KERNEL</a>
+<a class="text-on-surface-variant/60 hover:text-tertiary-fixed-dim transition-colors uppercase" href="#">VOID</a>
+</div>
+<div class="flex items-center gap-4 text-tertiary-fixed-dim">
+<span class="material-symbols-outlined text-sm animate-spin" style="animation-duration: 10s;">settings</span>
+<span class="hidden sm:inline">0xFE24_SYNCED</span>
+</div>
+</footer>
+<script>
+        // Micro-interaction for mission cards
+        document.querySelectorAll('.glass').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // Toggle Script States
+        const scriptItems = document.querySelectorAll('.group\\/item');
+        scriptItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const checkbox = item.querySelector('.material-symbols-outlined');
+                if (checkbox.textContent === 'check') {
+                    // This is just a UI visual toggle for the demo
+                    const isChecked = item.classList.contains('bg-white/5');
+                    if (isChecked) {
+                        // Toggle logic could go here
+                    }
+                }
+            });
+        });
+    </script>
+</body></html>

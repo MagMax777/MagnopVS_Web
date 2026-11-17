@@ -1,0 +1,972 @@
+```css
+/* ============================================================
+   MAGNOPVS · ELEUSIS PATH
+   PARALLAX INTRO
+   STYLE SHEET
+   ============================================================ */
+
+
+/* ============================================================
+   RESET
+   ============================================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+}
+
+
+body {
+
+    background: #000;
+
+    font-family:
+        "Times New Roman",
+        Georgia,
+        serif;
+
+    color: #fff;
+
+}
+
+
+/* ============================================================
+   MAIN EXPERIENCE
+   ============================================================ */
+
+#eleusisExperience {
+
+    position: relative;
+
+    width: 100vw;
+    height: 100vh;
+
+    min-height: 100svh;
+
+    overflow: hidden;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+/* ============================================================
+   PARALLAX VIDEO
+   ============================================================ */
+
+#parallaxVideo {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    object-position: center;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+}
+
+
+/* ============================================================
+   ATMOSPHERIC OVERLAY
+   ============================================================ */
+
+#eleusisExperience::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 2;
+
+    pointer-events: none;
+
+    background:
+
+        radial-gradient(
+            circle at center,
+            rgba(0,0,0,0.05) 0%,
+            rgba(0,0,0,0.20) 55%,
+            rgba(0,0,0,0.72) 100%
+        );
+
+}
+
+
+/* ============================================================
+   CONTENT LAYER
+   ============================================================ */
+
+.eleusis-content {
+
+    position: relative;
+
+    z-index: 10;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 5vh 5vw;
+
+}
+
+
+/* ============================================================
+   LOGO
+   ============================================================ */
+
+#eleusisLogo {
+
+    position: relative;
+
+    display: block;
+
+    width: min(
+        420px,
+        55vw
+    );
+
+    max-height: 32vh;
+
+    object-fit: contain;
+
+    cursor: pointer;
+
+    user-select: none;
+
+    -webkit-user-drag: none;
+
+    z-index: 20;
+
+    opacity: 1;
+
+    transform:
+        scale(1);
+
+    filter:
+        drop-shadow(
+            0 0 12px
+            rgba(255,255,255,0.18)
+        );
+
+    transition:
+
+        transform 0.35s ease,
+
+        filter 0.35s ease,
+
+        opacity 0.8s ease;
+
+}
+
+
+/* ============================================================
+   LOGO HOVER
+   ============================================================ */
+
+#eleusisLogo:hover {
+
+    transform:
+        scale(1.045);
+
+    filter:
+        drop-shadow(
+            0 0 22px
+            rgba(255,255,255,0.48)
+        );
+
+}
+
+
+/* ============================================================
+   LOGO ACTIVE
+   ============================================================ */
+
+#eleusisLogo:active {
+
+    transform:
+        scale(0.97);
+
+}
+
+
+/* ============================================================
+   LOGO PORTAL ACTIVATION
+   ============================================================ */
+
+#eleusisLogo.portal-opening {
+
+    animation:
+
+        eleusisPortalOpen
+        0.9s
+        cubic-bezier(
+            0.2,
+            0.8,
+            0.2,
+            1
+        )
+        forwards;
+
+}
+
+
+@keyframes eleusisPortalOpen {
+
+    0% {
+
+        opacity: 1;
+
+        transform:
+            scale(1);
+
+        filter:
+            brightness(1)
+            drop-shadow(
+                0 0 15px
+                rgba(255,255,255,0.15)
+            );
+
+    }
+
+
+    30% {
+
+        opacity: 1;
+
+        transform:
+            scale(1.08);
+
+        filter:
+            brightness(1.45)
+            drop-shadow(
+                0 0 30px
+                rgba(255,255,255,0.6)
+            );
+
+    }
+
+
+    60% {
+
+        opacity: 1;
+
+        transform:
+            scale(0.96);
+
+        filter:
+            brightness(1.9)
+            drop-shadow(
+                0 0 55px
+                rgba(255,255,255,0.9)
+            );
+
+    }
+
+
+    100% {
+
+        opacity: 0;
+
+        transform:
+            scale(1.16);
+
+        filter:
+            brightness(2.5)
+            drop-shadow(
+                0 0 90px
+                rgba(255,255,255,0)
+            );
+
+    }
+
+}
+
+
+/* ============================================================
+   LOGO HIDDEN
+   ============================================================ */
+
+#eleusisLogo.portal-hidden {
+
+    opacity: 0;
+
+    pointer-events: none;
+
+}
+
+
+/* ============================================================
+   CHAPTER INFORMATION
+   ============================================================ */
+
+.eleusis-chapter {
+
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 10%;
+
+    transform:
+        translateX(-50%);
+
+    width: min(
+        90vw,
+        700px
+    );
+
+    text-align: center;
+
+    z-index: 15;
+
+    opacity: 0;
+
+    transition:
+
+        opacity 1s ease,
+
+        transform 1s ease;
+
+}
+
+
+/* ============================================================
+   WHEN EXPERIENCE STARTS
+   ============================================================ */
+
+.experience-active
+.eleusis-chapter {
+
+    opacity: 1;
+
+    transform:
+        translateX(-50%)
+        translateY(0);
+
+}
+
+
+/* ============================================================
+   SEASON
+   ============================================================ */
+
+.eleusis-season {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size:
+        clamp(
+            10px,
+            1vw,
+            14px
+        );
+
+    letter-spacing:
+        0.35em;
+
+    text-transform:
+        uppercase;
+
+    opacity: 0.75;
+
+}
+
+
+/* ============================================================
+   CHAPTER TITLE
+   ============================================================ */
+
+.eleusis-title {
+
+    display: block;
+
+    font-size:
+        clamp(
+            22px,
+            3vw,
+            42px
+        );
+
+    letter-spacing:
+        0.12em;
+
+    text-transform:
+        uppercase;
+
+    text-shadow:
+
+        0 0 12px
+        rgba(0,0,0,0.9),
+
+        0 0 30px
+        rgba(0,0,0,0.7);
+
+}
+
+
+/* ============================================================
+   SUBTITLE
+   ============================================================ */
+
+.eleusis-subtitle {
+
+    display: block;
+
+    margin-top: 8px;
+
+    font-size:
+        clamp(
+            11px,
+            1.2vw,
+            16px
+        );
+
+    letter-spacing:
+        0.22em;
+
+    text-transform:
+        uppercase;
+
+    opacity: 0.7;
+
+}
+
+
+/* ============================================================
+   LOADING UI
+   ============================================================ */
+
+.eleusis-loading {
+
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 4%;
+
+    transform:
+        translateX(-50%);
+
+    width: min(
+        340px,
+        65vw
+    );
+
+    z-index: 20;
+
+    opacity: 0;
+
+    transition:
+        opacity 0.8s ease;
+
+}
+
+
+.experience-active
+.eleusis-loading {
+
+    opacity: 1;
+
+}
+
+
+/* ============================================================
+   LOADING BAR
+   ============================================================ */
+
+.loading-track {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 2px;
+
+    overflow: hidden;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.20
+        );
+
+}
+
+
+/* ============================================================
+   LOADING PROGRESS
+   ============================================================ */
+
+.loading-progress {
+
+    width: 0%;
+
+    height: 100%;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.95
+        );
+
+    box-shadow:
+
+        0 0 8px
+        rgba(255,255,255,0.8),
+
+        0 0 20px
+        rgba(255,255,255,0.35);
+
+}
+
+
+/* ============================================================
+   ACTIVE LOADING
+   ============================================================ */
+
+.experience-active
+.loading-progress {
+
+    animation:
+
+        eleusisLoading
+        15s
+        linear
+        infinite;
+
+}
+
+
+@keyframes eleusisLoading {
+
+    from {
+
+        width: 0%;
+
+    }
+
+    to {
+
+        width: 100%;
+
+    }
+
+}
+
+
+/* ============================================================
+   LOADING TEXT
+   ============================================================ */
+
+.loading-label {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-top: 7px;
+
+    font-size:
+        9px;
+
+    letter-spacing:
+        0.25em;
+
+    text-transform:
+        uppercase;
+
+    opacity: 0.5;
+
+}
+
+
+/* ============================================================
+   VIGNETTE
+   ============================================================ */
+
+.eleusis-vignette {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 5;
+
+    pointer-events: none;
+
+    background:
+
+        radial-gradient(
+            ellipse at center,
+            transparent 35%,
+            rgba(0,0,0,0.15) 60%,
+            rgba(0,0,0,0.75) 100%
+        );
+
+}
+
+
+/* ============================================================
+   PORTAL FLASH
+   ============================================================ */
+
+.experience-active::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 50;
+
+    pointer-events: none;
+
+    background: #fff;
+
+    opacity: 0;
+
+    animation:
+        portalFlash
+        0.8s
+        ease-out
+        forwards;
+
+}
+
+
+@keyframes portalFlash {
+
+    0% {
+
+        opacity: 0;
+
+    }
+
+    15% {
+
+        opacity: 0.18;
+
+    }
+
+    35% {
+
+        opacity: 0;
+
+    }
+
+    100% {
+
+        opacity: 0;
+
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (
+    max-width: 600px
+) {
+
+    #eleusisLogo {
+
+        width:
+            min(
+                75vw,
+                340px
+            );
+
+    }
+
+
+    .eleusis-content {
+
+        padding:
+            4vh
+            5vw;
+
+    }
+
+
+    .eleusis-chapter {
+
+        bottom: 12%;
+
+    }
+
+
+    .eleusis-loading {
+
+        bottom: 5%;
+
+        width:
+            70vw;
+
+    }
+
+}
+
+
+/* ============================================================
+   LANDSCAPE MOBILE
+   ============================================================ */
+
+@media (
+    max-height: 500px
+) {
+
+    #eleusisLogo {
+
+        width:
+            min(
+                40vw,
+                300px
+            );
+
+    }
+
+
+    .eleusis-chapter {
+
+        bottom: 8%;
+
+    }
+
+
+    .eleusis-loading {
+
+        bottom: 3%;
+
+    }
+
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media (
+    prefers-reduced-motion: reduce
+) {
+
+    * {
+
+        animation-duration:
+            0.01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        transition-duration:
+            0.01ms !important;
+
+    }
+
+}
+```
+/* =========================================
+   ELEUSIS PORTAL
+   LOGO = ENTRY POINT
+   ========================================= */
+
+.eleusis-logo {
+    cursor: pointer;
+
+    -webkit-user-select: none;
+    user-select: none;
+
+    -webkit-user-drag: none;
+
+    touch-action: manipulation;
+
+    transition:
+        transform 0.3s ease,
+        filter 0.3s ease;
+}
+
+.eleusis-logo:hover {
+    transform: scale(1.035);
+
+    filter:
+        drop-shadow(
+            0 0 14px
+            rgba(187, 233, 255, 0.55)
+        )
+        drop-shadow(
+            0 0 32px
+            rgba(94, 212, 255, 0.35)
+        );
+}
+
+.eleusis-logo:active {
+    transform: scale(0.97);
+}
+
+
+/* =========================================
+   PORTAL ACTIVATION
+   ========================================= */
+
+.eleusis-logo.portal-opening {
+
+    animation:
+        portalActivation
+        1s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        forwards;
+}
+
+
+@keyframes portalActivation {
+
+    0% {
+
+        opacity: 1;
+
+        transform:
+            scale(1);
+
+        filter:
+            brightness(1)
+            drop-shadow(
+                0 0 10px
+                rgba(187, 233, 255, 0.3)
+            );
+    }
+
+    30% {
+
+        opacity: 1;
+
+        transform:
+            scale(1.08);
+
+        filter:
+            brightness(1.5)
+            drop-shadow(
+                0 0 30px
+                rgba(94, 212, 255, 0.7)
+            );
+    }
+
+    55% {
+
+        opacity: 1;
+
+        transform:
+            scale(0.96);
+
+        filter:
+            brightness(2)
+            drop-shadow(
+                0 0 60px
+                rgba(255,255,255,0.9)
+            );
+    }
+
+    100% {
+
+        opacity: 0;
+
+        transform:
+            scale(1.15);
+
+        filter:
+            brightness(2.5)
+            drop-shadow(
+                0 0 100px
+                rgba(255,255,255,0)
+            );
+    }
+}
+
+
+/* =========================================
+   ACTIVATION FLASH
+   ========================================= */
+
+#parallax-fg.portal-active::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background: white;
+
+    pointer-events: none;
+
+    z-index: 100;
+
+    animation:
+        portalFlash
+        0.8s
+        ease-out
+        forwards;
+}
+
+
+@keyframes portalFlash {
+
+    0% {
+        opacity: 0;
+    }
+
+    15% {
+        opacity: 0.22;
+    }
+
+    35% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}

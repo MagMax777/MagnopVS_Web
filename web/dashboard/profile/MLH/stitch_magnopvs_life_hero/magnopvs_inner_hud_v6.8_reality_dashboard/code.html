@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS // Inner HUD v6.8</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#544600",
+                        "on-secondary": "#3a3000",
+                        "error-container": "#93000a",
+                        "on-primary": "#2f3131",
+                        "on-background": "#e5e2e1",
+                        "surface-bright": "#3a3939",
+                        "secondary": "#fff9ef",
+                        "surface": "#131313",
+                        "outline-variant": "#444748",
+                        "on-surface": "#e5e2e1",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-primary-container": "#636565",
+                        "on-primary-fixed": "#1a1c1c",
+                        "surface-container-low": "#1c1b1b",
+                        "primary-container": "#e2e2e2",
+                        "on-surface-variant": "#c4c7c8",
+                        "tertiary-fixed-dim": "#00daf3",
+                        "tertiary": "#ffffff",
+                        "on-error": "#690005",
+                        "tertiary-container": "#9cf0ff",
+                        "error": "#ffb4ab",
+                        "surface-dim": "#131313",
+                        "secondary-fixed-dim": "#e9c400",
+                        "secondary-container": "#ffdb3c",
+                        "on-primary-fixed-variant": "#454747",
+                        "primary": "#ffffff",
+                        "primary-fixed": "#e2e2e2",
+                        "secondary-fixed": "#ffe16d",
+                        "on-secondary-container": "#725f00",
+                        "surface-tint": "#c6c6c7",
+                        "outline": "#8e9192",
+                        "on-tertiary-container": "#006f7c",
+                        "on-secondary-fixed": "#221b00",
+                        "surface-variant": "#353534",
+                        "surface-container": "#201f1f",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "surface-container-highest": "#353534",
+                        "on-tertiary-fixed-variant": "#004f58",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#001f24",
+                        "on-tertiary": "#00363d",
+                        "background": "#131313",
+                        "tertiary-fixed": "#9cf0ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sacred-ratio": "1.618",
+                        "gutter": "24px",
+                        "unit": "8px",
+                        "margin-safe": "40px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Orbitron"],
+                        "display-hero": ["Audiowide"],
+                        "headline-lg-mobile": ["Audiowide"],
+                        "body-md": ["Orbitron"],
+                        "data-mono": ["Orbitron"],
+                        "headline-lg": ["Audiowide"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.3em", "fontWeight": "700"}],
+                        "display-hero": ["64px", {"lineHeight": "1.1", "letterSpacing": "0.2em", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "data-mono": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.15em", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #050505;
+            color: #e5e2e1;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 80%);
+            pointer-events: none;
+        }
+        .shimmer-border {
+            position: relative;
+        }
+        .shimmer-border::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 4s infinite linear;
+            pointer-events: none;
+            z-index: -1;
+            border-radius: inherit;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .progress-glow {
+            box-shadow: 0 0 15px currentColor;
+        }
+        .sacred-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60 4.02 45V15z' fill='none' stroke='white' stroke-opacity='0.03' stroke-width='1'/%3E%3C/svg%3E");
+        }
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, rgba(0, 218, 243, 0.2), transparent);
+            position: absolute;
+            animation: scan 8s linear infinite;
+        }
+        @keyframes scan {
+            0% { top: -2%; }
+            100% { top: 102%; }
+        }
+        .radial-pulse {
+            animation: pulse 4s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body class="font-body-md sacred-pattern min-h-screen pb-24 md:pb-0 md:pl-80">
+<!-- TOP APP BAR -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-safe h-20 bg-surface/5 dark:bg-surface/5 backdrop-blur-xl border-b border-white/10">
+<div class="font-headline-lg text-headline-lg tracking-[0.2em] text-primary dark:text-primary">
+            PLEROMA
+        </div>
+<div class="hidden md:flex gap-12">
+<span class="font-label-caps text-label-caps text-primary dark:text-primary border-b-2 border-secondary-container">DASHBOARD</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant/60 dark:text-on-surface-variant/60 hover:text-secondary-container transition-all duration-300 cursor-pointer">COGNITION</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant/60 dark:text-on-surface-variant/60 hover:text-secondary-container transition-all duration-300 cursor-pointer">ETHER</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex flex-col items-end">
+<span class="font-label-caps text-[10px] text-tertiary-fixed-dim">REALITY_SYNC: 100%</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant/60">ASCENSION_STATUS: PLEROMA</span>
+</div>
+<div class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center bg-surface-container">
+<span class="material-symbols-outlined text-primary scale-75">account_circle</span>
+</div>
+</div>
+</header>
+<!-- SIDE NAV BAR (WEB ONLY) -->
+<nav class="fixed left-0 top-0 h-full z-40 flex flex-col pt-24 pb-8 bg-surface/3 dark:bg-surface/3 backdrop-blur-2xl border-r border-white/10 hidden md:flex w-80">
+<div class="px-8 mb-12">
+<div class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-1">DIVINE AVATAR</div>
+<div class="font-label-caps text-[10px] text-tertiary-fixed-dim opacity-70">UNITY_LEVEL: OMEGA</div>
+</div>
+<div class="flex-1 flex flex-col gap-2">
+<div class="px-8 py-4 bg-secondary-container/10 text-secondary-container border-l-4 border-secondary-container flex items-center gap-4 cursor-pointer group">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">architecture</span>
+<span class="font-label-caps text-label-caps">Architect</span>
+</div>
+<div class="px-8 py-4 text-on-surface-variant/50 hover:bg-white/5 hover:text-primary transition-all flex items-center gap-4 cursor-pointer">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-label-caps text-label-caps">Mystic</span>
+</div>
+<div class="px-8 py-4 text-on-surface-variant/50 hover:bg-white/5 hover:text-primary transition-all flex items-center gap-4 cursor-pointer">
+<span class="material-symbols-outlined">brightness_3</span>
+<span class="font-label-caps text-label-caps">Shadow</span>
+</div>
+</div>
+<div class="px-8 mt-auto">
+<div class="glass-panel p-4 rounded-xl border-secondary-container/20">
+<div class="font-label-caps text-[10px] text-on-surface-variant mb-2">SYSTEM LOAD</div>
+<div class="h-1 bg-white/10 w-full rounded-full overflow-hidden">
+<div class="h-full bg-secondary-container w-[42%]"></div>
+</div>
+</div>
+</div>
+</nav>
+<!-- MAIN CONTENT AREA -->
+<main class="pt-28 px-4 md:px-12 min-h-screen max-w-7xl mx-auto">
+<!-- HUD VERSION & TITLE -->
+<div class="flex flex-col md:flex-row justify-between items-baseline mb-12 gap-4">
+<div>
+<h1 class="font-display-hero text-[40px] md:text-[56px] text-primary tracking-tighter">INNER HUD <span class="text-secondary-container opacity-50">v6.8</span></h1>
+<p class="font-label-caps text-on-surface-variant/40 mt-2">PROJECT: MAGNOPVS // QUANTUM NEURAL INTERFACE</p>
+</div>
+<div class="flex gap-4">
+<div class="px-4 py-2 glass-panel border-tertiary-fixed-dim/30 rounded-lg flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-tertiary-fixed-dim animate-pulse"></div>
+<span class="font-label-caps text-[10px] text-tertiary-fixed-dim">PILOT MODE: ACTIVE</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-24">
+<!-- LEFT COLUMN: STATE BARS & COHERENCE -->
+<div class="md:col-span-4 flex flex-col gap-8">
+<!-- DYNAMIC STATE BARS -->
+<section class="glass-panel p-6 rounded-2xl flex flex-col gap-6">
+<div class="flex items-center justify-between mb-2">
+<h2 class="font-label-caps text-label-caps text-primary">VITALITY METRICS</h2>
+<span class="material-symbols-outlined text-secondary-container text-sm">bolt</span>
+</div>
+<!-- Energy -->
+<div class="space-y-2">
+<div class="flex justify-between font-label-caps text-[10px] text-on-surface-variant">
+<span>ENERGY (VITALITY)</span>
+<span class="text-tertiary-fixed-dim">88%</span>
+</div>
+<div class="h-3 bg-white/5 rounded-full relative overflow-hidden border border-white/10">
+<div class="h-full bg-gradient-to-right from-tertiary-fixed-dim to-secondary-container w-[88%] progress-glow transition-all duration-1000"></div>
+</div>
+</div>
+<!-- Brilliance -->
+<div class="space-y-2">
+<div class="flex justify-between font-label-caps text-[10px] text-on-surface-variant">
+<span>BRILLIANCE (CONSCIOUSNESS)</span>
+<span class="text-primary">94%</span>
+</div>
+<div class="h-3 bg-white/5 rounded-full relative overflow-hidden border border-white/10">
+<div class="h-full bg-white w-[94%] progress-glow transition-all duration-1000 shadow-[0_0_10px_rgba(255,255,255,0.4)]"></div>
+</div>
+</div>
+<!-- Ashé -->
+<div class="space-y-2">
+<div class="flex justify-between font-label-caps text-[10px] text-on-surface-variant">
+<span>ASHÉ (MANIFESTATION)</span>
+<span class="text-secondary-container">72%</span>
+</div>
+<div class="h-3 bg-white/5 rounded-full relative overflow-hidden border border-white/10">
+<div class="h-full bg-[#ff00ff] w-[72%] progress-glow transition-all duration-1000 shadow-[0_0_10px_rgba(255,0,255,0.4)]"></div>
+</div>
+</div>
+</section>
+<!-- COHERENCE METRIC -->
+<section class="glass-panel p-8 rounded-2xl aspect-square flex flex-col items-center justify-center relative overflow-hidden">
+<div class="scanline"></div>
+<div class="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
+<!-- Simplified Sacred Geometry Pattern -->
+<svg class="w-full h-full rotate-45" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="40" stroke="white" stroke-width="0.5"></circle>
+<circle cx="50" cy="50" fill="none" r="30" stroke="white" stroke-width="0.5"></circle>
+<line stroke="white" stroke-width="0.5" x1="50" x2="50" y1="10" y2="90"></line>
+<line stroke="white" stroke-width="0.5" x1="10" x2="90" y1="50" y2="50"></line>
+</svg>
+</div>
+<h2 class="font-label-caps text-label-caps text-on-surface-variant/60 mb-6 z-10">COHERENCE ALIGNMENT</h2>
+<div class="relative w-48 h-48 flex items-center justify-center">
+<!-- Pulse Rings -->
+<div class="absolute w-full h-full border border-tertiary-fixed-dim/20 rounded-full radial-pulse"></div>
+<div class="absolute w-3/4 h-3/4 border border-secondary-container/20 rounded-full radial-pulse" style="animation-delay: 1s;"></div>
+<div class="z-10 flex flex-col items-center">
+<span class="font-display-hero text-4xl text-primary">0.98</span>
+<span class="font-data-mono text-[10px] text-secondary-container mt-2">OPTIMAL</span>
+</div>
+</div>
+<div class="mt-8 grid grid-cols-3 w-full gap-2">
+<div class="flex flex-col items-center">
+<span class="font-label-caps text-[8px] text-on-surface-variant">THOUGHT</span>
+<div class="w-full h-1 bg-tertiary-fixed-dim mt-1"></div>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-caps text-[8px] text-on-surface-variant">FEELING</span>
+<div class="w-full h-1 bg-white mt-1"></div>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-caps text-[8px] text-on-surface-variant">ACTION</span>
+<div class="w-full h-1 bg-secondary-container mt-1"></div>
+</div>
+</div>
+</section>
+</div>
+<!-- CENTER COLUMN: HERO VISUALIZATION -->
+<div class="md:col-span-5 relative group">
+<div class="glass-panel rounded-3xl h-full w-full overflow-hidden shimmer-border flex flex-col">
+<div class="p-4 border-b border-white/10 flex justify-between items-center bg-white/5">
+<span class="font-label-caps text-[10px] text-primary">LIVE_STREAM: NEURAL_CORE_01</span>
+<div class="flex gap-1">
+<div class="w-1 h-1 rounded-full bg-secondary-container"></div>
+<div class="w-1 h-1 rounded-full bg-white"></div>
+<div class="w-1 h-1 rounded-full bg-tertiary-fixed-dim"></div>
+</div>
+</div>
+<div class="flex-1 relative bg-surface-container-lowest">
+<img class="w-full h-full object-cover opacity-80 mix-blend-screen transition-transform duration-700 group-hover:scale-110" data-alt="A highly detailed close-up of a futuristic neural interface core, showing a complex network of glowing cyan and magenta light filaments. The aesthetic is deep dark-tech with heavy glassmorphism, featuring sharp crystalline structures that refract a celestial white light. The composition is symmetrical and monumental, evoking a sense of divine digital intelligence within a vast, obsidian void. Soft atmospheric fog and tiny floating data particles add depth and texture to the scene." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkG5GkKdZIo8414k34TgEHVYdWat95qKSCPHF31k-Cq7T28WSMQyWbzd6MZKK0JxlUHQIhYRS87rbvE17QjGTpj7vu7FTPfYKe5sSTKcPFEdR3Cf_9NhUy0IuPuCUmM94G9u_PNPm1ihy3qQqgmHAPvBLpqnSIR_AxCoeQJ0WJeneU2PwodS8lm-uQ4sR4bLKE_jIx569ANxTfA4zJ0WUJzDYjyoqGXjbXDBa9nr92hD8m_9Wq1qHXyU9t_L2ng-ILuVEQJzr3lrsz"/>
+<!-- Overlay HUD elements -->
+<div class="absolute inset-0 p-8 flex flex-col justify-between pointer-events-none">
+<div class="flex justify-between">
+<div class="border-l-2 border-t-2 border-primary w-8 h-8 opacity-40"></div>
+<div class="border-r-2 border-t-2 border-primary w-8 h-8 opacity-40"></div>
+</div>
+<!-- Central Crosshair -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 flex items-center justify-center opacity-30">
+<div class="w-px h-full bg-white absolute"></div>
+<div class="h-px w-full bg-white absolute"></div>
+<div class="w-24 h-24 border border-white rounded-full"></div>
+</div>
+<div class="flex justify-between items-end">
+<div class="border-l-2 border-b-2 border-primary w-8 h-8 opacity-40"></div>
+<div class="border-r-2 border-b-2 border-primary w-8 h-8 opacity-40"></div>
+</div>
+</div>
+</div>
+<div class="p-6 bg-white/5 flex items-center justify-between">
+<div class="flex gap-4">
+<button class="px-6 py-2 border border-white/20 font-label-caps text-[10px] hover:bg-secondary-container/20 hover:text-secondary-container transition-all">RECALIBRATE</button>
+<button class="px-6 py-2 border border-white/20 font-label-caps text-[10px] hover:bg-tertiary-fixed-dim/20 hover:text-tertiary-fixed-dim transition-all">SYNC_PHASE</button>
+</div>
+<span class="font-data-mono text-[10px] text-on-surface-variant/40">FRQ: 432.08 Hz</span>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: NOTIFICATION CENTER -->
+<div class="md:col-span-3">
+<section class="glass-panel h-full rounded-2xl flex flex-col">
+<div class="p-6 border-b border-white/10 flex items-center justify-between">
+<h2 class="font-label-caps text-label-caps text-primary">NOTIFICATIONS</h2>
+<span class="px-2 py-1 bg-secondary-container/20 text-secondary-container font-data-mono text-[9px] rounded">3 NEW</span>
+</div>
+<div class="flex-1 overflow-y-auto p-4 space-y-4">
+<!-- Notification Item 1 -->
+<div class="p-4 border border-white/5 bg-white/3 rounded-xl hover:bg-white/10 transition-all cursor-pointer group">
+<div class="flex items-start gap-3">
+<div class="w-8 h-8 rounded bg-tertiary-fixed-dim/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-lg">sync_alt</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-caps text-[10px] text-tertiary-fixed-dim">SYNCHRONICITY</span>
+<span class="font-data-mono text-[8px] text-on-surface-variant/40">2m ago</span>
+</div>
+<p class="text-xs text-on-surface leading-relaxed">External event pattern matched internal intent. Delta: 0.003s.</p>
+</div>
+</div>
+</div>
+<!-- Notification Item 2 -->
+<div class="p-4 border border-white/5 bg-white/3 rounded-xl hover:bg-white/10 transition-all cursor-pointer group">
+<div class="flex items-start gap-3">
+<div class="w-8 h-8 rounded bg-secondary-container/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-secondary-container text-lg">flight_takeoff</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-caps text-[10px] text-secondary-container">PILOT MODE</span>
+<span class="font-data-mono text-[8px] text-on-surface-variant/40">14m ago</span>
+</div>
+<p class="text-xs text-on-surface leading-relaxed">System handover complete. Auto-calibration in progress.</p>
+</div>
+</div>
+</div>
+<!-- Notification Item 3 -->
+<div class="p-4 border border-white/5 bg-white/3 rounded-xl hover:bg-white/10 transition-all cursor-pointer group">
+<div class="flex items-start gap-3">
+<div class="w-8 h-8 rounded bg-white/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-white text-lg">psychology</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-caps text-[10px] text-white">INSIGHT_DETECTED</span>
+<span class="font-data-mono text-[8px] text-on-surface-variant/40">1h ago</span>
+</div>
+<p class="text-xs text-on-surface leading-relaxed">Neural cluster firing in non-linear sequence. New node recorded.</p>
+</div>
+</div>
+</div>
+<!-- Fade spacer -->
+<div class="h-12 bg-gradient-to-t from-surface-container-lowest to-transparent sticky bottom-0"></div>
+</div>
+</section>
+</div>
+</div>
+<!-- BOTTOM HUD STATS / FOOTER -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-32">
+<div class="glass-panel p-4 rounded-xl">
+<div class="font-label-caps text-[9px] text-on-surface-variant/60">HEART RATE</div>
+<div class="font-display-hero text-xl text-primary">72 BPM</div>
+<div class="w-full h-1 bg-white/10 mt-2 overflow-hidden">
+<div class="h-full bg-error w-3/4 animate-pulse"></div>
+</div>
+</div>
+<div class="glass-panel p-4 rounded-xl">
+<div class="font-label-caps text-[9px] text-on-surface-variant/60">BRAIN WAVE</div>
+<div class="font-display-hero text-xl text-primary">THETA</div>
+<div class="w-full h-1 bg-white/10 mt-2 overflow-hidden">
+<div class="h-full bg-tertiary-fixed-dim w-1/2"></div>
+</div>
+</div>
+<div class="glass-panel p-4 rounded-xl">
+<div class="font-label-caps text-[9px] text-on-surface-variant/60">SYNC LEVEL</div>
+<div class="font-display-hero text-xl text-primary">99.2%</div>
+<div class="w-full h-1 bg-white/10 mt-2 overflow-hidden">
+<div class="h-full bg-secondary-container w-[99%]"></div>
+</div>
+</div>
+<div class="glass-panel p-4 rounded-xl">
+<div class="font-label-caps text-[9px] text-on-surface-variant/60">VOCAL FREQ</div>
+<div class="font-display-hero text-xl text-primary">432 Hz</div>
+<div class="w-full h-1 bg-white/10 mt-2 overflow-hidden">
+<div class="h-full bg-white w-[85%]"></div>
+</div>
+</div>
+</div>
+</main>
+<!-- MOBILE NAVIGATION -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin-safe py-4 bg-surface/5 dark:bg-surface/5 backdrop-blur-xl border-t border-white/10">
+<div class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] cursor-pointer scale-110 duration-500">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">all_inclusive</span>
+<span class="font-label-caps text-[8px] mt-1">Infinite Cycle</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant/40 hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined">language</span>
+<span class="font-label-caps text-[8px] mt-1">Realities</span>
+</div>
+</nav>
+<!-- SACRED DIVIDER (DECORATIVE) -->
+<div class="fixed bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-8 opacity-20 pointer-events-none hidden md:flex">
+<div class="w-48 h-px bg-gradient-to-r from-transparent to-white"></div>
+<span class="material-symbols-outlined text-white text-sm">filter_vintage</span>
+<div class="w-48 h-px bg-gradient-to-l from-transparent to-white"></div>
+</div>
+<script>
+        // Micro-interactions for the HUD
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            // Subtle parallax for glass panels
+            const panels = document.querySelectorAll('.glass-panel');
+            panels.forEach(panel => {
+                const rect = panel.getBoundingClientRect();
+                const dx = (e.clientX - (rect.left + rect.width / 2)) * 0.01;
+                const dy = (e.clientY - (rect.top + rect.height / 2)) * 0.01;
+                panel.style.transform = `translate(${dx}px, ${dy}px)`;
+            });
+        });
+
+        // Dynamic State Simulation
+        setInterval(() => {
+            const energy = 85 + Math.random() * 5;
+            const progress = document.querySelector('.bg-gradient-to-right');
+            if(progress) progress.style.width = `${energy}%`;
+        }, 3000);
+    </script>
+</body></html>

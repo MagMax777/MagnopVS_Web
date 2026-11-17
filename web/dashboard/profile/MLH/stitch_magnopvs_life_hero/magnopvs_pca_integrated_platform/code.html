@@ -1,0 +1,367 @@
+<!DOCTYPE html><html class="dark" lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;600;700&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#7fd0ff",
+                    "secondary": "#48ddc1",
+                    "tertiary": "#ff64ba",
+                    "accent-violet": "#8b005d",
+                    "background": "#050505",
+                    "surface": "#0f1417",
+                    "surface-container": "#1b2024",
+                    "surface-container-low": "#171c20",
+                    "surface-container-high": "#262b2e",
+                    "surface-container-highest": "#303539",
+                    "outline-variant": "#3e484f",
+                    "on-surface": "#dfe3e8",
+                    "on-surface-variant": "#bec8d0",
+                    "error": "#ffb4ab",
+                    "surface-dim": "#0f1417",
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.15rem",
+                    "lg": "0.35rem",
+                    "xl": "0.5rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "panel-gap": "12px",
+                    "margin-mobile": "20px",
+                    "gutter": "16px",
+                    "margin-desktop": "40px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Audiowide", "cursive"],
+                    "label-caps": ["Orbitron", "sans-serif"],
+                    "headline-md": ["Audiowide", "cursive"],
+                    "data-point": ["Orbitron", "sans-serif"],
+                    "body-md": ["Orbitron", "sans-serif"],
+                    "mono-data": ["Orbitron", "sans-serif"],
+                    "display-lg-mobile": ["Audiowide", "cursive"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.08em", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.2em", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                    "data-point": ["20px", {"lineHeight": "28px", "letterSpacing": "0.15em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                    "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "display-lg-mobile": ["28px", {"lineHeight": "36px", "letterSpacing": "0.08em", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    }catch(_e){}</script></head><body class="selection:bg-primary selection:text-black">
+
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 bg-surface-dim/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(127,208,255,0.1)]">
+    <div class="flex items-center gap-6">
+        <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-widest uppercase drop-shadow-[0_0_8px_rgba(127,208,255,0.6)]">mlh portal</h1>
+        <div class="hidden md:flex flex-col border-l border-primary/20 pl-6">
+            <span class="font-label-caps text-[10px] text-on-surface-variant/60">OPERATOR_01</span>
+            <div class="flex items-center gap-3">
+                <span class="font-label-caps text-xs text-secondary glow-text">PCA_LEVEL_01</span>
+                <div class="w-24 segmented-progress">
+                    <div class="segment active"></div><div class="segment"></div><div class="segment"></div><div class="segment"></div><div class="segment"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex items-center gap-6">
+        <div class="hidden lg:flex items-center gap-8 px-8">
+            <div class="flex flex-col items-end">
+                <span class="font-label-caps text-[10px] text-on-surface-variant/60">CALIBRATION_SYNC</span>
+                <span class="font-label-caps text-sm text-primary" id="calibration-pct">12.05%</span>
+            </div>
+        </div>
+        <div class="flex gap-1">
+            <button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+                <span class="material-symbols-outlined text-xl">account_tree</span>
+            </button>
+            <button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+                <span class="material-symbols-outlined text-xl">auto_stories</span>
+            </button>
+            <div class="ml-4 w-10 h-10 hex-clip bg-primary/10 border border-primary/30 flex items-center justify-center overflow-hidden">
+                <img alt="User Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCN6me4jX7VPf6-r4-q1qtcFx3Z0yu1RQC6I-sMtesFBAWFTq2vxP2IpGlpAQxA7dUWbewZTgkW5NoQqNFpAUzt30NonUnBxX6yV9rZcCATTVIHOCcEcLJakazFuPweNnDJLw8ySUq1lZYJ9huAWzGt7IghzvmE5TzIgd6c3ZQTCRFB7vTKIFFpUmpDGkLZZ5ey6MTmNfjce3koHaJrJw8WUTfhmXtt_vLmGQIxKekfaT_5mXlXNJGi8G6D7nqxapYnwCISC0on6gT">
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- SideNavBar: Command Center -->
+<nav class="fixed left-0 top-0 h-full z-40 w-64 hidden lg:flex flex-col bg-surface-container-low/90 backdrop-blur-md border-r border-outline-variant/20 pt-24">
+    <div class="px-8 mb-10">
+        <div class="font-label-caps text-[10px] text-on-surface-variant/40 mb-1">COMMAND_CENTER</div>
+        <div class="font-display-lg text-primary text-xl tracking-wider">CALIBRATION_HUB</div>
+        <div class="font-label-caps text-[10px] text-secondary">PROJECT_ROADMAP // v4.0.2</div>
+    </div>
+    <div class="flex flex-col gap-1">
+        <a class="flex items-center gap-4 px-6 py-4 text-secondary border-l-2 border-secondary bg-secondary/10 font-label-caps text-xs tracking-widest transition-all" href="#">
+            <span class="material-symbols-outlined">analytics</span>
+            <span class="">PCA Diagnostic</span>
+        </a>
+        <a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant hover:bg-surface-variant/50 hover:text-primary font-label-caps text-xs tracking-widest transition-all" href="#">
+            <span class="material-symbols-outlined">auto_stories</span>
+            <span class="">Codex Avatarika</span>
+        </a>
+        <a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant/40 cursor-not-allowed font-label-caps text-xs tracking-widest" href="#">
+            <span class="material-symbols-outlined">security</span>
+            <span class="">Neural Arch (Locked)</span>
+        </a>
+        <a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant/40 cursor-not-allowed font-label-caps text-xs tracking-widest" href="#">
+            <span class="material-symbols-outlined">public</span>
+            <span class="">House Sinc (Locked)</span>
+        </a>
+    </div>
+    <div class="mt-auto p-8">
+        <div class="font-label-caps text-[10px] text-primary/60 mb-2 flex items-center gap-2">
+            <span class="material-symbols-outlined text-xs">terminal</span>
+            SYMLINK_STATUS
+        </div>
+        <div class="text-[9px] font-label-caps text-secondary/80">AVATAR_UNASSIGNED</div>
+        <div class="text-[9px] font-label-caps text-error">PENDING_CALIBRATION_01</div>
+    </div>
+</nav>
+
+<!-- Main Content Area -->
+<main class="pt-20 lg:pl-64 pb-20 min-h-screen">
+    <div class="max-w-[1400px] mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-1 xl:grid-cols-12 gap-gutter py-8">
+        
+        <!-- Left: PCA Engine & Diagnostic -->
+        <section class="xl:col-span-8 flex flex-col gap-gutter">
+            <!-- Diagnostic Stage Header -->
+            <div class="hud-card p-6 corner-bracket corner-bracket-tl corner-bracket-tr border-b-0">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <div class="font-label-caps text-[10px] text-primary/60 tracking-widest">DIAGNOSTIC_MODULE_01</div>
+                        <h2 class="font-headline-md text-primary uppercase">Firma Resonante</h2>
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="px-3 py-1 bg-primary/10 border border-primary/20 font-label-caps text-[9px] text-primary">STAGE: PRIMARY_IDENT</span>
+                        <span class="px-3 py-1 bg-secondary/10 border border-secondary/20 font-label-caps text-[9px] text-secondary">UPLINK: ACTIVE</span>
+                    </div>
+                </div>
+                <p class="font-body-md text-sm text-on-surface-variant leading-relaxed mb-6">
+                    El Protocolo de Calibración del Avatar comienza con la detección de tu frecuencia base. Elige el elemento que resuena con tu arquitectura neural actual.
+                </p>
+            </div>
+
+            <!-- PCA Grid: The 12 Systems/Diagnostic Steps -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="pca-node p-6 hud-card active" onclick="selectNode(this)">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 flex-shrink-0 bg-primary/10 flex items-center justify-center border border-primary/30 hex-clip">
+                            <span class="material-symbols-outlined text-primary">waves</span>
+                        </div>
+                        <div>
+                            <div class="font-label-caps text-[10px] text-on-surface-variant/60 uppercase">System_01</div>
+                            <div class="font-label-caps text-sm text-on-surface">Firma Resonante</div>
+                        </div>
+                    </div>
+                    <div class="segmented-progress mb-2">
+                        <div class="segment active"></div><div class="segment active"></div><div class="segment active"></div><div class="segment"></div>
+                    </div>
+                    <div class="text-[9px] font-label-caps text-secondary uppercase">Status: In_Progress</div>
+                </div>
+
+                <div class="pca-node p-6 hud-card" onclick="selectNode(this)">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 flex-shrink-0 bg-surface-container-high flex items-center justify-center border border-outline-variant/30 hex-clip">
+                            <span class="material-symbols-outlined text-on-surface-variant/40">join_inner</span>
+                        </div>
+                        <div>
+                            <div class="font-label-caps text-[10px] text-on-surface-variant/60 uppercase">System_02</div>
+                            <div class="font-label-caps text-sm text-on-surface">Mapa de Sincronía</div>
+                        </div>
+                    </div>
+                    <div class="segmented-progress mb-2">
+                        <div class="segment"></div><div class="segment"></div><div class="segment"></div><div class="segment"></div>
+                    </div>
+                    <div class="text-[9px] font-label-caps text-on-surface-variant/40 uppercase">Status: Locked</div>
+                </div>
+
+                <div class="pca-node p-6 hud-card locked">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 flex-shrink-0 bg-surface-container-high flex items-center justify-center border border-outline-variant/30 hex-clip">
+                            <span class="material-symbols-outlined text-on-surface-variant/40">favorite</span>
+                        </div>
+                        <div>
+                            <div class="font-label-caps text-[10px] text-on-surface-variant/60 uppercase">System_03</div>
+                            <div class="font-label-caps text-sm text-on-surface">Núcleos Vitales</div>
+                        </div>
+                    </div>
+                    <div class="text-[9px] font-label-caps text-on-surface-variant/40 uppercase">Status: Locked</div>
+                </div>
+
+                <div class="pca-node p-6 hud-card locked">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 flex-shrink-0 bg-surface-container-high flex items-center justify-center border border-outline-variant/30 hex-clip">
+                            <span class="material-symbols-outlined text-on-surface-variant/40">architecture</span>
+                        </div>
+                        <div>
+                            <div class="font-label-caps text-[10px] text-on-surface-variant/60 uppercase">System_04</div>
+                            <div class="font-label-caps text-sm text-on-surface">Geometría Heroica</div>
+                        </div>
+                    </div>
+                    <div class="text-[9px] font-label-caps text-on-surface-variant/40 uppercase">Status: Locked</div>
+                </div>
+            </div>
+
+            <!-- Mandatory Start UI -->
+            <div class="hud-card p-10 flex flex-col items-center text-center corner-bracket mt-4">
+                <div class="font-display-lg text-primary text-2xl mb-4 tracking-tighter uppercase">Iniciar Secuencia PCA</div>
+                <p class="font-label-caps text-xs text-on-surface-variant/80 max-w-md mb-8">
+                    La calibración es obligatoria para la generación de tu perfil inicial, título y primera misión de rango celestial.
+                </p>
+                <button class="px-12 py-4 bg-primary text-background font-label-caps text-sm font-bold tracking-[0.2em] hover:bg-secondary transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(127,208,255,0.4)]">
+                    EJECUTAR_PROTOCOLO
+                </button>
+            </div>
+        </section>
+
+        <!-- Right: Codex Avatarika (Narrative Layer) & Radar -->
+        <aside class="xl:col-span-4 flex flex-col gap-gutter">
+            <!-- Codex Avatarika: Narrative Layer -->
+            <div class="hud-card p-6 flex flex-col gap-6 corner-bracket corner-bracket-tr bg-accent-violet/5">
+                <div class="font-label-caps text-[9px] text-tertiary tracking-[0.2em] border-b border-tertiary/20 pb-2 flex items-center justify-between">
+                    <span class="">CODEX_AVATARIKA // SYMBOLIC_REINTERPRETATION</span>
+                    <span class="material-symbols-outlined text-xs">auto_stories</span>
+                </div>
+                
+                <div class="flex flex-col gap-4">
+                    <div class="p-4 bg-surface-container-highest/40 border border-outline-variant/20 relative">
+                        <div class="scanline"></div>
+                        <div class="font-label-caps text-[10px] text-primary mb-2">LA_PROFECÍA_ZERO</div>
+                        <p class="font-body-md text-[11px] leading-relaxed text-on-surface/80 italic">
+                            "En el umbral de la 13ra Casa, el avatar sin nombre debe hallar su firma. El eco de los antiguos sistemas aguarda la calibración final..."
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="p-3 border border-outline-variant/20 bg-surface-container text-center">
+                            <div class="font-label-caps text-[9px] text-on-surface-variant/60">TÍTULO_PROVISIONAL</div>
+                            <div class="font-label-caps text-xs text-secondary mt-1">THE_WANDERER</div>
+                        </div>
+                        <div class="p-3 border border-outline-variant/20 bg-surface-container text-center">
+                            <div class="font-label-caps text-[9px] text-on-surface-variant/60">SÍMBOLO_BASE</div>
+                            <div class="font-label-caps text-xs text-tertiary mt-1">NEBULA_CORE</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 13 Houses Radar Chart: High Fidelity Data View -->
+            <div class="hud-card p-6 flex flex-col gap-4 corner-bracket">
+                <div class="font-label-caps text-[9px] text-primary/40 tracking-[0.2em] border-b border-primary/10 pb-2">
+                    NEURAL_MAPPING // 13_HOUSES_SYNC
+                </div>
+                
+                <div class="relative w-full aspect-square flex items-center justify-center p-4">
+                    <svg class="w-full h-full drop-shadow-[0_0_15px_rgba(127,208,255,0.15)]" viewBox="0 0 100 100">
+                        <g stroke="rgba(127,208,255,0.1)" stroke-width="0.3">
+                            <circle cx="50" cy="50" r="45"></circle>
+                            <circle cx="50" cy="50" r="30"></circle>
+                            <circle cx="50" cy="50" r="15"></circle>
+                        </g>
+                        <g stroke="rgba(127,208,255,0.15)" stroke-width="0.5">
+                            <line x1="50" x2="50" y1="50" y2="5"></line>
+                            <line x1="50" x2="95" y1="50" y2="50"></line>
+                            <line x1="50" x2="50" y1="50" y2="95"></line>
+                            <line x1="50" x2="5" y1="50" y2="50"></line>
+                        </g>
+                        <!-- Data Polygon -->
+                        <path class="radar-line" d="M50 15 L65 25 L80 35 L85 50 L75 65 L60 80 L50 75 L40 80 L25 65 L15 50 L20 35 L35 25 Z" fill="rgba(127, 208, 255, 0.08)" stroke="#7fd0ff" stroke-width="1.5"></path>
+                    </svg>
+                    <!-- Floating Labels -->
+                    <div class="absolute top-2 font-label-caps text-[9px] text-secondary">VITALITY</div>
+                    <div class="absolute right-2 font-label-caps text-[9px] text-tertiary">WEALTH</div>
+                    <div class="absolute bottom-2 font-label-caps text-[9px] text-accent-violet">MIND</div>
+                    <div class="absolute left-2 font-label-caps text-[9px] text-primary">SPIRIT</div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 mt-2">
+                    <div class="text-center border-b border-primary/10 pb-1">
+                        <div class="font-label-caps text-[8px] text-on-surface-variant/50">HARMONY_INDEX</div>
+                        <div class="font-display-lg text-primary text-xl">12.05</div>
+                    </div>
+                    <div class="text-center border-b border-secondary/10 pb-1">
+                        <div class="font-label-caps text-[8px] text-on-surface-variant/50">STREAK_SYNC</div>
+                        <div class="font-display-lg text-secondary text-xl">0_CYC</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Sidebar Vitals -->
+            <div class="hud-card p-6 flex flex-col gap-4">
+                <div class="font-label-caps text-[9px] text-primary/40 tracking-[0.2em] mb-2">CALIBRATION_VITALS</div>
+                <div class="flex flex-col gap-3">
+                    <div class="flex justify-between items-center">
+                        <span class="font-label-caps text-[10px] text-on-surface">NEURAL_LOAD</span>
+                        <span class="font-label-caps text-xs text-primary">42%</span>
+                    </div>
+                    <div class="segmented-progress">
+                        <div class="segment active"></div><div class="segment active"></div><div class="segment active"></div><div class="segment active"></div><div class="segment"></div>
+                        <div class="segment"></div><div class="segment"></div><div class="segment"></div><div class="segment"></div><div class="segment"></div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+</main>
+
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 px-4 bg-surface-container-highest/95 backdrop-blur-lg border-t border-primary/30 lg:hidden rounded-t-xl shadow-[0_-4px_20px_rgba(127,208,255,0.15)]">
+    <a class="flex flex-col items-center justify-center text-secondary scale-110" href="#">
+        <span class="material-symbols-outlined">analytics</span>
+        <span class="font-label-caps text-[9px] uppercase mt-1">PCA</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-on-surface-variant/60" href="#">
+        <span class="material-symbols-outlined">auto_stories</span>
+        <span class="font-label-caps text-[9px] uppercase mt-1">Codex</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-on-surface-variant/60" href="#">
+        <span class="material-symbols-outlined">settings</span>
+        <span class="font-label-caps text-[9px] uppercase mt-1">OS</span>
+    </a>
+</nav>
+
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant/10 w-full py-6 mt-12 mb-20 lg:mb-0">
+    <div class="flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-margin-desktop w-full opacity-60">
+        <div class="flex gap-10 mb-4 md:mb-0">
+            <a class="font-label-caps text-[10px] text-on-surface-variant hover:text-tertiary" href="#">Network Status: CALIBRATING</a>
+            <a class="font-label-caps text-[10px] text-on-surface-variant hover:text-tertiary" href="#">Protocol: PCA_v1.0</a>
+        </div>
+        <p class="font-label-caps text-[10px] text-on-surface-variant uppercase tracking-widest">© 2142 ASTRAL_HERO_OS // NARRATIVE_LAYER_BETA</p>
+    </div>
+</footer>
+
+<script class="">
+    // Parallax logic for HUD cards
+    const hudCards = document.querySelectorAll('.hud-card');
+    document.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 8;
+        const y = (e.clientY / window.innerHeight - 0.5) * 8;
+        
+        hudCards.forEach(card => {
+            card.style.transform = `perspective(1000px) rotateX(${-y * 0.15}deg) rotateY(${x * 0.15}deg)`;
+        });
+    });
+
+    // PCA Node Selection Logic
+    function selectNode(el) {
+        if (el.classList.contains('locked')) return;
+        document.querySelectorAll('.pca-node').forEach(node => node.classList.remove('active'));
+        el.classList.add('active');
+        
+        // Visual feedback
+        el.style.filter = 'brightness(1.2) drop-shadow(0 0 10px rgba(127,208,255,0.4))';
+        setTimeout(() => el.style.filter = '', 200);
+    }
+
+    // Quick Action interaction
+    document.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener</script></body></html>

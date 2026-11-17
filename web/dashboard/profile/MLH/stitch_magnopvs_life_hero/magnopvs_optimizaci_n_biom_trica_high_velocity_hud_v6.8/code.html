@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VESSEL-OS // OPTIMIZACIÓN BIOMÉTRICA</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Space+Grotesk:wght@600;700&amp;family=Hanken+Grotesk:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "grid-line": "rgba(127, 208, 255, 0.05)",
+                    "on-tertiary-fixed": "#390625",
+                    "inverse-surface": "#e0e3e6",
+                    "on-surface": "#e0e3e6",
+                    "inverse-on-surface": "#2d3134",
+                    "surface-container-high": "#272a2d",
+                    "surface-tint": "#7fd0ff",
+                    "outline-variant": "#3f484e",
+                    "on-tertiary-fixed-variant": "#6e3252",
+                    "surface-bright": "#363a3d",
+                    "on-primary-fixed": "#001e2d",
+                    "on-secondary-fixed-variant": "#005144",
+                    "surface-panel": "rgba(255, 255, 255, 0.03)",
+                    "surface-variant": "#313538",
+                    "secondary-container": "#E25822", /* Terracotta - Override for prompt request */
+                    "primary-container": "#7fd0ff",
+                    "on-primary-container": "#00597b",
+                    "on-secondary": "#FFFFFF",
+                    "secondary-fixed": "#F4F4F4",
+                    "primary-fixed-dim": "#7fd0ff",
+                    "on-primary": "#00344a",
+                    "on-primary-fixed-variant": "#004c6a",
+                    "tertiary-fixed": "#ffd8e7",
+                    "surface-container": "#1c2023",
+                    "status-critical": "#E25822",
+                    "tertiary-container": "#ffafd4",
+                    "secondary-fixed-dim": "#47ddc1",
+                    "tertiary": "#ffd8e7",
+                    "surface-container-low": "#181c1f",
+                    "primary": "#c5e7ff",
+                    "on-error-container": "#ffdad6",
+                    "inverse-primary": "#00658b",
+                    "on-secondary-container": "#004439",
+                    "surface": "#101417",
+                    "on-surface-variant": "#bfc8cf",
+                    "outline": "#899299",
+                    "surface-dim": "#101417",
+                    "on-secondary-fixed": "#00201a",
+                    "error": "#ffb4ab",
+                    "on-tertiary": "#531c3b",
+                    "primary-fixed": "#c5e7ff",
+                    "on-error": "#690005",
+                    "surface-container-highest": "#313538",
+                    "surface-container-lowest": "#0b0f11",
+                    "error-container": "#93000a",
+                    "on-tertiary-container": "#7c3e5e",
+                    "secondary": "#E25822", /* Terracotta */
+                    "glow-cyan": "#2da8e0",
+                    "background-deep": "#0a0b12",
+                    "tertiary-fixed-dim": "#ffafd4",
+                    "background": "#101417",
+                    "on-background": "#e0e3e6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0px",
+                    "lg": "0px",
+                    "xl": "0px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "20px",
+                    "gutter": "16px",
+                    "unit": "4px",
+                    "margin-desktop": "40px",
+                    "section-padding": "128px",
+                    "panel-gap": "12px"
+            },
+            "fontFamily": {
+                    "label-caps": ["JetBrains Mono"],
+                    "headline-md": ["Space Grotesk"],
+                    "micro-tag": ["JetBrains Mono"],
+                    "data-point": ["Hanken Grotesk"],
+                    "body-md": ["Hanken Grotesk"],
+                    "mono-data": ["JetBrains Mono"],
+                    "display-lg-mobile": ["Space Grotesk"],
+                    "display-lg": ["Space Grotesk"]
+            },
+            "fontSize": {
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "micro-tag": ["10px", {"letterSpacing": "0.3em", "fontWeight": "400"}],
+                    "data-point": ["20px", {"lineHeight": "28px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                    "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.05em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0b0f11;
+            color: #e0e3e6;
+            overflow-x: hidden;
+        }
+
+        .cyber-grid {
+            background-image: 
+                linear-gradient(to right, rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(197, 231, 255, 0.1);
+        }
+
+        .terracotta-glow {
+            box-shadow: 0 0 15px rgba(226, 88, 34, 0.3);
+        }
+
+        .corner-bracket::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            width: 10px;
+            height: 10px;
+            border-top: 2px solid #E25822;
+            border-left: 2px solid #E25822;
+        }
+
+        .corner-bracket::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            right: -1px;
+            width: 10px;
+            height: 10px;
+            border-bottom: 2px solid #E25822;
+            border-right: 2px solid #E25822;
+        }
+
+        @keyframes neon-pulse {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 2px #E25822); }
+            50% { opacity: 0.7; filter: drop-shadow(0 0 8px #E25822); }
+        }
+
+        .pulse-icon {
+            animation: neon-pulse 2s infinite ease-in-out;
+        }
+
+        .scan-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #E25822, transparent);
+            top: 0;
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0%; opacity: 0; }
+            5% { opacity: 1; }
+            95% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        /* High-Stress Mode Transition */
+        .high-stress-hide {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .stress-active .high-stress-hide {
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+        }
+
+        .stress-active .stress-focus {
+            transform: scale(1.1);
+            color: #E25822;
+        }
+
+        .segmented-progress div {
+            height: 8px;
+            background: #1c2023;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .segmented-progress div.active {
+            background: #E25822;
+            box-shadow: 0 0 8px #E25822;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md selection:bg-secondary selection:text-surface">
+<!-- Atmospheric Background -->
+<div class="fixed inset-0 cyber-grid z-0"></div>
+<div class="fixed inset-0 bg-gradient-to-b from-transparent via-surface-dim/40 to-surface-container-lowest z-0"></div>
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface/20 backdrop-blur-xl border-b border-primary/20">
+<div class="flex justify-between items-center w-full px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg tracking-tighter text-surface-tint drop-shadow-[0_0_8px_rgba(0,219,233,0.6)]">
+                    VESSEL-OS // COMMAND-01
+                </span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary-fixed hover:bg-surface-bright/30 transition-all" href="#">Telemetry</a>
+<a class="text-primary border-b-2 border-primary-container pb-1 font-label-caps text-label-caps" href="#">Optimization</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary-fixed hover:bg-surface-bright/30 transition-all" href="#">Calibration</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary-fixed hover:bg-surface-bright/30 transition-all" href="#">Logs</a>
+</nav>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-95 transition-all">notifications_active</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-95 transition-all">settings</span>
+<div class="w-8 h-8 bg-surface-bright border border-primary/20 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A futuristic biometric avatar portrait in a dark, high-contrast digital environment. The operator has glowing cybernetic eye implants and wears a sleek, matte black techwear suit with integrated biometric sensors. Soft white and vibrant terracotta lighting highlights the metallic textures and holographic interface elements surrounding the face. Professional sci-fi aesthetics with a gritty, sharp digital focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVP2B52WFRBvt76XZBRw28dlXKSX9vD2kLv8ljUizCIHo3TOntm0ldgpf-GGMnPDrTU8nMyNz72lh37mOBtGSZE9FbwUXeiIJ6OvEOs8y-dmkAmVDjbAy71jrHcfsTJf2J2aMbo_vQJGY3nARFz0ptbdk5r9AWDusE_GMxdTXVw2_UIoDFY6xVEh7UBdkLyKWrsSD5_nnZf4DMuNSd1QNmIzHwnpUo6QrazqhNz7-ZmM_wg0FmZIj0dw"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Side Navigation Bar (Hidden on Mobile) -->
+<aside class="fixed left-0 top-0 h-full z-40 flex flex-col pt-24 hidden md:flex w-64 bg-surface-dim/40 backdrop-blur-md border-r border-outline-variant/20">
+<div class="px-6 mb-12">
+<div class="text-primary-fixed font-label-caps text-label-caps mb-1">OPERATOR_01</div>
+<div class="text-secondary font-label-caps text-[10px] tracking-[0.2em]">VITALITY_OPTIMAL</div>
+</div>
+<nav class="flex-1 flex flex-col">
+<button class="text-on-surface-variant p-4 flex items-center gap-4 hover:bg-surface-container-highest/50 hover:text-primary transition-all duration-300 group">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps text-label-caps">Neural</span>
+</button>
+<button class="text-on-surface-variant p-4 flex items-center gap-4 hover:bg-surface-container-highest/50 hover:text-primary transition-all duration-300 group">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="font-label-caps text-label-caps">Somatic</span>
+</button>
+<button class="text-primary-container bg-primary/10 border-l-4 border-primary-container p-4 flex items-center gap-4 transition-all duration-300">
+<span class="material-symbols-outlined">biotech</span>
+<span class="font-label-caps text-label-caps">Metabolic</span>
+</button>
+<button class="text-on-surface-variant p-4 flex items-center gap-4 hover:bg-surface-container-highest/50 hover:text-primary transition-all duration-300">
+<span class="material-symbols-outlined">monitor_heart</span>
+<span class="font-label-caps text-label-caps">Vitals</span>
+</button>
+<button class="text-on-surface-variant p-4 flex items-center gap-4 hover:bg-surface-container-highest/50 hover:text-primary transition-all duration-300">
+<span class="material-symbols-outlined">database</span>
+<span class="font-label-caps text-label-caps">Archive</span>
+</button>
+</nav>
+<div class="p-6">
+<button class="w-full bg-secondary text-on-secondary font-label-caps text-label-caps py-4 active:scale-95 transition-all slanted-br">
+                SYNC VESSEL
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="relative z-10 pt-28 pb-32 px-6 md:pl-72 md:pr-12 max-w-7xl mx-auto min-h-screen" id="main-ui">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-end gap-6 mb-12 high-stress-hide">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="text-secondary material-symbols-outlined text-sm pulse-icon" style="font-variation-settings: 'FILL' 1;">circle</span>
+<span class="font-micro-tag text-micro-tag uppercase text-on-surface-variant">Live_Session: Alpha_Protocol</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-white tracking-tight uppercase">Optimización Biométrica</h1>
+</div>
+<div class="flex gap-4">
+<div class="text-right">
+<span class="font-label-caps text-[10px] text-on-surface-variant block">ELAPSED_TIME</span>
+<span class="font-mono-data text-2xl text-white">42:15.08</span>
+</div>
+<button class="px-6 border border-secondary text-secondary font-label-caps text-label-caps py-3 hover:bg-secondary/10 transition-all" onclick="toggleStressMode()">
+                    STRESS_TEST
+                </button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+<!-- Left Column: Primary Metrics -->
+<div class="md:col-span-4 flex flex-col gap-6">
+<!-- Current Set Focus -->
+<div class="glass-panel p-8 corner-bracket relative overflow-hidden stress-focus">
+<div class="scan-line"></div>
+<span class="font-micro-tag text-micro-tag text-secondary mb-4 block">ACTIVE_LOAD</span>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-8xl md:text-9xl text-white font-bold">12</span>
+<span class="font-headline-md text-on-surface-variant">/ 15</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant block mt-2">REPETITIONS</span>
+<div class="mt-8">
+<div class="flex justify-between font-micro-tag text-micro-tag mb-2 text-on-surface-variant">
+<span>SET_03_OF_05</span>
+<span>80%_TARGET</span>
+</div>
+<div class="grid grid-cols-10 gap-1 segmented-progress">
+<div class="active"></div>
+<div class="active"></div>
+<div class="active"></div>
+<div class="active"></div>
+<div class="active"></div>
+<div class="active"></div>
+<div class="active"></div>
+<div class="active"></div>
+<div></div>
+<div></div>
+</div>
+</div>
+</div>
+<!-- Heart Rate -->
+<div class="glass-panel p-6 border-l-4 border-secondary">
+<div class="flex justify-between items-start mb-4">
+<span class="font-label-caps text-label-caps text-on-surface-variant">HEART_RATE</span>
+<span class="material-symbols-outlined text-secondary pulse-icon">monitor_heart</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-display-lg text-5xl text-white">164</span>
+<span class="font-label-caps text-on-surface-variant">BPM</span>
+</div>
+<div class="h-16 w-full mt-4 flex items-end gap-1">
+<!-- Tiny mock sparkline bars -->
+<div class="bg-secondary/20 w-full h-1/2"></div>
+<div class="bg-secondary/30 w-full h-2/3"></div>
+<div class="bg-secondary/40 w-full h-3/4"></div>
+<div class="bg-secondary/50 w-full h-2/3"></div>
+<div class="bg-secondary w-full h-full terracotta-glow"></div>
+<div class="bg-secondary/80 w-full h-5/6"></div>
+</div>
+</div>
+<!-- High Stress Secondary Info -->
+<div class="high-stress-hide grid grid-cols-2 gap-4">
+<div class="glass-panel p-4">
+<span class="font-micro-tag text-micro-tag text-on-surface-variant block mb-1">METABOLIC_FLUX</span>
+<span class="font-mono-data text-lg text-white">4.2 mmol/L</span>
+</div>
+<div class="glass-panel p-4">
+<span class="font-micro-tag text-micro-tag text-on-surface-variant block mb-1">CALORIC_BURN</span>
+<span class="font-mono-data text-lg text-white">840 kcal</span>
+</div>
+</div>
+</div>
+<!-- Middle Column: Muscle Heatmap / Ghost Avatar -->
+<div class="md:col-span-5 flex flex-col gap-6">
+<div class="glass-panel aspect-[4/5] relative flex items-center justify-center overflow-hidden">
+<div class="absolute top-4 left-4 z-20">
+<span class="font-label-caps text-label-caps text-white bg-secondary px-3 py-1">REAL_TIME_SCAN</span>
+</div>
+<!-- 3D Visualization Placeholder (Ghost Avatar / Heatmap) -->
+<div class="relative w-full h-full group">
+
+<!-- Heatmap Overlay SVG (Mocking muscle zones) -->
+<div class="absolute inset-0 flex items-center justify-center p-12">
+<div class="w-full h-full bg-contain bg-no-repeat bg-center mix-blend-screen opacity-90" data-alt="A highly detailed, technical 3D anatomical model of a human muscular system, rendered as a translucent ghost avatar in a deep slate grey digital void. Vibrant terracotta heat zones glow intensely on the quadriceps, core, and shoulders to indicate high engagement. Fine grid lines and holographic biometric data tags float around the figure. Scientific brutalist aesthetic with high contrast and sharp pearlescent white highlights." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDVb0NrjzC1TpnH20TXhIGFK4FGF4dOor_Y3YT1fkMfZj8645SpCmUMOov75NFAxvAZHOoIMKG3ytY5yOifavaM2ECpcZnPaVHDtiYJNG3nRiC6V2igvghQk7MwgyW9EGcBU9p5-me4FJ_GQv8DiNmQZIYvQNniDo8XSK197MVfR7484ci9UyfikJPjyvKn6fNx1e_XeyXK65d2pG5Ib9zByQwF-azC6WfsHVaZc5bMHeSxYzlwgvmBAg')"></div>
+</div>
+<!-- Ghost Partner Visualization Overlay -->
+<div class="absolute inset-0 flex items-center justify-center p-12 pointer-events-none">
+<div class="w-full h-full bg-contain bg-no-repeat bg-center opacity-20 scale-110 blur-sm translate-x-4" data-alt="A ghostly, ethereal silhouette of a human performing a heavy weightlifting movement, positioned slightly behind a primary figure. The silhouette is rendered in a soft, pearlescent white wireframe style with faint terracotta glowing joints. The background is a dark, complex digital interface with grid lines and technical data clusters. Cyber-glassmorphism style with a sense of high-velocity motion and phantom overlay." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDU_KHm_3GAt-7pWjniJFPLuIb-Ant0m_u3vYkO7S4xvB6TCiFBWMcnWbk0cfujOujvM_Cb6H8ciuJgicqUe_ih2qY2CZzoGwA6mUWgo-d0r5hjjqWQnRqHUVBPqXAxPrP0Viu-DbtB2HQUCUWA-WLt3k3-nK_PMvPdm14l5aUnD2vyfKb10-7bPQ32LHEmWvHbitFOLdNksoVl4aYUu1UFf2p3Qj8K0dPo_WcQ4gsCDzFut6Qfa7yJ3A')"></div>
+</div>
+<!-- Engagement Tags -->
+<div class="absolute bottom-10 right-6 text-right high-stress-hide">
+<div class="mb-2">
+<span class="font-micro-tag text-micro-tag text-on-surface-variant block">PEAK_ENGAGEMENT</span>
+<span class="font-label-caps text-label-caps text-secondary">QUADRICEPS_94%</span>
+</div>
+<div>
+<span class="font-micro-tag text-micro-tag text-on-surface-variant block">SYNERGY_COEFFICIENT</span>
+<span class="font-label-caps text-label-caps text-white">0.88_OPTIMAL</span>
+</div>
+</div>
+</div>
+<div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/60 to-transparent high-stress-hide">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-sm">visibility</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant">GHOST_PARTNER_SYNCED: v.2.4.1</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: System Logs & History -->
+<div class="md:col-span-3 flex flex-col gap-6 high-stress-hide">
+<div class="glass-panel p-6 h-full flex flex-col">
+<span class="font-label-caps text-label-caps text-white mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">analytics</span>
+                        SESS_ANALYTICS
+                    </span>
+<div class="space-y-6 flex-1">
+<div class="border-l-2 border-primary/20 pl-4 py-1">
+<span class="font-micro-tag text-micro-tag text-on-surface-variant">14:02:15</span>
+<p class="font-label-caps text-[11px] text-white mt-1 leading-relaxed">TARGET_POWER_REACHED // 420W</p>
+</div>
+<div class="border-l-2 border-secondary pl-4 py-1">
+<span class="font-micro-tag text-micro-tag text-on-surface-variant">14:02:30</span>
+<p class="font-label-caps text-[11px] text-white mt-1 leading-relaxed">LACTATE_THRESHOLD_WARNING // 85%_V02</p>
+</div>
+<div class="border-l-2 border-primary/20 pl-4 py-1">
+<span class="font-micro-tag text-micro-tag text-on-surface-variant">14:02:45</span>
+<p class="font-label-caps text-[11px] text-white mt-1 leading-relaxed">FORM_CORRECTION: KNEE_STABILITY_LOW</p>
+</div>
+<div class="border-l-2 border-primary/20 pl-4 py-1">
+<span class="font-micro-tag text-micro-tag text-on-surface-variant">14:03:02</span>
+<p class="font-label-caps text-[11px] text-white mt-1 leading-relaxed">OXYGEN_RECOVERY_PHASE_INITIATED</p>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-primary/10">
+<div class="flex justify-between items-center mb-4">
+<span class="font-label-caps text-[10px] text-on-surface-variant">NEXT_PROTOCOL</span>
+<span class="font-label-caps text-[10px] text-secondary">IN_02:45</span>
+</div>
+<div class="bg-surface-bright/50 p-4 relative overflow-hidden">
+<div class="absolute right-0 top-0 h-full w-1 bg-secondary"></div>
+<span class="font-label-caps text-label-caps text-white">REACTIVE_ISO_HOLD</span>
+<span class="font-micro-tag text-micro-tag block text-on-surface-variant mt-1">3_SETS // 45_SEC</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mobile only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-safe bg-surface-container-lowest/80 backdrop-blur-2xl border-t border-primary/30 md:hidden h-20">
+<button class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-primary/5 transition-all">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps text-label-caps">Command</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-primary/5 transition-all">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-label-caps text-label-caps">Health</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-primary-container/20 text-primary-container rounded-none p-2 border-t-2 border-primary-container scale-95 transition-all">
+<span class="material-symbols-outlined">visibility</span>
+<span class="font-label-caps text-label-caps">Bio-Scan</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-primary/5 transition-all">
+<span class="material-symbols-outlined">settings_input_component</span>
+<span class="font-label-caps text-label-caps">Calibrate</span>
+</button>
+</nav>
+<script>
+        let isStressMode = false;
+
+        function toggleStressMode() {
+            isStressMode = !isStressMode;
+            const ui = document.getElementById('main-ui');
+            const body = document.body;
+            
+            if (isStressMode) {
+                ui.classList.add('stress-active');
+                body.style.backgroundColor = '#150805'; // Shift to dark terracotta tint
+                console.log('STRESS_MODE: ACTIVE');
+            } else {
+                ui.classList.remove('stress-active');
+                body.style.backgroundColor = '#0b0f11';
+                console.log('STRESS_MODE: DEACTIVATED');
+            }
+        }
+
+        // Simulating metric jitter
+        setInterval(() => {
+            const hr = document.querySelector('.font-display-lg.text-5xl');
+            if (hr) {
+                const current = parseInt(hr.innerText);
+                const jitter = Math.floor(Math.random() * 3) - 1;
+                hr.innerText = current + jitter;
+            }
+        }, 3000);
+    </script>
+</body></html>

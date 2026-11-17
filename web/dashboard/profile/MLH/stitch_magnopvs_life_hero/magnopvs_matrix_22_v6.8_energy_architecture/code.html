@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MATRIX 22 · Life Hero</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Space+Grotesk:wght@300;400;700&amp;family=Hanken+Grotesk:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary": "#00344a",
+                    "primary-container": "#7fd0ff",
+                    "inverse-on-surface": "#2d3134",
+                    "secondary-fixed-dim": "#47ddc1",
+                    "on-secondary": "#00382e",
+                    "background-deep": "#0a0b12",
+                    "on-primary-fixed-variant": "#004c6a",
+                    "on-tertiary-fixed": "#390625",
+                    "inverse-surface": "#e0e3e6",
+                    "surface-container-lowest": "#0b0f11",
+                    "primary-fixed-dim": "#7fd0ff",
+                    "primary": "#c5e7ff",
+                    "inverse-primary": "#00658b",
+                    "surface-bright": "#363a3d",
+                    "background": "#101417",
+                    "on-tertiary-container": "#7c3e5e",
+                    "tertiary": "#ffd8e7",
+                    "surface-dim": "#101417",
+                    "surface-container": "#1c2023",
+                    "primary-fixed": "#c5e7ff",
+                    "error": "#ffb4ab",
+                    "on-background": "#e0e3e6",
+                    "on-surface": "#e0e3e6",
+                    "tertiary-fixed-dim": "#ffafd4",
+                    "surface-container-highest": "#313538",
+                    "on-error": "#690005",
+                    "on-primary-container": "#00597b",
+                    "on-error-container": "#ffdad6",
+                    "surface-panel": "rgba(255, 255, 255, 0.03)",
+                    "surface-tint": "#7fd0ff",
+                    "on-secondary-container": "#004439",
+                    "grid-line": "rgba(127, 208, 255, 0.05)",
+                    "status-critical": "#93000a",
+                    "surface-container-high": "#272a2d",
+                    "on-primary-fixed": "#001e2d",
+                    "tertiary-fixed": "#ffd8e7",
+                    "on-surface-variant": "#bfc8cf",
+                    "secondary-fixed": "#6af9dc",
+                    "on-tertiary-fixed-variant": "#6e3252",
+                    "secondary": "#47ddc1",
+                    "surface": "#101417",
+                    "error-container": "#93000a",
+                    "outline-variant": "#3f484e",
+                    "on-secondary-fixed": "#00201a",
+                    "surface-container-low": "#181c1f",
+                    "glow-cyan": "#2da8e0",
+                    "outline": "#899299",
+                    "on-secondary-fixed-variant": "#005144",
+                    "secondary-container": "#00bba0",
+                    "surface-variant": "#313538",
+                    "tertiary-container": "#ffafd4",
+                    "on-tertiary": "#531c3b",
+                    "gold-alchemical": "#D4AF37"
+            },
+            "fontFamily": {
+                    "audiowide": ["Audiowide", "cursive"],
+                    "orbitron": ["Orbitron", "sans-serif"],
+                    "label-caps": ["JetBrains Mono"],
+                    "body-md": ["Hanken Grotesk"],
+                    "display-lg": ["Space Grotesk"],
+                    "micro-tag": ["JetBrains Mono"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-color: #0a0b12;
+            color: #e0e3e6;
+            font-family: 'Orbitron', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .cyber-grid {
+            background-image: 
+                linear-gradient(to right, rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(197, 231, 255, 0.2);
+        }
+
+        .arcanos-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        @media (min-width: 768px) {
+            .arcanos-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .glow-cyan { text-shadow: 0 0 10px rgba(45, 168, 224, 0.8); }
+        .glow-red { text-shadow: 0 0 10px rgba(147, 0, 10, 0.8); }
+        
+        .pulse-red {
+            animation: pulse-red-anim 2s infinite;
+        }
+        @keyframes pulse-red-anim {
+            0% { box-shadow: 0 0 0 0 rgba(147, 0, 10, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(147, 0, 10, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(147, 0, 10, 0); }
+        }
+
+        .neon-border {
+            clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
+        }
+
+        .slanted-button {
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        [data-weight="fill"] {
+            font-variation-settings: 'FILL' 1 !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+<!-- Background Layer -->
+<div class="fixed inset-0 z-[-1] cyber-grid opacity-30"></div>
+<div class="fixed inset-0 z-[-2] bg-cover bg-center opacity-20" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC3FLmv0v1XQtNIkU1HMdeRqEaliBIwsQ92of324tkqwaHHL78lnIRqN0FQu4f9xUoPtE5exenGE7XyUBQF7mUC_zbmwfd2de5CKzGeCt3q9rCTx7MP0HIZ5F7v31oHATw-fRbbgby6MGXwQoSm218aRDFdSHFYor3us6Pss17opiup9A52WFxor6ZXvTz_oBEkfw-5-QcG0-74HUZ1DDTNpFcgTJLrWUze_BwOHA89XaCdAtMarMPsgIDvB357gf95SOHdtDZtUo_3')"></div>
+<!-- Top Navigation (Shell Implementation) -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/30 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-primary tracking-widest uppercase font-audiowide italic drop-shadow-[0_0_12px_#7fd0ff]">
+            MAGNOPVS
+        </div>
+<div class="hidden md:flex gap-8 items-center">
+<nav class="flex gap-6">
+<a class="text-primary font-label-caps text-label-caps drop-shadow-[0_0_8px_#7fd0ff]" href="#">DASHBOARD</a>
+<a class="text-outline hover:text-secondary transition-all duration-300 font-label-caps text-label-caps" href="#">HOUSES</a>
+<a class="text-outline hover:text-secondary transition-all duration-300 font-label-caps text-label-caps" href="#">ALCHEMY</a>
+</nav>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer">stars</span>
+<span class="material-symbols-outlined text-primary cursor-pointer">bolt</span>
+<span class="material-symbols-outlined text-primary cursor-pointer" data-weight="fill">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Side Navigation (Desktop Only) -->
+<aside class="hidden lg:flex flex-col fixed left-0 top-0 h-full z-40 bg-surface-container-low/50 backdrop-blur-2xl w-64 border-r border-primary/20 pt-24 px-6 shadow-2xl shadow-primary/5">
+<div class="mb-10">
+<h3 class="font-orbitron font-bold text-primary tracking-widest text-sm">OPERATOR_01</h3>
+<p class="font-micro-tag text-micro-tag text-outline-variant">LVL 42 // TITAN</p>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 p-3 text-primary border-l-2 border-primary bg-primary/5 font-bold shadow-[inset_4px_0_10px_rgba(127,208,255,0.1)]" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps text-label-caps">DASHBOARD</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label-caps text-label-caps">13 HOUSES</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps text-label-caps">MISSIONS</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps text-label-caps">ATTRIBUTES</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">vitals</span>
+<span class="font-label-caps text-label-caps">ALCHEMY</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:ml-64 pt-32 pb-24 px-margin-mobile md:px-margin-desktop min-h-screen max-w-7xl mx-auto">
+<!-- HUD Header Section -->
+<section class="mb-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-outline-variant/20 pb-8">
+<div>
+<h1 class="font-audiowide italic text-5xl md:text-7xl text-primary glow-cyan uppercase tracking-tighter">
+                        MATRIX 22
+                    </h1>
+<p class="font-orbitron text-secondary tracking-[0.3em] uppercase mt-2 text-sm md:text-base">
+                        Arquitectura Energética del Arcano
+                    </p>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-micro-tag text-micro-tag text-outline-variant mb-2">SYSTEM_STABLE // SYNC_ACTIVE</span>
+<button class="slanted-button bg-secondary text-on-secondary px-8 py-3 font-orbitron font-bold tracking-[0.2em] text-sm hover:brightness-125 transition-all active:scale-95">
+                        SOLICITAR LECTURA
+                    </button>
+</div>
+</div>
+</section>
+<!-- Matrix Grid Visualization -->
+<section class="arcanos-grid">
+<!-- Arcano Cards (Sample generation of various states) -->
+<!-- Active Arcano -->
+<div class="group glass-panel p-6 cursor-pointer border-secondary/40 shadow-[0_0_20px_rgba(71,221,193,0.1)] hover:border-secondary transition-all" onclick="openModal('01', 'EL MAGO')">
+<div class="flex justify-between items-start mb-4">
+<span class="font-mono-data text-secondary">01</span>
+<span class="material-symbols-outlined text-secondary" data-weight="fill">verified</span>
+</div>
+<h3 class="font-orbitron font-bold text-lg text-primary mb-2">EL MAGO</h3>
+<div class="h-1 w-full bg-outline-variant/30 overflow-hidden">
+<div class="h-full bg-secondary w-4/5 shadow-[0_0_10px_#47ddc1]"></div>
+</div>
+<div class="mt-4 flex gap-1">
+<div class="w-2 h-4 bg-secondary"></div>
+<div class="w-2 h-4 bg-secondary"></div>
+<div class="w-2 h-4 bg-secondary"></div>
+<div class="w-2 h-4 bg-secondary"></div>
+<div class="w-2 h-4 bg-secondary"></div>
+<div class="w-2 h-4 bg-secondary"></div>
+<div class="w-2 h-4 bg-outline-variant"></div>
+<div class="w-2 h-4 bg-outline-variant"></div>
+<div class="w-2 h-4 bg-outline-variant"></div>
+<div class="w-2 h-4 bg-outline-variant"></div>
+</div>
+</div>
+<!-- Qliphoth Alert Arcano -->
+<div class="group glass-panel p-6 cursor-pointer border-error/50 pulse-red transition-all" onclick="openModal('04', 'EL EMPERADOR')">
+<div class="flex justify-between items-start mb-4">
+<span class="font-mono-data text-error">04</span>
+<span class="material-symbols-outlined text-error animate-pulse">local_fire_department</span>
+</div>
+<h3 class="font-orbitron font-bold text-lg text-error glow-red mb-2">EL EMPERADOR</h3>
+<div class="h-1 w-full bg-outline-variant/30 overflow-hidden">
+<div class="h-full bg-error w-1/5 shadow-[0_0_10px_#ffb4ab]"></div>
+</div>
+<p class="font-micro-tag text-[8px] text-error mt-4 uppercase">Qliphoth Alert: Estancamiento</p>
+</div>
+<!-- Inactive Arcano -->
+<div class="glass-panel p-6 opacity-30 grayscale hover:grayscale-0 transition-all cursor-not-allowed">
+<div class="flex justify-between items-start mb-4">
+<span class="font-mono-data text-outline">00</span>
+<span class="material-symbols-outlined text-outline">lock</span>
+</div>
+<h3 class="font-orbitron font-bold text-lg text-outline mb-2">EL LOCO</h3>
+<div class="h-1 w-full bg-outline-variant/30"></div>
+<div class="mt-4 flex gap-1">
+<div class="w-2 h-4 bg-outline-variant"></div>
+<div class="w-2 h-4 bg-outline-variant"></div>
+<div class="w-2 h-4 bg-outline-variant"></div>
+<div class="w-2 h-4 bg-outline-variant"></div>
+</div>
+</div>
+<!-- Generated placeholder cards for the remaining 22 -->
+<!-- Using JS to populate if this were a real app, but manually building a few more for visual depth -->
+<div class="group glass-panel p-6 cursor-pointer border-primary/20 hover:border-primary transition-all" onclick="openModal('10', 'LA RUEDA')">
+<div class="flex justify-between items-start mb-4">
+<span class="font-mono-data text-primary">10</span>
+<span class="material-symbols-outlined text-primary">cyclone</span>
+</div>
+<h3 class="font-orbitron font-bold text-lg text-primary mb-2">LA RUEDA</h3>
+<div class="h-1 w-full bg-outline-variant/30 overflow-hidden">
+<div class="h-full bg-primary w-2/3"></div>
+</div>
+</div>
+<div class="group glass-panel p-6 cursor-pointer border-error/30 hover:border-error transition-all" onclick="openModal('15', 'EL DIABLO')">
+<div class="flex justify-between items-start mb-4">
+<span class="font-mono-data text-error">15</span>
+<span class="material-symbols-outlined text-error">warning</span>
+</div>
+<h3 class="font-orbitron font-bold text-lg text-error mb-2">EL DIABLO</h3>
+<div class="h-1 w-full bg-outline-variant/30 overflow-hidden">
+<div class="h-full bg-error w-1/4"></div>
+</div>
+</div>
+<!-- Repeat pattern to fill grid -->
+<div class="glass-panel p-6 opacity-30 grayscale hover:grayscale-0 transition-all cursor-not-allowed"><h3 class="font-orbitron text-outline">02 LA SACERDOTISA</h3></div>
+<div class="glass-panel p-6 opacity-30 grayscale hover:grayscale-0 transition-all cursor-not-allowed"><h3 class="font-orbitron text-outline">03 LA EMPERATRIZ</h3></div>
+<div class="glass-panel p-6 opacity-30 grayscale hover:grayscale-0 transition-all cursor-not-allowed"><h3 class="font-orbitron text-outline">05 EL HIEROFANTE</h3></div>
+<div class="glass-panel p-6 opacity-30 grayscale hover:grayscale-0 transition-all cursor-not-allowed"><h3 class="font-orbitron text-outline">06 LOS ENAMORADOS</h3></div>
+<div class="glass-panel p-6 opacity-30 grayscale hover:grayscale-0 transition-all cursor-not-allowed"><h3 class="font-orbitron text-outline">07 EL CARRO</h3></div>
+<div class="glass-panel p-6 opacity-30 grayscale hover:grayscale-0 transition-all cursor-not-allowed"><h3 class="font-orbitron text-outline">08 LA JUSTICIA</h3></div>
+<div class="glass-panel p-6 opacity-30 grayscale hover:grayscale-0 transition-all cursor-not-allowed"><h3 class="font-orbitron text-outline">09 EL ERMITAÑO</h3></div>
+<div class="glass-panel p-6 opacity-30 grayscale hover:grayscale-0 transition-all cursor-not-allowed"><h3 class="font-orbitron text-outline">11 LA FUERZA</h3></div>
+<div class="glass-panel p-6 opacity-30 grayscale hover:grayscale-0 transition-all cursor-not-allowed"><h3 class="font-orbitron text-outline">12 EL COLGADO</h3></div>
+<div class="glass-panel p-6 opacity-30 grayscale hover:grayscale-0 transition-all cursor-not-allowed"><h3 class="font-orbitron text-outline">13 LA MUERTE</h3></div>
+<div class="glass-panel p-6 opacity-30 grayscale hover:grayscale-0 transition-all cursor-not-allowed"><h3 class="font-orbitron text-outline">14 LA TEMPLANZA</h3></div>
+<div class="glass-panel p-6 opacity-30 grayscale hover:grayscale-0 transition-all cursor-not-allowed"><h3 class="font-orbitron text-outline">16 LA TORRE</h3></div>
+<div class="glass-panel p-6 opacity-30 grayscale hover:grayscale-0 transition-all cursor-not-allowed"><h3 class="font-orbitron text-outline">17 LA ESTRELLA</h3></div>
+<div class="glass-panel p-6 opacity-30 grayscale hover:grayscale-0 transition-all cursor-not-allowed"><h3 class="font-orbitron text-outline">18 LA LUNA</h3></div>
+<div class="glass-panel p-6 opacity-30 grayscale hover:grayscale-0 transition-all cursor-not-allowed"><h3 class="font-orbitron text-outline">19 EL SOL</h3></div>
+<div class="glass-panel p-6 opacity-30 grayscale hover:grayscale-0 transition-all cursor-not-allowed"><h3 class="font-orbitron text-outline">20 EL JUICIO</h3></div>
+<div class="glass-panel p-6 opacity-30 grayscale hover:grayscale-0 transition-all cursor-not-allowed"><h3 class="font-orbitron text-outline">21 EL MUNDO</h3></div>
+</section>
+</main>
+<!-- Arcano Detail Modal -->
+<div class="fixed inset-0 z-[2000] hidden items-center justify-center p-4" id="arcano-modal">
+<div class="absolute inset-0 bg-background-deep/90 backdrop-blur-md" onclick="closeModal()"></div>
+<div class="relative w-full max-w-4xl glass-panel p-0 neon-border overflow-hidden animate-in fade-in zoom-in duration-300">
+<!-- Modal Header -->
+<div class="flex items-center justify-between p-6 border-b border-outline-variant/30 bg-primary/5">
+<div>
+<span class="font-mono-data text-secondary text-sm" id="modal-id">ID: 01</span>
+<h2 class="font-audiowide text-4xl text-primary glow-cyan" id="modal-name">EL MAGO</h2>
+</div>
+<button class="w-10 h-10 flex items-center justify-center border border-outline-variant hover:bg-error/20 hover:text-error transition-all" onclick="closeModal()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="grid md:grid-cols-2 gap-0">
+<!-- Left Panel: Comparison & Vectors -->
+<div class="p-8 border-r border-outline-variant/30">
+<div class="mb-10">
+<h4 class="font-label-caps text-label-caps text-secondary mb-4 uppercase">Arquitectura Dual</h4>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between mb-2">
+<span class="text-secondary font-bold">VIRTUD</span>
+<span class="text-secondary">88%</span>
+</div>
+<div class="h-2 bg-outline-variant/20 rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[88%] shadow-[0_0_10px_#47ddc1]"></div>
+</div>
+<p class="font-body-md text-xs mt-2 text-on-surface-variant">Manifestación consciente, dominio de los elementos, voluntad creativa.</p>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<span class="text-error font-bold">SOMBRA</span>
+<span class="text-error">12%</span>
+</div>
+<div class="h-2 bg-outline-variant/20 rounded-full overflow-hidden">
+<div class="h-full bg-error w-[12%] shadow-[0_0_10px_#ffb4ab]"></div>
+</div>
+<p class="font-body-md text-xs mt-2 text-on-surface-variant">Manipulación, charlatanería, dispersión de energía vital.</p>
+</div>
+</div>
+</div>
+<div>
+<h4 class="font-label-caps text-label-caps text-outline mb-4 uppercase">Vectores de Influencia</h4>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 border border-primary/30 font-micro-tag text-micro-tag text-primary bg-primary/5 uppercase">Mercurio</span>
+<span class="px-3 py-1 border border-primary/30 font-micro-tag text-micro-tag text-primary bg-primary/5 uppercase">Iniciativa</span>
+<span class="px-3 py-1 border border-primary/30 font-micro-tag text-micro-tag text-primary bg-primary/5 uppercase">Alquimia</span>
+<span class="px-3 py-1 border border-primary/30 font-micro-tag text-micro-tag text-primary bg-primary/5 uppercase">Voluntad</span>
+</div>
+</div>
+</div>
+<!-- Right Panel: SOF.IA Reading -->
+<div class="p-8 bg-surface-container-highest/20 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-secondary" data-weight="fill">neurology</span>
+<h4 class="font-orbitron font-bold text-primary tracking-widest uppercase">SOF.IA Reading</h4>
+</div>
+<div class="space-y-4 font-body-md text-sm text-on-surface-variant leading-relaxed">
+<p>Análisis matricial detecta una fuerte alineación con el Plano Mental. Los recursos disponibles superan la demanda actual del entorno.</p>
+<p>Se observa una distorsión menor en el canal de comunicación (Garganta). El flujo de ejecución es óptimo pero requiere anclaje.</p>
+</div>
+</div>
+<div class="mt-8">
+<div class="p-4 border-l-4 border-gold-alchemical bg-gold-alchemical/10 rounded-r-lg">
+<h5 class="font-orbitron text-gold-alchemical text-xs font-bold uppercase mb-2">Suggested Action</h5>
+<p class="font-body-md text-sm text-gold-alchemical/90 italic">
+                                "Canaliza tu intención hacia un proyecto tangible antes del próximo ciclo lunar. Evita la sobre-planificación paralizante."
+                            </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Qliphoth Alert Panel (Conditional) -->
+<div class="hidden p-4 bg-error/10 border-t border-error/30 flex items-center gap-4" id="modal-qliphoth">
+<span class="material-symbols-outlined text-error pulse-red rounded-full p-2" data-weight="fill">local_fire_department</span>
+<div>
+<h5 class="font-orbitron text-error text-xs font-bold uppercase">ALERTA QLIPHOTH ACTIVA</h5>
+<p class="font-body-md text-xs text-error/80">Bloqueo detectado por exceso de rigidez. Peligro de fractura en la estructura de mando.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Navigation (Mobile) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 pb-safe px-4 bg-surface-container/80 backdrop-blur-lg border-t border-primary/20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+<a class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-110" href="#">
+<span class="material-symbols-outlined">space_dashboard</span>
+<span class="font-label-caps text-[10px]">DASH</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">temple_hindu</span>
+<span class="font-label-caps text-[10px]">HOUSES</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">assignment_late</span>
+<span class="font-label-caps text-[10px]">MISSIONS</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-caps text-[10px]">STATS</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">autorenew</span>
+<span class="font-label-caps text-[10px]">CYCLE</span>
+</a>
+</nav>
+<!-- Footer -->
+<footer class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop flex flex-col items-center gap-2 opacity-40 hover:opacity-100 transition-opacity duration-500 py-12">
+<div class="h-px w-32 bg-outline-variant/30 mb-4"></div>
+<p class="font-mono-data text-mono-data text-outline">MAGNOPVS OS v6.8.0 // SYSTEM_STABLE</p>
+<div class="flex gap-6 mt-2">
+<a class="font-mono-data text-xs text-outline-variant hover:text-primary transition-colors" href="#">SYSTEM RESET</a>
+<a class="font-mono-data text-xs text-outline-variant hover:text-primary transition-colors" href="#">LOG EXPORT</a>
+<a class="font-mono-data text-xs text-outline-variant hover:text-primary transition-colors" href="#">PROTOCOL-9</a>
+</div>
+</footer>
+<script>
+        function openModal(id, name) {
+            document.getElementById('modal-id').innerText = 'ID: ' + id;
+            document.getElementById('modal-name').innerText = name;
+            
+            // Logic to show/hide Qliphoth alert based on the clicked card (Simulated)
+            const qliphothPanel = document.getElementById('modal-qliphoth');
+            if (id === '04') {
+                qliphothPanel.classList.remove('hidden');
+            } else {
+                qliphothPanel.classList.add('hidden');
+            }
+
+            const modal = document.getElementById('arcano-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('arcano-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close on ESC
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+</body></html>

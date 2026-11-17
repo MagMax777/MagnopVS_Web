@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · Cosmic Sci-Fi HUD</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;600;700&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#7fd0ff", // Celestial Blue
+                    "secondary": "#48ddc1", // Aqua
+                    "tertiary": "#ff64ba", // Magenta
+                    "accent-violet": "#8b005d", // Violet
+                    "background": "#050505", // Matte Black
+                    "surface": "#0f1417",
+                    "surface-container": "#1b2024",
+                    "surface-container-low": "#171c20",
+                    "surface-container-high": "#262b2e",
+                    "surface-container-highest": "#303539",
+                    "outline-variant": "#3e484f",
+                    "on-surface": "#dfe3e8",
+                    "on-surface-variant": "#bec8d0",
+                    "error": "#ffb4ab",
+                    "surface-dim": "#0f1417",
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.15rem",
+                    "lg": "0.35rem",
+                    "xl": "0.5rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "panel-gap": "12px",
+                    "margin-mobile": "20px",
+                    "gutter": "16px",
+                    "margin-desktop": "40px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Audiowide", "cursive"],
+                    "label-caps": ["Orbitron", "sans-serif"],
+                    "headline-md": ["Audiowide", "cursive"],
+                    "data-point": ["Orbitron", "sans-serif"],
+                    "body-md": ["Orbitron", "sans-serif"],
+                    "mono-data": ["Orbitron", "sans-serif"],
+                    "display-lg-mobile": ["Audiowide", "cursive"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.08em", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.2em", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                    "data-point": ["20px", {"lineHeight": "28px", "letterSpacing": "0.15em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                    "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "display-lg-mobile": ["28px", {"lineHeight": "36px", "letterSpacing": "0.08em", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #050505;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(139, 0, 93, 0.05) 0%, transparent 70%),
+                radial-gradient(circle at 0% 0%, rgba(45, 168, 224, 0.05) 0%, transparent 50%),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60 4.02 45V15z' fill-opacity='0.03' fill='%237fd0ff' fill-rule='evenodd' stroke='%237fd0ff' stroke-opacity='0.03' stroke-width='1'/%3E%3C/svg%3E");
+            color: #dfe3e8;
+            overflow-x: hidden;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .hex-clip {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        .corner-bracket {
+            position: relative;
+        }
+        .corner-bracket::before, .corner-bracket::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-color: #7fd0ff;
+            border-style: solid;
+            filter: drop-shadow(0 0 5px rgba(127, 208, 255, 0.8));
+        }
+        .corner-bracket-tl::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+        .corner-bracket-tr::after { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+        
+        .segmented-progress {
+            display: flex;
+            gap: 3px;
+            height: 6px;
+        }
+        .segment {
+            flex: 1;
+            background: rgba(127, 208, 255, 0.05);
+            clip-path: skewX(-20deg);
+        }
+        .segment.active {
+            background: linear-gradient(90deg, #7fd0ff, #48ddc1);
+            box-shadow: 0 0 10px rgba(72, 221, 193, 0.6);
+        }
+        .segment.active-magenta {
+            background: linear-gradient(90deg, #ff64ba, #8b005d);
+            box-shadow: 0 0 10px rgba(255, 100, 186, 0.6);
+        }
+
+        .scanline {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(127, 208, 255, 0.4), transparent);
+            position: absolute;
+            top: 0;
+            animation: scan 10s linear infinite;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { top: 0%; opacity: 0; }
+            5% { opacity: 1; }
+            95% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        .glow-text {
+            text-shadow: 0 0 8px rgba(127, 208, 255, 0.7);
+        }
+
+        .radar-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: dash 4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes dash {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .hud-card {
+            background: rgba(15, 20, 23, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(127, 208, 255, 0.15);
+            position: relative;
+        }
+        .hud-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, transparent 50%, rgba(127, 208, 255, 0.1) 50%);
+        }
+
+        .radar-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 1;
+        }
+        .radar-label {
+            position: absolute;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 9px;
+            color: #88929a;
+            transform: translate(-50%, -50%);
+            white-space: nowrap;
+            pointer-events: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body class="selection:bg-primary selection:text-black">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 bg-surface-dim/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(127,208,255,0.1)]">
+<div class="flex items-center gap-6">
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-widest uppercase drop-shadow-[0_0_8px_rgba(127,208,255,0.6)]">
+            ASTRAL_HERO_OS
+        </h1>
+<div class="hidden md:flex flex-col border-l border-primary/20 pl-6">
+<span class="font-label-caps text-[10px] text-on-surface-variant/60">OPERATOR_01</span>
+<div class="flex items-center gap-3">
+<span class="font-label-caps text-xs text-secondary glow-text">LVL 42</span>
+<div class="w-24 segmented-progress">
+<div class="segment active"></div><div class="segment active"></div><div class="segment active"></div><div class="segment active"></div><div class="segment active"></div>
+<div class="segment active"></div><div class="segment active"></div><div class="segment"></div><div class="segment"></div><div class="segment"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden lg:flex items-center gap-8 px-8">
+<div class="flex flex-col items-end">
+<span class="font-label-caps text-[10px] text-on-surface-variant/60">ENERGY_STOCKS</span>
+<span class="font-label-caps text-sm text-primary">88.42%</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-label-caps text-[10px] text-on-surface-variant/60">STREAK_SYNC</span>
+<span class="font-label-caps text-sm text-tertiary">14_CYCLES</span>
+</div>
+</div>
+<div class="flex gap-1">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors scale-95 active:scale-90">
+<span class="material-symbols-outlined text-xl">bolt</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors scale-95 active:scale-90">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors scale-95 active:scale-90">
+<span class="material-symbols-outlined text-xl">settings</span>
+</button>
+<div class="ml-4 w-10 h-10 hex-clip bg-primary/10 border border-primary/30 flex items-center justify-center overflow-hidden">
+<img alt="User Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCN6me4jX7VPf6-r4-q1qtcFx3Z0yu1RQC6I-sMtesFBAWFTq2vxP2IpGlpAQxA7dUWbewZTgkW5NoQqNFpAUzt30NonUnBxX6yV9rZcCATTVIHOCcEcLJakazFuPweNnDJLw8ySUq1lZYJ9huAWzGt7IghzvmE5TzIgd6c3ZQTCRFB7vTKIFFpUmpDGkLZZ5ey6MTmNfjce3koHaJrJw8WUTfhmXtt_vLmGQIxKekfaT_5mXlXNJGi8G6D7nqxapYnwCISC0on6gT"/>
+</div>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full z-40 w-64 hidden lg:flex flex-col bg-surface-container-low/90 backdrop-blur-md border-r border-outline-variant/20 pt-24">
+<div class="px-8 mb-10">
+<div class="font-label-caps text-[10px] text-on-surface-variant/40 mb-1">COCKPIT_ID</div>
+<div class="font-display-lg text-primary text-xl tracking-wider">HERO_01</div>
+<div class="font-label-caps text-[10px] text-secondary">LVL 42 // ARCHMAGE</div>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-4 px-6 py-4 text-secondary border-l-2 border-secondary bg-secondary/10 font-label-caps text-xs tracking-widest transition-all duration-200 translate-x-1" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant hover:bg-surface-variant/50 hover:text-primary font-label-caps text-xs tracking-widest transition-all" href="#">
+<span class="material-symbols-outlined">fort</span>
+<span>13 Houses</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant hover:bg-surface-variant/50 hover:text-primary font-label-caps text-xs tracking-widest transition-all" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span>Missions</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant hover:bg-surface-variant/50 hover:text-primary font-label-caps text-xs tracking-widest transition-all" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span>Attributes</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant hover:bg-surface-variant/50 hover:text-primary font-label-caps text-xs tracking-widest transition-all" href="#">
+<span class="material-symbols-outlined">auto_fix_high</span>
+<span>Alchemy</span>
+</a>
+</div>
+<div class="mt-8 px-6">
+<button class="w-full py-3 bg-primary/10 border border-primary/20 text-primary font-label-caps text-[10px] tracking-[0.2em] hover:bg-primary/20 transition-all">
+            SYNC_NEURAL_LINK
+        </button>
+</div>
+<div class="mt-auto p-8 opacity-40 hover:opacity-100 transition-opacity">
+<div class="font-label-caps text-[10px] text-primary/60 mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-xs">terminal</span>
+            SYSTEM_LOG
+        </div>
+<div class="text-[9px] font-label-caps text-secondary/80 truncate">UPLINK_ESTABLISHED...</div>
+<div class="text-[9px] font-label-caps text-secondary/80 truncate">NODE_SYNC [v4.0.2]</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="pt-20 lg:pl-64 pb-20 min-h-screen">
+<div class="max-w-[1400px] mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-1 xl:grid-cols-12 gap-gutter py-8">
+<!-- Central HUD Radar Panel -->
+<section class="xl:col-span-8 flex flex-col gap-gutter">
+<div class="hud-card p-8 min-h-[600px] flex flex-col items-center justify-center corner-bracket corner-bracket-tl corner-bracket-tr">
+<div class="absolute top-4 left-6 font-label-caps text-[9px] text-primary/40 tracking-[0.3em] uppercase">
+                    RUEDA DE LAS 13 CASAS // MAPA DE ALTA RESOLUCIÓN
+                </div>
+<div class="scanline"></div>
+<!-- Radar Chart Component -->
+<div class="radar-container my-8">
+<svg class="w-full h-full drop-shadow-[0_0_15px_rgba(127,208,255,0.1)]" viewbox="0 0 100 100">
+<!-- Definitions -->
+<defs>
+<radialgradient cx="50%" cy="50%" fx="50%" fy="50%" id="radar-gradient" r="50%">
+<stop offset="0%" stop-color="#7fd0ff" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#7fd0ff" stop-opacity="0.05"></stop>
+</radialgradient>
+<filter id="glow">
+<fegaussianblur result="coloredBlur" stddeviation="1"></fegaussianblur>
+<femerge>
+<femergenode in="coloredBlur"></femergenode>
+<femergenode in="SourceGraphic"></femergenode>
+</femerge>
+</filter>
+</defs>
+<!-- 6-Ring Concentric Web Grid -->
+<g stroke="rgba(127,208,255,0.15)" stroke-width="0.3">
+<circle cx="50" cy="50" r="7.5"></circle>
+<circle cx="50" cy="50" r="15"></circle>
+<circle cx="50" cy="50" r="22.5"></circle>
+<circle cx="50" cy="50" r="30"></circle>
+<circle cx="50" cy="50" r="37.5"></circle>
+<circle cx="50" cy="50" r="45"></circle>
+</g>
+<!-- 13 Radial Axes -->
+<g stroke="rgba(127,208,255,0.2)" stroke-width="0.5">
+<line x1="50" x2="50" y1="50" y2="5"></line> <!-- 0: Salud -->
+<line x1="50" x2="71.2" y1="50" y2="10.2"></line> <!-- 1: Intelecto -->
+<line x1="50" x2="86.9" y1="50" y2="24.9"></line> <!-- 2: Emociones -->
+<line x1="50" x2="94.4" y1="50" y2="45"></line> <!-- 3: Carácter -->
+<line x1="50" x2="91.1" y1="50" y2="66"></line> <!-- 4: Espiritualidad -->
+<line x1="50" x2="78.8" y1="50" y2="83.2"></line> <!-- 5: Pareja -->
+<line x1="50" x2="60.4" y1="50" y2="93.8"></line> <!-- 6: Familia -->
+<line x1="50" x2="39.6" y1="50" y2="93.8"></line> <!-- 7: Comunidad -->
+<line x1="50" x2="21.2" y1="50" y2="83.2"></line> <!-- 8: Finanzas -->
+<line x1="50" x2="8.9" y1="50" y2="66"></line> <!-- 9: Vocación -->
+<line x1="50" x2="5.6" y1="50" y2="45"></line> <!-- 10: Estilo de Vida -->
+<line x1="50" x2="13.1" y1="50" y2="24.9"></line> <!-- 11: Legado -->
+<line x1="50" x2="28.8" y1="50" y2="10.2"></line> <!-- 12: Propósito -->
+</g>
+<!-- Active Data Polygon -->
+<path class="radar-line" d="M50 22 L64 25 L75 35 L78 45 L70 58 L63 68 L55 72 L45 72 L37 68 L30 58 L22 45 L25 35 L36 25 Z" fill="url(#radar-gradient)" filter="url(#glow)" stroke="#7fd0ff" stroke-width="2"></path>
+<!-- Glowing Data Points (Aquamarine) -->
+<g fill="#48ddc1">
+<circle cx="50" cy="22" r="1.5"></circle>
+<circle cx="64" cy="25" r="1.5"></circle>
+<circle cx="75" cy="35" r="1.5"></circle>
+<circle cx="78" cy="45" r="1.5"></circle>
+<circle cx="70" cy="58" r="1.5"></circle>
+<circle cx="63" cy="68" r="1.5"></circle>
+<circle cx="55" cy="72" r="1.5"></circle>
+<circle cx="45" cy="72" r="1.5"></circle>
+<circle cx="37" cy="68" r="1.5"></circle>
+<circle cx="30" cy="58" r="1.5"></circle>
+<circle cx="22" cy="45" r="1.5"></circle>
+<circle cx="25" cy="35" r="1.5"></circle>
+<circle cx="36" cy="25" r="1.5"></circle>
+</g>
+</svg>
+<!-- Labels -->
+<div class="radar-label" style="top: 2%; left: 50%;">Salud</div>
+<div class="radar-label" style="top: 8%; left: 74%;">Intelecto</div>
+<div class="radar-label" style="top: 24%; left: 91%;">Emociones</div>
+<div class="radar-label" style="top: 45%; left: 98%;">Carácter</div>
+<div class="radar-label" style="top: 68%; left: 95%;">Espiritualidad</div>
+<div class="radar-label" style="top: 86%; left: 82%;">Pareja</div>
+<div class="radar-label" style="top: 96%; left: 63%;">Familia</div>
+<div class="radar-label" style="top: 96%; left: 37%;">Comunidad</div>
+<div class="radar-label" style="top: 86%; left: 18%;">Finanzas</div>
+<div class="radar-label" style="top: 68%; left: 5%;">Vocación</div>
+<div class="radar-label" style="top: 45%; left: 2%;">Estilo de Vida</div>
+<div class="radar-label" style="top: 24%; left: 9%;">Legado</div>
+<div class="radar-label" style="top: 8%; left: 26%;">Propósito</div>
+</div>
+<div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8 w-full max-w-2xl px-4">
+<div class="text-center border-b border-primary/10 pb-2">
+<div class="font-label-caps text-[10px] text-on-surface-variant/50 mb-1">AVG_HARMONY</div>
+<div class="font-display-lg text-primary text-3xl">8.4</div>
+</div>
+<div class="text-center border-b border-secondary/10 pb-2">
+<div class="font-label-caps text-[10px] text-on-surface-variant/50 mb-1">STABILITY</div>
+<div class="font-display-lg text-secondary text-3xl">HIGH</div>
+</div>
+<div class="text-center border-b border-tertiary/10 pb-2">
+<div class="font-label-caps text-[10px] text-on-surface-variant/50 mb-1">HOUSE_ASC</div>
+<div class="font-display-lg text-tertiary text-3xl">IV</div>
+</div>
+<div class="text-center border-b border-primary/10 pb-2">
+<div class="font-label-caps text-[10px] text-on-surface-variant/50 mb-1">CYCLES_REV</div>
+<div class="font-display-lg text-primary text-3xl">108</div>
+</div>
+</div>
+</div>
+<!-- Habit Operations -->
+<div class="hud-card p-6 corner-bracket">
+<div class="font-label-caps text-[10px] text-primary/40 tracking-[0.2em] mb-6">MOMENTARY_OPERATIONS // RAPID_EXECUTION</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<button class="group relative overflow-hidden bg-primary/5 border border-primary/20 p-5 flex flex-col items-center gap-3 hover:bg-primary/10 transition-all duration-300" style="clip-path: polygon(0 0, 90% 0, 100% 25%, 100% 100%, 0 100%);">
+<span class="material-symbols-outlined text-primary group-hover:drop-shadow-[0_0_10px_#7fd0ff]">water_drop</span>
+<span class="font-label-caps text-xs text-primary">HYDRATE</span>
+<div class="text-[9px] font-label-caps text-on-surface-variant/60">0.5L // +5 XP</div>
+</button>
+<button class="group relative overflow-hidden bg-secondary/5 border border-secondary/20 p-5 flex flex-col items-center gap-3 hover:bg-secondary/10 transition-all duration-300" style="clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%, 0 25%);">
+<span class="material-symbols-outlined text-secondary group-hover:drop-shadow-[0_0_10px_#48ddc1]">fitness_center</span>
+<span class="font-label-caps text-xs text-secondary">WORKOUT</span>
+<div class="text-[9px] font-label-caps text-on-surface-variant/60">15M // +50 XP</div>
+</button>
+<button class="group relative overflow-hidden bg-tertiary/5 border border-tertiary/20 p-5 flex flex-col items-center gap-3 hover:bg-tertiary/10 transition-all duration-300" style="clip-path: polygon(0 0, 100% 0, 100% 75%, 90% 100%, 0 100%);">
+<span class="material-symbols-outlined text-tertiary group-hover:drop-shadow-[0_0_10px_#ff64ba]">self_improvement</span>
+<span class="font-label-caps text-xs text-tertiary">MEDITATE</span>
+<div class="text-[9px] font-label-caps text-on-surface-variant/60">10M // +20 XP</div>
+</button>
+</div>
+</div>
+</section>
+<!-- Sidebar Stats Panel -->
+<aside class="xl:col-span-4 flex flex-col gap-gutter">
+<div class="hud-card p-6 flex flex-col gap-8 corner-bracket corner-bracket-tr">
+<div class="font-label-caps text-[9px] text-primary/40 tracking-[0.2em] border-b border-primary/10 pb-2">
+                    SYS_VITALS // STATUS_MONITOR
+                </div>
+<!-- Vitality Bar -->
+<div class="flex flex-col gap-3">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-sm">favorite</span>
+<span class="font-label-caps text-[11px] text-on-surface">VITALITY_CORE</span>
+</div>
+<span class="font-label-caps text-xs text-tertiary">92/100</span>
+</div>
+<div class="segmented-progress">
+<div class="segment active-magenta"></div><div class="segment active-magenta"></div><div class="segment active-magenta"></div><div class="segment active-magenta"></div><div class="segment active-magenta"></div>
+<div class="segment active-magenta"></div><div class="segment active-magenta"></div><div class="segment active-magenta"></div><div class="segment active-magenta"></div><div class="segment"></div>
+</div>
+</div>
+<!-- Power Bar -->
+<div class="flex flex-col gap-3">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">bolt</span>
+<span class="font-label-caps text-[11px] text-on-surface">QUANTUM_RESERVE</span>
+</div>
+<span class="font-label-caps text-xs text-primary">65%</span>
+</div>
+<div class="segmented-progress">
+<div class="segment active"></div><div class="segment active"></div><div class="segment active"></div><div class="segment active"></div><div class="segment active"></div>
+<div class="segment active"></div><div class="segment"></div><div class="segment"></div><div class="segment"></div><div class="segment"></div>
+</div>
+</div>
+<!-- Cycles Card -->
+<div class="mt-4 p-6 bg-accent-violet/5 border border-accent-violet/30 flex flex-col items-center gap-3 relative overflow-hidden group">
+<div class="absolute inset-0 bg-accent-violet/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="font-label-caps text-[10px] text-on-surface-variant/60 z-10">REMAINING_REINCARNATIONS</div>
+<div class="flex items-center gap-6 z-10">
+<span class="material-symbols-outlined text-5xl text-accent-violet drop-shadow-[0_0_15px_#8b005d]">all_inclusive</span>
+<span class="font-display-lg text-accent-violet text-6xl tracking-tighter glow-text">108</span>
+</div>
+<div class="font-label-caps text-[9px] text-secondary/60 z-10 tracking-[0.1em]">ETERNAL_HERO_PROTOCOL_ACTIVE</div>
+</div>
+</div>
+<!-- Objective Queue -->
+<div class="hud-card p-6 flex-grow corner-bracket">
+<div class="font-label-caps text-[10px] text-primary/40 tracking-[0.2em] mb-6">OBJECTIVE_QUEUE // ACTIVE_THREADS</div>
+<div class="flex flex-col gap-4">
+<div class="flex items-start gap-4 p-4 border-l-2 border-secondary bg-secondary/5 group hover:bg-secondary/10 transition-colors cursor-pointer">
+<div class="w-12 h-12 flex-shrink-0 bg-secondary/10 flex items-center justify-center border border-secondary/20">
+<span class="material-symbols-outlined text-secondary">menu_book</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-xs text-on-surface group-hover:text-secondary transition-colors">DEEP_READ_PHASE_1</span>
+<span class="text-[10px] font-label-caps text-on-surface-variant/50 mt-1 uppercase">ARCHIVE_QUERY: 'SAPIENS' (30P)</span>
+</div>
+</div>
+<div class="flex items-start gap-4 p-4 border-l-2 border-primary/20 bg-surface-container/50 opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer">
+<div class="w-12 h-12 flex-shrink-0 bg-primary/10 flex items-center justify-center border border-primary/20">
+<span class="material-symbols-outlined text-primary/60">code</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-xs text-on-surface">ARCHITECT_PROTOCOL</span>
+<span class="text-[10px] font-label-caps text-on-surface-variant/50 mt-1 uppercase">MODULE_04: REFLEX_UI</span>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 px-4 bg-surface-container-highest/95 backdrop-blur-lg border-t border-primary/30 lg:hidden rounded-t-xl shadow-[0_-4px_20px_rgba(127,208,255,0.15)]">
+<a class="flex flex-col items-center justify-center text-secondary drop-shadow-[0_0_10px_rgba(72,221,193,0.8)] scale-110" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-caps text-[9px] uppercase mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 active:bg-primary/10 transition-all" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-label-caps text-[9px] uppercase mt-1">Map</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 active:bg-primary/10 transition-all" href="#">
+<span class="material-symbols-outlined">format_list_bulleted</span>
+<span class="font-label-caps text-[9px] uppercase mt-1">Quests</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 active:bg-primary/10 transition-all" href="#">
+<span class="material-symbols-outlined">query_stats</span>
+<span class="font-label-caps text-[9px] uppercase mt-1">Stats</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 active:bg-primary/10 transition-all" href="#">
+<span class="material-symbols-outlined">science</span>
+<span class="font-label-caps text-[9px] uppercase mt-1">Craft</span>
+</a>
+</nav>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant/10 w-full py-6 mt-12 mb-20 lg:mb-0">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-margin-desktop w-full opacity-60">
+<div class="flex gap-10 mb-4 md:mb-0">
+<a class="font-label-caps text-[10px] text-on-surface-variant hover:text-tertiary transition-colors" href="#">Network Status: OPTIMAL</a>
+<a class="font-label-caps text-[10px] text-on-surface-variant hover:text-tertiary transition-colors" href="#">Latency: 14ms</a>
+<a class="font-label-caps text-[10px] text-on-surface-variant hover:text-tertiary transition-colors" href="#">PROTOCOL-9</a>
+</div>
+<p class="font-label-caps text-[10px] text-on-surface-variant uppercase tracking-widest">© 2142 CELESTIAL_OS v4.0.2</p>
+</div>
+</footer>
+<script>
+    // HUD Mouse Parallax
+    const hudCards = document.querySelectorAll('.hud-card');
+    document.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 10;
+        const y = (e.clientY / window.innerHeight - 0.5) * 10;
+        
+        hudCards.forEach(card => {
+            card.style.transform = `perspective(1000px) rotateX(${-y * 0.2}deg) rotateY(${x * 0.2}deg)`;
+        });
+    });
+
+    // Quick Operation Pulse
+    document.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('mousedown', function() {
+            this.style.filter = 'brightness(1.5) drop-shadow(0 0 15px currentColor)';
+        });
+        btn.addEventListener('mouseup', function() {
+            this.style.filter = '';
+        });
+    });
+</script>
+</body></html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --glow-cyan: 0 0 15px rgba(45, 168, 224, 0.4);
+            --glow-magenta: 0 0 15px rgba(255, 100, 186, 0.4);
+        }
+        body {
+            background-color: #0f1417;
+            color: #dfe3e8;
+            overflow-x: hidden;
+            font-family: 'Space Mono', monospace;
+        }
+        .font-display { font-family: 'Space Grotesk', sans-serif; }
+        .glass-panel {
+            background: rgba(27, 32, 36, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(223, 227, 232, 0.1);
+        }
+        .neon-border-cyan { border: 1px solid #7fd0ff; box-shadow: var(--glow-cyan); }
+        .neon-border-magenta { border: 1px solid #ff64ba; box-shadow: var(--glow-magenta); }
+        .hex-grid {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60 4.02 45V15z' fill-opacity='0.05' fill='%237fd0ff' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        .radar-line {
+            stroke-dasharray: 4;
+            animation: dash 20s linear infinite;
+        }
+        @keyframes dash { to { stroke-dashoffset: 100; } }
+        .glow-cyan { text-shadow: 0 0 10px rgba(127, 208, 255, 0.6); }
+        .pulse-magenta { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed": "#001e2d",
+                    "error": "#ffb4ab",
+                    "on-primary-container": "#003951",
+                    "tertiary-container": "#ff64ba",
+                    "background": "#0f1417",
+                    "inverse-primary": "#00658c",
+                    "secondary-container": "#00bba0",
+                    "primary-container": "#2da8e0",
+                    "primary": "#7fd0ff",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-lowest": "#0a0f12",
+                    "outline": "#88929a",
+                    "on-secondary": "#00382e",
+                    "on-background": "#dfe3e8",
+                    "inverse-on-surface": "#2c3135",
+                    "tertiary-fixed": "#ffd8e7",
+                    "surface-bright": "#353a3e",
+                    "on-tertiary-fixed-variant": "#8b005d",
+                    "surface-container": "#1b2024",
+                    "primary-fixed": "#c5e7ff",
+                    "surface-variant": "#303539",
+                    "on-primary-fixed-variant": "#004c6a",
+                    "surface-container-highest": "#303539",
+                    "surface": "#0f1417",
+                    "outline-variant": "#3e484f",
+                    "on-tertiary": "#620041",
+                    "on-surface-variant": "#bec8d0",
+                    "tertiary-fixed-dim": "#ffafd4",
+                    "on-error": "#690005",
+                    "error-container": "#93000a",
+                    "tertiary": "#ffafd4",
+                    "surface-container-low": "#171c20",
+                    "on-surface": "#dfe3e8",
+                    "primary-fixed-dim": "#7fd0ff",
+                    "surface-dim": "#0f1417",
+                    "on-tertiary-container": "#6a0046",
+                    "secondary-fixed": "#6af9dc",
+                    "on-secondary-fixed-variant": "#005144",
+                    "surface-container-high": "#262b2e",
+                    "inverse-surface": "#dfe3e8",
+                    "on-secondary-fixed": "#00201a",
+                    "secondary": "#48ddc1",
+                    "surface-tint": "#7fd0ff",
+                    "on-tertiary-fixed": "#3d0026",
+                    "on-primary": "#00344a",
+                    "secondary-fixed-dim": "#48ddc1",
+                    "on-secondary-container": "#004439"
+            },
+            "fontFamily": {
+                    "body-lg": ["spaceMono"],
+                    "headline-md": ["spaceGrotesk"],
+                    "display-lg": ["spaceGrotesk"],
+                    "label-caps": ["spaceMono"]
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-background text-on-surface min-h-screen hex-grid">
+<!-- TopNavBar Placeholder Logic -->
+<header class="fixed top-0 w-full bg-surface-container-lowest/80 backdrop-blur-3xl border-b border-primary/20 flex justify-between items-center px-6 md:px-16 py-4 z-50 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="font-display text-2xl md:text-4xl text-primary glow-cyan uppercase tracking-widest font-bold">
+            MagnopVS
+        </div>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-all duration-300">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-all duration-300">bolt</span>
+<div class="w-10 h-10 rounded-full border border-primary/40 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A futuristic cosmic avatar of a space pilot with glowing neon tattoos on their face, wearing a high-tech sleek glass helmet reflecting the stars. The lighting is dominated by deep blues and magentas, consistent with a high-fidelity science fiction HUD aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlpV2sxVAHUwGezhuEv7l2yze6iZHc_xLuxTRRQfMq0IQcWy5jQ2fVYR8ff1nyemu3WMqgSVLpxrd_M7cl8H8ajUwM0Z73I_ta4J3JyFk0JIx0iE_0yo02-vnJzLK9NTqlHoLsXbDgtEh0maKyu3eItDpnBJYp9rMWV5Yg7Jbs9P85acRwFZZjDZbvpNU1VHXqvTrugcv7AfpSPc3_mO2eNtlkXG-ge84ilmF7ojzcQgLKYJ4lvVLrog"/>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 md:px-16 max-w-7xl mx-auto">
+<!-- Header / Identity -->
+<div class="mb-12 flex flex-col md:flex-row justify-between items-end gap-6">
+<div>
+<h1 class="font-display text-4xl md:text-5xl font-bold text-primary mb-2 tracking-tighter">MATRIZ_DE_SINASTRÍA</h1>
+<p class="font-label-caps text-xs text-on-surface-variant opacity-70 tracking-widest uppercase">Protocolo de Enlace Neuronal: 0x88_SYN_MATCH</p>
+</div>
+<div class="glass-panel px-4 py-2 border-l-4 border-secondary">
+<p class="text-xs text-secondary font-bold">COMPATIBILIDAD ACTUAL</p>
+<p class="text-3xl font-display font-black text-on-surface">89.4%</p>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- 1. Comparative 13 Houses Radar -->
+<div class="lg:col-span-8 glass-panel p-8 relative overflow-hidden">
+<div class="absolute top-4 right-6 text-[10px] font-mono text-primary/40">SERIAL: NV-RADAR-7.4A</div>
+<h3 class="font-display text-xl font-bold mb-8 text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">radar</span>
+                    MAPA DE ARQUETIPOS_13_HOUSES
+                </h3>
+<div class="flex flex-col md:flex-row items-center gap-8">
+<!-- Radar Visualization -->
+<div class="relative w-64 h-64 md:w-80 md:h-80 flex-shrink-0">
+
+<svg class="absolute inset-0 w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<!-- Outer Circles -->
+<circle cx="50" cy="50" fill="none" r="48" stroke="rgba(127, 208, 255, 0.1)" stroke-width="0.5"></circle>
+<circle cx="50" cy="50" fill="none" r="35" stroke="rgba(127, 208, 255, 0.1)" stroke-width="0.5"></circle>
+<circle cx="50" cy="50" fill="none" r="20" stroke="rgba(127, 208, 255, 0.1)" stroke-width="0.5"></circle>
+<!-- Radial Lines -->
+<g class="radar-line">
+<line stroke="rgba(127, 208, 255, 0.2)" stroke-width="0.5" x1="50" x2="50" y1="50" y2="2"></line>
+<line stroke="rgba(127, 208, 255, 0.2)" stroke-width="0.5" x1="50" x2="98" y1="50" y2="50"></line>
+<line stroke="rgba(127, 208, 255, 0.2)" stroke-width="0.5" x1="50" x2="50" y1="50" y2="98"></line>
+<line stroke="rgba(127, 208, 255, 0.2)" stroke-width="0.5" x1="50" x2="2" y1="50" y2="50"></line>
+</g>
+<!-- Avatar 1 Poly (User) -->
+<polygon fill="rgba(127, 208, 255, 0.2)" points="50,15 80,40 70,75 30,70 20,40" stroke="#7fd0ff" stroke-width="1"></polygon>
+<!-- Avatar 2 Poly (Target) -->
+<polygon fill="rgba(255, 100, 186, 0.1)" points="50,10 90,50 60,90 20,60 10,30" stroke="#ff64ba" stroke-dasharray="2" stroke-width="1"></polygon>
+</svg>
+</div>
+<!-- Labels / Data -->
+<div class="flex-grow grid grid-cols-2 gap-4 text-xs">
+<div class="p-3 border-l-2 border-primary bg-primary/5">
+<span class="block opacity-50 mb-1">CASA 07: FINANZAS</span>
+<div class="flex justify-between items-center">
+<span class="font-bold text-sm">DEFICIT</span>
+<span class="text-primary">+14%</span>
+</div>
+</div>
+<div class="p-3 border-l-2 border-tertiary-container bg-tertiary-container/5">
+<span class="block opacity-50 mb-1">CASA 02: EMPATÍA</span>
+<div class="flex justify-between items-center">
+<span class="font-bold text-sm">SURPLUS</span>
+<span class="text-tertiary-container">+68%</span>
+</div>
+</div>
+<div class="p-3 border-l-2 border-white/20">
+<span class="block opacity-50 mb-1">CASA 13: LOGOS</span>
+<div class="flex justify-between items-center text-sm">
+<span>EQUILIBRIO</span>
+<span>MATCH</span>
+</div>
+</div>
+<div class="p-3 border-l-2 border-secondary bg-secondary/5">
+<span class="block opacity-50 mb-1">CASA 09: RITUAL</span>
+<div class="flex justify-between items-center text-sm">
+<span class="font-bold">CRITICAL</span>
+<span class="text-secondary">ACTIVE</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 2. Evolutionary Match / SOF.IA Advice -->
+<div class="lg:col-span-4 glass-panel p-8 border-t-2 border-primary relative">
+<div class="absolute -top-3 left-8 px-2 bg-background font-bold text-xs text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">auto_awesome</span> SOF.IA_CORE
+                </div>
+<h3 class="font-display text-xl font-bold mb-6 text-on-surface">ANÁLISIS_EVOLUTIVO</h3>
+<div class="space-y-6 text-sm leading-relaxed">
+<p class="text-on-surface-variant italic">
+                        "Operator, el enlace con <span class="text-primary">AVATAR_77</span> es tácticamente superior. Su dominio en el **Pilar de Finanzas (07)** compensa directamente tu actual estancamiento de recursos."
+                    </p>
+<div class="p-4 bg-white/5 border border-white/10 rounded-sm">
+<p class="font-bold text-primary mb-2">RECOMENDACIÓN:</p>
+<p class="text-xs">Sincronización recomendada para el próximo ciclo lunar. El intercambio de datos de red potenciará vuestra 'Gran Obra' colectiva en un <span class="text-secondary font-bold">12.5%</span>.</p>
+</div>
+<button class="w-full py-3 border border-primary text-primary hover:bg-primary hover:text-background transition-all font-bold tracking-widest text-xs uppercase">
+                        ACEPTAR_Sugerencia
+                    </button>
+</div>
+</div>
+<!-- 4. Authenticity Lock -->
+<div class="lg:col-span-4 glass-panel p-8 border-l-2 border-tertiary-container flex flex-col justify-between">
+<div>
+<h3 class="font-display text-xl font-bold mb-4 text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary-container">verified_user</span>
+                        BLOQUEO_AUTENTICIDAD
+                    </h3>
+<p class="text-xs text-on-surface-variant mb-6">Se requiere verificación de bio-firma para estabilizar el Link Neuronal.</p>
+<div class="aspect-square w-full glass-panel flex flex-col items-center justify-center p-4 relative mb-6">
+
+<span class="material-symbols-outlined text-5xl text-tertiary-container pulse-magenta mb-4">fingerprint</span>
+<p class="text-[10px] text-center opacity-60">ESCANEANDO PATRONES_DE_PULSO...</p>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between text-[10px] uppercase font-bold text-tertiary-container">
+<span>ESTABILIDAD</span>
+<span>42%</span>
+</div>
+<div class="w-full h-1 bg-white/10 overflow-hidden">
+<div class="h-full bg-tertiary-container" style="width: 42%"></div>
+</div>
+</div>
+</div>
+<!-- 3. Ritual & Mission Planner -->
+<div class="lg:col-span-8 glass-panel p-8 relative">
+<div class="flex justify-between items-center mb-8">
+<h3 class="font-display text-xl font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">explore</span>
+                        PLANIFICADOR_DE_RITUALES
+                    </h3>
+<div class="text-[10px] font-mono text-secondary/60">PRÓXIMA VENTANA: 14:00 ST</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Mission Card 1 -->
+<div class="glass-panel p-5 hover:border-secondary transition-colors cursor-pointer group border-l-4 border-l-primary/40">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="font-bold text-on-surface group-hover:text-secondary transition-colors">CONVERGENCIA_VIRTUAL</h4>
+<p class="text-[10px] opacity-60">Sincronización en el Meta-Café</p>
+</div>
+<span class="text-xs bg-primary/20 text-primary px-2 py-0.5 rounded-full">LVL 2</span>
+</div>
+<div class="flex gap-2 mb-4">
+<span class="text-[9px] px-2 py-1 bg-white/5 border border-white/10">FINANZAS +10</span>
+<span class="text-[9px] px-2 py-1 bg-white/5 border border-white/10">NEXO +5</span>
+</div>
+<button class="text-[10px] font-bold text-primary uppercase tracking-widest flex items-center gap-1">
+                            PROPONER_MISIÓN <span class="material-symbols-outlined text-xs">arrow_forward</span>
+</button>
+</div>
+<!-- Mission Card 2 -->
+<div class="glass-panel p-5 hover:border-secondary transition-colors cursor-pointer group border-l-4 border-l-tertiary-container/40">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="font-bold text-on-surface group-hover:text-secondary transition-colors">GRAN_OBRA_01</h4>
+<p class="text-[10px] opacity-60">Investigación en Archivos de Cristal</p>
+</div>
+<span class="text-xs bg-tertiary-container/20 text-tertiary-container px-2 py-0.5 rounded-full">EPIC</span>
+</div>
+<div class="flex gap-2 mb-4">
+<span class="text-[9px] px-2 py-1 bg-white/5 border border-white/10">SABIDURÍA +25</span>
+<span class="text-[9px] px-2 py-1 bg-white/5 border border-white/10">STAMINA +8</span>
+</div>
+<button class="text-[10px] font-bold text-primary uppercase tracking-widest flex items-center gap-1">
+                            PROPONER_MISIÓN <span class="material-symbols-outlined text-xs">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="mt-8 flex justify-center">
+<div class="flex -space-x-4">
+<div class="w-12 h-12 rounded-full border-2 border-primary overflow-hidden z-10">
+<img class="w-full h-full object-cover" data-alt="Close-up of a human eye with a glowing cyan digital overlay and complex biometric data scrolling within the iris. The visual style is high-tech laboratory diagnostic, sharp focus, with subtle lens flares and a futuristic HUD aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCD9hvlzgP69cDc53g6wXTSJaB-O9R7-rmqe-lwda1Uo3S_aBBtv5W5LUR2OBUDTZ3O8m4VUp40R58brGGD5kzBtRX6xrSRka_TQ0ROqoz3O7voPeRrKGG-w-EdBf0LHNT5mbLIsgyjFTzKRy8jdBBmOz7I0qq7Hu2GA25JAm1hQ-0B-SqtaVBXuXACspEEOxsHiqK-Fz_P5oFmbpdUzEox8SdcMqGOgEBpRjFadfG8-pbx0LjmiNCc5w"/>
+</div>
+<div class="w-12 h-12 rounded-full border-2 border-tertiary-container overflow-hidden z-0">
+<img class="w-full h-full object-cover" data-alt="A macro photography shot of an android-like eye with glowing magenta circuitry and violet crystalline reflections. The setting is a dark, high-tech diagnostic chamber with cold blue ambient lighting and a sense of deep technical mastery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWaiOZtyw42L2rJ0sl581HfTabPdR_mvOe4SsrCsBgSmuhgjDTkY288F2Pyw7KRRyP53ybaJfLPoIhB05ybUnmX_nIyX0IQLrFxrn3QiwiKA64tfC7iLAQPSM8zJdlb0wH_z9XuRe-FIrT6Kg0tjaOei0D3j5K2bHNtTbgbfkOPLOL4lvM5QPPX5_0z1BhZpq1GOlhWtfH0Kpgt9ruSZ2EDg_tVB2YFBCetddT7PpYrMxtfdlV8qPmqg"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- SideNavBar (Desktop) -->
+<nav class="hidden md:flex fixed left-0 top-0 h-full w-20 flex-col py-24 items-center gap-10 bg-surface-container/40 backdrop-blur-2xl border-r border-secondary/20 z-40">
+<div class="group relative flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant opacity-60 hover:text-primary transition-all cursor-pointer">search_check</span>
+<span class="absolute left-full ml-4 px-2 py-1 bg-primary text-background text-[10px] font-bold hidden group-hover:block whitespace-nowrap">DISCOVERY</span>
+</div>
+<div class="group relative flex items-center justify-center border-l-2 border-secondary bg-secondary/10 glow-cyan p-2">
+<span class="material-symbols-outlined text-secondary">radar</span>
+<span class="absolute left-full ml-4 px-2 py-1 bg-secondary text-background text-[10px] font-bold hidden group-hover:block whitespace-nowrap">PAIRING</span>
+</div>
+<div class="group relative flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant opacity-60 hover:text-primary transition-all cursor-pointer">group_work</span>
+</div>
+<div class="group relative flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant opacity-60 hover:text-primary transition-all cursor-pointer">terminal</span>
+</div>
+<div class="mt-auto space-y-8 pb-8">
+<span class="material-symbols-outlined text-on-surface-variant opacity-60 hover:text-primary transition-all cursor-pointer">settings</span>
+<span class="material-symbols-outlined text-on-surface-variant opacity-60 hover:text-primary transition-all cursor-pointer">sensors</span>
+</div>
+</nav>
+<!-- BottomNavBar (Mobile) -->
+<nav class="md:hidden fixed bottom-0 w-full bg-surface-container-lowest/60 backdrop-blur-2xl border-t border-primary/20 flex justify-around items-center px-4 py-2 pb-8 z-50">
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">style</span>
+<span class="text-[9px] font-bold mt-1">DECK</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary glow-cyan scale-110">
+<span class="material-symbols-outlined">wifi_tethering</span>
+<span class="text-[9px] font-bold mt-1">PULSE</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">videocam</span>
+<span class="text-[9px] font-bold mt-1">STREAM</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[9px] font-bold mt-1">HERO</span>
+</div>
+</nav>
+<!-- Decorative HUD Corners -->
+<div class="fixed top-24 left-6 md:left-24 w-12 h-12 border-t border-l border-primary/40 pointer-events-none"></div>
+<div class="fixed top-24 right-6 w-12 h-12 border-t border-r border-primary/40 pointer-events-none"></div>
+<div class="fixed bottom-32 left-6 md:left-24 w-12 h-12 border-b border-l border-primary/40 pointer-events-none"></div>
+<div class="fixed bottom-32 right-6 w-12 h-12 border-b border-r border-primary/40 pointer-events-none"></div>
+<script>
+        // Micro-interactions for glass panels
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mouseenter', () => {
+                panel.style.boxShadow = '0 0 25px rgba(127, 208, 255, 0.1)';
+                panel.style.borderColor = 'rgba(127, 208, 255, 0.3)';
+            });
+            panel.addEventListener('mouseleave', () => {
+                panel.style.boxShadow = 'none';
+                panel.style.borderColor = 'rgba(223, 227, 232, 0.1)';
+            });
+        });
+    </script>
+</body></html>

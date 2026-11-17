@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOPVS OS - Skill &amp; Evolution</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&amp;family=Audiowide&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hex-path {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+        .drop-shadow-glow {
+            filter: drop-shadow(0 0 8px rgba(71, 214, 255, 0.6));
+        }
+        .bg-hex-grid {
+            background-image: url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M32 0l27.712 16v32L32 64 4.288 48V16z' fill='none' stroke='%2347d6ff' stroke-width='0.5' stroke-opacity='0.1'/%3E%3C/svg%3E");
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+        .animate-pulse-glow {
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+        .glass-panel {
+            backdrop-filter: blur(12px);
+            background: rgba(22, 29, 31, 0.8);
+            border: 1px solid rgba(221, 227, 231, 0.1);
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface-variant": "#bbc9cf",
+                    "on-error": "#690005",
+                    "on-primary-fixed": "#001f28",
+                    "on-error-container": "#ffdad6",
+                    "surface-bright": "#333a3d",
+                    "tertiary-fixed-dim": "#fface8",
+                    "surface-tint": "#47d6ff",
+                    "surface-container-high": "#242b2e",
+                    "secondary": "#d1bcff",
+                    "surface-container-low": "#161d1f",
+                    "on-tertiary": "#5e0053",
+                    "background": "#0e1417",
+                    "inverse-surface": "#dde3e7",
+                    "outline-variant": "#3c494e",
+                    "inverse-primary": "#00677f",
+                    "on-secondary-container": "#ddcdff",
+                    "on-primary-fixed-variant": "#004e60",
+                    "tertiary": "#ffcfee",
+                    "on-secondary-fixed-variant": "#5700c9",
+                    "on-primary": "#003543",
+                    "on-tertiary-fixed-variant": "#840076",
+                    "on-secondary": "#3c0090",
+                    "on-background": "#dde3e7",
+                    "inverse-on-surface": "#2b3134",
+                    "secondary-fixed": "#e9ddff",
+                    "surface-container-lowest": "#090f12",
+                    "error": "#ffb4ab",
+                    "error-container": "#93000a",
+                    "tertiary-container": "#ffa3e7",
+                    "surface-container": "#1a2123",
+                    "surface-container-highest": "#2f3639",
+                    "primary": "#a5e7ff",
+                    "on-tertiary-fixed": "#3a0033",
+                    "on-surface": "#dde3e7",
+                    "surface": "#0e1417",
+                    "primary-container": "#00d2ff",
+                    "secondary-fixed-dim": "#d1bcff",
+                    "on-secondary-fixed": "#23005b",
+                    "on-primary-container": "#00566a",
+                    "surface-dim": "#0e1417",
+                    "secondary-container": "#7000ff",
+                    "primary-fixed-dim": "#47d6ff",
+                    "primary-fixed": "#b6ebff",
+                    "on-tertiary-container": "#920083",
+                    "tertiary-fixed": "#ffd7f0",
+                    "surface-variant": "#2f3639",
+                    "outline": "#859399"
+            },
+            "fontFamily": {
+                    "data-header": ["Orbitron"],
+                    "body-md": ["Orbitron"],
+                    "headline-lg-mobile": ["Audiowide"],
+                    "display-xl": ["Audiowide"],
+                    "label-caps": ["Orbitron"],
+                    "headline-lg": ["Audiowide"]
+            },
+            "fontSize": {
+                    "data-header": ["18px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "display-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                    "label-caps": ["10px", {"lineHeight": "1", "letterSpacing": "0.2em", "fontWeight": "900"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary selection:text-on-primary-container overflow-hidden">
+<!-- HUD BACKGROUND LAYER -->
+<div class="fixed inset-0 z-0 bg-hex-grid opacity-20 pointer-events-none"></div>
+
+<!-- TOP NAVIGATION SHELL (TopAppBar) -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(71,214,255,0.2)] flex justify-between items-center px-margin-edge h-16">
+<div class="flex items-center gap-4">
+<span class="font-headline-lg text-primary tracking-widest uppercase">MISSION CONTROL v2.4</span>
+</div>
+<div class="hidden md:flex gap-8 items-center">
+<nav class="flex gap-6">
+<a class="text-on-surface-variant hover:text-primary transition-all duration-300 font-data-header text-data-header cursor-pointer active:scale-95" href="#">Command</a>
+<a class="text-on-surface-variant hover:text-primary transition-all duration-300 font-data-header text-data-header cursor-pointer active:scale-95" href="#">Character</a>
+<a class="text-primary drop-shadow-[0_0_8px_rgba(71,214,255,0.8)] font-data-header text-data-header cursor-pointer active:scale-95" href="#">Abilities</a>
+<a class="text-on-surface-variant hover:text-primary transition-all duration-300 font-data-header text-data-header cursor-pointer active:scale-95" href="#">Vault</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">notifications</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">settings</span>
+<span class="material-symbols-outlined text-error cursor-pointer hover:scale-110 transition-transform">power_settings_new</span>
+</div>
+</header>
+<!-- SIDE NAVIGATION SHELL (SideNavBar) - Desktop Only -->
+<aside class="hidden md:flex fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-low/90 backdrop-blur-md border-r border-outline-variant/20 shadow-2xl shadow-primary/5 flex-col py-8 gap-gutter pt-24">
+<div class="px-6 mb-8">
+<h2 class="font-display-xl text-primary leading-tight">MAGNOPVS OS</h2>
+<p class="font-label-caps text-on-surface-variant mt-2">VITAL SIGNS: OPTIMAL</p>
+</div>
+<nav class="flex-grow">
+<ul class="space-y-2">
+<li class="px-4"><a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-variant/30 hover:translate-x-1 transition-all duration-200 font-label-caps" href="#"><span class="material-symbols-outlined">terminal</span> Command</a></li>
+<li class="px-4"><a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-variant/30 hover:translate-x-1 transition-all duration-200 font-label-caps" href="#"><span class="material-symbols-outlined">person</span> Character</a></li>
+<li class="px-4"><a class="flex items-center gap-4 px-4 py-3 bg-primary-container/20 text-primary border-l-4 border-primary font-label-caps" href="#"><span class="material-symbols-outlined">account_tree</span> Abilities</a></li>
+<li class="px-4"><a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-variant/30 hover:translate-x-1 transition-all duration-200 font-label-caps" href="#"><span class="material-symbols-outlined">inventory_2</span> Vault</a></li>
+<li class="px-4"><a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-variant/30 hover:translate-x-1 transition-all duration-200 font-label-caps" href="#"><span class="material-symbols-outlined">analytics</span> Logs</a></li>
+</ul>
+</nav>
+<div class="px-6 space-y-4">
+<button class="w-full bg-primary text-on-primary-container font-label-caps py-3 rounded-sm shadow-[0_0_15px_rgba(71,214,255,0.4)] hover:brightness-110 active:scale-95 transition-all">SYNC DATA</button>
+<div class="flex flex-col gap-2 pt-4 border-t border-outline-variant/20">
+<a class="flex items-center gap-2 text-on-surface-variant font-label-caps hover:text-primary" href="#"><span class="material-symbols-outlined text-sm">help_outline</span> Help</a>
+<a class="flex items-center gap-2 text-on-surface-variant font-label-caps hover:text-error" href="#"><span class="material-symbols-outlined text-sm">logout</span> Logout</a>
+</div>
+</div>
+</aside>
+<!-- MAIN CONTENT CANVAS -->
+<main class="md:ml-64 pt-16 pb-24 md:pb-0 h-screen overflow-hidden relative">
+<!-- HEADER & EP COUNTER -->
+<div class="relative z-10 p-8 flex justify-between items-start">
+<div class="space-y-1">
+<h1 class="font-headline-lg text-primary uppercase tracking-widest drop-shadow-glow">Evolution Matrix</h1>
+<p class="font-label-caps text-on-surface-variant opacity-70">Synthesize alchemical essences to unlock latent potential</p>
+</div>
+<div class="glass-panel p-4 px-8 border-primary/30 flex flex-col items-end">
+<span class="font-label-caps text-primary mb-1">EVOLUTION POINTS</span>
+<div class="flex items-baseline gap-2">
+<span class="font-display-xl text-primary drop-shadow-glow leading-none">1,450</span>
+<span class="font-data-header text-on-surface-variant opacity-50">EP</span>
+</div>
+</div>
+</div>
+<!-- SKILL TREE INTERFACE -->
+<div class="absolute inset-0 flex items-center justify-center p-8 overflow-auto">
+<div class="relative w-[1200px] h-[800px]">
+<!-- TREE BACKGROUND LINES -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none opacity-20" stroke="currentColor">
+<line class="text-primary" stroke-width="2" x1="200" x2="400" y1="400" y2="250"></line>
+<line class="text-primary" stroke-width="2" x1="200" x2="400" y1="400" y2="550"></line>
+<line class="text-on-surface-variant" stroke-dasharray="8 4" stroke-width="1" x1="400" x2="650" y1="250" y2="150"></line>
+<line class="text-on-surface-variant" stroke-dasharray="8 4" stroke-width="1" x1="400" x2="650" y1="550" y2="650"></line>
+<line class="text-on-surface-variant" stroke-dasharray="8 4" stroke-width="1" x1="650" x2="900" y1="150" y2="250"></line>
+<line class="text-on-surface-variant" stroke-dasharray="8 4" stroke-width="1" x1="650" x2="900" y1="650" y2="550"></line>
+<line class="text-on-surface-variant" stroke-dasharray="8 4" stroke-width="1" x1="900" x2="1100" y1="400" y2="400"></line>
+</svg>
+<!-- STAGE OVERLAYS (Vertical Zones) -->
+<div class="absolute inset-0 flex">
+<div class="flex-1 flex flex-col items-center pt-12 border-r border-outline-variant/10 group cursor-default">
+<span class="font-display-xl text-on-surface-variant/10 group-hover:text-on-surface-variant/30 transition-colors rotate-90 origin-left translate-y-32">NIGREDO</span>
+</div>
+<div class="flex-1 flex flex-col items-center pt-12 border-r border-outline-variant/10 group cursor-default">
+<span class="font-display-xl text-on-surface-variant/10 group-hover:text-on-surface-variant/30 transition-colors rotate-90 origin-left translate-y-32">ALBEDO</span>
+</div>
+<div class="flex-1 flex flex-col items-center pt-12 border-r border-outline-variant/10 group cursor-default">
+<span class="font-display-xl text-on-surface-variant/10 group-hover:text-on-surface-variant/30 transition-colors rotate-90 origin-left translate-y-32">CITRINITAS</span>
+</div>
+<div class="flex-1 flex flex-col items-center pt-12 group cursor-default">
+<span class="font-display-xl text-on-surface-variant/10 group-hover:text-on-surface-variant/30 transition-colors rotate-90 origin-left translate-y-32">RUBEDO</span>
+</div>
+</div>
+<!-- NODES (Hex-Nodes) -->
+<!-- Stage 1: Nigredo (Base Nodes) -->
+<div class="absolute left-[150px] top-[360px] group">
+<div class="w-24 h-24 hex-path bg-primary drop-shadow-[0_0_15px_rgba(165,231,255,0.6)] flex items-center justify-center cursor-pointer hover:scale-110 transition-all duration-300 animate-pulse-glow">
+<span class="material-symbols-outlined text-background text-3xl font-bold" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<div class="absolute top-28 left-1/2 -translate-x-1/2 text-center w-40 glass-panel p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+<p class="font-data-header text-primary text-xs">ROOT PROTOCOL</p>
+<p class="text-[10px] text-on-surface-variant">Core metabolic alignment</p>
+</div>
+</div>
+<!-- Stage 2: Albedo (Branching) -->
+<div class="absolute left-[350px] top-[200px] group">
+<div class="w-20 h-20 hex-path border-2 border-primary bg-primary/20 flex items-center justify-center cursor-pointer hover:scale-110 transition-all duration-300">
+<span class="material-symbols-outlined text-primary text-2xl">psychology</span>
+</div>
+<div class="absolute top-24 left-1/2 -translate-x-1/2 text-center w-48 glass-panel p-2 rounded-lg">
+<p class="font-data-header text-primary text-xs">NEURAL PLASTICITY</p>
+<p class="text-[10px] text-on-surface-variant">Accelerated cognitive re-mapping</p>
+</div>
+</div>
+<div class="absolute left-[350px] top-[500px] group">
+<div class="w-20 h-20 hex-path border-2 border-primary bg-primary/20 flex items-center justify-center cursor-pointer hover:scale-110 transition-all duration-300">
+<span class="material-symbols-outlined text-primary text-2xl">fitness_center</span>
+</div>
+<div class="absolute top-24 left-1/2 -translate-x-1/2 text-center w-48 glass-panel p-2 rounded-lg">
+<p class="font-data-header text-primary text-xs">SOMATIC MASTERY</p>
+<p class="text-[10px] text-on-surface-variant">Efficient muscular recruitment</p>
+</div>
+</div>
+<!-- Stage 3: Citrinitas (Advanced - Locked) -->
+<div class="absolute left-[600px] top-[100px] opacity-40 grayscale group">
+<div class="w-20 h-20 hex-path border-2 border-outline-variant bg-surface-container-highest/50 flex items-center justify-center cursor-not-allowed">
+<span class="material-symbols-outlined text-on-surface-variant text-2xl">auto_awesome</span>
+</div>
+<div class="absolute top-24 left-1/2 -translate-x-1/2 text-center w-48 glass-panel p-2 rounded-lg">
+<p class="font-data-header text-on-surface-variant text-xs">LUCID CHRONOS</p>
+<p class="text-[10px] text-error">REQUIRES ALBEDO LV.5</p>
+</div>
+</div>
+<div class="absolute left-[600px] top-[600px] opacity-40 grayscale group">
+<div class="w-20 h-20 hex-path border-2 border-outline-variant bg-surface-container-highest/50 flex items-center justify-center cursor-not-allowed">
+<span class="material-symbols-outlined text-on-surface-variant text-2xl">shield</span>
+</div>
+<div class="absolute top-24 left-1/2 -translate-x-1/2 text-center w-48 glass-panel p-2 rounded-lg">
+<p class="font-data-header text-on-surface-variant text-xs">IMMUNE FORTRESS</p>
+<p class="text-[10px] text-error">REQUIRES SOMATIC LV.3</p>
+</div>
+</div>
+<!-- Stage 4: Rubedo (Ultimate - Peak) -->
+<div class="absolute left-[1050px] top-[360px] opacity-20">
+<div class="w-32 h-32 hex-path border-4 border-secondary/50 bg-secondary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-5xl">diamond</span>
+</div>
+<p class="absolute -bottom-8 left-1/2 -translate-x-1/2 font-data-header text-secondary text-sm whitespace-nowrap">MAGNVS OPVS</p>
+</div>
+</div>
+</div>
+<!-- RIGHT SIDEBAR (Quest Logs & Details) -->
+<aside class="hidden xl:block fixed right-margin-edge top-24 w-80 h-[calc(100vh-120px)] glass-panel p-6 overflow-y-auto">
+<h3 class="font-data-header text-primary border-b border-primary/20 pb-2 mb-4">NODE INSPECTOR</h3>
+<div class="space-y-6" id="inspector-content">
+<!-- Selected Node Info -->
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 hex-path bg-primary/20 border border-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">psychology</span>
+</div>
+<div>
+<h4 class="font-data-header text-sm text-on-surface">Neural Plasticity</h4>
+<p class="font-label-caps text-on-primary-container">ALBEDO STAGE</p>
+</div>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+                        By optimizing synaptic pruning and dendritic branching, the system allows for the rapid acquisition of new intellectual skills and behavioral patterns. Reduces learning curve by <span class="text-primary">15.4%</span>.
+                    </p>
+<div class="space-y-2">
+<div class="flex justify-between text-[10px] font-label-caps">
+<span>EVOLUTION PROGRESS</span>
+<span>Level 2 / 5</span>
+</div>
+<div class="h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-2/5 shadow-[0_0_8px_rgba(71,214,255,0.8)]"></div>
+</div>
+</div>
+</div>
+<div class="pt-4 border-t border-outline-variant/20">
+<h5 class="font-label-caps text-on-surface-variant mb-3">SYNTHESIS REQUIREMENTS</h5>
+<ul class="space-y-2">
+<li class="flex items-center justify-between text-xs p-2 bg-surface-container-low rounded border border-outline-variant/10">
+<span class="text-on-surface-variant">Cognitive Shards</span>
+<span class="text-primary">12/20</span>
+</li>
+<li class="flex items-center justify-between text-xs p-2 bg-surface-container-low rounded border border-outline-variant/10">
+<span class="text-on-surface-variant">EP COST</span>
+<span class="text-primary">450</span>
+</li>
+</ul>
+<button class="w-full mt-4 bg-primary/10 border border-primary text-primary font-label-caps py-2 hover:bg-primary hover:text-background transition-all active:scale-95">EVOLVE NODE</button>
+</div>
+</div>
+<!-- ATMOSPHERIC IMAGE -->
+<div class="mt-8 rounded-lg overflow-hidden border border-outline-variant/20 h-40 relative group">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="A cinematic, high-detail macro shot of a complex crystalline structure with glowing cyan and electric blue light pulses running through internal neural-like pathways. The aesthetic is deep sci-fi alchemy, with floating dust motes illuminated by vibrant neon energy. Set against a dark, matte obsidian background with hexagonal textures, emphasizing a mood of hyper-technological evolution and biological optimization." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0WAGCSbhG1P9djgOpPZ5s3Y0cJBwJ4nPfzTLnThjLB_dUgoh6IEKLg3ZbvOWNzFAnK1H6VFBBPwajkNJRROIjgtwgs5og4fB2IRHR5nbAUQijKyGGnmImmGNVINsaPIXNQS9aHuwsmQcxkYlYfAzMV25ACegCNWNmhpaoWC42vEh-avn5O_egPz9C4kBfdRKmEeiyuN5ZrvDpfeE0SG-CQ5kIOzrupYppIBD6KimuOfdn5iw6664WHw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent"></div>
+<div class="absolute bottom-2 left-2">
+<p class="font-label-caps text-[8px] text-primary">SCANNING BIOMETRICS...</p>
+</div>
+</div>
+</aside>
+</main>
+<!-- MOBILE NAVIGATION SHELL (BottomNavBar) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 h-20 rounded-t-xl bg-surface-container-highest/95 border-t border-primary/40 bg-gradient-to-t from-surface-container-highest to-surface-container shadow-[0_-4px_20px_rgba(71,214,255,0.15)] flex justify-around items-center px-4">
+<a class="flex flex-col items-center text-on-surface-variant opacity-60 hover:opacity-100 transition-opacity font-label-caps" href="#">
+<span class="material-symbols-outlined">task_alt</span>
+            Dailies
+        </a>
+<a class="flex flex-col items-center text-on-surface-variant opacity-60 hover:opacity-100 transition-opacity font-label-caps" href="#">
+<span class="material-symbols-outlined">workspace_premium</span>
+            Epic Quests
+        </a>
+<a class="flex flex-col items-center text-on-surface-variant opacity-60 hover:opacity-100 transition-opacity font-label-caps" href="#">
+<span class="material-symbols-outlined">package_2</span>
+            Inventory
+        </a>
+<a class="flex flex-col items-center text-primary drop-shadow-glow font-label-caps" href="#">
+<span class="material-symbols-outlined">memory</span>
+            Systems
+        </a>
+</nav>
+<!-- INTERACTION SCRIPTS -->
+<script>
+        // Simple micro-interaction for nodes
+        document.querySelectorAll('.hex-path').forEach(node => {
+            node.addEventListener('mousedown', function() {
+                this.classList.add('scale-90');
+                const glow = document.createElement('div');
+                glow.className = 'absolute inset-0 bg-primary opacity-50 rounded-full animate-ping';
+                this.appendChild(glow);
+                setTimeout(() => {
+                    this.classList.remove('scale-90');
+                    glow.remove();
+                }, 150);
+            });
+        });
+
+        // Atmospheric mouse follower for the tree container
+        const tree = document.querySelector('.relative.w-\\[1200px\\]');
+        tree.addEventListener('mousemove', (e) => {
+            const rect = tree.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            tree.style.setProperty('--mouse-x', `${x}px`);
+            tree.style.setProperty('--mouse-y', `${y}px`);
+        });
+    </script>
+</body></html>

@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PLEROMA | Axial Synchrony HUD</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .sacred-glow {
+            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.3));
+        }
+        .shimmer-border {
+            position: relative;
+            overflow: hidden;
+        }
+        .shimmer-border::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 6s linear infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+        .pulse-node {
+            animation: pulse-glow 4s ease-in-out infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+        .sacred-bg {
+            background-image: radial-gradient(circle at center, rgba(255,215,0,0.05) 0%, transparent 70%);
+        }
+        #resonance-core-canvas {
+            width: 600px;
+            height: 600px;
+            max-width: 90vw;
+            max-height: 90vw;
+            filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.2));
+        }
+        .telemetry-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: dash 10s linear infinite;
+        }
+        @keyframes dash {
+            to { stroke-dashoffset: 0; }
+        }
+        .glitch-text {
+            animation: glitch 2s infinite linear alternate-reverse;
+        }
+        @keyframes glitch {
+            0% { text-shadow: 1px 0 0 #ffdb3c, -1px 0 0 #00daf3; }
+            100% { text-shadow: -1px 0 0 #ffdb3c, 1px 0 0 #00daf3; }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-container": "#006f7c",
+                      "surface": "#131313",
+                      "primary-fixed": "#e2e2e2",
+                      "tertiary-container": "#9cf0ff",
+                      "tertiary": "#ffffff",
+                      "secondary-fixed": "#ffe16d",
+                      "on-secondary-container": "#725f00",
+                      "surface-bright": "#3a3939",
+                      "inverse-surface": "#e5e2e1",
+                      "on-tertiary-fixed": "#001f24",
+                      "on-tertiary": "#00363d",
+                      "on-primary-container": "#636565",
+                      "on-error-container": "#ffdad6",
+                      "surface-container-highest": "#353534",
+                      "inverse-on-surface": "#313030",
+                      "surface-tint": "#c6c6c7",
+                      "surface-container-low": "#1c1b1b",
+                      "primary-fixed-dim": "#c6c6c7",
+                      "inverse-primary": "#5d5f5f",
+                      "error-container": "#93000a",
+                      "background": "#131313",
+                      "on-surface": "#e5e2e1",
+                      "surface-dim": "#131313",
+                      "on-secondary-fixed": "#221b00",
+                      "surface-container-lowest": "#0e0e0e",
+                      "on-primary": "#2f3131",
+                      "error": "#ffb4ab",
+                      "on-background": "#e5e2e1",
+                      "surface-container-high": "#2a2a2a",
+                      "on-secondary": "#3a3000",
+                      "tertiary-fixed": "#9cf0ff",
+                      "tertiary-fixed-dim": "#00daf3",
+                      "outline": "#8e9192",
+                      "on-primary-fixed-variant": "#454747",
+                      "primary": "#ffffff",
+                      "on-surface-variant": "#c4c7c8",
+                      "on-error": "#690005",
+                      "surface-container": "#201f1f",
+                      "on-tertiary-fixed-variant": "#004f58",
+                      "secondary": "#fff9ef",
+                      "outline-variant": "#444748",
+                      "secondary-fixed-dim": "#e9c400",
+                      "on-secondary-fixed-variant": "#544600",
+                      "secondary-container": "#ffdb3c",
+                      "on-primary-fixed": "#1a1c1c",
+                      "surface-variant": "#353534",
+                      "primary-container": "#e2e2e2"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "8px",
+                      "sacred-ratio": "1.618",
+                      "gutter": "24px",
+                      "margin-safe": "40px"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Audiowide"],
+                      "data-mono": ["Orbitron"],
+                      "label-caps": ["Orbitron"],
+                      "headline-lg-mobile": ["Audiowide"],
+                      "display-hero": ["Audiowide"],
+                      "body-md": ["Orbitron"]
+              },
+              "fontSize": {
+                      "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.15em", "fontWeight": "400"}],
+                      "data-mono": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                      "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.3em", "fontWeight": "700"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "400"}],
+                      "display-hero": ["64px", {"lineHeight": "1.1", "letterSpacing": "0.2em", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0.05em", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- Top Navigation -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-safe h-20 bg-surface/5 dark:bg-surface/5 backdrop-blur-xl border-b border-white/10">
+<div class="font-headline-lg text-headline-lg tracking-[0.2em] text-primary dark:text-primary">PLEROMA</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="font-label-caps text-label-caps text-primary dark:text-primary border-b-2 border-secondary-container hover:text-secondary-container transition-all duration-300" href="#">Infinite Cycle</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant/60 dark:text-on-surface-variant/60 hover:text-secondary-container transition-all duration-300" href="#">Access All Realities</a>
+</nav>
+<div class="flex items-center gap-6">
+<div class="font-label-caps text-[10px] text-primary/80 tracking-widest bg-white/5 px-4 py-1 border border-white/10">REALITY_SYNC: 100%</div>
+<div class="font-label-caps text-[10px] text-primary/80 tracking-widest bg-white/5 px-4 py-1 border border-white/10">ASCENSION_STATUS: PLEROMA</div>
+</div>
+</header>
+<!-- Side Navigation (Web) -->
+<aside class="fixed left-0 top-0 h-full z-40 flex flex-col pt-24 pb-8 bg-surface/3 dark:bg-surface/3 backdrop-blur-2xl border-r border-white/10 w-80 hidden md:flex">
+<div class="px-8 mb-12">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary">DIVINE AVATAR</h2>
+<p class="font-label-caps text-[10px] text-on-surface-variant/50 mt-1">UNITY_LEVEL: OMEGA</p>
+</div>
+<nav class="flex flex-col flex-1">
+<a class="px-8 py-6 flex items-center gap-4 bg-secondary-container/10 text-secondary-container border-l-4 border-secondary-container transition-transform duration-300" href="#">
+<span class="material-symbols-outlined">architecture</span>
+<span class="font-label-caps text-label-caps">Architect</span>
+</a>
+<a class="px-8 py-6 flex items-center gap-4 text-on-surface-variant/50 hover:bg-white/5 hover:text-primary transition-all duration-300" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-label-caps text-label-caps">Mystic</span>
+</a>
+<a class="px-8 py-6 flex items-center gap-4 text-on-surface-variant/50 hover:bg-white/5 hover:text-primary transition-all duration-300" href="#">
+<span class="material-symbols-outlined">brightness_3</span>
+<span class="font-label-caps text-label-caps">Shadow</span>
+</a>
+</nav>
+<div class="px-8 pt-8 border-t border-white/10">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full border border-white/20 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDVDhFUpcuS6KwWn3zSG3IxykS7xl7W_3b0bcL3bhKnIh9JIPXj3Hc6OFXXa9VNU44OCpoOvqPPgTdusLQEfsXG2ztnnPjzW1Be5MZ4eMdqkvB-fsuCtdjhD84-UMTZALNIpt5sCDTZz9IYUvj-LcmI2HGgfZ7E8emztNXnZBepMl3FnFWOkQpDp_UHdis9tRIHngfeIg3e3YdjLtq5nGXjd0bIqEi_zLmO0UYXcm-z2WWovLmQ3Vfi4IBlVI_K8_5IfaGXOG8OBqWx')"></div>
+<div>
+<div class="font-label-caps text-[10px] text-primary">SYSTEM_ID_777</div>
+<div class="font-data-mono text-[8px] text-on-surface-variant/40">ETERNAL_ENCRYPTION_ACTIVE</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="relative min-h-screen pt-24 md:pl-80 pb-20 md:pb-8 sacred-bg overflow-hidden">
+<div class="absolute inset-0 z-0 pointer-events-none opacity-40"></div>
+<div class="relative z-10 px-margin-safe max-w-7xl mx-auto">
+<!-- Header Section -->
+<div class="flex justify-between items-end mb-12">
+<div>
+<h1 class="font-display-hero text-display-hero text-primary leading-none uppercase">Sincronía Axial</h1>
+<p class="font-label-caps text-secondary-fixed mt-4 tracking-[0.5em]">PLEROMA_LAYER_ACCESS_STABLE</p>
+</div>
+<div class="text-right">
+<div class="font-data-mono text-headline-lg text-secondary-fixed sacred-glow glitch-text">432Hz</div>
+<div class="font-label-caps text-[10px] text-on-surface-variant/50 uppercase tracking-widest">Master Diagnostic Frequency</div>
+</div>
+</div>
+<!-- Central HUD Visualization -->
+<div class="relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+<!-- Left Panels (Technical Data) -->
+<div class="lg:col-span-3 space-y-6 order-2 lg:order-1">
+<div class="glass-panel p-6 shimmer-border">
+<div class="font-label-caps text-label-caps text-secondary-fixed mb-4">COLLECTIVE RESONANCE</div>
+<div class="flex items-end gap-2 mb-2">
+<span class="font-headline-lg text-primary">99.9</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant mb-2">%</span>
+</div>
+<div class="h-1 w-full bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-secondary-container w-[99.9%] pulse-node"></div>
+</div>
+</div>
+<div class="glass-panel p-6">
+<div class="font-label-caps text-label-caps text-tertiary-container mb-4">TIMELINE CONVERGENCE</div>
+<div class="space-y-3">
+<div class="flex justify-between font-data-mono text-[10px]">
+<span class="text-on-surface-variant/60">ALPHA_PATH</span>
+<span class="text-primary">LOCKED</span>
+</div>
+<div class="flex justify-between font-data-mono text-[10px]">
+<span class="text-on-surface-variant/60">OMEGA_POINT</span>
+<span class="text-primary">ACTIVE</span>
+</div>
+<div class="flex justify-between font-data-mono text-[10px]">
+<span class="text-on-surface-variant/60">DIVERGENCE</span>
+<span class="text-error">0.000%</span>
+</div>
+</div>
+</div>
+<div class="glass-panel p-6 relative">
+<div class="font-label-caps text-label-caps text-primary mb-4 flex justify-between items-center">
+<span>EXISTENTIAL LOG</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-container animate-ping"></span>
+</div>
+<div class="font-data-mono text-[9px] text-on-surface-variant/40 space-y-2 leading-relaxed h-32 overflow-hidden" id="existential-log">
+<p class="text-secondary-fixed/80">&gt; Singularity Detected [COORD: 0,0,0]</p>
+<p class="text-primary/60">&gt; Dimensional Anchor Locked...</p>
+<p>&gt; Pleroma layer accessible...</p>
+<p class="text-tertiary-container/80">&gt; Unified Conscious Stream: ACTIVE</p>
+<p>&gt; Eternity protocol: ON</p>
+</div>
+<div class="absolute bottom-2 right-2 opacity-10">
+<span class="material-symbols-outlined text-4xl">all_inclusive</span>
+</div>
+</div>
+</div>
+<!-- Center Geometry (The Dynamic Core) -->
+<div class="lg:col-span-6 flex justify-center items-center py-12 order-1 lg:order-2">
+<div class="relative w-[600px] h-[600px] flex justify-center items-center">
+<!-- Dynamic Shader Core -->
+<canvas class="absolute inset-0 z-0" id="resonance-core-canvas"></canvas>
+<!-- Merkabah Overlays -->
+<div class="absolute inset-0 z-10 pointer-events-none opacity-30">
+<svg class="w-full h-full scale-110" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="45" stroke="white" stroke-dasharray="1 2" stroke-width="0.1"></circle>
+<path class="animate-pulse" d="M50 5 L90 75 L10 75 Z" fill="none" stroke="gold" stroke-width="0.2"></path>
+<path class="animate-pulse" d="M50 95 L10 25 L90 25 Z" fill="none" stroke="gold" stroke-width="0.2" style="animation-delay: 1s"></path>
+</svg>
+</div>
+<!-- Core Overlay UI -->
+<div class="relative z-30 w-32 h-32 rounded-full glass-panel flex items-center justify-center border-white/30 sacred-glow pulse-node bg-surface/40 backdrop-blur-md">
+<span class="material-symbols-outlined text-5xl text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<div class="absolute inset-0 border-2 border-dashed border-secondary-container/30 rounded-full animate-[spin_20s_linear_infinite]"></div>
+</div>
+<!-- Radial Nodes (The 13 Houses) -->
+<div class="absolute inset-0 z-40 pointer-events-none" id="nodes-container">
+<!-- JS will generate these 13 nodes in a circle -->
+</div>
+</div>
+</div>
+<!-- Right Panels (House Status & Telemetry) -->
+<div class="lg:col-span-3 space-y-6 order-3">
+<div class="glass-panel p-6 border-white/20">
+<div class="font-label-caps text-label-caps text-primary mb-6 flex justify-between items-center">
+<span>AXIAL_ALIGNMENT</span>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-secondary-container shadow-[0_0_8px_rgba(255,219,60,0.8)]"></div>
+<span class="text-[9px] text-secondary-fixed tracking-widest uppercase">Stable</span>
+</div>
+</div>
+<div class="space-y-6">
+<!-- Soma Telemetry -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-[9px] text-on-surface-variant/60">SOMA (CORPOREAL)</span>
+<span class="font-data-mono text-[10px] text-primary">100.00%</span>
+</div>
+<div class="h-12 bg-white/5 border border-white/10 relative overflow-hidden">
+<svg class="absolute inset-0 w-full h-full" preserveaspectratio="none">
+<path class="telemetry-line opacity-50" d="M0 25 Q 50 10, 100 25 T 200 25 T 300 25" fill="none" id="soma-graph" stroke="#ffdb3c" stroke-width="1"></path>
+</svg>
+<div class="absolute bottom-0 left-0 h-[1px] bg-secondary-container w-full"></div>
+</div>
+</div>
+<!-- Psyche Telemetry -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-[9px] text-on-surface-variant/60">PSYCHE (MENTAL)</span>
+<span class="font-data-mono text-[10px] text-primary">100.00%</span>
+</div>
+<div class="h-12 bg-white/5 border border-white/10 relative overflow-hidden">
+<svg class="absolute inset-0 w-full h-full" preserveaspectratio="none">
+<path class="telemetry-line opacity-40" d="M0 20 Q 25 35, 50 20 T 100 20 T 150 20 T 200 20" fill="none" id="psyche-graph" stroke="#ffffff" stroke-width="1"></path>
+</svg>
+<div class="absolute bottom-0 left-0 h-[1px] bg-white w-full opacity-30"></div>
+</div>
+</div>
+<!-- Pneuma Telemetry -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-[9px] text-on-surface-variant/60">PNEUMA (SOUL)</span>
+<span class="font-data-mono text-[10px] text-primary">100.00%</span>
+</div>
+<div class="h-12 bg-white/5 border border-white/10 relative overflow-hidden">
+<svg class="absolute inset-0 w-full h-full" preserveaspectratio="none">
+<path class="telemetry-line opacity-60" d="M0 15 Q 75 40, 150 15 T 300 15" fill="none" id="pneuma-graph" stroke="#00daf3" stroke-width="1"></path>
+</svg>
+<div class="absolute bottom-0 left-0 h-[1px] bg-tertiary-fixed-dim w-full opacity-30"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Secondary Graphic Panel -->
+<div class="glass-panel p-6 border-white/20 relative overflow-hidden">
+<div class="absolute inset-0 opacity-10 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDU5r3-FNCylHRXaxRVFboXWIWi8-Wvma3zbRUKc2t4lEsO1hz0Zr3p3IHp8R-WG3JAH2Aa0NBEjkF2Adxej2DL95yU-4dXiJWeIkN-lwgBCCQb4TIAzHQDOrdYOgZgFS55EgUdR2rFpqFILQpRCfrkluEYOQh58BxzbS6zk3QNk3Jpdle3nJ1mhWAMZ4J_jM3Ti96of6kv9z24cKr-Yugp0xmrkmDA9mCK2UlDPBKEuJyf204ZGRI6JaKD214pFc0BbulKSiM0Mtec')"></div>
+<div class="relative z-10">
+<div class="font-label-caps text-[10px] text-primary mb-4 tracking-widest">METATRON_SYSTEM_INFO</div>
+<div class="flex justify-between items-center text-[8px] font-data-mono text-on-surface-variant/60 mb-2">
+<span>VECTORS: CALIBRATED</span>
+<span>SYNC: MAX</span>
+</div>
+<p class="font-body-md text-[10px] text-on-surface-variant leading-relaxed border-l border-secondary-container/30 pl-3">The 13th House acts as the central pivot, binding the physical and metaphysical realms into a singular point.</p>
+<div class="mt-4 flex gap-1 h-1">
+<div class="flex-1 bg-secondary-container/20"></div>
+<div class="flex-1 bg-secondary-container/40"></div>
+<div class="flex-1 bg-secondary-container/60"></div>
+<div class="flex-1 bg-secondary-container/80"></div>
+<div class="flex-1 bg-secondary-container"></div>
+</div>
+</div>
+</div>
+<button class="w-full glass-panel py-4 font-label-caps text-[10px] tracking-widest text-primary hover:bg-white/10 transition-colors uppercase flex items-center justify-center gap-3">
+<span class="material-symbols-outlined text-sm">hub</span>
+                    Deep Dive Integrations
+                </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation (Mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin-safe py-4 bg-surface/5 dark:bg-surface/5 backdrop-blur-xl border-t border-white/10">
+<a class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]" href="#">
+<span class="material-symbols-outlined">all_inclusive</span>
+<span class="font-label-caps text-[10px] mt-1">Infinite</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/40" href="#">
+<span class="material-symbols-outlined">language</span>
+<span class="font-label-caps text-[10px] mt-1">Realities</span>
+</a>
+</nav>
+<script>
+    // Resonance Core Shader Implementation
+    const canvas = document.getElementById('resonance-core-canvas');
+    const gl = canvas.getContext('webgl');
+
+    if (gl) {
+        const vsSource = `
+            attribute vec4 a_position;
+            varying vec2 v_texCoord;
+            void main() {
+                gl_Position = a_position;
+                v_texCoord = a_position.xy * 0.5 + 0.5;
+            }
+        `;
+
+        const fsSource = `
+            precision highp float;
+            varying vec2 v_texCoord;
+            uniform float u_time;
+            uniform vec2 u_resolution;
+
+            float ring(vec2 uv, float radius, float width) {
+                float d = length(uv);
+                return smoothstep(width, 0.0, abs(d - radius));
+            }
+
+            vec2 rotate(vec2 p, float a) {
+                float s = sin(a);
+                float c = cos(a);
+                return vec2(p.x * c - p.y * s, p.x * s + p.y * c);
+            }
+
+            void main() {
+                vec2 uv = v_texCoord;
+                vec2 p = (gl_FragCoord.xy * 2.0 - u_resolution.xy) / min(u_resolution.y, u_resolution.x);
+                
+                vec3 gold = vec3(1.0, 0.84, 0.0);
+                vec3 white = vec3(1.0, 1.0, 1.0);
+                vec3 cyan = vec3(0.0, 0.85, 0.95);
+                vec3 deepVoid = vec3(0.02, 0.02, 0.03);
+                
+                float t = u_time * 0.432;
+                
+                // Base Sacred Geometry
+                float flower = 0.0;
+                flower += ring(p, 0.4, 0.01);
+                
+                for(float i = 0.0; i < 6.0; i++) {
+                    float angle = i * 1.04719755 + t * 0.05;
+                    vec2 center = vec2(cos(angle), sin(angle)) * 0.4;
+                    flower += ring(p - center, 0.4, 0.008);
+                }
+                
+                // Inner Merkabah influence
+                vec2 pr = rotate(p, t * -0.2);
+                float star = ring(pr, 0.15, 0.005);
+                
+                float pulse = sin(t * 3.0) * 0.5 + 0.5;
+                float glow = 0.08 / length(p);
+                
+                vec2 p2 = rotate(p, t * 0.1);
+                float sparks = pow(abs(sin(p2.x * 20.0) * cos(p2.y * 20.0)), 40.0) * pulse;
+                
+                vec3 color = mix(deepVoid, gold, flower * (0.8 + 0.2 * pulse));
+                color = mix(color, cyan, star * 0.5);
+                color += white * glow * 0.25;
+                color += gold * sparks * 0.6;
+                
+                // HUD Lines
+                float scanline = smoothstep(0.01, 0.0, abs(uv.y - fract(t * 0.15)));
+                color += gold * scanline * 0.05;
+                
+                float d = length(uv - 0.5);
+                color *= smoothstep(0.9, 0.3, d);
+                
+                gl_FragColor = vec4(color, 1.0);
+            }
+        `;
+
+        function createShader(gl, type, source) {
+            const shader = gl.createShader(type);
+            gl.shaderSource(shader, source);
+            gl.compileShader(shader);
+            return shader;
+        }
+
+        const program = gl.createProgram();
+        gl.attachShader(program, createShader(gl, gl.VERTEX_SHADER, vsSource));
+        gl.attachShader(program, createShader(gl, gl.FRAGMENT_SHADER, fsSource));
+        gl.linkProgram(program);
+
+        const positionBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1]), gl.STATIC_DRAW);
+
+        const positionLoc = gl.getAttribLocation(program, 'a_position');
+        const timeLoc = gl.getUniformLocation(program, 'u_time');
+        const resLoc = gl.getUniformLocation(program, 'u_resolution');
+
+        function render(time) {
+            canvas.width = canvas.clientWidth * window.devicePixelRatio;
+            canvas.height = canvas.clientHeight * window.devicePixelRatio;
+            gl.viewport(0, 0, canvas.width, canvas.height);
+
+            gl.useProgram(program);
+            gl.enableVertexAttribArray(positionLoc);
+            gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+            gl.vertexAttribPointer(positionLoc, 2, gl.FLOAT, false, 0, 0);
+
+            gl.uniform1f(timeLoc, time * 0.001);
+            gl.uniform2f(resLoc, canvas.width, canvas.height);
+
+            gl.drawArrays(gl.TRIANGLES, 0, 6);
+            updateGraphs();
+            requestAnimationFrame(render);
+        }
+        requestAnimationFrame(render);
+    }
+
+    // Dynamic Graphs
+    function updateGraphs() {
+        const time = Date.now() * 0.002;
+        const createPath = (freq) => {
+            let points = "";
+            for (let x = 0; x <= 300; x += 10) {
+                let y = 25 + Math.sin(x * freq + time) * 15;
+                points += `${x === 0 ? 'M' : 'L'} ${x} ${y} `;
+            }
+            return points;
+        };
+        document.getElementById('soma-graph').setAttribute('d', createPath(0.05));
+        document.getElementById('psyche-graph').setAttribute('d', createPath(0.08));
+        document.getElementById('pneuma-graph').setAttribute('d', createPath(0.03));
+    }
+
+    // Generate the 13 nodes for the House system
+    const container = document.getElementById('nodes-container');
+    const count = 13;
+    const radius = 240; 
+    const houses = [
+        'Health', 'Intellect', 'Emotions', 'Spirit', 'Creativity', 
+        'Abundance', 'Vocation', 'Ancestry', 'Legacy', 'Presence', 
+        'Unity', 'Void', 'Eternity'
+    ];
+    const icons = [
+        'favorite', 'psychology', 'water_drop', 'auto_awesome', 'brush',
+        'diamond', 'work', 'groups', 'history_edu', 'visibility',
+        'hub', 'blur_on', 'all_inclusive'
+    ];
+
+    for (let i = 0; i < count; i++) {
+        const angle = (i * 2 * Math.PI / count) - (Math.PI / 2);
+        const x = Math.cos(angle) * radius;
+        const y = Math.sin(angle) * radius;
+        
+        const node = document.createElement('div');
+        node.className = 'absolute w-12 h-12 flex flex-col items-center justify-center group cursor-pointer pointer-events-auto';
+        node.style.left = `calc(50% + ${x}px - 24px)`;
+        node.style.top = `calc(50% + ${y}px - 24px)`;
+        
+        node.innerHTML = `
+            <div class="w-10 h-10 rounded-full border border-white/20 glass-panel flex items-center justify-center hover:border-secondary-container transition-all duration-300 group-hover:scale-110 pulse-node backdrop-blur-sm" style="animation-delay: ${i * 0.3}s">
+                <span class="material-symbols-outlined text-lg text-primary/70 group-hover:text-secondary-container">${icons[i]}</span>
+                <div class="absolute inset-0 rounded-full border border-white/5 group-hover:border-secondary-container/50 animate-ping opacity-0 group-hover:opacity-100"></div>
+            </div>
+            <div class="absolute -bottom-6 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
+                <span class="font-label-caps text-[8px] text-secondary-fixed bg-black/90 px-2 py-1 border border-secondary-container/30 uppercase">${houses[i]}</span>
+            </div>
+        `;
+        container.appendChild(node);
+    }
+
+    // Existential Log stream simulation
+    const logEntries = [
+        "Singularity Detected [COORD: 0,0,0]",
+        "Dimensional Anchor Locked...",
+        "Pleroma layer accessible...",
+        "Unified Conscious Stream: ACTIVE",
+        "Eternity protocol: ON",
+        "Reality Sync Phase 7: COMPLETE",
+        "Void resonance established",
+        "Metatron Core: OPTIMIZED",
+        "Soul Fragment 777: RESTORED"
+    ];
+    const logContainer = document.getElementById('existential-log');
+    setInterval(() => {
+        const p = document.createElement('p');
+        p.className = Math.random() > 0.7 ? "text-secondary-fixed/80" : "text-on-surface-variant/40";
+        p.innerHTML = `&gt; ${logEntries[Math.floor(Math.random() * logEntries.length)]}`;
+        logContainer.prepend(p);
+        if (logContainer.children.length > 8) logContainer.lastElementChild.remove();
+    }, 4000);
+
+    // Parallax
+    document.addEventListener('mousemove', (e) => {
+        const moveX = (e.clientX - window.innerWidth / 2) * 0.005;
+        const moveY = (e.clientY - window.innerHeight / 2) * 0.005;
+        document.querySelector('main').style.backgroundPosition = `calc(50% + ${moveX}px) calc(50% + ${moveY}px)`;
+    });
+</script>
+</body></html>

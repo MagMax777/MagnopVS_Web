@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WHITE BROTHERHOOD // CITADEL DOMINIO OS &amp; CHAPTER ENGINE INTEGRATION</title>
+<!-- Material Symbols & Typography Foundations -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=Cinzel:wght@400..900&amp;family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,600;0,700;1,400&amp;family=Inter:wght@300;400;500;600;700&amp;family=Orbitron:wght@400..900&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS Engine -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-tertiary-fixed": "#231b00",
+            "tertiary": "#ffffff",
+            "on-error": "#690005",
+            "on-surface-variant": "#c9c6bd",
+            "primary": "#ffffff",
+            "inverse-surface": "#e5e2e1",
+            "surface-container-highest": "#353534",
+            "secondary-container": "#b18c09",
+            "surface-dim": "#131313",
+            "secondary-fixed-dim": "#ecc246",
+            "on-tertiary-container": "#786200",
+            "surface-container-low": "#1c1b1b",
+            "surface-container": "#201f1f",
+            "surface-tint": "#c9c6be",
+            "tertiary-fixed": "#ffe177",
+            "on-surface": "#e5e2e1",
+            "on-secondary-container": "#352800",
+            "surface-variant": "#353534",
+            "primary-fixed-dim": "#c9c6be",
+            "primary-fixed": "#e5e2da",
+            "on-background": "#e5e2e1",
+            "inverse-on-surface": "#313030",
+            "on-tertiary-fixed-variant": "#554500",
+            "surface-container-high": "#2a2a2a",
+            "on-tertiary": "#3b2f00",
+            "secondary-fixed": "#ffe08e",
+            "outline": "#929188",
+            "inverse-primary": "#5f5f58",
+            "on-secondary-fixed-variant": "#584400",
+            "outline-variant": "#474740",
+            "on-primary-fixed-variant": "#474741",
+            "on-primary-fixed": "#1c1c17",
+            "tertiary-container": "#ffe177",
+            "surface-container-lowest": "#0e0e0e",
+            "error": "#ffb4ab",
+            "secondary": "#ecc246",
+            "on-error-container": "#ffdad6",
+            "background": "#131313",
+            "primary-container": "#e5e2da",
+            "error-container": "#93000a",
+            "on-primary-container": "#65645e",
+            "surface": "#131313",
+            "on-secondary": "#3d2e00",
+            "on-secondary-fixed": "#241a00",
+            "tertiary-fixed-dim": "#ebc300",
+            "surface-bright": "#3a3939",
+            "on-primary": "#31312b",
+            "ether": "#00e5ff",
+            "ether-dark": "#005b66"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin": "3rem",
+            "space-xl": "2.5rem",
+            "space-lg": "1.5rem",
+            "space-sm": "0.5rem",
+            "gutter": "1.5rem",
+            "space-md": "1rem",
+            "space-xs": "0.25rem",
+            "margin-mobile": "1rem",
+            "gutter-mobile": "0.75rem"
+          },
+          "fontFamily": {
+            "headline-lg": ["Bodoni Moda"],
+            "body-lg": ["Inter"],
+            "title-md": ["Space Mono"],
+            "headline-md": ["Bodoni Moda"],
+            "label-md": ["Space Mono"],
+            "label-sm": ["Space Mono"],
+            "display-lg": ["Bodoni Moda"],
+            "body-sm": ["Inter"],
+            "headline-sm": ["Bodoni Moda"],
+            "display-lg-mobile": ["Bodoni Moda"],
+            "body-md": ["Inter"],
+            "label-lg": ["Space Mono"],
+            "headline-lg-mobile": ["Bodoni Moda"]
+          },
+          "fontSize": {
+            "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "0.06em", "fontWeight": "600" }],
+            "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+            "title-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0.12em", "fontWeight": "700" }],
+            "headline-md": ["30px", { "lineHeight": "38px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "label-md": ["11px", { "lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "500" }],
+            "label-sm": ["9px", { "lineHeight": "12px", "letterSpacing": "0.2em", "fontWeight": "400" }],
+            "display-lg": ["56px", { "lineHeight": "64px", "letterSpacing": "0.08em", "fontWeight": "700" }],
+            "body-sm": ["13px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-sm": ["22px", { "lineHeight": "28px", "letterSpacing": "0.03em", "fontWeight": "500" }],
+            "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+            "body-md": ["15px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.1em", "fontWeight": "700" }],
+            "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "0.04em", "fontWeight": "600" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      display: inline-block;
+      text-transform: none;
+      letter-spacing: normal;
+      word-wrap: normal;
+      white-space: nowrap;
+      direction: ltr;
+      vertical-align: middle;
+    }
+    
+    .sacred-cinzel { font-family: 'Cinzel', serif; }
+    .hud-orbitron { font-family: 'Orbitron', sans-serif; }
+    .telemetry-plex { font-family: 'IBM Plex Mono', monospace; }
+    
+    .scanlines-overlay {
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.45) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 255, 0, 0.03));
+      background-size: 100% 3px, 6px 100%;
+    }
+    
+    .corner-bracket {
+      position: relative;
+    }
+    .corner-bracket::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      width: 6px;
+      height: 6px;
+      border-top: 1px solid #ecc246;
+      border-left: 1px solid #ecc246;
+    }
+    .corner-bracket::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      right: -1px;
+      width: 6px;
+      height: 6px;
+      border-bottom: 1px solid #ecc246;
+      border-right: 1px solid #ecc246;
+    }
+
+    .censor-block {
+      background-color: #0e0e0e;
+      color: transparent;
+      user-select: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      border-bottom: 1px solid #474740;
+    }
+    .censor-block:hover {
+      background-color: #201f1f;
+      color: #ecc246;
+      border-bottom-color: #ecc246;
+    }
+    
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0e0e0e;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #474740;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #ecc246;
+    }
+    
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 15px rgba(236,194,70,0.2), inset 0 0 15px rgba(0,229,255,0.05); }
+      50% { box-shadow: 0 0 25px rgba(236,194,70,0.4), inset 0 0 25px rgba(0,229,255,0.15); }
+    }
+    .citadel-glow {
+      animation: pulse-glow 4s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-surface-container-lowest text-on-surface antialiased overflow-x-hidden selection:bg-secondary selection:text-on-secondary relative min-h-screen">
+<!-- Background Canvas Orb / Sacred Geometry -->
+<div class="fixed inset-0 pointer-events-none z-0 opacity-40 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(236,194,70,0.18),rgba(0,229,255,0.05)_40%,rgba(5,7,11,1)_85%)]"></div>
+<div class="fixed inset-0 pointer-events-none z-[1] scanlines-overlay opacity-30"></div>
+<!-- MAIN OPERATING SYSTEM SHELL -->
+<div class="relative z-10 flex flex-col min-h-screen justify-between pb-16">
+<!-- 1. TOP HUD MANDO DIEGÉTICO CON ACCESO BIDIRECCIONAL A DOMINIO OS & TELEMETRÍA EN TIEMPO REAL -->
+<header class="w-full px-3 lg:px-6 py-2 flex flex-wrap justify-between items-center border-b border-outline-variant/80 bg-surface-container-lowest/95 backdrop-blur-md sticky top-0 z-50 gap-y-2">
+<!-- Brand, Monogram & Mode Switcher -->
+<div class="flex items-center gap-3">
+<div class="relative w-10 h-10 border border-secondary/60 p-1 bg-surface-container-lowest flex items-center justify-center shadow-[0_0_14px_rgba(236,194,70,0.3)]">
+<img alt="White Brotherhood Seal" class="w-full h-full object-contain filter drop-shadow-[0_0_4px_#ecc246]" src="https://lh3.googleusercontent.com/aida/AEtjO1Ux90Had9HYUl0VZ0PljvKV7JmuZSFlSxoinebPpMwmZTybSSpHSvbL1YY2EDpg7pdcV5hLn6fWXfKUT5-csYYjp2LRXcHCW2XxJUQGgr4Rz_zpmV_oog-1ENext36p6Zx8ZVAUPqKqLgEUCqLsE3vci0r8nCjuVn8dHs6eTA9ewA-ZiKd9h75UbzOGQrOVjNoFRdbO1UHFGg3-TB_tEn_eVQGVGraFvozKX6An1ZoCbjSCeWKX2PBIklB1"/>
+<div class="absolute -top-1 -right-1 w-2 h-2 bg-secondary animate-pulse"></div>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-[16px] lg:text-[18px] tracking-widest text-primary font-bold sacred-cinzel">WHITE BROTHERHOOD</span>
+<span class="px-1.5 py-0.2 bg-secondary/10 text-secondary text-[8px] font-label-sm border border-secondary/40 telemetry-plex tracking-wider font-semibold">HYBRID ENGINE v9.2</span>
+</div>
+<span class="font-label-sm text-[9px] text-outline tracking-wider telemetry-plex">// CITADEL DOMINIO OS ⇄ CHAPTER ENGINE LINKED</span>
+</div>
+<!-- CONMUTADOR DIRECTO DE PERSPECTIVA (MODO HISTORIA vs MODO GESTIÓN DOMINIO OS) -->
+<div class="hidden sm:flex items-center ml-2 border border-outline-variant bg-surface-container-lowest p-0.5 corner-bracket">
+<button class="px-2.5 py-1 text-[9px] font-bold telemetry-plex tracking-wider uppercase transition-all duration-150 bg-secondary text-surface-container-lowest flex items-center gap-1 shadow-[0_0_8px_rgba(236,194,70,0.4)]" id="mode-btn-story" onclick="toggleEnginePerspective('story')">
+<span class="material-symbols-outlined text-[13px]">auto_stories</span>
+<span>MODO HISTORIA // CHAPTER</span>
+</button>
+<button class="px-2.5 py-1 text-[9px] font-bold telemetry-plex tracking-wider uppercase transition-all duration-150 text-on-surface-variant hover:text-ether hover:bg-surface-container-high flex items-center gap-1" id="mode-btn-management" onclick="toggleEnginePerspective('management')">
+<span class="material-symbols-outlined text-[13px]">apartment</span>
+<span>MODO GESTIÓN // DOMINIO OS</span>
+</button>
+</div>
+</div>
+<!-- INDICADORES EN TIEMPO REAL COMPARTIDOS CON EL DOMINIO OS -->
+<div class="hidden xl:flex items-center gap-3 border-x border-outline-variant/60 px-4 py-0.5 bg-surface-container-lowest/80 text-[10px] telemetry-plex">
+<!-- Materia -->
+<div class="flex items-center gap-1.5" title="Materia Prima Transmutada">
+<span class="material-symbols-outlined text-[14px] text-secondary">token</span>
+<span class="text-outline">MAT:</span>
+<span class="font-bold text-primary" id="res-materia">24.8K</span>
+</div>
+<div class="h-3 w-[1px] bg-outline-variant/60"></div>
+<!-- Energía -->
+<div class="flex items-center gap-1.5" title="Energía del Athanor y Nodos">
+<span class="material-symbols-outlined text-[14px] text-ether">electric_bolt</span>
+<span class="text-outline">ENE:</span>
+<span class="font-bold text-primary" id="res-energia">18.2K</span>
+</div>
+<div class="h-3 w-[1px] bg-outline-variant/60"></div>
+<!-- Conocimiento -->
+<div class="flex items-center gap-1.5" title="Códices y Algoritmos Arcanos">
+<span class="material-symbols-outlined text-[14px] text-primary">psychology</span>
+<span class="text-outline">CON:</span>
+<span class="font-bold text-primary" id="res-conocimiento">9.4K</span>
+</div>
+<div class="h-3 w-[1px] bg-outline-variant/60"></div>
+<!-- Agencia Soberana -->
+<div class="flex items-center gap-1.5" title="Agencia Soberana Colectiva">
+<span class="material-symbols-outlined text-[14px] text-secondary">verified_user</span>
+<span class="text-outline">AGENCIA:</span>
+<span class="font-bold text-secondary" id="res-agencia">94/100</span>
+</div>
+<div class="h-3 w-[1px] bg-outline-variant/60"></div>
+<!-- Ratio de Guerra Faccional -->
+<div class="flex items-center gap-1.5" title="Soberanía Territorial Global">
+<span class="text-secondary font-bold" id="res-ratio-pan">54.2%</span>
+<span class="text-outline">/</span>
+<span class="text-outline-variant text-on-surface-variant font-bold" id="res-ratio-sin">45.8%</span>
+</div>
+</div>
+<!-- Trailing Citadel Dominio OS Direct Access + Entry Clearance -->
+<div class="flex items-center gap-2">
+<!-- BOTÓN DESTACADO DIRECTO A CITADEL // DOMINIO OS -->
+<button class="px-3 py-1.5 bg-gradient-to-r from-secondary/20 via-surface-container to-secondary/10 border border-secondary text-secondary font-label-md text-[10px] tracking-widest sacred-cinzel font-bold hover:bg-secondary hover:text-surface-container-lowest transition-all duration-200 flex items-center gap-1.5 shadow-[0_0_12px_rgba(236,194,70,0.25)] group" onclick="switchTab('dominio')">
+<span class="material-symbols-outlined text-[16px] text-secondary group-hover:text-surface-container-lowest transition-colors">account_balance</span>
+<span class="whitespace-nowrap">[CITADEL // DOMINIO OS]</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-ping"></span>
+</button>
+<div class="h-6 w-[1px] bg-outline-variant hidden sm:block"></div>
+<div class="text-right hidden sm:block">
+<div class="text-[8px] telemetry-plex text-outline uppercase tracking-wider">CLEARANCE</div>
+<div class="text-[10px] telemetry-plex text-secondary font-bold">LVL: 0 [SOVEREIGN]</div>
+</div>
+<button class="px-3 py-1.5 bg-primary text-surface-container-lowest font-label-md text-[10px] tracking-widest sacred-cinzel font-bold hover:bg-ether hover:text-surface-container-lowest transition-colors duration-150 flex items-center gap-1 active:scale-95 shadow-[0_0_10px_rgba(255,255,255,0.2)]" onclick="simulateChapterSync()">
+<span>SYNC ENGINE</span>
+<span class="material-symbols-outlined text-[13px]">sync_alt</span>
+</button>
+</div>
+</header>
+<!-- SECONDARY NAV MATRIX CON MODOS: COMIC, RPG, CODEX, SIMULATION Y DOMINIO OS -->
+<div class="w-full px-4 lg:px-8 py-1.5 border-b border-outline-variant/60 bg-surface-container-lowest/80 flex items-center justify-between overflow-x-auto text-[10px] telemetry-plex">
+<div class="flex items-center space-x-1">
+<button class="px-3 py-1 text-on-surface-variant font-label-md text-[10px] tracking-wider uppercase hover:text-primary transition-all flex items-center gap-1" id="nav-btn-chapter" onclick="switchTab('chapter')">
+<span class="material-symbols-outlined text-[14px]">auto_stories</span>
+<span>COMIC // CHAPTER ENGINE (9 PANELES)</span>
+</button>
+<button class="px-3 py-1 text-on-surface-variant font-label-md text-[10px] tracking-wider uppercase hover:text-primary transition-all flex items-center gap-1" id="nav-btn-citadel" onclick="switchTab('citadel')">
+<span class="material-symbols-outlined text-[14px]">domain</span>
+<span>CITADEL COCKPIT</span>
+</button>
+<button class="px-3 py-1 border-b-2 border-secondary text-secondary font-label-md text-[10px] tracking-wider uppercase transition-all flex items-center gap-1 font-bold" id="nav-btn-dominio" onclick="switchTab('dominio')">
+<span class="material-symbols-outlined text-[14px]">account_balance</span>
+<span>DOMINIO OS // WHITE BASTION</span>
+</button>
+<button class="px-3 py-1 text-on-surface-variant font-label-md text-[10px] tracking-wider uppercase hover:text-primary transition-all flex items-center gap-1" id="nav-btn-classes" onclick="switchTab('classes')">
+<span class="material-symbols-outlined text-[14px]">groups</span>
+<span>RPG // 9 CLASES</span>
+</button>
+<button class="px-3 py-1 text-on-surface-variant font-label-md text-[10px] tracking-wider uppercase hover:text-primary transition-all flex items-center gap-1" id="nav-btn-world" onclick="switchTab('world')">
+<span class="material-symbols-outlined text-[14px]">public</span>
+<span>SECTORES // THE WORLD</span>
+</button>
+<button class="px-3 py-1 text-on-surface-variant font-label-md text-[10px] tracking-wider uppercase hover:text-primary transition-all flex items-center gap-1" id="nav-btn-simulation" onclick="switchTab('simulation')">
+<span class="material-symbols-outlined text-[14px]">precision_manufacturing</span>
+<span>SIMULACIÓN // LÍNEAS TEMPORALES</span>
+</button>
+</div>
+<div class="hidden lg:flex items-center gap-2 text-[9px] text-outline">
+<span class="w-1.5 h-1.5 rounded-full bg-ether animate-pulse"></span>
+<span>SOF.IA v9.2 VIGILANCIA ENLACE ACTIVO</span>
+</div>
+</div>
+<!-- MAIN COCKPIT WORKSPACE (Bento Grid 12-Columns) -->
+<main class="w-full px-3 lg:px-6 py-3 grid grid-cols-1 lg:grid-cols-12 gap-3 flex-grow">
+<!-- LEFT SIDEBAR: HOMÚNCULO CON VINCULACIÓN AL ASENTAMIENTO "THE WHITE BASTION" & GUERRA (3 Columns) -->
+<aside class="lg:col-span-3 flex flex-col gap-3">
+<!-- Player Homunculus Dossier Card Conectado al Dominio -->
+<section class="border border-outline-variant bg-surface-container-lowest/90 backdrop-blur-md p-3.5 relative corner-bracket shadow-[0_4px_24px_rgba(0,0,0,0.8)]">
+<div class="flex items-center justify-between border-b border-outline-variant/60 pb-2 mb-2.5">
+<span class="font-label-sm text-[9px] text-secondary tracking-widest telemetry-plex">// PERFIL HOMÚNCULO &amp; ASENTAMIENTO</span>
+<span class="px-1.5 py-0.5 bg-secondary/10 text-secondary border border-secondary/30 text-[8px] font-label-sm telemetry-plex">DOMINIO ENLAZADO</span>
+</div>
+<div class="flex gap-3 items-center">
+<!-- Avatar Portrait Box -->
+<div class="relative w-16 h-16 border-2 border-secondary p-1 bg-surface-container-low shrink-0 shadow-[0_0_16px_rgba(236,194,70,0.25)]">
+<div class="w-full h-full bg-surface-container-highest flex flex-col items-center justify-center relative overflow-hidden">
+<span class="material-symbols-outlined text-[36px] text-primary/90">person_filled</span>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
+<div class="absolute bottom-0 text-[7px] telemetry-plex text-secondary font-bold">NODE: Ω-09</div>
+</div>
+<div class="absolute -top-1 -right-1 w-2 h-2 bg-ether"></div>
+<div class="absolute -bottom-1 -left-1 w-2 h-2 bg-secondary"></div>
+</div>
+<!-- Identity Core Data y Conexión Asentamiento -->
+<div class="flex flex-col overflow-hidden">
+<span class="font-headline-sm text-[16px] text-primary sacred-cinzel tracking-wider leading-tight">HOMÚNCULO Ω-09</span>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="text-[9px] telemetry-plex text-secondary font-bold">NIVEL 42</span>
+<span class="text-[8px] telemetry-plex text-outline">|</span>
+<span class="text-[9px] telemetry-plex text-primary uppercase font-medium">BRUJO DE LA RED</span>
+</div>
+<div class="mt-0.5 flex items-center gap-1">
+<span class="text-[8px] telemetry-plex text-ether tracking-wider font-semibold uppercase">ROL: FUNDADOR DE DISTRITO 3</span>
+</div>
+</div>
+</div>
+<!-- VINCULACIÓN DIRECTA CON ASENTAMIENTO "THE WHITE BASTION" -->
+<div class="mt-3 p-2 bg-surface-container-low border border-secondary/40 relative">
+<div class="flex items-center justify-between mb-1">
+<span class="text-[9px] telemetry-plex text-secondary font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-secondary">castle</span>
+            ASENTAMIENTO VINCULADO
+          </span>
+<span class="px-1.5 py-0.2 bg-secondary/20 text-secondary text-[8px] telemetry-plex font-bold">METRÓPOLIS NIVEL V</span>
+</div>
+<div class="flex justify-between items-center text-[10px] telemetry-plex">
+<span class="text-primary font-bold sacred-cinzel">THE WHITE BASTION</span>
+<span class="text-ether font-semibold">COHESIÓN: 98.2%</span>
+</div>
+<p class="text-[8px] telemetry-plex text-outline mt-0.5 leading-tight">Gobernanza activa. Recibiendo bonificación de distrito: +15% Recolección &amp; +12% Defensa de Nodo.</p>
+</div>
+<!-- Vitals Telemetry (HP, MANA, CONCENTRACIÓN) -->
+<div class="mt-3 space-y-1.5 pt-2 border-t border-outline-variant/40">
+<div>
+<div class="flex justify-between text-[8px] telemetry-plex mb-0.5">
+<span class="text-on-surface-variant flex items-center gap-1"><span class="text-error">●</span> HP</span>
+<span class="text-primary font-bold">4,850 / 4,850</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest border border-outline-variant">
+<div class="h-full bg-primary" style="width: 100%;"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-[8px] telemetry-plex mb-0.5">
+<span class="text-on-surface-variant flex items-center gap-1"><span class="text-secondary">●</span> MANÁ ÉTERICO</span>
+<span class="text-secondary font-bold">2,410 / 3,100</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest border border-outline-variant">
+<div class="h-full bg-secondary" style="width: 78%;"></div>
+</div>
+</div>
+<!-- Atributo Especial: AGENCIA SOBERANA -->
+<div class="p-1.5 bg-surface-container-low border border-secondary/30 mt-2">
+<div class="flex justify-between items-center mb-0.5">
+<span class="text-[8px] text-secondary font-bold tracking-widest telemetry-plex flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">psychology</span>
+              AGENCIA SOBERANA DEL DOMINIO
+            </span>
+<span class="text-primary font-bold telemetry-plex text-[10px]">94 / 100</span>
+</div>
+<div class="w-full h-1 bg-surface-container-lowest border border-secondary/50">
+<div class="h-full bg-secondary shadow-[0_0_8px_#ecc246]" style="width: 94%;"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Centro de Guerra de Facciones (Panarquía vs Sinarquía) -->
+<section class="border border-outline-variant bg-surface-container-lowest/90 backdrop-blur-md p-3 corner-bracket shadow-[0_4px_24px_rgba(0,0,0,0.8)]">
+<div class="flex items-center justify-between border-b border-outline-variant/60 pb-1.5 mb-2">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[15px]">balance</span>
+<span class="font-label-sm text-[9px] text-secondary tracking-widest telemetry-plex font-bold">CONTROL FACCIONAL GLOBAL</span>
+</div>
+<span class="text-[8px] telemetry-plex text-ether animate-pulse">CITADEL TELEMETRY</span>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-[10px] telemetry-plex font-bold">
+<span class="text-secondary" id="sidebar-ratio-pan">PANARQUÍA [54.2%]</span>
+<span class="text-on-surface-variant" id="sidebar-ratio-sin">SINARQUÍA [45.8%]</span>
+</div>
+<div class="w-full h-2.5 bg-surface-container-high border border-outline-variant flex overflow-hidden">
+<div class="h-full bg-secondary border-r border-background shadow-[0_0_8px_rgba(236,194,70,0.3)] transition-all duration-500" id="sidebar-bar-pan" style="width: 54.2%;"></div>
+<div class="h-full bg-surface-container-highest transition-all duration-500" id="sidebar-bar-sin" style="width: 45.8%;"></div>
+</div>
+<div class="flex justify-between text-[7px] telemetry-plex text-outline pt-0.5">
+<span>RED DISTRIBUIDA LIBRE</span>
+<span>VÉRTICE CENTRAL OBLIGATORIO</span>
+</div>
+</div>
+<div class="mt-2.5 p-2 bg-surface-container-low border-l-2 border-secondary text-[8px] telemetry-plex">
+<span class="text-secondary font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">broadcast_on_personal</span>
+          DECRETO TERRITORIAL DE WHITE BASTION
+        </span>
+<p class="text-on-surface-variant mt-0.5">El asentamiento aporta +0.4% diario a la Panarquía mediante su baliza 432Hz.</p>
+</div>
+</section>
+<!-- Transmisión de Inteligencia / Censor Interactivo -->
+<section class="border border-outline-variant bg-surface-container-lowest/90 backdrop-blur-md p-3 text-[9px] telemetry-plex">
+<div class="flex justify-between text-outline text-[8px] mb-1">
+<span>// TRANSMISIÓN CRIPTOGRÁFICA</span>
+<span class="text-ether">ENLACE SOF.IA</span>
+</div>
+<p class="text-on-surface-variant leading-relaxed">
+        Prioridad Dominio OS: Las elecciones en el Chapter Engine alteran directamente los suministros de The White Bastion.
+        <span class="censor-block px-1 cursor-pointer" title="Haz click o pasa el cursor para descifrar">[ORDEN: CONSAGRAR EL TEMPLO DE ATANOR PARA EVITAR INCURSIÓN SINÁRQUICA]</span>.
+      </p>
+</section>
+</aside>
+<!-- CENTER MODULE: SELECTOR DE PANTALLAS DEL JUEGO / MODOS INTERACTIVOS (6 Columns) -->
+<section class="lg:col-span-6 flex flex-col gap-3">
+<!-- SELECTOR DE VISTA RÁPIDO DENTRO DEL PANEL CENTRAL -->
+<div class="flex border border-outline-variant bg-surface-container-lowest/95 p-1 gap-1">
+<button class="flex-1 py-1.5 px-2 text-center text-[10px] font-bold telemetry-plex tracking-wider transition-all duration-150 bg-secondary text-surface-container-lowest flex items-center justify-center gap-1 shadow-[0_0_10px_rgba(236,194,70,0.3)]" id="tab-dominio" onclick="switchTab('dominio')">
+<span class="material-symbols-outlined text-[15px]">account_balance</span>
+<span>DOMINIO OS // BASTION</span>
+</button>
+<button class="flex-1 py-1.5 px-2 text-center text-[10px] font-bold telemetry-plex tracking-wider transition-all duration-150 text-on-surface-variant hover:text-primary hover:bg-surface-container flex items-center justify-center gap-1" id="tab-chapter" onclick="switchTab('chapter')">
+<span class="material-symbols-outlined text-[15px]">auto_stories</span>
+<span>CHAPTER ENGINE (9 PANELES)</span>
+</button>
+<button class="flex-1 py-1.5 px-2 text-center text-[10px] font-bold telemetry-plex tracking-wider transition-all duration-150 text-on-surface-variant hover:text-primary hover:bg-surface-container flex items-center justify-center gap-1" id="tab-citadel" onclick="switchTab('citadel')">
+<span class="material-symbols-outlined text-[15px]">domain</span>
+<span>VISOR CÁMARA</span>
+</button>
+<button class="flex-1 py-1.5 px-2 text-center text-[10px] font-bold telemetry-plex tracking-wider transition-all duration-150 text-on-surface-variant hover:text-primary hover:bg-surface-container flex items-center justify-center gap-1" id="tab-classes" onclick="switchTab('classes')">
+<span class="material-symbols-outlined text-[15px]">groups</span>
+<span>9 DOCTRINAS</span>
+</button>
+<button class="flex-1 py-1.5 px-2 text-center text-[10px] font-bold telemetry-plex tracking-wider transition-all duration-150 text-on-surface-variant hover:text-primary hover:bg-surface-container flex items-center justify-center gap-1" id="tab-world" onclick="switchTab('world')">
+<span class="material-symbols-outlined text-[15px]">public</span>
+<span>CARTOGRAFÍA</span>
+</button>
+</div>
+<!-- VIEW 1: DOMINIO OS // THE WHITE BASTION & COLA DE PRODUCCIÓN DIEGÉTICA (Activo por defecto) -->
+<div class="flex flex-col gap-3 border border-outline-variant bg-surface-container-lowest/90 backdrop-blur-md p-4 relative corner-bracket flex-grow citadel-glow" id="view-dominio">
+<div class="flex justify-between items-center border-b border-outline-variant pb-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-[9px] telemetry-plex text-secondary tracking-widest font-bold">// GESTIÓN TERRITORIAL DIEGÉTICA</span>
+<span class="px-1.5 py-0.2 bg-ether/10 text-ether border border-ether/40 text-[8px] telemetry-plex">SINCRO NARRATIVA BIDIRECCIONAL</span>
+</div>
+<h2 class="font-headline-md text-[22px] text-primary sacred-cinzel">THE WHITE BASTION // METRÓPOLIS NIVEL V</h2>
+</div>
+<div class="text-right">
+<span class="text-[8px] telemetry-plex text-outline block">DEFENSA DE CIUDADELA</span>
+<span class="text-[12px] telemetry-plex text-secondary font-bold">98.4% ESTABLE</span>
+</div>
+</div>
+<!-- VISOR TÁCTICO DIEGÉTICO DE THE WHITE BASTION -->
+<div class="relative w-full h-56 bg-surface-container-lowest border border-outline-variant overflow-hidden flex items-center justify-center group">
+<!-- Sacred Hex & Void Grid -->
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(236,194,70,0.15)_0%,_rgba(0,229,255,0.08)_45%,_rgba(5,7,11,0.98)_85%)]"></div>
+<div class="absolute inset-0 flex items-center justify-center opacity-25 pointer-events-none">
+<div class="w-80 h-80 border border-secondary rounded-full animate-spin" style="animation-duration: 60s;"></div>
+<div class="w-60 h-60 border border-ether rotate-45"></div>
+<div class="w-40 h-40 border border-secondary/50"></div>
+<div class="absolute w-full h-[1px] bg-secondary/30"></div>
+<div class="absolute h-full w-[1px] bg-secondary/30"></div>
+</div>
+<!-- Representación Monolítica de The White Bastion -->
+<div class="relative z-10 flex flex-col items-center justify-center text-center p-4">
+<div class="w-28 h-32 border-2 border-secondary bg-surface-container-lowest/80 flex flex-col items-center justify-between p-2 shadow-[0_0_30px_rgba(236,194,70,0.3)] backdrop-blur-sm group-hover:scale-105 transition-transform duration-500">
+<div class="w-full h-1 bg-ether"></div>
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined text-secondary text-[36px] filter drop-shadow-[0_0_8px_#ecc246]">fort</span>
+<span class="text-[8px] sacred-cinzel tracking-widest text-primary mt-1 font-bold">WHITE BASTION</span>
+</div>
+<div class="text-[7px] telemetry-plex text-ether font-bold">DISTRITO 3 // SOBERANO</div>
+</div>
+<div class="mt-2 flex gap-2">
+<span class="px-2 py-0.5 bg-surface-container-low border border-outline-variant text-[8px] telemetry-plex text-on-surface">HOMÚNCULOS HABITANTES: 41,289</span>
+<span class="px-2 py-0.5 bg-surface-container-low border border-secondary/40 text-[8px] telemetry-plex text-secondary">PRODUCCIÓN: +340 MAT / HORA</span>
+</div>
+</div>
+<!-- Superposiciones tácticas en esquinas del visor -->
+<div class="absolute top-2 left-2 text-[8px] telemetry-plex text-outline">
+          ESTRUCTURA: MONOLITO DE MARFIL ARCANO<br/>
+          RADAR SINÁRQUICO: MONITOREANDO CUADRANTE 7
+        </div>
+<div class="absolute top-2 right-2 text-[8px] telemetry-plex text-right text-secondary">
+          AUTORIZACIÓN: HOMÚNCULO Ω-09<br/>
+          ESTADO: PROTEGIDO POR LA HERMANDAD
+        </div>
+<div class="absolute bottom-2 left-2 flex gap-1">
+<button class="px-2 py-0.5 bg-secondary text-surface-container-lowest font-bold text-[8px] telemetry-plex hover:bg-ether transition-colors" onclick="accelerateProduction()">ACELERAR OBRAS (-100 ENE)</button>
+<button class="px-2 py-0.5 bg-surface-container border border-secondary text-secondary text-[8px] telemetry-plex hover:bg-surface-container-high transition-colors" onclick="reinforceBastion()">REFUERZO DEFENSIVO</button>
+</div>
+</div>
+<!-- COLA DE PRODUCCIÓN Y CONSTRUCCIÓN DEL ASENTAMIENTO -->
+<div class="mt-1">
+<div class="flex items-center justify-between mb-1.5">
+<span class="text-[9px] telemetry-plex text-secondary font-bold uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">construction</span>
+            COLA DE PRODUCCIÓN Y EDIFICACIÓN ACTIVA
+          </span>
+<span class="text-[8px] telemetry-plex text-outline">3 PROYECTOS EN CURSO</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+<!-- Obra 1: Edificación del Faro -->
+<div class="p-2 border border-secondary/50 bg-surface-container-low relative">
+<div class="flex justify-between items-center text-[9px] telemetry-plex mb-1">
+<span class="text-primary font-bold">1. EDIFICACIÓN DEL FARO</span>
+<span class="text-secondary font-bold">78%</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest mb-1">
+<div class="h-full bg-secondary shadow-[0_0_6px_#ecc246]" style="width: 78%;"></div>
+</div>
+<div class="flex justify-between text-[7px] telemetry-plex text-outline">
+<span>Transmisión 432Hz</span>
+<span class="text-secondary">00:18:42</span>
+</div>
+</div>
+<!-- Obra 2: Consagración del Templo de Atanor -->
+<div class="p-2 border border-ether/40 bg-surface-container-low relative">
+<div class="flex justify-between items-center text-[9px] telemetry-plex mb-1">
+<span class="text-primary font-bold">2. TEMPLO DE ATANOR</span>
+<span class="text-ether font-bold">45%</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest mb-1">
+<div class="h-full bg-ether shadow-[0_0_6px_#00e5ff]" style="width: 45%;"></div>
+</div>
+<div class="flex justify-between text-[7px] telemetry-plex text-outline">
+<span>Alquimia Superior</span>
+<span class="text-ether">01:04:10</span>
+</div>
+</div>
+<!-- Obra 3: Radar Sinárquico -->
+<div class="p-2 border border-outline-variant bg-surface-container-low relative">
+<div class="flex justify-between items-center text-[9px] telemetry-plex mb-1">
+<span class="text-primary font-bold">3. RADAR SINÁRQUICO</span>
+<span class="text-primary font-bold">92%</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest mb-1">
+<div class="h-full bg-primary" style="width: 92%;"></div>
+</div>
+<div class="flex justify-between text-[7px] telemetry-plex text-outline">
+<span>Detección de Espías</span>
+<span class="text-primary">00:03:15</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Command Buttons de Ciudadela -->
+<div class="grid grid-cols-3 gap-2 mt-1">
+<button class="p-2 border border-outline-variant bg-surface-container-low hover:border-secondary transition-all text-left group" onclick="switchTab('chapter')">
+<div class="flex items-center gap-1.5 text-secondary text-[10px] font-bold telemetry-plex">
+<span class="material-symbols-outlined text-[15px] group-hover:scale-110 transition-transform">auto_stories</span>
+<span>ABRIR CHAPTER ENGINE</span>
+</div>
+<p class="text-[8px] text-outline telemetry-plex mt-0.5">Toma decisiones en 9 paneles para impactar la Ciudadela.</p>
+</button>
+<button class="p-2 border border-outline-variant bg-surface-container-low hover:border-secondary transition-all text-left group" onclick="switchTab('classes')">
+<div class="flex items-center gap-1.5 text-primary text-[10px] font-bold telemetry-plex">
+<span class="material-symbols-outlined text-[15px] group-hover:scale-110 transition-transform">groups</span>
+<span>RECLUTAR HOMÚNCULOS</span>
+</div>
+<p class="text-[8px] text-outline telemetry-plex mt-0.5">Asigna las 9 doctrinas a guarniciones del Bastión.</p>
+</button>
+<button class="p-2 border border-outline-variant bg-surface-container-low hover:border-secondary transition-all text-left group" onclick="switchTab('world')">
+<div class="flex items-center gap-1.5 text-ether text-[10px] font-bold telemetry-plex">
+<span class="material-symbols-outlined text-[15px] group-hover:scale-110 transition-transform">share_location</span>
+<span>EXPANDIR TERRITORIO</span>
+</div>
+<p class="text-[8px] text-outline telemetry-plex mt-0.5">Somete sectores bajo control del Vértice Central.</p>
+</button>
+</div>
+</div>
+<!-- VIEW 2: THE CHAPTER ENGINE (9 PANELES CON IMPACTO BIDIRECCIONAL EN LA CIUDADELA) -->
+<div class="hidden flex-col gap-3 border border-outline-variant bg-surface-container-lowest/90 backdrop-blur-md p-4 relative corner-bracket flex-grow" id="view-chapter">
+<div class="flex justify-between items-center border-b border-outline-variant pb-2">
+<div>
+<span class="text-[9px] telemetry-plex text-secondary tracking-widest font-bold">// THE CHAPTER ENGINE // MATRIZ NARRATIVA</span>
+<h2 class="font-headline-md text-[20px] text-primary sacred-cinzel">CAPÍTULO VII: EL FARO Y LA DISPERSIÓN SOBERANA</h2>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 border border-secondary text-secondary text-[8px] telemetry-plex font-bold">IMPACTO EN CIUDADELA: ACTIVO</span>
+<span class="px-2 py-0.5 bg-surface-container text-on-surface text-[8px] telemetry-plex">PANELES 1-9</span>
+</div>
+</div>
+<!-- 9 Interactive Story Panels Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-2 max-h-[460px] overflow-y-auto pr-1">
+<!-- Panel 1 -->
+<div class="p-2.5 border border-secondary bg-surface-container-low relative group">
+<div class="flex justify-between items-center text-[8px] telemetry-plex mb-1">
+<span class="text-secondary font-bold">PANEL 01 // EL DESPERTAR DEL ATHANOR</span>
+<span class="material-symbols-outlined text-[13px] text-secondary">flare</span>
+</div>
+<p class="text-[9px] text-on-surface leading-tight telemetry-plex">El Homúnculo Ω-09 despierta en la matriz del distrito 3, sintiendo el pulso 432Hz.</p>
+<div class="mt-2 pt-1 border-t border-outline-variant/40">
+<span class="text-[7px] text-secondary uppercase font-bold telemetry-plex">IMPACTO DIRECTO EN CIUDADELA:</span>
+<div class="flex justify-between items-center text-[8px] telemetry-plex text-ether mt-0.5">
+<span>+150 MATERIA // +5% COHESIÓN</span>
+<button class="px-1.5 py-0.5 bg-secondary text-surface-container-lowest font-bold text-[7px] hover:bg-ether" onclick="applyChapterDecision('p1', 150, 0, 5, 0.2)">RESOLVER</button>
+</div>
+</div>
+</div>
+<!-- Panel 2 -->
+<div class="p-2.5 border border-outline-variant bg-surface-container-low relative group hover:border-secondary transition-colors">
+<div class="flex justify-between items-center text-[8px] telemetry-plex mb-1">
+<span class="text-outline font-bold">PANEL 02 // LA SOMBRA DE LA SINARQUÍA</span>
+<span class="material-symbols-outlined text-[13px] text-outline">sensors_off</span>
+</div>
+<p class="text-[9px] text-on-surface leading-tight telemetry-plex">Drones de vigilancia del Vértice escanean los límites de The White Bastion.</p>
+<div class="mt-2 pt-1 border-t border-outline-variant/40">
+<span class="text-[7px] text-secondary uppercase font-bold telemetry-plex">IMPACTO DIRECTO EN CIUDADELA:</span>
+<div class="flex justify-between items-center text-[8px] telemetry-plex text-ether mt-0.5">
+<span>-50 ENERGÍA // +0.4% PANARQUÍA</span>
+<button class="px-1.5 py-0.5 bg-surface-container-high border border-outline hover:border-secondary text-primary font-bold text-[7px]" onclick="applyChapterDecision('p2', 0, -50, 2, 0.4)">SABOTEAR</button>
+</div>
+</div>
+</div>
+<!-- Panel 3 -->
+<div class="p-2.5 border border-outline-variant bg-surface-container-low relative group hover:border-secondary transition-colors">
+<div class="flex justify-between items-center text-[8px] telemetry-plex mb-1">
+<span class="text-outline font-bold">PANEL 03 // EL CÓDICE DEL BRUJO</span>
+<span class="material-symbols-outlined text-[13px] text-secondary">auto_fix_high</span>
+</div>
+<p class="text-[9px] text-on-surface leading-tight telemetry-plex">Se descifra un pergamino criptográfico que estabiliza el Gran Faro Central.</p>
+<div class="mt-2 pt-1 border-t border-outline-variant/40">
+<span class="text-[7px] text-secondary uppercase font-bold telemetry-plex">IMPACTO DIRECTO EN CIUDADELA:</span>
+<div class="flex justify-between items-center text-[8px] telemetry-plex text-ether mt-0.5">
+<span>+300 CONOCIMIENTO // FARO +10%</span>
+<button class="px-1.5 py-0.5 bg-surface-container-high border border-outline hover:border-secondary text-primary font-bold text-[7px]" onclick="applyChapterDecision('p3', 0, 0, 10, 0.3)">SINTONIZAR</button>
+</div>
+</div>
+</div>
+<!-- Panel 4 -->
+<div class="p-2.5 border border-outline-variant bg-surface-container-low relative group hover:border-secondary transition-colors">
+<div class="flex justify-between items-center text-[8px] telemetry-plex mb-1">
+<span class="text-outline font-bold">PANEL 04 // ASAMBLEA DE DOCTRINAS</span>
+<span class="material-symbols-outlined text-[13px] text-primary">groups</span>
+</div>
+<p class="text-[9px] text-on-surface leading-tight telemetry-plex">Los 9 arquetipos juramentan defender la soberanía del asentamiento sagrado.</p>
+<div class="mt-2 pt-1 border-t border-outline-variant/40">
+<span class="text-[7px] text-secondary uppercase font-bold telemetry-plex">IMPACTO DIRECTO EN CIUDADELA:</span>
+<div class="flex justify-between items-center text-[8px] telemetry-plex text-ether mt-0.5">
+<span>+2 AGENCIA SOBERANA</span>
+<button class="px-1.5 py-0.5 bg-surface-container-high border border-outline hover:border-secondary text-primary font-bold text-[7px]" onclick="applyChapterDecision('p4', 100, 100, 3, 0.5)">CONJURAR</button>
+</div>
+</div>
+</div>
+<!-- Panel 5 -->
+<div class="p-2.5 border border-outline-variant bg-surface-container-low relative group hover:border-secondary transition-colors">
+<div class="flex justify-between items-center text-[8px] telemetry-plex mb-1">
+<span class="text-outline font-bold">PANEL 05 // LA EXPEDICIÓN AL VACÍO</span>
+<span class="material-symbols-outlined text-[13px] text-ether">explore</span>
+</div>
+<p class="text-[9px] text-on-surface leading-tight telemetry-plex">El Navegante traza un corredor umbral para extraer cristales de éter puro.</p>
+<div class="mt-2 pt-1 border-t border-outline-variant/40">
+<span class="text-[7px] text-secondary uppercase font-bold telemetry-plex">IMPACTO DIRECTO EN CIUDADELA:</span>
+<div class="flex justify-between items-center text-[8px] telemetry-plex text-ether mt-0.5">
+<span>+400 ENERGÍA // EXP-77 LISTA</span>
+<button class="px-1.5 py-0.5 bg-surface-container-high border border-outline hover:border-secondary text-primary font-bold text-[7px]" onclick="applyChapterDecision('p5', 50, 400, 2, 0.1)">SALTAR</button>
+</div>
+</div>
+</div>
+<!-- Panel 6 -->
+<div class="p-2.5 border border-outline-variant bg-surface-container-low relative group hover:border-secondary transition-colors">
+<div class="flex justify-between items-center text-[8px] telemetry-plex mb-1">
+<span class="text-outline font-bold">PANEL 06 // LA TRANSMUTACIÓN ÁUREA</span>
+<span class="material-symbols-outlined text-[13px] text-secondary">science</span>
+</div>
+<p class="text-[9px] text-on-surface leading-tight telemetry-plex">El Alquimista enciende los hornos de The White Bastion forjando armaduras.</p>
+<div class="mt-2 pt-1 border-t border-outline-variant/40">
+<span class="text-[7px] text-secondary uppercase font-bold telemetry-plex">IMPACTO DIRECTO EN CIUDADELA:</span>
+<div class="flex justify-between items-center text-[8px] telemetry-plex text-ether mt-0.5">
+<span>+250 MATERIA EN CIUDADELA</span>
+<button class="px-1.5 py-0.5 bg-surface-container-high border border-outline hover:border-secondary text-primary font-bold text-[7px]" onclick="applyChapterDecision('p6', 250, -50, 4, 0.2)">FORJAR</button>
+</div>
+</div>
+</div>
+<!-- Panel 7 -->
+<div class="p-2.5 border border-outline-variant bg-surface-container-low relative group hover:border-secondary transition-colors">
+<div class="flex justify-between items-center text-[8px] telemetry-plex mb-1">
+<span class="text-outline font-bold">PANEL 07 // ASALTO AL NODO SINÁRQUICO</span>
+<span class="material-symbols-outlined text-[13px] text-error">crisis_alert</span>
+</div>
+<p class="text-[9px] text-on-surface leading-tight telemetry-plex">Fuerzas soberanas atacan los servidores centrales para liberar The Underworld.</p>
+<div class="mt-2 pt-1 border-t border-outline-variant/40">
+<span class="text-[7px] text-secondary uppercase font-bold telemetry-plex">IMPACTO DIRECTO EN CIUDADELA:</span>
+<div class="flex justify-between items-center text-[8px] telemetry-plex text-ether mt-0.5">
+<span>+0.6% PANARQUÍA // +120 SOBERANÍA</span>
+<button class="px-1.5 py-0.5 bg-surface-container-high border border-outline hover:border-secondary text-primary font-bold text-[7px]" onclick="applyChapterDecision('p7', 0, -100, 8, 0.6)">ASALTAR</button>
+</div>
+</div>
+</div>
+<!-- Panel 8 -->
+<div class="p-2.5 border border-outline-variant bg-surface-container-low relative group hover:border-secondary transition-colors">
+<div class="flex justify-between items-center text-[8px] telemetry-plex mb-1">
+<span class="text-outline font-bold">PANEL 08 // LA BENDICIÓN DEL FARO</span>
+<span class="material-symbols-outlined text-[13px] text-primary">wb_sunny</span>
+</div>
+<p class="text-[9px] text-on-surface leading-tight telemetry-plex">La baliza emite un domo de resonancia impidiendo escaneos del Vértice.</p>
+<div class="mt-2 pt-1 border-t border-outline-variant/40">
+<span class="text-[7px] text-secondary uppercase font-bold telemetry-plex">IMPACTO DIRECTO EN CIUDADELA:</span>
+<div class="flex justify-between items-center text-[8px] telemetry-plex text-ether mt-0.5">
+<span>ESCUDO BASTIÓN AL 100%</span>
+<button class="px-1.5 py-0.5 bg-surface-container-high border border-outline hover:border-secondary text-primary font-bold text-[7px]" onclick="applyChapterDecision('p8', 100, 200, 6, 0.4)">IRRADIAR</button>
+</div>
+</div>
+</div>
+<!-- Panel 9 -->
+<div class="p-2.5 border-2 border-secondary bg-surface-container-low relative group">
+<div class="flex justify-between items-center text-[8px] telemetry-plex mb-1">
+<span class="text-secondary font-bold">PANEL 09 // EL CLÍMAX DEL CAPÍTULO</span>
+<span class="material-symbols-outlined text-[13px] text-secondary">workspace_premium</span>
+</div>
+<p class="text-[9px] text-on-surface leading-tight telemetry-plex">El Dominio OS consolida la soberanía de The White Bastion sobre el continente.</p>
+<div class="mt-2 pt-1 border-t border-outline-variant/40">
+<span class="text-[7px] text-secondary uppercase font-bold telemetry-plex">IMPACTO SUPREMO EN CIUDADELA:</span>
+<div class="flex justify-between items-center text-[8px] telemetry-plex text-ether mt-0.5">
+<span>+500 MAT // +500 ENE // +1% PAN</span>
+<button class="px-2 py-0.5 bg-secondary text-surface-container-lowest font-bold text-[7px] hover:bg-ether" onclick="applyChapterDecision('p9', 500, 500, 10, 1.0)">CONSUMAR</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- VIEW 3: CITADEL VISOR CÁMARA (Original Mantendio) -->
+<div class="hidden flex-col gap-4 border border-outline-variant bg-surface-container-lowest/85 backdrop-blur-md p-4 relative corner-bracket flex-grow min-h-[500px]" id="view-citadel">
+<div class="flex justify-between items-center border-b border-outline-variant pb-2">
+<div>
+<span class="text-[9px] telemetry-plex text-secondary tracking-widest">// CÁMARA SUPREMA DE OBSERVACIÓN</span>
+<h2 class="font-headline-md text-headline-md text-primary sacred-cinzel">LA CIUDADELA: VISOR DIEGÉTICO</h2>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 border border-secondary text-secondary text-[9px] telemetry-plex font-bold animate-pulse">RENDER 60 FPS</span>
+<span class="px-2 py-0.5 bg-surface-container text-on-surface text-[9px] telemetry-plex">CAM: ORBIT-AXIS 09</span>
+</div>
+</div>
+<div class="relative w-full h-72 bg-surface-container-lowest border border-outline-variant overflow-hidden flex items-center justify-center group">
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(236,194,70,0.12)_0%,_rgba(5,5,5,0.95)_75%)]"></div>
+<div class="absolute inset-0 flex items-center justify-center opacity-30 pointer-events-none">
+<div class="w-64 h-64 border border-secondary rounded-full animate-spin" style="animation-duration: 40s;"></div>
+<div class="w-48 h-48 border border-primary/40 rotate-45"></div>
+<div class="w-32 h-32 border border-secondary/60"></div>
+</div>
+<div class="relative z-10 flex flex-col items-center justify-center text-center p-6">
+<div class="w-24 h-36 border-2 border-primary bg-primary/5 flex flex-col items-center justify-between p-2 shadow-[0_0_30px_rgba(244,241,232,0.3)] backdrop-blur-sm group-hover:scale-105 transition-transform duration-500">
+<div class="w-full h-1 bg-secondary"></div>
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined text-primary text-[36px] filter drop-shadow-[0_0_8px_#ffffff]">account_balance</span>
+<span class="text-[8px] sacred-cinzel tracking-widest text-primary mt-1 font-bold">APEX-CITADEL</span>
+</div>
+<div class="text-[7px] telemetry-plex text-secondary">SECTOR A-0</div>
+</div>
+<div class="mt-4 flex gap-2">
+<span class="px-2 py-0.5 bg-surface-container-low border border-outline-variant text-[9px] telemetry-plex text-on-surface">POBLACIÓN HOMÚNCULA: 41,289</span>
+<span class="px-2 py-0.5 bg-surface-container-low border border-secondary/40 text-[9px] telemetry-plex text-secondary">RESONANCIA ÁUREA: 432Hz</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-2 mt-1">
+<div class="p-2 border border-outline-variant bg-surface-container-low hover:border-secondary transition-all cursor-pointer">
+<div class="flex items-center gap-1.5 text-secondary text-[11px] font-bold telemetry-plex">
+<span class="material-symbols-outlined text-[16px]">synagogue</span>
+<span>EL TEMPLO ALQUÍMICO</span>
+</div>
+<p class="text-[9px] text-outline telemetry-plex mt-1">Transmuta esencias y forja engramas arcanos de nivel superior.</p>
+</div>
+<div class="p-2 border border-outline-variant bg-surface-container-low hover:border-secondary transition-all cursor-pointer">
+<div class="flex items-center gap-1.5 text-primary text-[11px] font-bold telemetry-plex">
+<span class="material-symbols-outlined text-[16px]">cloud_upload</span>
+<span>EL GRAN FARO CENTRAL</span>
+</div>
+<p class="text-[9px] text-outline telemetry-plex mt-1">Sintoniza la frecuencia de combate e intercepta incursiones.</p>
+</div>
+<div class="p-2 border border-outline-variant bg-surface-container-low hover:border-secondary transition-all cursor-pointer">
+<div class="flex items-center gap-1.5 text-secondary text-[11px] font-bold telemetry-plex">
+<span class="material-symbols-outlined text-[16px]">terminal</span>
+<span>BÓVEDA DEL CODEX</span>
+</div>
+<p class="text-[9px] text-outline telemetry-plex mt-1">Accede a las crónicas clasificadas y decretos soberanos.</p>
+</div>
+</div>
+</div>
+<!-- VIEW 4: MATRIZ DE CLASES Y ARQUETIPOS (Original con 9 doctrinas) -->
+<div class="hidden flex-col gap-4 border border-outline-variant bg-surface-container-lowest/85 backdrop-blur-md p-4 relative corner-bracket flex-grow" id="view-classes">
+<div class="flex justify-between items-center border-b border-outline-variant pb-2">
+<div>
+<span class="text-[9px] telemetry-plex text-secondary tracking-widest">// CÓDICE DE ARQUETIPOS SOBERANOS</span>
+<h2 class="font-headline-md text-headline-md text-primary sacred-cinzel">LAS 9 DOCTRINAS DEL SER</h2>
+</div>
+<span class="text-[10px] telemetry-plex text-outline">CLASES ASIGNADAS A THE WHITE BASTION</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 max-h-[460px] overflow-y-auto pr-1">
+<!-- 1. BRUJO -->
+<div class="p-3 border-2 border-secondary bg-surface-container-low relative">
+<div class="flex justify-between items-start">
+<span class="text-[9px] telemetry-plex text-secondary font-bold">01 // ARQUETIPO ACTIVO</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">auto_fix_high</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary sacred-cinzel mt-1">BRUJO</h3>
+<p class="text-[9px] telemetry-plex text-secondary font-semibold">ROL: CONTROL UMBRAL / CORRUPCIÓN</p>
+<p class="text-[9px] telemetry-plex text-on-surface-variant mt-1">Manipula la red para drenar el maná enemigo y desincronizar nodos sinárquicos.</p>
+</div>
+<!-- 2. GUERRERO -->
+<div class="p-3 border border-outline-variant bg-surface-container-low hover:border-primary transition-colors">
+<div class="flex justify-between items-start">
+<span class="text-[9px] telemetry-plex text-outline">02</span>
+<span class="material-symbols-outlined text-primary text-[18px]">shield_with_heart</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary sacred-cinzel mt-1">GUERRERO</h3>
+<p class="text-[9px] telemetry-plex text-outline font-semibold">ROL: VANGUARDIA MONOLÍTICA</p>
+<p class="text-[9px] telemetry-plex text-on-surface-variant mt-1">Absorbe daño masivo protegiendo las murallas del Dominio OS.</p>
+</div>
+<!-- 3. MAGO -->
+<div class="p-3 border border-outline-variant bg-surface-container-low hover:border-primary transition-colors">
+<div class="flex justify-between items-start">
+<span class="text-[9px] telemetry-plex text-outline">03</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">bolt</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary sacred-cinzel mt-1">MAGO</h3>
+<p class="text-[9px] telemetry-plex text-outline font-semibold">ROL: ERUPCIÓN ELEMENTAL ÉTER</p>
+<p class="text-[9px] telemetry-plex text-on-surface-variant mt-1">Canaliza ráfagas de luz geométrica para desintegrar estructuras blindadas.</p>
+</div>
+<!-- 4. SANADOR -->
+<div class="p-3 border border-outline-variant bg-surface-container-low hover:border-primary transition-colors">
+<div class="flex justify-between items-start">
+<span class="text-[9px] telemetry-plex text-outline">04</span>
+<span class="material-symbols-outlined text-primary text-[18px]">healing</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary sacred-cinzel mt-1">SANADOR</h3>
+<p class="text-[9px] telemetry-plex text-outline font-semibold">ROL: RESTAURACIÓN CELULAR</p>
+<p class="text-[9px] telemetry-plex text-on-surface-variant mt-1">Restaura la integridad biológica y anula debuffs causados por la Sinarquía.</p>
+</div>
+<!-- 5. CHAMÁN -->
+<div class="p-3 border border-outline-variant bg-surface-container-low hover:border-primary transition-colors">
+<div class="flex justify-between items-start">
+<span class="text-[9px] telemetry-plex text-outline">05</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">cyclone</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary sacred-cinzel mt-1">CHAMÁN</h3>
+<p class="text-[9px] telemetry-plex text-outline font-semibold">ROL: TÓTEMS DE RESONANCIA</p>
+<p class="text-[9px] telemetry-plex text-on-surface-variant mt-1">Despliega resonadores que amplifican la agencia de los aliados circundantes.</p>
+</div>
+<!-- 6. ALQUIMISTA -->
+<div class="p-3 border border-outline-variant bg-surface-container-low hover:border-primary transition-colors">
+<div class="flex justify-between items-start">
+<span class="text-[9px] telemetry-plex text-outline">06</span>
+<span class="material-symbols-outlined text-primary text-[18px]">science</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary sacred-cinzel mt-1">ALQUIMISTA</h3>
+<p class="text-[9px] telemetry-plex text-outline font-semibold">ROL: MUTACIÓN Y QUÍMICA</p>
+<p class="text-[9px] telemetry-plex text-on-surface-variant mt-1">Fabrica catalizadores reactivos que alimentan la cola de producción.</p>
+</div>
+<!-- 7. VIDENTE -->
+<div class="p-3 border border-outline-variant bg-surface-container-low hover:border-primary transition-colors">
+<div class="flex justify-between items-start">
+<span class="text-[9px] telemetry-plex text-outline">07</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">visibility</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary sacred-cinzel mt-1">VIDENTE</h3>
+<p class="text-[9px] telemetry-plex text-outline font-semibold">ROL: TELEMETRÍA PREDICTIVA</p>
+<p class="text-[9px] telemetry-plex text-on-surface-variant mt-1">Anticipa patrones de asalto enemigo y revela espías encriptados en sigilo.</p>
+</div>
+<!-- 8. ARTISTA -->
+<div class="p-3 border border-outline-variant bg-surface-container-low hover:border-primary transition-colors">
+<div class="flex justify-between items-start">
+<span class="text-[9px] telemetry-plex text-outline">08</span>
+<span class="material-symbols-outlined text-primary text-[18px]">palette</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary sacred-cinzel mt-1">ARTISTA</h3>
+<p class="text-[9px] telemetry-plex text-outline font-semibold">ROL: MANIFESTACIÓN GRÁFICA</p>
+<p class="text-[9px] telemetry-plex text-on-surface-variant mt-1">Inscribe runas sacras en el tejido espacial que alteran la moral y la velocidad.</p>
+</div>
+<!-- 9. NAVEGANTE -->
+<div class="p-3 border border-outline-variant bg-surface-container-low hover:border-primary transition-colors">
+<div class="flex justify-between items-start">
+<span class="text-[9px] telemetry-plex text-outline">09</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">explore</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary sacred-cinzel mt-1">NAVEGANTE</h3>
+<p class="text-[9px] telemetry-plex text-outline font-semibold">ROL: APERTURA DE PORTALES</p>
+<p class="text-[9px] telemetry-plex text-on-surface-variant mt-1">Pliega el vacío cósmico para desplazar escuadrones de recolección.</p>
+</div>
+</div>
+</div>
+<!-- VIEW 5: CARTOGRAFÍA / THE WORLD -->
+<div class="hidden flex-col gap-4 border border-outline-variant bg-surface-container-lowest/85 backdrop-blur-md p-4 relative corner-bracket flex-grow" id="view-world">
+<div class="flex justify-between items-center border-b border-outline-variant pb-2">
+<div>
+<span class="text-[9px] telemetry-plex text-secondary tracking-widest">// CARTOGRAFÍA DE CONTROL GLOBAL</span>
+<h2 class="font-headline-md text-headline-md text-primary sacred-cinzel">THE WORLD // SECTORES VINCULADOS</h2>
+</div>
+<div class="flex gap-2">
+<span class="px-2 py-0.5 border border-secondary text-secondary text-[8px] telemetry-plex">PANARQUÍA: 4 REGIONES</span>
+<span class="px-2 py-0.5 border border-outline-variant text-outline text-[8px] telemetry-plex">SINARQUÍA: 3 REGIONES</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5">
+<div class="p-2.5 border-l-2 border-secondary bg-surface-container-low">
+<div class="flex justify-between items-center text-[10px] telemetry-plex font-bold">
+<span class="text-primary">THE CITADEL</span>
+<span class="text-secondary">PANARQUÍA [100%]</span>
+</div>
+<p class="text-[8px] telemetry-plex text-outline mt-1">Sede sagrada de la Hermandad Blanca. Cero penetración de doctrina sinárquica.</p>
+<span class="inline-block mt-2 px-1.5 py-0.5 bg-secondary/10 border border-secondary/30 text-secondary text-[8px] telemetry-plex">CAPITAL SEGURA</span>
+</div>
+<div class="p-2.5 border-l-2 border-primary bg-surface-container-low">
+<div class="flex justify-between items-center text-[10px] telemetry-plex font-bold">
+<span class="text-primary">THE WHITE BASTION</span>
+<span class="text-ether font-bold">METRÓPOLIS NIVEL V [98%]</span>
+</div>
+<p class="text-[8px] telemetry-plex text-outline mt-1">Asentamiento activo del Homúnculo Ω-09. Producción máxima en curso.</p>
+<span class="inline-block mt-2 px-1.5 py-0.5 bg-ether/10 border border-ether text-ether text-[8px] telemetry-plex">ASENTAMIENTO FUNDADO</span>
+</div>
+<div class="p-2.5 border-l-2 border-secondary bg-surface-container-low">
+<div class="flex justify-between items-center text-[10px] telemetry-plex font-bold">
+<span class="text-primary">THE GREAT LIGHTHOUSE</span>
+<span class="text-secondary animate-pulse">EN DISPUTA [51/49]</span>
+</div>
+<p class="text-[8px] telemetry-plex text-outline mt-1">Foco de la transmisión 432Hz. Asedio de la Sinarquía en desarrollo.</p>
+<span class="inline-block mt-2 px-1.5 py-0.5 bg-secondary text-surface-container-lowest font-bold text-[8px] telemetry-plex">ZONA DE GUERRA</span>
+</div>
+<div class="p-2.5 border-l-2 border-outline-variant bg-surface-container-low">
+<div class="flex justify-between items-center text-[10px] telemetry-plex font-bold">
+<span class="text-primary">THE UNDERWORLD</span>
+<span class="text-on-surface-variant">SINARQUÍA [72%]</span>
+</div>
+<p class="text-[8px] telemetry-plex text-outline mt-1">Laberintos de fibra y criptas dominados por el control central.</p>
+<span class="inline-block mt-2 px-1.5 py-0.5 bg-surface-container-highest text-outline text-[8px] telemetry-plex">TERRENO HOSTIL</span>
+</div>
+<div class="p-2.5 border-l-2 border-outline-variant bg-surface-container-low">
+<div class="flex justify-between items-center text-[10px] telemetry-plex font-bold">
+<span class="text-primary">THE WILDS</span>
+<span class="text-secondary">PANARQUÍA [60%]</span>
+</div>
+<p class="text-[8px] telemetry-plex text-outline mt-1">Páramos salvajes no cartografiados. Nodos errantes de clanes libres.</p>
+<span class="inline-block mt-2 px-1.5 py-0.5 bg-surface-container border border-secondary/20 text-secondary text-[8px] telemetry-plex">RECURSOS RICOS</span>
+</div>
+<div class="p-2.5 border-l-2 border-error bg-surface-container-low">
+<div class="flex justify-between items-center text-[10px] telemetry-plex font-bold">
+<span class="text-primary">THE VOID &amp; BLACK ZONES</span>
+<span class="text-error">CORRUPCIÓN SINARQUISTA</span>
+</div>
+<p class="text-[8px] telemetry-plex text-outline mt-1">El Vértice Central impone algoritmos de sometimiento obligatorio.</p>
+<span class="inline-block mt-2 px-1.5 py-0.5 bg-error-container text-on-error-container text-[8px] telemetry-plex">PELIGRO EXTREMO</span>
+</div>
+</div>
+</div>
+<!-- VIEW 6: SIMULACIÓN // LÍNEAS TEMPORALES -->
+<div class="hidden flex-col gap-3 border border-outline-variant bg-surface-container-lowest/85 backdrop-blur-md p-4 relative corner-bracket flex-grow" id="view-simulation">
+<div class="flex justify-between items-center border-b border-outline-variant pb-2">
+<div>
+<span class="text-[9px] telemetry-plex text-ether tracking-widest">// MOTOR DE PREDICCIÓN TEMPORAL</span>
+<h2 class="font-headline-md text-headline-md text-primary sacred-cinzel">SIMULACIÓN DE IMPACTO NARRATIVO</h2>
+</div>
+<span class="px-2 py-0.5 bg-ether/10 border border-ether text-ether text-[8px] telemetry-plex">SOF.IA v9.2 PROYECCIÓN</span>
+</div>
+<div class="p-3 bg-surface-container-low border border-outline-variant text-[10px] telemetry-plex leading-relaxed">
+<p class="text-primary font-semibold mb-1">PROYECCIÓN TÁCTICA DEL BASTIÓN A 72 HORAS:</p>
+<p class="text-on-surface-variant">Si la construcción del Gran Faro concluye con éxito, la Cohesión aumentará a 99.8% y el control de la Panarquía en el sector ascenderá al 62.1%. Sin embargo, una incursión sinárquica en The Underworld podría sustraer hasta 1.2K de energía si no se asignan guerreros de retaguardia.</p>
+</div>
+<div class="grid grid-cols-2 gap-2 mt-2">
+<div class="p-2 border border-secondary/30 bg-surface-container-lowest">
+<span class="text-[8px] telemetry-plex text-secondary font-bold">ESCENARIO A: EXPANSIÓN AGRESIVA</span>
+<p class="text-[8px] telemetry-plex text-outline mt-0.5">+450 Materia / +1.2% Panarquía / Riesgo de asedio +20%</p>
+</div>
+<div class="p-2 border border-ether/30 bg-surface-container-lowest">
+<span class="text-[8px] telemetry-plex text-ether font-bold">ESCENARIO B: FORTIFICACIÓN ARMÓNICA</span>
+<p class="text-[8px] telemetry-plex text-outline mt-0.5">+100% Escudos / Estabilidad Soberana Inviolable</p>
+</div>
+</div>
+</div>
+</section>
+<!-- RIGHT SIDEBAR: QUEST TRACKER, CONSEJERA SOF.IA Y TRANSMISIONES DE MANDO (3 Columns) -->
+<aside class="lg:col-span-3 flex flex-col gap-3">
+<!-- Módulo: Rastreador de Quests y Dominio OS -->
+<section class="border border-outline-variant bg-surface-container-lowest/90 backdrop-blur-md p-3.5 corner-bracket shadow-[0_4px_24px_rgba(0,0,0,0.8)]">
+<div class="flex items-center justify-between border-b border-outline-variant/60 pb-1.5 mb-2.5">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[15px]">task_alt</span>
+<span class="font-label-sm text-[9px] text-secondary tracking-widest telemetry-plex font-bold">RASTREADOR DE MISIÓN &amp; DOMINIO</span>
+</div>
+<span class="text-[8px] telemetry-plex text-outline">PRIORIDAD 1</span>
+</div>
+<!-- Misión Principal con Impacto en Ciudadela -->
+<div class="p-2.5 bg-surface-container-low border border-secondary/40 relative mb-2">
+<div class="flex justify-between items-center">
+<span class="text-[8px] telemetry-plex text-secondary font-bold uppercase tracking-wider">MISIÓN PRINCIPAL</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-ping"></span>
+</div>
+<h4 class="font-headline-sm text-primary sacred-cinzel mt-1 text-[14px] leading-tight">
+          ENLACE DIRECTO: FARO &lt;-&gt; WHITE BASTION
+        </h4>
+<p class="text-[8px] text-on-surface-variant telemetry-plex mt-1 leading-relaxed">
+          Sincroniza la baliza del Faro con la torre central de The White Bastion para irradiar la frecuencia 432Hz.
+        </p>
+<div class="mt-2">
+<div class="flex justify-between text-[7px] telemetry-plex text-outline mb-0.5">
+<span>SINTONIZACIÓN DE NODOS</span>
+<span class="text-secondary font-bold">2 / 3 COMPLETADOS</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest">
+<div class="h-full bg-secondary" style="width: 66%;"></div>
+</div>
+</div>
+<div class="mt-2 pt-1 border-t border-outline-variant/40 flex items-center justify-between text-[7px] telemetry-plex">
+<span class="text-outline">RECOMPENSA DOMINIO:</span>
+<span class="text-secondary font-bold">+500 MAT / +5% COHESIÓN</span>
+</div>
+</div>
+</section>
+<!-- SECCIÓN CLAVE SOLICITADA: VINCULACIÓN CIUDADELA // TRANSMISIONES DE MANDO & CONSEJERA SOF.IA v9.2 -->
+<section class="border border-outline-variant bg-surface-container-lowest/90 backdrop-blur-md p-3.5 corner-bracket flex-grow flex flex-col justify-between shadow-[0_4px_24px_rgba(0,0,0,0.8)]">
+<div>
+<!-- Encabezado Consejera Táctica SOF.IA -->
+<div class="flex items-center justify-between border-b border-outline-variant/60 pb-2 mb-2">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-ether text-[16px] animate-pulse">neurology</span>
+<div class="flex flex-col">
+<span class="text-[9px] telemetry-plex text-ether font-bold tracking-wider">CONSEJERA TÁCTICA SOF.IA v9.2</span>
+<span class="text-[7px] telemetry-plex text-outline">VINCULACIÓN CIUDADELA // TRANSMISIONES DE MANDO</span>
+</div>
+</div>
+<span class="px-1 py-0.5 bg-ether/10 border border-ether/30 text-ether text-[7px] telemetry-plex">FEED EN VIVO</span>
+</div>
+<!-- Feed de Órdenes y Consecuencias del Dominio OS -->
+<div class="space-y-2 text-[9px] telemetry-plex max-h-48 overflow-y-auto pr-1" id="command-feed">
+<!-- Entrada SOF.IA -->
+<div class="p-1.5 bg-surface-container-low border-l-2 border-ether">
+<div class="flex justify-between items-center text-[7px] text-outline mb-0.5">
+<span class="text-ether font-bold">[SOF.IA // PROTOCOLO DE MANDO]:</span>
+<span>HACE 2 MIN</span>
+</div>
+<p class="text-on-surface leading-tight">"Homúnculo Ω-09, el asentamiento The White Bastion reporta estabilidad óptima. Cada decisión en el Chapter Engine alimenta la reserva de Materia."</p>
+</div>
+<!-- Transmisión Dominio OS -->
+<div class="p-1.5 bg-surface-container-low border-l-2 border-secondary">
+<div class="flex justify-between items-center text-[7px] text-outline mb-0.5">
+<span class="text-secondary font-bold">[DOMINIO OS // BASTION CORE]:</span>
+<span>HACE 5 MIN</span>
+</div>
+<p class="text-on-surface-variant leading-tight">Consagración del Templo de Atanor avanza al 45%. Se recomienda no desviar energía durante el siguiente ciclo solar.</p>
+</div>
+<!-- Mensaje de Escuadrón -->
+<div class="p-1.5 bg-surface-container-low border-l-2 border-outline-variant">
+<div class="flex justify-between items-center text-[7px] text-outline mb-0.5">
+<span class="text-primary font-bold">[VALKYRIE-1 // ASALTO FARO]:</span>
+<span>HACE 9 MIN</span>
+</div>
+<p class="text-on-surface-variant leading-tight">Escuadra en posición en cuadrante norte. Esperando orden desde el cockpit.</p>
+</div>
+</div>
+</div>
+<!-- Input de Transmisión de Órdenes a la Ciudadela -->
+<div class="mt-2.5 pt-2 border-t border-outline-variant flex gap-1">
+<input class="w-full bg-surface-container-low border border-outline-variant px-2 py-1 text-[9px] telemetry-plex text-primary focus:border-secondary outline-none" id="tx-input" onkeydown="if(event.key==='Enter') sendCommandOrder()" placeholder="TRANSMITIR ORDEN AL DOMINIO OS..." type="text"/>
+<button class="px-2.5 py-1 bg-secondary text-surface-container-lowest font-bold text-[9px] telemetry-plex hover:bg-ether transition-colors flex items-center gap-0.5" onclick="sendCommandOrder()">
+<span>TX</span>
+<span class="material-symbols-outlined text-[12px]">send</span>
+</button>
+</div>
+</section>
+</aside>
+</main>
+<!-- 5. BARRA INFERIOR TÁCTICA DE ACCIÓN Y COMBATE CON ACCESOS DIRECTOS -->
+<div class="fixed bottom-7 left-0 w-full z-40 px-2 md:px-8 pointer-events-none">
+<div class="max-w-4xl mx-auto bg-surface-container-lowest/95 backdrop-blur-md border border-outline-variant p-2 flex flex-col md:flex-row items-center justify-between gap-2 shadow-[0_0_24px_rgba(0,0,0,0.9)] corner-bracket pointer-events-auto">
+<!-- Posture / Stance Selector -->
+<div class="flex items-center gap-1 border-r border-outline-variant pr-3">
+<div class="text-[8px] telemetry-plex text-outline flex flex-col justify-center text-right mr-1">
+<span>POSTURA:</span>
+<span class="text-secondary font-bold">SOBERANA</span>
+</div>
+<button class="w-7 h-7 bg-surface-container border border-secondary text-secondary flex items-center justify-center text-[12px] font-bold" title="Postura Ofensiva // Resonancia">Ω</button>
+<button class="w-7 h-7 bg-surface-container-low border border-outline-variant text-outline hover:text-primary flex items-center justify-center text-[12px]" title="Postura Defensiva // Marfil">Δ</button>
+<button class="w-7 h-7 bg-surface-container-low border border-outline-variant text-outline hover:text-primary flex items-center justify-center text-[12px]" title="Postura Umbral // Sigilo">Ψ</button>
+</div>
+<!-- 8 Action Slots -->
+<div class="flex items-center gap-1.5 overflow-x-auto">
+<div class="w-9 h-9 border border-secondary bg-surface-container-low relative group cursor-pointer hover:border-primary transition-all">
+<span class="material-symbols-outlined text-secondary text-[18px] absolute inset-0 flex items-center justify-center">auto_fix_high</span>
+<span class="absolute top-0.5 left-1 text-[7px] telemetry-plex text-secondary font-bold">1</span>
+<div class="absolute bottom-0 left-0 w-full h-[2px] bg-secondary"></div>
+</div>
+<div class="w-9 h-9 border border-outline-variant bg-surface-container-low relative group cursor-pointer hover:border-secondary transition-all">
+<span class="material-symbols-outlined text-primary text-[18px] absolute inset-0 flex items-center justify-center">bolt</span>
+<span class="absolute top-0.5 left-1 text-[7px] telemetry-plex text-outline font-bold">2</span>
+</div>
+<div class="w-9 h-9 border border-outline-variant bg-surface-container-low relative group cursor-pointer hover:border-secondary transition-all">
+<span class="material-symbols-outlined text-secondary text-[18px] absolute inset-0 flex items-center justify-center">cyclone</span>
+<span class="absolute top-0.5 left-1 text-[7px] telemetry-plex text-outline font-bold">3</span>
+</div>
+<div class="w-9 h-9 border border-outline-variant bg-surface-container-low relative group cursor-pointer hover:border-secondary transition-all">
+<span class="material-symbols-outlined text-primary text-[18px] absolute inset-0 flex items-center justify-center">shield</span>
+<span class="absolute top-0.5 left-1 text-[7px] telemetry-plex text-outline font-bold">4</span>
+</div>
+<div class="w-9 h-9 border border-outline-variant bg-surface-container-low relative group cursor-pointer hover:border-secondary transition-all">
+<span class="material-symbols-outlined text-secondary text-[18px] absolute inset-0 flex items-center justify-center">hub</span>
+<span class="absolute top-0.5 left-1 text-[7px] telemetry-plex text-outline font-bold">5</span>
+</div>
+<div class="w-9 h-9 border border-outline-variant bg-surface-container-low relative group cursor-pointer hover:border-secondary transition-all">
+<span class="material-symbols-outlined text-primary text-[18px] absolute inset-0 flex items-center justify-center">blur_on</span>
+<span class="absolute top-0.5 left-1 text-[7px] telemetry-plex text-outline font-bold">6</span>
+</div>
+<div class="w-9 h-9 border border-outline-variant bg-surface-container-low relative group cursor-pointer hover:border-secondary transition-all">
+<span class="material-symbols-outlined text-secondary text-[18px] absolute inset-0 flex items-center justify-center">stream</span>
+<span class="absolute top-0.5 left-1 text-[7px] telemetry-plex text-outline font-bold">7</span>
+</div>
+<div class="w-9 h-9 border border-outline-variant bg-surface-container-low relative group cursor-pointer hover:border-secondary transition-all">
+<span class="material-symbols-outlined text-primary text-[18px] absolute inset-0 flex items-center justify-center">memory</span>
+<span class="absolute top-0.5 left-1 text-[7px] telemetry-plex text-outline font-bold">8</span>
+</div>
+<div class="h-7 w-[1px] bg-outline-variant mx-0.5"></div>
+<!-- Hotkeys Q, E, R (Ult) -->
+<div class="w-9 h-9 border border-outline-variant bg-surface-container-high relative group cursor-pointer hover:border-secondary">
+<span class="material-symbols-outlined text-secondary text-[16px] absolute inset-0 flex items-center justify-center">healing</span>
+<span class="absolute top-0.5 left-1 text-[7px] telemetry-plex text-secondary font-bold">Q</span>
+</div>
+<div class="w-9 h-9 border border-outline-variant bg-surface-container-high relative group cursor-pointer hover:border-secondary">
+<span class="material-symbols-outlined text-primary text-[16px] absolute inset-0 flex items-center justify-center">visibility</span>
+<span class="absolute top-0.5 left-1 text-[7px] telemetry-plex text-primary font-bold">E</span>
+</div>
+<div class="w-9 h-9 border-2 border-secondary bg-surface-container-high relative group cursor-pointer shadow-[0_0_12px_rgba(236,194,70,0.3)]">
+<span class="material-symbols-outlined text-secondary text-[16px] absolute inset-0 flex items-center justify-center animate-pulse">crisis_alert</span>
+<span class="absolute top-0.5 left-1 text-[7px] telemetry-plex text-secondary font-bold">R</span>
+<span class="absolute bottom-0 right-0.5 text-[6px] telemetry-plex text-secondary">ULT</span>
+</div>
+</div>
+<!-- Direct Quick OS Actions -->
+<div class="flex items-center gap-1 border-l border-outline-variant pl-3">
+<button class="p-1.5 border border-secondary bg-secondary/10 hover:bg-secondary hover:text-surface-container-lowest text-secondary transition-colors" onclick="switchTab('dominio')" title="Dominio OS // Asentamiento">
+<span class="material-symbols-outlined text-[16px]">account_balance</span>
+</button>
+<button class="p-1.5 border border-outline-variant bg-surface-container-low hover:border-secondary text-outline hover:text-secondary transition-colors" onclick="switchTab('chapter')" title="The Chapter Engine (9 Paneles)">
+<span class="material-symbols-outlined text-[16px]">auto_stories</span>
+</button>
+<button class="p-1.5 border border-outline-variant bg-surface-container-low hover:border-secondary text-outline hover:text-secondary transition-colors" onclick="switchTab('citadel')" title="Citadel Cockpit">
+<span class="material-symbols-outlined text-[16px]">domain</span>
+</button>
+</div>
+</div>
+</div>
+<!-- SHARED COMPONENT: FOOTER DIEGÉTICO -->
+<footer class="fixed bottom-0 left-0 w-full z-40 px-4 py-1 flex justify-between items-center bg-surface-container-lowest/95 border-t border-outline-variant text-[9px] telemetry-plex">
+<div class="flex items-center gap-3">
+<span class="font-label-sm text-[8px] text-outline">SYS.ID // 0x7E3-CITADEL-HYBRID-OS // WHITE BASTION DISTRITO 3 SOBERANO</span>
+</div>
+<div class="hidden sm:flex items-center space-x-3 text-[8px]">
+<span class="text-secondary">SOF.IA STATUS: CONECTADA</span>
+<span class="text-outline">AUDIO RES: 432Hz</span>
+<span class="text-ether">RESONANCIA: COHERENTE</span>
+<span class="text-outline">CHAPTER LINK: BIDIRECCIONAL</span>
+</div>
+</footer>
+</div>
+<!-- INTERACTIVE SCRIPTS: GESTIÓN DE MODOS, SINCRONIZACIÓN Y DECISIONES NARRATIVAS -->
+<script>
+  // Estado dinámico del Dominio OS y Chapter Engine
+  const gameState = {
+    materia: 24800,
+    energia: 18200,
+    conocimiento: 9400,
+    agencia: 94,
+    ratioPan: 54.2,
+    ratioSin: 45.8,
+    bastionCohesion: 98.2,
+    mode: 'story' // 'story' o 'management'
+  };
+
+  // Conmutador de Perspectiva (Historia vs Gestión Dominio OS)
+  function toggleEnginePerspective(mode) {
+    gameState.mode = mode;
+    const btnStory = document.getElementById('mode-btn-story');
+    const btnMgmt = document.getElementById('mode-btn-management');
+
+    if (mode === 'story') {
+      btnStory.className = "px-2.5 py-1 text-[9px] font-bold telemetry-plex tracking-wider uppercase transition-all duration-150 bg-secondary text-surface-container-lowest flex items-center gap-1 shadow-[0_0_8px_rgba(236,194,70,0.4)]";
+      btnMgmt.className = "px-2.5 py-1 text-[9px] font-bold telemetry-plex tracking-wider uppercase transition-all duration-150 text-on-surface-variant hover:text-ether hover:bg-surface-container-high flex items-center gap-1";
+      switchTab('chapter');
+      addCommandLog("SOF.IA v9.2", "Perspectiva cambiada a MODO HISTORIA // CHAPTER ENGINE. Resolviendo eventos narrativos.");
+    } else {
+      btnMgmt.className = "px-2.5 py-1 text-[9px] font-bold telemetry-plex tracking-wider uppercase transition-all duration-150 bg-secondary text-surface-container-lowest flex items-center gap-1 shadow-[0_0_8px_rgba(236,194,70,0.4)]";
+      btnStory.className = "px-2.5 py-1 text-[9px] font-bold telemetry-plex tracking-wider uppercase transition-all duration-150 text-on-surface-variant hover:text-ether hover:bg-surface-container-high flex items-center gap-1";
+      switchTab('dominio');
+      addCommandLog("SOF.IA v9.2", "Perspectiva cambiada a MODO GESTIÓN // CIUDADELA DOMINIO OS. Supervisando The White Bastion.");
+    }
+  }
+
+  // Cambio de pestaña o visor en el Cockpit
+  function switchTab(viewId) {
+    const views = ['dominio', 'chapter', 'citadel', 'classes', 'world', 'simulation'];
+    views.forEach(v => {
+      const el = document.getElementById('view-' + v);
+      if (el) {
+        el.classList.add('hidden');
+        el.classList.remove('flex');
+      }
+      const tabBtn = document.getElementById('tab-' + v);
+      if (tabBtn) {
+        tabBtn.className = "flex-1 py-1.5 px-2 text-center text-[10px] font-bold telemetry-plex tracking-wider transition-all duration-150 text-on-surface-variant hover:text-primary hover:bg-surface-container flex items-center justify-center gap-1";
+      }
+      const navBtn = document.getElementById('nav-btn-' + v);
+      if (navBtn) {
+        navBtn.className = "px-3 py-1 text-on-surface-variant font-label-md text-[10px] tracking-wider uppercase hover:text-primary transition-all flex items-center gap-1";
+      }
+    });
+
+    const activeView = document.getElementById('view-' + viewId);
+    if (activeView) {
+      activeView.classList.remove('hidden');
+      activeView.classList.add('flex');
+    }
+
+    const activeTabBtn = document.getElementById('tab-' + viewId);
+    if (activeTabBtn) {
+      activeTabBtn.className = "flex-1 py-1.5 px-2 text-center text-[10px] font-bold telemetry-plex tracking-wider transition-all duration-150 bg-secondary text-surface-container-lowest flex items-center justify-center gap-1 shadow-[0_0_10px_rgba(236,194,70,0.3)]";
+    }
+
+    const activeNavBtn = document.getElementById('nav-btn-' + viewId);
+    if (activeNavBtn) {
+      activeNavBtn.className = "px-3 py-1 border-b-2 border-secondary text-secondary font-label-md text-[10px] tracking-wider uppercase transition-all flex items-center gap-1 font-bold";
+    }
+  }
+
+  // Aplicar decisión narrativa de Chapter Engine con impacto directo en el Dominio OS
+  function applyChapterDecision(panelId, dMat, dEne, dCohesion, dPan) {
+    gameState.materia += dMat;
+    gameState.energia += dEne;
+    gameState.bastionCohesion = Math.min(100, gameState.bastionCohesion + dCohesion);
+    gameState.ratioPan = Math.min(99.9, +(gameState.ratioPan + dPan).toFixed(1));
+    gameState.ratioSin = +(100 - gameState.ratioPan).toFixed(1);
+
+    updateTelemetryDisplays();
+
+    const logText = `Resolución de ${panelId.toUpperCase()}: Impacto reflejado en Dominio OS. Materia: ${dMat>=0?'+':''}${dMat}, Energía: ${dEne>=0?'+':''}${dEne}, Panarquía: +${dPan}%.`;
+    addCommandLog("SOF.IA v9.2", logText);
+  }
+
+  // Reforzar The White Bastion
+  function reinforceBastion() {
+    if (gameState.energia >= 100) {
+      gameState.energia -= 100;
+      gameState.bastionCohesion = Math.min(100, +(gameState.bastionCohesion + 1.2).toFixed(1));
+      updateTelemetryDisplays();
+      addCommandLog("DOMINIO OS", "Refuerzos defensivos activados en The White Bastion. Cohesión aumentada.");
+    } else {
+      addCommandLog("SOF.IA v9.2", "Energía insuficiente para reforzar murallas.");
+    }
+  }
+
+  // Acelerar obras
+  function accelerateProduction() {
+    if (gameState.energia >= 100) {
+      gameState.energia -= 100;
+      gameState.materia += 120;
+      updateTelemetryDisplays();
+      addCommandLog("PRODUCCIÓN BASTION", "Obras del Faro y Atanor aceleradas en 25 minutos. +120 Materia procesada.");
+    }
+  }
+
+  // Sincronizar manualmente
+  function simulateChapterSync() {
+    gameState.materia += 200;
+    gameState.energia += 150;
+    gameState.ratioPan = +(gameState.ratioPan + 0.1).toFixed(1);
+    gameState.ratioSin = +(100 - gameState.ratioPan).toFixed(1);
+    updateTelemetryDisplays();
+    addCommandLog("SINCRO GLOBAL", "Enlace bidireccional CHAPTER ENGINE ⇄ CITADEL completado. Recursos transferidos.");
+  }
+
+  // Actualizar indicadores visuales en el DOM
+  function updateTelemetryDisplays() {
+    const formatK = num => (num / 1000).toFixed(1) + 'K';
+    document.getElementById('res-materia').innerText = formatK(gameState.materia);
+    document.getElementById('res-energia').innerText = formatK(gameState.energia);
+    document.getElementById('res-conocimiento').innerText = formatK(gameState.conocimiento);
+    document.getElementById('res-agencia').innerText = `${gameState.agencia}/100`;
+
+    document.getElementById('res-ratio-pan').innerText = `${gameState.ratioPan}%`;
+    document.getElementById('res-ratio-sin').innerText = `${gameState.ratioSin}%`;
+
+    const sidePan = document.getElementById('sidebar-ratio-pan');
+    const sideSin = document.getElementById('sidebar-ratio-sin');
+    if (sidePan && sideSin) {
+      sidePan.innerText = `PANARQUÍA [${gameState.ratioPan}%]`;
+      sideSin.innerText = `SINARQUÍA [${gameState.ratioSin}%]`;
+      document.getElementById('sidebar-bar-pan').style.width = `${gameState.ratioPan}%`;
+      document.getElementById('sidebar-bar-sin').style.width = `${gameState.ratioSin}%`;
+    }
+  }
+
+  // Añadir log a las transmisiones de mando de SOF.IA v9.2
+  function addCommandLog(sender, text) {
+    const feed = document.getElementById('command-feed');
+    if (!feed) return;
+    const item = document.createElement('div');
+    item.className = "p-1.5 bg-surface-container-low border-l-2 border-secondary animate-pulse";
+    item.innerHTML = `
+      <div class="flex justify-between items-center text-[7px] text-outline mb-0.5">
+        <span class="text-secondary font-bold">[${sender}]:</span>
+        <span>AHORA</span>
+      </div>
+      <p class="text-on-surface leading-tight">${text}</p>
+    `;
+    feed.insertBefore(item, feed.firstChild);
+  }
+
+  // Enviar orden escrita desde el input de transmisión
+  function sendCommandOrder() {
+    const input = document.getElementById('tx-input');
+    const val = input.value.trim();
+    if (!val) return;
+    addCommandLog("HOMÚNCULO Ω-09", val);
+    input.value = "";
+    setTimeout(() => {
+      addCommandLog("SOF.IA v9.2", `Orden recibida: "${val}". Procediendo a la ejecución a través de la red del Bastión.`);
+    }, 600);
+  }
+</script>
+</body></html>

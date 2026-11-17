@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagZine | Immersive Reader</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --glow-cyan: 0 0 15px rgba(71, 214, 255, 0.4);
+            --glow-magenta: 0 0 15px rgba(255, 172, 232, 0.4);
+        }
+        body {
+            background-color: #0e1417;
+            color: #dde3e7;
+            overflow: hidden;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .hex-bg {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60 4.02 45V15z' fill-opacity='0.05' fill='%23a5e7ff' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        .glass-panel {
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(221, 227, 231, 0.1);
+        }
+        .panel-glow-cyan { box-shadow: var(--glow-cyan); }
+        .panel-glow-magenta { box-shadow: var(--glow-magenta); }
+        
+        @keyframes pulse-scan {
+            0% { transform: translateY(-100%); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(100%); opacity: 0; }
+        }
+        .scanner-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #47d6ff, transparent);
+            animation: pulse-scan 3s infinite linear;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #3c494e; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #47d6ff; }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#ffd7f0",
+                    "tertiary": "#ffcfee",
+                    "error": "#ffb4ab",
+                    "on-primary-fixed": "#001f28",
+                    "inverse-surface": "#dde3e7",
+                    "inverse-primary": "#00677f",
+                    "secondary-fixed-dim": "#d1bcff",
+                    "on-surface": "#dde3e7",
+                    "surface-tint": "#47d6ff",
+                    "surface-container-low": "#161d1f",
+                    "on-secondary-container": "#ddcdff",
+                    "on-primary-container": "#00566a",
+                    "tertiary-container": "#ffa3e7",
+                    "surface-dim": "#0e1417",
+                    "surface-bright": "#333a3d",
+                    "outline-variant": "#3c494e",
+                    "secondary": "#d1bcff",
+                    "tertiary-fixed-dim": "#fface8",
+                    "primary": "#a5e7ff",
+                    "on-tertiary-fixed-variant": "#840076",
+                    "inverse-on-surface": "#2b3134",
+                    "primary-container": "#00d2ff",
+                    "on-error": "#690005",
+                    "surface-container": "#1a2123",
+                    "primary-fixed-dim": "#47d6ff",
+                    "on-secondary": "#3c0090",
+                    "surface-variant": "#2f3639",
+                    "on-primary-fixed-variant": "#004e60",
+                    "on-surface-variant": "#bbc9cf",
+                    "primary-fixed": "#b6ebff",
+                    "secondary-container": "#7000ff",
+                    "surface-container-high": "#242b2e",
+                    "surface": "#0e1417",
+                    "on-primary": "#003543",
+                    "error-container": "#93000a",
+                    "surface-container-highest": "#2f3639",
+                    "on-tertiary": "#5e0053",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-lowest": "#090f12",
+                    "outline": "#859399",
+                    "background": "#0e1417",
+                    "on-secondary-fixed": "#23005b",
+                    "on-background": "#dde3e7",
+                    "secondary-fixed": "#e9ddff",
+                    "on-tertiary-fixed": "#3a0033",
+                    "on-secondary-fixed-variant": "#5700c9",
+                    "on-tertiary-container": "#920083"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "hex-grid-size": "64px",
+                    "gutter": "16px",
+                    "margin-edge": "32px"
+            },
+            "fontFamily": {
+                    "label-caps": ["Orbitron"],
+                    "headline-lg": ["Audiowide"],
+                    "display-xl": ["Audiowide"],
+                    "body-md": ["Orbitron"],
+                    "headline-lg-mobile": ["Audiowide"],
+                    "data-header": ["Orbitron"]
+            },
+            "fontSize": {
+                    "label-caps": ["10px", {"lineHeight": "1", "letterSpacing": "0.2em", "fontWeight": "900"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                    "display-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                    "body-md": ["14px", {"lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "data-header": ["18px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="hex-bg">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-edge h-20 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20 shadow-[0_0_20px_rgba(71,214,255,0.15)]">
+<div class="flex items-center gap-4">
+<img alt="MagZine Logo" class="h-12 w-auto object-contain filter drop-shadow-[0_0_8px_#47d6ff]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPuVpXSvvVOOPQSfMAjBDOLQHc6VPrtMJPiWg-6q7AyAwl8DvHv6b0qOoqK7VjhVYXpcvvAedcE5JQ0KM31R90uJvetUAQIdbVtbujfNzEUdkvNitcVAp7fjTFZ77BUSF85HHYX1raMg4dKHTJBbihg63fBYGLLPy4RxAGz9-A2OozDGy-HuyTqFUB5eYIV6MV9E1uPPccP1DrJ4qkol_XrQiLYTbtbWwLfUf_skeqpQSGeIC52zMVShixhE8XboyJg9Y"/>
+<h1 class="font-display-xl text-display-xl text-transparent bg-clip-text bg-gradient-to-r from-primary to-tertiary">MagZine</h1>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<nav class="flex gap-6">
+<a class="text-primary font-bold transition-all duration-300 ease-out active:scale-95 font-body-md text-body-md" href="#">Reader</a>
+<a class="text-on-surface-variant hover:text-primary transition-all duration-300 font-body-md text-body-md" href="#">Navigation</a>
+<a class="text-on-surface-variant hover:text-primary transition-all duration-300 font-body-md text-body-md" href="#">Sync</a>
+</nav>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:bg-surface-variant/50 p-2 rounded-full transition-all" data-icon="sensors">sensors</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:bg-surface-variant/50 p-2 rounded-full transition-all" data-icon="auto_awesome">auto_awesome</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:bg-surface-variant/50 p-2 rounded-full transition-all" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Sidebar (Chapter List) -->
+<aside class="hidden md:flex flex-col h-full w-80 fixed left-0 top-0 z-40 bg-surface-container-lowest/90 backdrop-blur-2xl border-r border-outline-variant/30 shadow-2xl pt-24 p-gutter gap-4">
+<div class="mb-4">
+<h2 class="font-headline-lg text-headline-lg text-primary">Current Page</h2>
+<p class="font-body-md text-body-md text-on-surface-variant opacity-70">Collective Sync: Level 42</p>
+</div>
+<div class="flex flex-col gap-2 overflow-y-auto custom-scrollbar pr-2 h-[calc(100vh-320px)]">
+<div class="bg-primary-container text-on-primary-container p-4 rounded-lg font-bold shadow-[0_0_15px_rgba(0,210,255,0.4)] flex items-center gap-3 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span>The Veil Echoes</span>
+</div>
+<div class="p-4 rounded-lg text-on-surface-variant hover:bg-surface-variant/40 flex items-center gap-3 cursor-pointer transition-all">
+<span class="material-symbols-outlined" data-icon="lan">lan</span>
+<span>Caosphere Breach</span>
+</div>
+<div class="p-4 rounded-lg text-on-surface-variant hover:bg-surface-variant/40 flex items-center gap-3 cursor-pointer transition-all">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Character Bios</span>
+</div>
+<div class="p-4 rounded-lg text-on-surface-variant hover:bg-surface-variant/40 flex items-center gap-3 cursor-pointer transition-all">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+<span>AR Sync History</span>
+</div>
+<div class="p-4 rounded-lg text-on-surface-variant hover:bg-surface-variant/40 flex items-center gap-3 cursor-pointer transition-all">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span>Archive</span>
+</div>
+</div>
+<button class="mt-auto w-full py-4 px-6 bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold rounded-xl shadow-lg active:scale-95 transition-transform font-label-caps text-label-caps">
+            SYNCHRONIZE AR
+        </button>
+</aside>
+<!-- Main Content: Vertical Webtoon Canvas -->
+<main class="md:pl-80 pt-20 pb-20 flex justify-center items-start min-h-screen">
+<div class="w-full max-w-4xl px-4 flex flex-col gap-8 py-10">
+<!-- Sync Indicator Floating -->
+<div class="sticky top-24 z-30 self-center flex items-center gap-3 px-6 py-2 glass-panel rounded-full bg-surface-container/60 border-primary/30 panel-glow-cyan animate-pulse">
+<div class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#a5e7ff]"></div>
+<span class="text-label-caps font-label-caps text-primary">Physical Copy Detected: Chapter 12</span>
+</div>
+<!-- Cinematic Panels -->
+<div class="relative group cursor-pointer overflow-hidden rounded-2xl border border-outline-variant/30 hover:border-primary/50 transition-all duration-500">
+<div class="aspect-[16/9] w-full bg-surface-container-highest relative overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A sprawling futuristic cyberpunk cityscape at twilight, seen through a high-contrast cinematic lens. Neon cyan and magenta lights illuminate deep matte black skyscraper silhouettes. Glowing vehicles zip through the air between massive holographic advertisements. The overall style is immersive and triple-A game aesthetic, hyper-detailed and dark." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzQGPYsj4HY_pAxcpz8772OBthvlrLxlOgGJar9AFM8aIatjwOP6SZmVjZO47QsSHNhB5cQvqd0qasJ18AIhErXqfSWAWNt5AzrdowE9-dJSb4TxHjDGmE0bQZHHBXT7S0aIQNb8ADc0u2inBfARC47s33x2SkhZLcj18r4NJoB5eaiQL16HvOIATrBZq_js438OIK8XLPoL6VU44A92Ww_0_38wBp9EiGH-CMchnuWXk2YBug5eBgVw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60"></div>
+</div>
+<button class="absolute bottom-6 right-6 bg-surface-dim/80 backdrop-blur-md p-3 rounded-full border border-primary/50 text-primary panel-glow-cyan flex items-center gap-2 hover:scale-105 transition-transform">
+<span class="material-symbols-outlined" data-icon="play_circle">play_circle</span>
+<span class="font-label-caps text-label-caps">TRIGGER SEQUENCE</span>
+</button>
+</div>
+<div class="relative group cursor-pointer overflow-hidden rounded-2xl border border-outline-variant/30 hover:border-tertiary/50 transition-all duration-500">
+<div class="aspect-[16/22] w-full bg-surface-container-highest relative overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A close-up dramatic portrait of a cybernetic warrior with glowing magenta eyes and intricate hexagonal facial tattoos. Their armor is matte black with pearl white accents and emissive cyan wiring. The character is emerging from a mist-filled alleyway with intense volumetric lighting and particle effects. Triple-A gaming fidelity and cosmic cyberpunk influence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeTwxmd9nD8mQPITWXvqk88FFKXuU9Umi2h2Jbnyd69m90cAaypWgeVA6JUDiqul9mAN4Yg5PQ5l-PJH4HL1oR84iBbLgYwJgPyssWL3L3B0-j-ihN8NqkpxJkHurSIygdS2GGz5JwWl8fp35udQAR3o3oPTNYVlF4MWk1xdiS63e30MjWtPaF2JLimjH_trSWWjWX3RsLAu8gk9hmJkCpj1bX6cP63PueBj1rUUDe9i3ekeXw_bxQ0g"/>
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/90"></div>
+</div>
+<div class="absolute top-6 left-6 flex flex-col gap-2">
+<span class="px-3 py-1 bg-tertiary-container text-on-tertiary-container font-label-caps text-label-caps rounded-full w-fit">EPIC PANEL</span>
+</div>
+<button class="absolute bottom-6 right-6 bg-surface-dim/80 backdrop-blur-md p-3 rounded-full border border-tertiary/50 text-tertiary panel-glow-magenta flex items-center gap-2 hover:scale-105 transition-transform">
+<span class="material-symbols-outlined" data-icon="view_in_ar">view_in_ar</span>
+<span class="font-label-caps text-label-caps">3D SCAN</span>
+</button>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="aspect-[1/1] glass-panel rounded-2xl p-1 bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover rounded-xl" data-alt="An abstract cosmic explosion of digital data and geometric shards in space. Vibrant neon cyan and violet colors bleed into the dark matte background. Fractured hexagons and crystal-like structures form a chaotic but beautiful digital nebula. Ultra-high fidelity, 8k resolution, cinematic lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAphvDDPKnoYU6ftNCuLg1kyhon9q9BgAXwvjYjrQBaEZ9_o-BrDXGUGuZqrBKg-p43f6N6oEELSSSHTNLvgyec80y-LsgZLMimOZAME5T24U4mneVFpgv4GDA1Oe4bgUaZB4fQhQzQ_zCfvNgSZrzSY0ZLINTUJZFAD1E1G9FDoaacX-Y_0EV5EU4NhMo-wRuuyowG2kA7a2qBbDwePIYW1tp8KTw2SEMY3yfmnWUvQBFpzPV5vUfx9Q"/>
+</div>
+<div class="aspect-[1/1] glass-panel rounded-2xl p-1 bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover rounded-xl" data-alt="A detailed blueprint or technical schematic of a futuristic mag-lev engine, rendered in glowing cyan lines on a dark interface. Moving data packets and scanning lines pass over the schematic. The aesthetic is clean, technical, and hyper-modern, fitting a high-tech RPG hud." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoiVbckwneML5I_oTPYxtTiKFSFyiNeh9V9urKOv5E5yE2QVu7KEhnmJ3YnfZwhl-fHt8vOYAS6eDnHdaNrZYLAZwcGOw8sPi9MuFqVFu8qJehkV5V3B7sbQI5thH8Bt7HAHqc-FvWQBbU8r1ejF85aUht5uxOtkm-ceUV6SJepjP8YHQGSw56TZiPJNnfneXI7HNpVpHFuZiGGsiPf2hvhhoopXCtn7ldHqvH48KY3yddFZHWCfYTFw"/>
+</div>
+</div>
+</div>
+</main>
+<!-- AR Sync Overlay (Sidebar Mockup) -->
+<div class="fixed top-24 right-8 w-72 h-48 glass-panel rounded-2xl overflow-hidden border-primary/40 panel-glow-cyan flex flex-col z-50" id="ar-hud">
+<div class="bg-primary/20 px-4 py-2 flex justify-between items-center border-b border-primary/20">
+<span class="text-label-caps font-label-caps text-primary">AR SYNC FEED</span>
+<div class="flex gap-1">
+<div class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-primary/30"></div>
+</div>
+</div>
+<div class="relative flex-1 bg-black/40 overflow-hidden group">
+<!-- Simulated Camera Feed -->
+<div class="absolute inset-0 scanner-line"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary/20 text-6xl" data-icon="photo_camera">photo_camera</span>
+</div>
+<!-- Exploding animation placeholder -->
+
+<div class="absolute bottom-2 left-2 flex flex-col gap-1">
+<div class="h-1 w-24 bg-surface-variant/40 rounded-full overflow-hidden">
+<div class="h-full w-2/3 bg-primary animate-[pulse_1s_infinite]"></div>
+</div>
+<span class="text-[8px] font-label-caps text-primary opacity-60">TRACKING ANCHOR: P-12.0</span>
+</div>
+</div>
+</div>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 px-4 pb-safe bg-surface-dim/70 backdrop-blur-md shadow-lg border-t border-outline-variant/10">
+<div class="flex flex-col items-center justify-center text-primary scale-110 drop-shadow-[0_0_8px_#47d6ff] transition-transform duration-150 active:scale-90 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="view_day">view_day</span>
+<span class="font-label-caps text-label-caps">Reader</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 hover:opacity-100 transition-transform duration-150 active:scale-90 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-label-caps text-label-caps">Map</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 hover:opacity-100 transition-transform duration-150 active:scale-90 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="camera">camera</span>
+<span class="font-label-caps text-label-caps">Sync</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 hover:opacity-100 transition-transform duration-150 active:scale-90 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="list_alt">list_alt</span>
+<span class="font-label-caps text-label-caps">List</span>
+</div>
+</nav>
+<!-- Floating Action Mode Switcher -->
+<div class="fixed bottom-24 right-8 flex flex-col gap-4">
+<button class="w-14 h-14 rounded-full glass-panel bg-surface-container-high border-outline-variant text-on-surface-variant flex items-center justify-center hover:text-primary transition-all shadow-xl" id="btn-classic" onclick="toggleMode('classic')">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+</button>
+<button class="w-16 h-16 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-[0_0_20px_rgba(71,214,255,0.6)] hover:scale-110 transition-all" id="btn-ar" onclick="toggleMode('ar')">
+<span class="material-symbols-outlined" data-icon="visibility" data-weight="fill" style="font-variation-settings: 'FILL' 1;">visibility</span>
+</button>
+</div>
+<script>
+        function toggleMode(mode) {
+            const arHud = document.getElementById('ar-hud');
+            const btnAr = document.getElementById('btn-ar');
+            const btnClassic = document.getElementById('btn-classic');
+
+            if (mode === 'ar') {
+                arHud.style.transform = 'scale(1) translateX(0)';
+                arHud.style.opacity = '1';
+                btnAr.classList.add('bg-primary', 'text-on-primary');
+                btnAr.classList.remove('glass-panel', 'bg-surface-container-high');
+                btnClassic.classList.remove('bg-primary', 'text-on-primary');
+                btnClassic.classList.add('glass-panel', 'bg-surface-container-high');
+            } else {
+                arHud.style.transform = 'scale(0.8) translateX(200px)';
+                arHud.style.opacity = '0';
+                btnClassic.classList.add('bg-primary', 'text-on-primary');
+                btnClassic.classList.remove('glass-panel', 'bg-surface-container-high');
+                btnAr.classList.remove('bg-primary', 'text-on-primary');
+                btnAr.classList.add('glass-panel', 'bg-surface-container-high');
+            }
+        }
+
+        // Mouse follow effect for the AR HUD to give it depth
+        document.addEventListener('mousemove', (e) => {
+            const hud = document.getElementById('ar-hud');
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 45;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 45;
+            hud.style.transform = `perspective(1000px) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+    </script>
+</body></html>

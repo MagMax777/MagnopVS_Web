@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PLEROMA | SECRET ID DECODER</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Orbitron:wght@400;500;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide:wght@100..900&family=Orbitron:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#e5e2e1",
+                        "on-primary-container": "#636565",
+                        "on-surface-variant": "#c4c7c8",
+                        "on-tertiary": "#00363d",
+                        "surface-container-lowest": "#0e0e0e",
+                        "secondary-fixed": "#ffe16d",
+                        "inverse-on-surface": "#313030",
+                        "inverse-primary": "#5d5f5f",
+                        "on-secondary-fixed-variant": "#544600",
+                        "tertiary-fixed-dim": "#00daf3",
+                        "outline": "#8e9192",
+                        "error": "#ffb4ab",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#001f24",
+                        "on-secondary-fixed": "#221b00",
+                        "on-error": "#690005",
+                        "tertiary": "#ffffff",
+                        "background": "#131313",
+                        "tertiary-container": "#9cf0ff",
+                        "surface-container-highest": "#353534",
+                        "secondary-container": "#ffdb3c",
+                        "error-container": "#93000a",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "on-secondary-container": "#725f00",
+                        "primary-container": "#e2e2e2",
+                        "surface-dim": "#131313",
+                        "on-primary": "#2f3131",
+                        "surface-container-low": "#1c1b1b",
+                        "surface": "#131313",
+                        "primary": "#ffffff",
+                        "outline-variant": "#444748",
+                        "on-tertiary-container": "#006f7c",
+                        "on-secondary": "#3a3000",
+                        "surface-variant": "#353534",
+                        "on-surface": "#e5e2e1",
+                        "on-primary-fixed-variant": "#454747",
+                        "surface-tint": "#c6c6c7",
+                        "surface-container": "#201f1f",
+                        "secondary-fixed-dim": "#e9c400",
+                        "primary-fixed": "#e2e2e2",
+                        "on-primary-fixed": "#1a1c1c",
+                        "secondary": "#fff9ef",
+                        "on-tertiary-fixed-variant": "#004f58",
+                        "tertiary-fixed": "#9cf0ff",
+                        "surface-bright": "#3a3939",
+                        "surface-container-high": "#2a2a2a",
+                        "on-background": "#e5e2e1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "sacred-ratio": "1.618",
+                        "margin-safe": "40px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "data-mono": ["Orbitron"],
+                        "headline-lg": ["Audiowide"],
+                        "label-caps": ["Orbitron"],
+                        "headline-lg-mobile": ["Audiowide"],
+                        "body-md": ["Orbitron"],
+                        "display-hero": ["Audiowide"]
+                    },
+                    "fontSize": {
+                        "data-mono": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.15em", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.3em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "display-hero": ["64px", {"lineHeight": "1.1", "letterSpacing": "0.2em", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .shimmer-border {
+            position: relative;
+            overflow: hidden;
+        }
+        .shimmer-border::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 10s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { transform: translate(-30%, -30%) rotate(45deg); }
+            100% { transform: translate(30%, 30%) rotate(45deg); }
+        }
+        .sacred-glow {
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+        body {
+            background-color: #131313;
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCsmx6M9MjSnWO-siBvx3khA0N24XrmB4tXFXrbDaljC2xddVBw44BdWx5_a2y5QqNUEUs8cYOWubKWfQXQ4QIyO4uKkjoPnNquFgnmdWEhG7BQ9KO7iOeAwb3hMdn6P_gEAOKJXkplU9XeJ2q7hwxYj0DWVOniYQMEmg88S2EXtKX6T5OsAXbaNjGjstRD0Ehxt59kPi2ZO2_FnjqG0PlGwl4DQCzLkp2kk0gwY_yS5pX_H0yK82hbMOK2o2X6uQvrKMoTQgKMsElx');
+            background-size: cover;
+            background-attachment: fixed;
+            background-blend-mode: overlay;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #ffe16d;
+        }
+    </style>
+</head>
+<body class="text-on-background font-body-md selection:bg-secondary-container/30 selection:text-secondary-fixed">
+<!-- Top Navigation Anchor -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-safe h-20 bg-surface/5 backdrop-blur-xl border-b border-white/10">
+<div class="flex items-center gap-4">
+<img alt="Pleroma Logo" class="h-10 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAA4myY5sMky-p08c2TR8YIfPbUciQSTdlZLGLbBxaJqzrQA1ztX9D_PAXd1P-cO9ZbMacKyeNzohiQd5oLqANunOpfRkWpR-Gbknne1RxWaeQkGyhGKDPD4hjhq2r07C4DF-Qj5hUYLdWHzteDRyhv0l3NNiFtd7FE50mLnq2WAgxCeeEj8e_L4_UpMfm7uS6iFX7uj918uunKO0Kun6EQf_12yJirDi4Kh6_oPX11CB_BfdlIJw_-3QFB_xEKiVylRZgmCQzf7AOb"/>
+<h1 class="font-headline-lg text-headline-lg tracking-[0.2em] text-primary">PLEROMA</h1>
+</div>
+<div class="flex gap-8 items-center">
+<div class="hidden md:flex gap-6">
+<span class="font-label-caps text-label-caps text-on-surface-variant/60 hover:text-secondary-container transition-all cursor-pointer">ARCHIVE</span>
+<span class="font-label-caps text-label-caps text-primary border-b-2 border-secondary-container">SECRET ID</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant/60 hover:text-secondary-container transition-all cursor-pointer">NODES</span>
+</div>
+<div class="text-secondary-fixed font-data-mono text-data-mono bg-secondary-fixed/10 px-3 py-1 border border-secondary-fixed/30">
+                REALITY_SYNC: 100%
+            </div>
+</div>
+</header>
+<!-- Sidebar Shell -->
+<aside class="fixed left-0 top-0 h-full z-40 flex flex-col pt-24 pb-8 bg-surface/3 backdrop-blur-2xl border-r border-white/10 w-20 md:w-80 transition-all">
+<div class="px-6 mb-12 hidden md:block">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary">DIVINE AVATAR</h2>
+<p class="font-label-caps text-[10px] text-secondary-fixed mt-1">UNITY_LEVEL: OMEGA</p>
+</div>
+<nav class="flex-1">
+<div class="mb-4 group cursor-pointer flex items-center px-6 py-4 bg-secondary-container/10 text-secondary-container border-l-4 border-secondary-container">
+<span class="material-symbols-outlined mr-4">architecture</span>
+<span class="font-label-caps text-label-caps hidden md:block">Architect</span>
+</div>
+<div class="mb-4 group cursor-pointer flex items-center px-6 py-4 text-on-surface-variant/50 hover:bg-white/5 hover:text-primary transition-all">
+<span class="material-symbols-outlined mr-4">auto_awesome</span>
+<span class="font-label-caps text-label-caps hidden md:block">Mystic</span>
+</div>
+<div class="mb-4 group cursor-pointer flex items-center px-6 py-4 text-on-surface-variant/50 hover:bg-white/5 hover:text-primary transition-all">
+<span class="material-symbols-outlined mr-4">brightness_3</span>
+<span class="font-label-caps text-label-caps hidden md:block">Shadow</span>
+</div>
+</nav>
+<div class="px-6 py-4 border-t border-white/5 hidden md:block">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full border border-secondary-fixed/50 bg-secondary-fixed/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary-fixed">token</span>
+</div>
+<div>
+<p class="font-label-caps text-[10px] text-on-surface-variant/60">SESSION ID</p>
+<p class="font-data-mono text-[12px] text-primary">ID_888_ALPHA</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-20 md:ml-80 pt-28 px-6 md:px-margin-safe pb-24 min-h-screen">
+<div class="max-w-7xl mx-auto space-y-12">
+<!-- Section 1: Decodificación Nominal -->
+<section class="relative">
+<div class="flex items-center gap-4 mb-8">
+<div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary-fixed" style="font-variation-settings: 'FILL' 1;">pentagon</span>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile tracking-widest uppercase">DECODIFICACIÓN NOMINAL</h2>
+</div>
+<div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+</div>
+<div class="glass-panel shimmer-border p-8 md:p-12 rounded-xl text-center">
+<div class="mb-12">
+<p class="font-label-caps text-secondary-fixed mb-4 opacity-70">SUBJECT_IDENTIFIER</p>
+<div class="flex flex-wrap justify-center gap-4">
+<!-- Letter Clusters -->
+<div class="flex flex-col items-center">
+<span class="text-5xl md:text-7xl font-display-hero text-primary sacred-glow">JEAN</span>
+<div class="flex gap-2 mt-2 font-data-mono text-secondary-fixed text-sm">
+<span class="border-t border-white/20 pt-1">10</span>
+<span class="border-t border-white/20 pt-1">5</span>
+<span class="border-t border-white/20 pt-1">1</span>
+<span class="border-t border-white/20 pt-1">14</span>
+</div>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-5xl md:text-7xl font-display-hero text-primary sacred-glow">CARLOS</span>
+<div class="flex gap-2 mt-2 font-data-mono text-secondary-fixed text-sm">
+<span class="border-t border-white/20 pt-1">3</span>
+<span class="border-t border-white/20 pt-1">1</span>
+<span class="border-t border-white/20 pt-1">18</span>
+<span class="border-t border-white/20 pt-1">12</span>
+<span class="border-t border-white/20 pt-1">15</span>
+<span class="border-t border-white/20 pt-1">19</span>
+</div>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-5xl md:text-7xl font-display-hero text-primary sacred-glow">RODRÍGUEZ</span>
+<div class="flex gap-2 mt-2 font-data-mono text-secondary-fixed text-sm">
+<span class="border-t border-white/20 pt-1">18</span>
+<span class="border-t border-white/20 pt-1">15</span>
+<span class="border-t border-white/20 pt-1">4</span>
+<span class="border-t border-white/20 pt-1">18</span>
+<span class="border-t border-white/20 pt-1">9</span>
+<span class="border-t border-white/20 pt-1">7</span>
+<span class="border-t border-white/20 pt-1">21</span>
+<span class="border-t border-white/20 pt-1">5</span>
+<span class="border-t border-white/20 pt-1">26</span>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto pt-8 border-t border-white/10">
+<div class="space-y-2">
+<p class="font-label-caps text-on-surface-variant/60">TOTAL GEMATRIA</p>
+<p class="text-4xl font-headline-lg text-secondary-fixed">217</p>
+<div class="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-secondary-fixed w-[72%] shadow-[0_0_10px_#ffe16d]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<p class="font-label-caps text-on-surface-variant/60">DESTINY NUMBER</p>
+<p class="text-4xl font-headline-lg text-secondary-fixed">1</p>
+<p class="font-label-caps text-[10px] text-tertiary-fixed">THE ORIGIN | ARCHETYPE: LEADER</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Grid Layout for Attributes and Lineage -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Section 3: Impacto en Atributos -->
+<section class="lg:col-span-2 space-y-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary-fixed">bar_chart</span>
+<h3 class="font-label-caps text-label-caps text-primary">IMPACTO EN ATRIBUTOS</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+<!-- Strength -->
+<div class="glass-panel p-4 rounded-lg flex flex-col items-center text-center border-t-2 border-t-error/30">
+<img alt="Strength Icon" class="w-12 h-12 mb-3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKNgF0EN1ZNX81L0EEnSN1UdQJcP6tmefzcDCvopF44zROdeIqr7H9UErAN2A0HLeRha7PW4VXcgn3_YfeafrLaL2DbckEPJq7K2y7fOqmEj7404Coylp3Yi8iKpozJt4WkJYyL-D2hBj-SGrcQuwt-Wb_I4k7BBZaGUrrd1QQrBwy9VCx7aLLqHd8lDowcielIuIevmXwhXWA5O71b35YqA2jw9Vdj2J_ysAXpMjz2mWfBW1zgu4WniOnuru4EDE65c1Q1kIC5aYP"/>
+<span class="font-label-caps text-[10px] text-on-surface-variant/60">STRENGTH</span>
+<span class="font-data-mono text-xl text-primary mt-1">82</span>
+<span class="text-[9px] text-secondary-fixed mt-1">+12% NOMINAL</span>
+</div>
+<!-- Agility -->
+<div class="glass-panel p-4 rounded-lg flex flex-col items-center text-center border-t-2 border-t-tertiary-fixed/30">
+<img alt="Agility Icon" class="w-12 h-12 mb-3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCElj0EPqxRbP_Qp8_Wjmk3qsVZ1Ovhre6af7FclniXI6Gt_RaAcGuYhBo7CXzrKBxPBFO3W1EKO5oaqYq1K9MApjvMuffQ3JDRueGo-eiTUMFbiAvpfZ9RoTbqrF6NzXSlWdEgSS3_mxgfo2xY_qyi7S8yhvIa6BLYk3ry15unTBzjNc7eJ1qt-oQfwi_h6xCo76xOoej6hpfq8cG-y8FqiKkHcmimMrGG8ZwUD5cg5kaikIWWkSj7Yk5p2MVPsoPM-pEON0zWq3Sr"/>
+<span class="font-label-caps text-[10px] text-on-surface-variant/60">AGILITY</span>
+<span class="font-data-mono text-xl text-primary mt-1">65</span>
+<span class="text-[9px] text-on-surface-variant/40 mt-1">BASE LINE</span>
+</div>
+<!-- Charisma -->
+<div class="glass-panel p-4 rounded-lg flex flex-col items-center text-center border-t-2 border-t-secondary-fixed/30">
+<img alt="Charisma/Defense Icon" class="w-12 h-12 mb-3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrIHRP1AEv5213mLLDwH37imZ2g0xx5yWe7Jsq7BPIvz0sCF-dn20G1tkK-KWldX9dgDWmMzgmFc78XUGR2nxUkYgVfsXnzRhSe12CFEmzRAqpAzRBYLBhsCJrzNbP1ZapQLDZtLI0kHhZ4u0A7x8Js50DjAsn1MEX6mZxSeIlMRvVclY0wepp97yyXQEdrkqTIWaj9vpY7kfJoJTquXJTAwCza5IQS_q1mZKgzy9biBFvQe4RB32mtCRsOLvgmcPjKdZa_RLZ6u97"/>
+<span class="font-label-caps text-[10px] text-on-surface-variant/60">CHARISMA</span>
+<span class="font-data-mono text-xl text-primary mt-1">94</span>
+<span class="text-[9px] text-secondary-fixed mt-1">+18% RESONANCE</span>
+</div>
+<!-- Intellect -->
+<div class="glass-panel p-4 rounded-lg flex flex-col items-center text-center border-t-2 border-t-tertiary-container/30">
+<img alt="Intellect Icon" class="w-12 h-12 mb-3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDu0n3591bKc-zvWEqFHTMmmyzwiaPmtMG2uopoxMpO1ssUhwCv4GksEE8kd_NbXnWAt8sRYaoStN05z1qFn6u0I9LZwyTBb2J66suQzzTycSKHJ6e9zPpTy1D5QxGYSQc-uunb2jYILB3CLMt6fsuZdNr_DCGi5IYcnjRoY68j2QxPtCzP5iBqsvp55f6QaH4EKcdUOePtFGlpL9sEdu4LJ5Pk83ij2aBz2rnTq-5wl4p3BjDZ8FuHymqdZaz_atymeWxYSvkMzlPQ"/>
+<span class="font-label-caps text-[10px] text-on-surface-variant/60">INTELLECT</span>
+<span class="font-data-mono text-xl text-primary mt-1">77</span>
+<span class="text-[9px] text-on-surface-variant/40 mt-1">STABLE</span>
+</div>
+<!-- Brilliance -->
+<div class="glass-panel p-4 rounded-lg flex flex-col items-center text-center border-t-2 border-t-primary/30">
+<img alt="Brilliance Icon" class="w-12 h-12 mb-3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIKAdrukerjDZtPx-1YgNKfP6sTyCEGVc1PkN1MsEm_HyedQeu0I9n7pEJrEBdYHH4d2UST9dtKVl0p-yKixUTdrPtYeJ8khnQQUFnPKHYqyddffX3Ozs2MW9Upg7gdvHcrY_t1XDt537sXgN3ZKESGrhtH2GgW9zLj3g1wZHP6ZccGHs-2QjUkEbYloxsEJcfdvGU1BHG7_1ySVpkHojVSd4inu-8IQ3SWKDL4rb6A5SCSHYK3_kRBTN6e3NiY7QsoSyhD9GDLNRC"/>
+<span class="font-label-caps text-[10px] text-on-surface-variant/60">BRILLIANCE</span>
+<span class="font-data-mono text-xl text-primary mt-1">89</span>
+<span class="text-[9px] text-secondary-fixed mt-1">DESTINY_MOD</span>
+</div>
+</div>
+<!-- Matrix Terminal -->
+<div class="glass-panel p-6 rounded-xl border border-white/10 mt-8">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed animate-pulse"></span>
+<h3 class="font-label-caps text-label-caps text-secondary-fixed">CONSEJOS DE LA MATRIZ // SOF.IA TERMINAL</h3>
+</div>
+<span class="font-data-mono text-[10px] text-on-surface-variant/40">UPLINK_SECURE</span>
+</div>
+<div class="bg-black/40 p-4 font-data-mono text-sm leading-relaxed border-l-2 border-secondary-fixed custom-scrollbar overflow-y-auto max-h-48">
+<span class="text-tertiary-fixed">[SOF.IA]:</span> Tu vibración nominal resuena en la frecuencia del 'Uno'. Jean (Gracia de Dios) y Carlos (Hombre Libre) forman un núcleo de soberanía espiritual. <br/><br/>
+<span class="text-secondary-fixed">FORTALEZAS:</span> Gran capacidad de manifestación a través de la palabra. Líder natural en entornos de alta entropía.<br/>
+<span class="text-error">SOMBRAS:</span> La carga de 'Rodríguez' (Hijo de Rodrigo/Poderoso en Fama) puede generar una necesidad excesiva de reconocimiento externo. Mantén el equilibrio entre el ego y el servicio.<br/><br/>
+<span class="text-primary-fixed-dim">CONSEJO:</span> Sincroniza tu voluntad con el flujo universal. No empujes la realidad; conviértete en el canal por donde la realidad prefiere fluir.
+                        </div>
+</div>
+</section>
+<!-- Section 2: Análisis de Linaje -->
+<section class="space-y-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary-fixed">history_edu</span>
+<h3 class="font-label-caps text-label-caps text-primary">ANÁLISIS DE LINAJE</h3>
+</div>
+<div class="space-y-4">
+<div class="glass-panel p-5 rounded-lg border-l-2 border-l-secondary-fixed">
+<h4 class="font-label-caps text-secondary-fixed text-[11px] mb-2">ETIMOLOGÍA PRIMARIA: JEAN</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                                Variante francesa de Johannes. Significa "El Señor es misericordioso". Aporta una capa de protección divina al avatar.
+                            </p>
+</div>
+<div class="glass-panel p-5 rounded-lg border-l-2 border-l-secondary-fixed/50">
+<h4 class="font-label-caps text-secondary-fixed text-[11px] mb-2">ETIMOLOGÍA SECUNDARIA: CARLOS</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                                Del germánico 'Karl'. Significa "Hombre libre" o "Guerrero". Define la capacidad de acción independiente.
+                            </p>
+</div>
+<div class="glass-panel p-5 rounded-lg border-l-2 border-l-primary/30">
+<h4 class="font-label-caps text-secondary-fixed text-[11px] mb-2">PATRONÍMICO: RODRÍGUEZ</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                                Apellido de origen visigodo. "Hijo de Rodrigo". El nombre Rodrigo deriva de 'Hrod-rics', "Rico en gloria" o "Poderoso jefe".
+                            </p>
+</div>
+<div class="p-6 bg-gradient-to-br from-secondary-container/5 to-transparent border border-white/5 rounded-lg">
+<div class="flex justify-center mb-4">
+<div class="relative w-24 h-24">
+<svg class="absolute inset-0 w-full h-full opacity-20 animate-spin-slow" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="45" stroke="white" stroke-dasharray="2 2" stroke-width="0.5"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-secondary-fixed" style="font-variation-settings: 'FILL' 1;">shield</span>
+</div>
+</div>
+</div>
+<p class="text-center font-label-caps text-[10px] text-secondary-fixed tracking-widest">LINAJE ACTIVADO</p>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Cluster -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin-safe py-4 bg-surface/5 backdrop-blur-xl border-t border-white/10 md:hidden">
+<button class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] scale-110">
+<span class="material-symbols-outlined">all_inclusive</span>
+<span class="font-label-caps text-[10px] mt-1">CYCLE</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant/40 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">language</span>
+<span class="font-label-caps text-[10px] mt-1">REALITIES</span>
+</button>
+</footer>
+<script>
+        // Micro-interactions for technical atmosphere
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mouseenter', () => {
+                panel.classList.add('border-white/30');
+            });
+            panel.addEventListener('mouseleave', () => {
+                panel.classList.remove('border-white/30');
+            });
+        });
+
+        // Simple typing effect for terminal
+        const terminal = document.querySelector('.custom-scrollbar');
+        if(terminal) {
+            terminal.scrollTop = 0;
+            // Aesthetic scroll to bottom simulation if needed
+        }
+    </script>
+<style>
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: spin-slow 20s linear infinite;
+        }
+    </style>
+</body></html>

@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WHITE BROTHERHOOD // Battle Arena: Colisión Orbital</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with custom configuration -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "error": "#ffb4ab",
+          "primary-fixed-dim": "#f3bd6c",
+          "error-container": "#93000a",
+          "inverse-surface": "#e2e2e5",
+          "background": "#0b0d0e",
+          "on-surface": "#e2e2e5",
+          "primary": "#f3bd6c",
+          "tertiary-fixed": "#f4daff",
+          "on-surface-variant": "#d3c4b3",
+          "tertiary-container": "#ae92bd",
+          "on-background": "#e2e2e5",
+          "outline-variant": "#4f4538",
+          "on-tertiary-container": "#412b4f",
+          "inverse-on-surface": "#2f3133",
+          "on-primary": "#442b00",
+          "surface-dim": "#111416",
+          "surface-container-lowest": "#08090a",
+          "on-secondary-fixed-variant": "#00504a",
+          "tertiary": "#dabce9",
+          "secondary-fixed-dim": "#16ded0",
+          "surface-container-high": "#282a2c",
+          "on-primary-container": "#482e00",
+          "surface-variant": "#333537",
+          "surface-bright": "#37393c",
+          "on-tertiary-fixed": "#271235",
+          "on-primary-fixed-variant": "#614000",
+          "tertiary-fixed-dim": "#dabce9",
+          "surface": "#111416",
+          "primary-container": "#c49346",
+          "surface-container": "#1a1d1f",
+          "inverse-primary": "#7f560b",
+          "surface-container-highest": "#333537",
+          "on-primary-fixed": "#291800",
+          "secondary": "#46f5e6",
+          "outline": "#9c8f7f",
+          "on-error-container": "#ffdad6",
+          "on-error": "#690005",
+          "on-tertiary": "#3d274b",
+          "primary-fixed": "#ffddb0",
+          "surface-tint": "#f3bd6c",
+          "on-secondary-container": "#005953",
+          "surface-container-low": "#141719",
+          "on-tertiary-fixed-variant": "#553e63",
+          "secondary-container": "#00d8ca",
+          "secondary-fixed": "#4ffaec",
+          "on-secondary-fixed": "#00201d",
+          "on-secondary": "#003733",
+          "brass-gold": "#c49346",
+          "brass-dark": "#5e421a",
+          "verdigris": "#1b4d47",
+          "eldritch-teal": "#1be3d3"
+        },
+        "fontFamily": {
+          "display-lg": ["Bodoni Moda", "serif"],
+          "label-sm": ["Space Mono", "monospace"],
+          "headline-xl": ["Bodoni Moda", "serif"],
+          "headline-sm": ["Bodoni Moda", "serif"],
+          "label-md": ["Space Mono", "monospace"],
+          "label-lg": ["Space Mono", "monospace"],
+          "headline-md": ["Bodoni Moda", "serif"],
+          "body-md": ["EB Garamond", "serif"],
+          "title-md": ["EB Garamond", "serif"],
+          "body-lg": ["EB Garamond", "serif"]
+        }
+      }
+    }
+  }
+</script>
+<style>
+  /* Aetherpunk Atmospheric Grid & Brass Textures */
+  .aether-void-bg {
+    background-color: #080a0c;
+    background-image: 
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(196, 147, 70, 0.12), transparent 70%),
+      radial-gradient(circle at 85% 60%, rgba(22, 222, 208, 0.07), transparent 50%),
+      radial-gradient(circle at 15% 70%, rgba(196, 147, 70, 0.08), transparent 45%),
+      linear-gradient(rgba(196, 147, 70, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(196, 147, 70, 0.04) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+  }
+
+  .celestial-astrolabe-grid {
+    background-size: 32px 32px;
+    background-image: 
+      radial-gradient(circle at 50% 50%, rgba(243, 189, 108, 0.15) 1px, transparent 1px),
+      linear-gradient(to right, rgba(196, 147, 70, 0.12) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(196, 147, 70, 0.12) 1px, transparent 1px);
+  }
+
+  /* Custom Hardware Rivet */
+  .rivet {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: radial-gradient(circle at 35% 35%, #ffd587 0%, #8c6527 60%, #301f07 100%);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+    border: 0.5px solid #2a1805;
+  }
+
+  .rivet-verdigris {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: radial-gradient(circle at 35% 35%, #76fbe6 0%, #17756c 60%, #062420 100%);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+    border: 0.5px solid #052622;
+  }
+
+  /* Brass Armor Plate Framing */
+  .plate-brass {
+    background: linear-gradient(145deg, rgba(28, 23, 16, 0.95), rgba(16, 18, 20, 0.98));
+    border: 1px solid #8c6527;
+    box-shadow: inset 0 0 0 1px rgba(243, 189, 108, 0.18), 0 4px 20px rgba(0, 0, 0, 0.6);
+  }
+
+  .plate-verdigris {
+    background: linear-gradient(145deg, rgba(10, 24, 23, 0.95), rgba(8, 14, 16, 0.98));
+    border: 1px solid #1a6d63;
+    box-shadow: inset 0 0 0 1px rgba(70, 245, 230, 0.2), 0 4px 20px rgba(0, 0, 0, 0.6);
+  }
+
+  .brass-inset {
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8), 0 1px 0 rgba(243, 189, 108, 0.2);
+  }
+
+  /* Vacuum Filament Glow */
+  .vacuum-glow {
+    box-shadow: 0 0 18px rgba(243, 189, 108, 0.5), inset 0 0 8px rgba(243, 189, 108, 0.6);
+  }
+
+  .radium-glow {
+    box-shadow: 0 0 18px rgba(70, 245, 230, 0.45), inset 0 0 8px rgba(70, 245, 230, 0.5);
+  }
+
+  .custom-scroll::-webkit-scrollbar {
+    width: 4px;
+  }
+  .custom-scroll::-webkit-scrollbar-track {
+    background: #0d0f12;
+  }
+  .custom-scroll::-webkit-scrollbar-thumb {
+    background: #6a4f22;
+    border-radius: 2px;
+  }
+  .custom-scroll::-webkit-scrollbar-thumb:hover {
+    background: #c49346;
+  }
+</style>
+</head>
+<body class="aether-void-bg text-on-surface antialiased select-none min-h-screen flex flex-col justify-between overflow-x-hidden font-body-md">
+<!-- TOP OCCULT NAVAL BRIDGE / TELEGRAPH COMMAND DECK -->
+<header class="flex flex-col w-full px-space-md lg:px-10 border-b border-primary/40 bg-surface-container-lowest/95 backdrop-blur-md z-50 shadow-[0_4px_25px_rgba(0,0,0,0.85)]">
+<!-- Super-Header: Victorian Telegraph Stream & Telemetry Gauges -->
+<div class="flex flex-wrap items-center justify-between py-1.5 border-b border-outline-variant/40 text-[11px] font-label-sm tracking-widest">
+<div class="flex items-center space-x-space-md flex-wrap gap-y-1">
+<span class="flex items-center gap-1.5 text-primary">
+<span class="inline-block w-2 h-2 rounded-full bg-primary animate-ping"></span>
+<span class="font-bold">AETHER-BRIDGE :: VECTOR TIAMAT (LAT 34.02°N, ELEV 410 KM)</span>
+</span>
+<span class="text-outline">|</span>
+<span class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[13px] text-primary">speed</span>
+        CALDERA: <strong class="text-primary-fixed">168.4 PSI // SUPERHEATED STEAM</strong>
+</span>
+<span class="hidden md:inline text-outline">|</span>
+<span class="hidden md:flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[13px] text-secondary">radio</span>
+        RESONANCIA RADIUM: <strong class="text-secondary">432.08 HZ</strong>
+</span>
+<span class="hidden lg:inline text-outline">|</span>
+<span class="hidden lg:inline text-outline-variant">ENCRIPCIÓN: AETHER-CIPHER // SHA-4096</span>
+</div>
+<div class="flex items-center space-x-space-md font-label-sm text-[10px]">
+<span class="px-2 py-0.5 rounded bg-amber-950/40 border border-primary/30 text-primary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> RATIO GALVÁNICO: 1:1.618
+      </span>
+<span class="text-on-surface-variant">CICLO ASTRONÓMICO: <span class="text-primary font-bold">884.15</span></span>
+</div>
+</div>
+<!-- Main Bridge Navigation & Sovereign Seals -->
+<div class="flex items-center justify-between py-2.5 gap-space-md">
+<!-- Brand & Classification -->
+<div class="flex items-center space-x-space-md">
+<!-- Ornate Brass Astrolabe Device Logo -->
+<div class="relative w-10 h-10 border-2 border-primary bg-gradient-to-br from-[#2a1d0d] via-[#15120c] to-[#0a0a0a] flex items-center justify-center shadow-[0_0_15px_rgba(196,147,70,0.35)]">
+<div class="absolute -top-1 -left-1 rivet"></div>
+<div class="absolute -top-1 -right-1 rivet"></div>
+<div class="absolute -bottom-1 -left-1 rivet"></div>
+<div class="absolute -bottom-1 -right-1 rivet"></div>
+<span class="material-symbols-outlined text-primary text-xl">auto_videogame</span>
+</div>
+<div>
+<div class="text-lg md:text-xl font-headline-sm uppercase tracking-widest text-primary flex items-center gap-2">
+<span>WHITE BROTHERHOOD</span>
+<span class="text-xs px-1.5 py-0.2 border border-primary/50 text-primary-fixed font-label-sm bg-primary/10">BATTLE ARENA</span>
+</div>
+<div class="text-xs font-label-sm text-outline flex items-center gap-1.5 tracking-wider">
+<span class="text-secondary font-bold">MATRIZ COLISIÓN ORBITAL</span>
+<span>// ORICHALCUM VS NODENS TITAN</span>
+</div>
+</div>
+</div>
+<!-- Steampunk Engraved Navigation Tabs -->
+<nav class="hidden xl:flex items-center space-x-1.5">
+<a class="px-3 py-1.5 text-xs font-label-sm uppercase tracking-wider text-on-surface-variant hover:text-primary border border-outline-variant/40 bg-surface-container/60 hover:border-primary/50 transition-all flex items-center gap-1.5" href="#">
+<span class="text-[9px] text-primary/70">I.</span> HOMUNCULUS
+      </a>
+<a class="px-3 py-1.5 text-xs font-label-sm uppercase tracking-wider text-on-surface-variant hover:text-primary border border-outline-variant/40 bg-surface-container/60 hover:border-primary/50 transition-all flex items-center gap-1.5" href="#">
+<span class="text-[9px] text-primary/70">IV.</span> CITY DOMINIO
+      </a>
+<a class="px-3.5 py-1.5 text-xs font-label-sm uppercase tracking-wider text-surface-container-lowest bg-gradient-to-r from-primary via-primary-fixed-dim to-primary border border-primary font-bold shadow-[0_0_12px_rgba(243,189,108,0.4)] flex items-center gap-1.5" href="#">
+<span class="text-[9px] text-black">VI.</span> CIVILIZATION
+      </a>
+<a class="px-3 py-1.5 text-xs font-label-sm uppercase tracking-wider text-on-surface-variant hover:text-primary border border-outline-variant/40 bg-surface-container/60 hover:border-primary/50 transition-all flex items-center gap-1.5" href="#">
+<span class="text-[9px] text-primary/70">VIII.</span> COSMOS
+      </a>
+</nav>
+<!-- Sovereign Stamp & Pressure Valve Controls -->
+<div class="flex items-center space-x-space-sm">
+<div class="hidden sm:flex items-center border border-outline-variant/60 bg-surface-container-low px-2.5 py-1 text-label-sm text-[11px] text-secondary gap-1.5 shadow-inner">
+<span class="material-symbols-outlined text-sm text-secondary animate-pulse">crisis_alert</span>
+<span>TELEMETRÍA :: DISRUPCIÓN</span>
+</div>
+<button class="relative px-4 py-1.5 bg-gradient-to-b from-[#e5b263] via-[#c49346] to-[#875d1f] text-surface-container-lowest font-label-md text-xs font-bold uppercase tracking-wider border-2 border-[#ffd48f] hover:brightness-110 shadow-[0_0_15px_rgba(196,147,70,0.5)] active:translate-y-0.5 transition-all flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">gavel</span>
+<span>DECRETO SOBERANO</span>
+</button>
+</div>
+</div>
+<!-- Faction Balance Bar with Antique Mechanical Dial / Balance Needle -->
+<div class="w-full pb-2 pt-0.5">
+<div class="flex justify-between items-center text-label-sm text-[11px] mb-1 font-bold">
+<span class="text-primary flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-primary inline-block"></span>
+        CARCOSA KINETIC HEGEMONY (48.6%)
+      </span>
+<span class="text-outline uppercase text-[10px] tracking-widest font-title-md italic">
+        // VÓRTICE DISPUTADO DE TIAMAT — BALANZA ÉTEREA //
+      </span>
+<span class="text-secondary flex items-center gap-1">
+        THUBAN SWARM ADAPTATION (51.4%)
+        <span class="w-2 h-2 rounded-full bg-secondary inline-block"></span>
+</span>
+</div>
+<!-- Differential Balance Bar with Needle Gauge -->
+<div class="relative w-full h-3 bg-surface-container-lowest rounded-sm p-0.5 border border-outline-variant/70 brass-inset flex items-center">
+<!-- Carcosa Orichalcum Power -->
+<div class="h-full bg-gradient-to-r from-[#875d1f] via-[#c49346] to-[#f3bd6c] rounded-l-sm transition-all duration-500 shadow-[0_0_8px_rgba(243,189,108,0.5)]" style="width: 48.6%;"></div>
+<!-- Center Needle Gauge Pivot -->
+<div class="absolute left-[48.6%] top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
+<div class="w-3.5 h-3.5 rounded-full bg-surface-container-lowest border-2 border-primary flex items-center justify-center shadow-lg">
+<div class="w-1.5 h-1.5 rounded-full bg-amber-400"></div>
+</div>
+</div>
+<!-- Thuban Eldritch Biomass Power -->
+<div class="h-full bg-gradient-to-r from-[#17756c] via-[#22c3b5] to-[#46f5e6] rounded-r-sm transition-all duration-500 shadow-[0_0_8px_rgba(70,245,230,0.4)]" style="width: 51.4%;"></div>
+</div>
+</div>
+</header>
+<!-- MAIN 3-COLUMN TACTICAL BATTLE ARENA INTERFACE -->
+<main class="flex-1 w-full max-w-[1920px] mx-auto p-2 md:p-3 lg:p-4 grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-4 my-auto">
+<!-- LEFT COLUMN: UNIDAD ATACANTE // CARCOSA (SINARQUÍA IMPERIAL // AETHERIC STEAM DREADNOUGHT) -->
+<section class="lg:col-span-3 flex flex-col plate-brass p-3.5 relative rounded-sm">
+<!-- Brass Bolted Corner Rivets -->
+<div class="absolute top-1.5 left-1.5 rivet"></div>
+<div class="absolute top-1.5 right-1.5 rivet"></div>
+<div class="absolute bottom-1.5 left-1.5 rivet"></div>
+<div class="absolute bottom-1.5 right-1.5 rivet"></div>
+<!-- Dossier Nameplate -->
+<div class="border-b border-primary/30 pb-2 mb-3 bg-gradient-to-r from-amber-950/20 to-transparent p-1.5 rounded">
+<div class="flex items-center justify-between text-label-sm text-[10px] text-primary mb-1">
+<span class="flex items-center gap-1 font-bold">
+<span class="material-symbols-outlined text-[13px]">verified_user</span> // DOSSIER SOBERANO
+        </span>
+<span class="px-1.5 py-0.5 border border-primary/60 bg-amber-950/50 text-primary font-bold">TIER-IV HASTUR</span>
+</div>
+<h2 class="text-xl md:text-2xl font-headline-sm text-primary tracking-wide leading-tight">
+        ACORAZADO MONOLÍTICO HOMÚNCULO
+      </h2>
+<div class="text-[11px] font-label-md text-on-surface-variant flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-sm text-primary">shield_with_heart</span>
+<span>CLASE IMPERIAL AUREA-I // VAPOR SACRO</span>
+</div>
+</div>
+<!-- Commander Naval Badge -->
+<div class="bg-gradient-to-r from-[#20180d] to-[#121416] p-2 border-l-2 border-primary mb-3 text-label-sm text-[11px] shadow-sm">
+<span class="text-outline block text-[9px] tracking-wider uppercase">ALMIRANTE DE FLOTA ÁUREA:</span>
+<span class="text-primary font-bold text-xs">Arconte Áureo Vaelen // Regencia Hastur</span>
+<div class="text-primary-fixed-dim text-[10px] mt-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-[11px]">bolt</span> POSTURA: PURGA SACRA // CALDERAS AL 100%
+      </div>
+</div>
+<!-- Telemetry Gauges / Mechanical Steam Barometers -->
+<div class="space-y-2.5 mb-3 bg-surface-container-lowest/80 p-2.5 border border-primary/30 brass-inset rounded-sm">
+<!-- Gauge 1: Hull Steam Integrity -->
+<div>
+<div class="flex justify-between text-label-sm text-[10px] mb-1">
+<span class="text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-primary">valve</span> PRESIÓN DEL CASCO (HP)
+          </span>
+<span class="text-primary font-bold">8,450 / 10,000 PSI</span>
+</div>
+<div class="w-full bg-surface-container-highest/90 h-2.5 rounded-sm p-0.5 border border-outline-variant/60 flex items-center">
+<div class="bg-gradient-to-r from-amber-700 via-amber-500 to-primary h-full rounded-sm transition-all duration-300 shadow-[0_0_8px_rgba(243,189,108,0.7)]" style="width: 84.5%"></div>
+</div>
+</div>
+<!-- Gauge 2: Orichalcum Plating -->
+<div>
+<div class="flex justify-between text-label-sm text-[10px] mb-1">
+<span class="text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-primary">security</span> BLINDAJE DE ORICALCO
+          </span>
+<span class="text-primary-fixed font-bold">92% REMACHADO ESTABLE</span>
+</div>
+<div class="w-full bg-surface-container-highest/90 h-2 rounded-sm p-0.5 border border-outline-variant/60 flex items-center">
+<div class="bg-gradient-to-r from-yellow-700 to-yellow-400 h-full rounded-sm" style="width: 92%"></div>
+</div>
+</div>
+<!-- Gauge 3: Vacuum Tube Arc Boiler -->
+<div>
+<div class="flex justify-between text-label-sm text-[10px] mb-1">
+<span class="text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-amber-400 animate-pulse">lightbulb</span> VÁLVULA DE ARCO GALVÁNICO
+          </span>
+<span class="text-amber-300 font-bold">100% INDUCCIÓN COMPLETA</span>
+</div>
+<div class="w-full bg-surface-container-highest/90 h-2 rounded-sm p-0.5 border border-primary/50 flex items-center">
+<div class="bg-gradient-to-r from-amber-400 to-yellow-200 h-full rounded-sm vacuum-glow" style="width: 100%"></div>
+</div>
+</div>
+</div>
+<!-- Sovereign Arsenal (Steampunk Brass & Vacuum Controls) -->
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<div class="text-[10px] font-label-sm text-primary uppercase tracking-widest mb-1.5 flex items-center justify-between border-b border-primary/20 pb-0.5">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">tune</span> ARSENAL SOBERANO DISPONIBLE</span>
+<span class="text-[9px] text-outline">CALIBRE ÉTER</span>
+</div>
+<div class="space-y-1.5">
+<!-- Weapon 1 (Active Telegraph Arc Switch) -->
+<div class="p-2 border border-primary bg-gradient-to-r from-[#30210f] via-[#21170d] to-[#16120b] flex flex-col cursor-pointer transition-all hover:brightness-110 shadow-[0_0_10px_rgba(196,147,70,0.25)] rounded-sm">
+<div class="flex justify-between items-center text-label-sm text-[11px]">
+<span class="font-bold text-primary flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+<span>1. Cañón de Luz Coherente Sagrada</span>
+</span>
+<span class="text-[10px] text-amber-300 font-bold px-1.5 py-0.2 bg-amber-900/60 border border-amber-500/50">[DISPARANDO]</span>
+</div>
+<p class="text-body-md text-on-surface-variant text-[13px] leading-relaxed mt-0.5">
+              Disrupción fotónica hiperbórea. Conduce 4.8 TV de luz sagrada a través de bobinas de vapor oricalcado.
+            </p>
+</div>
+<!-- Weapon 2 -->
+<div class="p-1.5 border border-outline-variant/60 bg-surface-container/60 hover:border-primary/60 transition-all cursor-pointer rounded-sm">
+<div class="flex justify-between items-center text-label-sm text-[11px]">
+<span class="text-on-surface font-semibold">2. Batería de Oricalco Orbital</span>
+<span class="text-outline text-[10px]">LISTO // CD: 0</span>
+</div>
+<p class="text-body-md text-outline text-[12px] leading-snug">
+              Barrage cinético neumático. Proyectiles pesados impulsados por émbolos de vapor a 0.2c.
+            </p>
+</div>
+<!-- Weapon 3 -->
+<div class="p-1.5 border border-outline-variant/60 bg-surface-container/60 hover:border-primary/60 transition-all cursor-pointer rounded-sm">
+<div class="flex justify-between items-center text-label-sm text-[11px]">
+<span class="text-on-surface font-semibold">3. Protocolo de Purga Solar</span>
+<span class="text-amber-500 text-[10px]">RECARGA (1T)</span>
+</div>
+<p class="text-body-md text-outline text-[12px] leading-snug">
+              Expulsión de vapor ígneo y radiación solar micro-biocida en un radio de 500 km.
+            </p>
+</div>
+<!-- Weapon 4 -->
+<div class="p-1.5 border border-outline-variant/60 bg-surface-container/60 hover:border-primary/60 transition-all cursor-pointer rounded-sm">
+<div class="flex justify-between items-center text-label-sm text-[11px]">
+<span class="text-on-surface font-semibold">4. Égida Monolítica Geómetra</span>
+<span class="text-primary text-[10px] font-bold">ACTIVA</span>
+</div>
+<p class="text-body-md text-outline text-[12px] leading-snug">
+              Barrera octaédrica de latón sagrado; desvía 70% de esporas corrosivas de la reina negra.
+            </p>
+</div>
+</div>
+</div>
+<!-- Action Button: Brass Stamped Lever -->
+<button class="w-full mt-3 py-2.5 px-3 bg-gradient-to-r from-[#946823] via-[#e5b263] to-[#805719] text-surface-container-lowest font-label-md text-xs font-bold uppercase tracking-wider border-2 border-[#ffdb99] hover:brightness-110 shadow-[0_0_20px_rgba(243,189,108,0.5)] active:scale-[0.99] transition-all flex items-center justify-center gap-2 rounded-sm">
+<span class="material-symbols-outlined text-base">settings</span>
+<span>⚙️ EJECUTAR PURGA CINÉTICA / ENGAGE PURGE</span>
+</button>
+</div>
+</section>
+<!-- CENTER COLUMN: TABLERO TÁCTICO ISOMÉTRICO 8x8 // ASTROLABIO CELESTIAL Y MOTOR BABBAGE -->
+<section class="lg:col-span-6 flex flex-col border border-primary/40 bg-surface-container-lowest/90 p-3 relative rounded-sm shadow-[0_0_30px_rgba(0,0,0,0.8)]">
+<!-- Brass Filigree Corners -->
+<div class="absolute top-1 left-1 rivet"></div>
+<div class="absolute top-1 right-1 rivet"></div>
+<div class="absolute bottom-1 left-1 rivet"></div>
+<div class="absolute bottom-1 right-1 rivet"></div>
+<!-- Grid Header & Tactical Indicators -->
+<div class="flex flex-wrap items-center justify-between pb-2 border-b border-primary/30 gap-2 mb-2">
+<div>
+<span class="text-[10px] font-label-sm text-primary tracking-widest flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">explore</span> // ASTROLABIO CELESTIAL ISOMÉTRICO // RETÍCULA 8x8
+        </span>
+<h1 class="text-lg md:text-xl font-headline-md text-on-surface tracking-wide">
+          COLISIÓN ORBITAL EN TIAMAT — MATRIZ DE FUEGO
+        </h1>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="text-[10px] font-label-sm px-2 py-0.5 bg-amber-950/40 border border-primary/50 text-primary rounded-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> PUNTO CERO :: D4-D5
+        </span>
+<span class="text-[10px] font-label-sm px-2 py-0.5 bg-red-950/60 text-error border border-red-500/70 font-bold rounded-sm animate-pulse">
+          COLISIÓN INMINENTE
+        </span>
+</div>
+</div>
+<!-- Holographic Astrolabe 8x8 Tactical Grid -->
+<div class="relative w-full aspect-square max-h-[460px] mx-auto border-2 border-[#8c6527] bg-[#07090b] celestial-astrolabe-grid p-2.5 flex flex-col justify-between shadow-[inset_0_0_35px_rgba(0,0,0,0.9)] rounded-sm">
+<!-- Astrolabe Outer Brass Rulers & Roman Numerals -->
+<div class="absolute left-1 top-3 bottom-3 flex flex-col justify-around text-label-sm text-outline select-none pointer-events-none text-[9px] font-bold">
+<span>VIII</span><span>VII</span><span>VI</span><span>V</span><span>IV</span><span>III</span><span>II</span><span>I</span>
+</div>
+<div class="absolute bottom-1 left-5 right-5 flex justify-around text-label-sm text-outline select-none pointer-events-none text-[9px] font-bold">
+<span>I</span><span>II</span><span>III</span><span>IV</span><span>V</span><span>VI</span><span>VII</span><span>VIII</span>
+</div>
+<!-- Center Astrolabe Concentric Ring Graphic (Cosmic Steampunk Overlay) -->
+<div class="absolute inset-4 rounded-full border border-primary/10 pointer-events-none flex items-center justify-center">
+<div class="w-3/4 h-3/4 rounded-full border border-primary/15 border-dashed"></div>
+</div>
+<!-- The 8x8 Matrix Grid -->
+<div class="grid grid-cols-8 grid-rows-8 w-full h-full pl-3 pb-3 gap-1 relative z-10">
+<!-- Row 1 to Row 8 filled -->
+<!-- Row 1 (8) -->
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<!-- Row 2 (7) -->
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<!-- Row 3 (6) -->
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<!-- Tactical Escudo Token -->
+<div class="border border-primary/70 bg-primary/10 flex items-center justify-center text-[9px] text-primary font-label-sm shadow-[0_0_8px_rgba(243,189,108,0.3)]">
+<span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[10px]">shield</span>ÉGIDA</span>
+</div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<!-- Row 4 & 5: Active Battle Collision Meridian -->
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<!-- B4-C4: Carcosa Sovereign Dreadnought Token -->
+<div class="col-span-2 row-span-2 border-2 border-primary bg-gradient-to-br from-[#3b2710] via-[#201509] to-[#0d0d0f] p-1.5 relative flex flex-col justify-between shadow-[0_0_20px_rgba(243,189,108,0.5)] z-20 rounded-sm">
+<div class="flex justify-between items-center text-[8px] text-primary font-label-sm">
+<span class="font-bold">[B4-C4]</span>
+<span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+</div>
+<div class="text-center py-1">
+<div class="inline-flex p-1 rounded-full border border-primary/60 bg-amber-950/60 shadow-[0_0_10px_rgba(243,189,108,0.4)]">
+<span class="material-symbols-outlined text-primary text-xl">account_balance</span>
+</div>
+<span class="block text-[8px] font-label-md text-primary-fixed font-bold tracking-wider mt-0.5">CARCOSA HOMÚNCULO</span>
+</div>
+<div class="text-[7px] text-primary-fixed-dim text-right font-label-sm">INTEGRIDIS: 84.5%</div>
+</div>
+<!-- D4: COLLISION POINT ALPHA (Coherent Light Arc) -->
+<div class="relative border-2 border-primary bg-gradient-to-r from-amber-600/40 via-yellow-300/30 to-amber-700/40 flex items-center justify-center overflow-hidden vacuum-glow">
+<span class="material-symbols-outlined text-primary text-lg animate-spin" style="animation-duration: 4s;">flare</span>
+<span class="absolute text-[7px] font-label-sm text-primary-fixed font-bold bottom-0.5 bg-black/60 px-1">COLISIÓN D4</span>
+</div>
+<!-- E4: COLLISION POINT BETA (Swarm Eldritch Counter) -->
+<div class="relative border-2 border-secondary bg-gradient-to-r from-teal-900/60 via-cyan-500/20 to-teal-800/40 flex items-center justify-center overflow-hidden radium-glow">
+<span class="material-symbols-outlined text-secondary text-lg animate-pulse">grain</span>
+<span class="absolute text-[7px] font-label-sm text-secondary font-bold bottom-0.5 bg-black/60 px-1">BIO-ABSORCIÓN</span>
+</div>
+<!-- F4-G4: Thuban Abyssal Swarm Titan Token -->
+<div class="col-span-2 row-span-2 border-2 border-secondary bg-gradient-to-br from-[#0c2e2a] via-[#091b1a] to-[#070b0c] p-1.5 relative flex flex-col justify-between shadow-[0_0_20px_rgba(70,245,230,0.35)] z-20 rounded-sm">
+<div class="flex justify-between items-center text-[8px] text-secondary font-label-sm">
+<span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
+<span class="font-bold">[F4-G4]</span>
+</div>
+<div class="text-center py-1">
+<div class="inline-flex p-1 rounded-full border border-secondary/60 bg-teal-950/70 shadow-[0_0_10px_rgba(70,245,230,0.3)]">
+<span class="material-symbols-outlined text-secondary text-xl">pest_control</span>
+</div>
+<span class="block text-[8px] font-label-md text-secondary font-bold tracking-wider mt-0.5">THUBAN ABYSSAL-IX</span>
+</div>
+<div class="text-[7px] text-secondary/80 text-left font-label-sm">BIOMASA: 79.3%</div>
+</div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<!-- Row 6 -->
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<!-- Enjambre Node -->
+<div class="border border-secondary/60 bg-secondary/10 flex items-center justify-center text-[8px] text-secondary font-label-sm shadow-[0_0_8px_rgba(70,245,230,0.25)]">
+          ENJAMBRE
+        </div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<!-- Row 7 -->
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<!-- Row 8 -->
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+<div class="border border-outline-variant/20 hover:border-primary/50 transition-all"></div>
+</div>
+<!-- Overlaid Trajectory Vector Banner -->
+<div class="absolute top-2 left-10 right-10 bg-surface-container-lowest/90 border border-primary/40 px-2.5 py-1 flex items-center justify-between text-[10px] font-label-sm backdrop-blur-sm pointer-events-none rounded shadow-md z-30">
+<span class="text-primary flex items-center gap-1 font-bold">
+<span class="material-symbols-outlined text-xs">arrow_forward</span> HAZ COHERENTE: B4 → D4
+        </span>
+<span class="text-on-surface-variant font-mono">VEL: 299,792 KM/S</span>
+<span class="text-secondary flex items-center gap-1 font-bold">
+          DISTORSIÓN QUITINOSA: F4 ← E4 <span class="material-symbols-outlined text-xs">arrow_back</span>
+</span>
+</div>
+</div>
+<!-- DIFFERENCE ENGINE COMBAT RESOLVER (BABBAGE STEAM ENGINE PANEL) -->
+<div class="mt-2.5 border border-primary/40 bg-surface-container-low p-2 rounded-sm brass-inset">
+<div class="flex justify-between items-center text-label-sm text-[10px] mb-1.5 text-on-surface-variant border-b border-primary/20 pb-0.5">
+<span class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-xs">memory</span> // MOTOR DIFERENCIAL BABBAGE: RESOLUCIÓN BÉLICA
+        </span>
+<span class="text-primary font-bold">TURNO 04 // CICLO 884.15</span>
+</div>
+<div class="grid grid-cols-3 gap-1.5 text-label-sm text-[10px]">
+<div class="p-1 border border-outline-variant/50 bg-surface-container text-outline rounded">
+<div class="text-[8px] uppercase tracking-wider">FASE I</div>
+<div class="font-bold text-on-surface">INTERCEPCIÓN [COMPLETADA]</div>
+</div>
+<div class="p-1 border border-primary bg-amber-950/40 text-primary rounded shadow-inner">
+<div class="text-[8px] uppercase tracking-wider text-primary-fixed">FASE II</div>
+<div class="font-bold animate-pulse">DESCARGA LUZ [ACTIVA]</div>
+</div>
+<div class="p-1 border border-outline-variant/50 bg-surface-container text-outline rounded">
+<div class="text-[8px] uppercase tracking-wider">FASE III</div>
+<div class="font-bold text-on-surface">RESPUESTA BIO [EN ESPERA]</div>
+</div>
+</div>
+</div>
+<!-- Brass Mechanical Click Counters -->
+<div class="grid grid-cols-3 gap-2 mt-2 text-center">
+<div class="border border-[#8c6527] p-1.5 bg-gradient-to-b from-[#241a0d] to-[#120f0a] rounded brass-inset">
+<span class="text-[9px] font-label-sm text-outline block uppercase tracking-wider">FUERZA DE IMPACTO</span>
+<span class="text-xl font-headline-sm text-primary font-bold tracking-tight">4.8 TV</span>
+<span class="text-[8px] font-label-sm text-primary-fixed-dim block">TERAVOLTIOS CINÉTICOS</span>
+</div>
+<div class="border border-[#17756c] p-1.5 bg-gradient-to-b from-[#0e2422] to-[#081211] rounded brass-inset">
+<span class="text-[9px] font-label-sm text-outline block uppercase tracking-wider">DISPERSIÓN ADAPTATIVA</span>
+<span class="text-xl font-headline-sm text-secondary font-bold tracking-tight">74.2%</span>
+<span class="text-[8px] font-label-sm text-secondary/80 block">ABSORCIÓN BIO-QUITINA</span>
+</div>
+<div class="border border-red-900/60 p-1.5 bg-gradient-to-b from-[#290d0d] to-[#140606] rounded brass-inset">
+<span class="text-[9px] font-label-sm text-outline block uppercase tracking-wider">RUPTURA DE BLINDAJE</span>
+<span class="text-xl font-headline-sm text-error font-bold tracking-tight">68.9%</span>
+<span class="text-[8px] font-label-sm text-error/80 block">PROBABILIDAD CRÍTICA</span>
+</div>
+</div>
+<!-- Switchboard Controls -->
+<div class="flex flex-wrap items-center justify-between gap-1.5 mt-2.5 pt-1.5 border-t border-primary/20">
+<button class="flex-1 py-2 px-2 bg-gradient-to-r from-[#946823] to-[#c49346] text-surface-container-lowest font-label-md font-bold text-center hover:brightness-110 transition-all text-[11px] uppercase tracking-wider border border-[#ffd587] rounded-sm shadow-md">
+        CALCULAR IMPACTO CRÍTICO
+      </button>
+<button class="flex-1 py-2 px-2 border border-secondary text-secondary hover:bg-secondary/10 font-label-md font-bold text-center transition-all text-[11px] uppercase tracking-wider rounded-sm">
+        DESPLEGAR ENJAMBRE DE ÉTER
+      </button>
+<button class="py-2 px-3 border border-outline-variant/70 text-outline hover:text-primary hover:border-primary font-label-md transition-all text-[11px] uppercase rounded-sm">
+        ABRIR VÁLVULA DE EMERGENCIA
+      </button>
+</div>
+</section>
+<!-- RIGHT COLUMN: UNIDAD DEFENSORA/CONTENDIENTE // THUBAN PANARCHY TITAN (ELDRITCH BIOMECHANICAL) -->
+<section class="lg:col-span-3 flex flex-col plate-verdigris p-3.5 relative rounded-sm">
+<!-- Verdigris Bolted Corner Rivets -->
+<div class="absolute top-1.5 left-1.5 rivet-verdigris"></div>
+<div class="absolute top-1.5 right-1.5 rivet-verdigris"></div>
+<div class="absolute bottom-1.5 left-1.5 rivet-verdigris"></div>
+<div class="absolute bottom-1.5 right-1.5 rivet-verdigris"></div>
+<!-- Dossier Nameplate: Dark Iron & Pulsing Radium Nodes -->
+<div class="border-b border-secondary/30 pb-2 mb-3 bg-gradient-to-r from-teal-950/30 to-transparent p-1.5 rounded">
+<div class="flex items-center justify-between text-label-sm text-[10px] text-secondary mb-1">
+<span class="flex items-center gap-1 font-bold">
+<span class="material-symbols-outlined text-[13px]">psychology</span> // ENTIDAD VIVA PANÁRQUICA
+        </span>
+<span class="px-1.5 py-0.5 border border-secondary/50 bg-teal-950/60 text-secondary font-bold">SWARM TITAN</span>
+</div>
+<h2 class="text-xl md:text-2xl font-headline-sm text-secondary tracking-wide leading-tight">
+        BIOCRUCERO CICLÓPEO DE OBSIDIANA
+      </h2>
+<div class="text-[11px] font-label-md text-on-surface-variant flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-sm text-secondary">pest_control</span>
+<span>ABYSSAL-IX // TRONO DE NODENS</span>
+</div>
+</div>
+<!-- Synaptic Coordinator Badge -->
+<div class="bg-gradient-to-r from-[#0d211f] to-[#121619] p-2 border-l-2 border-secondary mb-3 text-label-sm text-[11px] shadow-sm">
+<span class="text-outline block text-[9px] tracking-wider uppercase">COORDINACIÓN EN RED SINÁPTICA:</span>
+<span class="text-primary font-bold text-xs">Mandato Cero // Red Descentralizada Nodens</span>
+<div class="text-secondary text-[10px] mt-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-[11px]">all_inclusive</span> POSTURA: ADAPTACIÓN NO-EUCLIDIANA
+      </div>
+</div>
+<!-- Chitin & Biomass Vitals (Fluid Bio-Tube Meters) -->
+<div class="space-y-2.5 mb-3 bg-surface-container-lowest/80 p-2.5 border border-secondary/30 brass-inset rounded-sm">
+<!-- Biomass HP Gauge -->
+<div>
+<div class="flex justify-between text-label-sm text-[10px] mb-1">
+<span class="text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-secondary">water_drop</span> BIOMASA VITAL (HP)
+          </span>
+<span class="text-secondary font-bold">9,120 / 11,500</span>
+</div>
+<div class="w-full bg-surface-container-highest/90 h-2.5 rounded-sm p-0.5 border border-secondary/40 flex items-center">
+<div class="bg-gradient-to-r from-[#0a4d46] via-[#1bb4a6] to-[#46f5e6] h-full rounded-sm transition-all duration-300 radium-glow" style="width: 79.3%"></div>
+</div>
+</div>
+<!-- Abyssal Chitin Density -->
+<div>
+<div class="flex justify-between text-label-sm text-[10px] mb-1">
+<span class="text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-secondary">hive</span> DENSIDAD DE QUITINA ABISAL
+          </span>
+<span class="text-secondary font-bold">84% REGENERANDO</span>
+</div>
+<div class="w-full bg-surface-container-highest/90 h-2 rounded-sm p-0.5 border border-outline-variant/60 flex items-center">
+<div class="bg-gradient-to-r from-teal-900 to-teal-400 h-full rounded-sm" style="width: 84%"></div>
+</div>
+</div>
+<!-- Bio-Aether Condenser -->
+<div>
+<div class="flex justify-between text-label-sm text-[10px] mb-1">
+<span class="text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-teal-300">hub</span> CONDENSADOR DE BIO-ÉTER
+          </span>
+<span class="text-teal-200 font-bold">95% SINAPSIBLE</span>
+</div>
+<div class="w-full bg-surface-container-highest/90 h-2 rounded-sm p-0.5 border border-secondary/50 flex items-center">
+<div class="bg-gradient-to-r from-teal-500 to-cyan-300 h-full rounded-sm" style="width: 95%"></div>
+</div>
+</div>
+</div>
+<!-- Nodens Biomantic Arsenal -->
+<div class="mb-2">
+<div class="text-[10px] font-label-sm text-secondary uppercase tracking-widest mb-1.5 flex items-center justify-between border-b border-secondary/20 pb-0.5">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">science</span> ARSENAL BIOMÁNTICO NODENS</span>
+<span class="text-[9px] text-outline">GENOMA TÉTRICO</span>
+</div>
+<div class="space-y-1.5">
+<div class="p-1.5 border border-secondary/50 bg-teal-950/20 hover:border-secondary transition-all cursor-pointer rounded-sm">
+<div class="flex justify-between items-center text-label-sm text-[11px]">
+<span class="text-on-surface font-semibold">1. Torrente de Esporas de Fosa Abisal</span>
+<span class="text-secondary font-bold text-[10px]">[ARMADO]</span>
+</div>
+<p class="text-body-md text-outline text-[12px] leading-snug">
+            Corrosión microcelular que carcome armaduras de latón en 45% acumulativo.
+          </p>
+</div>
+<div class="p-1.5 border border-outline-variant/50 bg-surface-container/60 hover:border-secondary/60 transition-all cursor-pointer rounded-sm">
+<div class="flex justify-between items-center text-label-sm text-[11px]">
+<span class="text-on-surface font-semibold">2. Pulso de Gravedad No-Euclidiana</span>
+<span class="text-outline text-[10px]">CD: 1T</span>
+</div>
+<p class="text-body-md text-outline text-[12px] leading-snug">
+            Distorsiona los ejes del astrolabe obligando a las calderas enemigas a recalibrar.
+          </p>
+</div>
+<div class="p-1.5 border border-outline-variant/50 bg-surface-container/60 hover:border-secondary/60 transition-all cursor-pointer rounded-sm">
+<div class="flex justify-between items-center text-label-sm text-[11px]">
+<span class="text-on-surface font-semibold">3. Regeneración Fractal de Quitina</span>
+<span class="text-secondary text-[10px] font-bold">ACTIVA (+420 HP)</span>
+</div>
+<p class="text-body-md text-outline text-[12px] leading-snug">
+            Mitosis cuántica acelerada cerrando brechas tras el impacto del rayo lumínico.
+          </p>
+</div>
+<div class="p-1.5 border border-outline-variant/50 bg-surface-container/60 hover:border-secondary/60 transition-all cursor-pointer rounded-sm">
+<div class="flex justify-between items-center text-label-sm text-[11px]">
+<span class="text-on-surface font-semibold">4. Camuflaje Abisal Fractal</span>
+<span class="text-outline text-[10px]">PASIVO (25% EVASIÓN)</span>
+</div>
+<p class="text-body-md text-outline text-[12px] leading-snug">
+            Refracción espectral en el vacío cósmico a frecuencias no observables.
+          </p>
+</div>
+</div>
+</div>
+<!-- Live Chrono-Telegraph Battle Log (Ticker-Tape Terminal) -->
+<div class="flex-1 flex flex-col justify-end mt-2">
+<div class="border border-secondary/40 bg-surface-container-lowest p-2 flex flex-col h-36 rounded-sm brass-inset">
+<div class="flex justify-between items-center text-label-sm text-[10px] text-on-surface-variant border-b border-outline-variant/40 pb-1 mb-1">
+<span class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-ping"></span>
+<span class="font-bold text-secondary">CHRONO-TELEGRAPH BATTLE LOG</span>
+</span>
+<span class="text-[9px] text-outline font-mono">TICKER :: TIAMAT-04</span>
+</div>
+<div class="flex-1 overflow-y-auto space-y-1 font-label-sm text-[10px] text-on-surface-variant custom-scroll pr-1 leading-snug">
+<p><span class="text-primary font-bold">[T-04.01]</span> Carcosa alinea Cañón de Luz Sagrada sobre vector D4-D5.</p>
+<p><span class="text-secondary font-bold">[T-04.02]</span> Thuban activa matriz de quitina fractal en cara anterior.</p>
+<p><span class="text-primary font-bold">[T-04.03]</span> Impacto de 4.8 TV registrado en sector quitinoso 3A.</p>
+<p><span class="text-on-surface">[T-04.04]</span> Absorción: 74.2% del pulso disipado por bio-esporas; 1,550 daño biológico.</p>
+<p><span class="text-secondary font-bold">[T-04.05]</span> Dispersión de esporas de corrosión ácida en cuadrante C4.</p>
+<p><span class="text-primary-fixed-dim">[T-04.06]</span> Válvulas de vapor Carcosa desahogan a 168.4 PSI tras disparo.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- TACTICAL BOTTOM FOOTER // PLACA DE MAQUINARIA DE LATÓN -->
+<footer class="flex flex-col md:flex-row justify-between items-center w-full px-space-md lg:px-10 py-2 border-t-2 border-primary/40 bg-surface-container-lowest/95 backdrop-blur-md z-40 text-label-sm text-[11px] shadow-[0_-4px_20px_rgba(0,0,0,0.85)]">
+<!-- Telemetry System Coordinates & Alerts -->
+<div class="flex items-center space-x-space-md text-on-surface-variant py-1 md:py-0 flex-wrap gap-y-1">
+<span class="text-primary font-bold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary">warning</span>
+<span>ALERTA: INTERFERENCIA DE RESONANCIA PRIMORDIAL TIAMAT</span>
+</span>
+<span class="hidden xl:inline text-outline">|</span>
+<span class="hidden xl:inline text-outline-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-xs text-secondary">sensors</span>
+      SENSOR R'LYEH: <strong class="text-secondary">0.6% DISTURBIO VÓRTICE</strong>
+</span>
+<span class="hidden lg:inline text-outline">|</span>
+<span class="hidden lg:inline text-on-surface-variant">AETERNITAS CYCLE 884.15 // PATENTE OCCULTA #7109</span>
+</div>
+<!-- Diegetic Metric Badges -->
+<div class="hidden md:flex items-center space-x-space-md text-[10px]">
+<span class="px-2 py-0.5 rounded border border-primary/30 bg-amber-950/20 text-primary">PANARCHIA RATIO: 1.18</span>
+<span class="text-outline">QUANTUM LOCK: ACTIVE</span>
+<span class="text-outline">PROTOCOL: OMEGA-SEVEN</span>
+</div>
+<!-- Dual Brass Toggle Levers / Action Buttons -->
+<div class="flex items-center space-x-2 py-1 md:py-0">
+<button class="px-3 py-1.5 border border-primary/50 bg-surface-container-high/80 text-primary hover:bg-amber-950/50 hover:border-primary transition-all font-label-md text-xs font-bold rounded-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">history_edu</span>
+<span>REGISTRAR EN ARCHIVO DE LATÓN</span>
+</button>
+<button class="px-4 py-1.5 border-2 border-[#ffd48f] bg-gradient-to-r from-[#946823] via-[#c49346] to-[#805719] text-surface-container-lowest font-label-md text-xs font-bold uppercase tracking-wider hover:brightness-110 shadow-[0_0_15px_rgba(196,147,70,0.4)] transition-all flex items-center gap-1.5 rounded-sm">
+<span class="material-symbols-outlined text-xs">play_arrow</span>
+<span>RESOLVER TURNO DE COMBATE</span>
+</button>
+</div>
+</footer>
+</body></html>

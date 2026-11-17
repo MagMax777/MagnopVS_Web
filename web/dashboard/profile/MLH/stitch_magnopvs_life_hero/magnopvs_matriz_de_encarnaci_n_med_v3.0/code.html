@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Matriz de Encarnación (MED v3.0)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@300;400;700&amp;family=Orbitron:wght@400;600;900&amp;family=Audiowide&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --glow-cyan: rgba(45, 168, 224, 0.6);
+            --glow-gold: rgba(212, 175, 55, 0.5);
+            --glow-magenta: rgba(255, 0, 255, 0.4);
+        }
+
+        body {
+            background-color: #0a0b12;
+            overflow-x: hidden;
+            font-family: 'Hanken Grotesk', sans-serif;
+        }
+
+        .cyber-grid {
+            background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
+                              linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        .hex-bg {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCvPg2WteglW5WOIC-BYwntFubBS4yIpHVxjqQfRkztBwBHIcTlN2fMMUS4D1QUDecj6yZEXhGYNwdLBnIkrLhSPqfEjugGP82jG6vweCUcix7AE2V_q_WL2bkf6k0FaM6WC6ciENVp1EG1MZEAC7Ldm7fLt7I7RRL9NnUJ58Yqc3_WH_ArltVTRm6-_TzRtocPMq0naX7-F8voWDpX2pI5gUKRCu2SnEOf0KjE4El2SHVxWLGNTpuGU3-9XOaNJFNK3bD5fL9ntj_U');
+            background-size: cover;
+            background-position: center;
+            mix-blend-mode: overlay;
+            animation: pulse-bg 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse-bg {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(197, 231, 255, 0.1);
+        }
+
+        .gold-border {
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: inset 0 0 10px rgba(212, 175, 55, 0.05);
+        }
+
+        .text-glow-cyan { text-shadow: 0 0 10px var(--glow-cyan); }
+        .text-glow-gold { text-shadow: 0 0 10px var(--glow-gold); }
+        
+        .stage-transition {
+            transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .corner-bracket {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-color: rgba(212, 175, 55, 0.6);
+        }
+
+        .bracket-tl { top: -2px; left: -2px; border-top: 2px solid; border-left: 2px solid; }
+        .bracket-tr { top: -2px; right: -2px; border-top: 2px solid; border-right: 2px solid; }
+        .bracket-bl { bottom: -2px; left: -2px; border-bottom: 2px solid; border-left: 2px solid; }
+        .bracket-br { bottom: -2px; right: -2px; border-bottom: 2px solid; border-right: 2px solid; }
+
+        .neon-pulse {
+            animation: neon-flicker 2s infinite alternate;
+        }
+
+        @keyframes neon-flicker {
+            0% { opacity: 0.8; box-shadow: 0 0 5px var(--glow-cyan); }
+            100% { opacity: 1; box-shadow: 0 0 15px var(--glow-cyan); }
+        }
+
+        .slanted-button {
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+        }
+
+        .segmented-progress {
+            display: flex;
+            gap: 4px;
+        }
+
+        .progress-block {
+            height: 8px;
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-block.active {
+            background: #6af9dc;
+            box-shadow: 0 0 8px #6af9dc;
+        }
+
+        .active-nav-indicator {
+            position: absolute;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: #c5e7ff;
+            box-shadow: 0 0 10px #c5e7ff;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-tint": "#7fd0ff",
+                      "secondary-fixed": "#6af9dc",
+                      "tertiary": "#ffd8e7",
+                      "on-secondary-container": "#004439",
+                      "secondary": "#47ddc1",
+                      "on-secondary-fixed-variant": "#005144",
+                      "on-primary-container": "#00597b",
+                      "background-deep": "#0a0b12",
+                      "on-error": "#690005",
+                      "surface-panel": "rgba(255, 255, 255, 0.03)",
+                      "outline-variant": "#3f484e",
+                      "surface-container-lowest": "#0b0f11",
+                      "on-tertiary-fixed-variant": "#6e3252",
+                      "on-tertiary-container": "#7c3e5e",
+                      "secondary-fixed-dim": "#47ddc1",
+                      "surface-dim": "#101417",
+                      "tertiary-fixed-dim": "#ffafd4",
+                      "background": "#101417",
+                      "glow-cyan": "#2da8e0",
+                      "on-surface": "#e0e3e6",
+                      "inverse-on-surface": "#2d3134",
+                      "on-primary-fixed-variant": "#004c6a",
+                      "grid-line": "rgba(127, 208, 255, 0.05)",
+                      "primary-fixed": "#c5e7ff",
+                      "on-tertiary": "#531c3b",
+                      "on-secondary-fixed": "#00201a",
+                      "on-primary-fixed": "#001e2d",
+                      "on-secondary": "#00382e",
+                      "surface-container-low": "#181c1f",
+                      "on-background": "#e0e3e6",
+                      "surface-bright": "#363a3d",
+                      "surface": "#101417",
+                      "on-tertiary-fixed": "#390625",
+                      "surface-container": "#1c2023",
+                      "primary-container": "#7fd0ff",
+                      "error-container": "#93000a",
+                      "surface-variant": "#313538",
+                      "status-critical": "#93000a",
+                      "surface-container-highest": "#313538",
+                      "on-primary": "#00344a",
+                      "on-error-container": "#ffdad6",
+                      "secondary-container": "#00bba0",
+                      "outline": "#899299",
+                      "tertiary-container": "#ffafd4",
+                      "surface-container-high": "#272a2d",
+                      "tertiary-fixed": "#ffd8e7",
+                      "primary": "#c5e7ff",
+                      "inverse-primary": "#00658b",
+                      "inverse-surface": "#e0e3e6",
+                      "primary-fixed-dim": "#7fd0ff",
+                      "on-surface-variant": "#bfc8cf",
+                      "error": "#ffb4ab"
+              },
+              "fontFamily": {
+                      "label-caps": ["JetBrains Mono"],
+                      "display-lg": ["Space Grotesk"],
+                      "data-point": ["Hanken Grotesk"],
+                      "mono-data": ["JetBrains Mono"],
+                      "body-md": ["Hanken Grotesk"],
+                      "micro-tag": ["JetBrains Mono"],
+                      "headline-md": ["Space Grotesk"],
+                      "orbitron": ["Orbitron"],
+                      "audiowide": ["Audiowide"]
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="text-on-surface bg-background-deep selection:bg-secondary/30">
+<!-- Background Elements -->
+<div class="fixed inset-0 cyber-grid z-0 opacity-40"></div>
+<div class="fixed inset-0 hex-bg z-0 pointer-events-none"></div>
+<!-- Persistent SideNav (As per JSON/Shared Components) -->
+<nav class="hidden md:flex fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-low/90 backdrop-blur-2xl border-r border-primary/10 flex-col py-8">
+<div class="px-6 mb-12">
+<h1 class="font-audiowide text-2xl text-glow-cyan tracking-tighter text-primary">LEGACY_PRO</h1>
+<p class="font-micro-tag text-micro-tag opacity-60">V-6.4 // ACTIVE</p>
+</div>
+<div class="flex-1 flex flex-col gap-2">
+<!-- Active item -->
+<a class="flex items-center gap-4 bg-primary/10 text-primary border-l-4 border-primary px-6 py-4 transition-all" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-caps text-label-caps uppercase">Codex</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all translate-x-0 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">architecture</span>
+<span class="font-label-caps text-label-caps uppercase">Builds</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all translate-x-0 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-caps text-label-caps uppercase">Archive</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all translate-x-0 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps text-label-caps uppercase">Missions</span>
+</a>
+</div>
+<div class="mt-auto px-6 space-y-4">
+<button class="w-full bg-primary text-on-primary py-3 font-label-caps text-sm tracking-widest slanted-button hover:bg-secondary duration-300 transition-colors">
+                INITIALIZE_SYNC
+            </button>
+<div class="flex justify-between font-micro-tag text-micro-tag opacity-40">
+<span>SYS_6.4</span>
+<span>ENC_PROTOCOL</span>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 relative z-10 min-h-screen px-margin-mobile md:px-margin-desktop py-12 flex flex-col items-center">
+<!-- Header -->
+<header class="w-full max-w-5xl mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div class="space-y-1">
+<span class="font-label-caps text-xs text-[#d4af37] tracking-[0.3em] uppercase block">Sistema MED v3.0</span>
+<h2 class="font-audiowide text-3xl md:text-5xl text-glow-cyan tracking-tight">Matriz de Encarnación</h2>
+</div>
+<div class="flex gap-4">
+<div class="text-right">
+<p class="font-micro-tag text-micro-tag text-outline uppercase">Diagnostic State</p>
+<p class="font-orbitron text-secondary-fixed">CALIBRATION_PENDING</p>
+</div>
+</div>
+</header>
+<!-- STAGE 1: INTRO (ACTIVE BY DEFAULT) -->
+<div class="w-full max-w-5xl stage-transition opacity-100" id="stage-intro">
+<div class="glass-panel gold-border p-8 md:p-12 relative overflow-hidden">
+<div class="corner-bracket bracket-tl"></div>
+<div class="corner-bracket bracket-tr"></div>
+<div class="corner-bracket bracket-bl"></div>
+<div class="corner-bracket bracket-br"></div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<!-- Left Side: Visual Node -->
+<div class="flex flex-col items-center text-center space-y-6">
+<div class="w-48 h-48 rounded-full border-4 border-[#d4af37]/30 flex items-center justify-center relative group">
+<div class="absolute inset-0 rounded-full border border-secondary/20 animate-spin-slow" style="animation-duration: 20s;"></div>
+<div class="w-32 h-32 rounded-full glass-panel flex items-center justify-center text-6xl shadow-[0_0_50px_rgba(212,175,55,0.2)]">
+<span class="material-symbols-outlined text-6xl text-[#d4af37]" style="font-variation-settings: 'FILL' 1;">dns</span>
+</div>
+</div>
+<h3 class="font-audiowide text-2xl text-[#d4af37]">Configuración del Jugador</h3>
+<p class="font-body-md text-on-surface-variant max-w-xs">
+                            Analizando los parámetros de reentrada. El sistema calcula la trayectoria de la conciencia basada en los 6 vectores de fricción.
+                        </p>
+</div>
+<!-- Right Side: Vectors & Rules -->
+<div class="space-y-8">
+<div class="grid grid-cols-2 gap-4">
+<div class="glass-panel p-4 border-l-2 border-[#d4af37]">
+<span class="font-micro-tag text-[10px] text-outline">VR</span>
+<p class="font-label-caps text-sm">Recursos</p>
+</div>
+<div class="glass-panel p-4 border-l-2 border-secondary">
+<span class="font-micro-tag text-[10px] text-outline">VGA</span>
+<p class="font-label-caps text-sm">Geografía</p>
+</div>
+<div class="glass-panel p-4 border-l-2 border-tertiary">
+<span class="font-micro-tag text-[10px] text-outline">VI</span>
+<p class="font-label-caps text-sm">Identidad</p>
+</div>
+<div class="glass-panel p-4 border-l-2 border-[#ff00ff]">
+<span class="font-micro-tag text-[10px] text-outline">VE</span>
+<p class="font-label-caps text-sm">Emocional</p>
+</div>
+<div class="glass-panel p-4 border-l-2 border-primary">
+<span class="font-micro-tag text-[10px] text-outline">VPI</span>
+<p class="font-label-caps text-sm">Privilegio</p>
+</div>
+<div class="glass-panel p-4 border-l-2 border-secondary-fixed">
+<span class="font-micro-tag text-[10px] text-outline">VC</span>
+<p class="font-label-caps text-sm">Cognitivo</p>
+</div>
+</div>
+<!-- Golden Rule -->
+<div class="p-6 bg-[#d4af37]/10 border border-[#d4af37]/20 rounded-lg">
+<h4 class="font-label-caps text-sm text-[#d4af37] flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-base">verified</span>
+                                Regla de Oro
+                            </h4>
+<div class="flex justify-between items-center text-xs font-mono-data">
+<div class="text-left">
+<p class="text-error">Precaridad</p>
+<p class="text-lg font-bold">XP x2.0</p>
+</div>
+<div class="h-8 w-px bg-[#d4af37]/20"></div>
+<div class="text-right">
+<p class="text-secondary-fixed">Privilegio</p>
+<p class="text-lg font-bold">XP x0.5</p>
+</div>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-4 font-audiowide tracking-widest slanted-button hover:bg-secondary-fixed transition-all" onclick="changeStage('intro', 'scenario')">
+                            INICIAR DIAGNÓSTICO
+                        </button>
+</div>
+</div>
+</div>
+</div>
+<!-- STAGE 2: SCENARIO (HIDDEN) -->
+<div class="w-full max-w-5xl stage-transition opacity-0 hidden translate-y-8" id="stage-scenario">
+<div class="glass-panel gold-border p-8 md:p-12 relative">
+<div class="flex justify-between items-center mb-8">
+<span class="font-label-caps text-sm text-outline">ESCENARIO_01 // NARRATIVA_DINÁMICA</span>
+<div class="flex gap-1">
+<div class="w-12 h-1 bg-secondary shadow-[0_0_10px_#6af9dc]"></div>
+<div class="w-12 h-1 bg-surface-variant"></div>
+<div class="w-12 h-1 bg-surface-variant"></div>
+</div>
+</div>
+<div class="mb-12">
+<h3 class="font-headline-md text-3xl mb-6 leading-tight">Te encuentras en la encrucijada del <span class="text-glow-cyan text-primary">Nexo de Recursos</span>. Tu capital inicial ha sido interceptado por una fluctuación del mercado galáctico.</h3>
+<p class="font-body-md text-on-surface-variant text-lg">
+                        ¿Cómo decides proceder ante la inminente pérdida de tus vectores VR y VPI? Una decisión errónea podría elevar la dificultad a niveles críticos.
+                    </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<button class="p-6 glass-panel border border-primary/20 text-left hover:bg-primary/10 transition-all flex gap-4 group" onclick="changeStage('scenario', 'results')">
+<span class="font-orbitron text-primary opacity-40 group-hover:opacity-100">A</span>
+<div>
+<p class="font-label-caps text-sm mb-1">Aceptar la Pérdida</p>
+<p class="font-body-md text-xs opacity-60">Priorizar la estabilidad emocional (VE) sobre la material (VR).</p>
+</div>
+</button>
+<button class="p-6 glass-panel border border-primary/20 text-left hover:bg-primary/10 transition-all flex gap-4 group" onclick="changeStage('scenario', 'results')">
+<span class="font-orbitron text-primary opacity-40 group-hover:opacity-100">B</span>
+<div>
+<p class="font-label-caps text-sm mb-1">Ejecutar Arbitraje</p>
+<p class="font-body-md text-xs opacity-60">Usar capacidades cognitivas (VC) para recuperar el 50% de la inversión.</p>
+</div>
+</button>
+<button class="p-6 glass-panel border border-primary/20 text-left hover:bg-primary/10 transition-all flex gap-4 group" onclick="changeStage('scenario', 'results')">
+<span class="font-orbitron text-primary opacity-40 group-hover:opacity-100">C</span>
+<div>
+<p class="font-label-caps text-sm mb-1">Solicitar Apoyo Privilegiado</p>
+<p class="font-body-md text-xs opacity-60">Consumir puntos de VPI para anular la fluctuación.</p>
+</div>
+</button>
+<button class="p-6 glass-panel border border-primary/20 text-left hover:bg-primary/10 transition-all flex gap-4 group" onclick="changeStage('scenario', 'results')">
+<span class="font-orbitron text-primary opacity-40 group-hover:opacity-100">D</span>
+<div>
+<p class="font-label-caps text-sm mb-1">Divergencia Radical</p>
+<p class="font-body-md text-xs opacity-60">Abandonar el sector y buscar nueva geografía (VGA).</p>
+</div>
+</button>
+</div>
+</div>
+</div>
+<!-- STAGE 3: RESULTS (HIDDEN) -->
+<div class="w-full max-w-6xl stage-transition opacity-0 hidden scale-95" id="stage-results">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Main Difficulty Card -->
+<div class="lg:col-span-2 glass-panel gold-border p-8 md:p-12 relative flex flex-col justify-center items-center text-center">
+<div class="corner-bracket bracket-tl"></div>
+<div class="corner-bracket bracket-tr"></div>
+<div class="corner-bracket bracket-bl"></div>
+<div class="corner-bracket bracket-br"></div>
+<p class="font-micro-tag text-outline tracking-[0.4em] mb-4 uppercase">Resultado del Análisis</p>
+<h1 class="font-audiowide text-6xl md:text-8xl text-status-critical mb-4 drop-shadow-[0_0_20px_rgba(147,0,10,0.5)]">ALMA DESNUDA</h1>
+<p class="font-orbitron text-xl text-secondary-fixed mb-8">Dificultad: MÁXIMA (XP x2.0)</p>
+<div class="w-full grid grid-cols-2 md:grid-cols-4 gap-6 mt-8">
+<div class="space-y-2">
+<p class="font-micro-tag text-outline uppercase text-[10px]">Multiplier</p>
+<p class="font-orbitron text-2xl">2.44x</p>
+</div>
+<div class="space-y-2">
+<p class="font-micro-tag text-outline uppercase text-[10px]">Resilience</p>
+<p class="font-orbitron text-2xl text-tertiary">LV_09</p>
+</div>
+<div class="space-y-2">
+<p class="font-micro-tag text-outline uppercase text-[10px]">Soul_Sync</p>
+<p class="font-orbitron text-2xl text-primary">88%</p>
+</div>
+<div class="space-y-2">
+<p class="font-micro-tag text-outline uppercase text-[10px]">Protocol</p>
+<p class="font-orbitron text-2xl text-[#d4af37]">v3.0</p>
+</div>
+</div>
+</div>
+<!-- Vector Dashboard -->
+<div class="space-y-6">
+<!-- Vector Stats -->
+<div class="glass-panel p-6 border-l-4 border-status-critical">
+<h4 class="font-label-caps text-xs mb-6 text-outline">ANÁLISIS DE VECTORES</h4>
+<div class="space-y-4">
+<!-- VR -->
+<div class="space-y-1">
+<div class="flex justify-between text-[10px] font-mono-data">
+<span>VR_RESOURCES</span>
+<span>0.15</span>
+</div>
+<div class="segmented-progress">
+<div class="progress-block active"></div>
+<div class="progress-block active"></div>
+<div class="progress-block"></div>
+<div class="progress-block"></div>
+<div class="progress-block"></div>
+<div class="progress-block"></div>
+<div class="progress-block"></div>
+<div class="progress-block"></div>
+<div class="progress-block"></div>
+<div class="progress-block"></div>
+</div>
+</div>
+<!-- VI -->
+<div class="space-y-1">
+<div class="flex justify-between text-[10px] font-mono-data">
+<span>VI_IDENTITY</span>
+<span>0.82</span>
+</div>
+<div class="segmented-progress">
+<div class="progress-block active"></div>
+<div class="progress-block active"></div>
+<div class="progress-block active"></div>
+<div class="progress-block active"></div>
+<div class="progress-block active"></div>
+<div class="progress-block active"></div>
+<div class="progress-block active"></div>
+<div class="progress-block active"></div>
+<div class="progress-block"></div>
+<div class="progress-block"></div>
+</div>
+</div>
+<!-- VC -->
+<div class="space-y-1">
+<div class="flex justify-between text-[10px] font-mono-data">
+<span>VC_COGNITIVE</span>
+<span>0.95</span>
+</div>
+<div class="segmented-progress">
+<div class="progress-block active"></div>
+<div class="progress-block active"></div>
+<div class="progress-block active"></div>
+<div class="progress-block active"></div>
+<div class="progress-block active"></div>
+<div class="progress-block active"></div>
+<div class="progress-block active"></div>
+<div class="progress-block active"></div>
+<div class="progress-block active"></div>
+<div class="progress-block active"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Initial Kit -->
+<div class="glass-panel p-6 border-l-4 border-secondary-fixed">
+<h4 class="font-label-caps text-xs mb-4 text-outline">EQUIPAMIENTO INICIAL (KIT)</h4>
+<div class="flex gap-4">
+<div class="flex-1 p-4 bg-surface-panel border border-white/5 text-center">
+<span class="material-symbols-outlined text-primary mb-2">memory</span>
+<p class="font-orbitron text-lg">MC-01</p>
+<p class="font-micro-tag opacity-40">Mente Colmena</p>
+</div>
+<div class="flex-1 p-4 bg-surface-panel border border-white/5 text-center">
+<span class="material-symbols-outlined text-secondary-fixed mb-2">auto_fix</span>
+<p class="font-orbitron text-lg">MP-X</p>
+<p class="font-micro-tag opacity-40">Módulo Paradigma</p>
+</div>
+</div>
+</div>
+<button class="w-full py-4 glass-panel border border-[#d4af37]/40 font-audiowide text-[#d4af37] hover:bg-[#d4af37]/10 transition-all uppercase tracking-widest text-sm" onclick="window.location.reload()">
+                        Confirmar Reentrada
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Interactive Elements (JS) -->
+<script>
+        function changeStage(current, next) {
+            const currentEl = document.getElementById(`stage-${current}`);
+            const nextEl = document.getElementById(`stage-${next}`);
+
+            // Fade out current
+            currentEl.style.opacity = '0';
+            currentEl.style.transform = 'translateY(-20px) scale(0.98)';
+            
+            setTimeout(() => {
+                currentEl.classList.add('hidden');
+                nextEl.classList.remove('hidden');
+                
+                // Trigger reflow for animation
+                void nextEl.offsetWidth;
+                
+                // Fade in next
+                nextEl.style.opacity = '1';
+                nextEl.style.transform = 'translateY(0) scale(1)';
+            }, 600);
+        }
+
+        // Ambient animations
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            document.querySelector('.hex-bg').style.transform = `translate(${x * 20}px, ${y * 20}px) scale(1.05)`;
+        });
+    </script>
+<!-- Footer as per JSON -->
+<footer class="w-full py-12 border-t border-grid-line bg-surface-container-lowest mt-auto relative z-10">
+<div class="max-w-7xl mx-auto px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-panel-gap">
+<div class="font-label-caps text-label-caps tracking-widest text-on-surface opacity-60">
+                MLH v6.4 // LEGACY_PROTOCOL
+            </div>
+<div class="flex gap-8">
+<a class="font-micro-tag text-micro-tag text-outline hover:text-primary transition-opacity uppercase" href="#">Privacy</a>
+<a class="font-micro-tag text-micro-tag text-outline hover:text-primary transition-opacity uppercase" href="#">Security</a>
+<a class="font-micro-tag text-micro-tag text-outline hover:text-primary transition-opacity uppercase" href="#">Terminal</a>
+</div>
+</div>
+</footer>
+</body></html>

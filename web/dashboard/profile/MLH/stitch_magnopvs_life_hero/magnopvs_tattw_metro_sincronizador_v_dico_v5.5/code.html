@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · Tattwómetro v5.5</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Space+Grotesk:wght@400;700&amp;family=Orbitron:wght@400;700&amp;family=Audiowide&amp;family=Hanken+Grotesk:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "glow-cyan": "#2da8e0",
+                        "on-secondary-fixed": "#00201a",
+                        "on-tertiary-fixed-variant": "#6e3252",
+                        "on-error-container": "#ffdad6",
+                        "error-container": "#93000a",
+                        "on-secondary": "#00382e",
+                        "on-tertiary-container": "#7c3e5e",
+                        "on-primary-fixed": "#001e2d",
+                        "error": "#ffb4ab",
+                        "on-error": "#690005",
+                        "on-primary": "#00344a",
+                        "surface": "#101417",
+                        "surface-panel": "rgba(255, 255, 255, 0.03)",
+                        "on-primary-fixed-variant": "#004c6a",
+                        "surface-dim": "#101417",
+                        "surface-bright": "#363a3d",
+                        "on-secondary-fixed-variant": "#005144",
+                        "grid-line": "rgba(127, 208, 255, 0.05)",
+                        "surface-variant": "#313538",
+                        "surface-tint": "#7fd0ff",
+                        "on-surface-variant": "#bfc8cf",
+                        "primary": "#c5e7ff",
+                        "primary-fixed": "#c5e7ff",
+                        "background": "#101417",
+                        "status-critical": "#93000a",
+                        "primary-fixed-dim": "#7fd0ff",
+                        "surface-container-highest": "#313538",
+                        "secondary": "#47ddc1",
+                        "inverse-on-surface": "#2d3134",
+                        "tertiary-fixed": "#ffd8e7",
+                        "tertiary-fixed-dim": "#ffafd4",
+                        "on-tertiary": "#531c3b",
+                        "surface-container-low": "#181c1f",
+                        "surface-container": "#1c2023",
+                        "secondary-fixed": "#6af9dc",
+                        "secondary-container": "#00bba0",
+                        "inverse-primary": "#00658b",
+                        "secondary-fixed-dim": "#47ddc1",
+                        "background-deep": "#0a0b12",
+                        "tertiary-container": "#ffafd4",
+                        "primary-container": "#7fd0ff",
+                        "on-surface": "#e0e3e6",
+                        "inverse-surface": "#e0e3e6",
+                        "surface-container-high": "#272a2d",
+                        "on-background": "#e0e3e6",
+                        "outline-variant": "#3f484e",
+                        "outline": "#899299",
+                        "tertiary": "#ffd8e7",
+                        "on-secondary-container": "#004439",
+                        "on-primary-container": "#00597b",
+                        "surface-container-lowest": "#0b0f11",
+                        "on-tertiary-fixed": "#390625"
+                    },
+                    fontFamily: {
+                        "mono-data": ["JetBrains Mono"],
+                        "data-point": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "micro-tag": ["JetBrains Mono"],
+                        "display-lg-mobile": ["Space Grotesk"],
+                        "display-lg": ["Space Grotesk"],
+                        "headline-md": ["Space Grotesk"],
+                        "orbitron": ["Orbitron"],
+                        "audiowide": ["Audiowide"]
+                    },
+                    spacing: {
+                        "unit": "4px",
+                        "margin-mobile": "20px",
+                        "section-padding": "128px",
+                        "margin-desktop": "40px",
+                        "panel-gap": "12px",
+                        "gutter": "16px"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #0a0b12;
+            overflow-x: hidden;
+            color: #e0e3e6;
+        }
+        .cyber-grid {
+            background-image: linear-gradient(to right, rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .hex-bg {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+        .scanlines {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+        .tattwa-orbit {
+            animation: rotate-slow 20s linear infinite;
+        }
+        @keyframes rotate-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .glow-akasha { filter: drop-shadow(0 0 10px #ffffff); }
+        .glow-vayu { filter: drop-shadow(0 0 10px #2da8e0); }
+        .glow-tejas { filter: drop-shadow(0 0 10px #ff0000); }
+        .glow-apas { filter: drop-shadow(0 0 10px #c0c0c0); }
+        .glow-prithivi { filter: drop-shadow(0 0 10px #ffd700); }
+        
+        .prism-card {
+            clip-path: polygon(0% 0%, 95% 0%, 100% 5%, 100% 100%, 5% 100%, 0% 95%);
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-background min-h-screen selection:bg-primary selection:text-on-primary">
+<!-- Background Elements -->
+<div class="fixed inset-0 cyber-grid -z-10"></div>
+<div class="fixed inset-0 scanlines -z-5 opacity-30"></div>
+<div class="fixed inset-0 flex items-center justify-center -z-20 opacity-20">
+<div class="w-[800px] h-[800px] border border-primary/10 rounded-full blur-3xl bg-primary/5"></div>
+</div>
+<!-- Header Navigation -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/30 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-primary tracking-widest uppercase flex items-center gap-4">
+<span class="material-symbols-outlined text-4xl">settings_input_component</span>
+<span>MagnopVS · Life Hero</span>
+</div>
+<div class="flex gap-6 items-center">
+<button class="material-symbols-outlined text-outline hover:text-secondary transition-all scale-95 active:scale-90" title="Account">account_circle</button>
+<button class="material-symbols-outlined text-primary drop-shadow-[0_0_8px_#7fd0ff] scale-95 active:scale-90" title="System Boost">bolt</button>
+<button class="material-symbols-outlined text-outline hover:text-secondary transition-all scale-95 active:scale-90" title="Reputation">stars</button>
+</div>
+</header>
+<!-- Sidebar Navigation -->
+<aside class="hidden lg:flex flex-col fixed left-0 top-0 h-full z-40 w-64 bg-surface-container-low/50 backdrop-blur-2xl border-r border-primary/20 shadow-2xl shadow-primary/5 pt-24">
+<div class="px-6 mb-12">
+<div class="font-display-lg text-primary text-2xl font-bold">OPERATOR_01</div>
+<div class="font-label-caps text-label-caps text-outline-variant">LVL 42 // TITAN</div>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-4 px-6 py-4 text-outline-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-outline-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label-caps text-label-caps">13 Houses</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-outline-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps text-label-caps">Missions</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-primary border-l-2 border-primary bg-primary/5 font-bold shadow-[inset_4px_0_10px_rgba(127,208,255,0.1)]" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps text-label-caps">Attributes</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-outline-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">vitals</span>
+<span class="font-label-caps text-label-caps">Alchemy</span>
+</a>
+</nav>
+</aside>
+<!-- Main Canvas -->
+<main class="lg:pl-64 pt-32 pb-40 px-margin-mobile md:px-margin-desktop min-h-screen">
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Section Title -->
+<div class="lg:col-span-12 mb-8">
+<h1 class="font-audiowide text-5xl md:text-6xl text-primary tracking-tighter drop-shadow-[0_0_15px_rgba(197,231,255,0.4)]">TATTWÓMETRO</h1>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-secondary font-mono-data text-xs px-2 py-0.5 border border-secondary/30 bg-secondary/10">VEDIC_SYNC_V5.5</span>
+<span class="text-outline font-mono-data text-xs">// LOG_STATUS: OPTIMIZED</span>
+</div>
+</div>
+<!-- Central Visualization Column -->
+<div class="lg:col-span-8 flex flex-col items-center justify-center relative py-12">
+<!-- Tattwa Clock HUD -->
+<div class="relative w-[320px] h-[320px] md:w-[500px] md:h-[500px] flex items-center justify-center">
+<!-- Spinning Rings -->
+<div class="absolute inset-0 border-[1px] border-primary/10 rounded-full tattwa-orbit"></div>
+<div class="absolute inset-8 border-[1px] border-primary/5 rounded-full tattwa-orbit" style="animation-direction: reverse; animation-duration: 15s;"></div>
+<div class="absolute inset-16 border-[1px] border-primary/10 rounded-full tattwa-orbit" style="animation-duration: 25s;"></div>
+<!-- The Elements -->
+<!-- Akasha (White, Circle) -->
+<div class="absolute w-24 h-24 border-2 border-white rounded-full glow-akasha flex items-center justify-center bg-white/5 cursor-pointer hover:scale-110 transition-transform group" onclick="selectElement('akasha')">
+<span class="material-symbols-outlined text-white text-3xl group-hover:scale-125 transition-transform">brightness_empty</span>
+</div>
+<!-- Vayu (Blue, Ring) - Social -->
+<div class="absolute translate-y-[-140px] md:translate-y-[-200px] w-12 h-12 border-2 border-glow-cyan rounded-full glow-vayu flex items-center justify-center bg-glow-cyan/10 cursor-pointer hover:scale-125 transition-transform" onclick="selectElement('vayu')">
+<span class="material-symbols-outlined text-glow-cyan text-xl">air</span>
+</div>
+<!-- Tejas (Red, Triangle) - Energy -->
+<div class="absolute translate-x-[140px] md:translate-x-[200px] w-12 h-12 border-2 border-red-500 clip-path-[polygon(50%_0%,_0%_100%,_100%_100%)] glow-tejas flex items-center justify-center bg-red-500/10 cursor-pointer hover:scale-125 transition-transform" onclick="selectElement('tejas')" style="clip-path: polygon(50% 0%, 0% 100%, 100% 100%);">
+<span class="material-symbols-outlined text-red-500 text-xl translate-y-1">local_fire_department</span>
+</div>
+<!-- Apas (Silver, Moon) - Bio -->
+<div class="absolute translate-y-[140px] md:translate-y-[200px] w-12 h-12 border-2 border-gray-400 rounded-full glow-apas flex items-center justify-center bg-gray-400/10 cursor-pointer hover:scale-125 transition-transform" onclick="selectElement('apas')">
+<span class="material-symbols-outlined text-gray-400 text-xl">water_drop</span>
+</div>
+<!-- Prithivi (Gold, Square) - Steps -->
+<div class="absolute translate-x-[-140px] md:translate-x-[-200px] w-12 h-12 border-2 border-yellow-500 glow-prithivi flex items-center justify-center bg-yellow-500/10 cursor-pointer hover:scale-125 transition-transform" onclick="selectElement('prithivi')">
+<span class="material-symbols-outlined text-yellow-500 text-xl">square</span>
+</div>
+<!-- Central Prana Readout -->
+<div class="absolute flex flex-col items-center">
+<span class="font-orbitron italic text-4xl md:text-6xl font-bold text-primary drop-shadow-[0_0_15px_#7fd0ff] animate-pulse" id="prana-value">88%</span>
+<span class="font-label-caps text-xs text-outline tracking-[0.3em] uppercase">PRANA_VITALITY</span>
+</div>
+</div>
+<!-- Atmospheric Bottom Flow -->
+<div class="mt-20 w-full max-w-xl bg-surface-container/50 backdrop-blur-md p-6 rounded-xl border border-primary/10">
+<div class="flex justify-between items-end gap-4 h-32">
+<!-- Akasha Bar -->
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full bg-surface-container-highest/50 h-full relative overflow-hidden flex flex-col justify-end">
+<div class="w-full bg-white shadow-[0_0_10px_#fff] h-[92%] transition-all duration-1000"></div>
+</div>
+<span class="font-micro-tag text-[8px] text-white/50">AKASHA</span>
+</div>
+<!-- Vayu Bar -->
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full bg-surface-container-highest/50 h-full relative overflow-hidden flex flex-col justify-end">
+<div class="w-full bg-glow-cyan shadow-[0_0_10px_#2da8e0] h-[75%] transition-all duration-1000"></div>
+</div>
+<span class="font-micro-tag text-[8px] text-glow-cyan/50">VAYU</span>
+</div>
+<!-- Tejas Bar -->
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full bg-surface-container-highest/50 h-full relative overflow-hidden flex flex-col justify-end">
+<div class="w-full bg-red-500 shadow-[0_0_10px_#ef4444] h-[60%] transition-all duration-1000"></div>
+</div>
+<span class="font-micro-tag text-[8px] text-red-500/50">TEJAS</span>
+</div>
+<!-- Apas Bar -->
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full bg-surface-container-highest/50 h-full relative overflow-hidden flex flex-col justify-end">
+<div class="w-full bg-gray-400 shadow-[0_0_10px_#9ca3af] h-[85%] transition-all duration-1000"></div>
+</div>
+<span class="font-micro-tag text-[8px] text-gray-400/50">APAS</span>
+</div>
+<!-- Prithivi Bar -->
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full bg-surface-container-highest/50 h-full relative overflow-hidden flex flex-col justify-end">
+<div class="w-full bg-yellow-500 shadow-[0_0_10px_#eab308] h-[45%] transition-all duration-1000"></div>
+</div>
+<span class="font-micro-tag text-[8px] text-yellow-500/50">PRITHIVI</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Detail Column -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<!-- Tattwa Detail Card -->
+<div class="prism-card bg-surface-panel backdrop-blur-2xl border border-primary/20 p-8 flex flex-col gap-6 relative transition-all duration-500 opacity-100" id="element-detail-card">
+<div class="absolute top-0 right-0 p-2 font-mono-data text-[10px] text-primary opacity-30">REF_ID: ELEMENTS_001</div>
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center border border-primary/30" id="detail-icon-bg">
+<span class="material-symbols-outlined text-4xl text-primary" id="detail-icon">brightness_empty</span>
+</div>
+<div>
+<h2 class="font-audiowide text-3xl text-on-surface" id="detail-title">AKASHA</h2>
+<div class="font-label-caps text-xs text-secondary" id="detail-vital">SERENIDAD_LINK</div>
+</div>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-orbitron text-5xl font-bold text-primary" id="detail-value">92%</span>
+<span class="font-mono-data text-outline">OPTIMAL</span>
+</div>
+<div class="h-px bg-primary/10 w-full"></div>
+<div>
+<span class="font-label-caps text-xs text-outline block mb-2">DESCRIPTION_CORE</span>
+<p class="font-body-md text-on-surface-variant leading-relaxed italic" id="detail-desc">
+                            Éter: El espacio que todo lo contiene. Representa la conciencia pura y la capacidad de albergar todas las demás manifestaciones físicas y energéticas.
+                        </p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container/30 border border-primary/5 p-3 rounded">
+<span class="font-micro-tag text-[9px] block text-outline">POLARITY</span>
+<span class="font-label-caps text-on-surface" id="detail-polarity">NEUTRAL</span>
+</div>
+<div class="bg-surface-container/30 border border-primary/5 p-3 rounded">
+<span class="font-micro-tag text-[9px] block text-outline">CHAKRA</span>
+<span class="font-label-caps text-on-surface" id="detail-chakra">VISHUDDHA</span>
+</div>
+</div>
+<button class="w-full mt-4 bg-primary text-on-primary py-4 font-audiowide tracking-widest text-sm hover:bg-glow-cyan transition-colors active:scale-[0.98] duration-200" style="clip-path: polygon(0 0, 90% 0, 100% 30%, 100% 100%, 10% 100%, 0 70%);">
+                        SINTONIZAR CON SOF.IA
+                    </button>
+</div>
+<!-- Secondary Data Log -->
+<div class="bg-surface-container-low/40 backdrop-blur-md border border-primary/10 p-6 rounded-xl">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-secondary text-sm">terminal</span>
+<span class="font-label-caps text-xs tracking-widest">LIVE_SYSTEM_LOG</span>
+</div>
+<div class="font-mono-data text-[11px] space-y-2 text-outline-variant">
+<div class="flex justify-between"><span class="text-secondary">[OK]</span> <span>Calibrating Vayu frequency...</span></div>
+<div class="flex justify-between"><span class="text-secondary">[OK]</span> <span>Tejas surge detected @ 14:02</span></div>
+<div class="flex justify-between"><span class="text-primary">[INFO]</span> <span>Prana balance stabilized</span></div>
+<div class="flex justify-between"><span class="text-secondary">[OK]</span> <span>Syncing with SOF.IA core</span></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mobile Only) -->
+<footer class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 pb-safe px-4 bg-surface-container/80 backdrop-blur-lg border-t border-primary/20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70 active:scale-90 transition-all">
+<span class="material-symbols-outlined">space_dashboard</span>
+<span class="font-label-caps text-[10px]">Dash</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70 active:scale-90 transition-all">
+<span class="material-symbols-outlined">temple_hindu</span>
+<span class="font-label-caps text-[10px]">Houses</span>
+</button>
+<button class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-110 active:scale-90 transition-all">
+<span class="material-symbols-outlined">assignment_late</span>
+<span class="font-label-caps text-[10px]">Missions</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70 active:scale-90 transition-all">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-caps text-[10px]">Stats</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70 active:scale-90 transition-all">
+<span class="material-symbols-outlined">autorenew</span>
+<span class="font-label-caps text-[10px]">Cycle</span>
+</button>
+</footer>
+<!-- Global Footer -->
+<div class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-8 flex flex-col items-center gap-2 opacity-40 hover:opacity-100 transition-opacity duration-500 font-mono-data text-mono-data text-outline">
+<div>MAGNOPVS OS v4.2.0 // SYSTEM_STABLE</div>
+<div class="flex gap-4">
+<a class="hover:text-primary transition-colors" href="#">System Reset</a>
+<a class="hover:text-primary transition-colors" href="#">Log Export</a>
+<a class="hover:text-primary transition-colors" href="#">Protocol-9</a>
+</div>
+</div>
+<script>
+        const elementData = {
+            akasha: {
+                title: "AKASHA",
+                vital: "SERENIDAD_LINK",
+                value: "92%",
+                desc: "Éter: El espacio que todo lo contiene. Representa la conciencia pura y la capacidad de albergar todas las demás manifestaciones físicas y energéticas.",
+                polarity: "NEUTRAL",
+                chakra: "VISHUDDHA",
+                icon: "brightness_empty",
+                color: "text-white"
+            },
+            vayu: {
+                title: "VAYU",
+                vital: "SOCIAL_SYNC",
+                value: "75%",
+                desc: "Aire: El principio del movimiento y la ligereza. Gobierna la comunicación, los vínculos sociales y la agilidad mental en el ecosistema digital.",
+                polarity: "MASCULINE",
+                chakra: "ANAHATA",
+                icon: "air",
+                color: "text-glow-cyan"
+            },
+            tejas: {
+                title: "TEJAS",
+                vital: "ENERGY_STRESS",
+                value: "60%",
+                desc: "Fuego: La fuerza de la transformación y la digestión mental. Gestiona tu impulso vital y la capacidad de quemar el estrés en energía pura.",
+                polarity: "MASCULINE",
+                chakra: "MANIPURA",
+                icon: "local_fire_department",
+                color: "text-red-500"
+            },
+            apas: {
+                title: "APAS",
+                vital: "BIO_INTEGRITY",
+                value: "85%",
+                desc: "Agua: La esencia de la cohesión y la fluidez. Representa la salud biológica, la hidratación y el flujo emocional constante.",
+                polarity: "FEMININE",
+                chakra: "SVADHISHTHANA",
+                icon: "water_drop",
+                color: "text-gray-300"
+            },
+            prithivi: {
+                title: "PRITHIVI",
+                vital: "STEPS_GROUNDING",
+                value: "45%",
+                desc: "Tierra: El principio de la solidez y la manifestación. Vinculado a tu actividad física diaria y el enraizamiento en el plano material.",
+                polarity: "FEMININE",
+                chakra: "MULADHARA",
+                icon: "square",
+                color: "text-yellow-500"
+            }
+        };
+
+        function selectElement(id) {
+            const data = elementData[id];
+            const card = document.getElementById('element-detail-card');
+            
+            // Subtle transition effect
+            card.classList.add('opacity-0');
+            card.classList.add('translate-y-4');
+            
+            setTimeout(() => {
+                document.getElementById('detail-title').innerText = data.title;
+                document.getElementById('detail-vital').innerText = data.vital;
+                document.getElementById('detail-value').innerText = data.value;
+                document.getElementById('detail-desc').innerText = data.desc;
+                document.getElementById('detail-polarity').innerText = data.polarity;
+                document.getElementById('detail-chakra').innerText = data.chakra;
+                
+                const iconEl = document.getElementById('detail-icon');
+                iconEl.innerText = data.icon;
+                iconEl.className = `material-symbols-outlined text-4xl ${data.color}`;
+                
+                card.classList.remove('opacity-0');
+                card.classList.remove('translate-y-4');
+            }, 300);
+        }
+
+        // Auto-update Prana value for visual flair
+        setInterval(() => {
+            const prana = document.getElementById('prana-value');
+            const current = parseInt(prana.innerText);
+            const drift = Math.random() > 0.5 ? 1 : -1;
+            const newVal = Math.min(100, Math.max(70, current + drift));
+            prana.innerText = newVal + "%";
+        }, 3000);
+    </script>
+</body></html>

@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QUANTVM MATRIX // THE MULTIVERSE PORTAL (Cosmic RPG HUD)</title>
+<!-- Fonts: Audiowide & Orbitron -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container-lowest": "#07090e",
+            "background": "#0a0d14",
+            "surface-container-low": "#0e121a",
+            "surface-container": "#141824",
+            "surface-container-high": "#1b2132",
+            "surface-container-highest": "#242c42",
+            "primary": "#00e5ff",              /* Aquamarine / Hologram Cyan */
+            "primary-glow": "#7fffda",
+            "secondary": "#00b0ff",            /* Celestial Blue */
+            "accent-magenta": "#ff007f",       /* Vibrant Magenta */
+            "accent-violet": "#8a2be2",        /* Deep Violet */
+            "on-primary": "#05131a",
+            "on-surface": "#f0f4f8",           /* Pearl White */
+            "on-surface-variant": "#bac9cc",
+            "outline": "#4a5568",              /* High-tech Grey */
+            "outline-variant": "#232d3f",
+            "hud-cyan": "#00e5ff",
+            "hud-blue": "#2979ff",
+            "hud-magenta": "#e040fb",
+            "hud-violet": "#7b1fa2",
+            "hud-pearl": "#f0f4f8"
+          },
+          "fontFamily": {
+            "headline": ["Audiowide", "sans-serif"],
+            "body": ["Orbitron", "sans-serif"],
+            "telemetry": ["Orbitron", "monospace"]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 18px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    /* Cosmic RPG HUD Grid & Ley-lines */
+    .cosmic-hud-grid {
+      background-size: 36px 36px;
+      background-image: 
+        linear-gradient(to right, rgba(0, 229, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 176, 255, 0.05) 1px, transparent 1px);
+    }
+
+    /* Holographic Cybernetic HUD Corner Brackets */
+    .hud-corner {
+      position: relative;
+    }
+    .hud-corner::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      width: 8px;
+      height: 8px;
+      border-top: 2px solid #00e5ff;
+      border-left: 2px solid #00e5ff;
+      box-shadow: -1px -1px 6px rgba(0, 229, 255, 0.6);
+      pointer-events: none;
+    }
+    .hud-corner::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      right: -1px;
+      width: 8px;
+      height: 8px;
+      border-bottom: 2px solid #ff007f;
+      border-right: 2px solid #ff007f;
+      box-shadow: 1px 1px 6px rgba(255, 0, 127, 0.6);
+      pointer-events: none;
+    }
+
+    .glow-cyan {
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.25);
+    }
+    .glow-magenta {
+      box-shadow: 0 0 15px rgba(255, 0, 127, 0.25);
+    }
+    .glow-cyan-border {
+      box-shadow: 0 0 12px rgba(0, 229, 255, 0.3), inset 0 0 12px rgba(0, 229, 255, 0.08);
+    }
+
+    .clip-hud-tag {
+      clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen selection:bg-primary selection:text-on-primary relative font-body text-[13px] tracking-wider overflow-x-hidden">
+<!-- BACKGROUND SUB-SURFACE HUD GRID & CELESTIAL AMBIENT GLOW -->
+<div class="fixed inset-0 pointer-events-none cosmic-hud-grid opacity-70 z-0"></div>
+<div class="fixed top-0 left-1/2 -translate-x-1/2 w-[1300px] h-[520px] bg-gradient-to-b from-secondary/10 via-accent-violet/10 to-transparent blur-3xl pointer-events-none z-0"></div>
+<div class="fixed bottom-0 right-0 w-[600px] h-[600px] bg-gradient-to-tl from-accent-magenta/5 via-accent-violet/5 to-transparent blur-3xl pointer-events-none z-0"></div>
+<!-- ========================================================================= -->
+<!-- PERSISTENT TOP NAVIGATION CLUSTER (PUBLIC MATRIX SHELL)                    -->
+<!-- ========================================================================= -->
+<header class="sticky top-0 z-50 bg-[#07090e]/95 backdrop-blur-md border-b border-outline-variant/80">
+<!-- Sub-tier: Environment Matrix Switcher & Telemetry Ticker -->
+<div class="h-8 border-b border-outline-variant/60 px-6 flex items-center justify-between text-[10px] font-telemetry tracking-widest text-[#718096]">
+<div class="flex items-center gap-3">
+<span class="text-primary font-bold flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 bg-primary shadow-[0_0_8px_#00e5ff]"></span>
+  WB // ARCHON-SYS
+</span>
+<span class="text-outline-variant">|</span>
+<div class="flex items-center gap-1.5">
+<span class="px-2 py-0.5 bg-primary/10 border border-primary/40 text-primary text-[9px] uppercase tracking-wider clip-hud-tag font-semibold">PUBLIC PORTAL [ACTIVE]</span>
+<a class="px-2 py-0.5 border border-transparent hover:border-outline-variant text-[#bac9cc] hover:text-secondary text-[9px] uppercase tracking-wider transition-colors" href="#">CREATOR STUDIO</a>
+<a class="px-2 py-0.5 border border-transparent hover:border-outline-variant text-[#bac9cc] hover:text-secondary text-[9px] uppercase tracking-wider transition-colors" href="#">INTELLIGENCE CORE</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1.5 text-secondary">
+<span class="w-1.5 h-1.5 bg-secondary rounded-full animate-ping"></span>
+<span class="tracking-widest">MULTIVERSE LEY-FEED: ONLINE</span>
+</div>
+<span class="text-outline-variant">|</span>
+<span class="hidden md:inline text-on-surface-variant">NODE: NEO-KYOTO ORBITAL IX</span>
+</div>
+</div>
+<!-- Main Navigation Bar -->
+<div class="h-16 px-6 flex items-center justify-between gap-6">
+<!-- Brand Matrix Monogram & Headline -->
+<div class="flex items-center gap-4 shrink-0">
+<div class="w-10 h-10 border border-primary/80 flex items-center justify-center bg-surface-container-low text-primary relative shadow-[0_0_10px_rgba(0,229,255,0.3)]">
+<span class="material-symbols-outlined text-primary text-[22px]">blur_on</span>
+<div class="absolute -top-1 -right-1 w-1.5 h-1.5 bg-accent-magenta shadow-[0_0_6px_#ff007f]"></div>
+<div class="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-secondary shadow-[0_0_6px_#00b0ff]"></div>
+</div>
+<div>
+<div class="font-headline text-lg text-hud-pearl tracking-widest leading-none drop-shadow-[0_0_8px_rgba(0,229,255,0.4)]">QUANTVM MATRIX</div>
+<div class="font-telemetry text-[9px] text-primary/80 tracking-[0.25em] mt-1">THE MULTIVERSE PORTAL // WHITE BROTHERHOOD</div>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="hidden lg:flex items-center gap-6 text-[11px] font-telemetry tracking-wider">
+<a class="text-primary border-b-2 border-primary pb-1 flex items-center gap-1.5 shadow-[0_4px_12px_rgba(0,229,255,0.25)]" href="#">
+<span class="material-symbols-outlined text-[14px]">token</span> HOME
+</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors pb-1 border-b-2 border-transparent hover:border-primary" href="#universes">EXPLORE</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors pb-1 border-b-2 border-transparent hover:border-primary" href="#universes">UNIVERSES</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors pb-1 border-b-2 border-transparent hover:border-primary" href="#chronicles">MEDIA</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors pb-1 border-b-2 border-transparent hover:border-primary" href="#explorer">MULTIVERSE</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors pb-1 border-b-2 border-transparent hover:border-primary" href="#">COMMUNITY</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors pb-1 border-b-2 border-transparent hover:border-primary" href="#">MY MATRIX</a>
+</nav>
+<!-- Global Actions / Clearance Toolset -->
+<div class="flex items-center gap-3 shrink-0 font-telemetry text-[11px]">
+<!-- ⌘K Search trigger bar -->
+<div class="hidden xl:flex items-center gap-2 bg-surface-container-low border border-outline-variant/80 px-3 py-1.5 text-on-surface-variant cursor-pointer hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-primary text-[16px]">search</span>
+<span class="w-48 truncate text-[11px]">Search universes, lore...</span>
+<kbd class="px-1.5 py-0.5 bg-surface-container text-primary border border-outline-variant text-[9px]">⌘K</kbd>
+</div>
+<!-- Frequency Ambience Toggle -->
+<button class="hidden sm:flex items-center gap-1.5 border border-outline-variant/80 bg-surface-container-low px-2.5 py-1.5 text-on-surface-variant hover:border-secondary transition-colors">
+<span class="material-symbols-outlined text-secondary text-[14px]">graphic_eq</span>
+<span class="hidden md:inline">FREQ: 432Hz</span>
+<span class="text-primary font-bold">[PLAYING]</span>
+</button>
+<!-- Bookmark/Watchlist -->
+<button class="p-2 border border-outline-variant/80 bg-surface-container-low text-on-surface-variant hover:text-primary hover:border-primary transition-colors" title="Codex Watchlist">
+<span class="material-symbols-outlined text-[16px]">bookmark</span>
+</button>
+<!-- Access / Enter Matrix Action -->
+<button class="bg-gradient-to-r from-primary to-secondary hover:from-primary-glow hover:to-secondary text-on-primary font-headline text-[11px] px-5 py-2 flex items-center gap-2 font-bold tracking-widest transition-all shadow-[0_0_16px_rgba(0,229,255,0.4)] border border-primary">
+<span class="material-symbols-outlined text-[16px]">fingerprint</span>
+<span>ENTER MATRIX</span>
+</button>
+</div>
+</div>
+</header>
+<!-- ========================================================================= -->
+<!-- SECTION 1: HERO CINEMATIC SHOWCASE (FULL-WIDTH EDITORIAL)                 -->
+<!-- ========================================================================= -->
+<section class="relative min-h-[870px] border-b border-outline-variant/80 flex flex-col justify-end p-6 lg:p-12 overflow-hidden bg-background">
+<!-- Cinematic Background Plate -->
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-cover bg-center" data-alt="A grand cinematic anime noir shot of Neo-Kyoto in high contrast obsidian black, polished brass gold, and glowing cyan neon light. In the foreground, an enigmatic ronin operative clad in high-tech carbon fiber haori and an obsidian demon mask overlooks a precipitous cybernetic metropolis shrouded in rain and sacred geometric holograms. Atmospheric fog, sharp cinematic lighting, neo-art-deco architectural arches towering in the distant skyline, moody and luxurious." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCTv-52d1wE71bgxiOIvK8c37Hr1Mdi9XnbDueVmvmwFT57BaP6WwBxtAU8KluWqMQjwLZB7MI3BTvtuZtl0l-QrDTKzJLBI4hUGiRwJg4R0mLjKdNZpi_piPRgFNP-dG_XqUD3Iid-zUFXDA5OgznU5WU2Fb1lLk9H2m2ebCokY_KT2AoilRygNJhmItZlT-5Ks4nLCks1IWfUE6336eTX5tq1f70UttCwn6qTDYg')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/85 to-background/40"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-transparent"></div>
+</div>
+<!-- Editorial Overlay Content -->
+<div class="relative z-10 max-w-5xl">
+<!-- Resonance Telemetry Stream -->
+<div class="inline-flex items-center gap-3 px-3 py-1 bg-surface-container-low/90 backdrop-blur-md border border-primary/40 mb-6 text-[11px] font-telemetry shadow-[0_0_12px_rgba(0,229,255,0.15)]">
+<span class="w-2 h-2 bg-primary animate-pulse shadow-[0_0_8px_#00e5ff]"></span>
+<span class="text-primary font-bold">MULTIVERSE RESONANCE: 99.4% STABLE</span>
+<span class="text-outline-variant">|</span>
+<span class="text-secondary">8 ACTIVE SAGAS ONLINE</span>
+<span class="text-outline-variant">|</span>
+<span class="text-hud-pearl">HERO DESIGNATION: ARCHON-01</span>
+</div>
+<!-- Main Master Title -->
+<h1 class="font-headline text-3xl sm:text-4xl lg:text-5xl text-hud-pearl tracking-wider leading-tight mb-4 drop-shadow-[0_0_15px_rgba(0,229,255,0.3)]">
+        ONE MATRIX. MULTIPLE UNIVERSES. INFINITE REALITIES.
+      </h1>
+<!-- Subtext Copy -->
+<p class="font-body text-[13px] sm:text-[14px] text-on-surface-variant max-w-3xl mb-8 leading-relaxed font-normal">
+        The sovereign narrative architecture and reality engine of the White Brotherhood. Traverse boundless sagas, Japanese manga noir, esoteric philosophies, and apocalyptic horizons through sacred quantum leylines.
+      </p>
+<!-- Featured Focus Chassis: Butsu no Baka -->
+<div class="bg-surface-container-low/85 backdrop-blur-md border border-outline-variant/80 p-6 max-w-3xl mb-8 hud-corner glow-cyan-border">
+<div class="flex flex-wrap items-center justify-between gap-4 border-b border-outline-variant/60 pb-3 mb-4">
+<div class="flex items-center gap-3 font-telemetry text-[11px]">
+<span class="px-2 py-0.5 bg-primary/10 border border-primary text-primary tracking-widest uppercase">CYBERPUNK // MANGA NOIR</span>
+<span class="text-[#718096]">ARC II: NEON VOID RUNNER</span>
+</div>
+<div class="text-[11px] font-telemetry text-secondary flex items-center gap-1 font-bold">
+<span class="material-symbols-outlined text-secondary text-[14px]">security</span>
+<span>RATING: ARCHON-CLEARANCE</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="md:col-span-2">
+<div class="font-headline text-base text-hud-pearl mb-1 tracking-wide">FEATURED UNIVERSE: BUTSU NO BAKA</div>
+<p class="font-body text-[12px] text-on-surface-variant leading-relaxed">
+              In a rain-soaked, cybernetic Neo-Kamakura governed by shadow corporations and arcane warrior monks, a decommissioned cyber-samurai uncovers the obsidian memory cores of the First Patriarch.
+            </p>
+</div>
+<div class="border-t md:border-t-0 md:border-l border-outline-variant/60 md:pl-6 flex flex-col justify-center space-y-1 text-[11px] font-telemetry">
+<div class="text-[#718096]">CANON EPISODES: <span class="text-hud-pearl font-bold">24 CH.</span></div>
+<div class="text-[#718096]">CHRONO-DATE: <span class="text-secondary font-bold">ERA 2189</span></div>
+<div class="text-[#718096]">STATUS: <span class="text-primary font-bold">LIVE CANON</span></div>
+</div>
+</div>
+</div>
+<!-- Action Cluster -->
+<div class="flex flex-wrap items-center gap-4 font-telemetry">
+<a class="bg-gradient-to-r from-primary to-secondary hover:from-primary-glow hover:to-secondary text-on-primary font-headline text-xs px-6 py-3.5 flex items-center gap-3 transition-all border border-primary shadow-[0_0_20px_rgba(0,229,255,0.35)]" href="#universes">
+<span class="material-symbols-outlined text-[18px]">explore</span>
+<span>EXPLORE UNIVERSE</span>
+</a>
+<a class="bg-surface-container hover:bg-surface-container-high text-primary border border-outline hover:border-primary font-body text-xs px-5 py-3.5 flex items-center gap-2 transition-colors glow-cyan" href="#chronicles">
+<span class="material-symbols-outlined text-primary text-[16px]">menu_book</span>
+<span>READ LATEST CHAPTER (CH. 24)</span>
+</a>
+<a class="text-secondary hover:text-primary font-body text-xs px-4 py-3.5 flex items-center gap-2 transition-colors border border-transparent hover:border-outline-variant" href="#explorer">
+<span class="material-symbols-outlined text-[16px]">hub</span>
+<span>PREVIEW MULTIVERSE MAP</span>
+</a>
+</div>
+</div>
+<!-- Flanking Telemetry Stamp -->
+<div class="absolute bottom-6 right-6 hidden xl:block text-right pointer-events-none font-telemetry text-[10px]">
+<div class="text-[#718096]">SYSTEM FREQUENCY: 432.08 Hz</div>
+<div class="text-primary">CORE ENGINE: QUANTVM V.4.8</div>
+<div class="text-secondary">TRANSMISSION: UNENCRYPTED PUBLIC</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- SECTION 2: FEATURED UNIVERSES (THE 8 SAGAS DIRECTORY)                     -->
+<!-- ========================================================================= -->
+<section class="py-16 px-6 lg:px-12 border-b border-outline-variant/80 bg-background" id="universes">
+<div class="max-w-7xl mx-auto">
+<!-- Section Header with Filter Controls -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-outline-variant/80 mb-10">
+<div>
+<div class="font-telemetry text-[11px] text-secondary tracking-widest uppercase mb-1">REGISTRY CODE: 01 // ARCHIVE MATRIX</div>
+<h2 class="font-headline text-2xl lg:text-3xl text-hud-pearl tracking-wider drop-shadow-[0_0_10px_rgba(0,229,255,0.3)]">SAGA DIRECTORY — INITIAL REGISTERED UNIVERSES</h2>
+<p class="font-body text-[13px] text-on-surface-variant mt-1">Eight sovereign narrative dimensions forged within the White Brotherhood cosmology.</p>
+</div>
+<!-- Filter Pill Cluster -->
+<div class="flex flex-wrap items-center gap-1.5 bg-surface-container-low border border-outline-variant/80 p-1 text-[11px] font-telemetry">
+<button class="px-3 py-1 bg-primary text-on-primary font-bold shadow-[0_0_10px_rgba(0,229,255,0.4)]">ALL (8)</button>
+<button class="px-3 py-1 text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors">FEATURED</button>
+<button class="px-3 py-1 text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors">MANGA</button>
+<button class="px-3 py-1 text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors">MYTHOLOGY</button>
+<button class="px-3 py-1 text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors">APOCALYPTIC</button>
+</div>
+</div>
+<!-- 8 Sagas Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Universe 1: Butsu no Baka -->
+<div class="group bg-surface-container-low border border-outline-variant/80 hover:border-primary transition-all duration-300 flex flex-col justify-between hud-corner hover:shadow-[0_0_20px_rgba(0,229,255,0.2)]">
+<div>
+<div class="relative h-48 overflow-hidden border-b border-outline-variant/60">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Dark gritty cybernetic Japanese cyberpunk manga illustration with bold ink linework, glowing turquoise cybernetics, a rain-soaked temple gate in Neo-Kamakura, stark chiaroscuro lighting, deep blacks and metallic brass trim." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCJKpxYi1Vjwmk7HYYqqC0eeoR2K5yrJz1FOF5BYDo9ga1bkQ3TvV0LyF1QHzzUgnc72nNVTzA49z071_x2y2sjAeLYhVPPQoovhM-vbzdMsi5-qL1RBmuUK0sbs6bdaj5Y09vC4aUPBObJ0kZ2hpwE7lQgdyz4snVfyYX4PQAiLS4_guNzNHNGmjqcT0oN6pQjMVwDBmFJjvoUFOjoDbvsKuX8vjbN3XYH76-8h14')"></div>
+<div class="absolute top-2 left-2 bg-[#07090e]/90 px-2 py-0.5 border border-primary text-primary text-[10px] font-telemetry">
+                01 // MANGA NOIR
+              </div>
+<div class="absolute bottom-2 right-2 bg-[#07090e]/90 px-2 py-0.5 text-secondary text-[10px] font-telemetry border border-secondary/40">
+                CH. 24 READY
+              </div>
+</div>
+<div class="p-5">
+<h3 class="font-headline text-base text-hud-pearl mb-1 group-hover:text-primary transition-colors">Butsu no Baka</h3>
+<p class="font-telemetry text-[10px] text-[#718096] mb-3 tracking-widest">CYBERPUNK × NEO-GOTHIC</p>
+<p class="font-body text-[12px] text-on-surface-variant line-clamp-3">
+                Cyber-samurai heresy in a vertical megalopolis ruled by hermetic warrior monk syndicates and high-order AI idols.
+              </p>
+</div>
+</div>
+<div class="p-5 pt-0">
+<div class="border-t border-outline-variant/60 pt-3 flex items-center justify-between font-telemetry text-[11px]">
+<span class="text-on-surface-variant flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> [ACTIVE CANON]
+</span>
+<a class="text-secondary hover:text-primary flex items-center gap-1 font-bold transition-colors" href="#">
+                ENTER UNIVERSE <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Universe 2: Las Aventuras del Señor Plátano -->
+<div class="group bg-surface-container-low border border-outline-variant/80 hover:border-secondary transition-all duration-300 flex flex-col justify-between hud-corner hover:shadow-[0_0_20px_rgba(0,176,255,0.2)]">
+<div>
+<div class="relative h-48 overflow-hidden border-b border-outline-variant/60">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Surrealist alchemical mystery art featuring an enigmatic golden aristocratic banana character wearing a Victorian monocle and velvet cape inside an arcane clockwork observatory filled with celestial astrolabes, rich gilded yellow and deep shadow aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDZO8XPkZ_k5L0Q6DvKOp8orIvOrdyWOfBVm6H3FUrBh0GFJNu47Tf8iXiIYAlikTziRnJ7HzXFumZamtffwRVYxQckxq-bGL36GVGjxNcRqCAewHq2OQrfcnJ7qzTIBtQKj22oMnNQC_n9q7hrqrj5MzyRmnOSbUftMqTOMDJq2Xg__xWtbQuocRjofPfrR6rknteU60_KdnesHkhkxPWdf3LnzuNbZp4L-s6Frzo')"></div>
+<div class="absolute top-2 left-2 bg-[#07090e]/90 px-2 py-0.5 border border-primary text-primary text-[10px] font-telemetry">
+                02 // ALCHEMICAL SATIRE
+              </div>
+<div class="absolute bottom-2 right-2 bg-[#07090e]/90 px-2 py-0.5 text-secondary text-[10px] font-telemetry border border-secondary/40">
+                VOL. IV
+              </div>
+</div>
+<div class="p-5">
+<h3 class="font-headline text-base text-hud-pearl mb-1 group-hover:text-primary transition-colors">Las Aventuras del Señor Plátano</h3>
+<p class="font-telemetry text-[10px] text-[#718096] mb-3 tracking-widest">SATIRICAL MYSTERY × SURREALISM</p>
+<p class="font-body text-[12px] text-on-surface-variant line-clamp-3">
+                A sharp, delightfully philosophical investigation through metaphysical corridors and absurd alchemical trials.
+              </p>
+</div>
+</div>
+<div class="p-5 pt-0">
+<div class="border-t border-outline-variant/60 pt-3 flex items-center justify-between font-telemetry text-[11px]">
+<span class="text-on-surface-variant flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> [ACTIVE CANON]
+</span>
+<a class="text-secondary hover:text-primary flex items-center gap-1 font-bold transition-colors" href="#">
+                ENTER UNIVERSE <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Universe 3: Apocalipsis -->
+<div class="group bg-surface-container-low border border-outline-variant/80 hover:border-accent-magenta transition-all duration-300 flex flex-col justify-between hud-corner hover:shadow-[0_0_20px_rgba(255,0,127,0.2)]">
+<div>
+<div class="relative h-48 overflow-hidden border-b border-outline-variant/60">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Dystopian apocalyptic landscape with fractured monolithic towers rising from ash deserts under a blood-amber sun, nomadic robed survivors wielding relic staves, severe geometric ruins and high contrast atmospheric embers." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDDZI6ccmJtiDQyL0ITsrm9rwSxHKo7GqJ6_AIbtZPFbH3Z4FMsqgcI6by0Da59KKzcayV7Badv5HEGUaS41WrrjEwzUrVoIYFhJbGtcQsFCN5W1f2vrnl1dD7Rwz_aFcxTB4B6UUDJ8thTChzgIuJYU4Mndw46ezqgCjbK65otutnOMF0XUW4aL4FproQekXRP-ZyF24udpraODqq9GMiaCFjjSxZp7z6vWY7vIFM')"></div>
+<div class="absolute top-2 left-2 bg-[#07090e]/90 px-2 py-0.5 border border-primary text-primary text-[10px] font-telemetry">
+                03 // ESCHATOLOGY
+              </div>
+<div class="absolute bottom-2 right-2 bg-[#07090e]/90 px-2 py-0.5 text-accent-magenta text-[10px] font-telemetry border border-accent-magenta/40">
+                CODEX IX
+              </div>
+</div>
+<div class="p-5">
+<h3 class="font-headline text-base text-hud-pearl mb-1 group-hover:text-primary transition-colors">Apocalipsis</h3>
+<p class="font-telemetry text-[10px] text-[#718096] mb-3 tracking-widest">APOCALYPTIC FICTION × SURVIVAL</p>
+<p class="font-body text-[12px] text-on-surface-variant line-clamp-3">
+                The earth re-ordered after the Great Breaking. Factions war over forgotten orbital satellites and sacred seeds.
+              </p>
+</div>
+</div>
+<div class="p-5 pt-0">
+<div class="border-t border-outline-variant/60 pt-3 flex items-center justify-between font-telemetry text-[11px]">
+<span class="text-on-surface-variant flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> [ACTIVE CANON]
+</span>
+<a class="text-secondary hover:text-primary flex items-center gap-1 font-bold transition-colors" href="#">
+                ENTER UNIVERSE <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Universe 4: Golden Apple -->
+<div class="group bg-surface-container-low border border-outline-variant/80 hover:border-primary transition-all duration-300 flex flex-col justify-between hud-corner hover:shadow-[0_0_20px_rgba(0,229,255,0.2)]">
+<div>
+<div class="relative h-48 overflow-hidden border-b border-outline-variant/60">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Sacred geometry artwork showing a radiant golden apple radiating divine light inside an ethereal marble pantheon, floating Platonic polyhedra, brass and lapis lazuli accents, Neo-Art-Deco divine majesty." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCYDFEUMI_98vSqtWZ64P9LKyY0FSJZpTa30m5_uskGW6kIXQz75ChQPMpwriC5ZkrI203PLAagmWT3wZDzmLNCnErtEyqbOzhSARLcQ6Q2Ar88dtOFoJZxDsND10RSthed3lKLq6pCv9eb1MboYCWDZ8Q7NF6jl7YG-imMIt5-hw0iHuKh9clfbw9Odw9QHdJrpiEyArmfjMTcD377sWkt-xEzHebn8O3U-q6tjGU')"></div>
+<div class="absolute top-2 left-2 bg-[#07090e]/90 px-2 py-0.5 border border-primary text-primary text-[10px] font-telemetry">
+                04 // DIVINE FANTASY
+              </div>
+<div class="absolute bottom-2 right-2 bg-[#07090e]/90 px-2 py-0.5 text-secondary text-[10px] font-telemetry border border-secondary/40">
+                EPISODE 07
+              </div>
+</div>
+<div class="p-5">
+<h3 class="font-headline text-base text-hud-pearl mb-1 group-hover:text-primary transition-colors">Golden Apple</h3>
+<p class="font-telemetry text-[10px] text-[#718096] mb-3 tracking-widest">MYTHOLOGY × SACRED GEOMETRY</p>
+<p class="font-body text-[12px] text-on-surface-variant line-clamp-3">
+                Divine archetypes compete across cosmic planes for the fruit of ontological primacy and universal concord.
+              </p>
+</div>
+</div>
+<div class="p-5 pt-0">
+<div class="border-t border-outline-variant/60 pt-3 flex items-center justify-between font-telemetry text-[11px]">
+<span class="text-on-surface-variant flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> [ACTIVE CANON]
+</span>
+<a class="text-secondary hover:text-primary flex items-center gap-1 font-bold transition-colors" href="#">
+                ENTER UNIVERSE <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Universe 5: Eleusis Path -->
+<div class="group bg-surface-container-low border border-outline-variant/80 hover:border-accent-violet transition-all duration-300 flex flex-col justify-between hud-corner hover:shadow-[0_0_20px_rgba(138,43,226,0.2)]">
+<div>
+<div class="relative h-48 overflow-hidden border-b border-outline-variant/60">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Ancient Greek hermetic initiation temple at twilight, torchlight casting deep long shadows across fluted columns, hooded initiates walking a labyrinth paved with gilded mosaic patterns, solemn mystery and sacred silence." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDwDmGq46H7BA52xC9eS8Hp5L2C403wDzkSgKJpEWcR0W77UzaE-35NY-TaLyobEr4_w6Y185RqXQZwtiNag3Imt-C3cV4WjuV7lYgKPdCrih6Sb3TFER9ppEZLE1jlgH8_h8e9zgC6mWVGX7LI9TpsRjGn2eHSHnXSjwh6Upj0A3TvY8RVitbN_9GHxzcxlt2WllUARB8h1kpISQIcIbM0H_qGvcnaHEuAw26nk9o')"></div>
+<div class="absolute top-2 left-2 bg-[#07090e]/90 px-2 py-0.5 border border-primary text-primary text-[10px] font-telemetry">
+                05 // HERMETIC MYSTERY
+              </div>
+<div class="absolute bottom-2 right-2 bg-[#07090e]/90 px-2 py-0.5 text-secondary text-[10px] font-telemetry border border-secondary/40">
+                RITE IV
+              </div>
+</div>
+<div class="p-5">
+<h3 class="font-headline text-base text-hud-pearl mb-1 group-hover:text-primary transition-colors">Eleusis Path</h3>
+<p class="font-telemetry text-[10px] text-[#718096] mb-3 tracking-widest">ANCIENT PHILOSOPHY × RITUAL</p>
+<p class="font-body text-[12px] text-on-surface-variant line-clamp-3">
+                The secret rites of death and rebirth restaged within a metaphysical labyrinth where initiates unlock memory gates.
+              </p>
+</div>
+</div>
+<div class="p-5 pt-0">
+<div class="border-t border-outline-variant/60 pt-3 flex items-center justify-between font-telemetry text-[11px]">
+<span class="text-on-surface-variant flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> [ACTIVE CANON]
+</span>
+<a class="text-secondary hover:text-primary flex items-center gap-1 font-bold transition-colors" href="#">
+                ENTER UNIVERSE <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Universe 6: Philosophers Crucible -->
+<div class="group bg-surface-container-low border border-outline-variant/80 hover:border-primary transition-all duration-300 flex flex-col justify-between hud-corner hover:shadow-[0_0_20px_rgba(0,229,255,0.2)]">
+<div>
+<div class="relative h-48 overflow-hidden border-b border-outline-variant/60">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Renaissance occult laboratory combined with futuristic telemetry, glowing brass retorts and flasks containing luminous mercury, complex chalkboard diagrams of planetary transmutation, glowing cyan chemical reactions, deep dark scholarly atmosphere." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAvFO9JMj5qSV3WZ24stSq2gl93qZ0BduDfwuL5u4DipMEz2RfCdOl1SWQ_41BXCLBFtwRSZ9FyrKTf7jj4jM9gLhmSS0LxhCT8V-P0dEx1Ig6kVJtLUJsJUarqnr_0ytz9KJVsIWswjayFu8TA6ynASHanSLBqM2qHP1q70Hxvs8ut2JCplWQ7qL8VWFh59EOZZVjp2xXFnixgC_oGcmcFhU0D6K728QbrGhYnhGU')"></div>
+<div class="absolute top-2 left-2 bg-[#07090e]/90 px-2 py-0.5 border border-primary text-primary text-[10px] font-telemetry">
+                06 // TRANSMUTATION
+              </div>
+<div class="absolute bottom-2 right-2 bg-[#07090e]/90 px-2 py-0.5 text-secondary text-[10px] font-telemetry border border-secondary/40">
+                FORMULA VII
+              </div>
+</div>
+<div class="p-5">
+<h3 class="font-headline text-base text-hud-pearl mb-1 group-hover:text-primary transition-colors">Philosophers Crucible</h3>
+<p class="font-telemetry text-[10px] text-[#718096] mb-3 tracking-widest">ESOTERIC ALCHEMY × SCIENCE</p>
+<p class="font-body text-[12px] text-on-surface-variant line-clamp-3">
+                The Magnum Opus reimagined as an epic intellectual duel across laboratories situated between physical dimensions.
+              </p>
+</div>
+</div>
+<div class="p-5 pt-0">
+<div class="border-t border-outline-variant/60 pt-3 flex items-center justify-between font-telemetry text-[11px]">
+<span class="text-on-surface-variant flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> [ACTIVE CANON]
+</span>
+<a class="text-secondary hover:text-primary flex items-center gap-1 font-bold transition-colors" href="#">
+                ENTER UNIVERSE <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Universe 7: City of Sea -->
+<div class="group bg-surface-container-low border border-outline-variant/80 hover:border-secondary transition-all duration-300 flex flex-col justify-between hud-corner hover:shadow-[0_0_20px_rgba(0,176,255,0.2)]">
+<div>
+<div class="relative h-48 overflow-hidden border-b border-outline-variant/60">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Deep ocean sunken neo-classical metropolis submerged in dark abyssal teal waters, bioluminescent marine creatures swimming through ornate brass arches and monumental statues, eerie rays of light piercing deep water, cinematic grandeur." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuABxke5_5HrJ0GqaZ3Npgca2Qjeh7Umc-Z2PkBDFu3Iyk8jM_JDcgloYoE0zmFbiwB8hW_KJDsfh1bkDFmHuRjSM-2y1P6UZWwJdHiUej8EgKBMxRlvlgTcltgsj2T-AtPdWYJr-5tz-MxBIafuwW7Yl_Yo_Uxvjms54sIh_N4Si4IZNXMlQOdXb9TMp0CZNylEnv3khoYdhm_Wa73A10Qvkrr60do2we8mCZcbjjA')"></div>
+<div class="absolute top-2 left-2 bg-[#07090e]/90 px-2 py-0.5 border border-primary text-primary text-[10px] font-telemetry">
+                07 // SUBMERGED RELICS
+              </div>
+<div class="absolute bottom-2 right-2 bg-[#07090e]/90 px-2 py-0.5 text-secondary text-[10px] font-telemetry border border-secondary/40">
+                DEPTH 4000M
+              </div>
+</div>
+<div class="p-5">
+<h3 class="font-headline text-base text-hud-pearl mb-1 group-hover:text-primary transition-colors">City of Sea</h3>
+<p class="font-telemetry text-[10px] text-[#718096] mb-3 tracking-widest">SUBMERGED EXPLORATION × MYTH</p>
+<p class="font-body text-[12px] text-on-surface-variant line-clamp-3">
+                Deep trench expeditions exploring pre-deluge megaliths and the sentient currents preserving lost imperial memories.
+              </p>
+</div>
+</div>
+<div class="p-5 pt-0">
+<div class="border-t border-outline-variant/60 pt-3 flex items-center justify-between font-telemetry text-[11px]">
+<span class="text-on-surface-variant flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> [ACTIVE CANON]
+</span>
+<a class="text-secondary hover:text-primary flex items-center gap-1 font-bold transition-colors" href="#">
+                ENTER UNIVERSE <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Universe 8: Umbrarum -->
+<div class="group bg-surface-container-low border border-outline-variant/80 hover:border-accent-magenta transition-all duration-300 flex flex-col justify-between hud-corner hover:shadow-[0_0_20px_rgba(255,0,127,0.2)]">
+<div>
+<div class="relative h-48 overflow-hidden border-b border-outline-variant/60">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Dark gothic fantasy illustration of shadow weaver sorcerers on a gothic cathedral spire against a lunar eclipse, swirling black ribbons of living shadow, glowing pale cyan runes, obsidian architecture and sharp sinister elegance." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBCC38UI6ojubjOSJVmYhBPIcLtth9YSyQC3suI8jpxTlMqyqkangYP5iUw6elUfSc_ZmzoiZgbF82m6rFVK86HOk93-1j2_I0a30v8C22ZjCDtR2B6SOcnyCz1wvQJW65fhtb0oHMjFrfMODVkm09PJXKe7FyyqGTzIMO4dAfgFo5etP-9E-NchG2-9xP0vmmCkPnoFY_basgjhmYfHUEuDQQIiwduiNwkvERknGY')"></div>
+<div class="absolute top-2 left-2 bg-[#07090e]/90 px-2 py-0.5 border border-primary text-primary text-[10px] font-telemetry">
+                08 // SHADOW WEAVER
+              </div>
+<div class="absolute bottom-2 right-2 bg-[#07090e]/90 px-2 py-0.5 text-accent-magenta text-[10px] font-telemetry border border-accent-magenta/40">
+                GRIMOIRE II
+              </div>
+</div>
+<div class="p-5">
+<h3 class="font-headline text-base text-hud-pearl mb-1 group-hover:text-primary transition-colors">Umbrarum</h3>
+<p class="font-telemetry text-[10px] text-[#718096] mb-3 tracking-widest">DARK FANTASY × OCCULT WEAVING</p>
+<p class="font-body text-[12px] text-on-surface-variant line-clamp-3">
+                Shadow artisans who manipulate the fabric of non-being to reconstruct fallen realms and ward off the solar devorers.
+              </p>
+</div>
+</div>
+<div class="p-5 pt-0">
+<div class="border-t border-outline-variant/60 pt-3 flex items-center justify-between font-telemetry text-[11px]">
+<span class="text-on-surface-variant flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> [ACTIVE CANON]
+</span>
+<a class="text-secondary hover:text-primary flex items-center gap-1 font-bold transition-colors" href="#">
+                ENTER UNIVERSE <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- SECTION 3: LATEST RELEASES & CANON CHRONICLES                             -->
+<!-- ========================================================================= -->
+<section class="py-16 px-6 lg:px-12 border-b border-outline-variant/80 bg-surface-container-low/40" id="chronicles">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-outline-variant/80 mb-8">
+<div>
+<div class="font-telemetry text-[11px] text-secondary tracking-widest uppercase mb-1">REAL-TIME TRANSMISSIONS</div>
+<h2 class="font-headline text-2xl lg:text-3xl text-hud-pearl tracking-wider">LATEST RELEASES &amp; CANON CHRONICLES</h2>
+</div>
+<div class="flex items-center gap-2 font-telemetry text-[11px] text-[#718096]">
+<span class="w-2 h-2 bg-primary rounded-full animate-ping"></span>
+<span>LAST SYNC: 14 SECONDS AGO</span>
+</div>
+</div>
+<!-- Release Track Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Track Item 1 -->
+<div class="bg-surface-container-low border border-outline-variant/80 hover:border-primary p-5 transition-all hud-corner">
+<div class="flex items-center justify-between font-telemetry text-[11px] text-secondary mb-3">
+<span class="px-1.5 py-0.5 bg-primary/10 border border-primary/40 text-primary">MANGA</span>
+<span class="text-primary font-bold">RELEASED TODAY</span>
+</div>
+<h4 class="font-headline text-base text-hud-pearl mb-2">Butsu no Baka</h4>
+<p class="font-body text-[12px] text-primary mb-3">Chapter 24: The Obsidian Monolith</p>
+<div class="font-telemetry text-[10px] text-[#718096] mb-4">48 PAGES • DIGITAL RESTORATION</div>
+<button class="w-full py-2 bg-surface-container border border-outline-variant/80 hover:border-primary text-secondary hover:text-primary font-telemetry text-[11px] flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-[14px]">auto_stories</span>
+<span>OPEN CHAPTER</span>
+</button>
+</div>
+<!-- Track Item 2 -->
+<div class="bg-surface-container-low border border-outline-variant/80 hover:border-secondary p-5 transition-all hud-corner">
+<div class="flex items-center justify-between font-telemetry text-[11px] text-secondary mb-3">
+<span class="px-1.5 py-0.5 bg-secondary/10 border border-secondary/40 text-secondary">AUDIO DRAMA</span>
+<span class="text-[#718096]">YESTERDAY</span>
+</div>
+<h4 class="font-headline text-base text-hud-pearl mb-2">Golden Apple</h4>
+<p class="font-body text-[12px] text-secondary mb-3">Episode 7: The Garden of Discord</p>
+<div class="font-telemetry text-[10px] text-[#718096] mb-4">32M RUNTIME • SPATIAL 432Hz</div>
+<button class="w-full py-2 bg-surface-container border border-outline-variant/80 hover:border-secondary text-secondary hover:text-primary font-telemetry text-[11px] flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-[14px]">play_circle</span>
+<span>LISTEN TRANSMISSION</span>
+</button>
+</div>
+<!-- Track Item 3 -->
+<div class="bg-surface-container-low border border-outline-variant/80 hover:border-accent-magenta p-5 transition-all hud-corner">
+<div class="flex items-center justify-between font-telemetry text-[11px] text-secondary mb-3">
+<span class="px-1.5 py-0.5 bg-accent-magenta/10 border border-accent-magenta/40 text-accent-magenta">ILLUSTRATED LORE</span>
+<span class="text-[#718096]">2 DAYS AGO</span>
+</div>
+<h4 class="font-headline text-base text-hud-pearl mb-2">Apocalipsis</h4>
+<p class="font-body text-[12px] text-accent-magenta mb-3">Codex IX: The Ash Prophecy</p>
+<div class="font-telemetry text-[10px] text-[#718096] mb-4">15M READ • CANON ARCHIVE</div>
+<button class="w-full py-2 bg-surface-container border border-outline-variant/80 hover:border-accent-magenta text-secondary hover:text-accent-magenta font-telemetry text-[11px] flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-[14px]">article</span>
+<span>INSPECT CODEX</span>
+</button>
+</div>
+<!-- Track Item 4 -->
+<div class="bg-surface-container-low border border-outline-variant/80 hover:border-accent-violet p-5 transition-all hud-corner">
+<div class="flex items-center justify-between font-telemetry text-[11px] text-secondary mb-3">
+<span class="px-1.5 py-0.5 bg-accent-violet/10 border border-accent-violet/40 text-accent-violet">INTERACTIVE QUEST</span>
+<span class="text-[#718096]">3 DAYS AGO</span>
+</div>
+<h4 class="font-headline text-base text-hud-pearl mb-2">Eleusis Path</h4>
+<p class="font-body text-[12px] text-primary mb-3">Rite IV: The Veiled Initiate</p>
+<div class="font-telemetry text-[10px] text-[#718096] mb-4">BRANCHING CIPHER • DEGREE I</div>
+<button class="w-full py-2 bg-surface-container border border-outline-variant/80 hover:border-accent-violet text-secondary hover:text-primary font-telemetry text-[11px] flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-[14px]">psychology</span>
+<span>BEGIN RITE</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- SECTION 4: MULTIVERSE EXPLORER INTERACTIVE TEASER                         -->
+<!-- ========================================================================= -->
+<section class="py-16 px-6 lg:px-12 border-b border-outline-variant/80 bg-background relative overflow-hidden" id="explorer">
+<div class="max-w-7xl mx-auto">
+<div class="mb-10 text-center max-w-2xl mx-auto">
+<div class="font-telemetry text-[11px] text-secondary tracking-widest uppercase mb-1">ONTOLOGICAL LEY-LINE TOPOLOGY</div>
+<h2 class="font-headline text-2xl lg:text-3xl text-hud-pearl tracking-wider drop-shadow-[0_0_12px_rgba(0,229,255,0.3)]">MULTIVERSE EXPLORER // INTERACTIVE CONVERGENCE</h2>
+<p class="font-body text-[13px] text-on-surface-variant mt-2">
+          Discover how sovereign sagas intertwine across the White Brotherhood cosmos through shared alchemical vectors, archetypal echoes, and forbidden relics.
+        </p>
+</div>
+<!-- Node Graph Interactive Canvas Box -->
+<div class="bg-surface-container-low border border-outline-variant/80 p-6 lg:p-10 relative hud-corner min-h-[440px] flex flex-col justify-between glow-cyan-border">
+<!-- Graph HUD Watermarks -->
+<div class="flex items-center justify-between font-telemetry text-[10px] text-[#718096] border-b border-outline-variant/60 pb-3">
+<span>GRAPH VECTOR: φ=1.618 • θ=43.2°</span>
+<span class="text-primary font-bold">[NODE CONNECTION: BUTSU NO BAKA ↔ CRUCIBLE ↔ UMBRARUM]</span>
+<span>LEY INTEGRITY: NOMINAL</span>
+</div>
+<!-- Node Vector Map Visual -->
+<div class="relative py-12 flex flex-col lg:flex-row items-center justify-around gap-8 my-auto">
+<!-- Node 1: Butsu no Baka -->
+<div class="relative z-10 w-64 bg-surface-container-lowest border border-primary p-4 shadow-[0_0_20px_rgba(0,229,255,0.2)]">
+<div class="flex items-center justify-between font-telemetry text-[10px] text-[#718096] mb-2">
+<span>NODE 01</span>
+<span class="text-primary font-bold">⊕ NEXUS</span>
+</div>
+<div class="font-headline text-base text-primary mb-1">Butsu no Baka</div>
+<div class="font-telemetry text-[10px] text-on-surface-variant">Cybernetic Relic: Obsidian Core</div>
+<div class="mt-3 pt-2 border-t border-outline-variant/60 text-[10px] font-telemetry text-secondary font-bold">
+              RESONANCE LINK → 88.2%
+            </div>
+</div>
+<!-- Ley-line Connector Center Module -->
+<div class="flex flex-col items-center justify-center text-center">
+<div class="w-16 h-16 rounded-full border border-primary flex items-center justify-center bg-surface-container relative animate-pulse shadow-[0_0_20px_rgba(0,229,255,0.35)]">
+<span class="material-symbols-outlined text-primary text-[26px]">all_inclusive</span>
+<div class="absolute -top-1 w-2.5 h-2.5 bg-accent-magenta rounded-full shadow-[0_0_8px_#ff007f]"></div>
+<div class="absolute -bottom-1 w-2.5 h-2.5 bg-secondary rounded-full shadow-[0_0_8px_#00b0ff]"></div>
+</div>
+<span class="font-headline text-[11px] text-hud-pearl mt-3 uppercase tracking-wider">ALCHEMICAL CATALYST</span>
+<span class="text-[9px] font-telemetry text-[#718096] mt-0.5">SHARED ARCHETYPE: "THE TRANSCENDENT OUTCAST"</span>
+</div>
+<!-- Node 2: Philosophers Crucible -->
+<div class="relative z-10 w-64 bg-surface-container-lowest border border-outline-variant/80 hover:border-secondary p-4 transition-colors">
+<div class="flex items-center justify-between font-telemetry text-[10px] text-[#718096] mb-2">
+<span>NODE 06</span>
+<span class="text-secondary font-bold">⊙ ALCHEMY</span>
+</div>
+<div class="font-headline text-base text-hud-pearl mb-1">Philosophers Crucible</div>
+<div class="font-telemetry text-[10px] text-on-surface-variant">Transmutation: Black Mercury</div>
+<div class="mt-3 pt-2 border-t border-outline-variant/60 text-[10px] font-telemetry text-[#718096]">
+              HARMONIC VECTOR: ACTIVE
+            </div>
+</div>
+<!-- Node 3: Umbrarum -->
+<div class="relative z-10 w-64 bg-surface-container-lowest border border-outline-variant/80 hover:border-accent-magenta p-4 transition-colors">
+<div class="flex items-center justify-between font-telemetry text-[10px] text-[#718096] mb-2">
+<span>NODE 08</span>
+<span class="text-accent-magenta font-bold">⌖ SHADOW</span>
+</div>
+<div class="font-headline text-base text-hud-pearl mb-1">Umbrarum</div>
+<div class="font-telemetry text-[10px] text-on-surface-variant">Occult Weave: The Void Veil</div>
+<div class="mt-3 pt-2 border-t border-outline-variant/60 text-[10px] font-telemetry text-[#718096]">
+              CROSS-REALM ECHO: DETECTED
+            </div>
+</div>
+</div>
+<!-- Interactive CTA Bottom Anchor -->
+<div class="border-t border-outline-variant/60 pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+<p class="font-body text-[12px] text-on-surface-variant text-center sm:text-left">
+            Traverse all 8 dimensions in full 3D coordinate space with real-time lore annotations and relationship matrices.
+          </p>
+<button class="bg-gradient-to-r from-primary to-secondary hover:from-primary-glow hover:to-secondary text-on-primary font-headline text-[11px] px-5 py-2.5 font-bold flex items-center gap-2 transition-all border border-primary shadow-[0_0_15px_rgba(0,229,255,0.3)] shrink-0">
+<span class="material-symbols-outlined text-[16px]">map</span>
+<span>LAUNCH FULL MULTIVERSE MAP</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- SECTION 5: OCCULT ARCHITECTURAL FOOTER                                    -->
+<!-- ========================================================================= -->
+<footer class="bg-[#07090e] border-t border-outline-variant/80 text-on-surface-variant py-14 px-6 lg:px-12 relative z-10 font-body">
+<div class="max-w-7xl mx-auto">
+<!-- Upper Footer Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-outline-variant/60">
+<!-- Col 1 & 2: Brand & Seal -->
+<div class="lg:col-span-2">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-8 h-8 border border-primary flex items-center justify-center text-primary shadow-[0_0_8px_rgba(0,229,255,0.4)]">
+<span class="material-symbols-outlined text-[18px]">wb_twilight</span>
+</div>
+<div>
+<div class="font-headline text-base text-hud-pearl tracking-widest">QUANTVM MATRIX</div>
+<div class="font-telemetry text-[9px] text-[#718096] tracking-widest">WHITE BROTHERHOOD SOVEREIGNTY</div>
+</div>
+</div>
+<p class="font-body text-[12px] text-on-surface-variant max-w-sm mb-6 leading-relaxed">
+            The canonical operating portal for the White Brotherhood universe collective. Transmitting higher reality narratives, sacred geometry, and metaphysical lore across distributed multiversal protocols.
+          </p>
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container border border-outline-variant/80 text-[10px] font-telemetry text-secondary">
+<span class="w-1.5 h-1.5 bg-secondary rounded-full animate-ping"></span>
+<span>SYSTEM STATUS: ALL ORBITAL RELAYS SYNCHRONIZED</span>
+</div>
+</div>
+<!-- Col 3: Universes -->
+<div>
+<div class="font-headline text-[11px] text-primary uppercase tracking-wider font-bold mb-4">SOVEREIGN CANONS</div>
+<ul class="space-y-2 text-[11px] font-telemetry">
+<li><a class="hover:text-primary transition-colors" href="#">Butsu no Baka</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Las Aventuras del Señor Plátano</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Apocalipsis</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Golden Apple</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Eleusis Path</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Philosophers Crucible</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">City of Sea</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Umbrarum</a></li>
+</ul>
+</div>
+<!-- Col 4: Environments & Tools -->
+<div>
+<div class="font-headline text-[11px] text-primary uppercase tracking-wider font-bold mb-4">COMMAND SECTORS</div>
+<ul class="space-y-2 text-[11px] font-telemetry">
+<li><a class="hover:text-primary transition-colors text-primary flex items-center gap-1.5" href="#">
+<span class="w-1.5 h-1.5 bg-primary rounded-full"></span> Public Matrix Portal
+</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Creator Studio Matrix</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Intelligence Core &amp; AI Agents</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Lorekeeper Continuity Desk</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Multiverse Map Coordinates</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Archon Clearance Registry</a></li>
+</ul>
+</div>
+<!-- Col 5: Transmission Feed (Newsletter) -->
+<div>
+<div class="font-headline text-[11px] text-primary uppercase tracking-wider font-bold mb-4">TRANSMISSION FEED</div>
+<p class="font-body text-[11px] text-on-surface-variant mb-3">
+            Receive encrypted release notices when new chapters or audio codices deploy.
+          </p>
+<div class="space-y-2 font-telemetry text-[11px]">
+<input class="w-full bg-surface-container border border-outline-variant/80 px-3 py-2 text-hud-pearl placeholder:text-[#718096] focus:border-primary focus:outline-none" placeholder="INITIATE FREQUENCY // EMAIL" type="email"/>
+<button class="w-full bg-surface-container hover:bg-surface-container-high border border-outline hover:border-primary text-secondary hover:text-primary py-2 transition-colors uppercase font-bold text-[10px]">
+              SUBSCRIBE TO FREQUENCY
+            </button>
+</div>
+</div>
+</div>
+<!-- Lower Legal & Archon Seals -->
+<div class="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 font-telemetry text-[10px] text-[#718096]">
+<div>
+          © 2025 QUANTVM MATRIX // WHITE BROTHERHOOD SOVEREIGN ORDER. ALL MULTIVERSAL CANON REGISTERED.
+        </div>
+<div class="flex items-center gap-6">
+<a class="hover:text-primary transition-colors" href="#">CANON INTEGRITY DISCLAIMER</a>
+<a class="hover:text-primary transition-colors" href="#">HERMETIC PRIVACY PROTOCOL</a>
+<a class="hover:text-primary transition-colors" href="#">ORBITAL SECURITY TERMS</a>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

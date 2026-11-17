@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PLEROMA | Avatar Birth Configuration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        .scanline-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 50%, rgba(242, 224, 80, 0.05) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 50;
+        }
+        .glow-pulse {
+            animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 5px rgba(242, 202, 80, 0.5)); }
+            50% { opacity: 0.8; filter: drop-shadow(0 0 15px rgba(242, 202, 80, 0.8)); }
+        }
+        .hex-grid-bg {
+            background-image: 
+                linear-gradient(30deg, #131313 12%, transparent 12.5%, transparent 87%, #131313 87.5%, #131313),
+                linear-gradient(150deg, #131313 12%, transparent 12.5%, transparent 87%, #131313 87.5%, #131313),
+                linear-gradient(30deg, #131313 12%, transparent 12.5%, transparent 87%, #131313 87.5%, #131313),
+                linear-gradient(150deg, #131313 12%, transparent 12.5%, transparent 87%, #131313 87.5%, #131313),
+                linear-gradient(60deg, #1a1a1a 25%, transparent 25.5%, transparent 75%, #1a1a1a 75%, #1a1a1a),
+                linear-gradient(60deg, #1a1a1a 25%, transparent 25.5%, transparent 75%, #1a1a1a 75%, #1a1a1a);
+            background-size: 80px 140px;
+            background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+        }
+        .beveled-card {
+            clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%);
+        }
+        .matrix-magenta { color: #ff86f5; text-shadow: 0 0 10px rgba(255, 134, 245, 0.5); }
+        .celestial-blue { color: #abc7ff; text-shadow: 0 0 10px rgba(171, 199, 255, 0.5); }
+        .infinity-gold { color: #f2ca50; text-shadow: 0 0 10px rgba(242, 202, 80, 0.5); }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#d0c5af",
+                        "primary": "#f2ca50",
+                        "on-error-container": "#ffdad6",
+                        "on-surface": "#e5e2e1",
+                        "surface-container-low": "#1c1b1b",
+                        "primary-fixed": "#ffe088",
+                        "error": "#ffb4ab",
+                        "surface-variant": "#353534",
+                        "on-primary-container": "#554300",
+                        "on-background": "#e5e2e1",
+                        "outline-variant": "#4d4635",
+                        "on-primary": "#3c2f00",
+                        "surface-container": "#201f1f",
+                        "tertiary": "#ffb8f3",
+                        "background": "#131313",
+                        "surface": "#131313",
+                        "surface-bright": "#3a3939",
+                        "secondary": "#abc7ff",
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-container-highest": "#353534",
+                        "primary-container": "#d4af37",
+                        "outline": "#99907c"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin": "32px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Audiowide"],
+                        "body-sm": ["Orbitron"],
+                        "label-caps": ["Orbitron"],
+                        "headline-md": ["Audiowide"],
+                        "data-display": ["Orbitron"],
+                        "body-lg": ["Orbitron"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["40px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.15em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                        "data-display": ["32px", {"lineHeight": "1.1", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-lg overflow-hidden hex-grid-bg selection:bg-primary selection:text-background">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin py-4 bg-background/80 backdrop-blur-md border-b-2 border-outline-variant">
+<div class="flex items-center gap-6">
+<img alt="PLEROMA Logo" class="h-10 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgQeczp8M4Fsh4GjEgcAr3rU_yvCenqfdahUCdtGSKHNP22X3l6b71MBRgNkKDoq9_Jypu9a6kVN9EZcQcow8FFZ0tF832qE23Jb6IH_2cJDOzc6ah8uDUPRNyzMePNXUA7VeeK17139ngCrvD-DzuC0CQD4REn44DETQeole-wCEsKxsXYm2qzYgT0W09Cf-gKGnNPMuFpY_GN2BlrWZHqN_BmSp3thNYkbtBU1G_mMqYWvo7Cfl_UxoALmxcluNKn7p8i3vONDgh"/>
+<span class="font-headline-lg text-headline-lg tracking-widest text-primary">PLEROMA</span>
+</div>
+<div class="hidden md:flex gap-8 items-center">
+<span class="text-primary font-bold border-b-2 border-primary pb-1 font-label-caps text-label-caps">REALITY SYNC: ONLINE</span>
+<div class="flex gap-4">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all">settings</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all">sensors</button>
+</div>
+</div>
+</header>
+<!-- Side Navigation -->
+<aside class="fixed left-0 top-0 h-screen w-64 flex flex-col z-40 bg-surface-container-low border-r border-outline-variant pt-24 pb-8">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 bg-primary/20 border border-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">person</span>
+</div>
+<div>
+<div class="font-headline-md text-headline-md text-primary leading-tight">DIVINE</div>
+<div class="text-[10px] font-label-caps text-on-surface-variant">Unit 01-Genesis</div>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-2">
+<a class="flex items-center gap-4 bg-primary text-on-primary font-bold p-3 my-1 transition-all duration-200 active:translate-x-1 font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined">architecture</span> Architect
+            </a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-primary hover:bg-surface-variant p-3 my-1 transition-all font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined">auto_awesome</span> Mystic
+            </a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-primary hover:bg-surface-variant p-3 my-1 transition-all font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined">brightness_low</span> Shadow
+            </a>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full bg-primary text-on-primary py-3 font-label-caps text-[10px] tracking-widest hover:brightness-110 active:scale-95 transition-all">
+                SYNCHRONIZE CORE
+            </button>
+<div class="mt-4 flex items-center gap-4 text-on-surface-variant hover:text-primary p-3 transition-all cursor-pointer font-label-caps text-label-caps">
+<span class="material-symbols-outlined">logout</span> Log Out
+            </div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-64 pt-24 min-h-screen relative p-margin">
+<div class="scanline-overlay"></div>
+<div class="grid grid-cols-12 gap-gutter h-full max-w-7xl mx-auto">
+<!-- Center Stage: The Soul Viz -->
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-6">
+<div class="relative bg-surface-container-lowest/80 backdrop-blur-xl border border-outline-variant p-8 grow flex items-center justify-center overflow-hidden beveled-card">
+<!-- Layer 1: Astral Map -->
+<div class="absolute w-[500px] h-[500px] border border-primary/20 rounded-full animate-[spin_60s_linear_infinite]">
+<!-- 13 Houses Indicators -->
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-full h-[1px] bg-primary/10 rotate-0"></div>
+<div class="w-full h-[1px] bg-primary/10 rotate-[27.6deg]"></div>
+<div class="w-full h-[1px] bg-primary/10 rotate-[55.2deg]"></div>
+<div class="w-full h-[1px] bg-primary/10 rotate-[82.8deg]"></div>
+<div class="w-full h-[1px] bg-primary/10 rotate-[110.4deg]"></div>
+<div class="w-full h-[1px] bg-primary/10 rotate-[138deg]"></div>
+</div>
+<!-- Sun in Ophiuchus -->
+<div class="absolute top-[15%] left-[65%] flex flex-col items-center">
+<span class="material-symbols-outlined infinity-gold scale-125 glow-pulse">wb_sunny</span>
+<span class="font-label-caps text-[8px] text-primary mt-1">OPHIUCHUS</span>
+</div>
+<!-- Chiron -->
+<div class="absolute bottom-[25%] left-[20%] flex flex-col items-center">
+<span class="material-symbols-outlined text-tertiary scale-75">key</span>
+<span class="font-label-caps text-[8px] text-tertiary mt-1">CHIRON</span>
+</div>
+</div>
+<!-- Layer 2: Human Design BodyGraph -->
+<div class="relative w-[300px] h-[450px] z-10 flex items-center justify-center">
+<svg class="w-full h-full opacity-40" viewbox="0 0 100 150">
+<path d="M50,10 L70,30 L50,50 L30,30 Z" fill="none" stroke="#abc7ff" stroke-width="0.5"></path>
+<rect fill="#abc7ff" fill-opacity="0.2" height="20" stroke="#abc7ff" stroke-width="0.5" width="20" x="40" y="55"></rect>
+<path d="M50,80 L80,100 L50,120 L20,100 Z" fill="none" stroke="#abc7ff" stroke-width="0.5"></path>
+<rect fill="#abc7ff" fill-opacity="0.2" height="15" stroke="#abc7ff" stroke-width="0.5" width="30" x="35" y="125"></rect>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center pt-8 pointer-events-none">
+<div class="w-4 h-4 bg-secondary shadow-[0_0_15px_#abc7ff] rotate-45 mb-12"></div>
+<div class="w-6 h-6 bg-secondary shadow-[0_0_20px_#abc7ff] mb-8"></div>
+<div class="w-8 h-8 border-2 border-secondary shadow-[0_0_10px_#abc7ff] rotate-45"></div>
+</div>
+</div>
+<!-- Layer 3: Matrix 22 Grid -->
+<div class="absolute w-[580px] h-[580px] border border-tertiary/10 rounded-full opacity-60">
+<div class="absolute inset-0 flex items-center justify-center">
+<!-- 22 Point Grid -->
+<div class="relative w-full h-full">
+<div class="absolute top-[10%] left-1/2 -translate-x-1/2 w-2 h-2 bg-tertiary rounded-full shadow-[0_0_10px_#ff86f5]"></div>
+<div class="absolute top-[90%] left-1/2 -translate-x-1/2 w-2 h-2 bg-tertiary rounded-full"></div>
+<div class="absolute left-[10%] top-1/2 -translate-y-1/2 w-2 h-2 bg-tertiary rounded-full"></div>
+<div class="absolute right-[10%] top-1/2 -translate-y-1/2 w-2 h-2 bg-tertiary rounded-full shadow-[0_0_10px_#ff86f5]"></div>
+<svg class="absolute inset-0 w-full h-full overflow-visible">
+<line stroke="#ff86f5" stroke-dasharray="4 2" stroke-width="0.5" x1="50%" x2="50%" y1="10%" y2="90%"></line>
+<line stroke="#ff86f5" stroke-dasharray="4 2" stroke-width="0.5" x1="10%" x2="90%" y1="50%" y2="50%"></line>
+<line stroke="#ff86f5" stroke-width="0.5" x1="50%" x2="90%" y1="10%" y2="50%"></line>
+</svg>
+</div>
+</div>
+</div>
+<!-- HUD Overlays -->
+<div class="absolute top-4 left-4 font-label-caps text-[10px] text-primary/60 border-l border-primary/40 pl-2">
+                        GENESIS_OVERLAY_V7.2<br/>SOUL_SYNC_ACTIVE
+                    </div>
+<div class="absolute bottom-4 right-4 font-label-caps text-[10px] text-secondary/60 border-r border-secondary/40 pr-2 text-right">
+                        COORD_REF: 13_NODE_RESONANCE<br/>BUFFER_HEALTH: 100%
+                    </div>
+</div>
+<!-- SOF.IA Reading -->
+<div class="bg-surface-container-high border border-outline-variant p-4 h-32 overflow-hidden relative">
+<div class="absolute top-2 left-2 flex items-center gap-2 mb-2">
+<span class="w-2 h-2 bg-primary animate-pulse"></span>
+<span class="font-label-caps text-[10px] text-primary">SOF.IA INTERFACE</span>
+</div>
+<div class="mt-4 font-body-sm text-body-sm text-on-surface-variant/80 italic leading-relaxed h-full overflow-y-auto pr-2 custom-scrollbar" id="sofia-text">
+                        Scanning energetic blueprint... Initializing resonance calculation for Ophiuchus alignment. Subject exhibits high consciousness threshold (100). The Manifesting Generator protocol is stabilized through Emotional Authority. Matrix 22 configuration reveals a rare Master 11/22 resonance. Proceed with synchronization...
+                    </div>
+</div>
+</div>
+<!-- Right Column: Data Panels -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-gutter">
+<!-- ASTRO-CONFIG -->
+<section class="bg-surface-container border border-outline-variant p-4">
+<div class="flex items-center justify-between mb-4 border-b border-outline-variant pb-2">
+<h2 class="font-headline-md text-headline-md text-primary uppercase text-sm tracking-widest">ASTRO-CONFIG</h2>
+<span class="material-symbols-outlined text-primary text-sm">auto_graph</span>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center border-b border-outline-variant/30 py-1">
+<span class="font-label-caps text-[10px] text-on-surface-variant">SUN POSITION</span>
+<span class="font-data-display text-sm infinity-gold">OPHIUCHUS 12°</span>
+</div>
+<div class="flex justify-between items-center border-b border-outline-variant/30 py-1">
+<span class="font-label-caps text-[10px] text-on-surface-variant">MOON PHASE</span>
+<span class="font-data-display text-sm text-on-surface">WAXING GIBBOUS</span>
+</div>
+<div class="flex justify-between items-center border-b border-outline-variant/30 py-1">
+<span class="font-label-caps text-[10px] text-on-surface-variant">CHIRON NODE</span>
+<span class="font-data-display text-sm text-tertiary">RETROGRADE / 07</span>
+</div>
+</div>
+</section>
+<!-- HUMAN_DESIGN_PROTOCOL -->
+<section class="bg-surface-container border border-outline-variant p-4">
+<div class="flex items-center justify-between mb-4 border-b border-outline-variant pb-2">
+<h2 class="font-headline-md text-headline-md celestial-blue uppercase text-sm tracking-widest">HUMAN_DESIGN_PROTOCOL</h2>
+<span class="material-symbols-outlined celestial-blue text-sm">psychology</span>
+</div>
+<div class="space-y-4">
+<div>
+<span class="font-label-caps text-[10px] text-on-surface-variant block mb-1">DESIGN TYPE</span>
+<div class="bg-secondary/10 border-l-2 border-secondary p-2 font-data-display text-lg celestial-blue">
+                                MANIFESTING GENERATOR
+                            </div>
+</div>
+<div>
+<span class="font-label-caps text-[10px] text-on-surface-variant block mb-1">INNER AUTHORITY</span>
+<div class="bg-secondary/5 border-l-2 border-secondary/30 p-2 font-data-display text-lg text-on-surface">
+                                EMOTIONAL
+                            </div>
+</div>
+</div>
+</section>
+<!-- MATRIX_22_RESONANCE -->
+<section class="bg-surface-container border border-outline-variant p-4">
+<div class="flex items-center justify-between mb-4 border-b border-outline-variant pb-2">
+<h2 class="font-headline-md text-headline-md matrix-magenta uppercase text-sm tracking-widest">MATRIX_22_RESONANCE</h2>
+<span class="material-symbols-outlined matrix-magenta text-sm">hub</span>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<div class="bg-tertiary/10 border border-tertiary/30 p-3 text-center">
+<div class="font-data-display text-2xl matrix-magenta">22</div>
+<div class="font-label-caps text-[8px] text-tertiary">CORE</div>
+</div>
+<div class="bg-tertiary/5 border border-tertiary/10 p-3 text-center">
+<div class="font-data-display text-2xl text-on-surface">11</div>
+<div class="font-label-caps text-[8px] text-on-surface-variant">MASTER</div>
+</div>
+<div class="bg-tertiary/5 border border-tertiary/10 p-3 text-center">
+<div class="font-data-display text-2xl text-on-surface">7</div>
+<div class="font-label-caps text-[8px] text-on-surface-variant">SOUL</div>
+</div>
+</div>
+</section>
+<!-- STAT CORE -->
+<section class="bg-surface-container-high border border-primary/20 p-4 relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-20 h-20 border border-primary/10 rounded-full"></div>
+<h2 class="font-label-caps text-xs text-primary mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">bolt</span> STAT_CORE_REPORTS
+                    </h2>
+<div class="space-y-5">
+<div class="space-y-1">
+<div class="flex justify-between font-label-caps text-[10px]">
+<span>DISCIPLINE</span>
+<span class="text-primary">88%</span>
+</div>
+<div class="h-1 bg-surface-variant w-full">
+<div class="h-full bg-primary" style="width: 88%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-label-caps text-[10px]">
+<span>MENTAL CLARITY</span>
+<span class="celestial-blue">94%</span>
+</div>
+<div class="h-1 bg-surface-variant w-full">
+<div class="h-full bg-secondary" style="width: 94%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-label-caps text-[10px]">
+<span>VITAL ENERGY</span>
+<span class="matrix-magenta">72%</span>
+</div>
+<div class="h-1 bg-surface-variant w-full">
+<div class="h-full bg-tertiary" style="width: 72%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-label-caps text-[10px]">
+<span>CONSCIOUSNESS</span>
+<span class="text-white glow-pulse">100%</span>
+</div>
+<div class="h-1 bg-surface-variant w-full relative">
+<div class="h-full bg-white shadow-[0_0_10px_#fff]" style="width: 100%"></div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<script>
+        // Micro-interactions for scrolling text
+        const textElement = document.getElementById('sofia-text');
+        if (textElement) {
+            let lastScroll = 0;
+            textElement.addEventListener('scroll', () => {
+                const currentScroll = textElement.scrollTop;
+                if (Math.abs(currentScroll - lastScroll) > 10) {
+                    textElement.classList.add('opacity-50');
+                    setTimeout(() => textElement.classList.remove('opacity-50'), 150);
+                    lastScroll = currentScroll;
+                }
+            });
+        }
+
+        // Random matrix noise effect for background
+        const canvas = document.createElement('canvas');
+        document.body.appendChild(canvas);
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.pointerEvents = 'none';
+        canvas.style.opacity = '0.03';
+        canvas.style.zIndex = '0';
+
+        const ctx = canvas.getContext('2d');
+        let width, height;
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = '#f2ca50';
+            for (let i = 0; i < 50; i++) {
+                const x = Math.random() * width;
+                const y = Math.random() * height;
+                const size = Math.random() * 2;
+                ctx.fillRect(x, y, size, size);
+            }
+            requestAnimationFrame(draw);
+        }
+        draw();
+    </script>
+</body></html>

@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · Cronos: Ficha Maestra de Gestión del Horario (v6.8)</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration Verbatim -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary-fixed": "#ffd7f5",
+            "outline": "#849495",
+            "on-tertiary-fixed-variant": "#810081",
+            "on-primary-container": "#006970",
+            "surface-container-highest": "#34343a",
+            "primary-fixed-dim": "#00dbe9",
+            "surface-bright": "#38393f",
+            "tertiary-fixed-dim": "#ffabf3",
+            "outline-variant": "#3b494b",
+            "inverse-surface": "#e3e1e9",
+            "on-surface-variant": "#b9cacb",
+            "surface": "#121318",
+            "on-tertiary-container": "#a900a9",
+            "on-tertiary": "#5b005b",
+            "surface-container": "#1e1f25",
+            "on-surface": "#e3e1e9",
+            "primary-container": "#00f0ff",
+            "inverse-on-surface": "#2f3036",
+            "secondary-container": "#00bba0",
+            "on-secondary": "#00382e",
+            "secondary-fixed-dim": "#47ddc1",
+            "inverse-primary": "#006970",
+            "tertiary-container": "#ffc9f4",
+            "surface-tint": "#00dbe9",
+            "surface-container-low": "#1a1b21",
+            "on-primary": "#00363a",
+            "on-error-container": "#ffdad6",
+            "secondary": "#47ddc1",
+            "on-background": "#e3e1e9",
+            "surface-dim": "#121318",
+            "error-container": "#93000a",
+            "on-primary-fixed-variant": "#004f54",
+            "on-secondary-container": "#004439",
+            "on-primary-fixed": "#002022",
+            "secondary-fixed": "#6af9dc",
+            "primary": "#dbfcff",
+            "on-secondary-fixed": "#00201a",
+            "background": "#121318",
+            "on-secondary-fixed-variant": "#005144",
+            "surface-container-lowest": "#0d0e13",
+            "primary-fixed": "#7df4ff",
+            "tertiary": "#fff3f9",
+            "surface-container-high": "#292a2f",
+            "error": "#ffb4ab",
+            "on-tertiary-fixed": "#380038",
+            "on-error": "#690005",
+            "surface-variant": "#34343a"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-xl": "2.5rem",
+            "space-sm": "0.5rem",
+            "gutter-mobile": "0.75rem",
+            "margin-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "gutter": "1.25rem",
+            "space-md": "1rem",
+            "margin": "2rem",
+            "space-lg": "1.5rem"
+          },
+          "fontFamily": {
+            "headline-md": ["Space Grotesk"],
+            "display-lg-mobile": ["Space Grotesk"],
+            "body-md": ["Space Grotesk"],
+            "headline-xl": ["Space Grotesk"],
+            "label-lg": ["JetBrains Mono"],
+            "body-sm": ["Space Grotesk"],
+            "telemetry-code": ["JetBrains Mono"],
+            "display-lg": ["Space Grotesk"],
+            "label-md": ["JetBrains Mono"],
+            "headline-xl-mobile": ["Space Grotesk"],
+            "body-lg": ["Space Grotesk"],
+            "audiowide": ["Audiowide", "sans-serif"]
+          },
+          "fontSize": {
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "0.04em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.005em", "fontWeight": "400" }],
+            "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "label-lg": ["13px", { "lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "500" }],
+            "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "telemetry-code": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "400" }],
+            "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+            "label-md": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "500" }],
+            "headline-xl-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    /* Custom HUD styling additions */
+    .font-hud-title {
+      font-family: 'Audiowide', cursive, sans-serif;
+    }
+    .hud-grid-bg {
+      background-image: 
+        linear-gradient(to right, rgba(59, 73, 75, 0.15) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(59, 73, 75, 0.15) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .hud-scanner-glow {
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.15), inset 0 0 10px rgba(0, 240, 255, 0.05);
+    }
+    .magenta-glow {
+      box-shadow: 0 0 12px rgba(255, 0, 255, 0.35);
+    }
+    .cyan-glow {
+      box-shadow: 0 0 14px rgba(0, 240, 255, 0.35);
+    }
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0d0e13;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #3b494b;
+      border-radius: 2px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #00f0ff;
+    }
+  </style>
+</head>
+<body class="bg-surface-container-lowest text-on-surface antialiased font-body-md min-h-screen selection:bg-primary-container selection:text-surface-container-lowest relative">
+<!-- TOPNAV BAR (SHARED COMPONENT EXECUTION) -->
+<header class="flex justify-between items-center w-full px-space-md h-14 border-b border-outline-variant/30 sticky top-0 z-50 bg-surface-dim/80 backdrop-blur-md shadow-[0_4px_24px_rgba(0,0,0,0.6)]">
+<!-- Left: Search & Identity -->
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary-container text-[20px]" data-icon="token">token</span>
+<span class="font-headline-md text-headline-md tracking-wider text-primary uppercase font-bold font-hud-title">MagnopVS Life Hero</span>
+</div>
+<div class="hidden lg:flex items-center gap-space-xs bg-surface-container-lowest/80 border border-outline-variant/40 rounded-lg px-space-sm py-1">
+<span class="material-symbols-outlined text-outline text-[16px]" data-icon="search">search</span>
+<input class="bg-transparent border-0 p-0 text-telemetry-code font-telemetry-code text-on-surface focus:ring-0 w-52 placeholder:text-outline-variant" placeholder="Buscar telemetría, misión o bloque..." type="text"/>
+<span class="text-outline text-[10px] font-telemetry-code border border-outline-variant/50 px-1 rounded">⌘K</span>
+</div>
+</div>
+<!-- Center Navigation Links (Exact names from JSON) -->
+<nav class="hidden md:flex items-center gap-space-lg h-full">
+<a class="text-on-surface-variant hover:text-on-surface h-full flex items-center px-space-xs font-label-lg text-label-lg transition-all duration-150" href="#">Solaris Core</a>
+<a class="text-on-surface-variant hover:text-on-surface h-full flex items-center px-space-xs font-label-lg text-label-lg transition-all duration-150" href="#">Orbit Vanguard</a>
+<a class="text-primary border-b-2 border-primary-container font-semibold h-full flex items-center px-space-xs font-label-lg text-label-lg" href="#">Nexus Prime</a>
+</nav>
+<!-- Trailing Actions & User -->
+<div class="flex items-center gap-space-sm">
+<button class="hidden sm:flex items-center gap-1.5 px-space-sm py-1 rounded bg-surface-container-high/60 border border-tertiary-fixed-dim/40 text-tertiary-fixed text-label-md font-label-md hover:bg-surface-container-high/90 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[16px] text-tertiary-fixed-dim" data-icon="smart_toy">smart_toy</span>
+        Butler Automation
+      </button>
+<button class="hidden sm:flex items-center gap-1 px-space-sm py-1 rounded bg-surface-container-high/40 border border-outline-variant/50 text-secondary text-label-md font-label-md hover:text-primary transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-[16px] text-secondary" data-icon="bolt">bolt</span>
+        Power-Ups
+      </button>
+<div class="h-4 w-px bg-outline-variant/30 mx-1"></div>
+<!-- Icon cluster: group, tune, notifications -->
+<button class="p-1 text-on-surface-variant hover:bg-surface-container-high/40 hover:text-primary rounded transition-all active:scale-[0.98]" title="Clan Members">
+<span class="material-symbols-outlined text-[20px]" data-icon="group">group</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:bg-surface-container-high/40 hover:text-primary rounded transition-all active:scale-[0.98]" title="Audio &amp; HUD Tune">
+<span class="material-symbols-outlined text-[20px]" data-icon="tune">tune</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:bg-surface-container-high/40 hover:text-primary rounded relative transition-all active:scale-[0.98]" title="Alerts">
+<span class="material-symbols-outlined text-[20px]" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-primary-container rounded-full animate-ping"></span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-primary-container rounded-full"></span>
+</button>
+<!-- Profile Avatar -->
+<div class="w-8 h-8 rounded border border-primary-container/60 overflow-hidden ml-1 p-0.5 bg-surface-container-high">
+<img alt="Commander Nexus Avatar" class="w-full h-full object-cover rounded" data-alt="A tactical cybernetic avatar of Commander Nexus bathed in soft volumetric cyan and violet lighting, wearing an aerospace dark matte visor with subtle glowing HUD telemetry reflections." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKDFhfh1gPHnNLe-NEFTPr_8KeHOtDBFzybwamCTCgw9GnqOKDq2E5bnE-eiFdpqkZTeJKKWtvbNycdVBwj2P-ETmdbvB9yfeN0WsxkhNFbe0s3yuS-c9CdWlOABKuz4YMDsph1lMhKDrMiO0SdpMiFGsLxqPc8_sXbGy0KqsKHZjOpIZJUjKkQAjEgnXdoXCZELlL5FY1Bu9XDQBErjsiGqTMOie2FHJpvekuNLxJ"/>
+</div>
+</div>
+</header>
+<!-- MAIN WRAPPER WITH FIXED SIDENAV -->
+<div class="flex">
+<!-- SIDENAV BAR (SHARED COMPONENT EXECUTION) -->
+<aside class="flex flex-col justify-between h-screen w-64 fixed left-0 top-0 z-40 border-r border-outline-variant/30 pt-14 bg-surface-container-lowest/90 backdrop-blur-lg shadow-[4px_0_24px_rgba(0,0,0,0.5)]">
+<!-- SideNav Header Profile & Clan -->
+<div class="p-space-md border-b border-outline-variant/20">
+<div class="flex items-center gap-space-sm mb-space-sm">
+<div class="w-10 h-10 rounded border border-outline-variant flex items-center justify-center bg-surface-container">
+<span class="material-symbols-outlined text-primary-container" data-icon="shield">shield</span>
+</div>
+<div>
+<div class="font-headline-md text-headline-md text-primary tracking-widest text-[14px]">Sector 07 Void Clan</div>
+<div class="font-telemetry-code text-telemetry-code text-secondary text-[11px] flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+              Protocol v6.8 ACTIVE
+            </div>
+</div>
+</div>
+<!-- SideNav CTA Button -->
+<button class="w-full py-1.5 px-space-sm bg-primary-container text-surface-container-lowest font-headline-md text-[13px] rounded tracking-wide font-bold hover:bg-primary-fixed-dim transition-all shadow-[0_0_12px_rgba(0,240,255,0.35)] flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="rocket_launch">rocket_launch</span>
+          Initiate Hyper-Quest
+        </button>
+</div>
+<!-- Navigation Tabs (5 Tabs - Exact labels and icons) -->
+<div class="flex-1 py-space-sm overflow-y-auto space-y-1">
+<a class="flex items-center gap-space-sm text-on-surface-variant px-space-md py-space-sm hover:text-on-surface hover:bg-surface-container/50 hover:text-secondary-fixed transition-colors duration-150 font-label-md text-label-md active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="space_dashboard">space_dashboard</span>
+<span>Workspace Boards</span>
+</a>
+<a class="flex items-center gap-space-sm text-on-surface-variant px-space-md py-space-sm hover:text-on-surface hover:bg-surface-container/50 hover:text-secondary-fixed transition-colors duration-150 font-label-md text-label-md active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="star">star</span>
+<span>Starred Cosmic Quests</span>
+</a>
+<a class="flex items-center gap-space-sm bg-surface-container-high/60 text-primary border-l-2 border-primary-container px-space-md py-space-sm rounded-r-lg font-medium font-label-md text-label-md shadow-[inset_0_0_10px_rgba(0,240,255,0.08)]" href="#">
+<span class="material-symbols-outlined text-[18px] text-primary-container" data-icon="calendar_month">calendar_month</span>
+<span>Temporal Timeline</span>
+</a>
+<a class="flex items-center gap-space-sm text-on-surface-variant px-space-md py-space-sm hover:text-on-surface hover:bg-surface-container/50 hover:text-secondary-fixed transition-colors duration-150 font-label-md text-label-md active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="category">category</span>
+<span>Archetype Templates</span>
+</a>
+<a class="flex items-center gap-space-sm text-on-surface-variant px-space-md py-space-sm hover:text-on-surface hover:bg-surface-container/50 hover:text-secondary-fixed transition-colors duration-150 font-label-md text-label-md active:scale-[0.99]" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="smart_toy">smart_toy</span>
+<span>Butler Protocols</span>
+</a>
+</div>
+<!-- SideNav Footer Tabs (Telemetry Matrix, Command Config) -->
+<div class="border-t border-outline-variant/20 p-space-sm bg-surface-container-lowest/50 space-y-1">
+<a class="flex items-center gap-space-sm text-on-surface-variant px-space-sm py-1.5 hover:text-primary rounded text-label-md font-label-md hover:bg-surface-container-high/40 transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px]" data-icon="terminal">terminal</span>
+<span>Telemetry Matrix</span>
+</a>
+<a class="flex items-center gap-space-sm text-on-surface-variant px-space-sm py-1.5 hover:text-primary rounded text-label-md font-label-md hover:bg-surface-container-high/40 transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px]" data-icon="settings">settings</span>
+<span>Command Config</span>
+</a>
+</div>
+</aside>
+<!-- MAIN CANVASES: CRONOS CANONICAL 12-SECTION DOSSIER -->
+<main class="ml-64 flex-1 pb-16 hud-grid-bg relative min-h-screen">
+<div class="max-w-[1440px] mx-auto p-space-md lg:p-space-lg space-y-space-lg">
+<!-- ==========================================
+             SECCIÓN 1: CABECERA TÁCTICA HUD & IDENTIDAD TEMPORAL
+             ========================================== -->
+<section class="border border-outline-variant/40 bg-surface-container-low/90 backdrop-blur-md rounded-xl p-space-md lg:p-space-lg hud-scanner-glow relative overflow-hidden">
+<!-- Background Grid line highlight -->
+<div class="absolute -top-10 -right-10 w-44 h-44 bg-primary-container/10 blur-3xl pointer-events-none"></div>
+<div class="flex flex-col lg:flex-row justify-between lg:items-center gap-space-md pb-space-md border-b border-outline-variant/30">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded text-[10px] font-telemetry-code bg-primary-container/20 text-primary-container border border-primary-container/40">CRONOS ENGINE v6.8</span>
+<span class="text-secondary text-[11px] font-telemetry-code">LATENCIA: 14MS // OPERATIONAL HUD</span>
+</div>
+<h1 class="font-hud-title text-headline-xl text-primary font-bold tracking-wider leading-none">
+                CRONOS · FICHA MAESTRA DE GESTIÓN DEL HORARIO
+              </h1>
+<p class="font-label-lg text-secondary text-label-lg tracking-widest mt-1">
+                «EL DÍA ES EL TABLERO · EL TIEMPO ES EL RECURSO» · 1440 MINUTOS DISPONIBLES
+              </p>
+</div>
+<!-- Chips de Estado del Día -->
+<div class="flex flex-wrap items-center gap-2 bg-surface-container-lowest/80 p-2 rounded-lg border border-outline-variant/40">
+<span class="font-telemetry-code text-[11px] text-outline mr-1 uppercase">ESTADO DÍA:</span>
+<button class="px-3 py-1 rounded bg-primary-container text-surface-container-lowest font-label-md font-bold text-label-md shadow-[0_0_10px_rgba(0,240,255,0.4)] flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle">check_circle</span>
+                ACTIVO
+              </button>
+<button class="px-3 py-1 rounded bg-surface-container-high/40 text-on-surface-variant hover:text-on-surface font-label-md text-label-md border border-outline-variant/40">
+                COMPLETADO
+              </button>
+<button class="px-3 py-1 rounded bg-surface-container-high/40 text-on-surface-variant hover:text-on-surface font-label-md text-label-md border border-outline-variant/40">
+                PARCIAL
+              </button>
+<button class="px-3 py-1 rounded bg-surface-container-high/40 text-on-surface-variant hover:text-on-surface font-label-md text-label-md border border-outline-variant/40">
+                REPROGRAMADO
+              </button>
+</div>
+</div>
+<!-- Metadatos e Identidad Temporal -->
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 pt-space-md text-telemetry-code font-telemetry-code">
+<div class="bg-surface-container-lowest/70 border border-outline-variant/30 p-2.5 rounded">
+<div class="text-outline text-[10px] uppercase">FECHA ESTELAR</div>
+<div class="text-primary font-semibold text-[13px] mt-0.5">2025-05-18 // SOL-98</div>
+</div>
+<div class="bg-surface-container-lowest/70 border border-outline-variant/30 p-2.5 rounded">
+<div class="text-outline text-[10px] uppercase">ALMANAQUE COSMOS</div>
+<div class="text-secondary text-[12px] truncate mt-0.5" title="Tzolkin Kin 142 · Viento Eléctrico Blanco">Kin 142 · Viento Eléctrico</div>
+</div>
+<div class="bg-surface-container-lowest/70 border border-outline-variant/30 p-2.5 rounded">
+<div class="text-outline text-[10px] uppercase">CÓDIGO TEMPORAL</div>
+<div class="text-primary-container text-[12px] mt-0.5">#HORARIO-2025-0518</div>
+</div>
+<div class="bg-surface-container-lowest/70 border border-outline-variant/30 p-2.5 rounded">
+<div class="text-outline text-[10px] uppercase">CICLO ANUAL</div>
+<div class="text-on-surface font-medium text-[13px] mt-0.5">DÍA 138 / 365</div>
+</div>
+<div class="bg-surface-container-lowest/70 border border-outline-variant/30 p-2.5 rounded">
+<div class="text-outline text-[10px] uppercase">HORA INICIO</div>
+<div class="text-secondary text-[13px] mt-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]" data-icon="play_arrow">play_arrow</span>
+                06:00 UTC
+              </div>
+</div>
+<div class="bg-surface-container-lowest/70 border border-outline-variant/30 p-2.5 rounded">
+<div class="text-outline text-[10px] uppercase">HORA CIERRE</div>
+<div class="text-tertiary-fixed-dim text-[13px] mt-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]" data-icon="stop">stop</span>
+                23:00 UTC
+              </div>
+</div>
+</div>
+</section>
+<!-- ==========================================
+             SECCIONES II Y III: INTENCIÓN DEL DÍA & ESCÁNER DEL DÍA
+             ========================================== -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md">
+<!-- II · INTENCIÓN DEL DÍA (COL-7) -->
+<section class="lg:col-span-7 border border-outline-variant/40 bg-surface-container-low/80 backdrop-blur-md rounded-xl p-space-md flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm border-b border-outline-variant/30 pb-2">
+<div class="flex items-center gap-2">
+<span class="text-primary-container font-hud-title text-[15px]">II · INTENCIÓN DEL DÍA</span>
+<span class="text-[10px] font-telemetry-code text-outline">// ENFOQUE DIRECTRIZ</span>
+</div>
+<span class="text-secondary text-[11px] font-telemetry-code">TRANSFORMACIÓN REQUERIDA</span>
+</div>
+<!-- Pregunta Canónica -->
+<div class="mb-space-sm">
+<label class="block text-outline text-[11px] font-telemetry-code uppercase mb-1">
+                  ¿QUÉ QUIERO PRODUCIR O TRANSFORMAR HOY?
+                </label>
+<textarea class="w-full bg-surface-container-lowest border border-outline-variant/50 rounded p-2 text-telemetry-code text-primary font-telemetry-code focus:border-primary-container focus:ring-0 text-[13px] resize-none" placeholder="Ingresa la declaración ontológica de producción para este ciclo de 1440 minutos..." rows="2">Completar la infraestructura del motor de sincronización de datos de Cronos e implementar la arquitectura modular de 4 bloques tácticos para la expansión de la base estelar.</textarea>
+</div>
+<!-- Misión Principal Desplegada en Neón Cian -->
+<div class="p-space-sm bg-surface-container/90 border border-primary-container/60 rounded-lg cyan-glow mb-space-md">
+<div class="flex items-center justify-between text-[11px] font-telemetry-code text-primary-container mb-1">
+<span class="font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="stars">stars</span>
+                    MISIÓN PRINCIPAL // PRIORIDAD ALFA
+                  </span>
+<span class="bg-primary-container/20 px-2 py-0.5 rounded text-[10px] border border-primary-container/40">PESO: 50%</span>
+</div>
+<div class="text-primary font-headline-md text-headline-md tracking-wide">
+                  Desplegar y validar el pipeline de sincronización Atanor v6.8 y sellar 2 bloques cronos de desarrollo puro.
+                </div>
+</div>
+<!-- Misiones Secundarias -->
+<div>
+<div class="text-outline font-telemetry-code text-[11px] uppercase mb-2 flex items-center justify-between">
+<span>MISIONES SECUNDARIAS (ORDEN DE EJECUCIÓN)</span>
+<span class="text-secondary">3 OBJETIVOS TÁCTICOS</span>
+</div>
+<div class="space-y-2 font-telemetry-code text-body-sm">
+<label class="flex items-start gap-2 p-2 rounded bg-surface-container-lowest/60 border border-outline-variant/30 hover:border-outline-variant cursor-pointer">
+<input checked="" class="rounded border-outline-variant bg-surface-container text-primary-container focus:ring-0 mt-0.5" type="checkbox"/>
+<span class="text-on-surface line-through text-outline">01. Revisión de protocolos de red y mitigación de fricciones de latencia en la pasarela.</span>
+</label>
+<label class="flex items-start gap-2 p-2 rounded bg-surface-container-lowest/60 border border-outline-variant/30 hover:border-outline-variant cursor-pointer">
+<input class="rounded border-outline-variant bg-surface-container text-primary-container focus:ring-0 mt-0.5" type="checkbox"/>
+<span class="text-on-surface">02. Sesión de estudio de arquitecturas de telemetría distribuida (60 min).</span>
+</label>
+<label class="flex items-start gap-2 p-2 rounded bg-surface-container-lowest/60 border border-outline-variant/30 hover:border-outline-variant cursor-pointer">
+<input class="rounded border-outline-variant bg-surface-container text-primary-container focus:ring-0 mt-0.5" type="checkbox"/>
+<span class="text-on-surface">03. Auditoría de regeneración corporal y calibración de postura vital.</span>
+</label>
+</div>
+</div>
+</div>
+</section>
+<!-- III · ESCÁNER DEL DÍA (COL-5) -->
+<section class="lg:col-span-5 border border-outline-variant/40 bg-surface-container-low/80 backdrop-blur-md rounded-xl p-space-md flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm border-b border-outline-variant/30 pb-2">
+<div class="flex items-center gap-2">
+<span class="text-secondary font-hud-title text-[15px]">III · ESCÁNER DEL DÍA</span>
+<span class="text-[10px] font-telemetry-code text-outline">// BIOTRACER HUD</span>
+</div>
+<span class="material-symbols-outlined text-secondary text-[16px]" data-icon="monitor_heart">monitor_heart</span>
+</div>
+<!-- Capacidad Vital con Nivel Holográfico -->
+<div class="mb-space-md">
+<div class="text-outline font-telemetry-code text-[11px] uppercase mb-2">CAPACIDAD VITAL Y ENERGÍA</div>
+<div class="space-y-2">
+<div class="flex items-center justify-between bg-surface-container-lowest/70 p-2 rounded border border-outline-variant/30 text-telemetry-code">
+<span class="text-on-surface text-[12px] flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-tertiary-fixed-dim" data-icon="bedtime">bedtime</span>
+                      Al Despertar (06:00)
+                    </span>
+<div class="flex gap-1 text-[10px]">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-outline">BAJA</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-outline">NORMAL</span>
+<span class="px-2 py-0.5 rounded bg-secondary text-surface-container-lowest font-bold">ALTA (88%)</span>
+</div>
+</div>
+<div class="flex items-center justify-between bg-surface-container-lowest/70 p-2 rounded border border-outline-variant/30 text-telemetry-code">
+<span class="text-on-surface text-[12px] flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-primary-container" data-icon="wb_sunny">wb_sunny</span>
+                      Mediodía (13:00)
+                    </span>
+<div class="flex gap-1 text-[10px]">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-outline">BAJA</span>
+<span class="px-2 py-0.5 rounded bg-primary-container text-surface-container-lowest font-bold">NORMAL (72%)</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-outline">ALTA</span>
+</div>
+</div>
+<div class="flex items-center justify-between bg-surface-container-lowest/70 p-2 rounded border border-outline-variant/30 text-telemetry-code">
+<span class="text-on-surface text-[12px] flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-tertiary-fixed" data-icon="nights_stay">nights_stay</span>
+                      Tarde / Noche (19:00)
+                    </span>
+<div class="flex gap-1 text-[10px]">
+<span class="px-2 py-0.5 rounded bg-tertiary-fixed-dim text-on-tertiary-fixed-variant font-bold">BAJA (45%)</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-outline">NORMAL</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-outline">ALTA</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Condiciones del Tablero: Grid 4 Cuadrantes -->
+<div>
+<div class="text-outline font-telemetry-code text-[11px] uppercase mb-1.5">CONDICIONES DEL TABLERO (4 CUADRANTES)</div>
+<div class="grid grid-cols-2 gap-2 text-[11px] font-telemetry-code">
+<div class="p-2 rounded bg-surface-container-lowest border border-outline-variant/30">
+<span class="text-primary-container font-semibold block mb-0.5">OBLIGACIONES FIJAS</span>
+<p class="text-outline text-[11px]">Sincronización semanal Void Clan 14:00 (60 min).</p>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest border border-outline-variant/30">
+<span class="text-secondary font-semibold block mb-0.5">EVENTOS TÁCTICOS</span>
+<p class="text-outline text-[11px]">Apertura de ventana de despliegue nodo 07 a las 11:00.</p>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest border border-outline-variant/30">
+<span class="text-error font-semibold block mb-0.5">LIMITACIONES / FRICCIONES</span>
+<p class="text-outline text-[11px]">Cansancio ocular tras Bloque 02; requiere pausa estricta.</p>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest border border-outline-variant/30">
+<span class="text-tertiary-fixed-dim font-semibold block mb-0.5">OPORTUNIDADES</span>
+<p class="text-outline text-[11px]">Mañana despejada de interrupciones de 08:00 a 13:00.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- ==========================================
+             SECCIÓN IV: RUTA DE LAS ÁREAS DE VIDA
+             ========================================== -->
+<section class="border border-outline-variant/40 bg-surface-container-low/80 backdrop-blur-md rounded-xl p-space-md">
+<div class="flex items-center justify-between mb-space-sm border-b border-outline-variant/30 pb-2">
+<div class="flex items-center gap-2">
+<span class="text-primary-container font-hud-title text-[15px]">IV · RUTA DE LAS 7 ÁREAS DE VIDA</span>
+<span class="text-outline text-telemetry-code text-[11px]">// ASIGNACIÓN HOLÍSTICA DE RECURSO</span>
+</div>
+<span class="text-outline text-[11px] font-telemetry-code">7 / 7 SECTORES VINCULADOS</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left font-telemetry-code text-[12px]">
+<thead>
+<tr class="border-b border-outline-variant/30 text-outline uppercase text-[10px]">
+<th class="py-2 px-3 w-12 text-center">ESTADO</th>
+<th class="py-2 px-3 w-44">ÁREA CANÓNICA</th>
+<th class="py-2 px-3">MISIÓN / ACCIÓN CONCRETA DESIGNADA</th>
+<th class="py-2 px-3 w-32 text-right">CAPACIDAD</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20">
+<tr class="hover:bg-surface-container-high/30">
+<td class="py-2.5 px-3 text-center">
+<input checked="" class="rounded border-outline-variant bg-surface-container text-primary-container focus:ring-0" type="checkbox"/>
+</td>
+<td class="py-2.5 px-3 text-primary font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-primary-container" data-icon="person">person</span>
+                    YO
+                  </td>
+<td class="py-2.5 px-3 text-on-surface">Meditar 15 min al despertar + Sesión de entrenamiento físico de movilidad.</td>
+<td class="py-2.5 px-3 text-right text-secondary">ALTA</td>
+</tr>
+<tr class="hover:bg-surface-container-high/30">
+<td class="py-2.5 px-3 text-center">
+<input checked="" class="rounded border-outline-variant bg-surface-container text-primary-container focus:ring-0" type="checkbox"/>
+</td>
+<td class="py-2.5 px-3 text-primary font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-tertiary-fixed-dim" data-icon="favorite">favorite</span>
+                    PAREJA
+                  </td>
+<td class="py-2.5 px-3 text-on-surface">Cena tranquila sin dispositivos y conversación reflexiva a las 20:30.</td>
+<td class="py-2.5 px-3 text-right text-tertiary-fixed-dim">NORMAL</td>
+</tr>
+<tr class="hover:bg-surface-container-high/30">
+<td class="py-2.5 px-3 text-center">
+<input class="rounded border-outline-variant bg-surface-container text-primary-container focus:ring-0" type="checkbox"/>
+</td>
+<td class="py-2.5 px-3 text-primary font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-secondary" data-icon="home">home</span>
+                    CASA Y FAMILIA
+                  </td>
+<td class="py-2.5 px-3 text-on-surface">Orden del espacio de trabajo estelar y llamada breve familiar.</td>
+<td class="py-2.5 px-3 text-right text-outline">NORMAL</td>
+</tr>
+<tr class="hover:bg-surface-container-high/30">
+<td class="py-2.5 px-3 text-center">
+<input checked="" class="rounded border-outline-variant bg-surface-container text-primary-container focus:ring-0" type="checkbox"/>
+</td>
+<td class="py-2.5 px-3 text-primary font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-primary-container" data-icon="menu_book">menu_book</span>
+                    ESTUDIO
+                  </td>
+<td class="py-2.5 px-3 text-on-surface">Lectura táctica de 60 minutos sobre arquitectura distribuida y algoritmos de sincronía.</td>
+<td class="py-2.5 px-3 text-right text-secondary">ALTA</td>
+</tr>
+<tr class="hover:bg-surface-container-high/30">
+<td class="py-2.5 px-3 text-center">
+<input checked="" class="rounded border-outline-variant bg-surface-container text-primary-container focus:ring-0" type="checkbox"/>
+</td>
+<td class="py-2.5 px-3 text-primary font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-primary-container" data-icon="terminal">terminal</span>
+                    TRABAJO
+                  </td>
+<td class="py-2.5 px-3 text-on-surface">Bloque Cronos 01 y 03: Arquitectura, refactorización y despliegue del módulo Cronos Engine.</td>
+<td class="py-2.5 px-3 text-right text-primary-container">MÁXIMA</td>
+</tr>
+<tr class="hover:bg-surface-container-high/30">
+<td class="py-2.5 px-3 text-center">
+<input class="rounded border-outline-variant bg-surface-container text-primary-container focus:ring-0" type="checkbox"/>
+</td>
+<td class="py-2.5 px-3 text-primary font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-secondary" data-icon="groups">groups</span>
+                    RELACIONES SOCIALES
+                  </td>
+<td class="py-2.5 px-3 text-on-surface">Check-in de 15 minutos en Discord de camaradas de sector espacial.</td>
+<td class="py-2.5 px-3 text-right text-outline">BAJA</td>
+</tr>
+<tr class="hover:bg-surface-container-high/30">
+<td class="py-2.5 px-3 text-center">
+<input checked="" class="rounded border-outline-variant bg-surface-container text-primary-container focus:ring-0" type="checkbox"/>
+</td>
+<td class="py-2.5 px-3 text-primary font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-tertiary-fixed-dim" data-icon="self_improvement">self_improvement</span>
+                    ESPIRITUALIDAD
+                  </td>
+<td class="py-2.5 px-3 text-on-surface">Cierre nocturno Atanor, contemplación de la bóveda celeste y gratitud ontológica.</td>
+<td class="py-2.5 px-3 text-right text-secondary">ALTA</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- ==========================================
+             SECCIÓN V: MAPA DE LAS 24 HORAS (TERRITORIO TEMPORAL)
+             ========================================== -->
+<section class="border border-outline-variant/40 bg-surface-container-low/80 backdrop-blur-md rounded-xl p-space-md">
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-space-sm border-b border-outline-variant/30 pb-2 gap-2">
+<div>
+<span class="text-primary-container font-hud-title text-[15px]">V · MAPA DE LAS 24 HORAS</span>
+<span class="text-outline text-telemetry-code text-[11px] block sm:inline sm:ml-2">// TERRITORIO TEMPORAL (00:00 - 24:00)</span>
+</div>
+<div class="flex items-center gap-3 text-[11px] font-telemetry-code">
+<span class="flex items-center gap-1 text-primary-container"><span class="w-2.5 h-2.5 bg-primary-container rounded-sm"></span> BLOQUES CRONOS (4x120m)</span>
+<span class="flex items-center gap-1 text-secondary"><span class="w-2.5 h-2.5 bg-secondary-container rounded-sm"></span> AUTOCUIDADO/VITAL</span>
+<span class="flex items-center gap-1 text-outline"><span class="w-2.5 h-2.5 bg-surface-container-high rounded-sm"></span> SUEÑO</span>
+</div>
+</div>
+<!-- Barra Temporal Holográfica Segmentada (24 Horas) -->
+<div class="mb-space-md bg-surface-container-lowest p-2 rounded-lg border border-outline-variant/40">
+<div class="text-[10px] font-telemetry-code text-outline mb-1.5 flex justify-between">
+<span>00:00</span>
+<span>04:00</span>
+<span>08:00</span>
+<span>12:00</span>
+<span>16:00</span>
+<span>20:00</span>
+<span>24:00</span>
+</div>
+<div class="grid grid-cols-24 h-7 gap-0.5 rounded overflow-hidden p-0.5 bg-surface-container border border-outline-variant/30 text-[9px] font-telemetry-code text-center leading-6">
+<!-- 00 to 06: Sleep (6h) -->
+<div class="col-span-6 bg-surface-container-high text-outline truncate" title="00:00-06:00 SUEÑO (480 min)">SUEÑO REGENERATIVO</div>
+<!-- 06 to 08: Autocuidado / Rutina -->
+<div class="col-span-2 bg-secondary/30 text-secondary truncate border border-secondary/40" title="06:00-08:00 RUTINA VITAL">VITAL</div>
+<!-- 08:30 to 10:30: Bloque Cronos 1 (2h approx) -->
+<div class="col-span-2 bg-primary-container text-surface-container-lowest font-bold truncate shadow-[0_0_8px_rgba(0,240,255,0.4)]" title="08:30-10:30 BLOQUE CRONOS 01">BC-01</div>
+<!-- 10:30 to 11:00 Pausa + 11:00 to 13:00 Bloque Cronos 2 (2h) -->
+<div class="col-span-3 bg-primary-fixed-dim text-surface-container-lowest font-bold truncate" title="11:00-13:00 BLOQUE CRONOS 02">BC-02 (ACTIVO)</div>
+<!-- 13:00 to 15:00 Almuerzo / Descanso (2h) -->
+<div class="col-span-2 bg-secondary-container/40 text-secondary truncate" title="13:00-15:00 ALIMENTACIÓN / PAUSA">NUTRICIÓN</div>
+<!-- 15:30 to 17:30 Bloque Cronos 3 (2h) -->
+<div class="col-span-2 bg-tertiary-fixed text-on-tertiary-fixed font-bold truncate magenta-glow" title="15:30-17:30 BLOQUE CRONOS 03">BC-03</div>
+<!-- 17:30 to 19:00 Transición / Vida libre (1.5h) -->
+<div class="col-span-2 bg-surface-container-high text-on-surface truncate">LIBRE</div>
+<!-- 19:00 to 21:00 Bloque Cronos 4 (2h) -->
+<div class="col-span-2 bg-primary-container text-surface-container-lowest font-bold truncate" title="19:00-21:00 BLOQUE CRONOS 04">BC-04</div>
+<!-- 21:00 to 23:00 Cierre y cena (2h) -->
+<div class="col-span-2 bg-secondary/30 text-secondary truncate" title="21:00-23:00 ATANOR / CENA">ATANOR</div>
+<!-- 23:00 to 24:00 Inicio sueño (1h) -->
+<div class="col-span-1 bg-surface-container-high text-outline truncate" title="23:00-24:00 DESCONEXIÓN">SUEÑO</div>
+</div>
+</div>
+<!-- Tabla Resumen Horaria Desplegable -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 text-telemetry-code text-[11px]">
+<div class="p-2 rounded bg-surface-container-lowest/80 border border-outline-variant/30 flex justify-between items-center">
+<div>
+<span class="text-secondary font-bold">06:00 - 08:30</span>
+<div class="text-outline">Encendido Vital &amp; Desayuno</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-secondary/20 text-secondary text-[10px]">HECHO</span>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest/80 border border-primary-container/40 flex justify-between items-center">
+<div>
+<span class="text-primary font-bold">08:30 - 10:30 [BC-01]</span>
+<div class="text-on-surface">Trabajo: Núcleo de Software</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-primary-container text-surface-container-lowest font-bold text-[10px]">HECHO</span>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest/80 border border-primary-container flex justify-between items-center cyan-glow">
+<div>
+<span class="text-primary-container font-bold">11:00 - 13:00 [BC-02]</span>
+<div class="text-primary">Estudio: Arquitectura Telemetría</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-primary-container text-surface-container-lowest font-bold text-[10px] animate-pulse">EN CURSO</span>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest/80 border border-outline-variant/30 flex justify-between items-center">
+<div>
+<span class="text-tertiary-fixed-dim font-bold">15:30 - 17:30 [BC-03]</span>
+<div class="text-outline">Proyecto: Resolución de Nodos</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-outline text-[10px]">PENDIENTE</span>
+</div>
+</div>
+</section>
+<!-- ==========================================
+             SECCIÓN VI: CLASIFICACIÓN DEL TIEMPO (1440 MINUTOS)
+             ========================================== -->
+<section class="border border-outline-variant/40 bg-surface-container-low/80 backdrop-blur-md rounded-xl p-space-md">
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-space-sm border-b border-outline-variant/30 pb-2 gap-2">
+<div>
+<span class="text-primary-container font-hud-title text-[15px]">VI · CLASIFICACIÓN DEL TIEMPO</span>
+<span class="text-outline text-telemetry-code text-[11px] block sm:inline sm:ml-2">// PRESUPUESTO ESTRICTO: 1440 MINUTOS = 24 HORAS</span>
+</div>
+<!-- Medidor dinámico asignado/no asignado -->
+<div class="flex items-center gap-3 font-telemetry-code text-[12px]">
+<span class="text-secondary font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle">check_circle</span>
+                TIEMPO ASIGNADO: 1440 MIN
+              </span>
+<span class="text-outline">//</span>
+<span class="text-primary-container font-semibold">NO ASIGNADO: 0 MIN</span>
+</div>
+</div>
+<!-- Barra de Progreso Multicolor del Presupuesto de 1440 min -->
+<div class="mb-space-md">
+<div class="h-3 w-full bg-surface-container-lowest rounded-full overflow-hidden flex p-0.5 border border-outline-variant/40">
+<div class="bg-surface-variant h-full" style="width: 33.33%" title="SUEÑO: 480m (33.3%)"></div>
+<div class="bg-secondary h-full" style="width: 4.16%" title="AUTOCUIDADO: 60m (4.2%)"></div>
+<div class="bg-secondary-container h-full" style="width: 6.25%" title="ALIMENTACIÓN: 90m (6.3%)"></div>
+<div class="bg-primary-container h-full" style="width: 16.66%" title="TRABAJO: 240m (16.7%)"></div>
+<div class="bg-primary-fixed-dim h-full" style="width: 4.16%" title="ESTUDIO: 60m (4.2%)"></div>
+<div class="bg-tertiary-fixed-dim h-full" style="width: 4.16%" title="VÍNCULO: 60m (4.2%)"></div>
+<div class="bg-outline h-full" style="width: 4.16%" title="RECUPERACIÓN: 60m (4.2%)"></div>
+<div class="bg-outline-variant h-full" style="width: 4.16%" title="TRANSICIÓN: 60m (4.2%)"></div>
+<div class="bg-surface-bright h-full" style="width: 6.25%" title="VIDA LIBRE: 90m (6.3%)"></div>
+<div class="bg-tertiary-fixed h-full" style="width: 16.66%" title="CRONOS (FOCO TOTAL): 240m (16.7%)"></div>
+</div>
+</div>
+<!-- Grid de Categorías y Minutos (10 Categorías Sumando 1440) -->
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 font-telemetry-code text-[11px]">
+<div class="p-2 rounded bg-surface-container-lowest border border-outline-variant/30">
+<span class="text-outline block uppercase">SUEÑO</span>
+<span class="text-primary font-bold text-[14px]">480 min</span>
+<span class="text-outline text-[10px] block">8.0 horas</span>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest border border-outline-variant/30">
+<span class="text-secondary block uppercase">AUTOCUIDADO</span>
+<span class="text-secondary font-bold text-[14px]">60 min</span>
+<span class="text-outline text-[10px] block">1.0 hora</span>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest border border-outline-variant/30">
+<span class="text-secondary-fixed-dim block uppercase">ALIMENTACIÓN</span>
+<span class="text-secondary-fixed-dim font-bold text-[14px]">90 min</span>
+<span class="text-outline text-[10px] block">1.5 horas</span>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest border border-outline-variant/30">
+<span class="text-primary-container block uppercase">TRABAJO</span>
+<span class="text-primary-container font-bold text-[14px]">240 min</span>
+<span class="text-outline text-[10px] block">4.0 horas</span>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest border border-outline-variant/30">
+<span class="text-primary-fixed block uppercase">ESTUDIO</span>
+<span class="text-primary-fixed font-bold text-[14px]">60 min</span>
+<span class="text-outline text-[10px] block">1.0 hora</span>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest border border-outline-variant/30">
+<span class="text-tertiary-fixed-dim block uppercase">VÍNCULO</span>
+<span class="text-tertiary-fixed-dim font-bold text-[14px]">60 min</span>
+<span class="text-outline text-[10px] block">1.0 hora</span>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest border border-outline-variant/30">
+<span class="text-secondary block uppercase">RECUPERACIÓN</span>
+<span class="text-secondary font-bold text-[14px]">60 min</span>
+<span class="text-outline text-[10px] block">1.0 hora</span>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest border border-outline-variant/30">
+<span class="text-outline block uppercase">TRANSICIÓN</span>
+<span class="text-outline font-bold text-[14px]">60 min</span>
+<span class="text-outline text-[10px] block">1.0 hora</span>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest border border-outline-variant/30">
+<span class="text-on-surface-variant block uppercase">VIDA LIBRE</span>
+<span class="text-on-surface-variant font-bold text-[14px]">90 min</span>
+<span class="text-outline text-[10px] block">1.5 horas</span>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest border border-tertiary-fixed-dim/50 magenta-glow">
+<span class="text-tertiary-fixed-dim block uppercase font-bold">TOTAL CRONOS</span>
+<span class="text-tertiary-fixed-dim font-bold text-[14px]">240 min</span>
+<span class="text-tertiary-fixed text-[10px] block">4 Bloques = 100%</span>
+</div>
+</div>
+</section>
+<!-- ==========================================
+             SECCIÓN VII: INSERCIÓN CRONOS (4 BLOQUES DE 120 MINUTOS)
+             ========================================== -->
+<section class="border border-outline-variant/40 bg-surface-container-low/90 backdrop-blur-md rounded-xl p-space-md">
+<div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-space-sm border-b border-outline-variant/30 pb-2 gap-2">
+<div>
+<span class="text-primary-container font-hud-title text-[15px]">VII · INSERCIÓN CRONOS (4 BLOQUES DE 120 MINUTOS)</span>
+<span class="text-secondary text-telemetry-code text-[11px] block md:inline md:ml-2">
+                FÓRMULA CANÓNICA: 25 + 5 + 25 + 5 + 25 + 5 + 25 + 5 = 120 MINUTOS
+              </span>
+</div>
+<div class="px-2.5 py-1 bg-surface-container-lowest rounded border border-outline-variant/40 font-telemetry-code text-[11px] text-outline">
+              REGLA: EL BLOQUE COMIENZA DIRECTAMENTE CON RONDA I
+            </div>
+</div>
+<!-- Grid de las 4 Tarjetas de Bloque Cronos -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-sm">
+<!-- BLOQUE 01 -->
+<div class="p-space-sm rounded-lg bg-surface-container-lowest/90 border border-outline-variant/40 flex flex-col justify-between hover:border-primary-container/60 transition-all">
+<div>
+<div class="flex items-center justify-between border-b border-outline-variant/20 pb-1.5 mb-2 font-telemetry-code">
+<span class="text-primary-container font-bold text-[13px]">BLOQUE 01</span>
+<span class="px-2 py-0.5 rounded text-[10px] bg-secondary/20 text-secondary border border-secondary/40 font-bold">COMPLETADO</span>
+</div>
+<div class="font-telemetry-code text-[11px] space-y-1 mb-2">
+<div class="text-outline">HORARIO: <span class="text-on-surface">08:30 - 10:30 (120m)</span></div>
+<div class="text-outline">FUNCIÓN: <span class="text-primary font-semibold">TRABAJO / PRODUCCIÓN</span></div>
+</div>
+<div class="p-2 rounded bg-surface-container text-body-sm text-[12px] text-on-surface-variant mb-2">
+<span class="text-primary block font-telemetry-code text-[11px] font-bold">OBJETIVO:</span>
+                  Construir rutas principales del módulo de telemetría y compilar sin warnings.
+                </div>
+</div>
+<div class="border-t border-outline-variant/20 pt-2 font-telemetry-code text-[10px] text-secondary flex items-center justify-between">
+<span>R1 ✓ · R2 ✓ · R3 ✓ · R4 ✓</span>
+<span>RESULTADO: ÓPTIMO</span>
+</div>
+</div>
+<!-- BLOQUE 02 (ACTIVO) -->
+<div class="p-space-sm rounded-lg bg-surface-container-lowest/90 border-2 border-primary-container cyan-glow flex flex-col justify-between relative overflow-hidden">
+<div class="absolute top-0 right-0 bg-primary-container text-surface-container-lowest font-telemetry-code text-[9px] font-bold px-1.5 py-0.5 uppercase">
+                EN VIVO
+              </div>
+<div>
+<div class="flex items-center justify-between border-b border-outline-variant/20 pb-1.5 mb-2 font-telemetry-code">
+<span class="text-primary font-bold text-[13px]">BLOQUE 02</span>
+<span class="px-2 py-0.5 rounded text-[10px] bg-primary-container text-surface-container-lowest font-bold">ACTIVO</span>
+</div>
+<div class="font-telemetry-code text-[11px] space-y-1 mb-2">
+<div class="text-outline">HORARIO: <span class="text-primary-container font-semibold">11:00 - 13:00 (120m)</span></div>
+<div class="text-outline">FUNCIÓN: <span class="text-secondary font-semibold">ESTUDIO / CONSTRUIR</span></div>
+</div>
+<div class="p-2 rounded bg-surface-container text-body-sm text-[12px] text-primary mb-2">
+<span class="text-primary-container block font-telemetry-code text-[11px] font-bold">OBJETIVO:</span>
+                  Analizar patrones de reactividad cósmica y esquematizar la jerarquía ontológica.
+                </div>
+</div>
+<div class="border-t border-outline-variant/20 pt-2 font-telemetry-code text-[10px] text-primary-container flex items-center justify-between">
+<span class="animate-pulse">R1 ✓ · R2 [EJECUTANDO 18/25m]</span>
+<span>4 RONDAS</span>
+</div>
+</div>
+<!-- BLOQUE 03 -->
+<div class="p-space-sm rounded-lg bg-surface-container-lowest/90 border border-tertiary-fixed-dim/40 flex flex-col justify-between hover:border-tertiary-fixed transition-all">
+<div>
+<div class="flex items-center justify-between border-b border-outline-variant/20 pb-1.5 mb-2 font-telemetry-code">
+<span class="text-tertiary-fixed-dim font-bold text-[13px]">BLOQUE 03</span>
+<span class="px-2 py-0.5 rounded text-[10px] bg-surface-container-high text-outline font-bold">PENDIENTE</span>
+</div>
+<div class="font-telemetry-code text-[11px] space-y-1 mb-2">
+<div class="text-outline">HORARIO: <span class="text-on-surface">15:30 - 17:30 (120m)</span></div>
+<div class="text-outline">FUNCIÓN: <span class="text-tertiary-fixed font-semibold">PROYECTO / RESOLVER</span></div>
+</div>
+<div class="p-2 rounded bg-surface-container text-body-sm text-[12px] text-on-surface-variant mb-2">
+<span class="text-tertiary-fixed-dim block font-telemetry-code text-[11px] font-bold">OBJETIVO:</span>
+                  Desbloquear fricciones en el motor de sincronización distribuida y mitigar latencias.
+                </div>
+</div>
+<div class="border-t border-outline-variant/20 pt-2 font-telemetry-code text-[10px] text-outline flex items-center justify-between">
+<span>R1 · R2 · R3 · R4</span>
+<span>INICIA EN 150 MIN</span>
+</div>
+</div>
+<!-- BLOQUE 04 -->
+<div class="p-space-sm rounded-lg bg-surface-container-lowest/90 border border-outline-variant/40 flex flex-col justify-between hover:border-secondary transition-all">
+<div>
+<div class="flex items-center justify-between border-b border-outline-variant/20 pb-1.5 mb-2 font-telemetry-code">
+<span class="text-secondary font-bold text-[13px]">BLOQUE 04</span>
+<span class="px-2 py-0.5 rounded text-[10px] bg-surface-container-high text-outline font-bold">PENDIENTE</span>
+</div>
+<div class="font-telemetry-code text-[11px] space-y-1 mb-2">
+<div class="text-outline">HORARIO: <span class="text-on-surface">19:00 - 21:00 (120m)</span></div>
+<div class="text-outline">FUNCIÓN: <span class="text-secondary font-semibold">VITAL / TERMINAR</span></div>
+</div>
+<div class="p-2 rounded bg-surface-container text-body-sm text-[12px] text-on-surface-variant mb-2">
+<span class="text-secondary block font-telemetry-code text-[11px] font-bold">OBJETIVO:</span>
+                  Sellar registros en el Atanor, depuración de logs diarios y preparación de la nave.
+                </div>
+</div>
+<div class="border-t border-outline-variant/20 pt-2 font-telemetry-code text-[10px] text-outline flex items-center justify-between">
+<span>R1 · R2 · R3 · R4</span>
+<span>CIERRE NOCTURNO</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ==========================================
+             SECCIONES VIII Y IX: ESTADO DE LA RUTA & CONTROL DE RECUPERACIÓN
+             ========================================== -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md">
+<!-- VIII · ESTADO DE LA RUTA (COL-6) -->
+<section class="lg:col-span-6 border border-outline-variant/40 bg-surface-container-low/80 backdrop-blur-md rounded-xl p-space-md">
+<div class="flex items-center justify-between mb-space-sm border-b border-outline-variant/30 pb-2">
+<span class="text-primary-container font-hud-title text-[15px]">VIII · ESTADO DE LA RUTA</span>
+<span class="text-outline text-telemetry-code text-[11px]">// TELEMETRÍA EN TIEMPO REAL</span>
+</div>
+<!-- Chips Métricas HUD -->
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-2 font-telemetry-code mb-space-sm">
+<div class="bg-surface-container-lowest p-2.5 rounded border border-outline-variant/30">
+<span class="text-outline text-[10px] block uppercase">BLOQUES PLANIFICADOS</span>
+<span class="text-primary font-bold text-[18px]">4</span>
+<span class="text-[10px] text-outline block">480 MINUTOS</span>
+</div>
+<div class="bg-surface-container-lowest p-2.5 rounded border border-outline-variant/30">
+<span class="text-outline text-[10px] block uppercase">BLOQUES COMPLETADOS</span>
+<span class="text-secondary font-bold text-[18px]">1 / 4</span>
+<span class="text-[10px] text-secondary block">25% PROGRESO</span>
+</div>
+<div class="bg-surface-container-lowest p-2.5 rounded border border-outline-variant/30">
+<span class="text-outline text-[10px] block uppercase">MISIONES COMPLETADAS</span>
+<span class="text-primary-container font-bold text-[18px]">5</span>
+<span class="text-[10px] text-outline block">DE 7 REGISTRADAS</span>
+</div>
+<div class="bg-surface-container-lowest p-2.5 rounded border border-outline-variant/30">
+<span class="text-outline text-[10px] block uppercase">MISIONES PARCIALES</span>
+<span class="text-tertiary-fixed-dim font-bold text-[18px]">2</span>
+<span class="text-[10px] text-outline block">EN SEGUIMIENTO</span>
+</div>
+<div class="bg-surface-container-lowest p-2.5 rounded border border-outline-variant/30">
+<span class="text-outline text-[10px] block uppercase">MISIONES REPROGRAMADAS</span>
+<span class="text-outline font-bold text-[18px]">0</span>
+<span class="text-[10px] text-secondary block">SIN RETRASOS</span>
+</div>
+<div class="bg-surface-container-lowest p-2.5 rounded border border-primary-container/40">
+<span class="text-primary-container text-[10px] block uppercase">RATIO EFICIENCIA</span>
+<span class="text-primary-container font-bold text-[18px]">94.2%</span>
+<span class="text-[10px] text-primary-container block">ESTADO ÓPTIMO</span>
+</div>
+</div>
+</section>
+<!-- IX · CONTROL DE RECUPERACIÓN (COL-6) -->
+<section class="lg:col-span-6 border border-outline-variant/40 bg-surface-container-low/80 backdrop-blur-md rounded-xl p-space-md">
+<div class="flex items-center justify-between mb-space-sm border-b border-outline-variant/30 pb-2">
+<span class="text-secondary font-hud-title text-[15px]">IX · CONTROL DE RECUPERACIÓN</span>
+<span class="text-outline text-telemetry-code text-[11px]">// SOSTENIBILIDAD VITAL</span>
+</div>
+<!-- Auditoría de Capacidad -->
+<div class="p-2.5 rounded bg-surface-container-lowest border border-outline-variant/30 mb-space-sm">
+<div class="text-outline font-telemetry-code text-[11px] uppercase mb-1">
+                ¿EL HORARIO PROTEGE LA CAPACIDAD DEL JUGADOR?
+              </div>
+<div class="flex gap-2 font-telemetry-code text-[11px]">
+<button class="px-3 py-1 rounded bg-secondary text-surface-container-lowest font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]" data-icon="shield">shield</span>
+                  SÍ (CONFIRMADO)
+                </button>
+<button class="px-3 py-1 rounded bg-surface-container-high text-outline">
+                  PARCIALMENTE
+                </button>
+<button class="px-3 py-1 rounded bg-surface-container-high text-outline">
+                  NO
+                </button>
+</div>
+</div>
+<!-- Checkboxes de Protección Vital -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 font-telemetry-code text-[11px] mb-2">
+<label class="flex items-center gap-2 p-1.5 rounded bg-surface-container-lowest/60 border border-outline-variant/20">
+<input checked="" class="rounded border-outline-variant bg-surface-container text-secondary focus:ring-0" type="checkbox"/>
+<span class="text-on-surface">Sueño protegido [480m]</span>
+</label>
+<label class="flex items-center gap-2 p-1.5 rounded bg-surface-container-lowest/60 border border-outline-variant/20">
+<input checked="" class="rounded border-outline-variant bg-surface-container text-secondary focus:ring-0" type="checkbox"/>
+<span class="text-on-surface">Alimentación protegida [90m]</span>
+</label>
+<label class="flex items-center gap-2 p-1.5 rounded bg-surface-container-lowest/60 border border-outline-variant/20">
+<input checked="" class="rounded border-outline-variant bg-surface-container text-secondary focus:ring-0" type="checkbox"/>
+<span class="text-on-surface">Recuperación protegida [60m]</span>
+</label>
+<label class="flex items-center gap-2 p-1.5 rounded bg-surface-container-lowest/60 border border-outline-variant/20">
+<input checked="" class="rounded border-outline-variant bg-surface-container text-secondary focus:ring-0" type="checkbox"/>
+<span class="text-on-surface">Tiempo libre protegido [90m]</span>
+</label>
+<label class="flex items-center gap-2 p-1.5 rounded bg-surface-container-lowest/60 border border-outline-variant/20 sm:col-span-2">
+<input checked="" class="rounded border-outline-variant bg-surface-container text-secondary focus:ring-0" type="checkbox"/>
+<span class="text-on-surface">Transiciones contempladas [60m integradas sin colisión]</span>
+</label>
+</div>
+<!-- Nota Táctica de Sostenibilidad -->
+<div class="p-2 rounded bg-surface-container text-[11px] font-telemetry-code text-secondary flex items-start gap-2 border border-secondary/20">
+<span class="material-symbols-outlined text-[15px] text-secondary mt-0.5" data-icon="info">info</span>
+<span>NOTA TÁCTICA: El sistema no permite programar un 5º Bloque Cronos para resguardar la energía ontológica del Avatar.</span>
+</div>
+</section>
+</div>
+<!-- ==========================================
+             SECCIÓN X: CIERRE DEL DÍA (AUDITORÍA REFLEXIVA)
+             ========================================== -->
+<section class="border border-outline-variant/40 bg-surface-container-low/80 backdrop-blur-md rounded-xl p-space-md">
+<div class="flex items-center justify-between mb-space-sm border-b border-outline-variant/30 pb-2">
+<div class="flex items-center gap-2">
+<span class="text-primary-container font-hud-title text-[15px]">X · CIERRE DEL DÍA</span>
+<span class="text-outline text-telemetry-code text-[11px]">// AUDITORÍA REFLEXIVA DE CICLO</span>
+</div>
+<span class="text-secondary text-telemetry-code text-[11px]">5 PREGUNTAS CANÓNICAS</span>
+</div>
+<div class="space-y-3 font-telemetry-code text-[12px]">
+<div>
+<label class="block text-primary text-[11px] font-bold mb-1">
+                1. ¿QUÉ PRODUJO EL MAYOR CAMBIO?
+              </label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/40 rounded p-2 text-on-surface text-[12px] focus:border-primary-container focus:ring-0" type="text" value="La estructuración del Bloque 01 sin interrupciones produjo el 80% del avance en la base de datos."/>
+</div>
+<div>
+<label class="block text-primary text-[11px] font-bold mb-1">
+                2. ¿QUÉ MISIÓN QUEDÓ PENDIENTE?
+              </label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/40 rounded p-2 text-on-surface text-[12px] focus:border-primary-container focus:ring-0" type="text" value="La sincronización de librerías secundarias en el nodo auxiliar (programada como tarea de bajo coste)."/>
+</div>
+<div>
+<label class="block text-primary text-[11px] font-bold mb-1">
+                3. ¿QUÉ DEBE CONTINUAR MAÑANA?
+              </label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/40 rounded p-2 text-on-surface text-[12px] focus:border-primary-container focus:ring-0" type="text" value="Iniciar directamente con el Bloque Cronos de despliegue sobre el clúster espacial v6.8."/>
+</div>
+<div>
+<label class="block text-primary text-[11px] font-bold mb-1">
+                4. ¿QUÉ REVELÓ EL DÍA SOBRE MI CAPACIDAD?
+              </label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/40 rounded p-2 text-on-surface text-[12px] focus:border-primary-container focus:ring-0" type="text" value="La concentración es óptima en la ventana matutina (08:30 a 11:30); la tarde requiere tareas de resolución guiada."/>
+</div>
+<div>
+<label class="block text-primary text-[11px] font-bold mb-1">
+                5. ¿QUÉ CAMBIARÉ EN LA PRÓXIMA RUTA?
+              </label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/40 rounded p-2 text-on-surface text-[12px] focus:border-primary-container focus:ring-0" type="text" value="Extender la pausa de transición entre el Bloque 02 y el almuerzo para evitar fatiga cognitiva residual."/>
+</div>
+</div>
+</section>
+<!-- ==========================================
+             SECCIONES XI Y XII: RESULTADO & REGISTRO ATANOR Y SELLO DEL DÍA
+             ========================================== -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md">
+<!-- XI · RESULTADO (COL-5) -->
+<section class="lg:col-span-5 border border-outline-variant/40 bg-surface-container-low/80 backdrop-blur-md rounded-xl p-space-md flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm border-b border-outline-variant/30 pb-2">
+<span class="text-tertiary-fixed-dim font-hud-title text-[15px]">XI · RESULTADO DEL DÍA</span>
+<span class="text-outline text-telemetry-code text-[11px]">// SÍNTESIS FINAL</span>
+</div>
+<!-- Estado Final del Día -->
+<div class="mb-space-md">
+<span class="text-outline text-telemetry-code text-[10px] uppercase block mb-1.5">ESTADO FINAL DECLARADO</span>
+<div class="grid grid-cols-2 gap-2 font-telemetry-code text-[11px]">
+<button class="p-2 rounded bg-primary-container text-surface-container-lowest font-bold text-center border border-primary-container shadow-[0_0_10px_rgba(0,240,255,0.3)]">
+                    EVOLUCIÓN
+                  </button>
+<button class="p-2 rounded bg-surface-container-lowest text-outline text-center border border-outline-variant/30 hover:text-on-surface">
+                    MANTENIMIENTO
+                  </button>
+<button class="p-2 rounded bg-surface-container-lowest text-outline text-center border border-outline-variant/30 hover:text-on-surface">
+                    RECONFIGURACIÓN
+                  </button>
+<button class="p-2 rounded bg-surface-container-lowest text-outline text-center border border-outline-variant/30 hover:text-on-surface">
+                    RECUPERACIÓN
+                  </button>
+</div>
+</div>
+<!-- Campos de Síntesis -->
+<div class="space-y-2.5 font-telemetry-code text-[11px]">
+<div class="p-2.5 rounded bg-surface-container-lowest border border-outline-variant/30">
+<span class="text-primary-container font-semibold block uppercase text-[10px]">RESULTADO PRINCIPAL:</span>
+<p class="text-on-surface text-[12px] mt-0.5">El motor Cronos cuenta con persistencia garantizada y 4 bloques verificados sin fugas de tiempo.</p>
+</div>
+<div class="p-2.5 rounded bg-surface-container-lowest border border-outline-variant/30">
+<span class="text-secondary font-semibold block uppercase text-[10px]">LECCIÓN DEL DÍA:</span>
+<p class="text-on-surface text-[12px] mt-0.5">La rigidez en las pausas de 5 minutos mantiene intacta la lucidez de la siguiente ronda.</p>
+</div>
+<div class="p-2.5 rounded bg-surface-container-lowest border border-outline-variant/30">
+<span class="text-tertiary-fixed-dim font-semibold block uppercase text-[10px]">PRÓXIMA ACCIÓN:</span>
+<p class="text-on-surface text-[12px] mt-0.5">Calibrar el Atanor nocturno y descansar antes de las 23:00 UTC con telemetría apagada.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- XII · REGISTRO ATANOR & SELLO DEL DÍA (COL-7) -->
+<section class="lg:col-span-7 border-2 border-primary-container/80 bg-surface-container-low/95 backdrop-blur-md rounded-xl p-space-md cyan-glow flex flex-col justify-between relative overflow-hidden">
+<!-- Background Watermark Rune -->
+<div class="absolute -bottom-16 -right-16 text-primary-container/5 pointer-events-none select-none">
+<span class="material-symbols-outlined text-[240px]" data-icon="blur_on">blur_on</span>
+</div>
+<div>
+<div class="flex items-center justify-between mb-space-sm border-b border-outline-variant/30 pb-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-[20px]" data-icon="lock_clock">lock_clock</span>
+<span class="text-primary font-hud-title text-[16px] tracking-wider">XII · REGISTRO ATANOR &amp; SELLO DEL DÍA</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-primary-container/20 text-primary-container font-telemetry-code text-[11px] border border-primary-container/40">CRIPTOSISTEMA ACTIVO</span>
+</div>
+<!-- Métricas Atanor -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 font-telemetry-code mb-space-md">
+<div class="bg-surface-container-lowest p-2 rounded border border-outline-variant/30">
+<span class="text-outline text-[10px] block uppercase">TIEMPO CRONOS</span>
+<span class="text-primary-container font-bold text-[15px]">240 min</span>
+<span class="text-[9px] text-outline block">100% UTILIZADO</span>
+</div>
+<div class="bg-surface-container-lowest p-2 rounded border border-outline-variant/30">
+<span class="text-outline text-[10px] block uppercase">BLOQUES HECHOS</span>
+<span class="text-secondary font-bold text-[15px]">2 / 4</span>
+<span class="text-[9px] text-secondary block">EN SECUENCIA</span>
+</div>
+<div class="bg-surface-container-lowest p-2 rounded border border-outline-variant/30">
+<span class="text-outline text-[10px] block uppercase">PROGRESO DÍA</span>
+<span class="text-primary font-bold text-[15px]">85%</span>
+<span class="text-[9px] text-primary block">ALTA EFECTIVIDAD</span>
+</div>
+<div class="bg-surface-container-lowest p-2 rounded border border-tertiary-fixed-dim/40 magenta-glow">
+<span class="text-tertiary-fixed-dim text-[10px] block uppercase font-bold">RECOMPENSAS</span>
+<span class="text-tertiary-fixed font-bold text-[14px]">+450 XP / +120 MC</span>
+<span class="text-[9px] text-tertiary-fixed-dim block">ATANOR LEVEL UP</span>
+</div>
+</div>
+<!-- Estado del Sistema -->
+<div class="mb-space-md">
+<div class="text-outline font-telemetry-code text-[11px] uppercase mb-1.5">EVOLUCIÓN DEL SISTEMA GLOBAL</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 font-telemetry-code text-[11px]">
+<div class="p-1.5 rounded bg-primary-container text-surface-container-lowest font-bold text-center">
+                    ↑ EVOLUCIONÓ
+                  </div>
+<div class="p-1.5 rounded bg-surface-container-lowest text-outline text-center border border-outline-variant/20">
+                    → SE MANTUVO
+                  </div>
+<div class="p-1.5 rounded bg-surface-container-lowest text-outline text-center border border-outline-variant/20">
+                    ↻ RECONFIGURAR
+                  </div>
+<div class="p-1.5 rounded bg-surface-container-lowest text-outline text-center border border-outline-variant/20">
+                    ◇ RECUPERAR
+                  </div>
+</div>
+</div>
+<!-- Cadena Sagrada y Lemas -->
+<div class="p-space-sm bg-surface-container-lowest/90 rounded border border-outline-variant/40 font-telemetry-code text-center mb-space-md">
+<div class="text-primary-container font-bold text-[12px] tracking-widest uppercase mb-1">
+                  OMNIA → FLUX → ORBE → CRONOS → AVATAR → ATANOR
+                </div>
+<div class="text-secondary text-[11px] tracking-wider">
+                  «EL TIEMPO ES RECURSO ✦ EL DÍA ES TABLERO ✦ LA ACCIÓN ES PROGRESO»
+                </div>
+</div>
+</div>
+<!-- Botón Sellar y Hash -->
+<div class="pt-2 border-t border-outline-variant/30 flex flex-col sm:flex-row items-center justify-between gap-space-sm font-telemetry-code">
+<div class="text-[10px] text-outline text-left">
+<span>HASH DE VERIFICACIÓN:</span>
+<span class="text-secondary font-mono block">0x9F4C...B88A2_CRONOS_V68</span>
+</div>
+<button class="w-full sm:w-auto px-6 py-2.5 rounded bg-primary-container text-surface-container-lowest font-hud-title text-[13px] tracking-wider font-bold hover:bg-primary-fixed shadow-[0_0_16px_rgba(0,240,255,0.5)] active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="verified_user">verified_user</span>
+                SELLAR HORARIO DEL DÍA
+              </button>
+</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+<!-- FOOTER (SHARED COMPONENT EXECUTION) -->
+<footer class="flex flex-wrap justify-between items-center w-full px-space-md py-space-xs text-telemetry-code border-t border-outline-variant/20 bg-surface-container-lowest z-30 fixed bottom-0 left-0">
+<!-- Brand / Copyright -->
+<div class="font-telemetry-code text-telemetry-code text-secondary">
+      MAGNOPVS LIFE HERO // SYSTEM CORE v6.8.0-RELEASE // COSMIC HUD STATUS: OPTIMAL [LATENCY: 14MS]
+    </div>
+<!-- Links (Exact from JSON) -->
+<div class="flex items-center gap-space-md">
+<a class="text-outline hover:text-on-surface hover:text-primary-fixed hover:underline transition-colors duration-150" href="#">Telemetry Log</a>
+<a class="text-outline hover:text-on-surface hover:text-primary-fixed hover:underline transition-colors duration-150" href="#">Quantum Nodes</a>
+<a class="text-outline hover:text-on-surface hover:text-primary-fixed hover:underline transition-colors duration-150" href="#">Security Protocol</a>
+<a class="text-outline hover:text-on-surface hover:text-primary-fixed hover:underline transition-colors duration-150" href="#">EULA Void</a>
+</div>
+</footer>
+</body></html>

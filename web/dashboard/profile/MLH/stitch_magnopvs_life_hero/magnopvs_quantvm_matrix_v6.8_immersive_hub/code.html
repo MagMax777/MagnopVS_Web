@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QUANTVM MATRIX // MagnopVS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.6; filter: drop-shadow(0 0 5px var(--glow-color)); }
+            50% { opacity: 1; filter: drop-shadow(0 0 15px var(--glow-color)); }
+        }
+        .glow-magenta { --glow-color: #ff00ff; animation: pulse-glow 2s infinite; }
+        .glow-cyan { --glow-color: #47d6ff; animation: pulse-glow 3s infinite; }
+        .glass-panel {
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(14, 20, 23, 0.7);
+        }
+        .hex-bg {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuApV62eH3CdFIDGrM-3h85tS-cgfLmpoj1zUdkuwqAP2KgX1iIHDkJpjzXRroWERu9Fhl3aIDPmXghS9wi9pKK6NTFWB5n6mPEwaI7L75zPAP0UE6oZbW_1QlpFVwIoHUjVdeuNzJojAMmtsTSRC-XDHZTxJ_2g38wRPSgGas4Ln747H6pyWnMei1K9F3hQT816tsnomR2__lPnnDimysKXr037mirRej_MJUK5LoCT3LMMJvsrgl6ZJ22E71pnX1ZvzVU');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #47d6ff; border-radius: 10px; }
+        
+        .attribute-bar-fill {
+            transition: width 1s ease-out;
+            background: linear-gradient(90deg, #47d6ff, #d1bcff);
+            box-shadow: 0 0 10px #47d6ff;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#47d6ff",
+                        "on-secondary-fixed": "#23005b",
+                        "surface": "#0e1417",
+                        "on-primary-fixed": "#001f28",
+                        "inverse-surface": "#dde3e7",
+                        "surface-bright": "#333a3d",
+                        "surface-container-highest": "#2f3639",
+                        "surface-tint": "#47d6ff",
+                        "on-background": "#dde3e7",
+                        "surface-container": "#1a2123",
+                        "error": "#ffb4ab",
+                        "secondary-fixed": "#e9ddff",
+                        "primary-fixed": "#b6ebff",
+                        "outline-variant": "#3c494e",
+                        "on-error-container": "#ffdad6",
+                        "background": "#0e1417",
+                        "on-tertiary": "#5e0053",
+                        "on-tertiary-fixed-variant": "#840076",
+                        "on-tertiary-container": "#920083",
+                        "tertiary-fixed-dim": "#fface8",
+                        "secondary-fixed-dim": "#d1bcff",
+                        "error-container": "#93000a",
+                        "on-surface-variant": "#bbc9cf",
+                        "tertiary-container": "#ffa3e7",
+                        "secondary-container": "#7000ff",
+                        "on-secondary": "#3c0090",
+                        "surface-container-low": "#161d1f",
+                        "secondary": "#d1bcff",
+                        "inverse-primary": "#00677f",
+                        "primary": "#a5e7ff",
+                        "surface-dim": "#0e1417",
+                        "primary-container": "#00d2ff",
+                        "tertiary-fixed": "#ffd7f0",
+                        "tertiary": "#ffcfee",
+                        "surface-container-high": "#242b2e",
+                        "on-secondary-fixed-variant": "#5700c9",
+                        "on-surface": "#dde3e7",
+                        "on-tertiary-fixed": "#3a0033",
+                        "on-secondary-container": "#ddcdff",
+                        "on-primary-fixed-variant": "#004e60",
+                        "on-primary-container": "#00566a",
+                        "outline": "#859399",
+                        "inverse-on-surface": "#2b3134",
+                        "on-error": "#690005",
+                        "on-primary": "#003543",
+                        "surface-container-lowest": "#090f12",
+                        "surface-variant": "#2f3639"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "hex-grid-size": "64px",
+                        "gutter": "16px",
+                        "margin-edge": "32px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Audiowide"],
+                        "label-caps": ["Orbitron"],
+                        "body-md": ["Orbitron"],
+                        "headline-lg-mobile": ["Audiowide"],
+                        "display-xl": ["Audiowide"],
+                        "data-header": ["Orbitron"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                        "label-caps": ["10px", {"lineHeight": "1", "letterSpacing": "0.2em", "fontWeight": "900"}],
+                        "body-md": ["14px", {"lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                        "display-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "data-header": ["18px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md overflow-hidden h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container">
+<!-- GLOBAL HUD BACKGROUND -->
+<div class="fixed inset-0 hex-bg z-0 opacity-40"></div>
+<div class="fixed inset-0 bg-gradient-to-tr from-surface via-transparent to-surface-dim z-0"></div>
+<!-- TOP APP BAR -->
+<header class="fixed top-0 w-full flex justify-between items-center px-margin-edge py-unit h-16 w-full z-50 bg-surface-dim/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(71,214,255,0.2)]">
+<div class="flex items-center gap-4">
+<h1 class="font-headline-lg text-headline-lg text-primary-fixed-dim tracking-widest uppercase">QUANTVM MATRIX</h1>
+<span class="hidden md:block h-6 w-px bg-outline-variant"></span>
+<p class="hidden md:block font-label-caps text-label-caps text-on-surface-variant tracking-[0.3em]">EXPERIENCIAS INMERSIVAS</p>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-fixed-dim animate-pulse">radar</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary-fixed-dim transition-colors cursor-pointer">settings</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary-fixed-dim transition-colors cursor-pointer">notifications</span>
+</div>
+<div class="flex items-center gap-3 bg-surface-container-high rounded-full pl-3 pr-1 py-1 border border-outline-variant/30">
+<span class="text-xs font-label-caps text-primary-fixed-dim">SOL_ID: 8842</span>
+<div class="w-8 h-8 rounded-full border border-primary-fixed-dim bg-center bg-cover" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAHAYm0wIt67wDGYXE2T6vZJH_U5940C1_AfP0g2W0QJVKxWJbAeLG0su2qTcAlG30WqAjCagaFaxJz0Lpn9QEitwkqUwviCp3h_e3zQbg8xeZDKY6yyxKA_JxU1hqppMkTsHvFyLc6q1gAlazXUM6X9rFUJ7nniDpeEbguhLc8kW18Q1HKKseiuH5N5Pjts7sGmlO6gG1uBrp6MfvHk93S5m-VG-GUjX5akpsBeDoksj4bT5RhNaEhgMVY5pzmcWmlJj8')"></div>
+</div>
+</div>
+</header>
+<!-- MAIN CONTENT WRAPPER -->
+<div class="flex flex-1 pt-16 h-full overflow-hidden">
+<!-- SIDE NAV -->
+<aside class="fixed left-0 top-0 h-full w-64 flex flex-col pt-20 pb-8 z-40 bg-surface-container-low/90 backdrop-blur-2xl border-r border-outline-variant/20 shadow-[10px_0_30px_rgba(0,0,0,0.5)] hidden md:flex">
+<div class="px-6 mb-8 flex flex-col items-center">
+<div class="relative mb-4 group cursor-pointer">
+<div class="absolute -inset-2 bg-primary-fixed-dim/20 rounded-full blur-xl group-hover:bg-primary-fixed-dim/40 transition-all"></div>
+<img alt="Sof.IA Tactical Assistant Avatar" class="relative w-24 h-24 rounded-full border-2 border-primary-fixed-dim object-cover shadow-[0_0_20px_rgba(71,214,255,0.4)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAi7AfKCBt3Fx7aj0CkqAXlhgWOuQxHTNr2NIV3nBWGCTqRj9Fcogv9-Hyr2lM4J4oR502q7yCiqmxHR2EDli76BXLASXnuW56FIMCEmN6bKPM-3YDKkSErHiP27O26sQ4cgUNnjxgdpkwVChaattcQP986Uu19PRlYjLa8kaTClQTgEwRity1FxwIfCXG-SdC_7u6WkkquD-CcWC4q8Nx-86c2VdL9p_-IjwyvrvjXN95S88B6D_D2ecpKVYcN_nP1tog"/>
+</div>
+<h2 class="font-headline-lg text-primary-fixed text-center tracking-widest text-lg">SOF.IA</h2>
+<p class="font-label-caps text-label-caps text-on-surface-variant text-[8px] tracking-[0.2em]">TACTICAL ASSISTANT</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-4 bg-secondary-container/30 text-secondary-fixed border-l-4 border-secondary-fixed p-4 shadow-[inset_0_0_10px_rgba(112,0,255,0.2)]" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+<span class="font-label-caps text-label-caps">MagZine</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant p-4 hover:bg-surface-container-highest hover:text-primary-fixed-dim transition-all hover:translate-x-2" href="#">
+<span class="material-symbols-outlined">strategy</span>
+<span class="font-label-caps text-label-caps">MagnoBoards</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant p-4 hover:bg-surface-container-highest hover:text-primary-fixed-dim transition-all hover:translate-x-2" href="#">
+<span class="material-symbols-outlined">style</span>
+<span class="font-label-caps text-label-caps">MagnoCards</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant p-4 hover:bg-surface-container-highest hover:text-primary-fixed-dim transition-all hover:translate-x-2" href="#">
+<span class="material-symbols-outlined">event</span>
+<span class="font-label-caps text-label-caps">MagnoEvents</span>
+</a>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full py-3 bg-primary-fixed-dim text-on-primary-fixed font-label-caps text-label-caps rounded-sm hover:scale-105 active:scale-95 transition-transform tracking-widest shadow-[0_0_15px_rgba(71,214,255,0.4)]">
+                    INITIATE MISSION
+                </button>
+<div class="mt-6 flex justify-around border-t border-outline-variant/30 pt-4">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-error transition-colors cursor-pointer">analytics</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-error transition-colors cursor-pointer">power_settings_new</span>
+</div>
+</div>
+</aside>
+<!-- MAIN CANVAS -->
+<main class="flex-1 md:ml-64 p-margin-edge overflow-y-auto custom-scrollbar">
+<div class="max-w-7xl mx-auto space-y-gutter">
+<!-- BENTO GRID SYSTEM -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- MAGZINE SECTOR (Large Feature) -->
+<section class="lg:col-span-8 group">
+<div class="relative h-[450px] rounded-xl overflow-hidden glass-panel group-hover:border-primary-fixed-dim/50 transition-all duration-500 shadow-xl">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" data-alt="A cinematic, detailed digital painting of a cyberpunk comic book cover titled Eco de los Velos. The scene shows a neon-lit futuristic city veiled in glowing mist, with mysterious cloaked figures wielding advanced technology. The lighting is dominated by deep blues and vibrant magentas, creating a high-fidelity AAA gaming aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBNVUzgwMooqPzjdii72VQ17Ffs1TulU4Q_nX-U0_47uR68CB83C-IwOge92i-YNE_yhbAON6P9GNBY_96yX_1VBFY0JUZwkdFuuzVdjnpB1QVPfRqr2zSXOF0wf9nlcBW2qWiVf9uv8O14P-JGxsfSRhom-ZnAhjSRCP1_Tv12h0hXcgu-wdcNVyPrwfsF7TTZvDROV7PgrQgh9P_N0gGGReLg-9PC1X37k3wztDzCdRAaWLMA1U519A')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 w-full p-8 space-y-4">
+<div class="flex items-center gap-3">
+<span class="px-3 py-1 bg-primary-container/80 text-on-primary-container text-[10px] font-label-caps rounded-sm border border-primary-fixed-dim/50">GAMIFIED ALBUM</span>
+<span class="px-3 py-1 bg-surface-container/60 text-on-surface-variant text-[10px] font-label-caps rounded-sm border border-outline-variant/30">ISSUE #12</span>
+</div>
+<h3 class="font-headline-lg text-4xl text-primary-fixed tracking-tight">Eco de los Velos</h3>
+<div class="grid grid-cols-2 gap-8 max-w-lg">
+<div class="space-y-2">
+<div class="flex justify-between text-[10px] font-label-caps text-on-surface-variant">
+<span>USER PROGRESS</span>
+<span class="text-primary-fixed-dim">68%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden border border-outline-variant/30">
+<div class="attribute-bar-fill h-full" style="width: 68%;"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-[10px] font-label-caps text-on-surface-variant">
+<span>COLLECTIVE SYNC</span>
+<span class="text-tertiary-fixed-dim">SYNCED</span>
+</div>
+<div class="flex gap-1 h-1.5">
+<div class="flex-1 bg-tertiary-container shadow-[0_0_5px_#fface8]"></div>
+<div class="flex-1 bg-tertiary-container shadow-[0_0_5px_#fface8]"></div>
+<div class="flex-1 bg-tertiary-container shadow-[0_0_5px_#fface8]"></div>
+<div class="flex-1 bg-tertiary-container/30"></div>
+</div>
+</div>
+</div>
+<div class="pt-4">
+<button class="flex items-center gap-2 text-primary-fixed-dim font-label-caps group-hover:gap-4 transition-all">
+                                        CONTINUE ADVENTURE <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- MAGNOBOARDS SECTOR (Vertical Display) -->
+<section class="lg:col-span-4 h-full">
+<div class="h-[450px] glass-panel rounded-xl flex flex-col p-6 space-y-6">
+<div class="flex justify-between items-center border-b border-outline-variant/30 pb-4">
+<h4 class="font-data-header text-on-primary-fixed-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary-fixed">strategy</span>
+                                    MESA DE ROL ACTUADO
+                                </h4>
+<span class="material-symbols-outlined text-primary-fixed-dim text-sm animate-spin-slow">autorenew</span>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar space-y-4">
+<!-- Campaign Item -->
+<div class="p-4 rounded-lg bg-surface-container-high border-l-4 border-secondary-fixed group cursor-pointer hover:bg-secondary-container/10 transition-colors">
+<div class="flex justify-between mb-2">
+<span class="text-[10px] font-label-caps text-secondary-fixed">LIVE CAMPAIGN</span>
+<span class="flex items-center gap-1 text-[10px] font-label-caps text-error">
+<span class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></span>
+                                            12 ACTIVE
+                                        </span>
+</div>
+<h5 class="font-body-md font-bold text-on-surface">Asalto a la Caosfera</h5>
+<p class="text-xs text-on-surface-variant mt-1">Dungeon Master: Magnop.v1</p>
+<div class="mt-3 flex -space-x-2">
+<div class="w-6 h-6 rounded-full border border-outline bg-cover" data-alt="Avatar of a futuristic RPG player character" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD6A7xI3fQrF5DabVLpKv_-y0qgp5ldV5YwupiGFDnYCnbY0xre2FQzg6KxKl9Z0Ha0xcsfNGgDIWACIGUvqIjt5dbMW8yU-J7Fw3MBGCCatUPVUI4aNhi6qt2h1VPWoo-Ep68yqFKV1nlsIiWRS9SbihfU7KQMVwcA7jDfIPvf4hZqZ19Hj4R2aacSINoaSzS8tRzSsZDuwawa3_MS93c2RGKdNFFVMKqiS8JQxLgIdfqv168fpQbQuQ')"></div>
+<div class="w-6 h-6 rounded-full border border-outline bg-cover" data-alt="Avatar of a futuristic RPG player character" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAKdZl_VLJFRbr6dyR1PA6_e-D4ypQ4LzfqzBwg2DzYJ10DDPGUdpBgvPQ-fOAJRn5bqfYO3aJb8MeDS2JNTi9KEK6Y9um7YZBurNrLfWhVJIbUcoPi_ow8McFavzhc5O0XMZlBlukW70OSsOPqYm9I-mhhgo8_hgrpZChuA5rWZuIOlTiAFuIxgMRVGltjJQySAJEnNo6zctuYzbgfOxVA7EkVMKqBLVUicvO7hv3IXa7kkKHASzmQ-A')"></div>
+<div class="w-6 h-6 rounded-full border border-outline bg-cover" data-alt="Avatar of a futuristic RPG player character" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBB82u4r2BmiaPHcN_KAX4MW95W42QxvuHBsTiAwxkVco6z1Sajxa7Me6wqVZtz0r0jlU7XvLaCDKWkzBa_dnCdIu0h9riSKJfE5QPYbd1bscGh2_O4XlypDU5si-SrZUyBIH8n6CpMt5rj0SC7q9UeWJB6olLkav9fgv1nQ2lpzpBfjXZ2KKYT107gizRbLAIoTDNb-T3ALgqyXVRKYUu3R4J8TDOvUs6WDlYrHTGpiinUFI0WDsGV7w')"></div>
+<div class="w-6 h-6 rounded-full bg-surface-container-highest border border-outline flex items-center justify-center text-[8px] font-label-caps text-on-surface-variant">+9</div>
+</div>
+</div>
+<!-- Campaign Item Locked -->
+<div class="p-4 rounded-lg bg-surface-container border-l-4 border-outline-variant/30 opacity-60">
+<div class="flex justify-between mb-2">
+<span class="text-[10px] font-label-caps text-on-surface-variant">NEXT SESSION</span>
+<span class="text-[10px] font-label-caps">T-24H</span>
+</div>
+<h5 class="font-body-md font-bold text-on-surface-variant">El Laberinto de Daat</h5>
+<p class="text-xs text-on-surface-variant mt-1">Status: Preparing Grids...</p>
+</div>
+</div>
+<button class="w-full py-3 border border-secondary-fixed text-secondary-fixed font-label-caps text-[10px] rounded hover:bg-secondary-fixed/10 transition-colors">
+                                OPEN TACTICAL BOARD
+                            </button>
+</div>
+</section>
+<!-- MAGNOCARDS SECTOR (Wide Bento) -->
+<section class="lg:col-span-7">
+<div class="glass-panel rounded-xl p-6 h-full flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<h4 class="font-data-header text-on-primary-fixed-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-fixed-dim">style</span>
+                                    TCG DECK COMMAND
+                                </h4>
+<div class="flex items-center gap-4">
+<div class="text-right">
+<p class="text-[8px] font-label-caps text-on-surface-variant">SEASONAL RANK</p>
+<p class="text-sm font-label-caps text-tertiary-fixed-dim">DIAMOND II</p>
+</div>
+<div class="w-10 h-10 rounded-lg bg-tertiary-container/20 flex items-center justify-center border border-tertiary-container/40">
+<span class="material-symbols-outlined text-tertiary-container">military_tech</span>
+</div>
+</div>
+</div>
+<div class="flex gap-4 overflow-x-auto pb-4 custom-scrollbar">
+<!-- Legendary Card -->
+<div class="flex-shrink-0 w-40 h-56 rounded-lg glass-panel p-1 relative group cursor-pointer">
+<div class="absolute -inset-1 bg-gradient-to-tr from-primary-fixed-dim/40 to-tertiary-fixed-dim/40 rounded-xl blur-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="relative w-full h-full rounded-lg overflow-hidden flex flex-col border border-primary-fixed-dim/50">
+<div class="h-3/4 bg-cover bg-center" data-alt="A digital trading card illustration showing a legendary cosmic dragon made of starlight and binary code. Glowing magenta and cyan accents, high contrast gaming art style." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAbMoRZsJN9jTh80bTgA-khUKbQc2MUt942vigAaWAc6b4ws2pQSJ8NCnkbQUwtX1MVPXKzbEsUuVZNw_6VCHF8jY2kiIqoxcKxMe2VJR92hwxU_nxNnRafIVT_RksR6R_0b6xDi9QTIiI2m7Aca0OQ8lm2VSOR_rlqrIWuqcEZB90vNC0GdXM0gNkD841nMQlzO9E-fcOOlabsbKRLl5bIE_72HsPQGCadho_bsmRPmd53Ok4eqqUbyg')"></div>
+<div class="flex-1 bg-surface-container-highest p-2 flex flex-col justify-between">
+<p class="text-[8px] font-label-caps text-primary-fixed-dim">LEGENDARY</p>
+<p class="text-[10px] font-bold text-on-surface truncate">CYBER-DRAKE</p>
+</div>
+<div class="absolute top-2 right-2 flex flex-col gap-1">
+<span class="w-5 h-5 rounded-full bg-surface/80 flex items-center justify-center text-[8px] text-primary-fixed font-bold border border-primary-fixed-dim">8</span>
+</div>
+</div>
+</div>
+<!-- Epic Card -->
+<div class="flex-shrink-0 w-40 h-56 rounded-lg glass-panel p-1 relative group cursor-pointer opacity-80 hover:opacity-100">
+<div class="relative w-full h-full rounded-lg overflow-hidden flex flex-col border border-tertiary-fixed-dim/30">
+<div class="h-3/4 bg-cover bg-center" data-alt="A digital trading card illustration showing an epic tactical drone with magenta energy blades. High-tech, sleek design." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDUGcykcktmZIr95yiNkZfADgRvLbN6tTz8J2IpgaZqLzC8-cwz-yLLvZ3OCQ9VjF8BFWjJyYEt7BB6svbqHC9m1eQcSesawfmLzA2eeOMnmT2EchTp3rQRu7B0Fk9Q7KGrhRKsyql02ENgR6fir_MYbJ24g2EMA9tMpEP2o6TFeYJHeEejp43xBtK-i9SCsjUzDh2uSHA9cspWevflzE_xp8JJgwtqfWgBuIywiWXcok6Q_BOCpPv0gw')"></div>
+<div class="flex-1 bg-surface-container-highest p-2 flex flex-col justify-between">
+<p class="text-[8px] font-label-caps text-tertiary-fixed-dim">EPIC</p>
+<p class="text-[10px] font-bold text-on-surface truncate">BLADE-WHISPER</p>
+</div>
+</div>
+</div>
+<!-- Add Card -->
+<div class="flex-shrink-0 w-40 h-56 rounded-lg border-2 border-dashed border-outline-variant/30 flex flex-col items-center justify-center gap-3 hover:border-primary-fixed-dim transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary-fixed-dim transition-colors scale-150">add_circle</span>
+<p class="text-[10px] font-label-caps text-on-surface-variant">NEW DECK</p>
+</div>
+</div>
+</div>
+</section>
+<!-- MAGNOEVENTS SECTOR (Grid Calendar) -->
+<section class="lg:col-span-5">
+<div class="glass-panel rounded-xl p-6 h-full flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<h4 class="font-data-header text-on-primary-fixed-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-fixed-dim">event</span>
+                                    TACTICAL CALENDAR
+                                </h4>
+<div class="flex gap-2">
+<div class="w-2 h-2 rounded-full bg-error animate-pulse"></div>
+<span class="text-[8px] font-label-caps text-on-surface-variant">URGENT MISSION</span>
+</div>
+</div>
+<div class="grid grid-cols-1 gap-4">
+<!-- Active Timer Event -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg p-4 flex items-center gap-4 relative overflow-hidden group hover:border-error/50 transition-all">
+<div class="absolute top-0 right-0 h-full w-1 bg-error"></div>
+<div class="w-16 h-16 rounded bg-error/20 flex flex-col items-center justify-center border border-error/40">
+<span class="text-xs font-label-caps text-error">TIMER</span>
+<span class="font-bold text-on-surface text-lg">04:12</span>
+</div>
+<div class="flex-1">
+<h5 class="font-bold text-on-surface">Escape from Daat</h5>
+<p class="text-[10px] text-on-surface-variant font-label-caps mt-1">TREASURE HUNT // WAVE 4</p>
+<div class="mt-2 h-1 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="bg-error h-full" style="width: 85%;"></div>
+</div>
+</div>
+<button class="bg-error text-on-error px-4 py-2 text-[10px] font-label-caps rounded shadow-[0_0_10px_rgba(255,180,171,0.3)]">JOIN NOW</button>
+</div>
+<!-- Tournament Event -->
+<div class="bg-surface-container-low border border-outline-variant/30 rounded-lg p-4 flex items-center gap-4 hover:border-primary-fixed-dim/50 transition-all cursor-pointer">
+<div class="w-16 h-16 rounded bg-primary-container/20 flex flex-col items-center justify-center border border-primary-container/40">
+<span class="text-[10px] font-label-caps text-primary-container">JUL</span>
+<span class="font-bold text-on-surface text-lg">22</span>
+</div>
+<div class="flex-1">
+<h5 class="font-bold text-on-surface">TCG Regional Qualifier</h5>
+<p class="text-[10px] text-on-surface-variant font-label-caps mt-1">TOURNAMENT // PHYSICAL-DIGITAL</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</div>
+</div>
+<div class="mt-auto pt-6 flex justify-between items-center text-[10px] font-label-caps text-on-surface-variant">
+<span>3 EVENTS SCHEDULED TODAY</span>
+<span class="text-primary-fixed-dim cursor-pointer hover:underline">VIEW FULL GRID</span>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+<!-- HUD PERIPHERAL: BOTTOM CORNER METRICS -->
+<div class="fixed bottom-margin-edge right-margin-edge z-50 flex flex-col gap-4 items-end">
+<!-- Stamina/Mana Corner Bars -->
+<div class="space-y-3 w-48 glass-panel p-4 rounded-xl border-primary-fixed-dim/20 shadow-2xl">
+<div class="space-y-1">
+<div class="flex justify-between text-[8px] font-label-caps">
+<span class="text-primary-fixed-dim">SYSTEM STABILITY</span>
+<span class="text-on-surface">99%</span>
+</div>
+<div class="h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="bg-primary-fixed-dim h-full" style="width: 99%;"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-[8px] font-label-caps">
+<span class="text-secondary-fixed-dim">NEURAL LINK</span>
+<span class="text-on-surface">SAFE</span>
+</div>
+<div class="h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="bg-secondary-fixed h-full" style="width: 75%;"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- MOBILE NAVIGATION (HIDDEN ON DESKTOP) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface-dim/95 backdrop-blur-xl h-16 flex items-center justify-around z-50 border-t border-outline-variant/30">
+<div class="flex flex-col items-center gap-1 text-primary-fixed-dim">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+<span class="text-[8px] font-label-caps">ZINE</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">strategy</span>
+<span class="text-[8px] font-label-caps">BOARDS</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">style</span>
+<span class="text-[8px] font-label-caps">CARDS</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">event</span>
+<span class="text-[8px] font-label-caps">EVENTS</span>
+</div>
+</nav>
+<script>
+        // Micro-interactions for that tactical feel
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mousemove', (e) => {
+                const rect = panel.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                panel.style.setProperty('--mouse-x', `${x}px`);
+                panel.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // Simulating some UI updates
+        setInterval(() => {
+            const timer = document.querySelector('.font-bold.text-on-surface.text-lg');
+            if(timer) {
+                let parts = timer.innerText.split(':');
+                let min = parseInt(parts[0]);
+                let sec = parseInt(parts[1]);
+                if(sec > 0) sec--;
+                else {
+                    sec = 59;
+                    if(min > 0) min--;
+                }
+                timer.innerText = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+            }
+        }, 1000);
+    </script>
+</body></html>

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Protocolo de Seguridad y Consentimiento | EROS-PROTOCOL</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&amp;family=Space+Grotesk:wght@400;500;700&amp;family=Space+Mono:wght@400;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..900&amp;family=Space+Grotesk:wght@100..900&amp;family=Space+Mono:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glow-sm { text-shadow: 0 0 10px rgba(255, 171, 243, 0.5); }
+        .glow-cyan { box-shadow: 0 0 20px rgba(0, 251, 251, 0.4); }
+        .hex-clip { clip-path: polygon(10% 0, 90% 0, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0 90%, 0 10%); }
+        .glass-panel { backdrop-filter: blur(20px); background: rgba(19, 19, 20, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); }
+        
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(1000%); }
+        }
+        .scan-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 251, 251, 0.5), transparent);
+            animation: scanline 8s linear infinite;
+        }
+        
+        .haptic-feedback:active { transform: scale(0.95); transition: transform 0.1s; }
+        
+        .status-pill { width: 12px; height: 12px; border-radius: 2px; transition: all 0.3s ease; }
+        .status-pill.active { background-color: currentColor; box-shadow: 0 0 8px currentColor; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#a900a9",
+                        "on-secondary-container": "#007070",
+                        "primary-container": "#ff00ff",
+                        "on-tertiary-container": "#2b2a2a",
+                        "inverse-on-surface": "#313031",
+                        "on-background": "#e5e2e3",
+                        "surface-container-high": "#2a2a2b",
+                        "primary-fixed-dim": "#ffabf3",
+                        "surface-dim": "#131314",
+                        "outline": "#a4899d",
+                        "background": "#131314",
+                        "surface-bright": "#3a393a",
+                        "tertiary-fixed-dim": "#c8c6c5",
+                        "on-tertiary-fixed": "#1c1b1b",
+                        "surface-container-low": "#1c1b1c",
+                        "on-tertiary": "#313030",
+                        "error-container": "#93000a",
+                        "on-primary-fixed": "#380038",
+                        "primary-fixed": "#ffd7f5",
+                        "surface-variant": "#353436",
+                        "on-surface-variant": "#dcbed4",
+                        "tertiary": "#c8c6c5",
+                        "on-error-container": "#ffdad6",
+                        "inverse-surface": "#e5e2e3",
+                        "on-primary": "#5b005b",
+                        "secondary-fixed-dim": "#00dddd",
+                        "outline-variant": "#564052",
+                        "secondary-container": "#00fbfb",
+                        "on-secondary": "#003737",
+                        "surface-tint": "#ffabf3",
+                        "on-surface": "#e5e2e3",
+                        "secondary-fixed": "#00fbfb",
+                        "tertiary-container": "#939191",
+                        "on-error": "#690005",
+                        "primary": "#ffabf3",
+                        "surface-container-highest": "#353436",
+                        "on-tertiary-fixed-variant": "#474746",
+                        "tertiary-fixed": "#e5e2e1",
+                        "surface-container": "#201f20",
+                        "surface": "#131314",
+                        "secondary": "#ffffff",
+                        "on-secondary-fixed": "#002020",
+                        "on-primary-fixed-variant": "#810081",
+                        "on-primary-container": "#510051",
+                        "on-secondary-fixed-variant": "#004f4f",
+                        "error": "#ffb4ab",
+                        "surface-container-lowest": "#0e0e0f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "panel-gap": "16px",
+                        "hex-unit": "4px",
+                        "margin-safe": "40px"
+                    },
+                    "fontFamily": {
+                        "body-main": ["Space Grotesk"],
+                        "headline-md": ["Sora"],
+                        "display-lg": ["Sora"],
+                        "display-lg-mobile": ["Sora"],
+                        "data-pt": ["Space Grotesk"],
+                        "label-mono": ["Space Mono"]
+                    },
+                    "fontSize": {
+                        "body-main": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "800"}],
+                        "data-pt": ["18px", {"lineHeight": "1.5", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                        "label-mono": ["12px", {"lineHeight": "1", "letterSpacing": "0.2em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-main selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
+<!-- HUD Background Effects -->
+<div class="fixed inset-0 pointer-events-none z-0">
+
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_#0A0A0B_100%)]"></div>
+<div class="scan-line absolute w-full top-0 left-0 opacity-20"></div>
+</div>
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full border-b border-white/10 bg-surface/60 backdrop-blur-xl flex justify-between items-center px-gutter h-16 z-50 shadow-[0_0_15px_rgba(255,171,243,0.3)]">
+<div class="flex items-center gap-4">
+<span class="font-display-lg-mobile text-display-lg-mobile tracking-tighter text-primary-container drop-shadow-[0_0_10px_rgba(255,0,255,0.5)]">EROS-PROTOCOL v6.8</span>
+</div>
+<div class="hidden md:flex gap-8">
+<nav class="flex gap-6 items-center">
+<a class="text-on-surface-variant hover:text-primary-fixed transition-all duration-300 font-label-mono text-label-mono" href="#">CENTRO DE MANDO</a>
+<a class="text-primary glow-sm font-label-mono text-label-mono" href="#">PROTOCOLO DE SEGURIDAD</a>
+<a class="text-on-surface-variant hover:text-primary-fixed transition-all duration-300 font-label-mono text-label-mono" href="#">HISTORIAL</a>
+</nav>
+</div>
+<div class="flex items-center gap-4 text-primary">
+<span class="material-symbols-outlined cursor-pointer hover:scale-110 transition-transform" data-icon="sync">sync</span>
+<span class="material-symbols-outlined cursor-pointer hover:scale-110 transition-transform" data-icon="security" style="font-variation-settings: 'FILL' 1;">security</span>
+<span class="material-symbols-outlined cursor-pointer hover:scale-110 transition-transform" data-icon="settings">settings</span>
+</div>
+</header>
+<!-- SideNavBar (Desktop Only) -->
+<aside class="fixed left-0 top-0 h-full w-64 hidden md:flex flex-col border-r border-white/10 bg-surface/80 backdrop-blur-3xl z-40 py-margin-safe">
+<div class="px-6 mb-12 mt-16">
+<h2 class="font-headline-md text-headline-md text-secondary mb-1">MagnopVS</h2>
+<p class="font-label-mono text-[10px] text-secondary-fixed opacity-70 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed animate-pulse"></span>
+                SINCRONIZACIÓN ACTIVA
+            </p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="text-on-surface-variant p-4 flex items-center gap-4 hover:bg-white/5 hover:text-secondary-fixed-dim transition-transform duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+<span class="font-body-main text-body-main">Deseo</span>
+</a>
+<a class="bg-secondary-container/20 text-secondary-fixed border-l-4 border-secondary-fixed p-4 flex items-center gap-4" href="#">
+<span class="material-symbols-outlined" data-icon="verified_user" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="font-body-main text-body-main">Confianza</span>
+</a>
+<a class="text-on-surface-variant p-4 flex items-center gap-4 hover:bg-white/5 hover:text-secondary-fixed-dim transition-transform duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+<span class="font-body-main text-body-main">Crecimiento</span>
+</a>
+</nav>
+<div class="px-4 mt-auto mb-10">
+<button class="w-full py-4 border border-secondary-fixed text-secondary-fixed font-label-mono text-label-mono hover:bg-secondary-fixed hover:text-on-secondary-fixed transition-all duration-300">
+                NUEVA MISIÓN
+            </button>
+</div>
+<footer class="border-t border-white/5 pt-4">
+<a class="text-on-surface-variant p-4 flex items-center gap-4 text-sm opacity-60 hover:opacity-100" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="settings">settings</span> Ajustes
+            </a>
+<a class="text-on-surface-variant p-4 flex items-center gap-4 text-sm opacity-60 hover:opacity-100" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="help_outline">help_outline</span> Soporte
+            </a>
+</footer>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pt-24 pb-32 md:pl-72 md:pr-12 px-margin-safe min-h-screen z-10 relative">
+<!-- Header Section -->
+<div class="mb-12">
+<div class="flex items-center gap-4 mb-2">
+<span class="bg-secondary-container/30 text-secondary-fixed px-3 py-1 rounded-sm font-label-mono text-[10px] border border-secondary-fixed/50">SAFE-ZONE ALPHA</span>
+<div class="h-[1px] flex-1 bg-gradient-to-r from-secondary-fixed/50 to-transparent"></div>
+</div>
+<h1 class="font-display-lg text-display-lg text-secondary leading-tight uppercase tracking-tight">Protocolo de Seguridad <br/><span class="text-secondary-fixed-dim">&amp; Consentimiento</span></h1>
+<p class="font-body-main text-body-main text-on-surface-variant mt-4 max-w-2xl">Gestión táctica de la salud psicológica y emocional. Monitoreo constante de los límites establecidos y la armonía de la dinámica MagnopVS.</p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-panel-gap">
+<!-- 1. Semáforo de Sincronía (High Priority) -->
+<section class="lg:col-span-8 glass-panel hex-clip p-8 relative group overflow-hidden">
+<div class="flex justify-between items-start mb-10">
+<div>
+<h3 class="font-headline-md text-headline-md text-secondary">Semáforo de Sincronía</h3>
+<p class="font-label-mono text-label-mono text-secondary-fixed opacity-70">SISTEMA DE SEÑALIZACIÓN EN VIVO</p>
+</div>
+<span class="material-symbols-outlined text-secondary-fixed text-4xl animate-pulse" data-icon="sensors">sensors</span>
+</div>
+<div class="flex flex-col md:flex-row gap-8 justify-around items-center">
+<!-- Verde -->
+<button class="flex flex-col items-center group/btn cursor-pointer" onclick="updateSignal('verde')">
+<div class="w-24 h-24 rounded-full bg-emerald-500/20 border-2 border-emerald-500/40 flex items-center justify-center transition-all group-hover/btn:scale-110 group-hover/btn:bg-emerald-500/40 group-hover/btn:shadow-[0_0_40px_rgba(16,185,129,0.5)] active:scale-95" id="signal-verde">
+<span class="material-symbols-outlined text-emerald-400 text-5xl" data-icon="check_circle">check_circle</span>
+</div>
+<span class="mt-4 font-label-mono text-label-mono text-emerald-400">VERDE</span>
+</button>
+<!-- Amarillo -->
+<button class="flex flex-col items-center group/btn cursor-pointer" onclick="updateSignal('amarillo')">
+<div class="w-24 h-24 rounded-full bg-amber-500/20 border-2 border-amber-500/40 flex items-center justify-center transition-all group-hover/btn:scale-110 group-hover/btn:bg-amber-500/40 group-hover/btn:shadow-[0_0_40px_rgba(245,158,11,0.5)] active:scale-95" id="signal-amarillo">
+<span class="material-symbols-outlined text-amber-400 text-5xl" data-icon="warning">warning</span>
+</div>
+<span class="mt-4 font-label-mono text-label-mono text-amber-400">AMARILLO</span>
+</button>
+<!-- Rojo -->
+<button class="flex flex-col items-center group/btn cursor-pointer" onclick="updateSignal('rojo')">
+<div class="w-24 h-24 rounded-full bg-rose-600/20 border-2 border-rose-600/40 flex items-center justify-center transition-all group-hover/btn:scale-110 group-hover/btn:bg-rose-600/40 group-hover/btn:shadow-[0_0_40px_rgba(225,29,72,0.5)] active:scale-95" id="signal-rojo">
+<span class="material-symbols-outlined text-rose-400 text-5xl" data-icon="emergency_home">emergency_home</span>
+</div>
+<span class="mt-4 font-label-mono text-label-mono text-rose-400">ROJO</span>
+</button>
+</div>
+<div class="mt-12 bg-white/5 p-4 rounded-lg flex gap-4 items-center border border-white/10">
+<div class="flex-1">
+<div class="flex gap-1 mb-2">
+<div class="status-pill active text-secondary-fixed"></div>
+<div class="status-pill active text-secondary-fixed"></div>
+<div class="status-pill active text-secondary-fixed"></div>
+<div class="status-pill active text-secondary-fixed"></div>
+<div class="status-pill opacity-30 text-secondary-fixed"></div>
+</div>
+<p class="font-label-mono text-[10px] text-on-surface-variant uppercase">Estado actual: Sincronía Óptima (80%)</p>
+</div>
+<div class="text-right">
+<p class="font-label-mono text-[10px] text-secondary-fixed">ÚLTIMA ACTUALIZACIÓN</p>
+<p class="font-data-pt text-data-pt text-secondary">Hace 4 min</p>
+</div>
+</div>
+</section>
+<!-- 2. Registro de Bienestar (Side List) -->
+<section class="lg:col-span-4 glass-panel hex-clip p-6 flex flex-col">
+<div class="mb-6">
+<h3 class="font-headline-md text-headline-md text-secondary">Registro de Bienestar</h3>
+<p class="font-label-mono text-label-mono text-primary opacity-70">LOG EMOCIONAL POST-MISIÓN</p>
+</div>
+<div class="space-y-4 flex-1 overflow-y-auto max-h-[350px] pr-2 custom-scrollbar">
+<div class="bg-surface-container-high/40 p-4 border-l-2 border-primary-container">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-mono text-[10px] text-primary">SESIÓN #104</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant">12 OCT</span>
+</div>
+<p class="text-sm italic text-on-surface">"Me sentí muy seguro durante la fase de alta intensidad. La comunicación fue clave."</p>
+<div class="mt-2 flex gap-1">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="mood" style="font-variation-settings: 'FILL' 1;">mood</span>
+<span class="material-symbols-outlined text-sm text-primary" data-icon="mood" style="font-variation-settings: 'FILL' 1;">mood</span>
+<span class="material-symbols-outlined text-sm text-primary" data-icon="mood" style="font-variation-settings: 'FILL' 1;">mood</span>
+</div>
+</div>
+<div class="bg-surface-container-high/40 p-4 border-l-2 border-secondary-fixed">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-mono text-[10px] text-secondary-fixed">SESIÓN #103</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant">10 OCT</span>
+</div>
+<p class="text-sm italic text-on-surface">"Un poco de cansancio acumulado. Disfruté el tiempo de enfriamiento posterior."</p>
+<div class="mt-2 flex gap-1 text-secondary-fixed">
+<span class="material-symbols-outlined text-sm" data-icon="sentiment_neutral" style="font-variation-settings: 'FILL' 1;">sentiment_neutral</span>
+</div>
+</div>
+</div>
+<button class="mt-6 w-full py-3 bg-primary-container/10 border border-primary-container text-primary-fixed font-label-mono text-[11px] hover:bg-primary-container/20 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span> REGISTRAR ESTADO
+                </button>
+</section>
+<!-- 3. Contratos de Realidad (Bento Row) -->
+<section class="lg:col-span-5 glass-panel hex-clip p-6 relative">
+<div class="mb-6 flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary-fixed" data-icon="history_edu">history_edu</span>
+<div>
+<h3 class="font-headline-md text-headline-md text-secondary">Contratos de Realidad</h3>
+<p class="font-label-mono text-label-mono text-secondary-fixed opacity-70">LÍMITES Y ACUERDOS ACTIVOS</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-white/5 p-4 rounded border border-white/5 hover:border-secondary-fixed/50 transition-colors cursor-pointer group">
+<h4 class="font-label-mono text-[11px] text-on-surface-variant mb-1 group-hover:text-secondary-fixed transition-colors">Protocolo de Silencio</h4>
+<p class="text-[10px] text-secondary-fixed-dim uppercase tracking-wider">ESTADO: VIGENTE</p>
+</div>
+<div class="bg-white/5 p-4 rounded border border-white/5 hover:border-secondary-fixed/50 transition-colors cursor-pointer group">
+<h4 class="font-label-mono text-[11px] text-on-surface-variant mb-1 group-hover:text-secondary-fixed transition-colors">Límites de Tiempo</h4>
+<p class="text-[10px] text-secondary-fixed-dim uppercase tracking-wider">ESTADO: ACTUALIZADO</p>
+</div>
+<div class="bg-white/5 p-4 rounded border border-white/5 hover:border-secondary-fixed/50 transition-colors cursor-pointer group col-span-2">
+<div class="flex justify-between items-center">
+<h4 class="font-label-mono text-[11px] text-on-surface-variant">Acuerdo de Exclusividad Dinámica</h4>
+<span class="material-symbols-outlined text-emerald-400 text-sm" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+</div>
+<div class="mt-6 flex items-center justify-center p-4 border border-dashed border-white/20 rounded">
+<img class="w-20 h-20 opacity-40" data-alt="A futuristic, glowing digital seal representing a binding legal or personal agreement. The seal is complex with concentric rings, cyan-colored holographic particles, and intricate geometric patterns. It floats in a dark space, illuminated by soft bioluminescent backlighting, conveying a sense of ultimate security and trust." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRUJDdGke-QW7Vwn7k-gItzGpqxmfFw0Kx-zbrpZHXzyn7LKBNI6YmD40PF9PM_n-ms_ISCfBbkUm64pkZBEzoqMwkih3HsolwiKtVy0trTejFRKoGqWZVMk6vjJSLV74J2nEd6lgycs_OZmp9qW5GAkc4OBzOMB_a0EGQmm_H8A-ONRFKtKIHbkb0dE3z9WnSBmbg_nYf6M41dzL7vqYMD4JzINW18hV1-c3qCjVMgXvQg4Nr5-LOZA"/>
+</div>
+</section>
+<!-- 4. Guía de SOF.IA (AI Panel) -->
+<section class="lg:col-span-7 glass-panel hex-clip p-8 bg-gradient-to-br from-surface-dim to-secondary-container/5">
+<div class="flex items-start gap-6">
+<div class="relative">
+<div class="w-16 h-16 rounded-full border-2 border-secondary-fixed overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A highly detailed close-up of a futuristic AI persona named SOF.IA. She has a minimalist, almost ethereal appearance with glowing white iris highlights and faint, elegant bioluminescent circuitry patterns on her temple. The lighting is soft and pearlescent, emphasizing a calm and nurturing digital personality within a high-tech obsidian cockpit environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgFbPK_fJ6sVurlMn6UKN7mvqBzRb--GcAqdGnH1dSip6bx3tdMMsT7uNl5GxqGDeRl2wgdrBkbqwAXBJIwghPpf6bqEXBFgpzSgpFVpNZVKsH4VIlx_IAe82pJAnYp3_L2d7DrxOnx3uyDp9Yo-uaY_RVshvMf9yWyivuZMQzDtMFNcpN52sDRaBZ2FQ_BOZhEMvZTE2lAoi5r4hNcxGdhIoMf4Sq0546tnF0BNgol1wjDVJ6haMCRg"/>
+</div>
+<div class="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-background rounded-full"></div>
+</div>
+<div class="flex-1">
+<h3 class="font-headline-md text-headline-md text-secondary">Guía de SOF.IA</h3>
+<p class="font-label-mono text-label-mono text-secondary-fixed mb-4">MÓDULO DE ASISTENCIA RESPONSABLE</p>
+<div class="bg-surface/80 p-6 rounded-xl border border-white/10 relative">
+<span class="absolute -top-3 left-6 bg-secondary-fixed text-on-secondary-fixed font-label-mono text-[9px] px-2 py-0.5 rounded">MENSAJE ENTRANTE</span>
+<p class="font-body-main text-body-main text-secondary-fixed-dim leading-relaxed">
+                                "He detectado una carga de estrés ligeramente elevada en los últimos registros. Recuerda que la **Responsabilidad Afectiva** es la base de MagnopVS. Sugiero una sesión de 'Aftercare' extendida de 15 minutos hoy."
+                            </p>
+<div class="mt-6 grid grid-cols-2 gap-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary-fixed opacity-60" data-icon="tips_and_updates">tips_and_updates</span>
+<span class="text-xs text-on-surface-variant font-body-main">Técnicas de Regulación</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary-fixed opacity-60" data-icon="forum">forum</span>
+<span class="text-xs text-on-surface-variant font-body-main">Guía de Comunicación</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Metric Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-panel-gap mt-12">
+<div class="glass-panel p-6 flex items-center justify-between group cursor-help transition-all hover:border-secondary-fixed/40">
+<div>
+<p class="font-label-mono text-[10px] text-on-surface-variant opacity-60 uppercase">Nivel de Confianza</p>
+<p class="font-display-lg-mobile text-display-lg-mobile text-secondary-fixed">98.2<span class="text-sm opacity-50">%</span></p>
+</div>
+<div class="w-12 h-12 rounded bg-secondary-fixed/10 flex items-center justify-center border border-secondary-fixed/30 group-hover:glow-cyan">
+<span class="material-symbols-outlined text-secondary-fixed" data-icon="shield_with_heart" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
+</div>
+</div>
+<div class="glass-panel p-6 flex items-center justify-between group cursor-help transition-all hover:border-primary/40">
+<div>
+<p class="font-label-mono text-[10px] text-on-surface-variant opacity-60 uppercase">Saturación Emocional</p>
+<p class="font-display-lg-mobile text-display-lg-mobile text-primary-fixed">14<span class="text-sm opacity-50">%</span></p>
+</div>
+<div class="w-12 h-12 rounded bg-primary-container/10 flex items-center justify-center border border-primary-container/30 group-hover:shadow-[0_0_15px_rgba(255,171,243,0.3)]">
+<span class="material-symbols-outlined text-primary" data-icon="monitoring">monitoring</span>
+</div>
+</div>
+<div class="glass-panel p-6 flex items-center justify-between group cursor-help transition-all hover:border-on-surface/40">
+<div>
+<p class="font-label-mono text-[10px] text-on-surface-variant opacity-60 uppercase">Días de Armonía</p>
+<p class="font-display-lg-mobile text-display-lg-mobile text-on-surface">32</p>
+</div>
+<div class="w-12 h-12 rounded bg-white/5 flex items-center justify-center border border-white/20">
+<span class="material-symbols-outlined text-on-surface" data-icon="calendar_today">calendar_today</span>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 w-full z-50 md:hidden rounded-t-xl bg-surface-dim/90 backdrop-blur-lg border-t border-white/20 shadow-[0_-5px_20px_rgba(0,0,0,0.5)] h-20 px-4 pb-4 flex justify-around items-center">
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 hover:opacity-100" href="#">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+<span class="font-label-mono text-[10px] mt-1">Comando</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container/20 text-primary-fixed rounded-xl px-3 py-1 border border-primary/30 shadow-[0_0_10px_rgba(255,0,255,0.2)] scale-110 duration-150 haptic-feedback" href="#">
+<span class="material-symbols-outlined" data-icon="shield_with_heart" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
+<span class="font-label-mono text-[10px] mt-1">Refugio</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 hover:opacity-100" href="#">
+<span class="material-symbols-outlined" data-icon="stars">stars</span>
+<span class="font-label-mono text-[10px] mt-1">Karma</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 hover:opacity-100" href="#">
+<span class="material-symbols-outlined" data-icon="wifi_tethering">wifi_tethering</span>
+<span class="font-label-mono text-[10px] mt-1">Armonía</span>
+</a>
+</nav>
+<script>
+        function updateSignal(type) {
+            // Simple visual feedback for signal selection
+            const signals = ['verde', 'amarillo', 'rojo'];
+            signals.forEach(s => {
+                const el = document.getElementById(`signal-${s}`);
+                if (s === type) {
+                    el.classList.add('scale-110', 'glow-cyan', 'border-secondary-fixed');
+                } else {
+                    el.classList.remove('scale-110', 'glow-cyan', 'border-secondary-fixed');
+                }
+            });
+            console.log(`Signal Protocol updated to: ${type.toUpperCase()}`);
+        }
+
+        // Interactivity for data visualization and hover effects
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mousemove', (e) => {
+                const rect = panel.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                panel.style.setProperty('--mouse-x', `${x}px`);
+                panel.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body></html>

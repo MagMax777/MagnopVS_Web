@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOP-VS | Árbol de Habilidades</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Space+Grotesk:wght@300;400;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide:wght@100..900&amp;family=Hanken+Grotesk:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;family=Space+Grotesk:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#ffd8e7",
+                        "on-surface": "#e0e3e6",
+                        "on-secondary-container": "#004439",
+                        "on-tertiary-fixed-variant": "#6e3252",
+                        "surface-bright": "#363a3d",
+                        "on-tertiary": "#531c3b",
+                        "background": "#101417",
+                        "tertiary-container": "#ffafd4",
+                        "inverse-surface": "#e0e3e6",
+                        "on-secondary": "#00382e",
+                        "surface-container": "#1c2023",
+                        "status-critical": "#93000a",
+                        "secondary-fixed-dim": "#47ddc1",
+                        "surface-tint": "#7fd0ff",
+                        "on-secondary-fixed": "#00201a",
+                        "tertiary-fixed": "#ffd8e7",
+                        "on-primary": "#00344a",
+                        "outline": "#899299",
+                        "secondary-fixed": "#6af9dc",
+                        "on-error": "#690005",
+                        "error-container": "#93000a",
+                        "on-primary-fixed-variant": "#004c6a",
+                        "outline-variant": "#3f484e",
+                        "primary-container": "#7fd0ff",
+                        "surface-variant": "#313538",
+                        "on-surface-variant": "#bfc8cf",
+                        "surface-container-highest": "#313538",
+                        "secondary": "#47ddc1",
+                        "primary-fixed-dim": "#7fd0ff",
+                        "on-tertiary-fixed": "#390625",
+                        "on-primary-fixed": "#001e2d",
+                        "error": "#ffb4ab",
+                        "surface-container-lowest": "#0b0f11",
+                        "inverse-on-surface": "#2d3134",
+                        "surface-container-low": "#181c1f",
+                        "tertiary-fixed-dim": "#ffafd4",
+                        "on-background": "#e0e3e6",
+                        "on-error-container": "#ffdad6",
+                        "background-deep": "#0a0b12",
+                        "surface-dim": "#101417",
+                        "surface": "#101417",
+                        "surface-panel": "rgba(255, 255, 255, 0.03)",
+                        "glow-cyan": "#2da8e0",
+                        "grid-line": "rgba(127, 208, 255, 0.05)",
+                        "surface-container-high": "#272a2d",
+                        "on-primary-container": "#00597b",
+                        "secondary-container": "#00bba0",
+                        "inverse-primary": "#00658b",
+                        "on-secondary-fixed-variant": "#005144",
+                        "on-tertiary-container": "#7c3e5e",
+                        "primary-fixed": "#c5e7ff",
+                        "primary": "#c5e7ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "margin-desktop": "40px",
+                        "panel-gap": "12px",
+                        "gutter": "16px",
+                        "section-padding": "128px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["JetBrains Mono"],
+                        "mono-data": ["JetBrains Mono"],
+                        "micro-tag": ["JetBrains Mono"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-md": ["Space Grotesk"],
+                        "display-lg": ["Audiowide"],
+                        "display-lg-mobile": ["Audiowide"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                        "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "micro-tag": ["10px", {"letterSpacing": "0.3em", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "display-lg": ["72px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        .scanline-effect::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to bottom, transparent 50%, rgba(71, 221, 193, 0.05) 51%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .bg-hex-grid {
+            background-color: #101417;
+            background-image: 
+                linear-gradient(30deg, #1c2023 12%, transparent 12.5%, transparent 87%, #1c2023 87.5%, #1c2023),
+                linear-gradient(150deg, #1c2023 12%, transparent 12.5%, transparent 87%, #1c2023 87.5%, #1c2023),
+                linear-gradient(30deg, #1c2023 12%, transparent 12.5%, transparent 87%, #1c2023 87.5%, #1c2023),
+                linear-gradient(150deg, #1c2023 12%, transparent 12.5%, transparent 87%, #1c2023 87.5%, #1c2023),
+                linear-gradient(60deg, #1c2023 25%, transparent 25.5%, transparent 75%, #1c2023 75%, #1c2023),
+                linear-gradient(60deg, #1c2023 25%, transparent 25.5%, transparent 75%, #1c2023 75%, #1c2023);
+            background-size: 80px 140px;
+            background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+        }
+        .node-pulse {
+            animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 1; box-shadow: 0 0 5px currentColor; }
+            50% { opacity: 0.6; box-shadow: 0 0 20px currentColor; }
+        }
+        .corner-accent {
+            position: relative;
+        }
+        .corner-accent::before, .corner-accent::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-color: #47ddc1;
+        }
+        .corner-accent-tl::before { top: -2px; left: -2px; border-top: 2px solid; border-left: 2px solid; }
+        .corner-accent-tr::after { top: -2px; right: -2px; border-top: 2px solid; border-right: 2px solid; }
+        
+        .skill-node-connector {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(71, 221, 193, 0.2), rgba(71, 221, 193, 0.8), rgba(71, 221, 193, 0.2));
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface overflow-hidden font-body-md h-screen select-none bg-hex-grid">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop h-16 bg-surface-container/30 backdrop-blur-3xl border-b border-outline-variant/20 shadow-glow-cyan">
+<div class="flex items-center gap-8">
+<span class="font-display-lg-mobile text-display-lg-mobile tracking-tighter text-secondary drop-shadow-[0_0_15px_rgba(71,221,193,0.5)]">MAGNOP-VS</span>
+<nav class="hidden md:flex gap-6">
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary transition-all" href="#">TACTICAL</a>
+<a class="text-secondary border-b-2 border-secondary pb-1 font-label-caps text-label-caps" href="#">SKILLS</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary transition-all" href="#">ARSENAL</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary transition-all" href="#">COSMOS</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex flex-col items-end">
+<span class="font-mono-data text-mono-data text-secondary">LEVEL 84</span>
+<div class="w-24 h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-3/4 shadow-[0_0_8px_#47ddc1]"></div>
+</div>
+</div>
+<button class="bg-secondary text-on-secondary px-3 py-1 font-label-caps text-[10px] rounded hover:scale-95 transition-transform">+XP</button>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-secondary">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-secondary">settings</span>
+</div>
+<div class="w-10 h-10 rounded-full border border-secondary/50 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A highly detailed cinematic portrait of a Hero Pilot in a tactical HUD suit. The character has a determined expression, wearing a high-tech carbon fiber helmet with glowing cyan circuitry patterns. The background is a blurred cyberpunk cockpit with neon screens and holographic displays. Dramatic high-contrast lighting with cyan and magenta highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5_pJcIQ1fjV6jrNFo9h-5_nsf8GZGtpGxPCwgd4-79wOWHWPCm1VgRMXnmrgxkNK310aqN-0rh-2hRl5yvZTEmJrg5k1_Afu_XP6ODWz2PLvvmnU_bYlPlNxB6nhgpIxNQYI8fCoSWVUm5a-LxPUctR1P1qGd6uv_4hnzXldwNuuvKIMgejq6lfYpuCtA0AFKtiKg-ipWmmvoa5H6GpQ157BOPCqeu8As8mA3Q1IZfcfLVx8VZtrYYA"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar (SKILLS CONTEXT) -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] z-40 flex flex-col pt-8 pb-4 bg-surface-container-low/20 backdrop-blur-2xl border-r border-outline-variant/20 w-64">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-8 h-8 rounded bg-secondary/20 flex items-center justify-center border border-secondary/40">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+</div>
+<div>
+<h2 class="font-headline-md text-sm text-secondary tracking-widest">HERO_DETAIL</h2>
+<p class="text-[10px] font-mono-data text-on-surface-variant">Vanguard Class v4.2</p>
+</div>
+</div>
+</div>
+<nav class="flex-1">
+<a class="bg-secondary/10 text-secondary border-l-4 border-secondary px-6 py-3 flex items-center gap-3 font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+                Somatic
+            </a>
+<a class="text-on-surface-variant px-6 py-3 flex items-center gap-3 font-label-caps text-label-caps hover:bg-white/5 hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined">psychology</span>
+                Cognitive
+            </a>
+<a class="text-on-surface-variant px-6 py-3 flex items-center gap-3 font-label-caps text-label-caps hover:bg-white/5 hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+                Ethereal
+            </a>
+<a class="text-on-surface-variant px-6 py-3 flex items-center gap-3 font-label-caps text-label-caps hover:bg-white/5 hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined">biotech</span>
+                Alchemical
+            </a>
+<a class="text-on-surface-variant px-6 py-3 flex items-center gap-3 font-label-caps text-label-caps hover:bg-white/5 hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+                Mastery
+            </a>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full py-2 border border-error/50 text-error font-label-caps text-[10px] hover:bg-error/10 transition-colors mb-6">RESET TREE</button>
+<div class="border-t border-outline-variant/20 pt-4 flex flex-col gap-2">
+<a class="text-on-surface-variant px-2 py-1 flex items-center gap-3 font-label-caps text-[10px] hover:text-on-surface" href="#">
+<span class="material-symbols-outlined text-sm">terminal</span> Terminal
+                </a>
+<a class="text-on-surface-variant px-2 py-1 flex items-center gap-3 font-label-caps text-[10px] hover:text-on-surface" href="#">
+<span class="material-symbols-outlined text-sm">help_outline</span> Help
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Workspace -->
+<main class="ml-64 mr-80 pt-16 h-full relative overflow-hidden flex flex-col items-center justify-center">
+<div class="absolute inset-0 pointer-events-none scanline-effect opacity-30"></div>
+<!-- Skill Tree Central Visualization -->
+<div class="relative w-full h-full flex items-center justify-center">
+<!-- Path Lines (SVG Connectors) -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none">
+<defs>
+<filter id="glow-aqua">
+<fegaussianblur result="blur" stddeviation="3"></fegaussianblur>
+<fecomposite in="SourceGraphic" in2="blur" operator="over"></fecomposite>
+</filter>
+</defs>
+<!-- Somatic Path -->
+<path d="M400,300 L300,200 M300,200 L200,150 M300,200 L250,100" fill="none" opacity="0.4" stroke="#47ddc1" stroke-dasharray="5,5" stroke-width="2"></path>
+<!-- Cognitive Path -->
+<path d="M400,300 L500,200 M500,200 L600,150 M500,200 L550,100" fill="none" opacity="0.4" stroke="#c5e7ff" stroke-dasharray="5,5" stroke-width="2"></path>
+<!-- Ethereal Path -->
+<path d="M400,300 L400,450 M400,450 L300,550 M400,450 L500,550" fill="none" opacity="0.4" stroke="#ffd8e7" stroke-dasharray="5,5" stroke-width="2"></path>
+<!-- Core Hub -->
+<circle class="animate-pulse" cx="400" cy="300" fill="none" r="40" stroke="#47ddc1" stroke-width="1"></circle>
+</svg>
+<!-- Skill Nodes -->
+<div class="relative z-10 grid grid-cols-3 gap-24">
+<!-- Somatic Path Column -->
+<div class="flex flex-col gap-24">
+<div class="relative group cursor-pointer">
+<div class="w-14 h-14 bg-surface-container border border-secondary text-secondary rounded-lg flex items-center justify-center shadow-glow-cyan transform rotate-45 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined -rotate-45" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<div class="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap font-label-caps text-[9px] text-secondary">SOMATIC PATH</div>
+</div>
+<div class="relative group cursor-pointer opacity-50">
+<div class="w-12 h-12 bg-surface-container border border-outline-variant text-on-surface-variant rounded-lg flex items-center justify-center transform rotate-45 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined -rotate-45">lock</span>
+</div>
+</div>
+</div>
+<!-- Center/Hub -->
+<div class="flex flex-col justify-center items-center">
+<div class="relative cursor-pointer">
+<div class="w-20 h-20 bg-surface-container-high border-2 border-secondary rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(71,221,193,0.4)] animate-spin-slow">
+
+<span class="material-symbols-outlined text-secondary text-3xl z-10" style="font-variation-settings: 'FILL' 1;">center_focus_strong</span>
+</div>
+<div class="absolute -bottom-12 left-1/2 -translate-x-1/2 text-center">
+<div class="font-display-lg-mobile text-xs text-secondary">CORE_RESONANCE</div>
+<div class="font-mono-data text-[8px] text-on-surface-variant">ACTIVE ALPHA-4</div>
+</div>
+</div>
+</div>
+<!-- Cognitive Path Column -->
+<div class="flex flex-col gap-24">
+<div class="relative group cursor-pointer">
+<div class="w-14 h-14 bg-surface-container-high border border-primary text-primary rounded-lg flex items-center justify-center node-pulse transform rotate-45 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined -rotate-45" style="font-variation-settings: 'FILL' 1;">psychology</span>
+</div>
+<div class="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap font-label-caps text-[9px] text-primary">COGNITIVE PATH</div>
+</div>
+<div class="relative group cursor-pointer active-node">
+<div class="w-12 h-12 bg-primary/10 border border-primary text-primary rounded-lg flex items-center justify-center transform rotate-45 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined -rotate-45" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+</div>
+<div class="absolute -right-16 top-1/2 -translate-y-1/2 whitespace-nowrap font-label-caps text-[8px] text-primary bg-primary/10 px-2 py-0.5 rounded border border-primary/20">UNLOCKED</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Telemetry Footer -->
+<footer class="absolute bottom-0 w-full bg-surface-container-low/80 backdrop-blur-md border-t border-outline-variant/20 px-8 py-3 flex justify-between items-center z-30">
+<div class="flex gap-12">
+<div class="flex items-center gap-3">
+<div class="w-2 h-8 bg-secondary"></div>
+<div>
+<div class="font-label-caps text-[10px] text-on-surface-variant">XP BALANCE</div>
+<div class="font-mono-data text-xl text-secondary">48,290 <span class="text-xs opacity-50">XP</span></div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-2 h-8 bg-primary"></div>
+<div>
+<div class="font-label-caps text-[10px] text-on-surface-variant">MISSION COMMAND</div>
+<div class="font-mono-data text-xl text-primary">12 <span class="text-xs opacity-50">MC</span></div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="text-right">
+<div class="font-label-caps text-[10px] text-on-surface-variant">RESONANCE STABILITY</div>
+<div class="flex gap-1 mt-1">
+<div class="w-6 h-1.5 bg-secondary"></div>
+<div class="w-6 h-1.5 bg-secondary"></div>
+<div class="w-6 h-1.5 bg-secondary"></div>
+<div class="w-6 h-1.5 bg-secondary/30"></div>
+<div class="w-6 h-1.5 bg-secondary/10"></div>
+</div>
+</div>
+<div class="font-mono-data text-secondary text-lg">94.2%</div>
+</div>
+</footer>
+</main>
+<!-- Detailed Skill Panel (Right) -->
+<aside class="fixed right-0 top-16 h-[calc(100vh-64px)] w-80 bg-surface-container-high/40 backdrop-blur-3xl border-l border-outline-variant/20 p-6 z-40 overflow-y-auto">
+<div class="flex justify-between items-start mb-6">
+<div>
+<span class="font-micro-tag text-micro-tag text-primary uppercase mb-1 block">Cognitive Node</span>
+<h3 class="font-headline-md text-xl leading-tight">RADICAL AUTHENTICITY</h3>
+</div>
+<div class="w-12 h-12 bg-primary/10 border border-primary/40 rounded flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl">verified_user</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3 mb-6">
+<div class="bg-surface-panel p-3 rounded-lg border border-outline-variant/10">
+<div class="font-label-caps text-[9px] text-on-surface-variant mb-1">TIER</div>
+<div class="font-mono-data text-primary">02 / 05</div>
+</div>
+<div class="bg-surface-panel p-3 rounded-lg border border-outline-variant/10">
+<div class="font-label-caps text-[9px] text-on-surface-variant mb-1">LEVEL</div>
+<div class="font-mono-data text-primary">ADVANCED</div>
+</div>
+</div>
+<div class="mb-6">
+<div class="font-label-caps text-[10px] text-primary mb-2 flex items-center gap-2">
+<span class="w-1 h-1 bg-primary rounded-full"></span>
+                LORE_DATA
+            </div>
+<p class="text-sm text-on-surface-variant leading-relaxed font-body-md italic border-l border-primary/30 pl-3">
+                "To strip away the masks of the digital self is to reveal the crystalline core of the Vanguard. In a world of synthetic noise, the loudest signal is the truth."
+            </p>
+</div>
+<div class="space-y-4 mb-8">
+<div class="font-label-caps text-[10px] text-primary mb-2">BUFFS &amp; EFFECTS</div>
+<div class="flex justify-between items-center bg-surface-panel px-3 py-2 rounded border border-outline-variant/10">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-sm">trending_up</span>
+<span class="text-xs">Charisma</span>
+</div>
+<span class="font-mono-data text-secondary text-xs">+15%</span>
+</div>
+<div class="flex justify-between items-center bg-surface-panel px-3 py-2 rounded border border-outline-variant/10">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-sm">filter_center_focus</span>
+<span class="text-xs">Focus Integrity</span>
+</div>
+<span class="font-mono-data text-secondary text-xs">+10%</span>
+</div>
+</div>
+<div class="space-y-4 mb-8">
+<div class="font-label-caps text-[10px] text-error mb-2">REQUIREMENTS</div>
+<ul class="text-[11px] space-y-2 opacity-80">
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-secondary">check_circle</span>
+                    Hero Level 80+
+                </li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-secondary">check_circle</span>
+                    Mindfulness Node (Mastered)
+                </li>
+</ul>
+</div>
+<div class="mt-auto pt-6 border-t border-outline-variant/20">
+<div class="flex justify-between mb-4">
+<span class="font-label-caps text-[10px] text-on-surface-variant">UPGRADE COST</span>
+<span class="font-mono-data text-secondary">15,000 XP / 2 MC</span>
+</div>
+<button class="w-full bg-secondary text-on-secondary py-3 font-label-caps text-sm rounded shadow-[0_0_20px_rgba(71,221,193,0.3)] hover:scale-[0.98] transition-transform active:opacity-80">
+                PURCHASE UPGRADE
+            </button>
+</div>
+</aside>
+<!-- Floating Atmosphere Elements -->
+<div class="fixed top-24 left-72 pointer-events-none opacity-20 hidden lg:block">
+<div class="text-[8px] font-mono-data text-secondary border-l border-secondary pl-2 py-1">
+            SYNC_STATUS: ESTABLISHED<br/>
+            PACKET_LOSS: 0.002%<br/>
+            LATENCY: 14ms
+        </div>
+</div>
+<!-- Scripts for micro-interactions -->
+<script>
+        document.querySelectorAll('.group').forEach(node => {
+            node.addEventListener('mouseenter', () => {
+                // Potential sound effect or haptic feedback trigger
+            });
+        });
+    </script>
+</body></html>

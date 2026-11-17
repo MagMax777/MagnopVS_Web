@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnoEvents Hub | v6.8 Tactical HUD</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&amp;family=Space+Grotesk:wght@300..700&amp;family=Audiowide&amp;family=Orbitron:wght@400..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --neon-cyan: #00f0ff;
+            --neon-magenta: #ff00ff;
+        }
+        
+        body {
+            background-color: #0d0e13;
+            color: #e5e2e1;
+            overflow-x: hidden;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .font-audiowide { font-family: 'Audiowide', cursive; }
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            position: relative;
+        }
+
+        .neon-border-cyan { border: 1px solid rgba(0, 240, 255, 0.5); box-shadow: 0 0 10px rgba(0, 240, 255, 0.2); }
+        .neon-border-magenta { border: 1px solid rgba(255, 0, 255, 0.5); box-shadow: 0 0 10px rgba(255, 0, 255, 0.2); }
+
+        .hud-corner-tl::before {
+            content: ''; position: absolute; top: -1px; left: -1px; width: 10px; height: 10px;
+            border-top: 2px solid var(--neon-cyan); border-left: 2px solid var(--neon-cyan);
+        }
+        .hud-corner-br::after {
+            content: ''; position: absolute; bottom: -1px; right: -1px; width: 10px; height: 10px;
+            border-bottom: 2px solid var(--neon-cyan); border-right: 2px solid var(--neon-cyan);
+        }
+
+        .scanline {
+            width: 100%; height: 2px; background: rgba(0, 240, 255, 0.1);
+            position: absolute; animation: scanline 8s linear infinite;
+        }
+        @keyframes scanline { 0% { top: 0%; } 100% { top: 100%; } }
+
+        .pulse-magenta { animation: pulse-magenta 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse-magenta { 0%, 100% { opacity: 1; filter: brightness(1); } 50% { opacity: .7; filter: brightness(1.5); } }
+
+        .resonance-wave {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+            background-size: 200% 100%;
+            animation: wave 3s linear infinite;
+        }
+        @keyframes wave { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#abc7ff",
+                        "secondary": "#ffabf3",
+                        "tertiary": "#5adcb3",
+                        "surface": "#131313",
+                        "background": "#0d0e13",
+                        "on-surface": "#e5e2e1",
+                        "on-surface-variant": "#c1c6d7",
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface-container-high": "#2a2a2a",
+                    },
+                    spacing: {
+                        "md": "24px",
+                        "base": "8px",
+                        "xl": "80px",
+                        "safe-margin": "32px",
+                        "sm": "12px",
+                        "xs": "4px",
+                        "gutter": "24px"
+                    },
+                    fontFamily: {
+                        "headline-md": ["sora"],
+                        "display-hero": ["sora"],
+                        "data-mono": ["spaceGrotesk"],
+                        "label-caps": ["spaceGrotesk"],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface selection:bg-secondary/30">
+<!-- TopNavBar Implementation -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-safe-margin py-base bg-surface/60 backdrop-blur-xl border-b border-primary/50 shadow-[0_0_15px_rgba(171,199,255,0.3)]">
+<div class="flex items-center gap-base">
+<span class="font-audiowide text-headline-md tracking-tighter text-primary bg-clip-text bg-gradient-to-r from-primary to-secondary">MagnoEvents</span>
+<div class="h-4 w-[1px] bg-primary/30 mx-2"></div>
+<div class="flex flex-col">
+<span class="font-orbitron text-[10px] uppercase tracking-widest text-secondary leading-none">Event Horizon</span>
+<span class="font-data-mono text-[10px] text-tertiary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span> Sync: Active
+                </span>
+</div>
+</div>
+<div class="hidden md:flex items-center gap-lg">
+<nav class="flex gap-md">
+<a class="text-primary border-b-2 border-primary pb-1 font-body-md transition-colors duration-300" href="#">Telemetry</a>
+<a class="text-on-surface-variant hover:text-tertiary transition-colors duration-300" href="#">Sync</a>
+<a class="text-on-surface-variant hover:text-tertiary transition-colors duration-300" href="#">Nexus</a>
+</nav>
+<div class="flex items-center gap-sm">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-transform active:scale-95">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-transform active:scale-95">settings</button>
+<div class="w-8 h-8 rounded-full border border-primary/50 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A highly detailed 3D avatar portrait of a futuristic digital human, wearing glowing neon cybernetic implants on their face, with a background of deep space nebula. The style is hyper-realistic cinematic rendering with teal and magenta lighting, achieving a cosmic fantasy hero aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtnila_b52g6muAIKugqz2bVU13pMYpCt3Og7fhDyT1-Tz4o_0QHL4AoZJ2dmgJAoPfuMlM6RuWETqIYs8qkIAzpF69sTe330g_zKyYlPb1Dl81jOHE6Y9Wkp7Z8M1vpk3cCmIA16HcGAqK-rqy0q9U1JK9mepZMbgPDXp0wE_ePGgp6B8CT3h5NhkoVjw-25Bjra_vJ7OwmeCy1D_Dcz_aepTWyruVY9ooMG7yrPkD_OjQO6FY76qSXcwJxOkkSdNv6TSDwRhorjk"/>
+</div>
+</div>
+</div>
+</header>
+<!-- SideNavBar Implementation -->
+<aside class="fixed left-0 top-0 h-full w-64 z-40 flex flex-col pt-xl bg-surface-container-lowest/40 backdrop-blur-2xl border-r border-secondary/30 shadow-xl hidden md:flex">
+<div class="px-md py-lg mb-4">
+<h2 class="font-audiowide text-headline-md text-primary">Life Hero</h2>
+<p class="font-label-caps text-on-surface-variant/70 text-[10px] uppercase">Sync Level: Alpha</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="bg-secondary-container/20 text-secondary border-l-4 border-secondary p-md flex items-center gap-base duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">event_seat</span>
+<span class="font-label-caps uppercase tracking-widest text-[12px]">Events</span>
+</a>
+<a class="text-on-surface-variant p-md flex items-center gap-base hover:bg-surface-bright/10 hover:text-tertiary duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">today</span>
+<span class="font-label-caps uppercase tracking-widest text-[12px]">Timeline</span>
+</a>
+<a class="text-on-surface-variant p-md flex items-center gap-base hover:bg-surface-bright/10 hover:text-tertiary duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">shield</span>
+<span class="font-label-caps uppercase tracking-widest text-[12px]">Protocols</span>
+</a>
+<a class="text-on-surface-variant p-md flex items-center gap-base hover:bg-surface-bright/10 hover:text-tertiary duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">settings_input_component</span>
+<span class="font-label-caps uppercase tracking-widest text-[12px]">Live Feed</span>
+</a>
+</nav>
+<div class="p-md mt-auto space-y-4">
+<button class="w-full py-3 bg-gradient-to-r from-primary/20 to-secondary/20 border border-primary/50 text-primary font-audiowide text-[12px] uppercase tracking-tighter hover:border-secondary transition-all">
+                Initialize Resonance
+            </button>
+<div class="pt-4 border-t border-surface-variant">
+<a class="flex items-center gap-base p-2 text-on-surface-variant hover:text-tertiary transition-colors" href="#">
+<span class="material-symbols-outlined text-sm">help</span>
+<span class="font-label-caps text-[10px] uppercase">Support</span>
+</a>
+<a class="flex items-center gap-base p-2 text-on-surface-variant hover:text-error transition-colors" href="#">
+<span class="material-symbols-outlined text-sm">logout</span>
+<span class="font-label-caps text-[10px] uppercase">Log Out</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Layout -->
+<main class="pt-24 pb-20 md:pl-72 md:pr-[320px] px-6 min-h-screen">
+<!-- Featured Event: Protocol Eleusis -->
+<section class="relative mb-lg group">
+<div class="glass-panel p-md rounded-xl overflow-hidden neon-border-cyan hud-corner-tl hud-corner-br">
+<div class="scanline"></div>
+<div class="relative h-[400px] rounded-lg overflow-hidden mb-md">
+<div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10"></div>
+<img class="w-full h-full object-cover" data-alt="A cinematic, ultra-wide view of a celestial portal opening in the center of a futuristic hyper-connected city. Glowing cyan and magenta energy rings pulse from the center, casting dynamic light onto floating crystalline structures. The atmosphere is mystical and technological, with a deep matte black background and vibrant neon star-fields. High-fidelity glass-morphism aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZtNqAaupLax5CD2Eey4EwQ-YVIao0ms410EL-r09mAg0aI3mXiv7aeumWRipcb5THX35259cZRcMMStWNr0m9Hw5-YNFaN-RncRjJNahI6Qhw73eVaM2Zz2GSQqoIfIxWIBauRu7XYFqwZEIDPDW6kUK2S7RNohGFGL_yob_iXRw4zRAoiS8_ajuZg7JkVw15D_Bph4QWW2cckIHXRc2s_pVcnCMk_fZ2YDip62vGE54fekRLy-iu0Kh9nGxl6NUtYMU_La2Q41Oi"/>
+<div class="absolute bottom-6 left-6 z-20">
+<div class="flex items-center gap-2 mb-2">
+<span class="bg-secondary/20 text-secondary text-[10px] font-orbitron px-2 py-0.5 border border-secondary/50 uppercase tracking-widest">Priority Protocol</span>
+<span class="text-tertiary text-[10px] font-orbitron flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">group</span> 12.4k Operator Resonance
+                            </span>
+</div>
+<h1 class="font-audiowide text-display-hero text-on-surface uppercase mb-2">Protocol: Eleusis</h1>
+<p class="font-body-md text-on-surface-variant max-w-xl mb-6">Experience the first global immersive virtual resonance. Transmute your MC into karmic yield through hyper-connected spatial harmonics.</p>
+<div class="flex flex-wrap items-center gap-lg">
+<div class="flex flex-col">
+<span class="font-orbitron text-[10px] text-on-surface-variant uppercase tracking-tighter">Countdown</span>
+<span class="font-orbitron text-headline-md text-primary">02 : 14 : 55 : 09</span>
+</div>
+<div class="flex flex-col">
+<span class="font-orbitron text-[10px] text-on-surface-variant uppercase tracking-tighter">Sync Cost</span>
+<span class="font-orbitron text-headline-md text-secondary">4,500 MC</span>
+</div>
+<button class="bg-primary text-on-primary-fixed font-audiowide px-lg py-md rounded-sm hover:bg-secondary transition-all shadow-[0_0_20px_rgba(171,199,255,0.4)] active:scale-95">
+                                INITIALIZE SYNC
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Event Grid -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-md">
+<!-- Apocalypse Saga -->
+<div class="glass-panel p-md rounded-lg neon-border-magenta group hover:border-magenta transition-all">
+<div class="relative h-40 mb-sm overflow-hidden rounded">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A gritty, cinematic landscape of a futuristic post-apocalyptic city at dusk, illuminated by dying magenta neon signs and orange flares. Smoke rises between shattered skyscrapers while a holographic frequency wave pulses across the sky. Dark, atmospheric mood with high-contrast shadows and glowing tech elements." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLpV805mofR-oj8tZiduXi9d-p8SnDau5-XB6-2fheVRt5EciHjPE6JosCzMCIcRuIpwif8o5gISwUcR_Nb8vL7M_BYrVGp0SChIVJKOATzNzMU02CNRIRJ_I_VuZMZyVqKF_kJ52ZnaZj_CKqcW1AQR70E8Io141-5mDDYeCbC7DpljM2JQVkE8GHGKTWubd1keUQgaF6WEXgjiP9W6fqngv4leVCJrm_9v23Rdhx7PwKjH3E142bYjD03JP2uCYbWaUvfB_HMTnl"/>
+<div class="absolute top-2 right-2 bg-black/60 px-2 py-1 text-[10px] font-orbitron text-error flex items-center gap-1 border border-error/30">
+<span class="w-1.5 h-1.5 bg-error rounded-full animate-pulse"></span> LIVE EVENT
+                    </div>
+</div>
+<h3 class="font-audiowide text-headline-md text-on-surface mb-xs">Apocalypse Saga</h3>
+<div class="flex justify-between items-center mb-md text-[10px] font-orbitron uppercase text-on-surface-variant">
+<span>Reward: 800 XP / 120 MC</span>
+<span class="text-magenta">92% Cap</span>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between text-[10px] font-data-mono mb-1">
+<span>Resonance Level</span>
+<span class="text-tertiary">78.4%</span>
+</div>
+<div class="h-1 bg-surface-container-high w-full rounded-full overflow-hidden">
+<div class="h-full bg-tertiary shadow-[0_0_8px_rgba(90,220,179,0.5)]" style="width: 78%"></div>
+</div>
+</div>
+<div class="resonance-wave mt-4"></div>
+</div>
+<!-- Tzolkin Ritual -->
+<div class="glass-panel p-md rounded-lg neon-border-cyan group hover:border-cyan transition-all">
+<div class="relative h-40 mb-sm overflow-hidden rounded">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="An ethereal digital representation of an ancient Mayan calendar system rendered in floating holographic lines of light. The ritual chamber is a minimalist glass environment with a celestial backdrop of the Milky Way. Glowing aquamarine and gold colors dominate the scene, creating a sense of timeless cosmic spiritualism." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF8OIBFXK9jGWntkZmgbmctkUk27qqy62bwpRqCndp4V4rl45jMKbCYk1oGcalkPrrVFzWuzz9VMkGwsFRMNOXCR1T_zYbwdJ4j4z2LQCU147Cw0vzDNuk8EhWAkaI55n0ePXxzhL_twUmiqmSRryVDH0vA2ws8ks1LBi-ksX5zIkS6LDQ-vgB1IxXOaUltJdxWLS9YdHq_48LOIpkS8cjqZCSI_qHq8v5jvZKimdxNAqeKkAF1cysmDD8LnQ-VAYZ9jOZ-yjgeHcv"/>
+<div class="absolute top-2 right-2 bg-black/60 px-2 py-1 text-[10px] font-orbitron text-tertiary flex items-center gap-1 border border-tertiary/30">
+                        VIRTUAL
+                    </div>
+</div>
+<h3 class="font-audiowide text-headline-md text-on-surface mb-xs">Tzolkin Ritual</h3>
+<div class="flex justify-between items-center mb-md text-[10px] font-orbitron uppercase text-on-surface-variant">
+<span>Reward: 1.2k XP / 300 MC</span>
+<span class="text-cyan">Available</span>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between text-[10px] font-data-mono mb-1">
+<span>Resonance Level</span>
+<span class="text-primary">45.2%</span>
+</div>
+<div class="h-1 bg-surface-container-high w-full rounded-full overflow-hidden">
+<div class="h-full bg-primary shadow-[0_0_8px_rgba(171,199,255,0.5)]" style="width: 45%"></div>
+</div>
+</div>
+<div class="resonance-wave mt-4"></div>
+</div>
+<!-- Conclave Conclave -->
+<div class="glass-panel p-md rounded-lg neon-border-cyan group hover:border-cyan transition-all">
+<div class="relative h-40 mb-sm overflow-hidden rounded">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A grand futuristic meeting hall with rows of dark obsidian seats and holographic avatars flickering in the air. The center of the room features a large projection of a planetary system. The lighting is cold blue with sharp white accents, evoking a high-stakes political and strategic atmosphere in a cosmic era." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBjxMQXLR0qLum6hBIwcXxMwvxa0DeCxRyet_FIjqA5KRw-qwTZ2arxgWc_flse5PNuLxiZV1G7oV7fFnXr8a-4JfhNyuSL64X5Bc-zAdN3ntbJ4WdR72YjVpNv3PcjJbCkXxSxzcJAiAI-6S71SzfDDUwp5EtzeQreec6f_DxhD95okYL5jm1bPeHbarWHKq8RES9MbXvcEEHWvwIsqi-x-oLEb2SZ5ucisX75PNuaEVqsDEARC9QtO8wqahzIO4hZacQd1mevZgQ"/>
+<div class="absolute top-2 right-2 bg-black/60 px-2 py-1 text-[10px] font-orbitron text-primary flex items-center gap-1 border border-primary/30">
+                        HYBRID
+                    </div>
+</div>
+<h3 class="font-audiowide text-headline-md text-on-surface mb-xs">Conclave Conclave</h3>
+<div class="flex justify-between items-center mb-md text-[10px] font-orbitron uppercase text-on-surface-variant">
+<span>Reward: 2k XP / 500 MC</span>
+<span class="text-primary">Restricted</span>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between text-[10px] font-data-mono mb-1">
+<span>Resonance Level</span>
+<span class="text-secondary">99.9%</span>
+</div>
+<div class="h-1 bg-surface-container-high w-full rounded-full overflow-hidden">
+<div class="h-full bg-secondary shadow-[0_0_8px_rgba(255,171,243,0.5)]" style="width: 99%"></div>
+</div>
+</div>
+<div class="resonance-wave mt-4"></div>
+</div>
+</section>
+</main>
+<!-- Right Sidebar (Event Intelligence) -->
+<aside class="fixed right-0 top-24 h-[calc(100vh-96px)] w-[320px] z-30 p-md space-y-md hidden lg:block overflow-y-auto">
+<!-- SOF.IA Event Advisor -->
+<div class="glass-panel p-md rounded-lg neon-border-cyan hud-corner-tl">
+<div class="flex items-center gap-2 mb-sm">
+<span class="material-symbols-outlined text-primary" data-weight="fill">smart_toy</span>
+<h4 class="font-orbitron text-[12px] uppercase text-primary tracking-widest">SOF.IA Advisor</h4>
+</div>
+<div class="bg-primary/5 border-l-2 border-primary p-3">
+<p class="font-data-mono text-[13px] leading-relaxed italic text-on-surface-variant">
+                    "Operator, the <span class="text-primary">Eleusis Protocol</span> resonance is at <span class="text-tertiary">98.4%</span>. Deployment is recommended for maximum kármic yield. System sync is optimal."
+                </p>
+</div>
+</div>
+<!-- Global Event Resonance -->
+<div class="glass-panel p-md rounded-lg neon-border-magenta">
+<h4 class="font-orbitron text-[10px] uppercase text-on-surface-variant tracking-widest mb-md">Global Event Resonance</h4>
+<div class="relative flex flex-col items-center justify-center h-32">
+<!-- Circular Gauge -->
+<svg class="w-24 h-24 transform -rotate-90">
+<circle class="text-surface-container-high" cx="48" cy="48" fill="transparent" r="44" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-secondary pulse-magenta" cx="48" cy="48" fill="transparent" r="44" stroke="currentColor" stroke-dasharray="276" stroke-dashoffset="44" stroke-width="6"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-orbitron text-headline-md text-secondary">84.2%</span>
+<span class="font-label-caps text-[8px] uppercase">Alignment</span>
+</div>
+</div>
+<p class="font-data-mono text-[10px] text-center mt-2 text-on-surface-variant">Community Consensus: High High</p>
+</div>
+<!-- Live Telemetry -->
+<div class="glass-panel p-md rounded-lg bg-black/40 border border-primary/20">
+<div class="flex justify-between items-center mb-sm">
+<h4 class="font-orbitron text-[10px] uppercase text-primary tracking-widest">Live Telemetry</h4>
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+</div>
+<div class="font-data-mono text-[11px] space-y-2 overflow-hidden h-48" id="telemetry-feed">
+<p class="text-on-surface-variant"><span class="text-primary">[14:22:01]</span> New Operator Synced to Eleusis</p>
+<p class="text-on-surface-variant"><span class="text-primary">[14:22:05]</span> MC Pool Transmuting...</p>
+<p class="text-tertiary"><span class="text-primary">[14:22:12]</span> Resonance Spike: Node 7A</p>
+<p class="text-on-surface-variant"><span class="text-primary">[14:22:15]</span> Protocol Upgrade: Alpha v2</p>
+<p class="text-secondary"><span class="text-primary">[14:22:21]</span> Reward Batch Dispatched</p>
+<p class="text-on-surface-variant"><span class="text-primary">[14:22:25]</span> Network Latency: 4ms</p>
+</div>
+</div>
+</aside>
+<!-- BottomNavBar Implementation (Mobile Only) -->
+<footer class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 px-gutter bg-surface-container-high/80 backdrop-blur-md border-t border-tertiary/50 shadow-[0_-4px_20px_rgba(90,220,179,0.2)] rounded-t-xl">
+<button class="flex flex-col items-center justify-center text-tertiary animate-pulse scale-110">
+<span class="material-symbols-outlined">waves</span>
+<span class="font-data-mono text-[10px]">Resonance</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 hover:opacity-100 transition-transform active:scale-110">
+<span class="material-symbols-outlined">query_stats</span>
+<span class="font-data-mono text-[10px]">Stability</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 hover:opacity-100 transition-transform active:scale-110">
+<span class="material-symbols-outlined">sync_alt</span>
+<span class="font-data-mono text-[10px]">Sync</span>
+</button>
+</footer>
+<script>
+        // Micro-interactions for the telemetry feed
+        const feed = document.getElementById('telemetry-feed');
+        const messages = [
+            "Operator Resonance Verified",
+            "Transmutation Cycle Complete",
+            "Gateway Alpha Responding",
+            "New Conclave Session Initiated",
+            "Shield integrity at 99.8%",
+            "MC Extraction: Optimized"
+        ];
+        
+        setInterval(() => {
+            const time = new Date().toLocaleTimeString('en-GB', { hour12: false });
+            const msg = messages[Math.floor(Math.random() * messages.length)];
+            const p = document.createElement('p');
+            p.className = 'text-on-surface-variant opacity-0 transition-opacity duration-500';
+            p.innerHTML = `<span class="text-primary">[${time}]</span> ${msg}`;
+            feed.prepend(p);
+            setTimeout(() => p.classList.remove('opacity-0'), 100);
+            if (feed.children.length > 10) feed.removeChild(feed.lastChild);
+        }, 4000);
+    </script>
+</body></html>

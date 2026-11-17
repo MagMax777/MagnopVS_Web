@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS | Cosmic HUD v6.1</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --celestial-blue: #2da8e0;
+            --aquamarine: #47ddc1;
+            --magenta: #ff00ff;
+            --violet-accent: #8b5cf6;
+            --matte-black: #0f1417;
+            --grid-line: rgba(45, 168, 224, 0.1);
+        }
+
+        body {
+            background-color: var(--matte-black);
+            color: #e0e3e6;
+            overflow-x: hidden;
+            font-family: 'Orbitron', sans-serif;
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD6pS2tiYDkEVifUYHeEF_mYv2GtTezmyOzGPabO5D0-Y9K0EM5k4VRA4yph7tMk575kbRBgZ9R4do8qlr_TbYfvxJxGATpEQ4nhVaZ8XLERp5T1xYOh9RhtRGqCUj1TcjWuGLg4H389Q3--fLGGTMTgZr5u5OHpcRq_6ci02pf3Rnuk_Qa4PXxVx79MmFoJt7j8jiTehcODwW_wcuECYKdIBov7KKITHm18-ZeuntNbMZ2SynITuIott1d_XUJw7GdAeQ9z-FTm5et');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+
+        .bg-overlay {
+            background: radial-gradient(circle at 50% 50%, rgba(15, 20, 23, 0.85) 0%, rgba(15, 20, 23, 0.98) 100%);
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+        }
+
+        .font-audiowide { font-family: 'Audiowide', cursive; }
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+
+        .glass-hud {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(45, 168, 224, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1), inset 0 0 20px rgba(45, 168, 224, 0.05);
+        }
+
+        .neon-border-blue { border-color: var(--celestial-blue); box-shadow: 0 0 10px rgba(45, 168, 224, 0.3); }
+        .neon-border-aqua { border-color: var(--aquamarine); box-shadow: 0 0 10px rgba(71, 221, 193, 0.3); }
+        .neon-border-magenta { border-color: var(--magenta); box-shadow: 0 0 10px rgba(255, 0, 255, 0.3); }
+
+        .hex-clip {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        .slanted-edge {
+            clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+        }
+
+        .text-glow-blue { text-shadow: 0 0 10px rgba(45, 168, 224, 0.6); }
+        .text-glow-magenta { text-shadow: 0 0 10px rgba(255, 0, 255, 0.6); }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--matte-black); }
+        ::-webkit-scrollbar-thumb { background: var(--celestial-blue); border-radius: 10px; }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(45, 168, 224, 0.1);
+            position: absolute;
+            top: 0;
+            z-index: 10;
+            pointer-events: none;
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#2da8e0",
+                        "secondary": "#47ddc1",
+                        "accent-magenta": "#ff00ff",
+                        "accent-violet": "#8b5cf6",
+                        "surface": "#0f1417",
+                        "on-surface": "#e0e3e6"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="selection:bg-primary/30 selection:text-white">
+<div class="bg-overlay"></div>
+<!-- TopNavBar Shell -->
+<nav class="fixed top-0 w-full z-50 glass-hud border-b border-primary/20 bg-surface/60">
+<div class="flex justify-between items-center px-6 md:px-10 py-3 max-w-[1600px] mx-auto">
+<div class="flex items-center gap-4">
+<img alt="MagnopVS Logo" class="h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADumpFD_hnGVSe5yQG_ikpoIyg6UjcAAKN62yuCMzotDUT_Sy_NR5jB5yfh_VF-15vd0E_U-PSDKdLPvu1tzcZEIE6Z7FcfrLcpbZdr2zX8D31moDJN__5dbU28tdZhd8NsBrFrBWEQfk699Bb_Zd4eZkOLcC7hjYZjVnZGAQ7QsOODA0wI_gpE6Ykf8Mqgq9idT0C4CHEet-U33M5DE5cqPiIAfLqgrc5PZ_Mp9agbPDXyTWcrboxstjqUvy75lhAHwjut-IYjZZv"/>
+<div class="hidden lg:block h-6 w-[1px] bg-primary/30 mx-2"></div>
+<div class="hidden lg:block font-audiowide text-[10px] tracking-[0.3em] text-primary uppercase">
+                CAPA CÓDICE // PROTOCOL v6.1
+            </div>
+</div>
+<div class="hidden md:flex items-center gap-8 font-orbitron text-[10px] tracking-[0.2em] uppercase font-bold">
+<a class="text-primary border-b-2 border-primary pb-1 transition-all" href="#">Mentores</a>
+<a class="text-on-surface/60 hover:text-secondary transition-colors" href="#">Progreso</a>
+<a class="text-on-surface/60 hover:text-accent-magenta transition-colors" href="#">Archivo</a>
+</div>
+<div class="flex items-center gap-6">
+<div class="material-symbols-outlined text-primary/70 cursor-pointer hover:text-primary hover:scale-110 transition-all">search</div>
+<div class="material-symbols-outlined text-secondary/70 cursor-pointer hover:text-secondary hover:scale-110 transition-all">grid_view</div>
+<div class="w-9 h-9 rounded-full border-2 border-accent-magenta/40 p-[2px] overflow-hidden bg-surface">
+<img alt="User profile" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1wJIbO8Xshwj8XSYDeZrDu-iLG5FakL5Xy_S_qjKslHB6wDgEX2CpPn8InS6hS4CU1Hze8PcHcMZ1_on-Q4BFkIU3lEVSLSgFQQU-Lv0CpmVnjbNI0JneWGhRetjyPOZIUtbKMuWZsctgpZjLYIYDJCOBn00nePy4tLQJQD-Gs4HYDr2c5k42RRW5rUUh03TzAWuBywsxmH0mZxyGq6LDUMeklrGkTG0aJu7StJldMpLYQqS7OXFqV8i33zswMFV4vTVBWeNDESlq"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Interface -->
+<main class="pt-24 pb-20 min-h-screen px-6 md:px-10 max-w-[1600px] mx-auto relative">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Legends Showcase -->
+<aside class="lg:col-span-3 space-y-6">
+<div class="flex items-center justify-between mb-2">
+<h3 class="font-audiowide text-[10px] text-primary tracking-widest uppercase">30 LEYENDAS ERA-CALIBRADAS</h3>
+<span class="font-orbitron text-[9px] text-secondary font-bold">UNLOCKED: 30/30</span>
+</div>
+<div class="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-3 gap-3 overflow-y-auto max-h-[750px] pr-2 custom-scrollbar"><!-- Policarpa (Active) -->
+<div class="group relative aspect-square hex-clip glass-hud border border-primary/40 cursor-pointer neon-border-blue hover:scale-105 transition-all duration-300">
+<img alt="Policarpa" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0RCjwQ655QdJ-Mi_pkOaKej1Q7_Jvvrpfua0dX3bwm_FADeGXfob7pP8hmOU0hvRxC7m4klNRYlesVbqqUoVGPylzf7-mmTs_vK1FOpnuzKwcBGBADBubYjshNAkQGbI-dBUVkDhaKod75tSz3TSrz23zTubOoVzfu3VZ5bRvwkQ78-6bXXiS-31ZHi0LTPC_xExYoh3tEVPHVR4ahR2MADQ17OA0W2aeySWLoDrs_sMKNU0V1YzpRJEO6IttgtoVl0HSimgTjcnU"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<!-- Nikola Tesla -->
+<div class="group relative aspect-square hex-clip glass-hud border border-primary/20 cursor-pointer hover:scale-105 transition-all duration-300">
+<img alt="Nikola Tesla" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPHhiEDEWEFRrigxzPCH0TON55ooBCY7PAF3acUg051dwKz1DB8NcZnRbK8KStCGZEOmrO74NbNwW4e9J3-bn682EMdiX1DBXTA7GG4m7bzQt6ZgsGwyStp_u-tk0v-6ATjaYWtztE_0HC2b_miIgeSFckUswBe_ApgFkVAGWvoNx31Gpz1OF5BUNbGqtuNJk0NzN_Ji6OMlh-o0U9SF2FkmX642627ZcCjAyiWm-aXtiPUo6Y-FNs1Zi8VWPT5fgWW-omrMEdipm9"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<!-- Albert Einstein -->
+<div class="group relative aspect-square hex-clip glass-hud border border-primary/20 cursor-pointer hover:scale-105 transition-all duration-300">
+<img alt="Albert Einstein" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnB-b7LCooOsqT8ghPyOehKFRlHW8MK12u9fUNAcpoCc3gkZYtkQRzXJqTqTZeHspdK_-alfoy91DhGZNHcIMFl5C9wgYW3sZpCmLWeOeWyExJU8o_ViYi7jSX_NabgumpypDS_NQz5dI2lgBymmc8TILKU0S3xgz0QBgQggSpHyO9worNvLlhsze5f-YIyh494Btl2Yr6W9JKh1F2CznmT_IKu2m2EoZSMPpK5KtuzcHUPtQ1J--qAjtYVDUszk6VSLpRwsKnjkG6"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<!-- Isaac Newton -->
+<div class="group relative aspect-square hex-clip glass-hud border border-primary/20 cursor-pointer hover:scale-105 transition-all duration-300">
+<img alt="Isaac Newton" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYoEn9b74sfR1RtQ-6h5UtCSY3OeL0_T0FF8gMZqc5xJckVQR2YcnVv4LCNF4psqwn9G6aWK7St_s71PIXpeu5UpRvfjPjSoZXyzPIuDXcMjqipgttJpYPf5yfT77QS0euXNzDEi31wc3EMoUpbInwfVgSP83d5W8LCXXVPZncOnfNrd-MCrgBotpOsYF67IOm6zk4EXqQxZXHtE7KpunYDNkUc2jDOW8aPUgP8xxM2IDg4R0rsy04M7aHjWTAK2iBXY2Nm4TwbsqS"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<!-- Alan Turing -->
+<div class="group relative aspect-square hex-clip glass-hud border border-primary/20 cursor-pointer hover:scale-105 transition-all duration-300">
+<img alt="Alan Turing" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIXZcEZY6iaRQxuwEfWG6qsM3aNdwmMjNe66ofwLdbmaJIECX-IZ76pwSlu4zKUCMdMv5BNlQHkrHjAeiTx2Pz4SVANLeBNGMk4Y3jFq9TWgOH24QPHEYw6ZOJu-GO99Jnpc5s_Bz1PCyebTf6joPdz77gFhJEZso3eRVni4_UQut1hNLPwq45rtGQXsLy2t4YuT9XFTIEEJCu3XVumlKoYuec833v0n09AyogiHGuP5H0pv9tzM9n3ls5YQr_EmC0P4ns_UxJs1ZU"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<!-- Miyamoto Musashi -->
+<div class="group relative aspect-square hex-clip glass-hud border border-primary/20 cursor-pointer hover:scale-105 transition-all duration-300">
+<img alt="Miyamoto Musashi" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDw4u5bCmmxqAkPPT4Qexyt65BRuKdaYU_ylVt0nRlOR5rML9BdOE3FysX8CX3i5JOGlJZ4HoGDR-HMVZrUTm0RpV7qUIlJm-9MzP9R787rzFDDD2MLVJCxSKy6xhW7tqRSbYDG5pdOK3kq0f5ey_yOKmZNFuesdP45rgFECzhL1cSKp_9HeFNR0IartXT6J4g67BWtaZJeI6woI-8dYBPWtfinyU-8SpOZFlqa9ZZCeon5uXlbc2j5MALdVKdeH87fvmSxyocgR1qZ"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<!-- Remaining 24 Locked Slots -->
+<div class="group relative aspect-square hex-clip glass-hud border border-white/5 cursor-pointer hover:border-accent-magenta/30 transition-all opacity-40 hover:opacity-100">
+<div class="w-full h-full flex items-center justify-center">
+<span class="material-symbols-outlined text-white/10 text-lg">lock</span>
+</div>
+</div>
+<!-- ... (Repeat locked slot div 23 more times) ... --></div>
+</aside>
+<!-- Center/Right: Detailed Mentor View -->
+<div class="lg:col-span-9 space-y-8">
+<!-- Hero Section -->
+<section class="glass-hud p-8 rounded-xl relative overflow-hidden">
+<div class="scanline"></div>
+<div class="absolute top-0 right-0 p-4 z-20">
+<div class="flex items-center gap-2 px-3 py-1 bg-primary/10 border border-primary/30 rounded-md backdrop-blur-md">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-orbitron text-[9px] text-primary tracking-tighter uppercase font-bold">LEGACY_SYNCHRONIZATION: ACTIVE</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative z-10">
+<div class="md:col-span-4 flex justify-center">
+<div class="relative w-64 h-64 hex-clip glass-hud border-2 border-primary/40 shadow-[0_0_30px_rgba(45,168,224,0.15)]">
+<img alt="Policarpa" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0RCjwQ655QdJ-Mi_pkOaKej1Q7_Jvvrpfua0dX3bwm_FADeGXfob7pP8hmOU0hvRxC7m4klNRYlesVbqqUoVGPylzf7-mmTs_vK1FOpnuzKwcBGBADBubYjshNAkQGbI-dBUVkDhaKod75tSz3TSrz23zTubOoVzfu3VZ5bRvwkQ78-6bXXiS-31ZHi0LTPC_xExYoh3tEVPHVR4ahR2MADQ17OA0W2aeySWLoDrs_sMKNU0V1YzpRJEO6IttgtoVl0HSimgTjcnU"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface/40 to-transparent"></div>
+</div>
+</div>
+<div class="md:col-span-8">
+<h1 class="font-audiowide text-4xl text-white text-glow-blue mb-1 uppercase tracking-tight">Policarpa Salavarrieta</h1>
+<p class="font-orbitron text-secondary text-xs tracking-[0.4em] mb-8 font-bold">// CLASE: LIBERTADORA</p>
+<!-- Build System Stats -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-6">
+<!-- Stats using high-fidelity icons from IMAGE_14 -->
+<!-- Note: Simulating icons from the sprite sheet IMAGE_14 with mask/size logic for layout -->
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<div class="w-5 h-5 bg-contain bg-no-repeat opacity-80" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAP6v1zhjKdGk13RpjzyFur4OPy2NJmppIChYJAqurYhtXfPYC5xW7Nxrnmby1f7WOcDEnyr4_ppNE27UBj_DcLPFCtM3SNpuFiFiPoFZj86LwePO4IncL_8u_zR9iGU_OG4Tp5ZE8iZNV8wzZ7d2WkB1MGkLyh9xY_7rvvoe-i6JnwP6EJJBaXxOAROp1Yq6Mwn6PkAHtUUEarpp1U7noGnFYcUcBmPKhngv5fvCJA3Wz4AFjS8ww5bNhDFmkDE7zSuQ-soAhDJ6tS'); background-position: -258px 0px;"></div>
+<span class="font-orbitron text-[9px] text-on-surface/60 uppercase tracking-[0.2em] font-bold">Fuerza</span>
+</div>
+<span class="font-orbitron text-[10px] text-primary font-bold">75/100</span>
+</div>
+<div class="h-1 bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[75%] shadow-[0_0_10px_var(--celestial-blue)]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<div class="w-5 h-5 bg-contain bg-no-repeat opacity-80" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAP6v1zhjKdGk13RpjzyFur4OPy2NJmppIChYJAqurYhtXfPYC5xW7Nxrnmby1f7WOcDEnyr4_ppNE27UBj_DcLPFCtM3SNpuFiFiPoFZj86LwePO4IncL_8u_zR9iGU_OG4Tp5ZE8iZNV8wzZ7d2WkB1MGkLyh9xY_7rvvoe-i6JnwP6EJJBaXxOAROp1Yq6Mwn6PkAHtUUEarpp1U7noGnFYcUcBmPKhngv5fvCJA3Wz4AFjS8ww5bNhDFmkDE7zSuQ-soAhDJ6tS'); background-position: -452px 0px;"></div>
+<span class="font-orbitron text-[9px] text-on-surface/60 uppercase tracking-[0.2em] font-bold">Destreza</span>
+</div>
+<span class="font-orbitron text-[10px] text-primary font-bold">70/100</span>
+</div>
+<div class="h-1 bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[70%] shadow-[0_0_10px_var(--celestial-blue)]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<div class="w-5 h-5 bg-contain bg-no-repeat opacity-80" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAP6v1zhjKdGk13RpjzyFur4OPy2NJmppIChYJAqurYhtXfPYC5xW7Nxrnmby1f7WOcDEnyr4_ppNE27UBj_DcLPFCtM3SNpuFiFiPoFZj86LwePO4IncL_8u_zR9iGU_OG4Tp5ZE8iZNV8wzZ7d2WkB1MGkLyh9xY_7rvvoe-i6JnwP6EJJBaXxOAROp1Yq6Mwn6PkAHtUUEarpp1U7noGnFYcUcBmPKhngv5fvCJA3Wz4AFjS8ww5bNhDFmkDE7zSuQ-soAhDJ6tS'); background-position: -322px 0px;"></div>
+<span class="font-orbitron text-[9px] text-on-surface/60 uppercase tracking-[0.2em] font-bold">Carisma</span>
+</div>
+<span class="font-orbitron text-[10px] text-accent-magenta font-bold">95/100</span>
+</div>
+<div class="h-1 bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-accent-magenta w-[95%] shadow-[0_0_10px_var(--magenta)]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<div class="w-5 h-5 bg-contain bg-no-repeat opacity-80" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAP6v1zhjKdGk13RpjzyFur4OPy2NJmppIChYJAqurYhtXfPYC5xW7Nxrnmby1f7WOcDEnyr4_ppNE27UBj_DcLPFCtM3SNpuFiFiPoFZj86LwePO4IncL_8u_zR9iGU_OG4Tp5ZE8iZNV8wzZ7d2WkB1MGkLyh9xY_7rvvoe-i6JnwP6EJJBaXxOAROp1Yq6Mwn6PkAHtUUEarpp1U7noGnFYcUcBmPKhngv5fvCJA3Wz4AFjS8ww5bNhDFmkDE7zSuQ-soAhDJ6tS'); background-position: -387px 0px;"></div>
+<span class="font-orbitron text-[9px] text-on-surface/60 uppercase tracking-[0.2em] font-bold">Inteligencia</span>
+</div>
+<span class="font-orbitron text-[10px] text-primary font-bold">85/100</span>
+</div>
+<div class="h-1 bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[85%] shadow-[0_0_10px_var(--celestial-blue)]"></div>
+</div>
+</div>
+<div class="space-y-2 sm:col-span-2">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<img alt="LP Icon" class="w-6 h-6 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpvXaWqA7VyeLNfvpYBdr_x8zVvwoyQlhZ6hxve17gd3DfLucu6h8qkRVf_cJa9MQO9lsTBUNMW_cTvJxLFAdF939-UH_HaGETVb2dsC1nXXjADcG1xU75Z9yrZIiZmXiRb5u1Wfn49HanGV8Ln5u-1VL8T6c1-Xchyvf5G2_kwp4s9XLU8eECgXDQLnls8dKc3L3llrQX-JoLLIcJBszNtk-GVyhI8auqgtyVFJI_fzW33EtLK_woMSWDLpSFeQMxKzrcU6lIbGYC"/>
+<span class="font-orbitron text-[10px] text-secondary uppercase tracking-[0.3em] font-bold">Brillantez Estratégica</span>
+</div>
+<span class="font-orbitron text-[11px] text-secondary font-bold">OVERCHARGE_LVL: 85%</span>
+</div>
+<div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[85%] shadow-[0_0_15px_var(--aquamarine)]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Mission Action Section (Call to Action) -->
+<section class="bg-secondary/5 border-l-4 border-secondary p-8 rounded-r-xl relative overflow-hidden glass-hud neon-border-aqua">
+<div class="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center border border-secondary/30 shadow-[0_0_20px_rgba(71,221,193,0.1)]">
+<span class="material-symbols-outlined text-4xl text-secondary animate-pulse">verified_user</span>
+</div>
+<div>
+<h4 class="font-audiowide text-xs text-secondary tracking-widest mb-1 uppercase">Misión MLH Activa // OBJETIVO_09</h4>
+<p class="font-orbitron text-lg text-white font-medium">Completa una acción valiente en favor de otra persona esta semana.</p>
+</div>
+</div>
+<button class="bg-secondary text-surface px-10 py-4 slanted-edge font-audiowide text-[10px] tracking-[0.2em] uppercase font-bold hover:bg-white hover:scale-105 transition-all shadow-[0_0_25px_rgba(71,221,193,0.4)]">
+                        ENGAGE_PROTOCOL_V6
+                    </button>
+</div>
+<div class="absolute -right-4 -bottom-4 w-32 h-32 opacity-10">
+<img alt="MP Icon" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEsSWn5tiTk-5EDo5ZUq-mLN8uuvTEgj2eE76P86-ZNxkpI92c2fbxtXQS2L92slR2B6q7e5S3sSzFeZU-ZOgpm5cYpXjYho_-dM-SpoXTW-REFh2PHz3fLi48pI9JYo1usiW5OMK2dpaX3sceGQNqslwN4Np6MuYx8vFqlgr5H2vO9LI-tLB4LUP33ep_189nPwFr07zxgXX06hEDj9Zbdumg7-KecCeXZPZP8nUrpZXqrroukUu_NwVLFUx7D-u2Z93slMfITaxl"/>
+</div>
+</section>
+<!-- Camino de Maestría Section -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="glass-hud p-6 rounded-lg space-y-4 border-t-2 border-primary/40 relative overflow-hidden group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-xl">security</span>
+<h4 class="font-audiowide text-[10px] text-primary tracking-widest uppercase">Desafíos &amp; Debilidades</h4>
+</div>
+<p class="font-orbitron text-xs text-on-surface/80 leading-relaxed">
+                        Enfrentó el aislamiento absoluto y el riesgo de traición constante. Su debilidad residía en su profundo apego a la causa, lo que la hacía vulnerable emocionalmente ante el sufrimiento de sus compatriotas.
+                    </p>
+</div>
+<div class="glass-hud p-6 rounded-lg space-y-4 border-t-2 border-accent-magenta/40 bg-accent-magenta/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-accent-magenta text-xl">psychology_alt</span>
+<h4 class="font-audiowide text-[10px] text-accent-magenta tracking-widest uppercase">Lección para el Jugador</h4>
+</div>
+<p class="font-orbitron text-xs text-white leading-relaxed italic border-l border-accent-magenta/20 pl-3">
+                        "La verdadera valentía no es la ausencia de miedo, sino la convicción de que hay algo mucho más importante que uno mismo."
+                    </p>
+<div class="pt-3 border-t border-accent-magenta/10">
+<span class="text-[9px] text-secondary font-orbitron font-bold tracking-widest uppercase">HABILIDAD DESBLOQUEADA: INQUEBRANTABLE</span>
+</div>
+</div>
+<div class="glass-hud p-6 rounded-lg space-y-4 border-t-2 border-secondary/40">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-xl">folder_managed</span>
+<h4 class="font-audiowide text-[10px] text-secondary tracking-widest uppercase">Multimedia Rec</h4>
+</div>
+<div class="space-y-4">
+<div class="flex items-start gap-3 group cursor-pointer">
+<span class="material-symbols-outlined text-primary/40 group-hover:text-primary transition-colors">article</span>
+<div>
+<p class="font-orbitron text-[10px] text-white group-hover:text-primary transition-colors font-bold uppercase tracking-tight">La Pola (Biografía Histórica)</p>
+<p class="text-[8px] text-on-surface/50 uppercase tracking-widest">Documento PDF // SECURE_ARCHIVE</p>
+</div>
+</div>
+<div class="flex items-start gap-3 group cursor-pointer">
+<span class="material-symbols-outlined text-accent-magenta/40 group-hover:text-accent-magenta transition-colors">play_circle</span>
+<div>
+<p class="font-orbitron text-[10px] text-white group-hover:text-accent-magenta transition-colors font-bold uppercase tracking-tight">Fragmentos de Independencia</p>
+<p class="text-[8px] text-on-surface/50 uppercase tracking-widest">Cinemática // 4K // HDR_SUPPORT</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Footer Shell -->
+<footer class="w-full py-12 bg-surface/80 border-t border-white/5 backdrop-blur-xl mt-12 relative overflow-hidden">
+<div class="max-w-[1600px] mx-auto px-6 md:px-10 flex flex-col md:flex-row justify-between items-center gap-8 relative z-10">
+<div class="text-center md:text-left space-y-2">
+<div class="font-audiowide text-[10px] tracking-[0.5em] text-primary uppercase">MAGNOPVS // CÓDICE v6.1.0-STABLE</div>
+<div class="font-orbitron text-[9px] text-on-surface/40 font-bold">ALL DATA ENCRYPTED // AES-256 HUD PROTOCOL</div>
+</div>
+<div class="flex gap-10 font-orbitron text-[9px] tracking-[0.25em] uppercase font-bold text-on-surface/60">
+<a class="hover:text-primary transition-colors" href="#">Privacidad</a>
+<a class="hover:text-secondary transition-colors" href="#">Seguridad</a>
+<a class="hover:text-accent-magenta transition-colors" href="#">Soporte</a>
+</div>
+<div class="flex items-center gap-4 text-secondary">
+<span class="material-symbols-outlined text-sm">shield_with_heart</span>
+<span class="font-orbitron text-[10px] tracking-tighter font-bold">STATUS: SECURE_LINK</span>
+</div>
+</div>
+<!-- Footer subtle accents -->
+<div class="absolute bottom-0 right-0 w-1/4 h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-20"></div>
+</footer>
+<!-- Floating Action Terminal -->
+<button class="fixed bottom-8 right-8 w-14 h-14 rounded-full bg-accent-magenta text-surface shadow-[0_0_30px_rgba(255,0,255,0.4)] flex items-center justify-center group hover:scale-110 active:scale-95 transition-all z-50 overflow-hidden">
+<span class="material-symbols-outlined text-2xl group-hover:rotate-12 transition-transform duration-300 font-bold">terminal</span>
+<div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+</button>
+<script>
+    // Parallax and mouse effects for HUD depth
+    document.addEventListener('mousemove', (e) => {
+        const x = e.clientX / window.innerWidth;
+        const y = e.clientY / window.innerHeight;
+        
+        const panels = document.querySelectorAll('.glass-hud');
+        panels.forEach(panel => {
+            const rect = panel.getBoundingClientRect();
+            const panelX = (e.clientX - rect.left) / rect.width;
+            const panelY = (e.clientY - rect.top) / rect.height;
+            
+            if (panelX > 0 && panelX < 1 && panelY > 0 && panelY < 1) {
+                // Subtle reactive glow based on mouse position
+                panel.style.boxShadow = `0 10px 40px rgba(45, 168, 224, ${0.1 + (panelY * 0.1)}), inset 0 0 30px rgba(45, 168, 224, ${0.05 + (panelX * 0.05)})`;
+                panel.style.borderColor = `rgba(45, 168, 224, ${0.2 + (panelX * 0.2)})`;
+            }
+        });
+    });
+</script>
+</body></html>

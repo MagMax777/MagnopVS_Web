@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS | Lunar-OS v6.8</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&amp;family=Inter:wght@300;400;700&amp;family=Geist:wght@400;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        @keyframes scanline {
+            0% { transform: translateY(-100%); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(1000%); opacity: 0; }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(0, 221, 221, 0.4)); }
+            50% { filter: drop-shadow(0 0 20px rgba(0, 221, 221, 0.8)); }
+        }
+        @keyframes rotate-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .hex-clip {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+        .scan-effect::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, #00dddd, transparent);
+            animation: scanline 5s linear infinite;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 221, 221, 0.1);
+        }
+        .shutter-blur {
+            backdrop-filter: blur(40px) saturate(1.5);
+            background: repeating-linear-gradient(45deg, rgba(0,0,0,0.1), rgba(0,0,0,0.1) 2px, transparent 2px, transparent 4px);
+        }
+        body {
+            background-color: #141314;
+            overflow-x: hidden;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-variant": "#353435",
+                      "secondary-fixed": "#ffd7f5",
+                      "surface-bright": "#3a3939",
+                      "tertiary-container": "#001111",
+                      "outline": "#919095",
+                      "surface-container": "#201f20",
+                      "error-container": "#93000a",
+                      "tertiary-fixed-dim": "#00dddd",
+                      "primary-fixed-dim": "#c7c6cd",
+                      "primary": "#c7c6cd",
+                      "surface-container-highest": "#353435",
+                      "on-error-container": "#ffdad6",
+                      "on-secondary-fixed": "#380038",
+                      "inverse-surface": "#e5e2e2",
+                      "on-error": "#690005",
+                      "secondary": "#ffabf3",
+                      "primary-container": "#0d0e13",
+                      "inverse-on-surface": "#313030",
+                      "error": "#ffb4ab",
+                      "outline-variant": "#46464b",
+                      "on-primary-fixed-variant": "#46464c",
+                      "surface-container-high": "#2a2a2a",
+                      "on-secondary-fixed-variant": "#810081",
+                      "surface-dim": "#141314",
+                      "on-primary-fixed": "#1a1b21",
+                      "surface-container-lowest": "#0e0e0e",
+                      "tertiary": "#00dddd",
+                      "secondary-fixed-dim": "#ffabf3",
+                      "surface-tint": "#c7c6cd",
+                      "on-tertiary-container": "#008989",
+                      "on-tertiary": "#003737",
+                      "primary-fixed": "#e3e1e9",
+                      "on-primary-container": "#7b7b81",
+                      "background": "#141314",
+                      "on-tertiary-fixed-variant": "#004f4f",
+                      "on-secondary-container": "#500050",
+                      "secondary-container": "#fe00fe",
+                      "surface": "#141314",
+                      "inverse-primary": "#5e5e64",
+                      "on-secondary": "#5b005b",
+                      "on-surface-variant": "#c7c6cb",
+                      "surface-container-low": "#1c1b1c",
+                      "on-primary": "#2f3036",
+                      "tertiary-fixed": "#00fbfb",
+                      "on-surface": "#e5e2e2",
+                      "on-background": "#e5e2e2",
+                      "on-tertiary-fixed": "#002020"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "16px",
+                      "margin-edge": "40px",
+                      "hex-unit": "24px",
+                      "stack-loose": "32px",
+                      "stack-tight": "4px"
+              },
+              "fontFamily": {
+                      "hud-header-md": ["Space Grotesk"],
+                      "body-standard": ["Inter"],
+                      "data-display-xl": ["Geist"],
+                      "hud-header-lg": ["Space Grotesk"],
+                      "data-label-sm": ["Geist"],
+                      "body-caps": ["Inter"]
+              },
+              "fontSize": {
+                      "hud-header-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "0.03em", "fontWeight": "600"}],
+                      "body-standard": ["16px", {"lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                      "data-display-xl": ["36px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "800"}],
+                      "hud-header-lg": ["42px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "data-label-sm": ["12px", {"lineHeight": "1.5", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                      "body-caps": ["11px", {"lineHeight": "1.4", "letterSpacing": "0.2em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="text-on-surface font-body-standard selection:bg-tertiary/30 selection:text-white">
+<!-- Global Background Elements -->
+<div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+
+<div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 mix-blend-overlay"></div>
+<!-- Hex Grid Overlay -->
+<div class="absolute inset-0 opacity-[0.05]" style="background-image: radial-gradient(circle at 2px 2px, #00dddd 1px, transparent 0); background-size: 40px 40px;"></div>
+</div>
+<!-- Navigation Shells -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-edge h-hex-unit mt-4 bg-surface/30 backdrop-blur-xl border-b border-outline-variant/20 shadow-[0px_0px_15px_rgba(0,221,221,0.1)]">
+<div class="flex items-center gap-4">
+<span class="font-hud-header-md text-hud-header-md text-tertiary tracking-widest">MagnopVS</span>
+<div class="h-4 w-[1px] bg-outline-variant/50"></div>
+<span class="font-body-caps text-body-caps text-on-surface-variant opacity-70">LUNAR-OS v6.8</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-tertiary font-bold font-hud-header-md text-hud-header-md hover:text-tertiary-fixed transition-colors duration-300" href="#">BIO-SYNC</a>
+<a class="text-on-surface-variant font-hud-header-md text-hud-header-md hover:text-tertiary-fixed transition-colors duration-300" href="#">EXPLORE</a>
+<a class="text-on-surface-variant font-hud-header-md text-hud-header-md hover:text-tertiary-fixed transition-colors duration-300" href="#">ARCHIVE</a>
+</nav>
+<div class="flex items-center gap-4 text-tertiary-fixed-dim">
+<button class="material-symbols-outlined hover:text-tertiary transition-all" style="font-variation-settings: 'FILL' 0;">lock</button>
+<button class="material-symbols-outlined hover:text-tertiary transition-all" style="font-variation-settings: 'FILL' 0;">psychology</button>
+<div class="w-8 h-8 rounded-full border border-tertiary/30 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close-up macro photography of a digital human iris with bioluminescent teal and magenta neural networks reflecting within the eye, cinematic medical HUD style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzZ1XNlythQPOrYtdr3YMmsLyExd9TmMGxQtPLgXgBSJ605Nmvn93qwO9LqDYx31jt7Qp53B4p-F30UqXJFDYUdANIIr70DiBGgry5x3l_2aXx9J_ct_AX0K6ncR2haiTlYvsgNHmHchbW8pw2SLcwDQIbb0tPP4Tb72yd_X-79RmEmMqdV0PJxXb2Y-lB8luBiIYhV7h67nLOMp3s4ikVtHjo_MMNotHxnBg2IknK3WU8n4mDP3YimA"/>
+</div>
+</div>
+</header>
+<aside class="fixed left-0 top-0 h-full z-40 flex flex-col py-margin-edge hidden lg:flex bg-surface-container-lowest/40 backdrop-blur-2xl border-r border-outline-variant/30 shadow-[5px_0px_20px_rgba(0,0,0,0.5)] w-64 rounded-r-xl">
+<div class="px-6 mb-12">
+<div class="font-hud-header-lg text-hud-header-lg text-primary mb-1">BIO-SYNC</div>
+<div class="font-body-caps text-body-caps text-secondary-fixed-dim opacity-80">Pulse: 72bpm | Sync: 94%</div>
+</div>
+<nav class="flex-1 px-4 space-y-4">
+<a class="flex items-center gap-3 bg-secondary-container/20 text-secondary-fixed border-l-2 border-secondary p-3 rounded-r-full shadow-[0px_0px_10px_rgba(255,0,255,0.2)] transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">water_drop</span>
+<span class="font-body-caps text-body-caps">Menstrual</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant p-3 hover:text-on-surface hover:bg-surface-variant/40 hover:backdrop-blur-md transition-all" href="#">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-body-caps text-body-caps">Sexual</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant p-3 hover:text-on-surface hover:bg-surface-variant/40 hover:backdrop-blur-md transition-all" href="#">
+<span class="material-symbols-outlined">diversity_1</span>
+<span class="font-body-caps text-body-caps">Family Planning</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant p-3 hover:text-on-surface hover:bg-surface-variant/40 hover:backdrop-blur-md transition-all" href="#">
+<span class="material-symbols-outlined">medical_services</span>
+<span class="font-body-caps text-body-caps">Treatments</span>
+</a>
+</nav>
+<div class="px-4 mt-auto space-y-4">
+<button class="w-full py-3 bg-error-container/20 border border-error/30 text-error font-body-caps text-body-caps rounded-lg hover:bg-error-container/40 transition-all">
+                Emergency Clinician
+            </button>
+<div class="flex flex-col gap-2 pt-4 border-t border-outline-variant/20">
+<a class="flex items-center gap-3 text-on-surface-variant p-2 hover:text-on-surface transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-caps text-body-caps">Settings</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant p-2 hover:text-on-surface transition-all" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-body-caps text-body-caps">Support</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pt-32 pb-24 lg:pl-72 px-margin-edge min-h-screen">
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-gutter">
+<!-- Central HUD: Cycle Clock -->
+<section class="xl:col-span-8 flex flex-col gap-gutter">
+<div class="glass-panel rounded-3xl p-8 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-30">
+<span class="font-body-caps text-body-caps text-tertiary">SYSTEM_ACTIVE // LUNAR_PHASE_04</span>
+</div>
+<div class="flex flex-col md:flex-row items-center justify-around gap-12 py-10 relative z-10">
+<!-- The Clock -->
+<div class="relative w-72 h-72 flex items-center justify-center">
+<div class="absolute inset-0 border-[1px] border-tertiary/10 rounded-full animate-[rotate-slow_60s_linear_infinite]"></div>
+<div class="absolute inset-4 border-[2px] border-dashed border-secondary/20 rounded-full animate-[rotate-slow_30s_linear_infinite_reverse]"></div>
+<div class="text-center">
+<div class="font-body-caps text-body-caps text-outline mb-1">CURRENT PHASE</div>
+<div class="font-data-display-xl text-data-display-xl text-tertiary-fixed drop-shadow-[0_0_10px_rgba(0,251,251,0.5)]">FOLLICULAR</div>
+<div class="font-hud-header-md text-hud-header-md text-on-surface-variant">Day 09 / 28</div>
+</div>
+<!-- Orbiting Orbs -->
+<div class="absolute inset-0 pointer-events-none">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-tertiary rounded-full shadow-[0_0_15px_#00fbfb] animate-pulse"></div>
+<div class="absolute bottom-10 right-10 w-3 h-3 bg-secondary rounded-full shadow-[0_0_15px_#ffabf3] opacity-50"></div>
+</div>
+</div>
+<!-- Quick Stats Beside Clock -->
+<div class="flex flex-col gap-6 w-full md:w-auto">
+<div class="scan-effect relative glass-panel p-4 rounded-xl border-l-4 border-l-tertiary">
+<div class="font-body-caps text-body-caps text-on-surface-variant">FERTILITY WINDOW</div>
+<div class="font-hud-header-md text-hud-header-md text-tertiary">HIGH SYNC (84%)</div>
+</div>
+<div class="glass-panel p-4 rounded-xl border-l-4 border-l-secondary">
+<div class="font-body-caps text-body-caps text-on-surface-variant">ESTROGEN LEVEL</div>
+<div class="flex items-end gap-2">
+<span class="font-data-display-xl text-data-display-xl text-secondary">142</span>
+<span class="font-body-caps text-body-caps opacity-50 pb-2">pg/mL</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Phase Timeline -->
+<div class="mt-8 flex justify-between px-4">
+<div class="flex flex-col items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-outline"></div>
+<span class="font-body-caps text-[9px] text-outline">MENSTRUAL</span>
+</div>
+<div class="flex-1 h-[1px] bg-outline/20 mt-1 mx-2"></div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-4 h-4 rounded-full bg-tertiary shadow-[0_0_10px_#00dddd]"></div>
+<span class="font-body-caps text-[9px] text-tertiary">FOLLICULAR</span>
+</div>
+<div class="flex-1 h-[1px] bg-outline/20 mt-1 mx-2"></div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-outline"></div>
+<span class="font-body-caps text-[9px] text-outline">OVULATORY</span>
+</div>
+<div class="flex-1 h-[1px] bg-outline/20 mt-1 mx-2"></div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-outline"></div>
+<span class="font-body-caps text-[9px] text-outline">LUTEAL</span>
+</div>
+</div>
+</div>
+<!-- Biometric Telemetry Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="glass-panel p-6 rounded-2xl flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<span class="material-symbols-outlined text-tertiary">thermostat</span>
+<span class="font-body-caps text-[10px] text-on-surface-variant">BASAL TEMP</span>
+</div>
+<div class="font-data-display-xl text-data-display-xl">36.4<span class="text-lg opacity-50">°C</span></div>
+<div class="w-full h-12 bg-tertiary-container/30 rounded-lg relative overflow-hidden">
+<div class="absolute inset-0 flex items-center justify-around opacity-40">
+<div class="w-[2px] h-4 bg-tertiary"></div>
+<div class="w-[2px] h-6 bg-tertiary"></div>
+<div class="w-[2px] h-8 bg-tertiary"></div>
+<div class="w-[2px] h-5 bg-tertiary"></div>
+<div class="w-[2px] h-7 bg-tertiary"></div>
+</div>
+</div>
+</div>
+<div class="glass-panel p-6 rounded-2xl flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<span class="material-symbols-outlined text-secondary">vital_signs</span>
+<span class="font-body-caps text-[10px] text-on-surface-variant">HORMONAL RATIO</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex-1">
+<div class="font-body-caps text-[9px] text-tertiary">EST</div>
+<div class="h-2 w-full bg-tertiary/10 rounded-full overflow-hidden">
+<div class="h-full bg-tertiary shadow-[0_0_8px_#00dddd]" style="width: 70%"></div>
+</div>
+</div>
+<div class="flex-1">
+<div class="font-body-caps text-[9px] text-secondary">PRO</div>
+<div class="h-2 w-full bg-secondary/10 rounded-full overflow-hidden">
+<div class="h-full bg-secondary shadow-[0_0_8px_#ffabf3]" style="width: 30%"></div>
+</div>
+</div>
+</div>
+<div class="text-center font-body-caps text-[10px] text-on-surface-variant">PROGESTERONE RISING IN 4D</div>
+</div>
+<div class="glass-panel p-6 rounded-2xl flex flex-col gap-4 relative">
+<div class="flex justify-between items-center">
+<span class="material-symbols-outlined text-primary">mood</span>
+<span class="font-body-caps text-[10px] text-on-surface-variant">MOOD VARIANCE</span>
+</div>
+<!-- Privacy Shutter for Mood -->
+<div class="absolute inset-x-6 top-16 bottom-6 shutter-blur rounded-lg flex items-center justify-center cursor-pointer hover:opacity-0 transition-opacity duration-500 z-20 group">
+<span class="font-body-caps text-[10px] text-white opacity-60 group-hover:opacity-100">HOLD TO REVEAL</span>
+</div>
+<div class="font-data-display-xl text-data-display-xl text-primary">STABLE</div>
+<div class="flex gap-1">
+<div class="flex-1 h-1 bg-primary"></div>
+<div class="flex-1 h-1 bg-primary"></div>
+<div class="flex-1 h-1 bg-primary"></div>
+<div class="flex-1 h-1 bg-primary/20"></div>
+<div class="flex-1 h-1 bg-primary/20"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Sidebar Panels: Lunar Tactics & Symptoms -->
+<section class="xl:col-span-4 flex flex-col gap-gutter">
+<!-- SOF.IA Lunar Tactics -->
+<div class="glass-panel rounded-3xl p-6 border-l-4 border-l-secondary relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 opacity-10 pointer-events-none">
+
+</div>
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary-container">auto_awesome</span>
+</div>
+<div>
+<div class="font-hud-header-md text-hud-header-md leading-none">Lunar Tactics</div>
+<div class="font-body-caps text-[9px] text-secondary">ENGINE: SOF.IA v2.4</div>
+</div>
+</div>
+<div class="space-y-6">
+<div class="p-4 bg-surface-container/50 rounded-xl border border-outline-variant/30">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-tertiary text-sm">fitness_center</span>
+<span class="font-body-caps text-[11px] text-on-surface">TRAINING RECOM.</span>
+</div>
+<p class="text-sm text-on-surface-variant italic">"Peak energy state. Focus on hypertrophy and high-intensity intervals today. Your strength threshold is +15% above baseline."</p>
+</div>
+<div class="p-4 bg-surface-container/50 rounded-xl border border-outline-variant/30">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-secondary text-sm">restaurant</span>
+<span class="font-body-caps text-[11px] text-on-surface">NUTRITIONAL LOGIC</span>
+</div>
+<p class="text-sm text-on-surface-variant italic">"Increase complex carbs. Magnesium and Zinc supplementation recommended to preempt follicular dip in 48 hours."</p>
+</div>
+</div>
+<button class="mt-6 w-full py-2 border border-secondary/40 text-secondary font-body-caps text-body-caps rounded hover:bg-secondary/10 transition-all">
+                        GENERATE FULL PROTOCOL
+                    </button>
+</div>
+<!-- Symptom Log -->
+<div class="glass-panel rounded-3xl p-6">
+<div class="font-hud-header-md text-hud-header-md mb-6">Symptom Log</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-surface-variant/20 border border-outline-variant/10 hover:border-tertiary transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-3xl text-outline group-hover:text-tertiary transition-colors">bolt</span>
+<span class="font-body-caps text-[10px] text-on-surface-variant">PAIN LEVEL</span>
+<div class="flex gap-1 mt-1">
+<div class="w-2 h-2 rounded-full bg-tertiary/20"></div>
+<div class="w-2 h-2 rounded-full bg-tertiary/20"></div>
+<div class="w-2 h-2 rounded-full bg-tertiary/20"></div>
+</div>
+</div>
+<div class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-surface-variant/20 border border-outline-variant/10 hover:border-secondary transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-3xl text-outline group-hover:text-secondary transition-colors">battery_charging_full</span>
+<span class="font-body-caps text-[10px] text-on-surface-variant">ENERGY</span>
+<div class="font-body-caps text-[10px] text-secondary mt-1">82%</div>
+</div>
+<div class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-surface-variant/20 border border-outline-variant/10 hover:border-primary transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-3xl text-outline group-hover:text-primary transition-colors">waves</span>
+<span class="font-body-caps text-[10px] text-on-surface-variant">FLOW INTENSITY</span>
+<div class="w-12 h-1 bg-outline-variant/30 mt-2 relative">
+<div class="absolute inset-y-0 left-0 bg-primary w-1/4"></div>
+</div>
+</div>
+<div class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-surface-variant/20 border border-outline-variant/10 hover:border-tertiary transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-3xl text-outline group-hover:text-tertiary transition-colors">nights_stay</span>
+<span class="font-body-caps text-[10px] text-on-surface-variant">SLEEP SYNC</span>
+<div class="font-body-caps text-[10px] text-tertiary mt-1">OPT.</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Desktop Floating Call-to-Action -->
+<button class="fixed bottom-margin-edge right-margin-edge flex items-center justify-center w-16 h-16 bg-tertiary rounded-full shadow-[0_0_30px_#00dddd] text-on-tertiary z-50 hover:scale-110 active:scale-95 transition-all hidden md:flex">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">add</span>
+</button>
+</main>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter py-4 bg-surface-dim/60 backdrop-blur-lg border-t border-tertiary/10 shadow-[0px_-4px_20px_rgba(0,221,221,0.05)] rounded-t-xl">
+<div class="flex flex-col items-center justify-center text-outline opacity-60 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">baby_changing_station</span>
+<span class="font-data-label-sm text-data-label-sm">Reproductive</span>
+</div>
+<div class="flex flex-col items-center justify-center text-tertiary-fixed scale-110 drop-shadow-[0_0_8px_rgba(0,221,221,0.5)]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+<span class="font-data-label-sm text-data-label-sm">Menstrual</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline opacity-60 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">clinical_notes</span>
+<span class="font-data-label-sm text-data-label-sm">Clinical</span>
+</div>
+</nav>
+<script>
+        // Micro-interaction for long-press simulation on shutters
+        document.querySelectorAll('.shutter-blur').forEach(shutter => {
+            let timer;
+            shutter.addEventListener('mousedown', () => {
+                timer = setTimeout(() => {
+                    shutter.style.opacity = '0';
+                    shutter.style.pointerEvents = 'none';
+                }, 800);
+            });
+            shutter.addEventListener('mouseup', () => clearTimeout(timer));
+            shutter.addEventListener('mouseleave', () => clearTimeout(timer));
+            
+            // Touch support
+            shutter.addEventListener('touchstart', () => {
+                timer = setTimeout(() => {
+                    shutter.style.opacity = '0';
+                    shutter.style.pointerEvents = 'none';
+                }, 800);
+            });
+            shutter.addEventListener('touchend', () => clearTimeout(timer));
+        });
+
+        // Simulating rhythmic bioluminescent pulses
+        setInterval(() => {
+            const orbs = document.querySelectorAll('.bg-tertiary, .bg-secondary');
+            orbs.forEach(orb => {
+                orb.style.transition = 'filter 2s ease-in-out';
+                orb.style.filter = `drop-shadow(0 0 ${Math.random() * 20 + 5}px currentColor)`;
+            });
+        }, 2000);
+    </script>
+</body></html>

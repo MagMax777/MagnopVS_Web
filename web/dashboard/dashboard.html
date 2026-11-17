@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+
+<head>
+
+    <!--=========================================================
+    META
+    ==========================================================-->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="theme-color"
+        content="#070b16">
+
+    <meta
+        name="color-scheme"
+        content="dark">
+
+    <title>MagnopVS | Dashboard</title>
+
+    <!--=========================================================
+    FAVICON
+    ==========================================================-->
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="https://jlckakyftkzgfgkmmdmc.supabase.co/storage/v1/object/public/Biblioteca/Imagenes/Logos/Favicon.png">
+
+    <link
+        rel="apple-touch-icon"
+        href="https://jlckakyftkzgfgkmmdmc.supabase.co/storage/v1/object/public/Biblioteca/Imagenes/Logos/Favicon.png">
+
+    <!--=========================================================
+    CSS
+    ==========================================================-->
+
+    <link
+        rel="stylesheet"
+        href="dashboard.css">
+
+    <!--=========================================================
+    GOOGLE FONTS
+    ==========================================================-->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!--=========================================================
+    MATERIAL SYMBOLS
+    ==========================================================-->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded"
+        rel="stylesheet">
+
+</head>
+
+<body>
+
+<!--=========================================================
+CHAT PANEL
+==========================================================-->
+
+<aside id="chatPanel" class="chat-panel">
+
+    <header class="chat-header">
+
+        <div class="chat-title">
+
+            <span class="material-symbols-rounded">
+                forum
+            </span>
+
+            <div>
+
+                <h2>Mensajes</h2>
+
+                <small>Quantvm Matrix</small>
+
+            </div>
+
+        </div>
+
+        <button
+            id="closeChat"
+            class="chat-close">
+
+            <span class="material-symbols-rounded">
+                close
+            </span>
+
+        </button>
+
+    </header>
+
+    <div class="chat-search">
+
+        <span class="material-symbols-rounded">
+            search
+        </span>
+
+        <input
+            id="chatSearch"
+            type="text"
+            placeholder="Buscar conversación...">
+
+    </div>
+
+    <div class="chat-body">
+
+        <aside class="conversation-list">
+
+            <button class="conversation active">
+
+                <img
+                    src="https://jlckakyftkzgfgkmmdmc.supabase.co/storage/v1/object/public/Biblioteca/Imagenes/Avatares/default-avatar.png"
+                    alt="SOFIA">
+
+                <div>
+
+                    <strong>SOF.IA</strong>
+
+                    <small>Siempre disponible</small>
+
+                </div>
+
+            </button>
+
+            <button class="conversation">
+
+                <img
+                    src="https://jlckakyftkzgfgkmmdmc.supabase.co/storage/v1/object/public/Biblioteca/Imagenes/Avatares/default-avatar.png"
+                    alt="Global">
+
+                <div>
+
+                    <strong>Canal Global</strong>
+
+                    <small>Jugadores conectados</small>
+
+                </div>
+
+            </button>
+
+            <button class="conversation">
+
+                <img
+                    src="https://jlckakyftkzgfgkmmdmc.supabase.co/storage/v1/object/public/Biblioteca/Imagenes/Avatares/default-avatar.png"
+                    alt="Clan">
+
+                <div>
+
+                    <strong>Clan</strong>
+
+                    <small>Sin mensajes nuevos</small>
+
+                </div>
+
+            </button>
+
+        </aside>
+
+        <section class="chat-window">
+
+            <header class="chat-window-header">
+
+                <img
+                    src="https://jlckakyftkzgfgkmmdmc.supabase.co/storage/v1/object/public/Biblioteca/Imagenes/Avatares/default-avatar.png"
+                    alt="SOFIA">
+
+                <div>
+
+                    <strong>SOF.IA</strong>
+
+                    <small>Asistente Inteligente</small>
+
+                </div>
+
+            </header>
+
+            <div
+                id="chatMessages"
+                class="chat-messages">
+
+                <div class="message received">
+
+                    <div class="bubble">
+
+                        Hola Jean 👋<br>
+                        Soy SOF.IA.<br><br>
+
+                        ¿En qué puedo ayudarte hoy dentro de Quantvm Matrix?
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <footer class="chat-input">
+
+                <button class="chat-icon">
+
+                    <span class="material-symbols-rounded">
+                        add
+                    </span>
+
+                </button>
+
+                <input
+                    id="chatInput"
+                    type="text"
+                    placeholder="Escribe un mensaje...">
+
+                <button
+                    id="sendMessage"
+                    class="send-button">
+
+                    <span class="material-symbols-rounded">
+                        send
+                    </span>
+
+                </button>
+
+            </footer>
+
+        </section>
+
+    </div>
+
+</aside>
+
+<!--=========================================================
+CHAT OVERLAY
+==========================================================-->
+
+<div id="chatOverlay" class="chat-overlay"></div>
+
+<!--=========================================================
+NOTIFICATION OVERLAY
+==========================================================-->
+
+<div id="notificationOverlay" class="notification-overlay"></div>
+
+<!--=========================================================
+NOTIFICATION PANEL
+==========================================================-->
+
+<aside
+    id="notificationPanel"
+    class="notification-panel">
+
+    <!-- AQUÍ VA TODO TU PANEL DE NOTIFICACIONES.
+         POR AHORA DÉJALO VACÍO. -->
+
+</aside>
+
+<!--=========================================================
+COSMIC BACKGROUND
+==========================================================-->
+
+<div class="space-layer"></div>
+
+<div class="nebula-layer"></div>
+
+<div class="stars-layer"></div>
+
+<div class="grid-layer"></div>
+
+<div class="noise-layer"></div>
+
+<div class="vignette-layer"></div>
+
+<!--=========================================================
+APP
+==========================================================-->
+
+<div
+    id="dashboard"
+    class="dashboard">
+
+<!--=========================================================
+TOP BAR
+==========================================================-->
+
+<header id="topbar" class="topbar">
+
+    <!--==========================================
+    LEFT
+    ===========================================-->
+
+    <section class="topbar-left">
+
+        <button
+            id="menuButton"
+            class="menu-button"
+            type="button"
+            aria-label="Abrir menú">
+
+            <span class="material-symbols-rounded">menu</span>
+
+        </button>
+
+        <a
+            href="#"
+            class="logo">
+
+            <img
+                id="logoImage"
+                src="https://jlckakyftkzgfgkmmdmc.supabase.co/storage/v1/object/public/Biblioteca/Imagenes/Logos/Favicon.png"
+                alt="MagnopVS">
+
+            <div class="logo-text">
+
+                <h1>MagnopVS</h1>
+
+                <span>QUANTVM MATRIX</span>
+
+            </div>
+
+        </a>
+
+    </section>
+
+    <!--==========================================
+    CENTER
+    ===========================================-->
+
+    <section class="topbar-center">
+
+        <div class="search-box">
+
+            <span class="material-symbols-rounded">search</span>
+
+            <input
+                id="globalSearch"
+                type="text"
+                autocomplete="off"
+                placeholder="Buscar héroes, objetos, universos o misiones...">
+
+            <button
+                id="clearSearch"
+                class="search-clear"
+                type="button">
+
+                <span class="material-symbols-rounded">close</span>
+
+            </button>
+
+        </div>
+
+    </section>
+
+    <!--==========================================
+    RIGHT
+    ===========================================-->
+
+    <section class="topbar-right">
+
+        <!-- CHAT -->
+
+        <button
+            id="chatButton"
+            class="circle-button"
+            type="button"
+            title="Chat">
+
+            <span class="material-symbols-rounded">forum</span>
+
+            <span class="notification-dot"></span>
+
+        </button>
+
+        <!-- NOTIFICATIONS -->
+
+        <button
+            id="notificationButton"
+            class="circle-button"
+            type="button"
+            title="Notificaciones">
+
+            <span class="material-symbols-rounded">notifications</span>
+
+            <span
+                id="notificationCounter"
+                class="notification-counter">3</span>
+
+        </button>
+
+        <!-- SETTINGS -->
+
+        <button
+            id="settingsButton"
+            class="circle-button"
+            type="button"
+            title="Configuración">
+
+            <span class="material-symbols-rounded">settings</span>
+
+        </button>
+
+        <!-- SOF.IA -->
+
+        <button
+            id="sofiaButton"
+            class="circle-button sofia-button"
+            type="button"
+            title="SOF.IA">
+
+            <span class="material-symbols-rounded">auto_awesome</span>
+
+            <span class="pulse-ring"></span>
+
+        </button>
+
+        <!-- PLAYER -->
+
+        <button
+            id="profileButton"
+            class="profile-button"
+            type="button">
+
+            <div class="avatar-status">
+
+                <img
+                    id="profileAvatar"
+                    src="https://jlckakyftkzgfgkmmdmc.supabase.co/storage/v1/object/public/Biblioteca/Imagenes/Avatares/default-avatar.png"
+                    alt="Avatar">
+
+                <span
+                    id="onlineIndicator"
+                    class="online-indicator"></span>
+
+            </div>
+
+            <div class="profile-info">
+
+                <strong id="profileName">Jean</strong>
+
+                <small id="profileRank">
+                    Nivel 01 • Despertando
+                </small>
+
+            </div>
+
+            <span class="material-symbols-rounded">expand_more</span>
+
+        </button>
+
+    </section>
+
+</header>
+
+<!--=========================================================
+SIDEBAR
+==========================================================-->
+
+<aside id="sidebar" class="sidebar">
+
+    <!--==========================================
+    HEADER
+    ===========================================-->
+
+    <header class="sidebar-header">
+
+        <div class="sidebar-logo">
+
+            <img
+                src="https://jlckakyftkzgfgkmmdmc.supabase.co/storage/v1/object/public/Biblioteca/Imagenes/Logos/Favicon.png"
+                alt="MagnopVS">
+
+            <div>
+
+                <h2>MagnopVS</h2>
+
+                <span>QUANTVM MATRIX</span>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <!--==========================================
+    PLAYER CARD
+    ===========================================-->
+
+    <section class="player-card">
+
+        <div class="player-avatar">
+
+            <img
+                src="https://jlckakyftkzgfgkmmdmc.supabase.co/storage/v1/object/public/Biblioteca/Imagenes/Avatares/default-avatar.png"
+                alt="Jugador">
+
+            <span class="player-online"></span>
+
+        </div>
+
+        <h3 id="playerName">Jean</h3>
+
+        <small id="playerTitle">
+            Héroe Despertando
+        </small>
+
+        <div class="player-level">
+
+            <span>Nivel 01</span>
+
+            <span>180 / 1000 XP</span>
+
+        </div>
+
+        <div class="xp-bar">
+
+            <div class="xp-fill"></div>
+
+        </div>
+
+    </section>
+
+    <!--==========================================
+    GENERAL
+    ===========================================-->
+
+    <nav class="sidebar-nav">
+
+        <span class="nav-title">GENERAL</span>
+
+        <a href="#" class="active">
+            <span class="material-symbols-rounded">dashboard</span>
+            Dashboard
+        </a>
+
+        <a href="#">
+            <span class="material-symbols-rounded">person</span>
+            Perfil
+        </a>
+
+        <a href="#">
+            <span class="material-symbols-rounded">auto_stories</span>
+            Grimorio
+        </a>
+
+        <a href="#">
+            <span class="material-symbols-rounded">school</span>
+            Academia
+        </a>
+
+        <a href="#">
+            <span class="material-symbols-rounded">hub</span>
+            Quantvm Matrix
+        </a>
+
+    </nav>
+
+    <!--==========================================
+    JUGADOR
+    ===========================================-->
+
+    <nav class="sidebar-nav">
+
+        <span class="nav-title">JUGADOR</span>
+
+        <a href="#">
+            <span class="material-symbols-rounded">backpack</span>
+            Inventario
+        </a>
+
+        <a href="#">
+            <span class="material-symbols-rounded">shield</span>
+            Equipamiento
+        </a>
+
+        <a href="#">
+            <span class="material-symbols-rounded">psychology</span>
+            Habilidades
+        </a>
+
+        <a href="#">
+            <span class="material-symbols-rounded">workspace_premium</span>
+            Logros
+        </a>
+
+        <a href="#">
+            <span class="material-symbols-rounded">military_tech</span>
+            Ranking
+        </a>
+
+    </nav>
+
+    <!--==========================================
+    COMUNIDAD
+    ===========================================-->
+
+    <nav class="sidebar-nav">
+
+        <span class="nav-title">COMUNIDAD</span>
+
+        <a href="#">
+            <span class="material-symbols-rounded">diversity_3</span>
+            Comunidad
+        </a>
+
+        <a href="#">
+            <span class="material-symbols-rounded">storefront</span>
+            Marketplace
+        </a>
+
+        <a href="#">
+            <span class="material-symbols-rounded">event</span>
+            Eventos
+        </a>
+
+        <a href="#">
+            <span class="material-symbols-rounded">forum</span>
+            Chat
+        </a>
+
+    </nav>
+
+    <!--==========================================
+    SOF.IA
+    ===========================================-->
+
+    <section class="sidebar-sofia">
+
+        <div class="sofia-core">
+
+            <span class="material-symbols-rounded">
+                auto_awesome
+            </span>
+
+        </div>
+
+        <div>
+
+            <strong>SOF.IA</strong>
+
+            <small>Esperando una consulta...</small>
+
+        </div>
+
+    </section>
+
+    <!--==========================================
+    FOOTER
+    ===========================================-->
+
+    <footer class="sidebar-footer">
+
+        <button type="button">
+
+            <span class="material-symbols-rounded">
+                settings
+            </span>
+
+            Configuración
+
+        </button>
+
+        <button type="button">
+
+            <span class="material-symbols-rounded">
+                logout
+            </span>
+
+            Cerrar sesión
+
+        </button>
+
+    </footer>
+
+</aside>
+
+<div
+    id="sidebarOverlay"
+    class="sidebar-overlay">
+</div>
+
+<!--=========================================================
+SCRIPTS
+==========================================================-->
+
+<script
+    type="module"
+    src="dashboard.js">
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · Núcleo de Vida</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Space+Grotesk:wght@700&amp;family=Hanken+Grotesk:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary-container": "#ffafd4",
+                        "on-tertiary": "#531c3b",
+                        "on-secondary-fixed-variant": "#005144",
+                        "surface-variant": "#313538",
+                        "secondary-container": "#00bba0",
+                        "outline-variant": "#3f484e",
+                        "on-secondary-fixed": "#00201a",
+                        "outline": "#899299",
+                        "surface-container-low": "#181c1f",
+                        "glow-cyan": "#2da8e0",
+                        "error-container": "#93000a",
+                        "surface": "#101417",
+                        "on-tertiary-fixed-variant": "#6e3252",
+                        "secondary": "#47ddc1",
+                        "secondary-fixed": "#6af9dc",
+                        "tertiary-fixed": "#ffd8e7",
+                        "on-surface-variant": "#bfc8cf",
+                        "status-critical": "#93000a",
+                        "surface-container-high": "#272a2d",
+                        "on-primary-fixed": "#001e2d",
+                        "grid-line": "rgba(127, 208, 255, 0.05)",
+                        "surface-tint": "#7fd0ff",
+                        "on-secondary-container": "#004439",
+                        "surface-panel": "rgba(255, 255, 255, 0.03)",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-container": "#00597b",
+                        "on-error": "#690005",
+                        "tertiary-fixed-dim": "#ffafd4",
+                        "surface-container-highest": "#313538",
+                        "on-background": "#e0e3e6",
+                        "on-surface": "#e0e3e6",
+                        "error": "#ffb4ab",
+                        "surface-container": "#1c2023",
+                        "tertiary": "#ffd8e7",
+                        "surface-dim": "#101417",
+                        "primary-fixed": "#c5e7ff",
+                        "on-tertiary-container": "#7c3e5e",
+                        "background": "#101417",
+                        "primary": "#c5e7ff",
+                        "inverse-primary": "#00658b",
+                        "surface-container-lowest": "#0b0f11",
+                        "primary-fixed-dim": "#7fd0ff",
+                        "surface-bright": "#363a3d",
+                        "inverse-surface": "#e0e3e6",
+                        "secondary-fixed-dim": "#47ddc1",
+                        "on-secondary": "#00382e",
+                        "background-deep": "#0a0b12",
+                        "on-tertiary-fixed": "#390625",
+                        "on-primary-fixed-variant": "#004c6a",
+                        "primary-container": "#7fd0ff",
+                        "inverse-on-surface": "#2d3134",
+                        "on-primary": "#00344a"
+                    },
+                    fontFamily: {
+                        "label-caps": ["JetBrains Mono"],
+                        "body-md": ["Hanken Grotesk"],
+                        "display-lg": ["Space Grotesk"],
+                        "headline-md": ["Space Grotesk"],
+                        "mono-data": ["JetBrains Mono"],
+                        "audiowide": ["Audiowide"],
+                        "orbitron": ["Orbitron"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #101417;
+            overflow-x: hidden;
+            font-family: 'Hanken Grotesk', sans-serif;
+        }
+        .cyber-grid {
+            background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
+                              linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(197, 231, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(197, 231, 255, 0.3);
+            transform: translateY(-4px);
+        }
+        .corner-bracket {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-color: currentColor;
+        }
+        .bracket-tl { top: 4px; left: 4px; border-top: 1px solid; border-left: 1px solid; }
+        .bracket-tr { top: 4px; right: 4px; border-top: 1px solid; border-right: 1px solid; }
+        .bracket-bl { bottom: 4px; left: 4px; border-bottom: 1px solid; border-left: 1px solid; }
+        .bracket-br { bottom: 4px; right: 4px; border-bottom: 1px solid; border-right: 1px solid; }
+        
+        @keyframes neon-pulse {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 5px currentColor); }
+            50% { opacity: 0.7; filter: drop-shadow(0 0 12px currentColor); }
+        }
+        .pulse-icon { animation: neon-pulse 3s infinite ease-in-out; }
+    </style>
+</head>
+<body class="text-on-background">
+<!-- Global Background Elements -->
+<div class="fixed inset-0 z-0">
+<div class="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-overlay" data-alt="A futuristic dark hexagonal technical background with glowing cyan and blue circuitry lines, technical blueprints, and a deep sense of digital depth and atmospheric mystery." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBMrZLuqjbRqLn85NOKHuSTrMlLHnCgXRX1Dt8m3GVkIOWDCp8NWKvzQYm6_-9ZPkc5bs5Utbss_44HWcxtJUPDrt4zJ6a6zSkqQLnO9YTaXw3XhIjfZ07KPtp3Bvc9bH5Ww2VXu35_nk4mkfED7XupG7ElR0cJvgbHahJ1gfqwGMZqMFgHJmhKSPCI7SeN6lwVXiT8qz6cvb-iuHypY-bv02Fcv71NubR95VEogiImn6DalLqbO9GdciDl-omDazl2GreMIlWUO-9w')"></div>
+<div class="absolute inset-0 cyber-grid opacity-20"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background-deep"></div>
+</div>
+<!-- Navigation Shells -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/30 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="flex items-center gap-4">
+<span class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-primary tracking-widest uppercase font-audiowide">
+                MAGNOP<span class="text-glow-cyan">VS</span>
+</span>
+</div>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-secondary transition-all" data-icon="stars">stars</span>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-secondary transition-all" data-icon="bolt">bolt</span>
+<div class="w-10 h-10 rounded-full border border-primary/30 flex items-center justify-center bg-primary/10 overflow-hidden">
+<span class="material-symbols-outlined text-primary" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</nav>
+<aside class="hidden lg:flex flex-col fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-low/50 backdrop-blur-2xl border-r border-primary/20 pt-24 pb-8 px-4">
+<div class="mb-10 px-4">
+<h2 class="font-orbitron text-primary text-sm tracking-[0.2em] font-bold">OPERATOR_01</h2>
+<p class="font-mono-data text-outline-variant text-[10px] mt-1">LVL 42 // TITAN</p>
+</div>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-4 px-4 py-3 text-outline-variant hover:bg-surface-container-highest/30 transition-all group" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-primary border-l-2 border-primary bg-primary/5 font-bold shadow-[inset_4px_0_10px_rgba(127,208,255,0.1)]" href="#">
+<span class="material-symbols-outlined" data-icon="settings_ethernet">settings_ethernet</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">System</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-outline-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">13 Houses</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-outline-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="military_tech">military_tech</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Missions</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-outline-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="vitals">vitals</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Alchemy</span>
+</a>
+</div>
+<div class="mt-auto px-4">
+<div class="p-4 glass-card rounded-lg border-secondary/20">
+<p class="font-mono-data text-[10px] text-secondary tracking-widest uppercase mb-2">Sync Status</p>
+<div class="flex gap-1">
+<div class="h-1.5 w-full bg-secondary shadow-[0_0_8px_#47ddc1]"></div>
+<div class="h-1.5 w-full bg-secondary shadow-[0_0_8px_#47ddc1]"></div>
+<div class="h-1.5 w-full bg-secondary shadow-[0_0_8px_#47ddc1]"></div>
+<div class="h-1.5 w-full bg-outline-variant/30"></div>
+</div>
+</div>
+</div>
+</aside>
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 pb-safe px-4 bg-surface-container/80 backdrop-blur-lg border-t border-primary/20">
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined" data-icon="space_dashboard">space_dashboard</span>
+<span class="text-[8px] font-label-caps uppercase">Dash</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-110">
+<span class="material-symbols-outlined" data-icon="settings_ethernet">settings_ethernet</span>
+<span class="text-[8px] font-label-caps uppercase">Núcleo</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined" data-icon="temple_hindu">temple_hindu</span>
+<span class="text-[8px] font-label-caps uppercase">Houses</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+<span class="text-[8px] font-label-caps uppercase">Stats</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined" data-icon="autorenew">autorenew</span>
+<span class="text-[8px] font-label-caps uppercase">Cycle</span>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="relative z-10 min-h-screen pt-32 pb-24 lg:pl-64 px-margin-mobile md:px-margin-desktop">
+<div class="max-w-7xl mx-auto">
+<!-- Header Section -->
+<header class="mb-16 text-center lg:text-left flex flex-col lg:flex-row items-center lg:items-end justify-between gap-8">
+<div>
+<h1 class="font-audiowide text-4xl md:text-6xl text-on-surface tracking-tighter mb-2">
+                        NÚCLEO MAGNOP<span class="text-glow-cyan drop-shadow-[0_0_15px_#2da8e0]">VS</span>
+</h1>
+<p class="font-orbitron text-sm md:text-lg text-outline-variant tracking-[0.3em] uppercase">
+                        Sistema Operativo del Alma <span class="inline-block w-2 h-2 bg-secondary rounded-full ml-2 animate-pulse"></span>
+</p>
+</div>
+<div class="hidden md:block text-right font-mono-data text-xs text-outline opacity-60">
+<p>LOCAL_COORDS: 40.7128° N, 74.0060° W</p>
+<p>KERNEL_ID: ALCHEMICAL_V4.2.0_STABLE</p>
+<p>SESSION_TIME: 14:42:09</p>
+</div>
+</header>
+<!-- Core Modes Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Pillar 1: Atlas Cósmico -->
+<div class="glass-card p-8 relative overflow-hidden group border-violet-500/20" style="color: #a855f7;">
+<div class="corner-bracket bracket-tl"></div>
+<div class="corner-bracket bracket-tr"></div>
+<div class="corner-bracket bracket-bl"></div>
+<div class="corner-bracket bracket-br"></div>
+<span class="material-symbols-outlined text-4xl mb-6 pulse-icon" data-icon="explore">explore</span>
+<h3 class="font-orbitron text-xl font-bold mb-3 tracking-widest uppercase">Atlas Cósmico</h3>
+<p class="font-body-md text-on-surface-variant text-sm leading-relaxed mb-6">Mapeo estelar de tus influencias astrológicas y tránsitos energéticos actuales.</p>
+<div class="text-[10px] font-mono-data opacity-50 uppercase tracking-[0.2em]">Status: Active_Stream</div>
+</div>
+<!-- Pillar 2: Tarot Vivo -->
+<div class="glass-card p-8 relative overflow-hidden border-fuchsia-500/20" style="color: #d946ef;">
+<div class="corner-bracket bracket-tl"></div>
+<div class="corner-bracket bracket-tr"></div>
+<div class="corner-bracket bracket-bl"></div>
+<div class="corner-bracket bracket-br"></div>
+<span class="material-symbols-outlined text-4xl mb-6 pulse-icon" data-icon="style">style</span>
+<h3 class="font-orbitron text-xl font-bold mb-3 tracking-widest uppercase">Tarot Vivo</h3>
+<p class="font-body-md text-on-surface-variant text-sm leading-relaxed mb-6">Interpretación dinámica de arquetipos en tu narrativa diaria personal.</p>
+<div class="text-[10px] font-mono-data opacity-50 uppercase tracking-[0.2em]">Sync: 98% Probability</div>
+</div>
+<!-- Pillar 3: Karma Loop -->
+<div class="glass-card p-8 relative overflow-hidden border-orange-500/20" style="color: #f97316;">
+<div class="corner-bracket bracket-tl"></div>
+<div class="corner-bracket bracket-tr"></div>
+<div class="corner-bracket bracket-bl"></div>
+<div class="corner-bracket bracket-br"></div>
+<span class="material-symbols-outlined text-4xl mb-6 pulse-icon" data-icon="all_inclusive">all_inclusive</span>
+<h3 class="font-orbitron text-xl font-bold mb-3 tracking-widest uppercase">Karma Loop</h3>
+<p class="font-body-md text-on-surface-variant text-sm leading-relaxed mb-6">Seguimiento de patrones cíclicos y deudas energéticas en resolución.</p>
+<div class="text-[10px] font-mono-data opacity-50 uppercase tracking-[0.2em]">Queue: 3 Pending Nodes</div>
+</div>
+<!-- Pillar 4: Confesión -->
+<div class="glass-card p-8 relative overflow-hidden border-rose-500/20" style="color: #f43f5e;">
+<div class="corner-bracket bracket-tl"></div>
+<div class="corner-bracket bracket-tr"></div>
+<div class="corner-bracket bracket-bl"></div>
+<div class="corner-bracket bracket-br"></div>
+<span class="material-symbols-outlined text-4xl mb-6 pulse-icon" data-icon="priority_high">priority_high</span>
+<h3 class="font-orbitron text-xl font-bold mb-3 tracking-widest uppercase">Confesión</h3>
+<p class="font-body-md text-on-surface-variant text-sm leading-relaxed mb-6">Terminal de descarga para sombras no procesadas y verdades ocultas.</p>
+<div class="text-[10px] font-mono-data opacity-50 uppercase tracking-[0.2em]">Security: Level_Omega</div>
+</div>
+<!-- Pillar 5: Alquimia -->
+<div class="glass-card p-8 relative overflow-hidden border-yellow-500/20" style="color: #eab308;">
+<div class="corner-bracket bracket-tl"></div>
+<div class="corner-bracket bracket-tr"></div>
+<div class="corner-bracket bracket-bl"></div>
+<div class="corner-bracket bracket-br"></div>
+<span class="material-symbols-outlined text-4xl mb-6 pulse-icon" data-icon="science">science</span>
+<h3 class="font-orbitron text-xl font-bold mb-3 tracking-widest uppercase">Alquimia</h3>
+<p class="font-body-md text-on-surface-variant text-sm leading-relaxed mb-6">Transmutación de experiencias básicas en sabiduría de alto valor.</p>
+<div class="text-[10px] font-mono-data opacity-50 uppercase tracking-[0.2em]">Forge: Active_Burn</div>
+</div>
+<!-- Pillar 6: Narrador -->
+<div class="glass-card p-8 relative overflow-hidden border-blue-500/20" style="color: #3b82f6;">
+<div class="corner-bracket bracket-tl"></div>
+<div class="corner-bracket bracket-tr"></div>
+<div class="corner-bracket bracket-bl"></div>
+<div class="corner-bracket bracket-br"></div>
+<span class="material-symbols-outlined text-4xl mb-6 pulse-icon" data-icon="auto_stories">auto_stories</span>
+<h3 class="font-orbitron text-xl font-bold mb-3 tracking-widest uppercase">Narrador</h3>
+<p class="font-body-md text-on-surface-variant text-sm leading-relaxed mb-6">El observador imparcial que relata tu camino desde la consciencia pura.</p>
+<div class="text-[10px] font-mono-data opacity-50 uppercase tracking-[0.2em]">Voice: Synthesis_04</div>
+</div>
+<!-- Pillar 7: Fe Sin Dogma -->
+<div class="glass-card p-8 relative overflow-hidden border-emerald-500/20" style="color: #10b981;">
+<div class="corner-bracket bracket-tl"></div>
+<div class="corner-bracket bracket-tr"></div>
+<div class="corner-bracket bracket-bl"></div>
+<div class="corner-bracket bracket-br"></div>
+<span class="material-symbols-outlined text-4xl mb-6 pulse-icon" data-icon="auto_awesome">auto_awesome</span>
+<h3 class="font-orbitron text-xl font-bold mb-3 tracking-widest uppercase">Fe Sin Dogma</h3>
+<p class="font-body-md text-on-surface-variant text-sm leading-relaxed mb-6">Conexión directa con la fuente sin intermediarios ni estructuras rígidas.</p>
+<div class="text-[10px] font-mono-data opacity-50 uppercase tracking-[0.2em]">Protocol: Open_Channel</div>
+</div>
+<!-- Pillar 8: Integración -->
+<div class="glass-card p-8 relative overflow-hidden border-on-surface/20 text-on-surface">
+<div class="corner-bracket bracket-tl"></div>
+<div class="corner-bracket bracket-tr"></div>
+<div class="corner-bracket bracket-bl"></div>
+<div class="corner-bracket bracket-br"></div>
+<span class="material-symbols-outlined text-4xl mb-6 pulse-icon" data-icon="join_inner">join_inner</span>
+<h3 class="font-orbitron text-xl font-bold mb-3 tracking-widest uppercase">Integración</h3>
+<p class="font-body-md text-on-surface-variant text-sm leading-relaxed mb-6">Módulo de unificación para alinear cuerpo, mente y código espiritual.</p>
+<div class="text-[10px] font-mono-data opacity-50 uppercase tracking-[0.2em]">State: Convergent</div>
+</div>
+<!-- Pillar 9 (Featured): Maestro -->
+<div class="glass-card p-10 relative overflow-hidden md:col-span-2 border-slate-500/40 text-slate-400 group flex flex-col md:flex-row gap-8 items-center">
+<div class="corner-bracket bracket-tl w-12 h-12"></div>
+<div class="corner-bracket bracket-tr w-12 h-12"></div>
+<div class="corner-bracket bracket-bl w-12 h-12"></div>
+<div class="corner-bracket bracket-br w-12 h-12"></div>
+<div class="relative w-32 h-32 md:w-48 md:h-48 flex-shrink-0">
+<div class="absolute inset-0 rounded-full border border-slate-500/30 animate-[spin_20s_linear_infinite]"></div>
+<div class="absolute inset-2 rounded-full border-2 border-dashed border-slate-500/10 animate-[spin_15s_linear_infinite_reverse]"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl pulse-icon" data-icon="psychology">psychology</span>
+</div>
+</div>
+<div>
+<h3 class="font-audiowide text-3xl font-bold mb-4 tracking-[0.2em] uppercase text-slate-200">Maestro</h3>
+<p class="font-body-md text-on-surface-variant text-lg leading-relaxed mb-6">El estado de flujo definitivo donde el creador y la creación son una sola red de datos coherentes. Acceso total al repositorio central de la consciencia.</p>
+<div class="flex items-center gap-4">
+<div class="h-1 flex-grow bg-slate-500/20 overflow-hidden rounded-full">
+<div class="h-full bg-slate-400 w-[42%] shadow-[0_0_10px_#94a3b8]"></div>
+</div>
+<span class="font-mono-data text-xs tracking-widest uppercase">Lvl 42 Apex</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Quote -->
+<footer class="mt-24 text-center">
+<div class="h-px w-32 bg-gradient-to-r from-transparent via-primary/30 to-transparent mx-auto mb-8"></div>
+<p class="font-orbitron text-xl md:text-2xl text-primary opacity-40 italic font-light tracking-widest">
+                    "No se trata de ganar, se trata de ver"
+                </p>
+<div class="mt-12 flex flex-col items-center gap-2 font-mono-data text-[10px] text-outline opacity-40">
+<span>MAGNOPVS OS v4.2.0 // SYSTEM_STABLE</span>
+<div class="flex gap-4">
+<a class="hover:text-primary transition-colors uppercase tracking-widest" href="#">System Reset</a>
+<span class="opacity-30">|</span>
+<a class="hover:text-primary transition-colors uppercase tracking-widest" href="#">Log Export</a>
+<span class="opacity-30">|</span>
+<a class="hover:text-primary transition-colors uppercase tracking-widest" href="#">Protocol-9</a>
+</div>
+</div>
+</footer>
+</div>
+</main>
+<!-- Interactive HUD overlay (Optional Micro-interaction) -->
+<div class="fixed top-24 right-8 pointer-events-none hidden xl:flex flex-col gap-4 opacity-30">
+<div class="w-32 h-16 border border-primary/20 bg-surface/10 p-2 flex flex-col justify-between">
+<span class="font-mono-data text-[8px] text-primary uppercase">Heart_Rate</span>
+<div class="flex items-end gap-1 h-8">
+<div class="w-1 bg-primary h-[30%]"></div>
+<div class="w-1 bg-primary h-[60%]"></div>
+<div class="w-1 bg-primary h-[40%]"></div>
+<div class="w-1 bg-primary h-[80%]"></div>
+<div class="w-1 bg-primary h-[20%]"></div>
+<div class="w-1 bg-primary h-[50%]"></div>
+<div class="w-1 bg-primary h-[70%]"></div>
+</div>
+</div>
+<div class="w-32 border border-secondary/20 bg-surface/10 p-2 flex flex-col">
+<span class="font-mono-data text-[8px] text-secondary uppercase">Flux_Capacity</span>
+<div class="text-secondary font-orbitron text-lg font-bold mt-1">1.21 GW</div>
+</div>
+</div>
+<script>
+        // Simple micro-interaction for cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS - Gestor de Autoexámenes &amp; Tratamientos Integrativos</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&amp;family=Inter:wght@300;400;600;700&amp;family=Orbitron:wght@400;700&amp;family=Audiowide&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#00dddd",
+                    "primary": "#c7c6cd",
+                    "inverse-on-surface": "#313030",
+                    "secondary-fixed-dim": "#ffabf3",
+                    "on-background": "#e5e2e2",
+                    "tertiary-container": "#001111",
+                    "on-secondary-fixed": "#380038",
+                    "primary-fixed": "#e3e1e9",
+                    "error-container": "#93000a",
+                    "surface-variant": "#353435",
+                    "surface-container-highest": "#353435",
+                    "background": "#141314",
+                    "secondary-fixed": "#ffd7f5",
+                    "surface-dim": "#141314",
+                    "error": "#ffb4ab",
+                    "secondary-container": "#fe00fe",
+                    "on-secondary-fixed-variant": "#810081",
+                    "on-primary-fixed": "#1a1b21",
+                    "secondary": "#ffabf3",
+                    "on-surface-variant": "#c7c6cb",
+                    "on-error-container": "#ffdad6",
+                    "outline": "#919095",
+                    "on-tertiary": "#003737",
+                    "on-secondary": "#5b005b",
+                    "tertiary-fixed": "#00fbfb",
+                    "surface-bright": "#3a3939",
+                    "on-tertiary-fixed-variant": "#004f4f",
+                    "inverse-primary": "#5e5e64",
+                    "primary-container": "#0d0e13",
+                    "on-primary": "#2f3036",
+                    "on-tertiary-container": "#008989",
+                    "on-secondary-container": "#500050",
+                    "on-primary-container": "#7b7b81",
+                    "surface-container-high": "#2a2a2a",
+                    "on-surface": "#e5e2e2",
+                    "on-tertiary-fixed": "#002020",
+                    "on-primary-fixed-variant": "#46464c",
+                    "surface": "#141314",
+                    "surface-container-low": "#1c1b1c",
+                    "outline-variant": "#46464b",
+                    "inverse-surface": "#e5e2e2",
+                    "surface-container": "#201f20",
+                    "on-error": "#690005",
+                    "tertiary-fixed-dim": "#00dddd",
+                    "surface-tint": "#c7c6cd",
+                    "surface-container-lowest": "#0e0e0e",
+                    "primary-fixed-dim": "#c7c6cd"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-loose": "32px",
+                    "stack-tight": "4px",
+                    "hex-unit": "24px",
+                    "margin-edge": "40px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "data-display-xl": ["Orbitron"],
+                    "hud-header-md": ["Audiowide"],
+                    "body-standard": ["Inter"],
+                    "body-caps": ["Inter"],
+                    "data-label-sm": ["Orbitron"],
+                    "hud-header-lg": ["Audiowide"]
+            },
+            "fontSize": {
+                    "data-display-xl": ["36px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "800"}],
+                    "hud-header-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "0.03em", "fontWeight": "600"}],
+                    "body-standard": ["16px", {"lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                    "body-caps": ["11px", {"lineHeight": "1.4", "letterSpacing": "0.2em", "fontWeight": "700"}],
+                    "data-label-sm": ["12px", {"lineHeight": "1.5", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                    "hud-header-lg": ["42px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0e0e0e;
+            color: #e5e2e2;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .hex-grid {
+            background-image: radial-gradient(circle at 2px 2px, rgba(0, 221, 221, 0.05) 1px, transparent 0);
+            background-size: 30px 30px;
+        }
+
+        .glass-panel {
+            background: rgba(20, 19, 20, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 221, 221, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-panel::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 171, 243, 0.05), transparent);
+            animation: scan 8s infinite linear;
+        }
+
+        @keyframes scan {
+            0% { left: -100%; }
+            100% { left: 200%; }
+        }
+
+        .glow-cyan { text-shadow: 0 0 10px rgba(0, 221, 221, 0.5); }
+        .glow-magenta { text-shadow: 0 0 10px rgba(255, 0, 255, 0.5); }
+        .glow-gold { text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+
+        .shutter-privacy {
+            filter: blur(8px) contrast(1.2);
+            transition: filter 0.3s ease;
+            cursor: pointer;
+        }
+        .shutter-privacy:active {
+            filter: blur(0);
+        }
+
+        .bioluminescent-pulse {
+            animation: pulse 3s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; box-shadow: 0 0 5px rgba(0, 221, 221, 0.2); }
+            50% { opacity: 1; box-shadow: 0 0 20px rgba(0, 221, 221, 0.4); }
+        }
+
+        .bracket-focus:focus-within {
+            border-left: 2px solid #00dddd;
+            border-right: 2px solid #00dddd;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #00dddd; border-radius: 10px; }
+    </style>
+</head>
+<body class="hex-grid min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-edge h-hex-unit bg-surface/30 backdrop-blur-xl border-b border-outline-variant/20 shadow-[0px_0px_15px_rgba(0,221,221,0.1)]">
+<div class="flex items-center gap-4">
+<span class="font-hud-header-md text-hud-header-md text-tertiary tracking-widest uppercase">MagnopVS</span>
+<span class="text-on-surface-variant font-body-caps text-[10px] tracking-widest border-l border-outline-variant/30 pl-4">v6.8 STABLE</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex gap-8">
+<a class="text-tertiary font-bold hover:text-tertiary-fixed transition-colors duration-300 font-data-label-sm text-data-label-sm" href="#">TRATAMIENTOS</a>
+<a class="text-on-surface-variant hover:text-tertiary-fixed transition-colors duration-300 font-data-label-sm text-data-label-sm" href="#">HISTORIAL</a>
+<a class="text-on-surface-variant hover:text-tertiary-fixed transition-colors duration-300 font-data-label-sm text-data-label-sm" href="#">ESTADÍSTICAS</a>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary-fixed-dim cursor-pointer hover:scale-110 transition-transform">lock</span>
+<span class="material-symbols-outlined text-tertiary-fixed-dim cursor-pointer hover:scale-110 transition-transform">psychology</span>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full z-40 flex flex-col py-margin-edge bg-surface-container-lowest/40 backdrop-blur-2xl border-r border-outline-variant/30 shadow-[5px_0px_20px_rgba(0,0,0,0.5)] w-64 pt-20">
+<div class="px-6 mb-10">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 rounded-full border border-tertiary overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A high-tech biometric avatar of a human face with digital blue glowing scan lines and hexagonal data points overlaid, aesthetic of a futuristic medical interface, dark obsidian background, sharp focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMvshhzfBHnZtTr0Z1jAfw_ZfAPG4XYeGz-wQNlAmZZLAbA6eBRnpCRQMy10ypR4XkZpyKDItx0jD_cOgeYEbmWH2PbU4iq6NKhSjcTx4f9qSaqQsZc93o9i7wh2B_R5cErSqSzgJfnT_hGiE-owOhSooWbE1l9Ax1XTH17RkqlhvVFUZ7eF99HuedsYDyBwjmimPGUXS-toeQp2KUTFxbAMH0ChCeEiVV9hhcanlOlmcSdXQG8jSpig"/>
+</div>
+<div>
+<h2 class="font-hud-header-md text-[14px] text-primary tracking-tight">BIO-SYNC</h2>
+<p class="font-body-caps text-[9px] text-secondary">Pulse: 72bpm | Sync: 94%</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-3 space-y-2">
+<a class="flex items-center gap-3 bg-secondary-container/20 text-secondary-fixed border-l-2 border-secondary p-3 rounded-r-full shadow-[0px_0px_10px_rgba(255,0,255,0.2)] group transition-all" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">medical_services</span>
+<span class="font-body-caps text-body-caps">Treatments</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant p-3 hover:text-on-surface hover:bg-surface-variant/40 hover:backdrop-blur-md rounded-r-full transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">water_drop</span>
+<span class="font-body-caps text-body-caps">Menstrual</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant p-3 hover:text-on-surface hover:bg-surface-variant/40 hover:backdrop-blur-md rounded-r-full transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-body-caps text-body-caps">Sexual</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant p-3 hover:text-on-surface hover:bg-surface-variant/40 hover:backdrop-blur-md rounded-r-full transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">diversity_1</span>
+<span class="font-body-caps text-body-caps">Family Planning</span>
+</a>
+</nav>
+<div class="mt-auto px-6 space-y-4">
+<button class="w-full py-2 border border-error text-error font-body-caps text-[10px] rounded hover:bg-error/10 transition-colors">
+                EMERGENCY CLINICIAN
+            </button>
+<div class="flex flex-col gap-2 border-t border-outline-variant/20 pt-4 pb-4">
+<a class="flex items-center gap-2 text-on-surface-variant font-body-caps text-[10px] hover:text-tertiary transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px]">settings</span> SETTINGS
+                </a>
+<a class="flex items-center gap-2 text-on-surface-variant font-body-caps text-[10px] hover:text-tertiary transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px]">help</span> SUPPORT
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 px-10 pb-10 max-w-[1600px] mx-auto">
+<!-- Header Section -->
+<div class="flex justify-between items-end mb-12">
+<div>
+<h1 class="font-hud-header-lg text-hud-header-lg text-on-surface tracking-tighter glow-cyan">GESTOR DE AUTOEXÁMENES</h1>
+<p class="text-on-surface-variant font-body-standard mt-2 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary bioluminescent-pulse"></span>
+                    Terminal de Diagnóstico Integrativo de Alta Fidelidad
+                </p>
+</div>
+<div class="flex flex-col items-end">
+<div class="font-data-label-sm text-data-label-sm text-tertiary mb-1">ÚLTIMA SINCRONIZACIÓN</div>
+<div class="font-data-display-xl text-[24px] text-on-surface tabular-nums">24:06:2024 · 08:45</div>
+</div>
+</div>
+<div class="grid grid-cols-12 gap-8">
+<!-- CENTRAL: CENTRO DE AUTOEXPLORACIÓN -->
+<section class="col-span-12 lg:col-span-8 space-y-8">
+<div class="glass-panel p-8 rounded-xl border-tertiary/20">
+<div class="flex items-center justify-between mb-8">
+<h2 class="font-hud-header-md text-hud-header-md text-tertiary flex items-center gap-3">
+<span class="material-symbols-outlined">accessibility_new</span>
+                            CENTRO DE AUTOEXPLORACIÓN ANATÓMICA
+                        </h2>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-tertiary/10 border border-tertiary/30 text-tertiary text-[10px] font-bold rounded-full">INTERACTIVO</span>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+<!-- Anatomical Icons -->
+<button class="group relative aspect-square glass-panel rounded-xl flex flex-col items-center justify-center border-tertiary/10 hover:border-tertiary/50 transition-all duration-500 overflow-visible" onclick="selectProtocol('Breast')">
+<div class="absolute inset-0 bg-tertiary/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
+
+<span class="material-symbols-outlined text-4xl text-tertiary group-hover:scale-110 transition-transform duration-300">female</span>
+<span class="font-data-label-sm text-[10px] mt-4 tracking-[0.2em] group-hover:text-tertiary">MAMARIO</span>
+</button>
+<button class="group relative aspect-square glass-panel rounded-xl flex flex-col items-center justify-center border-tertiary/10 hover:border-tertiary/50 transition-all duration-500" onclick="selectProtocol('Ovarian')">
+<div class="absolute inset-0 bg-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
+<span class="material-symbols-outlined text-4xl text-secondary group-hover:scale-110 transition-transform duration-300">emergency_heat</span>
+<span class="font-data-label-sm text-[10px] mt-4 tracking-[0.2em] group-hover:text-secondary">OVÁRICO</span>
+</button>
+<button class="group relative aspect-square glass-panel rounded-xl flex flex-col items-center justify-center border-tertiary/10 hover:border-tertiary/50 transition-all duration-500" onclick="selectProtocol('Testicular')">
+<div class="absolute inset-0 bg-tertiary/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
+<span class="material-symbols-outlined text-4xl text-tertiary group-hover:scale-110 transition-transform duration-300">male</span>
+<span class="font-data-label-sm text-[10px] mt-4 tracking-[0.2em] group-hover:text-tertiary">TESTICULAR</span>
+</button>
+<button class="group relative aspect-square glass-panel rounded-xl flex flex-col items-center justify-center border-tertiary/10 hover:border-tertiary/50 transition-all duration-500" onclick="selectProtocol('Prostatic')">
+<div class="absolute inset-0 bg-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
+<span class="material-symbols-outlined text-4xl text-secondary group-hover:scale-110 transition-transform duration-300">target</span>
+<span class="font-data-label-sm text-[10px] mt-4 tracking-[0.2em] group-hover:text-secondary">PROSTÁTICO</span>
+</button>
+</div>
+<!-- Step-by-Step Instructions -->
+<div class="mt-12 p-6 border-t border-outline-variant/30">
+<div class="flex items-start gap-8">
+<div class="flex-1">
+<h3 class="font-hud-header-md text-primary mb-4" id="protocol-title">PROTOCOLO SELECCIONADO: <span class="text-tertiary">GENERAL</span></h3>
+<div class="space-y-4">
+<div class="flex gap-4 items-start group">
+<div class="w-8 h-8 rounded-full border border-tertiary flex items-center justify-center text-tertiary font-bold shrink-0">01</div>
+<p class="text-on-surface font-body-standard text-sm pt-1">Inicie el escaneo visual frente a un espejo con iluminación de espectro completo. Busque asimetrías o cambios superficiales.</p>
+</div>
+<div class="flex gap-4 items-start group opacity-40">
+<div class="w-8 h-8 rounded-full border border-outline flex items-center justify-center text-outline font-bold shrink-0">02</div>
+<p class="text-on-surface font-body-standard text-sm pt-1">Aplique presión circular suave siguiendo el mapa térmico proyectado. Divida el área en cuadrantes.</p>
+</div>
+<div class="flex gap-4 items-start group opacity-40">
+<div class="w-8 h-8 rounded-full border border-outline flex items-center justify-center text-outline font-bold shrink-0">03</div>
+<p class="text-on-surface font-body-standard text-sm pt-1">Confirme la ausencia de nódulos o variaciones de densidad mediante el sensor hápico.</p>
+</div>
+</div>
+</div>
+<!-- Stability Meter -->
+<div class="w-48 flex flex-col items-center gap-4">
+<div class="relative w-32 h-32 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90">
+<circle cx="64" cy="64" fill="transparent" r="58" stroke="rgba(0, 221, 221, 0.1)" stroke-width="8"></circle>
+<circle class="transition-all duration-1000" cx="64" cy="64" fill="transparent" r="58" stroke="#00dddd" stroke-dasharray="364.4" stroke-dashoffset="80" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute flex flex-col items-center">
+<span class="font-data-display-xl text-[20px] text-tertiary">78%</span>
+<span class="text-[8px] font-body-caps">SYNC</span>
+</div>
+</div>
+<div class="text-center">
+<p class="font-body-caps text-[9px] text-tertiary tracking-widest mb-1">STABILITY METER</p>
+<div class="h-1 w-24 bg-surface-variant overflow-hidden rounded-full">
+<div class="h-full bg-tertiary w-3/4 bioluminescent-pulse"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- BÓVEDA DE TRATAMIENTOS -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Medicina Occidental -->
+<div class="glass-panel p-6 rounded-xl border-tertiary/10 hover:border-tertiary/30 transition-colors">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-tertiary">clinical_notes</span>
+<h3 class="font-hud-header-md text-[18px] text-tertiary">MEDICINA OCCIDENTAL</h3>
+</div>
+<div class="space-y-4">
+<div class="p-3 bg-surface-variant/20 rounded border-l-2 border-tertiary">
+<div class="flex justify-between text-[10px] font-body-caps text-on-surface-variant mb-1">
+<span>RX ACTIVE</span>
+<span>NEXT: 18:00</span>
+</div>
+<div class="text-sm font-bold text-on-surface">Doxiciclina 100mg</div>
+<div class="w-full bg-surface-container h-1 mt-2">
+<div class="bg-tertiary h-full w-2/3"></div>
+</div>
+</div>
+<div class="p-3 bg-surface-variant/10 rounded">
+<div class="flex justify-between items-center">
+<div class="text-xs text-on-surface-variant">Lab Results Sync</div>
+<span class="material-symbols-outlined text-sm text-green-400">check_circle</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Sabiduría Ancestral -->
+<div class="glass-panel p-6 rounded-xl border-secondary/10 hover:border-secondary/30 transition-colors">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-secondary">eco</span>
+<h3 class="font-hud-header-md text-[18px] text-secondary">SABIDURÍA ANCESTRAL</h3>
+</div>
+<div class="space-y-4">
+<div class="p-3 bg-surface-variant/20 rounded border-l-2 border-secondary">
+<div class="flex justify-between text-[10px] font-body-caps text-on-surface-variant mb-1">
+<span>ALCHEMY</span>
+<span>ALIGN: 92%</span>
+</div>
+<div class="text-sm font-bold text-on-surface">Infusión de Artemisa &amp; Myra</div>
+<div class="w-full bg-surface-container h-1 mt-2">
+<div class="bg-secondary h-full w-11/12"></div>
+</div>
+</div>
+<div class="p-3 bg-surface-variant/10 rounded">
+<div class="flex justify-between items-center">
+<div class="text-xs text-on-surface-variant">Energetic Cleansing</div>
+<span class="text-secondary font-bold text-[10px]">SCHEDULED</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- SINERGIA DE SANACIÓN -->
+<div class="glass-panel p-6 rounded-xl border-white/5">
+<h3 class="font-body-caps text-center text-on-surface-variant mb-6 tracking-[0.3em]">SINERGIA DE SANACIÓN</h3>
+<div class="relative h-12 w-full bg-surface-container rounded-full overflow-hidden flex items-center px-4">
+<div class="absolute left-0 top-0 h-full w-1/2 bg-gradient-to-r from-tertiary/20 to-transparent"></div>
+<div class="absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-secondary/20 to-transparent"></div>
+<div class="relative w-full flex justify-between items-center">
+<span class="text-tertiary font-data-label-sm text-[14px]">CLÍNICA</span>
+<div class="flex-1 flex justify-center">
+<div class="w-1 h-16 bg-white/20 absolute -top-2"></div>
+<div class="w-6 h-6 rounded-full bg-white bioluminescent-pulse shadow-[0_0_15px_white]"></div>
+</div>
+<span class="text-secondary font-data-label-sm text-[14px]">ANCESTRAL</span>
+</div>
+</div>
+<p class="text-center text-[10px] text-on-surface-variant mt-4 font-body-standard italic opacity-60">"El equilibrio entre la molécula y el espíritu garantiza la regeneración sistémica."</p>
+</div>
+</section>
+<!-- SIDEBAR CONTENT -->
+<section class="col-span-12 lg:col-span-4 space-y-8">
+<!-- SOF.IA MEDICAL ADVISOR -->
+<div class="glass-panel p-6 rounded-xl border-primary/20 relative">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary text-3xl">psychology</span>
+<h3 class="font-hud-header-md text-[20px] text-primary">SOF.IA ADVISOR</h3>
+</div>
+<div class="space-y-4">
+<div class="p-4 bg-primary/5 border border-primary/10 rounded-lg text-sm text-on-surface-variant italic leading-relaxed">
+                            "Basado en su ciclo actual y la sinergia medicamentosa, recomiendo aumentar la hidratación por 15% y programar el autoexamen mamario para dentro de 48 horas."
+                        </div>
+<div class="flex justify-between items-center pt-2">
+<button class="px-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary font-body-caps text-[10px] rounded border border-primary/30 transition-all">ANALIZAR SÍNTOMAS</button>
+<span class="text-[9px] text-primary/50 font-mono">IA v2.4.9 ACTIVE</span>
+</div>
+</div>
+
+</div>
+<!-- CRONOGRAMA DE SCREENING -->
+<div class="glass-panel p-6 rounded-xl border-white/5">
+<h3 class="font-hud-header-md text-[18px] text-on-surface mb-6">CRONOGRAMA</h3>
+<div class="space-y-6">
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="text-[14px] font-data-display-xl text-tertiary">26</div>
+<div class="text-[8px] font-body-caps text-on-surface-variant">JUN</div>
+</div>
+<div class="flex-1 border-l border-tertiary/30 pl-4">
+<div class="text-sm font-bold">Autoexamen Mamario</div>
+<div class="text-[10px] text-tertiary/70 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">schedule</span> 09:00 AM
+                                </div>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="text-[14px] font-data-display-xl text-secondary">02</div>
+<div class="text-[8px] font-body-caps text-on-surface-variant">JUL</div>
+</div>
+<div class="flex-1 border-l border-secondary/30 pl-4">
+<div class="text-sm font-bold">Laboratorio ETS/ITS</div>
+<div class="text-[10px] text-secondary/70 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">clinical_notes</span> Clínica Central
+                                </div>
+</div>
+</div>
+<div class="flex gap-4 opacity-50">
+<div class="flex flex-col items-center">
+<div class="text-[14px] font-data-display-xl text-white">15</div>
+<div class="text-[8px] font-body-caps text-on-surface-variant">JUL</div>
+</div>
+<div class="flex-1 border-l border-white/30 pl-4">
+<div class="text-sm font-bold">Ritual de Alineación Lunar</div>
+<div class="text-[10px] text-white/70 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">bedtime</span> Alquimia Ancestral
+                                </div>
+</div>
+</div>
+</div>
+<button class="w-full mt-8 py-3 bg-surface-variant/30 hover:bg-surface-variant/50 border border-outline-variant/30 text-white font-body-caps text-[11px] rounded transition-all">VER CALENDARIO COMPLETO</button>
+</div>
+<!-- QUICK DATA WIDGET -->
+<div class="glass-panel p-6 rounded-xl border-tertiary/5 relative h-40 flex flex-col justify-between">
+<div class="absolute inset-0 z-0 overflow-hidden rounded-xl">
+<div class="w-full h-full opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+</div>
+<div class="relative z-10">
+<span class="font-body-caps text-[9px] text-on-surface-variant tracking-widest">SENSITIVE DATA</span>
+<div class="mt-2 shutter-privacy" title="Long press to reveal">
+<div class="text-2xl font-data-display-xl text-tertiary">S023-M109-94</div>
+<div class="text-[10px] text-on-surface-variant">ENCRYPTED PATIENT ID</div>
+</div>
+</div>
+<div class="relative z-10 flex justify-between items-end">
+<div class="flex gap-1">
+<div class="w-1 h-3 bg-tertiary/30"></div>
+<div class="w-1 h-5 bg-tertiary/60"></div>
+<div class="w-1 h-2 bg-tertiary/40"></div>
+<div class="w-1 h-6 bg-tertiary"></div>
+</div>
+<span class="material-symbols-outlined text-tertiary/40">verified_user</span>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- BottomNavBar (Mobile only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter py-4 bg-surface-dim/60 backdrop-blur-lg border-t border-tertiary/10 shadow-[0px_-4px_20px_rgba(0,221,221,0.05)]">
+<div class="flex flex-col items-center justify-center text-outline opacity-60">
+<span class="material-symbols-outlined">baby_changing_station</span>
+<span class="font-data-label-sm text-[10px]">Reproductive</span>
+</div>
+<div class="flex flex-col items-center justify-center text-tertiary-fixed scale-110 drop-shadow-[0_0_8px_rgba(0,221,221,0.5)]">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-data-label-sm text-[10px]">Menstrual</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline opacity-60">
+<span class="material-symbols-outlined">clinical_notes</span>
+<span class="font-data-label-sm text-[10px]">Clinical</span>
+</div>
+</nav>
+<script>
+        function selectProtocol(type) {
+            const title = document.getElementById('protocol-title');
+            const colorClass = (type === 'Ovarian' || type === 'Prostatic') ? 'text-secondary' : 'text-tertiary';
+            title.innerHTML = `PROTOCOLO SELECCIONADO: <span class="${colorClass}">${type.toUpperCase()}</span>`;
+            
+            // Subtle feedback animation
+            title.classList.add('scale-105');
+            setTimeout(() => title.classList.remove('scale-105'), 200);
+            
+            console.log(`Protocol activated: ${type}`);
+        }
+
+        // Privacy reveal mechanic
+        document.querySelectorAll('.shutter-privacy').forEach(el => {
+            el.addEventListener('mousedown', () => el.style.filter = 'blur(0)');
+            el.addEventListener('mouseup', () => el.style.filter = 'blur(8px) contrast(1.2)');
+            el.addEventListener('touchstart', () => el.style.filter = 'blur(0)');
+            el.addEventListener('touchend', () => el.style.filter = 'blur(8px) contrast(1.2)');
+        });
+    </script>
+</body></html>

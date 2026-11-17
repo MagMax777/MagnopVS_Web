@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+    <link rel="stylesheet" href="./style.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Eleusis Path - Cinematic Loading</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="./catabasis-audio.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const logo =
+        document.getElementById(
+            "eleusisLogo"
+        );
+
+    const video =
+        document.getElementById(
+            "bg-video"
+        );
+
+    const foreground =
+        document.getElementById(
+            "parallax-fg"
+        );
+
+    const progressBar =
+        document.getElementById(
+            "progress-bar"
+        );
+
+    const percentage =
+        document.getElementById(
+            "loading-percentage"
+        );
+
+    const status =
+        document.getElementById(
+            "loading-status"
+        );
+
+
+    /* =========================================
+       INITIAL STATE
+       ========================================= */
+
+    let experienceStarted =
+        false;
+
+
+    /* =========================================
+       LOGO = PORTAL
+       ========================================= */
+
+    if (logo) {
+
+        logo.addEventListener(
+            "click",
+            async () => {
+
+                if (experienceStarted)
+                    return;
+
+
+                experienceStarted =
+                    true;
+
+
+                console.log(
+                    "🜏 ELEUSIS PORTAL ACTIVATED"
+                );
+
+
+                /* ---------------------------------
+                   VISUAL ACTIVATION
+                   --------------------------------- */
+
+                logo.classList.add(
+                    "portal-opening"
+                );
+
+
+                if (foreground) {
+
+                    foreground.classList.add(
+                        "portal-active"
+                    );
+
+                }
+
+
+                /* ---------------------------------
+                   VIDEO
+                   --------------------------------- */
+
+                if (video) {
+
+                    video.currentTime =
+                        0;
+
+                    video.playbackRate =
+                        0.16;
+
+                    try {
+
+                        await video.play();
+
+                        console.log(
+                            "🎥 VIDEO STARTED"
+                        );
+
+                    } catch (error) {
+
+                        console.warn(
+                            "Video error:",
+                            error
+                        );
+
+                    }
+
+                }
+
+
+                /* ---------------------------------
+                   AUDIO
+                   
+                   THIS IS THE IMPORTANT PART.
+                   
+                   It happens INSIDE the user's
+                   click event, so Chrome allows
+                   AudioContext to start.
+                   --------------------------------- */
+
+                if (
+                    window.CatabasisAudio
+                ) {
+
+                    try {
+
+                        await
+                            window.CatabasisAudio.start();
+
+                        console.log(
+                            "🎧 CATÁBASIS STARTED"
+                        );
+
+                    } catch (error) {
+
+                        console.error(
+                            "Audio error:",
+                            error
+                        );
+
+                    }
+
+                }
+
+
+                /* ---------------------------------
+                   LOADING STATUS
+                   --------------------------------- */
+
+                if (status) {
+
+                    status.textContent =
+                        "DESCENDING INTO TARTARUS...";
+
+                }
+
+
+                /* ---------------------------------
+                   RESET PROGRESS
+                   --------------------------------- */
+
+                if (progressBar) {
+
+                    progressBar.style.width =
+                        "0%";
+
+                }
+
+
+                if (percentage) {
+
+                    percentage.textContent =
+                        "0%";
+
+                }
+
+
+                /* ---------------------------------
+                   15 SECOND SYNCHRONIZATION
+                   --------------------------------- */
+
+                const start =
+                    performance.now();
+
+                const duration =
+                    15000;
+
+
+                function updateProgress(
+                    now
+                ) {
+
+                    const elapsed =
+                        now - start;
+
+
+                    let progress =
+                        elapsed /
+                        duration;
+
+
+                    if (progress > 1)
+                        progress = 1;
+
+
+                    const percent =
+                        Math.floor(
+                            progress * 100
+                        );
+
+
+                    if (progressBar) {
+
+                        progressBar.style.width =
+                            percent + "%";
+
+                    }
+
+
+                    if (percentage) {
+
+                        percentage.textContent =
+                            percent + "%";
+
+                    }
+
+
+                    if (progress < 1) {
+
+                        requestAnimationFrame(
+                            updateProgress
+                        );
+
+                    } else {
+
+                        finishCycle();
+
+                    }
+
+                }
+
+
+                requestAnimationFrame(
+                    updateProgress
+                );
+
+
+            },
+            {
+                passive: true
+            }
+        );
+
+    }
+
+
+    /* =========================================
+       FINISH 15 SECOND CYCLE
+       ========================================= */
+
+    function finishCycle() {
+
+        console.log(
+            "🜏 CATÁBASIS COMPLETE"
+        );
+
+
+        if (status) {
+
+            status.textContent =
+                "THE GATE AWAITS...";
+
+        }
+
+
+        /*
+         * Reiniciamos el video para que
+         * el siguiente ciclo empiece
+         * exactamente desde el principio.
+         */
+
+        if (video) {
+
+            video.currentTime =
+                0;
+
+        }
+
+
+        /*
+         * Reiniciamos la barra.
+         */
+
+        if (progressBar) {
+
+            progressBar.style.width =
+                "0%";
+
+        }
+
+
+        if (percentage) {
+
+            percentage.textContent =
+                "0%";
+
+        }
+
+
+        /*
+         * El audio ya tiene su propio
+         * ciclo de 15 segundos.
+         *
+         * No hacemos stop aquí.
+         */
+
+        requestAnimationFrame(
+            () => {
+
+                if (experienceStarted) {
+
+                    const start =
+                        performance.now();
+
+
+                    function loopProgress(now) {
+
+                        let progress =
+                            (
+                                now - start
+                            ) / 15000;
+
+
+                        if (progress > 1)
+                            progress = 1;
+
+
+                        const percent =
+                            Math.floor(
+                                progress * 100
+                            );
+
+
+                        if (progressBar) {
+
+                            progressBar.style.width =
+                                percent + "%";
+
+                        }
+
+
+                        if (percentage) {
+
+                            percentage.textContent =
+                                percent + "%";
+
+                        }
+
+
+                        if (progress >= 1) {
+
+                            finishCycle();
+
+                        } else {
+
+                            requestAnimationFrame(
+                                loopProgress
+                            );
+
+                        }
+
+                    }
+
+
+                    requestAnimationFrame(
+                        loopProgress
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+});
+</script>
+
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #0e1417;
+        }
+
+        /* Glassmorphism Classes */
+        .glass-panel {
+            background: rgba(14, 20, 23, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(94, 212, 255, 0.2);
+        }
+
+        /* =========================================
+        INTRO LAYOUT
+        ========================================= */
+
+        #parallax-fg {
+            min-height: 100vh;
+            min-height: 100dvh;
+        }
+
+        .intro-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+
+            max-height: 100vh;
+            max-height: 100dvh;
+
+            padding-top: clamp(20px, 4vh, 48px);
+            padding-bottom: clamp(20px, 4vh, 48px);
+
+            box-sizing: border-box;
+        }
+
+        /* Branding */
+
+        .intro-content > .text-center {
+            flex-shrink: 0;
+        }
+
+        /* Loading panel */
+
+        .intro-content .glass-panel {
+            flex-shrink: 1;
+        }
+
+        /* CTA */
+
+        #cta-container {
+            flex-shrink: 0;
+        }
+        .text-glow-primary {
+            text-shadow: 0 0 10px rgba(187, 233, 255, 0.6), 0 0 20px rgba(94, 212, 255, 0.4);
+        }
+
+        /* Particle System Base */
+        #particles-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .ember {
+            position: absolute;
+            background: #fe00fe;
+            border-radius: 50%;
+            opacity: 0;
+            animation: float-up linear forwards;
+            box-shadow: 0 0 8px 2px rgba(254, 0, 254, 0.6);
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1.2);
+                opacity: 0;
+            }
+        }
+/* =========================================
+   ELEUSIS PATH LOGO
+   ========================================= */
+
+.eleusis-logo-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.eleusis-logo {
+    width: min(520px, 75vw);
+    height: auto;
+    display: block;
+
+    opacity: 0;
+
+    filter:
+        drop-shadow(0 0 8px rgba(187, 233, 255, 0.25))
+        drop-shadow(0 0 20px rgba(94, 212, 255, 0.15));
+
+    transform:
+        translateY(18px)
+        scale(0.96);
+
+    animation:
+        eleusisLogoReveal 2s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        0.35s
+        forwards;
+
+    transition:
+        filter 0.8s ease,
+        transform 0.8s ease;
+}
+
+.eleusis-logo:hover {
+    transform: scale(1.02);
+
+    filter:
+        drop-shadow(0 0 12px rgba(187, 233, 255, 0.45))
+        drop-shadow(0 0 30px rgba(94, 212, 255, 0.25));
+}
+
+@keyframes eleusisLogoReveal {
+
+    0% {
+        opacity: 0;
+        transform:
+            translateY(18px)
+            scale(0.96);
+
+        filter:
+            blur(8px)
+            brightness(1.8)
+            drop-shadow(0 0 30px rgba(94, 212, 255, 0.8));
+    }
+
+    45% {
+        opacity: 1;
+        transform:
+            translateY(0)
+            scale(1.015);
+
+        filter:
+            blur(0)
+            brightness(1.25)
+            drop-shadow(0 0 18px rgba(94, 212, 255, 0.5));
+    }
+
+    100% {
+        opacity: 1;
+        transform:
+            translateY(0)
+            scale(1);
+
+        filter:
+            blur(0)
+            brightness(1)
+            drop-shadow(0 0 8px rgba(187, 233, 255, 0.25));
+    }
+}
+        /* Scanline Overlay */
+        .scanlines {
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+        
+        /* Progress Bar Animation */
+        .progress-bar-fill {
+            transition: width 0.1s linear;
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s ease-in forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+
+/* =========================================
+   CHAPTER CONTEXT
+   ========================================= */
+
+.chapter-context {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
+    opacity: 0;
+
+    animation:
+        chapterReveal 1.2s
+        ease-out
+        1.1s
+        forwards;
+}
+
+.chapter-meta {
+    font-family: "Orbitron", sans-serif;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+
+    color: rgba(189, 200, 207, 0.72);
+
+    text-transform: uppercase;
+}
+
+.chapter-meta span {
+    color: rgba(94, 212, 255, 0.65);
+    margin: 0 5px;
+}
+
+.chapter-title {
+    font-family: "Audiowide", sans-serif;
+
+    font-size: clamp(20px, 3vw, 30px);
+
+    letter-spacing: 0.18em;
+
+    color: #bbe9ff;
+
+    text-transform: uppercase;
+
+    text-shadow:
+        0 0 8px rgba(187, 233, 255, 0.45),
+        0 0 20px rgba(94, 212, 255, 0.2);
+}
+
+@keyframes chapterReveal {
+
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+        filter: blur(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+/* =========================================
+   ELEUSIS PORTAL
+   LOGO = ENTRY POINT
+   ========================================= */
+
+.eleusis-logo {
+    cursor: pointer;
+
+    -webkit-user-select: none;
+    user-select: none;
+
+    -webkit-user-drag: none;
+
+    touch-action: manipulation;
+
+    transition:
+        transform 0.3s ease,
+        filter 0.3s ease;
+}
+
+.eleusis-logo:hover {
+    transform: scale(1.035);
+
+    filter:
+        drop-shadow(
+            0 0 14px
+            rgba(187, 233, 255, 0.55)
+        )
+        drop-shadow(
+            0 0 32px
+            rgba(94, 212, 255, 0.35)
+        );
+}
+
+.eleusis-logo:active {
+    transform: scale(0.97);
+}
+
+
+/* =========================================
+   PORTAL ACTIVATION
+   ========================================= */
+
+.eleusis-logo.portal-opening {
+
+    animation:
+        portalActivation
+        1s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        forwards;
+}
+
+
+@keyframes portalActivation {
+
+    0% {
+
+        opacity: 1;
+
+        transform:
+            scale(1);
+
+        filter:
+            brightness(1)
+            drop-shadow(
+                0 0 10px
+                rgba(187, 233, 255, 0.3)
+            );
+    }
+
+    30% {
+
+        opacity: 1;
+
+        transform:
+            scale(1.08);
+
+        filter:
+            brightness(1.5)
+            drop-shadow(
+                0 0 30px
+                rgba(94, 212, 255, 0.7)
+            );
+    }
+
+    55% {
+
+        opacity: 1;
+
+        transform:
+            scale(0.96);
+
+        filter:
+            brightness(2)
+            drop-shadow(
+                0 0 60px
+                rgba(255,255,255,0.9)
+            );
+    }
+
+    100% {
+
+        opacity: 0;
+
+        transform:
+            scale(1.15);
+
+        filter:
+            brightness(2.5)
+            drop-shadow(
+                0 0 100px
+                rgba(255,255,255,0)
+            );
+    }
+}
+
+
+/* =========================================
+   ACTIVATION FLASH
+   ========================================= */
+
+#parallax-fg.portal-active::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background: white;
+
+    pointer-events: none;
+
+    z-index: 100;
+
+    animation:
+        portalFlash
+        0.8s
+        ease-out
+        forwards;
+}
+
+
+@keyframes portalFlash {
+
+    0% {
+        opacity: 0;
+    }
+
+    15% {
+        opacity: 0.22;
+    }
+
+    35% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+    </style>
+</head>
+
+<body class="text-on-background w-screen h-screen relative overflow-hidden">
+<!-- Video Background Container (Parallax Base) -->
+<div class="absolute inset-0 w-[110%] h-[110%] -left-[5%] -top-[5%] z-0 transition-transform duration-300 ease-out" id="parallax-bg">
+<video
+    autoplay
+    class="w-full h-full object-cover"
+    id="bg-video"
+    loop
+    muted
+    playsinline
+    src="https://jlckakyftkzgfgkmmdmc.supabase.co/storage/v1/object/public/Biblioteca/Quantvm%20Matrix/Sagas/Golden%20Apple/Eleusis%20Path/Parallax/Hades_1.mp4">
+</video>
+<!-- Tonal Overlay -->
+<div class="absolute inset-0 bg-background/50 mix-blend-multiply"></div>
+</div>
+<!-- Scanlines -->
+<div class="absolute inset-0 scanlines z-10"></div>
+<!-- Particle Layer -->
+<div id="particles-container"></div>
+<!-- Main Content Container -->
+<div
+    id="parallax-fg"
+    class="relative z-20 w-full h-full flex items-center justify-center transition-transform duration-300 ease-out"
+>
+    <div class="intro-content w-full max-w-4xl px-margin-mobile md:px-gutter">
+<!-- Branding Section -->
+<div class="text-center mb-12 flex flex-col items-center">
+
+    <!-- MagnopVS -->
+    <h2 class="font-h2 text-h2 md:font-h1 md:text-h1 text-secondary tracking-[0.2em] mb-6 opacity-80">
+        MagnopVS™
+    </h2>
+
+    <!-- Eleusis Path Logo -->
+    <div class="eleusis-logo-container">
+       <img
+            id="eleusisLogo"
+            src="https://jlckakyftkzgfgkmmdmc.supabase.co/storage/v1/object/public/Biblioteca/Quantvm%20Matrix/Sagas/Golden%20Apple/Eleusis%20Path/Logos/Eleusis_Path_Logo_1.png"
+            alt="Eleusis Path"
+            class="eleusis-logo"
+        />
+    </div>
+
+    <!-- Chapter Context -->
+    <div class="chapter-context">
+
+        <div class="chapter-meta">
+            TEMPORADA I
+            <span>•</span>
+            CAPÍTULO I EL RAPTO DE PERSEFONE
+            <span>•</span>
+            ACTO II
+        </div>
+
+        <div class="chapter-title">
+            EL DESCENSO
+        </div>
+
+    </div>
+
+    <!-- Tagline -->
+    <p class="font-label-caps text-label-caps text-on-surface-variant/80 tracking-[0.3em] mt-5">
+        "DESCENDER AL PROPIO ABISMO ES EL ÚNICO CAMINO PARA ENCONTRARSE."
+    </p>
+
+</div>
+<!-- Loading Telemetry Panel -->
+<div class="glass-panel w-full max-w-2xl p-6 rounded-lg relative overflow-hidden">
+<!-- Corner Brackets -->
+<div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-primary-container"></div>
+<div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-primary-container"></div>
+<div class="flex justify-between items-end mb-2">
+<div class="flex flex-col">
+<span class="font-code-tactical text-code-tactical text-on-surface-variant mb-1">SYSTEM STATUS</span>
+<span class="font-label-caps text-label-caps text-primary" id="loading-status">INITIALIZING TERMINAL...</span>
+</div>
+<span class="font-h3 text-h3 text-secondary" id="loading-percentage">0%</span>
+</div>
+<!-- Progress Track -->
+<div class="w-full h-1 bg-surface-container-highest relative mt-2">
+<div class="progress-bar-fill h-full bg-secondary-container absolute top-0 left-0 w-0 shadow-[0_0_10px_#fe00fe]" id="progress-bar"></div>
+</div>
+<!-- Terminal Log Snippets -->
+<div class="mt-4 font-code-tactical text-[10px] text-on-surface-variant/40 leading-tight h-10 overflow-hidden flex flex-col justify-end">
+<div class="flex flex-col gap-1" id="terminal-logs">
+<!-- Logs injected via JS -->
+</div>
+</div>
+</div>
+<!-- CTA Action (Hidden Initially) -->
+<div class="mt-12 opacity-0 pointer-events-none transition-opacity duration-1000 hidden" id="cta-container">
+<button class="relative group px-8 py-4 bg-background/50 border border-secondary/50 backdrop-blur-sm overflow-hidden transition-all hover:bg-secondary/10 hover:border-secondary hover:shadow-[0_0_15px_rgba(255,171,243,0.3)]">
+<span class="relative z-10 font-label-caps text-label-caps text-secondary group-hover:text-primary transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">power_settings_new</span>
+                    Enter the Underworld
+                </span>
+<!-- Inner Glow -->
+<div class="absolute inset-0 shadow-[inset_0_0_10px_rgba(255,171,243,0.2)] group-hover:shadow-[inset_0_0_20px_rgba(255,171,243,0.4)] transition-shadow"></div>
+</button>
+</div>
+</div>
+<!-- Scripts -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Video playback speed
+            const video = document.getElementById('bg-video');
+            if(video) {
+                video.playbackRate = 0.16;
+                video.play().catch(e => console.log('Auto-play prevented:', e));
+            }
+
+            // Parallax Effect
+            const bg = document.getElementById('parallax-bg');
+            const fg = document.getElementById('parallax-fg');
+            
+            document.addEventListener('mousemove', (e) => {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 50;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 50;
+                
+                bg.style.transform = `translate(${xAxis}px, ${yAxis}px)`;
+                fg.style.transform = `translate(${-xAxis * 0.5}px, ${-yAxis * 0.5}px)`;
+            });
+
+            // Particle System (Embers)
+            const particlesContainer = document.getElementById('particles-container');
+            const createParticle = () => {
+                const particle = document.createElement('div');
+                particle.classList.add('ember');
+                
+                // Random properties
+                const size = Math.random() * 3 + 1;
+                const left = Math.random() * 100;
+                const duration = Math.random() * 5 + 3;
+                const delay = Math.random() * 2;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${left}%`;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                particlesContainer.appendChild(particle);
+                
+                // Cleanup
+                setTimeout(() => {
+                    particle.remove();
+                }, (duration + delay) * 1000);
+            };
+
+            // Generate initial particles
+            for(let i=0; i<30; i++) {
+                setTimeout(createParticle, Math.random() * 3000);
+            }
+            setInterval(createParticle, 200);
+
+            // Loading Logic
+            const progressBar = document.getElementById('progress-bar');
+            const percentageText = document.getElementById('loading-percentage');
+            const statusText = document.getElementById('loading-status');
+            const terminalLogs = document.getElementById('terminal-logs');
+            const ctaContainer = document.getElementById('cta-container');
+            
+            const stages = [
+                'SYNCING SOUL SIGNATURE...',
+                'CALIBRATING VOID RESONANCE...',
+                'DECODING PROTOCOL 7-DELTA',
+                'ESTABLISHING NEURAL LINK...',
+                'BREACHING TARTARUS GATEWAY...'
+            ];
+            
+            const technicalLogs = [
+                '> root_access: granted',
+                '> loading_module: mnemosyne_core.sys',
+                '> mem_alloc: 0x8F92A',
+                '> warn: temporal_distortion_detected',
+                '> bypass_security: true',
+                '> init_render_engine: hds_v2.4'
+            ];
+
+            let progress = 0;
+            let currentStage = 0;
+            
+            const updateLogs = () => {
+                if(Math.random() > 0.5) {
+                    const log = document.createElement('div');
+                    log.textContent = technicalLogs[Math.floor(Math.random() * technicalLogs.length)] + ` [${Math.random().toString(16).substr(2, 6)}]`;
+                    terminalLogs.appendChild(log);
+                    if(terminalLogs.children.length > 3) {
+                        terminalLogs.removeChild(terminalLogs.firstChild);
+                    }
+                }
+            };
+
+            const startLoadingTimer = (totalDurationMs) => {
+                const updateInterval = 100;
+                const totalSteps = totalDurationMs / updateInterval;
+                const increment = 100 / totalSteps;
+
+                const simulateLoading = setInterval(() => {
+                    progress += increment;
+                    
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(simulateLoading);
+                        
+                        statusText.textContent = 'SYSTEM ONLINE. AWAITING COMMAND.';
+                        statusText.classList.replace('text-primary', 'text-tertiary');
+                        progressBar.classList.replace('bg-secondary-container', 'bg-tertiary-container');
+                        progressBar.style.boxShadow = '0 0 10px #5adcb3';
+                        
+                        // Show CTA
+                        ctaContainer.classList.remove('hidden');
+                        // Slight delay to allow display:block to apply before animating opacity
+                        setTimeout(() => {
+                            ctaContainer.classList.replace('opacity-0', 'opacity-100');
+                            ctaContainer.classList.add('fade-in');
+                            ctaContainer.classList.remove('pointer-events-none');
+                        }, 50);
+                    } else {
+                        // Update Stage Text based on progress
+                        const expectedStage = Math.floor((progress / 100) * stages.length);
+                        if (expectedStage > currentStage && expectedStage < stages.length) {
+                            currentStage = expectedStage;
+                            statusText.textContent = stages[currentStage];
+                        }
+                        updateLogs();
+                    }
+                    
+                    progressBar.style.width = `${progress}%`;
+                    percentageText.textContent = `${Math.floor(progress)}%`;
+                    
+                }, updateInterval);
+            };
+
+            if (video) {
+                if (video.readyState >= 1) {
+                    startLoadingTimer((video.duration / video.playbackRate) * 1000);
+                } else {
+                    video.addEventListener('loadedmetadata', () => {
+                        startLoadingTimer((video.duration / video.playbackRate) * 1000);
+                    });
+                }
+            } else {
+                startLoadingTimer(10000); // Default 10 seconds if no video
+            }
+        });
+    </script>
+
+    <script src="./catabasis-audio.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const button =
+        document.querySelector(
+            "#startButton, #cta-button, .start-button, .enter-button"
+        );
+
+    if (button) {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                window.CatabasisAudio.start();
+
+            }
+        );
+
+    }
+
+});
+</script>
+
+</body></html>

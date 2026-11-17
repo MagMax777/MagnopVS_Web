@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Codex Avatarika | Pleroma</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .shimmer-border {
+            position: relative;
+            overflow: hidden;
+        }
+        .shimmer-border::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 6s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+        .matrix-cell {
+            transition: all 0.3s ease;
+        }
+        .matrix-cell:hover {
+            background: rgba(0, 218, 243, 0.3);
+            box-shadow: 0 0 15px rgba(0, 218, 243, 0.5);
+        }
+        .sacred-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l2.598 1.5L30 3l-2.598-1.5L30 0zm0 60l2.598-1.5L30 57l-2.598 1.5L30 60zM0 30l1.5-2.598L3 30l-1.5 2.598L0 30zm60 0l-1.5-2.598L57 30l1.5 2.598L60 30zM15 15l1.5-2.598L18 15l-1.5 2.598L15 15zm30 30l1.5-2.598L48 45l-1.5 2.598L45 45zm0-30l1.5 2.598L48 15l-1.5-2.598L45 15zM15 45l1.5 2.598L18 45l-1.5-2.598L15 45z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        .stat-glow {
+            filter: drop-shadow(0 0 8px rgba(0, 218, 243, 0.6));
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#544600",
+                        "on-secondary": "#3a3000",
+                        "error-container": "#93000a",
+                        "on-primary": "#2f3131",
+                        "on-background": "#e5e2e1",
+                        "surface-bright": "#3a3939",
+                        "secondary": "#fff9ef",
+                        "surface": "#131313",
+                        "outline-variant": "#444748",
+                        "on-surface": "#e5e2e1",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-primary-container": "#636565",
+                        "on-primary-fixed": "#1a1c1c",
+                        "surface-container-low": "#1c1b1b",
+                        "primary-container": "#e2e2e2",
+                        "on-surface-variant": "#c4c7c8",
+                        "tertiary-fixed-dim": "#00daf3",
+                        "tertiary": "#ffffff",
+                        "on-error": "#690005",
+                        "tertiary-container": "#9cf0ff",
+                        "error": "#ffb4ab",
+                        "surface-dim": "#131313",
+                        "secondary-fixed-dim": "#e9c400",
+                        "secondary-container": "#ffdb3c",
+                        "on-primary-fixed-variant": "#454747",
+                        "primary": "#ffffff",
+                        "primary-fixed": "#e2e2e2",
+                        "secondary-fixed": "#ffe16d",
+                        "on-secondary-container": "#725f00",
+                        "surface-tint": "#c6c6c7",
+                        "outline": "#8e9192",
+                        "on-tertiary-container": "#006f7c",
+                        "on-secondary-fixed": "#221b00",
+                        "surface-variant": "#353534",
+                        "surface-container": "#201f1f",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "surface-container-highest": "#353534",
+                        "on-tertiary-fixed-variant": "#004f58",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#001f24",
+                        "on-tertiary": "#00363d",
+                        "surface-container-high": "#2a2a2a",
+                        "inverse-primary": "#5d5f5f",
+                        "inverse-on-surface": "#313030",
+                        "background": "#131313",
+                        "tertiary-fixed": "#9cf0ff"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Orbitron"],
+                        "display-hero": ["Audiowide"],
+                        "headline-lg-mobile": ["Audiowide"],
+                        "body-md": ["Orbitron"],
+                        "data-mono": ["Orbitron"],
+                        "headline-lg": ["Audiowide"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.3em", "fontWeight": "700"}],
+                        "display-hero": ["64px", {"lineHeight": "1.1", "letterSpacing": "0.2em", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "data-mono": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.15em", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface sacred-pattern min-h-screen overflow-x-hidden selection:bg-tertiary-fixed-dim selection:text-on-tertiary">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-safe h-20 bg-surface/5 backdrop-blur-xl border-b border-white/10">
+<div class="font-headline-lg text-headline-lg tracking-[0.2em] text-primary">PLEROMA</div>
+<div class="hidden md:flex gap-8 items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant/60 cursor-pointer hover:text-secondary-container transition-all duration-300">SYMMETRY</span>
+<span class="font-label-caps text-label-caps text-primary border-b-2 border-secondary-container cursor-pointer">AVATARIKA</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant/60 cursor-pointer hover:text-secondary-container transition-all duration-300">VOIDSGIFT</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-label-caps text-[10px] text-tertiary-fixed-dim">REALITY_SYNC: 100%</span>
+<span class="font-label-caps text-[10px] text-primary">ASCENSION_STATUS: PLEROMA</span>
+</div>
+</header>
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-full z-40 flex flex-col pt-24 pb-8 w-20 md:w-80 bg-surface/3 backdrop-blur-2xl border-r border-white/10 hidden md:flex">
+<div class="px-8 mb-12">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-1">DIVINE AVATAR</h2>
+<p class="font-label-caps text-label-caps text-on-surface-variant/50">UNITY_LEVEL: OMEGA</p>
+</div>
+<nav class="flex flex-col gap-2">
+<div class="flex items-center gap-4 px-8 py-4 bg-secondary-container/10 text-secondary-container border-l-4 border-secondary-container cursor-pointer transition-transform active:translate-x-1">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">architecture</span>
+<span class="font-label-caps text-label-caps">Architect</span>
+</div>
+<div class="flex items-center gap-4 px-8 py-4 text-on-surface-variant/50 hover:bg-white/5 hover:text-primary cursor-pointer transition-all">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-label-caps text-label-caps">Mystic</span>
+</div>
+<div class="flex items-center gap-4 px-8 py-4 text-on-surface-variant/50 hover:bg-white/5 hover:text-primary cursor-pointer transition-all">
+<span class="material-symbols-outlined">brightness_3</span>
+<span class="font-label-caps text-label-caps">Shadow</span>
+</div>
+</nav>
+<div class="mt-auto px-8">
+<div class="w-full aspect-video glass-panel rounded overflow-hidden relative group">
+<img alt="Core Brand Mark" class="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfvCy1Z8wfae_otb3VS-kc473i3aU7Mx0uEwPxiHO_eYQrShMRD7lZI5LR6Kw89-1aUtQFYdQWDSTrYt2cD7BXwMoiAoTwvCikvI4T15VTw2eSkzbvxi924OjQumuUgKmYHzJoxQ34ZgIQfEvlSrAl49uRR028l5ejKbOInq9yOWgUZr1HH3MKWcmQShnLk3ghzPfg5NJBD02q-HV4FPTmOCoPMKlKLEe6nEds5b_zPlvAsoz_NPbGVpxk3GindEmW2--WIN6mqtN3"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60"></div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pt-32 pb-24 px-4 md:pl-96 md:pr-12 min-h-screen">
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Identity Section (Top Row) -->
+<section class="lg:col-span-8 glass-panel p-8 rounded-xl shimmer-border">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+<div class="flex gap-6 items-center">
+<div class="w-20 h-20 rounded-full border border-tertiary-fixed-dim/30 flex items-center justify-center relative">
+<span class="material-symbols-outlined text-4xl text-tertiary-fixed-dim" style="font-variation-settings: 'FILL' 1;">token</span>
+<div class="absolute inset-0 rounded-full animate-pulse border-2 border-tertiary-fixed-dim/10"></div>
+</div>
+<div>
+<h1 class="font-display-hero text-3xl md:text-5xl text-primary leading-tight">AVATARIKA-777</h1>
+<div class="flex gap-4 mt-2">
+<span class="px-3 py-1 bg-tertiary-fixed-dim/10 text-tertiary-fixed-dim font-label-caps text-[10px] border border-tertiary-fixed-dim/20 rounded">RANK: OMEGA</span>
+<span class="px-3 py-1 bg-secondary-container/10 text-secondary-container font-label-caps text-[10px] border border-secondary-container/20 rounded">MONOMYTH: STAGE XIII</span>
+</div>
+</div>
+</div>
+<div class="w-full md:w-auto flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-label-caps text-on-surface-variant/40">CORE STABILITY</span>
+<span class="font-data-mono text-data-mono text-tertiary-fixed-dim">98.4%</span>
+</div>
+<div class="w-full md:w-48 h-1 bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-tertiary-fixed-dim animate-[pulse_2s_infinite] shadow-[0_0_10px_rgba(0,218,243,0.8)]" style="width: 98.4%"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Quick Data Grid (Top Right) -->
+<section class="lg:col-span-4 grid grid-cols-2 gap-4">
+<div class="glass-panel p-4 rounded-xl flex flex-col justify-center items-center text-center">
+<span class="font-label-caps text-[10px] text-on-surface-variant/50 mb-2">SPAWN DATA</span>
+<span class="font-data-mono text-xl text-primary">EPOCH_0</span>
+</div>
+<div class="glass-panel p-4 rounded-xl flex flex-col justify-center items-center text-center">
+<span class="font-label-caps text-[10px] text-on-surface-variant/50 mb-2">SOUL BIND</span>
+<span class="font-data-mono text-xl text-primary">SECURED</span>
+</div>
+<div class="glass-panel p-4 rounded-xl flex flex-col justify-center items-center text-center col-span-2 border-t-2 border-secondary-container/40">
+<span class="font-label-caps text-[10px] text-on-surface-variant/50 mb-1">CONSCIOUSNESS THREAD</span>
+<span class="font-data-mono text-xs text-secondary-container">#X99-AA-PLEROMA-PRIMARY</span>
+</div>
+</section>
+<!-- Configuration Matrix (Centerpiece) -->
+<section class="lg:col-span-7 flex flex-col gap-6">
+<div class="flex justify-between items-center px-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary-container">grid_view</span>
+<h3 class="font-label-caps text-label-caps">13x13 CONFIGURATION MATRIX</h3>
+</div>
+<span class="font-data-mono text-[10px] text-on-surface-variant/30">SIGNS x HOUSES</span>
+</div>
+<div class="glass-panel p-6 rounded-2xl aspect-square w-full relative overflow-hidden">
+<div class="absolute inset-0 opacity-5 pointer-events-none sacred-pattern scale-150"></div>
+<div class="grid grid-cols-13 h-full gap-1" id="matrix-container">
+<!-- Matrix generated by JS -->
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-4 border-l border-white/10">
+<p class="font-label-caps text-[10px] text-on-surface-variant/40 mb-2">ACTIVE SIGN</p>
+<p class="font-body-md text-primary">THE ETERNAL EYE</p>
+</div>
+<div class="p-4 border-l border-white/10">
+<p class="font-label-caps text-[10px] text-on-surface-variant/40 mb-2">RESONANT HOUSE</p>
+<p class="font-body-md text-primary">THE CRYSTAL VOID</p>
+</div>
+</div>
+</section>
+<!-- Base Stats Visualization -->
+<section class="lg:col-span-5 flex flex-col gap-8">
+<div class="flex flex-col gap-4">
+<h3 class="font-label-caps text-label-caps px-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary-fixed-dim">analytics</span>
+                        SCALABLE BASE STATS
+                    </h3>
+<div class="flex flex-col gap-6">
+<!-- Stat: Discipline -->
+<div class="glass-panel p-5 rounded-xl border-l-4 border-tertiary-fixed-dim">
+<div class="flex justify-between items-end mb-3">
+<span class="font-label-caps text-sm text-primary">DISCIPLINE</span>
+<span class="font-data-mono text-lg text-tertiary-fixed-dim">88</span>
+</div>
+<div class="relative h-2 bg-white/5 rounded-full overflow-hidden stat-glow">
+<div class="absolute h-full bg-tertiary-fixed-dim" style="width: 88%"></div>
+<div class="absolute h-full bg-white/40 w-8 animate-[shimmer_2s_infinite]" style="left: 60%"></div>
+</div>
+</div>
+<!-- Stat: Mental Clarity -->
+<div class="glass-panel p-5 rounded-xl border-l-4 border-secondary-container">
+<div class="flex justify-between items-end mb-3">
+<span class="font-label-caps text-sm text-primary">MENTAL CLARITY</span>
+<span class="font-data-mono text-lg text-secondary-container">94</span>
+</div>
+<div class="relative h-2 bg-white/5 rounded-full overflow-hidden">
+<div class="absolute h-full bg-secondary-container" style="width: 94%"></div>
+</div>
+</div>
+<!-- Stat: Vital Energy -->
+<div class="glass-panel p-5 rounded-xl border-l-4 border-on-surface-variant">
+<div class="flex justify-between items-end mb-3">
+<span class="font-label-caps text-sm text-primary">VITAL ENERGY</span>
+<span class="font-data-mono text-lg text-on-surface-variant">72</span>
+</div>
+<div class="relative h-2 bg-white/5 rounded-full overflow-hidden">
+<div class="absolute h-full bg-on-surface-variant" style="width: 72%"></div>
+</div>
+</div>
+<!-- Stat: Consciousness -->
+<div class="glass-panel p-5 rounded-xl border-l-4 border-primary">
+<div class="flex justify-between items-end mb-3">
+<span class="font-label-caps text-sm text-primary">CONSCIOUSNESS</span>
+<span class="font-data-mono text-lg text-primary">100</span>
+</div>
+<div class="relative h-2 bg-white/10 rounded-full overflow-hidden">
+<div class="absolute h-full bg-primary" style="width: 100%"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></div>
+</div>
+</div>
+<!-- Stat: Resilience -->
+<div class="glass-panel p-5 rounded-xl border-l-4 border-error">
+<div class="flex justify-between items-end mb-3">
+<span class="font-label-caps text-sm text-primary">RESILIENCE</span>
+<span class="font-data-mono text-lg text-error">81</span>
+</div>
+<div class="relative h-2 bg-white/5 rounded-full overflow-hidden">
+<div class="absolute h-full bg-error" style="width: 81%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Aesthetic Actions -->
+<div class="mt-auto grid grid-cols-1 gap-4">
+<button class="w-full py-4 glass-panel border border-tertiary-fixed-dim/20 rounded font-label-caps text-label-caps hover:bg-tertiary-fixed-dim/10 hover:text-tertiary-fixed-dim transition-all group relative overflow-hidden">
+<span class="relative z-10">SYNCHRONIZE CODEX</span>
+<div class="absolute inset-0 bg-tertiary-fixed-dim/5 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+</button>
+<button class="w-full py-4 border border-white/10 rounded font-label-caps text-label-caps text-on-surface-variant/40 hover:text-primary transition-colors">
+                        EXPORT SOUL DATA (.CSV)
+                    </button>
+</div>
+</section>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mobile only) -->
+<footer class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin-safe py-4 bg-surface/5 backdrop-blur-xl border-t border-white/10">
+<div class="flex flex-col items-center justify-center text-on-surface-variant/40 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">all_inclusive</span>
+<span class="font-label-caps text-[8px] mt-1">CYCLE</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] scale-110 duration-500">
+<span class="material-symbols-outlined">language</span>
+<span class="font-label-caps text-[8px] mt-1">REALITIES</span>
+</div>
+</footer>
+<script>
+        // Matrix Generation Logic
+        const matrixContainer = document.getElementById('matrix-container');
+        const rows = 13;
+        const cols = 13;
+
+        for (let i = 0; i < rows * cols; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'matrix-cell bg-white/5 border border-white/5 rounded-[1px] cursor-crosshair';
+            
+            // Randomly activate some cells for visual interest
+            if (Math.random() > 0.85) {
+                cell.classList.add('bg-tertiary-fixed-dim/40', 'border-tertiary-fixed-dim/50');
+            } else if (Math.random() > 0.95) {
+                cell.classList.add('bg-secondary-container/40', 'border-secondary-container/50');
+            }
+
+            // Hover effect handler
+            cell.addEventListener('mouseenter', () => {
+                const opacity = Math.random() * 0.5 + 0.3;
+                cell.style.backgroundColor = `rgba(0, 218, 243, ${opacity})`;
+            });
+
+            matrixContainer.appendChild(cell);
+        }
+
+        // Atmosphere: Random glitch effect for HUD feeling
+        setInterval(() => {
+            const elements = document.querySelectorAll('.font-data-mono');
+            const target = elements[Math.floor(Math.random() * elements.length)];
+            const originalText = target.innerText;
+            
+            if (Math.random() > 0.9) {
+                target.innerText = "ERR_NULL";
+                target.classList.add('text-error');
+                setTimeout(() => {
+                    target.innerText = originalText;
+                    target.classList.remove('text-error');
+                }, 150);
+            }
+        }, 4000);
+    </script>
+</body></html>

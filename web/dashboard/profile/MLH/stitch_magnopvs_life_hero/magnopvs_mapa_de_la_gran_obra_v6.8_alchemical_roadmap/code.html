@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mapa de la Gran Obra v6.8 | Teatro del Destino</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Hanken+Grotesk:wght@300;400;700&amp;family=Orbitron:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary": "#47ddc1",
+                        "on-surface": "#e0e3e6",
+                        "on-tertiary-fixed": "#390625",
+                        "on-primary-fixed-variant": "#004c6a",
+                        "on-secondary-fixed-variant": "#005144",
+                        "surface-container": "#1c2023",
+                        "surface-tint": "#7fd0ff",
+                        "background": "#101417",
+                        "on-secondary-fixed": "#00201a",
+                        "on-error": "#690005",
+                        "primary-container": "#7fd0ff",
+                        "on-secondary-container": "#004439",
+                        "surface-container-low": "#181c1f",
+                        "primary-fixed-dim": "#7fd0ff",
+                        "tertiary-container": "#ffafd4",
+                        "outline-variant": "#3f484e",
+                        "tertiary-fixed": "#ffd8e7",
+                        "inverse-primary": "#00658b",
+                        "on-background": "#e0e3e6",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-container": "#00597b",
+                        "error": "#ffb4ab",
+                        "surface-panel": "rgba(255, 255, 255, 0.03)",
+                        "tertiary": "#ffd8e7",
+                        "on-surface-variant": "#bfc8cf",
+                        "surface-container-highest": "#313538",
+                        "surface-container-lowest": "#0b0f11",
+                        "surface-dim": "#101417",
+                        "on-tertiary-container": "#7c3e5e",
+                        "inverse-on-surface": "#2d3134",
+                        "on-secondary": "#00382e",
+                        "tertiary-fixed-dim": "#ffafd4",
+                        "secondary-container": "#00bba0",
+                        "surface": "#101417",
+                        "surface-container-high": "#272a2d",
+                        "primary-fixed": "#c5e7ff",
+                        "on-tertiary": "#531c3b",
+                        "error-container": "#93000a",
+                        "surface-variant": "#313538",
+                        "glow-cyan": "#2da8e0",
+                        "status-critical": "#93000a",
+                        "on-primary": "#00344a",
+                        "on-primary-fixed": "#001e2d",
+                        "background-deep": "#0a0b12",
+                        "outline": "#899299",
+                        "secondary-fixed-dim": "#47ddc1",
+                        "primary": "#c5e7ff",
+                        "surface-bright": "#363a3d",
+                        "on-tertiary-fixed-variant": "#6e3252",
+                        "grid-line": "rgba(127, 208, 255, 0.05)",
+                        "secondary-fixed": "#6af9dc",
+                        "inverse-surface": "#e0e3e6"
+                    },
+                    spacing: {
+                        "unit": "4px",
+                        "section-padding": "128px",
+                        "margin-desktop": "40px",
+                        "panel-gap": "12px",
+                        "gutter": "16px",
+                        "margin-mobile": "20px"
+                    },
+                    fontFamily: {
+                        "headline-md": ["Orbitron", "sans-serif"],
+                        "display-lg": ["Orbitron", "sans-serif"],
+                        "data-point": ["JetBrains Mono", "monospace"],
+                        "mono-data": ["JetBrains Mono", "monospace"],
+                        "micro-tag": ["JetBrains Mono", "monospace"],
+                        "label-caps": ["JetBrains Mono", "monospace"],
+                        "body-md": ["Hanken Grotesk", "sans-serif"]
+                    },
+                    fontSize: {
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "data-point": ["20px", { "lineHeight": "28px", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "mono-data": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "micro-tag": ["10px", { "letterSpacing": "0.3em", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #0b0f11;
+            color: #e0e3e6;
+            overflow-x: hidden;
+        }
+
+        .cyber-grid {
+            background-image: 
+                linear-gradient(rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(127, 208, 255, 0.15);
+        }
+
+        .stage-card {
+            clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .stage-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 0 30px rgba(127, 208, 255, 0.15);
+        }
+
+        @keyframes neon-pulse {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 5px currentColor); }
+            50% { opacity: 0.6; filter: drop-shadow(0 0 12px currentColor); }
+        }
+
+        .pulse-icon {
+            animation: neon-pulse 3s infinite ease-in-out;
+        }
+
+        .hexagon-mask {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        .path-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: dash 5s linear forwards;
+        }
+
+        @keyframes dash {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .segmented-progress div {
+            width: calc(10% - 2px);
+            height: 100%;
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .active-segment {
+            box-shadow: 0 0 8px currentColor;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md antialiased">
+<!-- Background Layer -->
+<div class="fixed inset-0 z-[-1] cyber-grid pointer-events-none"></div>
+<div class="fixed inset-0 z-[-2] bg-gradient-to-tr from-surface-container-lowest via-background to-surface-container-low"></div>
+<div class="fixed inset-0 z-[-1] opacity-20 pointer-events-none">
+
+</div>
+<!-- Navigation Shell -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-background/40 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(0,220,229,0.1)]">
+<div class="flex items-center gap-6">
+<span class="font-display-xl-mobile text-display-xl-mobile tracking-widest text-on-surface uppercase font-headline-md">TEATRO DEL DESTINO</span>
+<div class="hidden md:flex gap-8">
+<a class="font-title-md text-title-md text-tertiary border-b border-tertiary pb-1 hover:text-tertiary transition-all duration-500" href="#">THE GREAT WORK</a>
+<a class="font-title-md text-title-md text-on-surface-variant hover:text-tertiary transition-all duration-500" href="#">GRIMOIRE</a>
+<a class="font-title-md text-title-md text-on-surface-variant hover:text-tertiary transition-all duration-500" href="#">SANCTUM</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center gap-2 px-4 py-1.5 glass-panel rounded-full border-primary/20">
+<span class="material-symbols-outlined text-primary text-sm">payments</span>
+<span class="font-mono-data text-primary text-sm">BALANCE: 1250 CR</span>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-tertiary transition-all">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-tertiary transition-all">settings</span>
+<div class="w-10 h-10 rounded-full border border-primary/40 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A highly detailed close-up of a futuristic cybernetic avatar profile picture. The face features intricate glowing blue circuitry patterns and a sleek matte black finish. Cinematic lighting with deep shadows and soft cyan neon highlights, creating a sense of advanced digital enlightenment and technical precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDq7O2AcUrRrtSM-uri2PK8kMZ88WhD0BEVkk3moeym-5jaqBrniGwwNfeYIfyCHataa7wqUUcRfBxpZdqYf0TbnfXZX6xevIuFBn7cpDzIMmgFCkmfH6dq98oED6IKtQI9OLUsPl811awy5s8ITWD-p_JiR5biCAqE9g5-0S_pNA7mZT4fuaqeC0sliPkNO-WkDVL9FgGDRecw-OMNdiV1VDNcfjUJET3ZicY6l4y58VNC-jYvXAtF1w"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- Side Navigation -->
+<aside class="fixed left-0 top-20 h-[calc(100vh-80px)] flex flex-col py-8 bg-surface-container-lowest/60 backdrop-blur-2xl border-r border-outline-variant/20 shadow-2xl shadow-black z-40 hidden md:flex w-64">
+<div class="px-6 mb-12">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 hexagon-mask bg-tertiary/20 flex items-center justify-center border border-tertiary/40">
+<span class="material-symbols-outlined text-tertiary text-xl" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div>
+<h3 class="font-label-caps text-label-caps text-on-surface uppercase">THE GREAT WORK</h3>
+<p class="text-[10px] text-on-surface-variant font-mono-data uppercase opacity-60">Ascension Protocol</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-4 px-6 py-4 bg-tertiary-container/30 text-tertiary border-l-2 border-tertiary font-label-caps text-label-caps uppercase hover:translate-x-1 duration-300" href="#">
+<span class="material-symbols-outlined">nights_stay</span> NIGREDO
+            </a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant hover:text-on-surface font-label-caps text-label-caps uppercase hover:translate-x-1 duration-300 hover:bg-surface-variant/40 transition-colors" href="#">
+<span class="material-symbols-outlined">brightness_high</span> ALBEDO
+            </a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant hover:text-on-surface font-label-caps text-label-caps uppercase hover:translate-x-1 duration-300 hover:bg-surface-variant/40 transition-colors" href="#">
+<span class="material-symbols-outlined">wb_sunny</span> CITRINITAS
+            </a>
+<a class="flex items-center gap-4 px-6 py-4 text-on-surface-variant hover:text-on-surface font-label-caps text-label-caps uppercase hover:translate-x-1 duration-300 hover:bg-surface-variant/40 transition-colors" href="#">
+<span class="material-symbols-outlined">flare</span> RUBEDO
+            </a>
+</div>
+<div class="mt-auto px-6">
+<button class="w-full py-4 bg-secondary text-on-secondary font-headline-md text-sm uppercase flex items-center justify-center gap-2 clip-path-slant hover:brightness-110 transition-all shadow-lg shadow-secondary/20">
+<span class="material-symbols-outlined text-sm">history_edu</span>
+                TRANSMUTE ESSENCE
+            </button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="md:ml-64 pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
+<!-- Header Section -->
+<header class="mb-16">
+<div class="flex items-baseline gap-4 mb-2">
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface uppercase">MAPA DE LA GRAN OBRA</h1>
+<span class="font-mono-data text-secondary text-sm px-2 py-0.5 border border-secondary/30 bg-secondary/5">v6.8_STABLE</span>
+</div>
+<p class="text-on-surface-variant max-w-2xl font-body-md opacity-80">Visualizing the metaphysical trajectory of the soul within the Teatro del Destino simulation. Monitor stage progression, tactical advice, and active buffs.</p>
+</header>
+<!-- The Roadmap Visualization (Sacred Geometry Flow) -->
+<section class="relative w-full h-[600px] mb-24 flex items-center justify-center">
+<!-- Central SVG Flow Lines -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none opacity-40" viewbox="0 0 1000 600">
+<path class="path-line fill-none stroke-secondary" d="M200,300 C350,150 650,450 800,300" stroke-width="2"></path>
+<path class="path-line fill-none stroke-tertiary" d="M200,300 Q500,50 800,300" stroke-width="1"></path>
+<path class="path-line fill-none stroke-glow-cyan" d="M200,300 Q500,550 800,300" stroke-width="1"></path>
+<!-- Orbital Circles -->
+<circle cx="500" cy="300" fill="none" r="220" stroke="rgba(127, 208, 255, 0.1)" stroke-dasharray="10 5"></circle>
+</svg>
+<!-- Stages Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-panel-gap w-full relative z-10">
+<!-- Nigredo Stage -->
+<div class="stage-card glass-panel p-6 border-l-4 border-gray-600/50">
+<div class="flex justify-between items-start mb-6">
+<div>
+<span class="font-micro-tag text-micro-tag text-on-surface-variant uppercase mb-1 block">STAGE 01</span>
+<h2 class="font-headline-md text-headline-md text-on-surface uppercase">NIGREDO</h2>
+</div>
+<span class="material-symbols-outlined text-gray-500 pulse-icon" style="font-variation-settings: 'FILL' 1;">nights_stay</span>
+</div>
+<p class="text-sm text-on-surface-variant mb-8 h-12 overflow-hidden">Confrontation with the shadow. Death of the ego and initial decay.</p>
+<div class="space-y-4">
+<div class="flex justify-between text-xs font-mono-data">
+<span>PROGRESS</span>
+<span class="text-secondary">100%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest flex gap-1">
+<div class="flex-1 bg-secondary shadow-[0_0_8px_rgba(71,221,193,0.5)]"></div>
+<div class="flex-1 bg-secondary shadow-[0_0_8px_rgba(71,221,193,0.5)]"></div>
+<div class="flex-1 bg-secondary shadow-[0_0_8px_rgba(71,221,193,0.5)]"></div>
+<div class="flex-1 bg-secondary shadow-[0_0_8px_rgba(71,221,193,0.5)]"></div>
+</div>
+<div class="font-mono-data text-[10px] text-on-surface-variant opacity-60">Status: COMPLETE_VOID</div>
+</div>
+</div>
+<!-- Albedo Stage -->
+<div class="stage-card glass-panel p-6 border-l-4 border-primary/50 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2">
+<span class="material-symbols-outlined text-primary text-[64px] opacity-5">brightness_high</span>
+</div>
+<div class="flex justify-between items-start mb-6">
+<div>
+<span class="font-micro-tag text-micro-tag text-on-surface-variant uppercase mb-1 block">STAGE 02</span>
+<h2 class="font-headline-md text-headline-md text-on-surface uppercase">ALBEDO</h2>
+</div>
+<span class="material-symbols-outlined text-primary pulse-icon" style="font-variation-settings: 'FILL' 1;">brightness_high</span>
+</div>
+<p class="text-sm text-on-surface-variant mb-8 h-12 overflow-hidden">Purification and washing of the soul. Reflection of the inner silver light.</p>
+<div class="space-y-4">
+<div class="flex justify-between text-xs font-mono-data">
+<span>PROGRESS</span>
+<span class="text-primary">68%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest flex gap-1">
+<div class="flex-1 bg-primary"></div>
+<div class="flex-1 bg-primary"></div>
+<div class="flex-1 bg-primary"></div>
+<div class="flex-1 bg-surface-container/50"></div>
+</div>
+<div class="font-mono-data text-[10px] text-primary opacity-80">ACTIVE_TRANSFORMATION</div>
+</div>
+</div>
+<!-- Citrinitas Stage -->
+<div class="stage-card glass-panel p-6 border-l-4 border-yellow-500/20 grayscale opacity-60 hover:grayscale-0 hover:opacity-100">
+<div class="flex justify-between items-start mb-6">
+<div>
+<span class="font-micro-tag text-micro-tag text-on-surface-variant uppercase mb-1 block">STAGE 03</span>
+<h2 class="font-headline-md text-headline-md text-on-surface uppercase">CITRINITAS</h2>
+</div>
+<span class="material-symbols-outlined text-yellow-500" style="font-variation-settings: 'FILL' 0;">wb_sunny</span>
+</div>
+<p class="text-sm text-on-surface-variant mb-8 h-12 overflow-hidden">Awakening of the solar consciousness. Spiritual sunrise and wisdom.</p>
+<div class="space-y-4">
+<div class="flex justify-between text-xs font-mono-data">
+<span>PROGRESS</span>
+<span class="text-on-surface-variant">0%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest flex gap-1">
+<div class="flex-1 bg-surface-container/20"></div>
+<div class="flex-1 bg-surface-container/20"></div>
+<div class="flex-1 bg-surface-container/20"></div>
+<div class="flex-1 bg-surface-container/20"></div>
+</div>
+<div class="font-mono-data text-[10px] text-on-surface-variant opacity-60">LOCKED_BY_ALBEDO</div>
+</div>
+</div>
+<!-- Rubedo Stage -->
+<div class="stage-card glass-panel p-6 border-l-4 border-error/20 grayscale opacity-60 hover:grayscale-0 hover:opacity-100">
+<div class="flex justify-between items-start mb-6">
+<div>
+<span class="font-micro-tag text-micro-tag text-on-surface-variant uppercase mb-1 block">STAGE 04</span>
+<h2 class="font-headline-md text-headline-md text-on-surface uppercase">RUBEDO</h2>
+</div>
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 0;">flare</span>
+</div>
+<p class="text-sm text-on-surface-variant mb-8 h-12 overflow-hidden">The final integration. Union of opposites and the Great Work complete.</p>
+<div class="space-y-4">
+<div class="flex justify-between text-xs font-mono-data">
+<span>PROGRESS</span>
+<span class="text-on-surface-variant">0%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest flex gap-1">
+<div class="flex-1 bg-surface-container/20"></div>
+<div class="flex-1 bg-surface-container/20"></div>
+<div class="flex-1 bg-surface-container/20"></div>
+<div class="flex-1 bg-surface-container/20"></div>
+</div>
+<div class="font-mono-data text-[10px] text-on-surface-variant opacity-60">SOUL_LEVEL_INSUFFICIENT</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Layout for Data Panels -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Alchemical Telemetry -->
+<div class="md:col-span-4 glass-panel p-8 relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-glow-cyan"></div>
+<h3 class="font-headline-md text-sm text-glow-cyan uppercase mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">analytics</span>
+                    ALCHEMICAL TELEMETRY
+                </h3>
+<div class="space-y-8">
+<div>
+<span class="font-mono-data text-xs text-on-surface-variant opacity-60">SOUL ALIGNMENT SCORE</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-display-lg text-primary text-4xl">8,420</span>
+<span class="font-mono-data text-secondary text-xs">+1.2% / hr</span>
+</div>
+</div>
+<div class="p-4 bg-surface-container/50 border border-outline-variant/30">
+<div class="flex justify-between items-center mb-4">
+<span class="font-label-caps text-[10px]">TRANSMUTATION RATE</span>
+<span class="text-xs font-mono-data text-secondary">ACTIVE</span>
+</div>
+<div class="flex gap-1 h-3 segmented-progress text-secondary">
+<div class="active-segment bg-secondary"></div>
+<div class="active-segment bg-secondary"></div>
+<div class="active-segment bg-secondary"></div>
+<div class="active-segment bg-secondary"></div>
+<div class="active-segment bg-secondary"></div>
+<div class="active-segment bg-secondary"></div>
+<div class="bg-surface-variant"></div>
+<div class="bg-surface-variant"></div>
+<div class="bg-surface-variant"></div>
+<div class="bg-surface-variant"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- SOF.IA Tactical Advice -->
+<div class="md:col-span-5 glass-panel p-8 relative">
+<div class="absolute top-4 right-4">
+<span class="flex h-3 w-3 relative">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-secondary"></span>
+</span>
+</div>
+<h3 class="font-headline-md text-sm text-tertiary uppercase mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">smart_toy</span>
+                    SOF.IA TACTICAL ADVICE
+                </h3>
+<div class="font-mono-data text-sm leading-relaxed text-on-surface-variant bg-surface-container-lowest/40 p-4 border-l-2 border-tertiary/40">
+<p class="mb-4">"The silver path of <span class="text-primary">Albedo</span> requires absolute transparency of the ego. Your current resonance indicates a lingering attachment to Nigredo shadow structures."</p>
+<p class="text-primary/80">RECOMMENDED ACTION: Initialize 'Void Breath' protocols during the next lunar cycle to accelerate purification rate by 15%.</p>
+</div>
+<div class="mt-6 flex gap-4">
+<button class="px-4 py-2 border border-tertiary/30 text-tertiary font-label-caps text-[10px] hover:bg-tertiary/10 transition-all">ACKNOWLEDGE</button>
+<button class="px-4 py-2 border border-outline/30 text-on-surface-variant font-label-caps text-[10px] hover:bg-surface-variant/40 transition-all">DISMISS</button>
+</div>
+</div>
+<!-- Active Buffs/Relics -->
+<div class="md:col-span-3 glass-panel p-8">
+<h3 class="font-headline-md text-sm text-on-surface uppercase mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">shield_moon</span>
+                    ACTIVE BUFFS
+                </h3>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col items-center gap-2 p-3 glass-panel border-primary/20 hover:bg-primary/5 transition-all cursor-help group">
+<span class="material-symbols-outlined text-primary text-3xl pulse-icon">diamond</span>
+<span class="font-label-caps text-[10px] text-center">CRYSTAL HEART</span>
+</div>
+<div class="flex flex-col items-center gap-2 p-3 glass-panel border-secondary/20 hover:bg-secondary/5 transition-all cursor-help group">
+<span class="material-symbols-outlined text-secondary text-3xl">bolt</span>
+<span class="font-label-caps text-[10px] text-center">NEURAL LINK</span>
+</div>
+<div class="flex flex-col items-center gap-2 p-3 glass-panel border-tertiary/20 hover:bg-tertiary/5 transition-all cursor-help group">
+<span class="material-symbols-outlined text-tertiary text-3xl">ac_unit</span>
+<span class="font-label-caps text-[10px] text-center">SILVER DEW</span>
+</div>
+<div class="flex flex-col items-center gap-2 p-3 glass-panel border-outline/20 opacity-30">
+<span class="material-symbols-outlined text-2xl">add</span>
+<span class="font-label-caps text-[10px] text-center">EMPTY SLOT</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="fixed bottom-0 w-full z-40 flex justify-between items-center px-6 py-3 bg-background border-t border-outline-variant/10 font-mono-data text-[10px]">
+<div class="flex items-center gap-6 text-on-surface-variant">
+<span class="uppercase tracking-widest font-label-caps text-on-primary-container">© 2144 TEATRO DEL DESTINO</span>
+<span class="hidden md:inline text-secondary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+                SYSTEM STATUS: OPTIMAL
+            </span>
+<span class="hidden md:inline text-primary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                NEURAL LINK: ACTIVE
+            </span>
+</div>
+<div class="flex gap-4">
+<a class="text-on-surface-variant hover:text-primary transition-opacity opacity-80 hover:opacity-100 uppercase" href="#">LOGOUT</a>
+</div>
+</footer>
+<!-- Interactive Micro-Interactions Script -->
+<script>
+        // Simple ambient cursor interaction
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            const grid = document.querySelector('.cyber-grid');
+            if (grid) {
+                grid.style.transform = `translate(${x * 10}px, ${y * 10}px)`;
+            }
+        });
+
+        // Stage card interaction simulation
+        const cards = document.querySelectorAll('.stage-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                const icon = card.querySelector('.material-symbols-outlined');
+                if (icon) {
+                    icon.style.fontVariationSettings = "'FILL' 1";
+                }
+            });
+            card.addEventListener('mouseleave', () => {
+                const icon = card.querySelector('.material-symbols-outlined');
+                const isComplete = card.innerText.includes('COMPLETE');
+                if (icon && !isComplete) {
+                    icon.style.fontVariationSettings = "'FILL' 0";
+                }
+            });
+        });
+    </script>
+</body></html>

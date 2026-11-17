@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOP-VS | DAILY QUEST</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "surface-tint": "#7fd0ff",
+                "tertiary-fixed": "#ffd8e7",
+                "secondary-fixed-dim": "#48ddc1",
+                "primary-fixed-dim": "#7fd0ff",
+                "outline": "#88929a",
+                "inverse-primary": "#00658c",
+                "surface-container-highest": "#303539",
+                "surface": "#0f1417",
+                "secondary": "#48ddc1",
+                "on-error-container": "#ffdad6",
+                "on-secondary-fixed": "#00201a",
+                "surface-variant": "#303539",
+                "on-surface-variant": "#bec8d0",
+                "on-primary-fixed-variant": "#004c6a",
+                "on-background": "#dfe3e8",
+                "surface-bright": "#353a3e",
+                "error": "#ffb4ab",
+                "surface-dim": "#0f1417",
+                "on-tertiary-container": "#6a0046",
+                "surface-container-high": "#262b2e",
+                "surface-container": "#1b2024",
+                "on-tertiary-fixed-variant": "#8b005d",
+                "on-primary": "#00344a",
+                "tertiary": "#ffafd4",
+                "inverse-surface": "#dfe3e8",
+                "surface-container-lowest": "#0a0f12",
+                "primary-fixed": "#c5e7ff",
+                "on-tertiary": "#620041",
+                "on-secondary-fixed-variant": "#005144",
+                "primary-container": "#2da8e0",
+                "error-container": "#93000a",
+                "tertiary-container": "#ff64ba",
+                "surface-container-low": "#171c20",
+                "on-error": "#690005",
+                "on-primary-container": "#003951",
+                "secondary-container": "#00bba0",
+                "outline-variant": "#3e484f",
+                "secondary-fixed": "#6af9dc",
+                "on-secondary": "#00382e",
+                "tertiary-fixed-dim": "#ffafd4",
+                "primary": "#7fd0ff",
+                "on-secondary-container": "#004439",
+                "on-primary-fixed": "#001e2d",
+                "background": "#0f1417",
+                "on-tertiary-fixed": "#3d0026",
+                "on-surface": "#dfe3e8",
+                "inverse-on-surface": "#2c3135"
+            },
+            "fontFamily": {
+                "body-lg": ["Space Mono"],
+                "data-viz": ["Space Mono"],
+                "body-sm": ["Space Mono"],
+                "display-lg-mobile": ["Space Grotesk"],
+                "label-caps": ["Space Mono"],
+                "headline-md": ["Space Grotesk"],
+                "display-lg": ["Space Grotesk"]
+            },
+            "fontSize": {
+                "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                "data-viz": ["18px", {"lineHeight": "1.0", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.15em", "fontWeight": "700"}],
+                "headline-md": ["24px", {"lineHeight": "1.3", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "700"}]
+            },
+            "boxShadow": {
+                "glow-cyan": "0 0 20px rgba(127, 208, 255, 0.3)",
+                "glow-neon": "0 0 15px rgba(72, 221, 193, 0.4)"
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        @font-face {
+            font-family: 'Space Mono';
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Space Grotesk';
+            font-style: normal;
+        }
+
+        body {
+            background-color: #0a0b10;
+            background-image: 
+                linear-gradient(rgba(72, 221, 193, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(72, 221, 193, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            overflow-x: hidden;
+        }
+
+        .hex-grid {
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='104' viewBox='0 0 60 104' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l30 17.32v34.64L30 69.28 0 51.96V17.32L30 0z' fill-opacity='0.03' fill='%2348ddc1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .glass-panel {
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(15, 20, 23, 0.7);
+        }
+
+        .neon-border {
+            border: 1px solid #48ddc1;
+            box-shadow: 0 0 10px rgba(72, 221, 193, 0.5);
+        }
+
+        .progress-segment {
+            height: 8px;
+            width: 100%;
+            background: #1b2024;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                #48ddc1,
+                #48ddc1 4px,
+                #00bba0 4px,
+                #00bba0 8px
+            );
+            transition: width 1s ease-out;
+        }
+
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 10;
+            background: linear-gradient(0deg, rgba(72, 221, 193, 0) 0%, rgba(72, 221, 193, 0.1) 50%, rgba(72, 221, 193, 0) 100%);
+            opacity: 0.1;
+            position: absolute;
+            bottom: 100%;
+            animation: scanline 8s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { bottom: 100%; }
+            100% { bottom: -100px; }
+        }
+
+        .pulse-error {
+            animation: pulse-red 2s infinite;
+        }
+
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(147, 0, 10, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(147, 0, 10, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(147, 0, 10, 0); }
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="font-body-lg text-on-background min-h-screen">
+<div class="hex-grid"></div>
+<div class="scanline"></div>
+<!-- TopNavBar (Shared Component) -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-8 md:px-16 h-16 bg-surface-container/30 backdrop-blur-3xl border-b border-outline-variant/20 shadow-glow-cyan">
+<div class="flex items-center gap-6">
+<span class="font-display-lg-mobile text-display-lg-mobile tracking-tighter text-secondary drop-shadow-[0_0_15px_rgba(71,221,193,0.5)]">MAGNOP-VS</span>
+<nav class="hidden lg:flex gap-8 items-center">
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary transition-all" href="#">TACTICAL</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary transition-all" href="#">SKILLS</a>
+<a class="text-secondary border-b-2 border-secondary pb-1 font-label-caps text-label-caps" href="#">ARSENAL</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary transition-all" href="#">COSMOS</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex flex-col items-end mr-4">
+<span class="font-mono-data text-mono-data text-secondary">LEVEL 84</span>
+<span class="font-mono-data text-[10px] text-primary-fixed-dim tracking-[0.2em]">+XP OVERRIDE</span>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-secondary transition-colors">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-secondary transition-colors">settings</button>
+<div class="w-10 h-10 rounded-full border border-secondary p-0.5 overflow-hidden">
+<img class="w-full h-full object-cover rounded-full" data-alt="A futuristic pilot avatar with cybernetic eye implants and sleek dark tactical gear. The character is illuminated by neon cyan HUD elements reflecting on their face. The background is a dark high-tech cockpit with glowing controls and deep space visible through a window." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlu-0rDUzdjCi6hgokvnRgUxf73zK9uMX4h8T8yV2HYk_uEj_9432IGWHp_9sk2zMg7IBf3l_PDpPBbzU6qqF4ldem_Cql8HdiE8we2qgP6WPD27HS2yoJE4CEoy5hhLvjuNkB3jYcGpmIAR2X4njJJuffwUWkJSKM8eYUXx3yt5htQMkg41yaEQ3sNjC4T6OJs_AJXpQTZHBpcm-UQ9vNblHalprCeEdtvN9iM1AJJG8n1rZSuDbvxA"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar (Shared Component) -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] z-40 flex flex-col pt-8 pb-4 w-64 bg-surface-container-low/20 backdrop-blur-2xl border-r border-outline-variant/20">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-8 h-8 flex items-center justify-center bg-secondary/20 rounded border border-secondary/40">
+<span class="material-symbols-outlined text-secondary text-sm">shield</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-sm leading-none">HERO_DETAIL</h3>
+<p class="text-[10px] font-label-caps text-on-surface-variant">Vanguard Class v4.2</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="text-on-surface-variant px-6 py-3 flex items-center gap-3 font-label-caps text-label-caps hover:bg-white/5 hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined">fitness_center</span> Somatic
+            </a>
+<a class="text-on-surface-variant px-6 py-3 flex items-center gap-3 font-label-caps text-label-caps hover:bg-white/5 hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined">psychology</span> Cognitive
+            </a>
+<a class="bg-secondary/10 text-secondary border-l-4 border-secondary px-6 py-3 flex items-center gap-3 font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined">auto_awesome</span> Ethereal
+            </a>
+<a class="text-on-surface-variant px-6 py-3 flex items-center gap-3 font-label-caps text-label-caps hover:bg-white/5 hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined">biotech</span> Alchemical
+            </a>
+<a class="text-on-surface-variant px-6 py-3 flex items-center gap-3 font-label-caps text-label-caps hover:bg-white/5 hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined">military_tech</span> Mastery
+            </a>
+</nav>
+<div class="mt-auto px-6 space-y-4">
+<button class="w-full py-2 border border-primary/40 text-primary font-label-caps text-[10px] tracking-[0.2em] hover:bg-primary/10 transition-all">
+                RESET TREE
+            </button>
+<div class="pt-4 border-t border-outline-variant/10">
+<a class="flex items-center gap-3 text-on-surface-variant font-label-caps text-[10px] py-1" href="#">
+<span class="material-symbols-outlined text-sm">terminal</span> Terminal
+                </a>
+<a class="flex items-center gap-3 text-on-surface-variant font-label-caps text-[10px] py-1" href="#">
+<span class="material-symbols-outlined text-sm">help_outline</span> Help
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 px-12 pb-12 min-h-screen">
+<!-- System Message Header -->
+<div class="mb-12 relative">
+<div class="flex items-baseline gap-4 mb-2">
+<span class="text-secondary font-display-lg text-display-lg tracking-widest">[DAILY QUEST: PREPARATION]</span>
+<span class="text-primary-fixed-dim font-label-caps text-label-caps bg-primary/10 px-3 py-1 rounded">QUEST_ID: 100-24-A</span>
+</div>
+<p class="text-on-surface-variant font-body-lg text-body-lg max-w-2xl border-l-2 border-secondary/30 pl-6 py-2 italic opacity-80">
+                The path to the Great Work requires a vessel capable of containing the celestial resonance. Neglect the vessel, and the essence shall shatter the spirit.
+            </p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-6 items-start">
+<!-- Left Column: Core Tasks -->
+<div class="col-span-12 lg:col-span-8 space-y-6">
+<!-- Training Progress Card -->
+<section class="glass-panel p-8 relative overflow-hidden group">
+<div class="absolute top-4 right-6 text-[10px] font-mono-data text-outline-variant">SN: MAG-Q-2412</div>
+<h2 class="font-headline-md text-headline-md text-secondary mb-8 flex items-center gap-2">
+<span class="material-symbols-outlined">bolt</span> PHYSICAL_RESONANCE
+                    </h2>
+<div class="space-y-10">
+<!-- Push-ups -->
+<div class="space-y-3">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-label-caps text-primary tracking-[0.2em]">PUSH-UPS [SOMATIC]</span>
+<span class="font-mono-data text-mono-data text-secondary">85 <span class="text-on-surface-variant">/ 100</span></span>
+</div>
+<div class="progress-segment">
+<div class="progress-fill" style="width: 85%;"></div>
+</div>
+</div>
+<!-- Running -->
+<div class="space-y-3">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-label-caps text-primary tracking-[0.2em]">10KM RUN [KINETIC]</span>
+<span class="font-mono-data text-mono-data text-secondary">6.2 <span class="text-on-surface-variant">/ 10.0 KM</span></span>
+</div>
+<div class="progress-segment">
+<div class="progress-fill" style="width: 62%;"></div>
+</div>
+</div>
+<!-- Mental Focus -->
+<div class="space-y-3">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-label-caps text-primary tracking-[0.2em]">MENTAL FOCUS [COGNITIVE]</span>
+<span class="font-mono-data text-mono-data text-secondary">COMPLETE</span>
+</div>
+<div class="progress-segment">
+<div class="progress-fill" style="width: 100%;"></div>
+</div>
+<div class="flex justify-end pt-1">
+<span class="text-[10px] font-label-caps text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">check_circle</span> GOAL REACHED
+                                </span>
+</div>
+</div>
+</div>
+</section>
+<!-- Rewards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="glass-panel p-6 border-l-4 border-secondary">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 flex items-center justify-center bg-secondary/10 rounded-full">
+<span class="material-symbols-outlined text-secondary">medication</span>
+</div>
+<div>
+<h4 class="font-label-caps text-label-caps text-on-surface">REWARD: STATUS RECOVERY</h4>
+<p class="text-[10px] font-body-sm text-on-surface-variant">Instant 100% Stamina restoration upon completion.</p>
+</div>
+</div>
+</div>
+<div class="glass-panel p-6 border-l-4 border-primary">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full">
+<span class="material-symbols-outlined text-primary">add_box</span>
+</div>
+<div>
+<h4 class="font-label-caps text-label-caps text-on-surface">+5 ATTRIBUTE POINTS</h4>
+<p class="text-[10px] font-body-sm text-on-surface-variant">Selectable enhancement to Somatic or Cognitive core.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Status & Warnings -->
+<div class="col-span-12 lg:col-span-4 space-y-6">
+<!-- Penalty Warning -->
+<section class="bg-error-container/20 backdrop-blur-xl border border-error/30 p-6 rounded relative overflow-hidden group pulse-error">
+<div class="absolute -right-4 -top-4 opacity-10">
+<span class="material-symbols-outlined text-[120px] text-error">warning</span>
+</div>
+<h3 class="font-label-caps text-label-caps text-error mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">error</span> 
+                        PENALTY PROTOCOL: ACTIVE
+                    </h3>
+<p class="text-body-sm font-body-sm text-on-error-container mb-4">
+                        Inconsistency detected in 'Daily Kinetic Threshold'. If goals are not achieved within 04:22:15, Penalty Protocol 'Cocytus' will initiate.
+                    </p>
+<div class="bg-error/20 p-3 border border-error/40 flex items-center justify-between">
+<span class="text-[10px] font-label-caps text-error-container font-bold">PENALTY: -20% EXP GAIN (24H)</span>
+</div>
+</section>
+<!-- Status Gauge -->
+<div class="glass-panel p-6">
+<h4 class="font-label-caps text-label-caps text-on-surface-variant mb-6 text-center tracking-[0.3em]">RESONANCE_STABILITY</h4>
+<div class="relative w-48 h-48 mx-auto">
+<!-- Background Circles -->
+<div class="absolute inset-0 rounded-full border-2 border-outline-variant/20"></div>
+<div class="absolute inset-4 rounded-full border border-outline-variant/10"></div>
+<!-- Animated Radial Progress -->
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-secondary opacity-80" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-dasharray="552.92" stroke-dashoffset="138.23" stroke-width="4"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-display-lg text-display-lg-mobile text-secondary">75%</span>
+<span class="font-label-caps text-[10px] text-primary">STABLE</span>
+</div>
+</div>
+<div class="mt-6 flex justify-around">
+<div class="text-center">
+<p class="text-[10px] font-label-caps text-outline-variant">TEMP</p>
+<p class="font-mono-data text-mono-data text-sm">37.2°C</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] font-label-caps text-outline-variant">PULSE</p>
+<p class="font-mono-data text-mono-data text-sm">118 BPM</p>
+</div>
+</div>
+</div>
+<!-- Quick Actions -->
+<div class="space-y-3">
+<button class="w-full py-4 bg-secondary text-on-secondary font-label-caps text-label-caps tracking-[0.2em] shadow-glow-neon hover:brightness-110 active:scale-95 transition-all">
+                        SYNCHRONIZE DATA
+                    </button>
+<button class="w-full py-4 border border-outline-variant text-on-surface-variant font-label-caps text-label-caps tracking-[0.2em] hover:bg-white/5 transition-all">
+                        REQUEST OVERRIDE
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button (FAB) -->
+<button class="fixed bottom-8 right-8 w-16 h-16 bg-primary text-on-primary rounded-full shadow-[0_0_30px_rgba(127,208,255,0.6)] flex items-center justify-center hover:scale-110 active:scale-90 transition-transform z-50 group">
+<span class="material-symbols-outlined text-3xl group-hover:rotate-90 transition-transform">add</span>
+<div class="absolute bottom-full right-0 mb-4 bg-surface-container p-3 rounded glass-panel whitespace-nowrap opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all pointer-events-none">
+<span class="font-label-caps text-[10px]">NEW LOG ENTRY</span>
+</div>
+</button>
+<script>
+        // Micro-interaction: Dynamic progress updates
+        document.addEventListener('DOMContentLoaded', () => {
+            const fills = document.querySelectorAll('.progress-fill');
+            fills.forEach(fill => {
+                const targetWidth = fill.style.width;
+                fill.style.width = '0%';
+                setTimeout(() => {
+                    fill.style.width = targetWidth;
+                }, 500);
+            });
+
+            // Ambient background effect
+            document.body.addEventListener('mousemove', (e) => {
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                document.body.style.backgroundPosition = `${x * 10}px ${y * 10}px`;
+            });
+        });
+    </script>
+</body></html>

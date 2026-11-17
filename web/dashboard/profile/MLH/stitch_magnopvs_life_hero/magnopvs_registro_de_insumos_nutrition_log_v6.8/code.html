@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS | Log Nutricional</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --glow-cyan: rgba(45, 168, 224, 0.4);
+            --grid-line: rgba(127, 208, 255, 0.05);
+        }
+
+        body {
+            background-color: #101417;
+            background-image: 
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 40px 40px;
+            color: #e0e3e6;
+            overflow-x: hidden;
+        }
+
+        .cyber-glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(127, 208, 255, 0.2);
+        }
+
+        .slanted-edge {
+            clip-path: polygon(0 0, 95% 0, 100% 15%, 100% 100%, 5% 100%, 0 85%);
+        }
+
+        .corner-bracket {
+            position: relative;
+        }
+        .corner-bracket::before, .corner-bracket::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #7fd0ff;
+        }
+        .corner-bracket::before { top: -2px; left: -2px; border-right: 0; border-bottom: 0; }
+        .corner-bracket::after { bottom: -2px; right: -2px; border-left: 0; border-top: 0; }
+
+        .neon-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 5px #2da8e0); }
+            50% { opacity: 0.7; filter: drop-shadow(0 0 2px #2da8e0); }
+        }
+
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#c5e7ff",
+                        "primary-container": "#7fd0ff",
+                        "on-primary-container": "#00597b",
+                        "surface": "#101417",
+                        "surface-bright": "#363a3d",
+                        "surface-container-low": "#181c1f",
+                        "surface-container-highest": "#313538",
+                        "outline": "#899299",
+                        "on-surface-variant": "#bfc8cf",
+                        "glow-cyan": "#2da8e0",
+                    },
+                    spacing: {
+                        "panel-gap": "12px",
+                        "margin-desktop": "40px",
+                        "unit": "4px",
+                        "gutter": "16px",
+                        "margin-mobile": "20px",
+                        "section-padding": "128px"
+                    },
+                    fontFamily: {
+                        "data-point": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "mono-data": ["JetBrains Mono"],
+                        "micro-tag": ["JetBrains Mono"],
+                        "display-lg": ["Space Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-md": ["Space Grotesk"],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-body-md text-body-md pb-24 md:pb-0 md:pl-64">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/20 dark:bg-surface/20 backdrop-blur-xl border-b border-primary-container/20 flex justify-between items-center px-margin-desktop h-16 w-full">
+<div class="font-display-lg text-display-lg tracking-tighter text-primary-container dark:text-primary-container">MagnopVS</div>
+<div class="hidden md:flex gap-8 items-center">
+<nav class="flex gap-6">
+<a class="text-primary-container border-b-2 border-primary-container pb-1 font-label-caps text-label-caps" href="#">Nutrition</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary-container hover:bg-primary-container/5 transition-all duration-300" href="#">Fitness</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary-container hover:bg-primary-container/5 transition-all duration-300" href="#">Medical</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary-container hover:bg-primary-container/5 transition-all duration-300" href="#">Aesthetic</a>
+</nav>
+<div class="flex items-center gap-4 border-l border-primary-container/20 pl-6">
+<span class="material-symbols-outlined text-primary-container cursor-pointer">settings</span>
+<span class="material-symbols-outlined text-primary-container cursor-pointer">notifications</span>
+<img class="w-8 h-8 rounded-full border border-primary-container/40" data-alt="A futuristic biometric user profile avatar. A high-contrast close-up of a human eye with a glowing cyan iris and digital data overlays. The aesthetic is clean, medical, and cybernetic, set against a deep black background with subtle lens flare effects." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAW2bHTCrmU6zsbp8W6idEuu2x-KAfpmb87doL-pel9_68_ElpG2vMvnX_6qnjwJuPZ-s50kCntNmBwjngPnG_6nZrFzMcbiw-5eM2lxZp9ittmlPlNyRNSzpeq4TE9z7jp2YAGpd2mkjXF2JJ0k8VfedDtBq1ZTq1guxIqbzCtSxTUCOzPFI7dBy1IpXhSrIB-E3eyKv_AaZyXr1Ggoh29ICnkGxcwcnsd0D86bLqIAWiL5nT-7jPJ_g"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="hidden md:flex fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-low/40 dark:bg-surface-container-low/40 backdrop-blur-2xl border-r border-primary-container/20 flex-col py-8 gap-4">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container/20 flex items-center justify-center rounded">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">terminal</span>
+</div>
+<div>
+<div class="font-headline-lg text-primary-container leading-none">SOR_OS</div>
+<div class="font-mono-data text-[10px] text-outline uppercase tracking-widest">v2.4 Command Center</div>
+</div>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-4 px-6 py-3 bg-primary-container/10 text-primary-container border-l-4 border-primary-container font-mono-data text-mono-data" href="#">
+<span class="material-symbols-outlined">restaurant</span>
+                Nutrition
+            </a>
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/10 font-mono-data text-mono-data transition-all duration-200" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+                Fitness
+            </a>
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/10 font-mono-data text-mono-data transition-all duration-200" href="#">
+<span class="material-symbols-outlined">medical_services</span>
+                Medical
+            </a>
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/10 font-mono-data text-mono-data transition-all duration-200" href="#">
+<span class="material-symbols-outlined">face</span>
+                Aesthetic
+            </a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full bg-primary-container text-on-primary-container font-label-caps text-[10px] py-3 slanted-edge hover:brightness-110 transition-all uppercase tracking-widest">
+                Infect System Update
+            </button>
+<div class="mt-6 flex flex-col gap-2 opacity-60">
+<div class="flex items-center gap-2 font-mono-data text-[10px]">
+<span class="material-symbols-outlined text-xs">emergency</span> Emergency
+                </div>
+<div class="flex items-center gap-2 font-mono-data text-[10px]">
+<span class="material-symbols-outlined text-xs">folder_special</span> Archive
+                </div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="mt-16 p-6 md:p-12 max-w-7xl mx-auto space-y-12">
+<!-- Header & Stats -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2 space-y-2">
+<span class="font-micro-tag text-micro-tag text-primary-container uppercase">Interface Log: 2024.11.23_1400</span>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary uppercase tracking-tighter">Despliegue Nutricional</h1>
+<p class="text-on-surface-variant max-w-xl">Gestión de activos biológicos externos y optimización de la transmutación calórica para la integridad del Recipiente.</p>
+</div>
+<!-- Quick Stats Circle -->
+<div class="cyber-glass p-6 slanted-edge flex items-center justify-between">
+<div class="space-y-1">
+<div class="font-label-caps text-label-caps text-outline">CAPACIDAD DIARIA</div>
+<div class="font-data-point text-data-point text-primary-container">1,840 / 2,400 kcal</div>
+<div class="w-full h-2 bg-surface-container-highest mt-2 flex gap-1">
+<div class="w-1/10 h-full bg-primary-container shadow-[0_0_8px_#7fd0ff]"></div>
+<div class="w-1/10 h-full bg-primary-container shadow-[0_0_8px_#7fd0ff]"></div>
+<div class="w-1/10 h-full bg-primary-container shadow-[0_0_8px_#7fd0ff]"></div>
+<div class="w-1/10 h-full bg-primary-container shadow-[0_0_8px_#7fd0ff]"></div>
+<div class="w-1/10 h-full bg-primary-container shadow-[0_0_8px_#7fd0ff]"></div>
+<div class="w-1/10 h-full bg-surface-container-highest"></div>
+<div class="w-1/10 h-full bg-surface-container-highest"></div>
+<div class="w-1/10 h-full bg-surface-container-highest"></div>
+<div class="w-1/10 h-full bg-surface-container-highest"></div>
+<div class="w-1/10 h-full bg-surface-container-highest"></div>
+</div>
+</div>
+<div class="neon-pulse">
+<span class="material-symbols-outlined text-4xl text-glow-cyan">bolt</span>
+</div>
+</div>
+</section>
+<!-- Bento Grid Modules -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Meal Deployment History (Vertical Timeline) -->
+<div class="md:col-span-4 cyber-glass p-6 relative overflow-hidden flex flex-col h-[600px]">
+<div class="flex justify-between items-center mb-6">
+<h2 class="font-headline-md text-headline-md text-primary-container uppercase">Historial de Despliegue</h2>
+<span class="material-symbols-outlined text-primary-container/50">history</span>
+</div>
+<div class="flex-1 space-y-8 relative before:absolute before:left-5 before:top-0 before:bottom-0 before:w-px before:bg-primary-container/20">
+<!-- Item 1 -->
+<div class="relative pl-12 flex items-start gap-4">
+<div class="absolute left-3 w-4 h-4 rounded-full bg-primary-container border-4 border-surface shadow-[0_0_10px_#7fd0ff] z-10"></div>
+<div class="flex-1 p-3 bg-surface-container-low border border-primary-container/10 rounded-sm">
+<div class="flex justify-between font-mono-data text-[10px] text-outline mb-1">
+<span>07:30 AM</span>
+<span>+450 kcal</span>
+</div>
+<div class="font-headline-md text-sm text-primary uppercase">Desayuno Protocolar</div>
+<div class="text-[11px] text-on-surface-variant italic">Suplementación Alquímica + Avena</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="relative pl-12 flex items-start gap-4">
+<div class="absolute left-3 w-4 h-4 rounded-full bg-primary-container border-4 border-surface shadow-[0_0_10px_#7fd0ff] z-10"></div>
+<div class="flex-1 p-3 bg-surface-container-low border border-primary-container/10 rounded-sm">
+<div class="flex justify-between font-mono-data text-[10px] text-outline mb-1">
+<span>01:15 PM</span>
+<span>+720 kcal</span>
+</div>
+<div class="font-headline-md text-sm text-primary uppercase">Almuerzo de Fase</div>
+<div class="text-[11px] text-on-surface-variant italic">Proteína de Resistencia + Verdes</div>
+</div>
+</div>
+<!-- Item 3 (Current/Active) -->
+<div class="relative pl-12 flex items-start gap-4 opacity-50">
+<div class="absolute left-3 w-4 h-4 rounded-full border-2 border-primary-container/30 z-10"></div>
+<div class="flex-1 p-3 border border-dashed border-primary-container/20 rounded-sm">
+<div class="font-headline-md text-sm text-outline uppercase">Pendiente: Cena</div>
+</div>
+</div>
+</div>
+<button class="mt-6 w-full py-3 bg-surface-bright/20 border border-primary-container/30 text-primary-container font-label-caps text-xs flex items-center justify-center gap-2 hover:bg-primary-container/10 transition-all">
+<span class="material-symbols-outlined text-sm">add</span> Registrar Consumo
+                </button>
+</div>
+<!-- Barcode Scanner (Holographic Overlay) -->
+<div class="md:col-span-8 cyber-glass relative overflow-hidden group min-h-[400px]">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="A POV shot from a high-tech augmented reality interface. The camera focuses on a sleek, minimalist nutrition bar on a metallic surface. Cybernetic UI elements, including green scanning lines, geometric data points, and nutritional breakdowns, are overlaid on the view in a holographic, glowing cyan font. The background is a dimly lit, futuristic kitchen or lab." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCmb4RANhfLR_jVF4V82Ps8stWihJD9jeqVmOXb7p1NHMO84T296Q8f_NTMHPx8YFLWx9BRH_zRLEXd_wbo8PJUJRcHTnDbTv2rp4FRwAoDpP0tKOTjc1GlmPc1Xj4-9m-UqvCw28-47LxheEuGXb16hpf88UkApkcsJQvqDFGWp5FLCvMTPysMnIyFnpAYB04o7fSa8B0KbVyeU86d_3TAn5UXwZyiNGlXz46qCACPNCZAAnKGD0pMiA')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
+<!-- Holographic Scanning UI -->
+<div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+<div class="w-64 h-48 border-2 border-primary-container/40 relative">
+<div class="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-primary-container"></div>
+<div class="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-primary-container"></div>
+<div class="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-primary-container"></div>
+<div class="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-primary-container"></div>
+<div class="absolute inset-x-0 h-0.5 bg-primary-container/50 shadow-[0_0_15px_#2da8e0] animate-[bounce_3s_infinite]"></div>
+</div>
+<div class="mt-4 font-mono-data text-xs text-primary-container bg-surface/80 px-4 py-1 backdrop-blur-md rounded-full border border-primary-container/20">
+                        ESCANEANDO ACTIVOS BIOLÓGICOS...
+                    </div>
+</div>
+<div class="absolute bottom-6 left-6 right-6 flex justify-between items-end">
+<div class="space-y-1">
+<div class="font-headline-md text-primary uppercase">Escáner de Activos</div>
+<p class="text-xs text-on-surface-variant max-w-xs">Identifica la pureza y los coeficientes energéticos de suministros externos instantáneamente.</p>
+</div>
+<button class="bg-primary-container text-on-primary-container px-6 py-2 slanted-edge font-label-caps text-xs pointer-events-auto hover:brightness-110">
+                        ACTIVAR CÁMARA
+                    </button>
+</div>
+</div>
+<!-- Karmic Weight Tracker (Graph) -->
+<div class="md:col-span-12 cyber-glass p-8 space-y-6">
+<div class="flex justify-between items-center">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary-container uppercase">Evolución del Recipiente (Vessel)</h2>
+<span class="font-micro-tag text-micro-tag text-outline">ESTADÍSTICAS DE LAS 13 CASAS</span>
+</div>
+<div class="flex gap-4">
+<div class="text-right">
+<div class="font-label-caps text-[10px] text-outline">ACTUAL</div>
+<div class="font-data-point text-primary-container">78.4 KG</div>
+</div>
+<div class="text-right">
+<div class="font-label-caps text-[10px] text-outline">DELTA</div>
+<div class="font-data-point text-secondary">-1.2 KG</div>
+</div>
+</div>
+</div>
+<!-- Mock Graph Area -->
+<div class="h-48 w-full relative flex items-end gap-1">
+<div class="absolute inset-0 flex flex-col justify-between opacity-10">
+<div class="w-full h-px bg-primary-container"></div>
+<div class="w-full h-px bg-primary-container"></div>
+<div class="w-full h-px bg-primary-container"></div>
+</div>
+<!-- CSS Bars representing a curve -->
+<div class="flex-1 bg-primary-container/20 h-[60%] border-t border-primary-container relative group">
+<div class="hidden group-hover:block absolute -top-8 left-1/2 -translate-x-1/2 bg-surface p-1 text-[10px] border border-primary-container">79.6</div>
+</div>
+<div class="flex-1 bg-primary-container/20 h-[58%] border-t border-primary-container"></div>
+<div class="flex-1 bg-primary-container/20 h-[62%] border-t border-primary-container"></div>
+<div class="flex-1 bg-primary-container/20 h-[55%] border-t border-primary-container"></div>
+<div class="flex-1 bg-primary-container/20 h-[52%] border-t border-primary-container"></div>
+<div class="flex-1 bg-primary-container/30 h-[48%] border-t-2 border-primary-container shadow-[0_0_15px_#2da8e0]"></div>
+<div class="flex-1 bg-primary-container/20 h-[46%] border-t border-primary-container"></div>
+<div class="flex-1 bg-primary-container/20 h-[45%] border-t border-primary-container"></div>
+<div class="flex-1 bg-primary-container/20 h-[42%] border-t border-primary-container"></div>
+<div class="flex-1 bg-primary-container/40 h-[40%] border-t-2 border-primary-container shadow-[0_0_15px_#2da8e0]"></div>
+</div>
+</div>
+<!-- Alchemical Recipes Library -->
+<div class="md:col-span-12 space-y-6">
+<div class="flex justify-between items-center px-2">
+<h2 class="font-headline-md text-headline-md text-primary-container uppercase">Librería de Pergaminos Alquímicos</h2>
+<a class="font-label-caps text-[10px] text-outline hover:text-primary transition-colors" href="#">VER TODOS LOS PROTOCOLOS</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="corner-bracket cyber-glass overflow-hidden group cursor-pointer">
+<div class="h-40 overflow-hidden relative">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A professional food photography shot of a futuristic keto meal. Grilled salmon with vibrant asparagus and a deep emerald green herb infusion. The plate is matte black ceramic, illuminated by sharp, cool-toned side lighting that creates deep shadows and highlights textures. Atmospheric digital particles float in the air, enhancing the high-tech culinary feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKihQNgHlMTM20aBO_7n8CNDKlnXB8PKEXLvss3Px-ntgZMNE-4UJQwEG1N30aKi6VQoMPWvPt8PbTovxpdXpUyrJsqx3pLEF_pQStIH-z6zyTAC5smqgU0EsFYa9fxfFPDSFk3vZrw9l13XSeIXiLtXqRfbE3O8DR0D5ChWIEi9IanjtRMutPxfquIicTV54n5Dn64C0yWkk5I9K8VLaKUjohLjvgmsh_kcCB0VYfBTk3EEqrHuzxPw"/>
+<div class="absolute top-3 left-3 bg-surface/90 border border-primary-container/30 px-2 py-0.5 font-micro-tag text-micro-tag text-primary-container uppercase">Nivel_Alpha</div>
+</div>
+<div class="p-5 space-y-3">
+<h3 class="font-headline-md text-lg text-primary uppercase">Protocolo Keto</h3>
+<p class="text-xs text-on-surface-variant line-clamp-2">Optimización de la cetosis mediante grasas nobles y restricción total de carbohidratos simples.</p>
+<div class="flex justify-between items-center pt-2">
+<span class="font-mono-data text-[10px] text-outline uppercase">25 min | 650 kcal</span>
+<span class="material-symbols-outlined text-primary-container group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="corner-bracket cyber-glass overflow-hidden group cursor-pointer">
+<div class="h-40 overflow-hidden relative">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A futuristic breakfast bowl featuring exotic grains, glowing purple dragon fruit, and intricate geometric patterns of nut butter. The lighting is ethereal, with a focus on vibrant, saturated colors and clean white surfaces. Cybernetic recipe annotations are subtly integrated into the background as if floating in augmented reality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbyBZLRySVAM7LubG97cGTtMB0sL_pxhjGb_twurCsHPk7BBDO6Fn0vyjl3SuVqUIMzg8db_IlbzgQRooqBp9GizxW1nf6gmj3rtDiOY9ZS9oIYJ-TLsmackW72QTr8xgI6CecZa5aJwgdrLXHN5lEwG3r2m-NddTPdNqHuLx_rQlsbzlCaU3xv5OFguZMUzy1j00oeVrxeYrA3sTFDU6Tv57bjUZ_AKm0WHwQNYWhhB3MHMuagOE5SA"/>
+<div class="absolute top-3 left-3 bg-surface/90 border border-secondary/30 px-2 py-0.5 font-micro-tag text-micro-tag text-secondary uppercase">Resistencia_Beta</div>
+</div>
+<div class="p-5 space-y-3">
+<h3 class="font-headline-md text-lg text-primary uppercase">Dieta de Resistencia</h3>
+<p class="text-xs text-on-surface-variant line-clamp-2">Carga glucémica controlada para ciclos de alto rendimiento y mantenimiento de glucógeno.</p>
+<div class="flex justify-between items-center pt-2">
+<span class="font-mono-data text-[10px] text-outline uppercase">15 min | 820 kcal</span>
+<span class="material-symbols-outlined text-primary-container group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="corner-bracket cyber-glass overflow-hidden group cursor-pointer">
+<div class="h-40 overflow-hidden relative">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A clean, clinical presentation of high-performance smoothies in glass flasks. The liquids are layered in vibrant cyan and electric lime colors. The setting is a sterile, futuristic laboratory with soft neon backlighting and polished chrome surfaces. The mood is precise, scientific, and rejuvenating." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmKGoPDaLxS4j8xUN4jP4Gk-0Klk6HnwGL0G0mv9RDgmWm3IhMIWeoe3B93aXYBshjzCDYht5-kPUch7gK3vdHm1JOpF8eKNjbLaz7i4_ChXW-ixA0-yJrTBYQFaPltApqjHffTpO3p7vy7SriaP2int192Xj1crhGXIA0QKOovlAM0ygeKQLbxWPyEFrm3YuFFYbFfLkfH1sck8tIzg1obD2VS5QE9X2htFq6s2Ip9FD1_iGVf2necg"/>
+<div class="absolute top-3 left-3 bg-surface/90 border border-tertiary/30 px-2 py-0.5 font-micro-tag text-micro-tag text-tertiary uppercase">Purificación_V</div>
+</div>
+<div class="p-5 space-y-3">
+<h3 class="font-headline-md text-lg text-primary uppercase">Detox de Silicio</h3>
+<p class="text-xs text-on-surface-variant line-clamp-2">Protocolo de limpieza sistémica rico en micronutrientes y agentes de reparación celular.</p>
+<div class="flex justify-between items-center pt-2">
+<span class="font-mono-data text-[10px] text-outline uppercase">10 min | 340 kcal</span>
+<span class="material-symbols-outlined text-primary-container group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-4 md:hidden bg-surface-container-highest/30 dark:bg-surface-container-highest/30 backdrop-blur-lg border-t border-primary-container/30 z-50 h-20">
+<a class="flex flex-col items-center justify-center text-outline p-2 hover:bg-primary-container/20 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">bolt</span>
+<span class="font-label-caps text-[8px] uppercase">Optimize</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-none p-2 shadow-[0_0_15px_rgba(0,240,255,0.4)] active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">format_list_bulleted</span>
+<span class="font-label-caps text-[8px] uppercase">Protocol</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline p-2 hover:bg-primary-container/20 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">biotech</span>
+<span class="font-label-caps text-[8px] uppercase">Clinical</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline p-2 hover:bg-primary-container/20 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">visibility</span>
+<span class="font-label-caps text-[8px] uppercase">Image</span>
+</a>
+</nav>
+<!-- Decorative Atmosphere Elements -->
+<div class="fixed top-0 right-0 w-[500px] h-[500px] bg-primary-container/5 rounded-full blur-[120px] pointer-events-none -z-10"></div>
+<div class="fixed bottom-0 left-0 w-[300px] h-[300px] bg-glow-cyan/5 rounded-full blur-[80px] pointer-events-none -z-10"></div>
+<script>
+        // Micro-interaction for scanning animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const scannerBtn = document.querySelector('.bg-primary-container.text-on-primary-container');
+            if(scannerBtn) {
+                scannerBtn.addEventListener('mousedown', () => {
+                    scannerBtn.style.transform = 'scale(0.95)';
+                });
+                scannerBtn.addEventListener('mouseup', () => {
+                    scannerBtn.style.transform = 'scale(1)';
+                });
+            }
+        });
+    </script>
+</body></html>

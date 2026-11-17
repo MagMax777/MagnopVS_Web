@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · Gestión de la Sombra (Shadow-OS v6.8)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&amp;family=Space+Grotesk:wght@300;700&amp;family=JetBrains+Mono&amp;family=Audiowide&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-bright": "#38393f",
+                    "primary-fixed": "#7df4ff",
+                    "secondary-container": "#7000ff",
+                    "on-tertiary": "#3e2457",
+                    "on-primary-container": "#006970",
+                    "error-container": "#93000a",
+                    "surface-container": "#1e1f25",
+                    "outline": "#849495",
+                    "surface-variant": "#34343a",
+                    "on-secondary-fixed": "#23005b",
+                    "primary-container": "#00f0ff",
+                    "tertiary-fixed-dim": "#dabaf7",
+                    "inverse-surface": "#e3e1e9",
+                    "tertiary": "#fdf2ff",
+                    "background": "#121318",
+                    "primary-fixed-dim": "#00dbe9",
+                    "secondary-fixed": "#e9ddff",
+                    "on-tertiary-container": "#6e5388",
+                    "tertiary-container": "#eacfff",
+                    "on-secondary-fixed-variant": "#5700c9",
+                    "surface": "#121318",
+                    "on-error": "#690005",
+                    "on-background": "#e3e1e9",
+                    "surface-tint": "#00dbe9",
+                    "on-surface": "#e3e1e9",
+                    "on-surface-variant": "#b9cacb",
+                    "surface-dim": "#121318",
+                    "on-primary-fixed-variant": "#004f54",
+                    "surface-container-lowest": "#0d0e13",
+                    "secondary": "#d1bcff",
+                    "on-tertiary-fixed-variant": "#553b6f",
+                    "surface-container-low": "#1a1b21",
+                    "outline-variant": "#3b494b",
+                    "surface-container-highest": "#34343a",
+                    "on-primary-fixed": "#002022",
+                    "inverse-on-surface": "#2f3036",
+                    "on-error-container": "#ffdad6",
+                    "error": "#ffb4ab",
+                    "inverse-primary": "#006970",
+                    "surface-container-high": "#292a2f",
+                    "secondary-fixed-dim": "#d1bcff",
+                    "on-secondary": "#3c0090",
+                    "primary": "#dbfcff",
+                    "on-primary": "#00363a",
+                    "tertiary-fixed": "#f0dbff",
+                    "on-secondary-container": "#ddcdff",
+                    "on-tertiary-fixed": "#280e40",
+                    "neon-magenta": "#ff00ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "margin-mobile": "16px",
+                    "gutter": "24px",
+                    "panel-gap": "12px",
+                    "margin-desktop": "64px"
+            },
+            "fontFamily": {
+                    "body-md": ["Geist"],
+                    "mono-data": ["JetBrains Mono"],
+                    "headline-sm": ["Orbitron"],
+                    "headline-md": ["Orbitron"],
+                    "label-caps": ["Space Grotesk"],
+                    "display-lg": ["Orbitron"],
+                    "body-lg": ["Geist"],
+                    "audiowide": ["Audiowide"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "headline-md": ["32px", {"lineHeight": "40px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.2em", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #121318;
+            color: #e3e1e9;
+            overflow-x: hidden;
+        }
+
+        .hud-glass {
+            background: rgba(26, 0, 51, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+        }
+
+        .neon-glow-cyan {
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        }
+
+        .neon-glow-magenta {
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
+        }
+
+        .scanline {
+            background: linear-gradient(to bottom, rgba(0, 240, 255, 0) 50%, rgba(0, 240, 255, 0.05) 50.5%, rgba(0, 240, 255, 0) 51%);
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 0.4; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+
+        .animate-ring {
+            animation: pulse-ring 4s ease-in-out infinite;
+        }
+
+        .hex-bg {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDt5mr-xSyFzRqvY59VciDODeSvQqe_BzIm2fAQI27suvZmXwLeQqfKXPLEKR12jGsvBypGjXC6L8SwzIYMNzgErnApzzKcNkhxdtEGmN5xT15uKiC3lZvaH04niqbua6ZKsUKRyQc67rQ671RBSEqr3PQ9diMLQZw4MmGZIwFMKYm01HGzbi1AZkbHtyUKYTaCFOluWtp0oGLbA2tA-7UoI3FTytXsmu13ut39-d4r04Ra7BIgqSKN0kKUzRj_pJCoygFByWNUqQPj');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            mix-blend-mode: overlay;
+        }
+    </style>
+</head>
+<body class="font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- Hexagonal Background Overlay -->
+<div class="fixed inset-0 hex-bg z-0 pointer-events-none"></div>
+<div class="fixed inset-0 scanline z-10 pointer-events-none opacity-30"></div>
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20 shadow-[0_0_15px_rgba(0,240,255,0.1)] h-16 flex justify-between items-center px-margin-mobile md:px-margin-desktop">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-headline-sm md:text-headline-md text-primary tracking-widest cursor-pointer active:scale-95 transition-transform">MAGNOPVS</span>
+<div class="hidden md:flex gap-8 ml-12">
+<a class="text-on-surface-variant font-label-caps hover:text-primary-fixed-dim transition-colors duration-300" href="#">TELEMETRY</a>
+<a class="text-on-surface-variant font-label-caps hover:text-primary-fixed-dim transition-colors duration-300" href="#">LOGS</a>
+<a class="text-on-surface-variant font-label-caps hover:text-primary-fixed-dim transition-colors duration-300" href="#">SOF.IA</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-primary-fixed-dim cursor-pointer active:scale-95">notifications</span>
+<span class="material-symbols-outlined text-primary-fixed-dim cursor-pointer active:scale-95">settings</span>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-16 h-[calc(100vh-64px)] w-20 md:w-64 z-40 bg-surface-container/60 backdrop-blur-2xl border-r border-outline-variant/20 flex flex-col py-panel-gap">
+<div class="px-6 py-4 border-b border-outline-variant/10 hidden md:block">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center border border-primary/40">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">fingerprint</span>
+</div>
+<div>
+<p class="font-label-caps text-[10px] text-primary/70 leading-none">LUCIDITY_94%</p>
+<p class="font-headline-sm text-sm text-primary tracking-wider">ONEIRONAUT_01</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col mt-4 space-y-1 px-2">
+<!-- NEURAL -->
+<div class="group flex flex-col md:flex-row items-center md:gap-4 px-4 py-3 cursor-pointer transition-all duration-200 text-on-surface-variant hover:bg-surface-variant/30 hover:text-primary/70">
+<span class="material-symbols-outlined">psychology</span>
+<span class="hidden md:block font-label-caps text-label-caps">NEURAL</span>
+</div>
+<!-- SOMATIC -->
+<div class="group flex flex-col md:flex-row items-center md:gap-4 px-4 py-3 cursor-pointer transition-all duration-200 text-on-surface-variant hover:bg-surface-variant/30 hover:text-primary/70">
+<span class="material-symbols-outlined">vital_signs</span>
+<span class="hidden md:block font-label-caps text-label-caps">SOMATIC</span>
+</div>
+<!-- ASTRAL (ACTIVE) -->
+<div class="group flex flex-col md:flex-row items-center md:gap-4 px-4 py-3 cursor-pointer bg-primary-container/10 text-primary-container border-l-4 border-primary shadow-[0_0_10px_rgba(0,240,255,0.2)]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="hidden md:block font-label-caps text-label-caps">ASTRAL</span>
+</div>
+<!-- RECALL -->
+<div class="group flex flex-col md:flex-row items-center md:gap-4 px-4 py-3 cursor-pointer transition-all duration-200 text-on-surface-variant hover:bg-surface-variant/30 hover:text-primary/70">
+<span class="material-symbols-outlined">memory</span>
+<span class="hidden md:block font-label-caps text-label-caps">RECALL</span>
+</div>
+<!-- VOID -->
+<div class="group flex flex-col md:flex-row items-center md:gap-4 px-4 py-3 cursor-pointer transition-all duration-200 text-on-surface-variant hover:bg-surface-variant/30 hover:text-primary/70">
+<span class="material-symbols-outlined">cloud_off</span>
+<span class="hidden md:block font-label-caps text-label-caps">VOID</span>
+</div>
+</div>
+<div class="mt-auto p-4 flex flex-col gap-2">
+<button class="bg-primary-container text-on-primary-container font-label-caps py-3 px-4 rounded-sm tracking-widest hover:brightness-110 active:scale-95 transition-all text-[10px] md:text-xs">
+                INITIATE_REM
+            </button>
+</div>
+</nav>
+<!-- MAIN CONTENT CANVAS -->
+<main class="ml-20 md:ml-64 pt-20 p-6 md:p-10 min-h-screen relative z-20 overflow-hidden">
+<!-- Header -->
+<header class="mb-10">
+<h1 class="font-audiowide text-headline-md text-primary tracking-tighter uppercase mb-1 flex items-center gap-3">
+<span class="material-symbols-outlined text-4xl">brightness_4</span>
+                Gestión de la Sombra <span class="text-on-surface-variant/40 font-mono-data text-sm tracking-normal">(Shadow-OS v6.8)</span>
+</h1>
+<p class="font-label-caps text-primary-fixed-dim/70">Integration HUD — Session_Status: <span class="text-neon-magenta animate-pulse">ACTIVE_FLOW</span></p>
+</header>
+<!-- GRID LAYOUT -->
+<div class="grid grid-cols-12 gap-panel-gap lg:h-[75vh]">
+<!-- LEFT: Shadow Density Monitor -->
+<section class="col-span-12 lg:col-span-3 hud-glass p-6 flex flex-col justify-between">
+<div>
+<h2 class="font-headline-sm text-sm text-primary mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">analytics</span>
+                        SHADOW_DENSITY
+                    </h2>
+<div class="space-y-8">
+<!-- Archetypal Repression -->
+<div class="group">
+<div class="flex justify-between mb-2">
+<span class="font-label-caps text-[10px] text-on-surface-variant">Archetypal Repression</span>
+<span class="font-mono-data text-xs text-neon-magenta">74.2%</span>
+</div>
+<div class="h-1.5 bg-surface-variant w-full overflow-hidden relative">
+<div class="h-full bg-gradient-to-r from-secondary-container to-neon-magenta w-[74%] neon-glow-magenta relative">
+<div class="absolute inset-0 scanline opacity-40"></div>
+</div>
+</div>
+</div>
+<!-- Subconscious Friction -->
+<div class="group">
+<div class="flex justify-between mb-2">
+<span class="font-label-caps text-[10px] text-on-surface-variant">Subconscious Friction</span>
+<span class="font-mono-data text-xs text-primary">42.8%</span>
+</div>
+<div class="h-1.5 bg-surface-variant w-full overflow-hidden relative">
+<div class="h-full bg-primary w-[42.8%] neon-glow-cyan relative">
+<div class="absolute inset-0 scanline opacity-40"></div>
+</div>
+</div>
+</div>
+<!-- Trigger Sensitivity -->
+<div class="group">
+<div class="flex justify-between mb-2">
+<span class="font-label-caps text-[10px] text-on-surface-variant">Trigger Sensitivity</span>
+<span class="font-mono-data text-xs text-neon-magenta">89.1%</span>
+</div>
+<div class="h-1.5 bg-surface-variant w-full overflow-hidden relative">
+<div class="h-full bg-gradient-to-r from-primary to-neon-magenta w-[89.1%] neon-glow-magenta relative">
+<div class="absolute inset-0 scanline opacity-40"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-12 p-4 bg-primary-container/5 border-l-2 border-primary">
+<p class="font-mono-data text-[10px] text-on-surface-variant leading-relaxed">
+<span class="text-primary font-bold">WARNING:</span> Elevated friction detected in <span class="text-neon-magenta">Quadrant_4</span>. Archetypal bleed likely during dream state.
+                    </p>
+</div>
+</section>
+<!-- CENTER: Integration Core -->
+<section class="col-span-12 lg:col-span-6 hud-glass relative flex items-center justify-center overflow-hidden border-2 border-primary/10">
+<!-- Background visual -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="w-[80%] h-[80%] border border-primary/5 rounded-full animate-pulse"></div>
+<div class="absolute w-[60%] h-[60%] border border-primary/10 rounded-full animate-ring"></div>
+</div>
+<!-- Integration Orb -->
+<div class="relative z-10 text-center">
+<div class="relative mb-8">
+<!-- Dark Energy Orb -->
+<div class="w-48 h-48 md:w-64 md:h-64 rounded-full bg-gradient-to-tr from-black via-secondary-container to-neon-magenta shadow-[0_0_50px_rgba(255,0,255,0.3)] animate-pulse flex items-center justify-center border-4 border-primary/20">
+<!-- Inner Core -->
+<div class="w-32 h-32 md:w-40 md:h-40 rounded-full bg-black border border-primary/40 flex items-center justify-center overflow-hidden">
+
+<div class="relative z-10 text-center">
+<p class="font-headline-md text-primary drop-shadow-[0_0_10px_rgba(0,240,255,1)]">68%</p>
+<p class="font-label-caps text-[10px] text-primary/80">STABILITY</p>
+</div>
+</div>
+</div>
+<!-- Floating Data Chips -->
+<div class="absolute -top-4 -right-10 px-3 py-1 bg-surface-container border border-primary/40 text-[10px] font-mono-data text-primary backdrop-blur-md">SYNC_LOCK: OK</div>
+<div class="absolute bottom-4 -left-12 px-3 py-1 bg-surface-container border border-neon-magenta/40 text-[10px] font-mono-data text-neon-magenta backdrop-blur-md">SHADOW_LEAK: MINIMAL</div>
+</div>
+<h3 class="font-audiowide text-primary-fixed tracking-widest text-lg">INTEGRATION_CORE</h3>
+<p class="font-label-caps text-on-surface-variant/60 text-[11px] mt-2 tracking-[0.3em]">RE-CONCILING ARCHETYPES</p>
+</div>
+<!-- Bottom Decorative Labels -->
+<div class="absolute bottom-4 left-6 flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary animate-ping"></div>
+<span class="font-mono-data text-[10px] text-primary/60">HEART_RATE: 72bpm</span>
+</div>
+<div class="absolute bottom-4 right-6">
+<span class="font-mono-data text-[10px] text-on-surface-variant/40 italic">Vector: Transcendence-A</span>
+</div>
+</section>
+<!-- RIGHT: Projection Decoder -->
+<section class="col-span-12 lg:col-span-3 hud-glass p-6 flex flex-col">
+<h2 class="font-headline-sm text-sm text-primary mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">visibility</span>
+                    PROJECTION_DECODER
+                </h2>
+<div class="flex-1 space-y-4 overflow-y-auto pr-2 custom-scrollbar">
+<!-- Entry 1 -->
+<div class="p-3 border border-outline-variant/20 bg-surface-container/30 hover:border-primary/40 transition-colors group cursor-crosshair">
+<div class="flex justify-between items-center mb-2">
+<span class="font-mono-data text-[10px] text-primary/60">T+ 14:22:01</span>
+<span class="material-symbols-outlined text-xs text-neon-magenta">warning</span>
+</div>
+<p class="font-label-caps text-[10px] text-on-surface-variant mb-1">EXTERNAL_TRIGGER:</p>
+<p class="font-body-md text-xs text-primary mb-3">Colleague's unsolicited critique of timeline efficiency.</p>
+<div class="flex items-center gap-2 border-t border-outline-variant/10 pt-2">
+<span class="material-symbols-outlined text-xs text-neon-magenta">compare_arrows</span>
+<p class="font-label-caps text-[10px] text-neon-magenta">INTERNAL_MIRROR: <span class="font-bold">REPRESSED_AMBITION</span></p>
+</div>
+</div>
+<!-- Entry 2 -->
+<div class="p-3 border border-outline-variant/20 bg-surface-container/30 hover:border-primary/40 transition-colors group cursor-crosshair">
+<div class="flex justify-between items-center mb-2">
+<span class="font-mono-data text-[10px] text-primary/60">T+ 09:45:18</span>
+</div>
+<p class="font-label-caps text-[10px] text-on-surface-variant mb-1">EXTERNAL_TRIGGER:</p>
+<p class="font-body-md text-xs text-primary mb-3">Public display of excessive vulnerability in peers.</p>
+<div class="flex items-center gap-2 border-t border-outline-variant/10 pt-2">
+<span class="material-symbols-outlined text-xs text-neon-magenta">compare_arrows</span>
+<p class="font-label-caps text-[10px] text-neon-magenta">INTERNAL_MIRROR: <span class="font-bold">DENIED_FRAGILITY</span></p>
+</div>
+</div>
+<!-- Entry 3 -->
+<div class="p-3 border border-outline-variant/20 bg-surface-container/30 hover:border-primary/40 transition-colors group cursor-crosshair">
+<div class="flex justify-between items-center mb-2">
+<span class="font-mono-data text-[10px] text-primary/60">T+ 08:12:55</span>
+</div>
+<p class="font-label-caps text-[10px] text-on-surface-variant mb-1">EXTERNAL_TRIGGER:</p>
+<p class="font-body-md text-xs text-primary mb-3">Partner's sudden need for isolation/space.</p>
+<div class="flex items-center gap-2 border-t border-outline-variant/10 pt-2">
+<span class="material-symbols-outlined text-xs text-neon-magenta">compare_arrows</span>
+<p class="font-label-caps text-[10px] text-neon-magenta">INTERNAL_MIRROR: <span class="font-bold">ABANDONMENT_ECHO</span></p>
+</div>
+</div>
+</div>
+<button class="mt-4 w-full py-2 border border-primary/20 text-[10px] font-label-caps text-primary/60 hover:bg-primary/10 transition-all">LOAD_PREVIOUS_LOGS</button>
+</section>
+<!-- BOTTOM: Transmutation Protocols -->
+<section class="col-span-12 lg:col-span-8 hud-glass p-6">
+<h2 class="font-headline-sm text-sm text-primary mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">bolt</span>
+                    TRANSMUTATION_PROTOCOLS
+                </h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<button class="group relative px-6 py-4 bg-primary/10 border border-primary/30 hover:bg-primary/20 transition-all flex items-center gap-4 active:scale-95">
+<div class="p-2 rounded bg-primary/20 group-hover:bg-primary/40 transition-colors">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">mic</span>
+</div>
+<div class="text-left">
+<p class="font-audiowide text-xs text-primary tracking-widest">VOICE_INTEGRATION</p>
+<p class="font-mono-data text-[10px] text-on-surface-variant">Active vocal expression of suppressed traits.</p>
+</div>
+<div class="absolute bottom-0 right-0 w-4 h-4 border-r border-b border-primary/40"></div>
+</button>
+<button class="group relative px-6 py-4 bg-secondary-container/10 border border-secondary-container/30 hover:bg-secondary-container/20 transition-all flex items-center gap-4 active:scale-95">
+<div class="p-2 rounded bg-secondary-container/20 group-hover:bg-secondary-container/40 transition-colors">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">map</span>
+</div>
+<div class="text-left">
+<p class="font-audiowide text-xs text-secondary tracking-widest">SHADOW_MAPPING</p>
+<p class="font-mono-data text-[10px] text-on-surface-variant">Plot archetypal territory in the astral plane.</p>
+</div>
+<div class="absolute bottom-0 right-0 w-4 h-4 border-r border-b border-secondary-container/40"></div>
+</button>
+<button class="group relative px-6 py-4 bg-neon-magenta/10 border border-neon-magenta/30 hover:bg-neon-magenta/20 transition-all flex items-center gap-4 active:scale-95">
+<div class="p-2 rounded bg-neon-magenta/20 group-hover:bg-neon-magenta/40 transition-colors">
+<span class="material-symbols-outlined text-neon-magenta" style="font-variation-settings: 'FILL' 1;">self_improvement</span>
+</div>
+<div class="text-left">
+<p class="font-audiowide text-xs text-neon-magenta tracking-widest">VOID_MEDITATION</p>
+<p class="font-mono-data text-[10px] text-on-surface-variant">Dissolve ego structures within the zero-point.</p>
+</div>
+<div class="absolute bottom-0 right-0 w-4 h-4 border-r border-b border-neon-magenta/40"></div>
+</button>
+</div>
+</section>
+<!-- BOTTOM RIGHT: SOF.IA Insight -->
+<section class="col-span-12 lg:col-span-4 hud-glass p-6 border-r-4 border-primary bg-gradient-to-l from-primary/5 to-transparent">
+<div class="flex items-start gap-4">
+<div class="relative w-16 h-16 flex-shrink-0">
+<div class="absolute inset-0 bg-primary/20 rounded-full animate-ping"></div>
+<div class="relative w-full h-full border border-primary rounded-full flex items-center justify-center bg-surface-container/80 backdrop-blur-sm">
+<span class="material-symbols-outlined text-primary text-3xl">smart_toy</span>
+</div>
+<div class="absolute -bottom-1 -right-1 w-4 h-4 bg-primary rounded-full flex items-center justify-center border-2 border-surface">
+<div class="w-1.5 h-1.5 bg-surface rounded-full"></div>
+</div>
+</div>
+<div class="flex-1">
+<h4 class="font-audiowide text-xs text-primary mb-2 tracking-widest uppercase">SOF.IA_STRATEGY_ENGINE</h4>
+<div class="font-mono-data text-[11px] text-on-surface-variant leading-relaxed p-3 bg-black/40 border border-outline-variant/10 rounded">
+                            "Detected peak density in the <span class="text-neon-magenta">Repressed Ambition</span> sector. Recommend immediate integration through <span class="text-primary underline cursor-pointer">Protocol_9</span> to prevent symptomatic leakage."
+                        </div>
+<div class="mt-3 flex gap-3">
+<span class="font-mono-data text-[9px] text-primary/40 uppercase">Confidence: 98.4%</span>
+<span class="font-mono-data text-[9px] text-primary/40 uppercase">Risk_Level: MODERATE</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Floating HUD Elements -->
+<div class="fixed bottom-6 left-6 z-50 pointer-events-none opacity-50 hidden md:block">
+<div class="font-mono-data text-[9px] text-primary flex flex-col">
+<span>COORD: 34.0522° N, 118.2437° W</span>
+<span>SYSTEM_TIME: 03:00:14 UTC</span>
+</div>
+</div>
+<!-- Micro-interaction Scripts -->
+<script>
+        // Simple hover audio effect simulation or micro-interactions
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(btn => {
+            btn.addEventListener('mouseenter', () => {
+                // Potential for haptic or audio feedback here
+            });
+        });
+
+        // Background canvas or shader logic could be added here
+        // We are using the webgl-shader custom element for the central core.
+    </script>
+</body></html>

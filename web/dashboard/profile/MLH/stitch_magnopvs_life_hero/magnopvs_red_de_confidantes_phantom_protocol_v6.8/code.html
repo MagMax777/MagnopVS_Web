@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PHANTOM_NAVIGATOR // PROTOCOLO FANTASMA</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,400;0,700;0,800;0,900;1,400;1,700;1,800;1,900&amp;family=Bricolage+Grotesque:wght@800&amp;family=Space+Mono:wght@400;700&amp;family=Orbitron:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @keyframes particle-drift {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+        .particle {
+            position: absolute;
+            background: #ff5540;
+            width: 2px;
+            height: 2px;
+            pointer-events: none;
+            animation: particle-drift linear infinite;
+        }
+        .halftone-bg {
+            background-image: radial-gradient(#ffffff10 1px, transparent 1px);
+            background-size: 8px 8px;
+        }
+        .skew-fix { transform: skewX(12deg); }
+        .mask-overlay {
+            mask-image: url('https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/theater_comedy/default/48px.svg');
+            mask-repeat: no-repeat;
+            mask-position: center;
+            mask-size: contain;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#e2e2e2",
+                        "on-surface-variant": "#ebbbb4",
+                        "surface-container": "#1e2020",
+                        "on-tertiary": "#00363a",
+                        "tertiary-container": "#00a0aa",
+                        "primary-container": "#ff5540",
+                        "on-tertiary-fixed-variant": "#004f54",
+                        "on-background": "#e2e2e2",
+                        "tertiary-fixed": "#7df4ff",
+                        "surface-tint": "#ffb4a8",
+                        "on-primary-fixed-variant": "#930100",
+                        "error": "#ffb4ab",
+                        "on-secondary": "#303030",
+                        "secondary": "#c6c6c6",
+                        "surface-container-lowest": "#0c0f0f",
+                        "on-primary-container": "#5c0000",
+                        "outline-variant": "#603e39",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-container": "#b5b5b5",
+                        "on-error": "#690005",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "on-primary-fixed": "#410000",
+                        "surface-variant": "#333535",
+                        "primary-fixed": "#ffdad4",
+                        "surface-bright": "#37393a",
+                        "primary-fixed-dim": "#ffb4a8",
+                        "surface": "#121414",
+                        "secondary-container": "#474747",
+                        "on-secondary-fixed": "#1b1b1b",
+                        "on-tertiary-container": "#002f33",
+                        "background": "#121414",
+                        "tertiary-fixed-dim": "#00dbe9",
+                        "tertiary": "#00dbe9",
+                        "on-primary": "#690100",
+                        "outline": "#b18780",
+                        "surface-container-low": "#1a1c1c",
+                        "surface-container-highest": "#333535",
+                        "inverse-surface": "#e2e2e2",
+                        "error-container": "#93000a",
+                        "secondary-fixed": "#e2e2e2",
+                        "primary": "#ffb4a8",
+                        "inverse-on-surface": "#2f3131",
+                        "on-secondary-fixed-variant": "#474747",
+                        "inverse-primary": "#c00100",
+                        "surface-dim": "#121414",
+                        "surface-container-high": "#282a2b",
+                        "on-tertiary-fixed": "#002022"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Anybody"],
+                        "action-callout": ["Bricolage Grotesque"],
+                        "headline-lg": ["Anybody"],
+                        "label-mono": ["Space Mono"],
+                        "data-primary": ["Orbitron"],
+                        "display-hero": ["Anybody"],
+                        "body-main": ["Orbitron"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.1", "fontWeight": "800"}],
+                        "action-callout": ["28px", {"lineHeight": "1.0", "fontWeight": "800"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "800"}],
+                        "label-mono": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "data-primary": ["18px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "display-hero": ["72px", {"lineHeight": "1.0", "letterSpacing": "-0.05em", "fontWeight": "900"}],
+                        "body-main": ["14px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen overflow-hidden halftone-bg selection:bg-primary-container selection:text-on-primary-container">
+<!-- Atmospheric Particles -->
+<div class="fixed inset-0 pointer-events-none z-0" id="particle-container"></div>
+<!-- Background Mask -->
+<div class="fixed inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none z-0">
+<span class="material-symbols-outlined text-[800px]">theater_comedy</span>
+</div>
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-gutter h-16 bg-surface/80 backdrop-blur-xl dark:bg-surface/80 border-b-4 border-primary-container shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] clip-path-[polygon(0_0,100%_0,98%_100%,2%_90%)]">
+<div class="flex items-center gap-4">
+<h1 class="font-headline-lg text-headline-lg italic font-black text-primary-container skew-x-[-12deg]">PHANTOM_NAVIGATOR</h1>
+<nav class="hidden md:flex gap-8 ml-8">
+<a class="font-headline-lg-mobile text-headline-lg-mobile uppercase tracking-tighter text-on-surface-variant hover:skew-x-[-15deg] hover:text-tertiary transition-transform" href="#">DASHBOARD</a>
+<a class="font-headline-lg-mobile text-headline-lg-mobile uppercase tracking-tighter text-primary-container underline decoration-4 underline-offset-8 hover:skew-x-[-15deg] hover:text-tertiary transition-transform" href="#">CONFIDANTS</a>
+<a class="font-headline-lg-mobile text-headline-lg-mobile uppercase tracking-tighter text-on-surface-variant hover:skew-x-[-15deg] hover:text-tertiary transition-transform" href="#">INFILTRATE</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="calendar_today">calendar_today</span>
+<span class="material-symbols-outlined text-primary" data-icon="notifications_active" style="font-variation-settings: 'FILL' 1;">notifications_active</span>
+<span class="material-symbols-outlined text-primary" data-icon="settings">settings</span>
+</div>
+</header>
+<!-- Side Navigation Bar -->
+<aside class="hidden lg:flex flex-col pt-24 pb-8 px-6 gap-4 fixed left-0 top-0 h-full w-72 bg-surface-container/90 backdrop-blur-lg border-r-8 border-primary shadow-[12px_0px_0px_0px_rgba(147,1,0,0.5)] clip-path-[polygon(0_0,100%_0,85%_100%,0_100%)] z-40">
+<div class="mb-8">
+<h2 class="font-display-hero text-headline-lg text-primary">OPERATIVE</h2>
+<p class="font-action-callout text-action-callout italic text-primary-container">RANK: JOKER</p>
+</div>
+<div class="space-y-4">
+<button class="w-full flex items-center gap-4 px-4 py-3 font-action-callout text-action-callout italic bg-primary text-on-primary -skew-x-7 translate-x-4 shadow-[4px_4px_0px_0px_rgba(0,219,233,1)]">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span>DASHBOARD</span>
+</button>
+<button class="w-full flex items-center gap-4 px-4 py-3 font-action-callout text-action-callout italic text-on-surface hover:text-primary hover:translate-x-2 transition-all">
+<span class="material-symbols-outlined" data-icon="group" style="font-variation-settings: 'FILL' 1;">group</span>
+<span>CONFIDANTS</span>
+</button>
+<button class="w-full flex items-center gap-4 px-4 py-3 font-action-callout text-action-callout italic text-on-surface hover:text-primary hover:translate-x-2 transition-all">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+<span>INFILTRATE</span>
+</button>
+<button class="w-full flex items-center gap-4 px-4 py-3 font-action-callout text-action-callout italic text-on-surface hover:text-primary hover:translate-x-2 transition-all">
+<span class="material-symbols-outlined" data-icon="swords">swords</span>
+<span>ARSENAL</span>
+</button>
+</div>
+<button class="mt-auto bg-primary-container text-on-primary-container font-headline-lg-mobile p-4 -skew-x-12 active:scale-95 transition-all shadow-[4px_4px_0px_black]">
+            SYNC_SOUL
+        </button>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:ml-72 pt-24 pb-32 px-gutter min-h-screen relative z-10">
+<!-- Header Section -->
+<div class="mb-12 relative">
+<div class="absolute -top-10 -left-6 opacity-20">
+<h2 class="font-display-hero text-[120px] text-primary-container italic select-none">CONFIDANTS</h2>
+</div>
+<h2 class="font-display-hero text-headline-lg text-primary relative z-10 tracking-widest">PROTOCOL_SOUL_LINK</h2>
+<div class="h-1 w-64 bg-tertiary mt-2 -skew-x-12"></div>
+</div>
+<!-- Shattered Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 items-start">
+<!-- Confidant Card 1 -->
+<div class="group relative bg-surface-container-high backdrop-blur-md p-1 -skew-x-3 hover:skew-x-0 transition-all duration-300 shadow-[10px_10px_0px_rgba(255,85,64,0.2)] border-l-4 border-primary-container">
+<div class="flex gap-4 p-4">
+<div class="relative w-32 h-44 overflow-hidden -skew-x-6 border-2 border-on-surface-variant">
+<img class="w-full h-full object-cover grayscale brightness-50 contrast-150 group-hover:scale-110 transition-transform duration-500" data-alt="A stylized portrait of a mysterious man in a sharp black suit with a high-contrast red filter. The background is a stark white void with subtle halftone dots. The lighting is dramatic, casting deep black shadows across half his face, giving a noir, rebellious comic book aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAP1q0EcEZZrSrAT5d_SZyBsy8hX8pLSGZ8qltgbxPmNU6S6h-OtaZn1cvRtZsS7amvbnZCawqvKa_dUD0KCaKmuuBs7rQn2ck9851QL1M50xapH2GzR-PIjbx6lG5HZhqix6LWHnU4pLnW-2tBEjmUh3tdzterAde2bkRvTAcLoAoTebbunx5sIpsoMcRIGF9cDORJspu5ZU08g2eha4OKT9I0ntZMm00BsIgD7dKh3h1EXdYQfr-BRQ"/>
+<div class="absolute inset-0 bg-primary/20 mix-blend-multiply"></div>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<span class="font-label-mono text-label-mono text-tertiary bg-tertiary/10 px-2 py-1">THE HIEROPHANT</span>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mt-1">SOJIRO SAKURA</h3>
+</div>
+<div class="mt-4">
+<p class="font-label-mono text-label-mono text-on-surface-variant uppercase mb-2">BOND RANK</p>
+<div class="flex gap-1">
+<span class="material-symbols-outlined text-primary-container text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary-container text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary-container text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary-container text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm opacity-30">star</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm opacity-30">star</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm opacity-30">star</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm opacity-30">star</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm opacity-30">star</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm opacity-30">star</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-variant p-4 mt-2 -mx-1 clip-path-[polygon(0_0,100%_15%,100%_100%,0_100%)]">
+<p class="font-body-main text-body-main text-on-surface-variant italic mb-2">"Coffee and curry... that's the soul of this place."</p>
+<div class="flex flex-wrap gap-2">
+<span class="bg-primary/20 text-primary font-label-mono text-[10px] px-2 py-0.5 border border-primary/40">LEBLANC COFFEE</span>
+<span class="bg-primary/20 text-primary font-label-mono text-[10px] px-2 py-0.5 border border-primary/40">MEDICATION BOUNCE</span>
+</div>
+</div>
+</div>
+<!-- Confidant Card 2 (Active/Selected State) -->
+<div class="relative z-20 xl:col-span-1">
+<div class="group relative bg-primary-container p-1 -skew-x-3 shadow-[15px_15px_0px_black] border-l-4 border-white">
+<div class="flex gap-4 p-4 bg-primary-container">
+<div class="relative w-32 h-44 overflow-hidden -skew-x-6 border-2 border-white shadow-[4px_4px_0px_black]">
+<img class="w-full h-full object-cover contrast-200" data-alt="A portrait of a fierce young woman with short hair and a biker jacket, rendered in a high-contrast threshold style. The color palette is dominated by intense crimson red and deep obsidian black. Halftone patterns swirl in the background of the image, evoking a feeling of urban rebellion and technical precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDurntmHlas_yQkJDEx9p8TyGfxCjQzxiNzIUqmTAB9Dqnq5v7llXfXDQmwElqNNE6LZw1wkBMaPKlYGFW7UmHPcWTpH_yuJp_XeD8Lg0G4Lu8zjk4FfDxprAl5VOFDaboLbI39VkMkf8hRmUkSc4s_DXhPpt-NR37Pd34wF4qUI3kE2TUvkLlwye9DkEo0YBi7TCnm-BZJLVtKjcNUKAHEwoqLQBlgJ6Fk5UZxqZ_MKgv7xrgASzVLnA"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<span class="font-label-mono text-label-mono text-on-primary-container bg-white/20 px-2 py-1">THE PRIESTESS</span>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-primary-container mt-1">MAKOTO NIIJIMA</h3>
+</div>
+<div class="mt-4">
+<p class="font-label-mono text-label-mono text-on-primary-container uppercase mb-2">BOND RANK</p>
+<div class="flex gap-1">
+<span class="material-symbols-outlined text-white text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-white text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-white text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-white text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-white text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-white text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-on-primary-container/30 text-sm">star</span>
+<span class="material-symbols-outlined text-on-primary-container/30 text-sm">star</span>
+<span class="material-symbols-outlined text-on-primary-container/30 text-sm">star</span>
+<span class="material-symbols-outlined text-on-primary-container/30 text-sm">star</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Slanted Detail Panel -->
+<div class="absolute top-full left-0 w-full bg-surface shadow-[10px_10px_0px_#ff5540] mt-4 p-6 border-r-8 border-primary-container -skew-x-3">
+<div class="skew-fix">
+<h4 class="font-action-callout text-action-callout italic text-primary-container border-b-2 border-primary-container pb-2 mb-4">UNLOCKED_SKILLS</h4>
+<ul class="space-y-4">
+<li class="flex items-start gap-4 group/item">
+<span class="material-symbols-outlined text-tertiary mt-1" data-icon="memory">memory</span>
+<div>
+<p class="font-data-primary text-sm text-on-surface group-hover/item:text-primary transition-colors">SHADOW ANALYSIS</p>
+<p class="font-body-main text-xs text-on-surface-variant opacity-70">Reveals enemy weaknesses and item drops before the first strike.</p>
+</div>
+</li>
+<li class="flex items-start gap-4 group/item">
+<span class="material-symbols-outlined text-tertiary mt-1" data-icon="security">security</span>
+<div>
+<p class="font-data-primary text-sm text-on-surface group-hover/item:text-primary transition-colors">ENDURE STRIKE</p>
+<p class="font-body-main text-xs text-on-surface-variant opacity-70">Chance to survive a fatal blow with 1 HP remaining once per battle.</p>
+</div>
+</li>
+<li class="flex items-start gap-4 group/item opacity-40">
+<span class="material-symbols-outlined text-on-surface-variant mt-1" data-icon="lock">lock</span>
+<div>
+<p class="font-data-primary text-sm text-on-surface">LOCKED_SYNC_08</p>
+<p class="font-body-main text-xs text-on-surface-variant">Requires Rank 8 Bond to decrypt sub-protocol.</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<!-- Confidant Card 3 -->
+<div class="group relative bg-surface-container-high backdrop-blur-md p-1 -skew-x-3 hover:skew-x-0 transition-all duration-300 shadow-[10px_10px_0px_rgba(255,85,64,0.2)] border-l-4 border-tertiary">
+<div class="flex gap-4 p-4">
+<div class="relative w-32 h-44 overflow-hidden -skew-x-6 border-2 border-tertiary/50">
+<img class="w-full h-full object-cover grayscale brightness-50 contrast-150 group-hover:scale-110 transition-transform duration-500" data-alt="A portrait of a tech-savvy girl wearing large headphones and a futuristic hoodie, looking directly at the camera with intense curiosity. The image is filtered through a heavy cyan and red glitch effect with significant halftone texturing. The style is aggressive, digital pop-art with deep shadows and high-contrast highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBP1vER-twLqlLkPkwAeLw1mzbLT-muITYf5QwYue8NbdhwEteU6q7gFQf-0dirhnkSask0Wp0kMRKNDeXmDDTvXNxa3hks_vCN_7Df94GTCwUI5lzK48f77dZk5wg1RhXWXYkdhf5dba6C-SQcbDvcZNImmX_jqMiQ6z1fSX87s-gCabP_YjveBtvYDHCugOa_ZOiVmG36zI1l58bE4GKDrC-hYb4-HIKtntQN6yxxatmr2pGbA8vSXg"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<span class="font-label-mono text-label-mono text-tertiary bg-tertiary/10 px-2 py-1">THE HERMIT</span>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mt-1">FUTABA SAKURA</h3>
+</div>
+<div class="mt-4">
+<p class="font-label-mono text-label-mono text-on-surface-variant uppercase mb-2">BOND RANK</p>
+<div class="flex gap-1">
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm opacity-30">star</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm opacity-30">star</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm opacity-30">star</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm opacity-30">star</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm opacity-30">star</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm opacity-30">star</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm opacity-30">star</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm opacity-30">star</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-variant p-4 mt-2 -mx-1 clip-path-[polygon(0_15%,100%_0,100%_100%,0_100%)]">
+<p class="font-body-main text-body-main text-on-surface-variant italic mb-2">"Ali Baba reporting... connection established."</p>
+<div class="flex flex-wrap gap-2">
+<span class="bg-tertiary/20 text-tertiary font-label-mono text-[10px] px-2 py-0.5 border border-tertiary/40">MEMENTO SCAN</span>
+<span class="bg-tertiary/20 text-tertiary font-label-mono text-[10px] px-2 py-0.5 border border-tertiary/40">RESOURCE SALVAGE</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Global Status Bar (Bottom Right) -->
+<div class="fixed bottom-24 right-8 z-30 flex flex-col items-end gap-2">
+<div class="flex items-center gap-4 bg-surface-container-highest px-6 py-2 border-r-8 border-primary-container -skew-x-12">
+<div class="skew-fix text-right">
+<p class="font-label-mono text-[10px] text-primary-container">TOTAL_SYNC_RATE</p>
+<p class="font-data-primary text-2xl text-on-surface">64.8%</p>
+</div>
+<div class="w-12 h-12 rounded-full border-4 border-tertiary flex items-center justify-center animate-pulse">
+<span class="material-symbols-outlined text-tertiary" data-icon="sync_alt">sync_alt</span>
+</div>
+</div>
+<p class="font-label-mono text-[9px] text-on-surface-variant opacity-50 tracking-[0.2em]">SYSTEM_STABLE // NO_THREATS_DETECTED</p>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mobile only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 z-50 h-20 bg-surface-container-lowest clip-path-[polygon(2%_10%,98%_0,100%_100%,0_100%)] shadow-[0px_-4px_10px_rgba(255,85,64,0.3)]">
+<div class="bg-gradient-to-t from-primary/20 to-transparent absolute inset-0 pointer-events-none"></div>
+<button class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 active:translate-y-1 transition-transform">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-mono text-label-mono uppercase mt-1">STATUS</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container -skew-x-12 px-6 py-2 border-r-4 border-tertiary active:translate-y-1 transition-transform">
+<span class="material-symbols-outlined" data-icon="sync_alt" style="font-variation-settings: 'FILL' 1;">sync_alt</span>
+<span class="font-label-mono text-label-mono uppercase mt-1">SYNC</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 active:translate-y-1 transition-transform">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+<span class="font-label-mono text-label-mono uppercase mt-1">ALERTS</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 active:translate-y-1 transition-transform">
+<span class="material-symbols-outlined" data-icon="memory">memory</span>
+<span class="font-label-mono text-label-mono uppercase mt-1">CORE</span>
+</button>
+</nav>
+<!-- UI Interaction Script -->
+<script>
+        // Particle Background Logic
+        const container = document.getElementById('particle-container');
+        const particleCount = 40;
+
+        for (let i = 0; i < particleCount; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.top = Math.random() * 100 + 'vh';
+            p.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            p.style.animationDelay = (Math.random() * 5) + 's';
+            p.style.opacity = Math.random();
+            container.appendChild(p);
+        }
+
+        // Click interaction for cards
+        document.querySelectorAll('.group').forEach(card => {
+            card.addEventListener('click', () => {
+                // Subtle scale effect on click
+                card.classList.add('scale-95');
+                setTimeout(() => card.classList.remove('scale-95'), 100);
+            });
+        });
+    </script>
+</body></html>

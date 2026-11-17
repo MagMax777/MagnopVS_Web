@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS | Mission Command</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .drop-shadow-glow {
+            filter: drop-shadow(0 0 8px rgba(71, 214, 255, 0.6));
+        }
+        .hex-bg {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60 4.02 45V15z' fill-opacity='0.05' fill='%2347d6ff' fill-rule='evenodd' stroke='%2347d6ff' stroke-width='0.5' stroke-opacity='0.1'/%3E%3C/svg%3E");
+        }
+        .glass-panel {
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
+        .animate-pulse-glow {
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+        .chamfered {
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface-variant": "#bbc9cf",
+                    "on-error": "#690005",
+                    "on-primary-fixed": "#001f28",
+                    "on-error-container": "#ffdad6",
+                    "surface-bright": "#333a3d",
+                    "tertiary-fixed-dim": "#fface8",
+                    "surface-tint": "#47d6ff",
+                    "surface-container-high": "#242b2e",
+                    "secondary": "#d1bcff",
+                    "surface-container-low": "#161d1f",
+                    "on-tertiary": "#5e0053",
+                    "background": "#0e1417",
+                    "inverse-surface": "#dde3e7",
+                    "outline-variant": "#3c494e",
+                    "inverse-primary": "#00677f",
+                    "on-secondary-container": "#ddcdff",
+                    "on-primary-fixed-variant": "#004e60",
+                    "tertiary": "#ffcfee",
+                    "on-secondary-fixed-variant": "#5700c9",
+                    "on-primary": "#003543",
+                    "on-tertiary-fixed-variant": "#840076",
+                    "on-secondary": "#3c0090",
+                    "on-background": "#dde3e7",
+                    "inverse-on-surface": "#2b3134",
+                    "secondary-fixed": "#e9ddff",
+                    "surface-container-lowest": "#090f12",
+                    "error": "#ffb4ab",
+                    "error-container": "#93000a",
+                    "tertiary-container": "#ffa3e7",
+                    "surface-container": "#1a2123",
+                    "surface-container-highest": "#2f3639",
+                    "primary": "#a5e7ff",
+                    "on-tertiary-fixed": "#3a0033",
+                    "on-surface": "#dde3e7",
+                    "surface": "#0e1417",
+                    "primary-container": "#00d2ff",
+                    "secondary-fixed-dim": "#d1bcff",
+                    "on-secondary-fixed": "#23005b",
+                    "on-primary-container": "#00566a",
+                    "surface-dim": "#0e1417",
+                    "secondary-container": "#7000ff",
+                    "primary-fixed-dim": "#47d6ff",
+                    "primary-fixed": "#b6ebff",
+                    "on-tertiary-container": "#920083",
+                    "tertiary-fixed": "#ffd7f0",
+                    "surface-variant": "#2f3639",
+                    "outline": "#859399"
+            },
+            "fontFamily": {
+                    "data-header": ["Orbitron"],
+                    "body-md": ["Orbitron"],
+                    "headline-lg-mobile": ["Audiowide"],
+                    "display-xl": ["Audiowide"],
+                    "label-caps": ["Orbitron"],
+                    "headline-lg": ["Audiowide"]
+            },
+            "fontSize": {
+                    "data-header": ["18px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "display-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                    "label-caps": ["10px", {"lineHeight": "1", "letterSpacing": "0.2em", "fontWeight": "900"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden selection:bg-primary selection:text-on-primary">
+<!-- Hexagonal Background Overlay -->
+<div class="fixed inset-0 pointer-events-none hex-bg z-0 opacity-40"></div>
+<!-- Top AppBar Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(71,214,255,0.2)] flex justify-between items-center px-margin-edge h-16">
+<div class="font-headline-lg text-headline-lg-mobile text-primary tracking-widest uppercase">MISSION CONTROL v2.4</div>
+<div class="hidden md:flex gap-8 items-center">
+<span class="text-primary drop-shadow-[0_0_8px_rgba(71,214,255,0.8)] font-label-caps text-label-caps cursor-pointer">COMMAND</span>
+<span class="text-on-surface-variant hover:text-primary transition-all duration-300 font-label-caps text-label-caps cursor-pointer">CHARACTER</span>
+<span class="text-on-surface-variant hover:text-primary transition-all duration-300 font-label-caps text-label-caps cursor-pointer">ABILITIES</span>
+<span class="text-on-surface-variant hover:text-primary transition-all duration-300 font-label-caps text-label-caps cursor-pointer">VAULT</span>
+</div>
+<div class="flex gap-4 items-center">
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all duration-300 cursor-pointer active:scale-95">settings</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all duration-300 cursor-pointer active:scale-95">power_settings_new</span>
+</div>
+</nav>
+<!-- Side Navigation (Desktop Only) -->
+<aside class="hidden md:flex fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-low/90 backdrop-blur-md border-r border-outline-variant/20 shadow-2xl shadow-primary/5 flex-col py-8 pt-24 gap-4">
+<div class="px-6 mb-8">
+<div class="text-primary font-display-xl text-3xl mb-1">MAGNOPVS</div>
+<div class="text-primary/60 font-label-caps text-[8px] tracking-[0.3em]">VITAL SIGNS: OPTIMAL</div>
+</div>
+<div class="flex flex-col flex-grow">
+<div class="bg-primary-container/20 text-primary border-l-4 border-primary px-6 py-4 flex items-center gap-4 cursor-pointer">
+<span class="material-symbols-outlined">terminal</span>
+<span class="font-label-caps text-label-caps">Command</span>
+</div>
+<div class="text-on-surface-variant hover:bg-surface-variant/30 hover:translate-x-1 transition-all px-6 py-4 flex items-center gap-4 cursor-pointer">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-caps text-label-caps">Character</span>
+</div>
+<div class="text-on-surface-variant hover:bg-surface-variant/30 hover:translate-x-1 transition-all px-6 py-4 flex items-center gap-4 cursor-pointer">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label-caps text-label-caps">Abilities</span>
+</div>
+<div class="text-on-surface-variant hover:bg-surface-variant/30 hover:translate-x-1 transition-all px-6 py-4 flex items-center gap-4 cursor-pointer">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-caps text-label-caps">Vault</span>
+</div>
+</div>
+<div class="px-6 space-y-4">
+<button class="w-full chamfered bg-primary text-on-primary py-3 font-label-caps text-label-caps tracking-widest hover:brightness-110 active:scale-95 transition-all">SYNC DATA</button>
+<div class="flex justify-between text-on-surface-variant opacity-60">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary">help_outline</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-error">logout</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="relative z-10 pt-24 pb-32 px-4 md:ml-64 md:px-margin-edge">
+<!-- Header HUD -->
+<header class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="font-headline-lg text-primary uppercase tracking-tighter mb-2">Operational Canvas</h1>
+<p class="text-on-surface-variant/80 font-data-header text-sm">COSMIC SECTOR: SELF-ACTUALIZATION // NODE-04</p>
+</div>
+<div class="flex gap-4">
+<div class="glass-panel p-4 chamfered bg-surface-container-high/40 min-w-[120px]">
+<div class="text-[8px] font-label-caps text-primary/50 mb-1">STAMINA</div>
+<div class="h-2 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[85%] shadow-[0_0_10px_rgba(71,214,255,0.5)]"></div>
+</div>
+</div>
+<div class="glass-panel p-4 chamfered bg-surface-container-high/40 min-w-[120px]">
+<div class="text-[8px] font-label-caps text-secondary/50 mb-1">WILLPOWER</div>
+<div class="h-2 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[42%] shadow-[0_0_10px_rgba(209,188,255,0.5)] animate-pulse"></div>
+</div>
+</div>
+</div>
+</header>
+<!-- Boss Alert Section -->
+<section class="mb-12 relative overflow-hidden glass-panel border-error/30 bg-error-container/5 p-8 rounded-xl shadow-[0_0_30px_rgba(255,180,171,0.1)]">
+
+<div class="relative z-10 flex flex-col lg:flex-row items-center gap-8">
+<div class="w-24 h-24 flex-shrink-0 flex items-center justify-center rounded-full border-2 border-error animate-pulse-glow shadow-[0_0_20px_rgba(255,180,171,0.4)]">
+<span class="material-symbols-outlined text-5xl text-error">priority_high</span>
+</div>
+<div class="text-center lg:text-left flex-grow">
+<h2 class="font-headline-lg text-error uppercase mb-1">Boss Encounter: Procrastination Phantom</h2>
+<p class="text-on-surface-variant text-sm font-data-header tracking-tight">Active debuff: Mental Fog (-20% Clarity). Engage with 'Focused Sprint' to clear.</p>
+</div>
+<button class="chamfered bg-error text-on-error px-10 py-4 font-label-caps text-[12px] hover:bg-on-error hover:text-error transition-all active:scale-95 shadow-lg shadow-error/20">INITIATE COMBAT</button>
+</div>
+</section>
+<!-- Quest Categories (Bento Grid Style) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Daily Quests (Habits) -->
+<div class="lg:col-span-4 flex flex-col gap-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary">task_alt</span>
+<h3 class="font-label-caps text-primary text-label-caps">Daily Quests</h3>
+</div>
+<!-- Quest Card -->
+<div class="glass-panel bg-surface-container/60 p-6 relative overflow-hidden group hover:bg-surface-container-high/80 transition-colors chamfered">
+<div class="absolute left-0 top-0 h-full w-1 bg-primary group-hover:w-2 transition-all"></div>
+<div class="flex justify-between items-start mb-4">
+<span class="text-[10px] font-label-caps bg-primary/20 text-primary px-2 py-0.5 rounded">COMMON</span>
+<span class="font-data-header text-primary/40 text-xs">#0921</span>
+</div>
+<h4 class="font-data-header text-on-surface text-lg mb-2">Morning Hydration Cycle</h4>
+<p class="text-on-surface-variant text-xs mb-6 opacity-70">Initialize the core systems with H2O and bio-nutrients.</p>
+<div class="grid grid-cols-2 gap-4 border-t border-outline-variant/30 pt-4">
+<div>
+<div class="text-[8px] font-label-caps text-primary/50">REWARD</div>
+<div class="text-xs font-bold text-primary">+15 XP</div>
+</div>
+<div class="text-right">
+<div class="text-[8px] font-label-caps text-primary/50">SYNC</div>
+<div class="text-xs font-bold text-on-surface">100%</div>
+</div>
+</div>
+</div>
+<div class="glass-panel bg-surface-container/60 p-6 relative overflow-hidden group hover:bg-surface-container-high/80 transition-colors chamfered">
+<div class="absolute left-0 top-0 h-full w-1 bg-primary"></div>
+<h4 class="font-data-header text-on-surface text-lg mb-2">Code Refactoring 01</h4>
+<div class="flex items-center gap-2 mb-4">
+<div class="h-1 flex-grow bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[30%]"></div>
+</div>
+<span class="text-[10px] font-data-header text-primary">30%</span>
+</div>
+<div class="flex justify-between items-center text-[10px] font-label-caps text-on-surface-variant">
+<span>DIFF: LVL 02</span>
+<span class="text-primary cursor-pointer hover:underline">SYNC PROGRESS</span>
+</div>
+</div>
+</div>
+<!-- Secondary Missions (Growth) -->
+<div class="lg:col-span-5 flex flex-col gap-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-secondary">workspace_premium</span>
+<h3 class="font-label-caps text-secondary text-label-caps">Secondary Missions</h3>
+</div>
+<!-- Expansion Card -->
+<div class="glass-panel bg-surface-container/40 p-0 overflow-hidden chamfered flex flex-col group">
+<div class="h-40 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="A cinematic, high-fidelity scene of a futuristic digital archive or holographic library where data nodes pulse with a soft purple light. Neon glowing lines connect various geometric oracles and obsidian-glass panels in a deep cosmic void. The lighting is moody and focused on the center, casting a soft amethyst-colored glow across the scene, creating a sense of ancient knowledge meeting futuristic technology." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDjO781HGtCiKfG-or027Evi2MDkHuoB4vkIETWrK2dOKtjdOOb_Z4zQjwJqi7ogA5k8UoEVoOwRokQ1PRocx0K3WgEU4cTpufBzKR__a22A8m09mHHgMMp9z48HYGNSmusB9yEJsYqwkjeLNHZCXti1mAYpHQn_B5lLfVmbYsfwQ7bDCyl8vqyh2RfpiCGjc-vUPkbgU5a9Os97V1svAqNkrMAZQofNCGeaISjQQwuMHIjUKhEssSGQQ')"></div>
+<div class="p-6 relative">
+<div class="absolute -top-4 right-6 bg-secondary text-on-secondary px-3 py-1 font-label-caps text-[10px] chamfered shadow-lg">IN PROGRESS</div>
+<h4 class="font-data-header text-secondary text-xl mb-3">Architectural Mastery</h4>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Systematic study of the 'Neural Framework' documentation. Complete 4 technical deep-dives this cycle.</p>
+<div class="flex justify-between items-end">
+<div>
+<div class="text-[8px] font-label-caps text-secondary/60">XP PAYOUT</div>
+<div class="text-xl font-bold text-secondary">1,250</div>
+</div>
+<div class="text-right flex flex-col items-end">
+<div class="flex gap-1 mb-1">
+<div class="w-3 h-1 bg-secondary"></div>
+<div class="w-3 h-1 bg-secondary"></div>
+<div class="w-3 h-1 bg-surface-variant"></div>
+<div class="w-3 h-1 bg-surface-variant"></div>
+</div>
+<span class="text-[8px] font-label-caps text-on-surface-variant">NODE 2/4</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Epic Quests (Life Goals) -->
+<div class="lg:col-span-3 flex flex-col gap-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-tertiary">diamond</span>
+<h3 class="font-label-caps text-tertiary text-label-caps">Epic Quests</h3>
+</div>
+<div class="glass-panel bg-gradient-to-br from-tertiary/10 to-surface-container-lowest p-6 border-tertiary/20 relative chamfered h-full flex flex-col justify-between">
+<div class="mb-8">
+<div class="text-[9px] font-label-caps text-tertiary mb-4 animate-pulse">LEGENDARY CONTRACT</div>
+<h4 class="font-headline-lg text-tertiary text-xl mb-4 leading-tight uppercase">Construct the 'Arks' Project</h4>
+<p class="text-on-surface-variant text-xs opacity-80 italic">"The legacy of a system is defined by its resilience and reach."</p>
+</div>
+<div class="space-y-4">
+<div class="glass-panel p-3 bg-tertiary-container/10 border-tertiary/30 rounded">
+<div class="flex justify-between text-[10px] font-label-caps mb-2">
+<span class="text-tertiary">OVERALL SYNC</span>
+<span class="text-tertiary">08%</span>
+</div>
+<div class="h-1 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[8%] shadow-[0_0_10px_rgba(255,163,231,0.5)]"></div>
+</div>
+</div>
+<button class="w-full py-4 chamfered border border-tertiary/50 text-tertiary font-label-caps text-[10px] hover:bg-tertiary hover:text-on-tertiary transition-all">VIEW STORYBOARD</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation (Mobile) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 h-20 rounded-t-xl bg-surface-container-highest/95 border-t border-primary/40 bg-gradient-to-t from-surface-container-highest to-surface-container shadow-[0_-4px_20px_rgba(71,214,255,0.15)] flex justify-around items-center px-4">
+<div class="flex flex-col items-center text-primary drop-shadow-glow tap:scale-110 cursor-pointer">
+<span class="material-symbols-outlined">task_alt</span>
+<span class="font-label-caps text-[8px] mt-1">Dailies</span>
+</div>
+<div class="flex flex-col items-center text-on-surface-variant opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
+<span class="material-symbols-outlined">workspace_premium</span>
+<span class="font-label-caps text-[8px] mt-1">Quests</span>
+</div>
+<div class="flex flex-col items-center text-on-surface-variant opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
+<span class="material-symbols-outlined">package_2</span>
+<span class="font-label-caps text-[8px] mt-1">Vault</span>
+</div>
+<div class="flex flex-col items-center text-on-surface-variant opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
+<span class="material-symbols-outlined">memory</span>
+<span class="font-label-caps text-[8px] mt-1">Systems</span>
+</div>
+</nav>
+<!-- UI Interaction Scripts -->
+<script>
+        // Simple scale effect for interactive elements
+        document.querySelectorAll('.active\\:scale-95').forEach(el => {
+            el.addEventListener('mousedown', () => el.style.transform = 'scale(0.95)');
+            el.addEventListener('mouseup', () => el.style.transform = 'scale(1)');
+            el.addEventListener('mouseleave', () => el.style.transform = 'scale(1)');
+        });
+
+        // Atmospheric mouse glow effect
+        document.addEventListener('mousemove', (e) => {
+            const glow = document.createElement('div');
+            glow.className = 'fixed pointer-events-none w-64 h-64 bg-primary/5 rounded-full blur-[100px] z-[-1]';
+            glow.style.left = (e.clientX - 128) + 'px';
+            glow.style.top = (e.clientY - 128) + 'px';
+            
+            const existing = document.getElementById('mouse-glow');
+            if (existing) existing.remove();
+            glow.id = 'mouse-glow';
+            document.body.appendChild(glow);
+        });
+    </script>
+</body></html>

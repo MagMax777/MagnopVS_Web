@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Oracle Console - Practitioner Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide:wght@100..900&amp;family=Space+Grotesk:wght@100..900&amp;family=Space+Mono:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.6; filter: blur(8px); }
+            50% { opacity: 1; filter: blur(12px); }
+        }
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        .glass-panel {
+            background: rgba(219, 252, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 219, 233, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-panel::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(rgba(18, 19, 24, 0) 50%, rgba(0, 219, 233, 0.02) 50%), 
+                        linear-gradient(90deg, rgba(0, 219, 233, 0.01), rgba(0, 219, 233, 0.01));
+            background-size: 100% 4px, 4px 100%;
+            pointer-events: none;
+        }
+        .scanline-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(to right, transparent, rgba(0, 219, 233, 0.2), transparent);
+            animation: scanline 8s linear infinite;
+            pointer-events: none;
+        }
+        .clip-path-hex {
+            clip-path: polygon(10% 0, 90% 0, 100% 15%, 100% 85%, 90% 100%, 10% 100%, 0 85%, 0 15%);
+        }
+        .clip-path-corner {
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
+        }
+        .active-glow {
+            box-shadow: 0 0 15px rgba(0, 219, 233, 0.3);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary": "#ffabf3",
+                      "on-error-container": "#ffdad6",
+                      "on-secondary-container": "#500050",
+                      "inverse-surface": "#e3e1e9",
+                      "on-primary": "#00363a",
+                      "surface-container": "#1e1f25",
+                      "outline-variant": "#3b494b",
+                      "outline": "#849495",
+                      "secondary-fixed": "#ffd7f5",
+                      "primary-fixed": "#7df4ff",
+                      "primary-fixed-dim": "#00dbe9",
+                      "error-container": "#93000a",
+                      "surface-container-lowest": "#0d0e13",
+                      "surface-container-high": "#292a2f",
+                      "surface-dim": "#121318",
+                      "surface-container-low": "#1a1b21",
+                      "on-tertiary-fixed-variant": "#5700c9",
+                      "tertiary-fixed": "#e9ddff",
+                      "tertiary": "#faf3ff",
+                      "surface-bright": "#38393f",
+                      "surface-tint": "#00dbe9",
+                      "secondary-container": "#fe00fe",
+                      "on-surface": "#e3e1e9",
+                      "inverse-on-surface": "#2f3036",
+                      "surface-variant": "#34343a",
+                      "on-tertiary-fixed": "#23005b",
+                      "secondary-fixed-dim": "#ffabf3",
+                      "on-error": "#690005",
+                      "inverse-primary": "#006970",
+                      "on-secondary-fixed-variant": "#810081",
+                      "tertiary-container": "#e1d2ff",
+                      "background": "#121318",
+                      "on-primary-fixed": "#002022",
+                      "on-background": "#e3e1e9",
+                      "on-surface-variant": "#b9cacb",
+                      "primary-container": "#00f0ff",
+                      "on-secondary": "#5b005b",
+                      "surface-container-highest": "#34343a",
+                      "on-primary-container": "#006970",
+                      "tertiary-fixed-dim": "#d1bcff",
+                      "on-tertiary-container": "#7213ff",
+                      "on-secondary-fixed": "#380038",
+                      "on-primary-fixed-variant": "#004f54",
+                      "on-tertiary": "#3c0090",
+                      "error": "#ffb4ab",
+                      "primary": "#dbfcff",
+                      "surface": "#121318"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "panel-padding": "20px",
+                      "unit": "4px",
+                      "margin-desktop": "64px",
+                      "margin-mobile": "16px",
+                      "gutter": "24px"
+              },
+              "fontFamily": {
+                      "headline-md": ["Audiowide"],
+                      "label-caps": ["Space Mono"],
+                      "display-lg": ["Audiowide"],
+                      "data-mono": ["Space Mono"],
+                      "body-lg": ["Space Grotesk"],
+                      "body-md": ["Space Grotesk"]
+              },
+              "fontSize": {
+                      "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                      "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.15em", "fontWeight": "700"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                      "data-mono": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-hidden">
+<!-- Global Background Shader -->
+<div class="fixed inset-0 z-0 opacity-40">
+
+</div>
+<!-- SIDE NAV (FROM JSON) -->
+<nav class="h-screen w-64 fixed left-0 top-0 border-r border-primary/20 bg-surface-container-low/80 backdrop-blur-xl shadow-[inset_0_0_20px_rgba(0,219,233,0.05)] z-50 flex flex-col py-6 px-4">
+<div class="mb-10 px-2">
+<h1 class="text-headline-md font-headline-md text-primary-fixed tracking-widest">MAGNOP_VS // NEXUS</h1>
+<p class="text-label-caps font-label-caps text-on-surface-variant opacity-60 mt-1">SECTOR: EXPERT_TERMINAL</p>
+</div>
+<div class="flex-1 space-y-2">
+<!-- Active: Soul Consultations -->
+<a class="flex items-center gap-3 p-3 rounded text-on-primary-container bg-primary-container/20 border-l-4 border-primary-fixed font-bold transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+<span class="text-label-caps font-label-caps">Soul Consultations</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded text-on-surface-variant hover:text-primary-fixed hover:bg-surface-variant/30 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="text-label-caps font-label-caps">Patient Matrix</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded text-on-surface-variant hover:text-primary-fixed hover:bg-surface-variant/30 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="text-label-caps font-label-caps">Clinical Protocols</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded text-on-surface-variant hover:text-primary-fixed hover:bg-surface-variant/30 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="text-label-caps font-label-caps">Earnings</span>
+</a>
+</div>
+<div class="border-t border-primary/10 pt-4 space-y-2">
+<button class="w-full py-3 bg-primary-fixed text-surface-container-lowest font-bold clip-path-hex hover:shadow-[0_0_15px_rgba(0,219,233,0.4)] transition-all">
+                INITIATE_SESSION
+            </button>
+<div class="pt-4 flex flex-col gap-2">
+<a class="flex items-center gap-3 p-3 text-on-surface-variant hover:text-primary-fixed transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-label-caps font-label-caps">Settings</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-on-surface-variant hover:text-primary-fixed transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="help_center">help_center</span>
+<span class="text-label-caps font-label-caps">Support</span>
+</a>
+</div>
+</div>
+</nav>
+<!-- TOP APP BAR (FROM JSON) -->
+<header class="fixed top-0 right-0 left-64 h-16 border-b border-primary/10 bg-surface-dim/90 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.4)] z-40 flex justify-between items-center px-8">
+<div class="flex items-center gap-8">
+<span class="text-headline-md font-headline-md text-primary-fixed-dim uppercase tracking-wider">MAGNOP_VS EXPERT</span>
+<nav class="hidden md:flex gap-6">
+<a class="text-label-caps font-label-caps text-on-surface-variant hover:text-primary-fixed transition-colors" href="#">Telemetry</a>
+<a class="text-label-caps font-label-caps text-on-surface-variant hover:text-primary-fixed transition-colors" href="#">Logs</a>
+<a class="text-label-caps font-label-caps text-primary-fixed border-b-2 border-primary-fixed pb-1" href="#">SOF.IA Guide</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative group">
+<input class="bg-surface-container-high/50 border border-primary/20 rounded-none px-4 py-1 text-data-mono font-data-mono focus:ring-1 focus:ring-primary-fixed-dim focus:border-primary-fixed-dim outline-none w-64 transition-all" placeholder="QUERY_SYSTEM..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-primary-fixed-dim opacity-50">search</span>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary-fixed transition-all" data-icon="notifications">notifications</span>
+<div class="h-8 w-8 rounded-full border border-primary-fixed-dim p-0.5">
+<img class="w-full h-full object-cover rounded-full" data-alt="A professional headshot of a futuristic medical expert with cybernetic enhancements around the eyes, bathed in soft cyan clinical light, against a dark matte technological background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtxV-lDbDl1BjbxTpTk8m5Kfe6FGS4EZab1kuKn5a_dTZzivelGDlGQ5FKUVhTTK32bDdi2rVBLaBiG3gY4s67yIFe1ikHNGQUoRET2kHFEKF8sl_cfVn5gRTkDMEM4YOe6X5A4P05KpR0IVst91L8cuUMPERmHQomMhtdZ7p1RAliopmU38RL_ew_Qt-Dafrfvozrac66hkoBcoO8Ufot8aWz8j6Komy4Z3YIC35TI6sMe7M8KiEWZAYsGgA9B3z6IDFr4Aqf4c3C"/>
+</div>
+</div>
+</div>
+</header>
+<!-- MAIN CONTENT CANVAS -->
+<main class="pl-64 pt-16 h-screen overflow-y-auto scrollbar-hide">
+<div class="p-gutter grid grid-cols-12 gap-gutter">
+<!-- SECTION 1: PATIENT QUEUE (ACTIVE SYNCS) -->
+<section class="col-span-12 lg:col-span-8 space-y-6">
+<div class="flex justify-between items-end">
+<div>
+<h2 class="text-headline-md font-headline-md text-primary-fixed">ACTIVE_SYNCS // QUEUE</h2>
+<span class="text-label-caps font-label-caps text-secondary opacity-80">CONNECTED_NODES: 04</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Patient Card 1 -->
+<div class="glass-panel p-panel-padding clip-path-corner group hover:border-primary-fixed transition-all duration-500">
+<div class="scanline-overlay"></div>
+<div class="flex justify-between items-start mb-4">
+<span class="text-label-caps font-label-caps text-on-surface-variant/60">SECTOR_01 // PATIENT_ID: 99x-A</span>
+<span class="px-2 py-0.5 bg-error-container text-on-error-container text-label-caps font-label-caps animate-pulse">CRITICAL</span>
+</div>
+<div class="flex gap-4 items-center">
+<div class="h-16 w-16 bg-surface-container-highest border border-primary/20 relative">
+<img class="w-full h-full object-cover" data-alt="A portrait of an individual in a high-tech patient suit, with visible biometric glowing patches on their neck and temple, surrounded by a faint holographic aura in shades of violet and deep space blue." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAR6LDrmXFngjB_EUZD40PtoAPJDB5MSyM8SCGEe30IAHh3i-AuJyFkFWJ-fCKtV2pDu_lESU93EF3NWwWsGzjZbwEYkQ1-qxhCNGMp8XhbCvR8mHap7P7i8cARDqkCqdIRe5TO9UGWGRfK3YypU0xVNHLz01AsiyV3g1F2jhmlodLqPVrkGWQOvFV2Qso4kyKg-Fg7V2NZNKq6f_ZyPZ-bJdeSAvuXmTsxZ09yldNAEHIcbAz25UhfQ9jOgpRzPCcPN4uaZXa1h_6X"/>
+</div>
+<div>
+<h3 class="text-headline-md font-headline-md text-on-surface">ELARA_VOID</h3>
+<div class="flex gap-4 mt-1">
+<div class="flex flex-col">
+<span class="text-label-caps font-label-caps text-on-surface-variant/40 scale-75 origin-left">KARMIC URGENCY</span>
+<span class="text-data-mono font-data-mono text-secondary">94.2%</span>
+</div>
+<div class="flex flex-col">
+<span class="text-label-caps font-label-caps text-on-surface-variant/40 scale-75 origin-left">BIO-RESONANCE</span>
+<span class="text-data-mono font-data-mono text-primary-fixed">STABLE</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 flex gap-2">
+<div class="h-1 flex-1 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[94%]" style="box-shadow: 0 0 10px #ffabf3"></div>
+</div>
+</div>
+</div>
+<!-- Patient Card 2 -->
+<div class="glass-panel p-panel-padding clip-path-corner group hover:border-primary-fixed transition-all duration-500">
+<div class="scanline-overlay"></div>
+<div class="flex justify-between items-start mb-4">
+<span class="text-label-caps font-label-caps text-on-surface-variant/60">SECTOR_01 // PATIENT_ID: 102-K</span>
+<span class="px-2 py-0.5 bg-primary-container/20 text-primary-fixed text-label-caps font-label-caps">STANDBY</span>
+</div>
+<div class="flex gap-4 items-center">
+<div class="h-16 w-16 bg-surface-container-highest border border-primary/20 relative">
+<img class="w-full h-full object-cover" data-alt="A portrait of an older man with reflective chrome glasses and elegant futuristic robes, his face lit by the soft glow of a nearby console, with a focused and serene expression in a high-tech brutalist environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2UqnFWqUskt10ptnmIMS-xkc5wnG2UfFiGCaHyuKVqwauu9teAtWZZpsIIWC1m6Pw3VTu2zm96MQqF_5SGGPYW7OeNM-BbG8gd8gR9BJ_oNTN67fJ3yZQ_VfcjjwzrWarcKJRkdQQJijqiaQTPsPo2Tc2T4Q4Rnpd33Wd3anYmBheS15fBYGh06338QDm1Xd4R2Jk4BU5ewqdrVd3DiDiHFWllYR5W_4dlj-5q6Zi70FLxmx2Z_MO3-QFGzsGgYjtbab0zDxb6usU"/>
+</div>
+<div>
+<h3 class="text-headline-md font-headline-md text-on-surface">DR. KORVOS</h3>
+<div class="flex gap-4 mt-1">
+<div class="flex flex-col">
+<span class="text-label-caps font-label-caps text-on-surface-variant/40 scale-75 origin-left">KARMIC URGENCY</span>
+<span class="text-data-mono font-data-mono text-secondary">22.8%</span>
+</div>
+<div class="flex flex-col">
+<span class="text-label-caps font-label-caps text-on-surface-variant/40 scale-75 origin-left">BIO-RESONANCE</span>
+<span class="text-data-mono font-data-mono text-error">FLUCTUATING</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 flex gap-2">
+<div class="h-1 flex-1 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[22%]" style="box-shadow: 0 0 10px #ffabf3"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- SECTION 4: CONSULTATION SUMMARY -->
+<div class="glass-panel p-panel-padding mt-8">
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-headline-md font-headline-md text-primary-fixed">FOCUSED_ENTITY // SUMMARY</h2>
+<div class="flex gap-4">
+<button class="p-2 border border-primary-fixed/20 hover:bg-primary-fixed/10 transition-all">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+</button>
+<button class="p-2 border border-primary-fixed/20 hover:bg-primary-fixed/10 transition-all">
+<span class="material-symbols-outlined" data-icon="videocam">videocam</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-6 mb-8">
+<div class="bg-surface-container-low p-4 border-l-2 border-primary-fixed-dim">
+<p class="text-label-caps font-label-caps text-on-surface-variant/60 mb-2">NEURAL_LOAD</p>
+<p class="text-headline-md font-headline-md">14.8 <span class="text-body-md opacity-40">mHz</span></p>
+</div>
+<div class="bg-surface-container-low p-4 border-l-2 border-secondary">
+<p class="text-label-caps font-label-caps text-on-surface-variant/60 mb-2">ASTRAL_ALIGNMENT</p>
+<p class="text-headline-md font-headline-md text-secondary">ZENITH</p>
+</div>
+<div class="bg-surface-container-low p-4 border-l-2 border-primary-fixed">
+<p class="text-label-caps font-label-caps text-on-surface-variant/60 mb-2">SYNC_PROBABILITY</p>
+<p class="text-headline-md font-headline-md">98.2%</p>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="flex-1 py-4 bg-primary-fixed text-surface-container-lowest font-headline-md text-body-md clip-path-hex hover:shadow-[0_0_20px_rgba(0,219,233,0.5)] transition-all">
+                            INITIATE NEURAL SYNC
+                        </button>
+<button class="flex-1 py-4 border border-primary-fixed text-primary-fixed font-headline-md text-body-md clip-path-hex hover:bg-primary-fixed/5 transition-all">
+                            DIAGNOSTIC OVERLAY
+                        </button>
+</div>
+</div>
+</section>
+<!-- SIDEBAR PANELS -->
+<aside class="col-span-12 lg:col-span-4 space-y-6">
+<!-- SECTION 3: EXPERT TELEMETRY -->
+<div class="glass-panel p-panel-padding">
+<span class="text-label-caps font-label-caps text-primary-fixed-dim block mb-4">EXPERT_TELEMETRY // SELF</span>
+<div class="relative h-48 w-full bg-surface-container-lowest border border-primary/10 overflow-hidden mb-6">
+
+<div class="absolute inset-0 p-4 pointer-events-none flex flex-col justify-between">
+<div class="flex justify-between">
+<span class="text-data-mono font-data-mono text-[10px] text-primary-fixed opacity-50">HEART_RATE: 72 BPM</span>
+<span class="text-data-mono font-data-mono text-[10px] text-primary-fixed opacity-50">SYNC_CHIP: ACTIVE</span>
+</div>
+<div class="h-12 w-32 border-l border-b border-secondary/40 flex items-end p-1 gap-1">
+<div class="w-2 bg-secondary/60 h-2"></div>
+<div class="w-2 bg-secondary/60 h-4"></div>
+<div class="w-2 bg-secondary h-8"></div>
+<div class="w-2 bg-secondary/60 h-5"></div>
+<div class="w-2 bg-secondary h-10"></div>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center">
+<span class="text-body-md text-on-surface-variant">Focus Stability</span>
+<span class="text-data-mono font-data-mono text-primary-fixed">99.8%</span>
+</div>
+<div class="w-full h-1 bg-surface-variant">
+<div class="h-full bg-primary-fixed w-[99%] shadow-[0_0_8px_#7df4ff]"></div>
+</div>
+<div class="flex justify-between items-center pt-2">
+<span class="text-body-md text-on-surface-variant">Energy Reservoir</span>
+<span class="text-data-mono font-data-mono text-secondary">84.0%</span>
+</div>
+<div class="w-full h-1 bg-surface-variant">
+<div class="h-full bg-secondary w-[84%] shadow-[0_0_8px_#ffabf3]"></div>
+</div>
+</div>
+</div>
+<!-- SECTION 2: CONSULTATION SCHEDULE -->
+<div class="glass-panel p-panel-padding">
+<h3 class="text-headline-md font-headline-md text-on-surface mb-6">ASTRAL_CYCLES // SCHEDULE</h3>
+<div class="space-y-4 relative">
+<!-- Timeline Line -->
+<div class="absolute left-[7px] top-0 bottom-0 w-px bg-primary/20"></div>
+<!-- Time Slot 1 -->
+<div class="relative pl-8 pb-4 border-b border-primary/5">
+<div class="absolute left-0 top-1 w-4 h-4 rounded-full bg-primary-fixed border-4 border-surface-dim"></div>
+<div class="flex justify-between items-start">
+<div>
+<p class="text-label-caps font-label-caps text-primary-fixed">14:00 - 15:30</p>
+<p class="text-body-md font-bold text-on-surface">Eclipse Phase Consultation</p>
+<p class="text-label-caps font-label-caps text-on-surface-variant/40 mt-1">ENTITY: ORION_7</p>
+</div>
+<span class="material-symbols-outlined text-primary-fixed-dim" data-icon="flare">flare</span>
+</div>
+</div>
+<!-- Time Slot 2 -->
+<div class="relative pl-8 pb-4 border-b border-primary/5">
+<div class="absolute left-0 top-1 w-4 h-4 rounded-full bg-surface-variant border-4 border-surface-dim"></div>
+<div class="flex justify-between items-start">
+<div>
+<p class="text-label-caps font-label-caps text-on-surface-variant">16:00 - 17:00</p>
+<p class="text-body-md font-bold text-on-surface/60">Nebula Resonance Check</p>
+<p class="text-label-caps font-label-caps text-on-surface-variant/40 mt-1">ENTITY: KAI_NULL</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant/40" data-icon="cloud">cloud</span>
+</div>
+</div>
+<!-- Time Slot 3 -->
+<div class="relative pl-8 pb-4">
+<div class="absolute left-0 top-1 w-4 h-4 rounded-full bg-surface-variant border-4 border-surface-dim"></div>
+<div class="flex justify-between items-start">
+<div>
+<p class="text-label-caps font-label-caps text-on-surface-variant">18:30 - 19:30</p>
+<p class="text-body-md font-bold text-on-surface/60">Supernova Regression</p>
+<p class="text-label-caps font-label-caps text-on-surface-variant/40 mt-1">ENTITY: STELLAR_B</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant/40" data-icon="brightness_7">brightness_7</span>
+</div>
+</div>
+</div>
+</div>
+<!-- SYSTEM STATUS CHIP -->
+<div class="flex items-center gap-4 p-4 border border-primary-fixed/20 bg-primary-fixed/5">
+<div class="w-3 h-3 rounded-full bg-primary-fixed animate-ping"></div>
+<div class="flex-1">
+<p class="text-label-caps font-label-caps text-primary-fixed">SYSTEM_STATUS: OPTIMAL</p>
+<p class="text-data-mono font-data-mono text-[10px] text-on-surface-variant">LATENCY: 4ms // SYNC: 100%</p>
+</div>
+<span class="material-symbols-outlined text-primary-fixed" data-icon="bolt">bolt</span>
+</div>
+</aside>
+</div>
+</main>
+<!-- FLOATING STATUS UI ELEMENTS -->
+<div class="fixed bottom-8 right-8 flex flex-col gap-4 pointer-events-none">
+<div class="glass-panel p-3 flex items-center gap-3 animate-bounce">
+<span class="material-symbols-outlined text-secondary" data-icon="warning">warning</span>
+<span class="text-label-caps font-label-caps text-secondary text-[10px]">ASTRAL_STORM_APPROACHING</span>
+</div>
+</div>
+<script>
+        // Micro-interactions and subtle glitch effects
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mousemove', (e) => {
+                const rect = panel.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                panel.style.setProperty('--mouse-x', `${x}px`);
+                panel.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // Simulating data updates
+        setInterval(() => {
+            const dataValues = document.querySelectorAll('.text-data-mono');
+            dataValues.forEach(val => {
+                if(val.innerText.includes('%')) {
+                    let current = parseFloat(val.innerText);
+                    let change = (Math.random() - 0.5) * 0.2;
+                    val.innerText = (current + change).toFixed(1) + '%';
+                }
+            });
+        }, 3000);
+    </script>
+</body></html>

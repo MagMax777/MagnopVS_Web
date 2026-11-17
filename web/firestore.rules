@@ -1,0 +1,130 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net: Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Hardened Helper Primitives
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) ||
+        (request.auth.token.email == 'magnopvsmatrix@gmail.com' && request.auth.token.email_verified == true)
+      );
+    }
+
+    // Validation Blueprint for User Profiles
+    function isValidUser(data) {
+      return data.uid is string && data.uid.size() <= 128 && data.uid == request.auth.uid &&
+             data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
+             data.faction is string && data.faction.size() <= 50;
+    }
+
+    // Validation Blueprint for Wallets
+    function isValidWallet(data) {
+      return data.playerId is string && data.playerId.size() <= 128 &&
+             data.magnoPoints is number && data.magnoPoints >= 0 &&
+             data.microCoins is number && data.microCoins >= 0;
+    }
+
+    // Validation Blueprint for Wallet Transactions
+    function isValidTransaction(data) {
+      return data.id is string && isValidId(data.id) &&
+             data.playerId is string && data.playerId.size() <= 128 &&
+             data.transactionType in ['REWARD', 'CONVERSION', 'PURCHASE', 'ADJUSTMENT', 'TIP', 'REFUND'] &&
+             data.currency in ['MP', 'MICROCOIN'] &&
+             data.amount is number &&
+             data.balanceBefore is number && data.balanceBefore >= 0 &&
+             data.balanceAfter is number && data.balanceAfter >= 0 &&
+             data.source is string && data.source.size() <= 100 &&
+             data.description is string && data.description.size() <= 255;
+    }
+
+    // Validation Blueprint for Live Stream Chat Messages
+    function isValidChatMessage(data) {
+      return data.id is string && isValidId(data.id) &&
+             data.roomId is string && data.roomId.size() <= 64 &&
+             data.senderId is string && data.senderId == request.auth.uid &&
+             data.senderName is string && data.senderName.size() <= 100 &&
+             data.content is string && data.content.size() > 0 && data.content.size() <= 1000;
+    }
+
+    // 1. Users Collection
+    match /users/{userId} {
+      allow get: if isSignedIn() && (isOwner(userId) || isAdmin());
+      allow list: if isSignedIn() && resource.data.uid == request.auth.uid;
+      allow create: if isSignedIn() && isOwner(userId) && isValidId(userId) && isValidUser(incoming());
+      allow update: if isSignedIn() && (
+        isAdmin() ||
+        (
+          isOwner(userId) &&
+          isValidId(userId) &&
+          isValidUser(incoming()) &&
+          incoming().uid == existing().uid &&
+          incoming().diff(existing()).affectedKeys().hasOnly(['name', 'avatarUrl', 'title', 'faction', 'bio', 'statusMessage', 'guildName', 'updatedAt'])
+        )
+      );
+      allow delete: if isAdmin();
+    }
+
+    // 2. Wallets Collection
+    match /wallets/{walletId} {
+      allow get: if isSignedIn() && (resource.data.playerId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && resource.data.playerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(walletId) && isValidWallet(incoming()) && (incoming().playerId == request.auth.uid || isAdmin());
+      allow update: if isSignedIn() && isValidId(walletId) && isValidWallet(incoming()) && (
+        isAdmin() ||
+        (
+          existing().playerId == request.auth.uid &&
+          incoming().playerId == existing().playerId &&
+          incoming().diff(existing()).affectedKeys().hasOnly(['magnoPoints', 'microCoins', 'totalEarnedMp', 'totalSpentMp', 'totalConvertedMp', 'totalEarnedMicroCoins', 'totalSpentMicroCoins', 'updatedAt'])
+        )
+      );
+      allow delete: if isAdmin();
+
+      // Subcollection: Wallet Transactions
+      match /transactions/{transactionId} {
+        allow get: if isSignedIn() && (get(/databases/$(database)/documents/wallets/$(walletId)).data.playerId == request.auth.uid || isAdmin());
+        allow list: if isSignedIn() && (get(/databases/$(database)/documents/wallets/$(walletId)).data.playerId == request.auth.uid || isAdmin());
+        allow create: if isSignedIn() && isValidId(transactionId) && isValidTransaction(incoming()) && (
+          get(/databases/$(database)/documents/wallets/$(walletId)).data.playerId == request.auth.uid || isAdmin()
+        );
+        allow update, delete: if false; // Immutable ledger: no edits or deletes allowed
+      }
+    }
+
+    // 3. Live Stream & Public Chat Rooms
+    match /chat_rooms/{roomId}/messages/{messageId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidId(roomId) && isValidId(messageId) && isValidChatMessage(incoming());
+      allow update, delete: if isAdmin();
+    }
+
+    // 4. Test connection document for initial boot verification
+    match /test/{docId} {
+      allow read: if true;
+    }
+  }
+}

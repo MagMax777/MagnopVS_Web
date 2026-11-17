@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@300;400;500;600;700&amp;family=Audiowide&amp;family=Orbitron:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --primary-glow: rgba(127, 208, 255, 0.4);
+            --secondary-glow: rgba(72, 221, 193, 0.3);
+            --border-cyan: rgba(127, 208, 255, 0.15);
+        }
+        body {
+            background-color: #0a0b10;
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA_PQppI1H4b2b2B761IqO9gmqdGayOUxAREmF1uHetwLkjD-QFeVq6tSbVpNmSqatnwd4fQoBmU2nE4GdoYPRc6fmsba7Nf22VcFyvgxmvW0FNBQmVihl7VBfAw6_w3NuP-ud_axrqFTRRP-6tEtBcAkW7bUbCWrDA9scBtnMhvrGoycmg6IubhjhSj_6NG8XtCK5ZWyOmMXWQNipt2IeYCSu4XYDWnTVdMZMtdDmnnmkgcMwQCxE9u_o093q6g8BmtyQtQtFgufGR');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            overflow-x: hidden;
+            color: #dfe3e8;
+        }
+        .hex-clip {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+        .hero-panel {
+            backdrop-filter: blur(24px);
+            border: 1px solid var(--border-cyan);
+            position: relative;
+            background: rgba(15, 20, 23, 0.4);
+        }
+        .hero-panel::before {
+            content: "";
+            position: absolute;
+            top: -1px; left: -1px; width: 20px; height: 20px;
+            border-top: 2px solid rgba(127, 208, 255, 0.4); border-left: 2px solid rgba(127, 208, 255, 0.4);
+        }
+        .hero-panel::after {
+            content: "";
+            position: absolute;
+            bottom: -1px; right: -1px; width: 20px; height: 20px;
+            border-bottom: 2px solid rgba(127, 208, 255, 0.4); border-right: 2px solid rgba(127, 208, 255, 0.4);
+        }
+        .radar-petal {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center;
+        }
+        .radar-petal:hover {
+            filter: drop-shadow(0 0 12px #7fd0ff);
+            opacity: 1 !important;
+        }
+        .glitch-text {
+            text-shadow: 2px 0 #48ddc1, -2px 0 #ffafd4;
+        }
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.02); }
+        }
+        .cosmic-ring {
+            animation: pulse-slow 8s infinite ease-in-out;
+        }
+        .glass-blur-deep {
+            backdrop-filter: blur(60px);
+            background: rgba(15, 20, 23, 0.6);
+            border: 1px solid rgba(127, 208, 255, 0.1);
+        }
+        .icon-glow-primary { filter: drop-shadow(0 0 8px rgba(127, 208, 255, 0.6)); }
+        .icon-glow-secondary { filter: drop-shadow(0 0 8px rgba(72, 221, 193, 0.6)); }
+        .icon-glow-tertiary { filter: drop-shadow(0 0 8px rgba(255, 175, 212, 0.6)); }
+        .icon-glow-error { filter: drop-shadow(0 0 8px rgba(255, 180, 171, 0.6)); }
+        
+        @keyframes rotate-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: rotate-slow 20s linear infinite;
+        }
+        .font-audiowide { font-family: 'Audiowide', cursive; }
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary-container": "#004439",
+                        "inverse-surface": "#dfe3e8",
+                        "on-primary-container": "#003951",
+                        "on-tertiary-container": "#6a0046",
+                        "on-surface-variant": "#bec8d0",
+                        "inverse-primary": "#00658c",
+                        "tertiary-container": "#ff64ba",
+                        "surface-container-high": "#262b2e",
+                        "surface-tint": "#7fd0ff",
+                        "on-primary-fixed-variant": "#004c6a",
+                        "on-secondary-fixed-variant": "#005144",
+                        "surface-dim": "#0f1417",
+                        "secondary-container": "#00bba0",
+                        "primary-fixed": "#c5e7ff",
+                        "on-primary-fixed": "#001e2d",
+                        "outline-variant": "#3e484f",
+                        "surface-variant": "#303539",
+                        "surface-bright": "#353a3e",
+                        "on-tertiary-fixed": "#3d0026",
+                        "error-container": "#93000a",
+                        "on-secondary-fixed": "#00201a",
+                        "background": "#0f1417",
+                        "surface-container-lowest": "#0a0f12",
+                        "primary": "#7fd0ff",
+                        "surface-container-highest": "#303539",
+                        "on-secondary": "#00382e",
+                        "secondary-fixed": "#6af9dc",
+                        "secondary-fixed-dim": "#48ddc1",
+                        "inverse-on-surface": "#2c3135",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#8b005d",
+                        "surface-container": "#1b2024",
+                        "on-primary": "#00344a",
+                        "on-error": "#690005",
+                        "on-background": "#dfe3e8",
+                        "error": "#ffb4ab",
+                        "surface": "#0f1417",
+                        "tertiary": "#ffafd4",
+                        "on-tertiary": "#620041",
+                        "on-surface": "#dfe3e8",
+                        "tertiary-fixed": "#ffd8e7",
+                        "secondary": "#48ddc1",
+                        "primary-container": "#2da8e0",
+                        "outline": "#88929a",
+                        "primary-fixed-dim": "#7fd0ff",
+                        "tertiary-fixed-dim": "#ffafd4",
+                        "surface-container-low": "#171c20"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "margin-mobile": "20px",
+                        "margin-desktop": "40px",
+                        "gutter": "16px",
+                        "unit": "4px",
+                        "panel-gap": "12px"
+                    },
+                    fontFamily: {
+                        "mono-data": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"],
+                        "display-lg": ["Audiowide"],
+                        "headline-md": ["Audiowide"],
+                        "data-point": ["Orbitron"],
+                        "display-lg-mobile": ["Audiowide"],
+                        "body-md": ["Orbitron"]
+                    },
+                    fontSize: {
+                        "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "data-point": ["20px", {"lineHeight": "28px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen font-body-md text-on-surface">
+<!-- Top Navigation (TopAppBar) -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/30 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="flex items-center gap-4">
+<img alt="MagnopVS · Life Hero" class="h-12 w-auto object-contain icon-glow-primary" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB85ZjxUvBc9oszTrs-Uf7XkaVPqOzo9tqve1wMSJEVNU_yzbIBvqZk2YZMcs1RrdGMv7UJgzakQRXLxZhyhixDytIAEJgeNWWYGFn9IMlUpBfAlxOaB7gF5ZHVFsFRGCgtA4KpNDB2pp-K3CvU5CXYmYy4VYSgqnJK2saKHk5lIQVH4n516vee8XjbLrItbgniKtT_I9XQ66Dyh3NrfZNe3ImvpzosCfjgWVutWAJb38AceXAcTVVoYbqcrVZDSTswmM_NMU-sAldT"/>
+</div>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-secondary hover:drop-shadow-[0_0_8px_#48ddc1] transition-all duration-300 scale-95 active:scale-90">bolt</span>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-secondary hover:drop-shadow-[0_0_8px_#48ddc1] transition-all duration-300 scale-95 active:scale-90">stars</span>
+<div class="w-10 h-10 rounded-full border border-primary/40 p-0.5 scale-95 active:scale-90 transition-transform cursor-pointer overflow-hidden">
+<img alt="Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHZs9SjHyiwOFKxRIvvHRkQ96IZ7JiyHQIxEKViaUxnkJB0YHlEdaySmfVb9l6fBooXw8CzpS6qRB8W_vPOslQs9jyQ5842aU7Yb-O6DrXDMpK7ygthu-1_NysxArA6nAIEwMiziDuYi3kDCIY2aaOR_TjsSl11xojd5torsksoDhng3WidXNhqaBUFsCU6ibL5FScZ30Bo3c3PqRpIrSTegKilVikNMm_kcMj_SkLf-dE9QW94z0IFrLIl-yQraaZhP2b15Wni5KY"/>
+</div>
+</div>
+</header>
+<!-- Side Navigation (SideNavBar - Desktop Only) -->
+<nav class="hidden lg:flex flex-col fixed left-0 top-0 h-full z-40 w-64 bg-surface-container-low/50 backdrop-blur-2xl border-r border-primary/20 pt-24 px-4 shadow-2xl shadow-primary/5">
+<div class="mb-10 px-4 flex flex-col items-center">
+<img alt="Logo" class="w-32 h-auto mb-6 opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB85ZjxUvBc9oszTrs-Uf7XkaVPqOzo9tqve1wMSJEVNU_yzbIBvqZk2YZMcs1RrdGMv7UJgzakQRXLxZhyhixDytIAEJgeNWWYGFn9IMlUpBfAlxOaB7gF5ZHVFsFRGCgtA4KpNDB2pp-K3CvU5CXYmYy4VYSgqnJK2saKHk5lIQVH4n516vee8XjbLrItbgniKtT_I9XQ66Dyh3NrfZNe3ImvpzosCfjgWVutWAJb38AceXAcTVVoYbqcrVZDSTswmM_NMU-sAldT"/>
+<div class="w-full">
+<div class="font-label-caps text-primary text-[10px] tracking-[0.3em]">OPERATOR_01</div>
+<div class="font-audiowide text-xl text-primary mt-1">LVL 42 // TITAN</div>
+</div>
+</div>
+<div class="space-y-2">
+<a class="flex items-center gap-4 p-3 rounded-lg text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">grid_view</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 p-3 rounded-lg text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">account_tree</span>
+<span class="font-label-caps text-label-caps">13 Houses</span>
+</a>
+<a class="flex items-center gap-4 p-3 rounded-lg text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">military_tech</span>
+<span class="font-label-caps text-label-caps">Missions</span>
+</a>
+<a class="flex items-center gap-4 p-3 rounded-lg text-primary border-l-2 border-primary bg-primary/5 font-bold shadow-[inset_4px_0_10px_rgba(127,208,255,0.1)] translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps text-label-caps">Attributes</span>
+</a>
+<a class="flex items-center gap-4 p-3 rounded-lg text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">vitals</span>
+<span class="font-label-caps text-label-caps">Alchemy</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="pt-28 pb-24 lg:pl-72 lg:pr-margin-desktop px-margin-mobile max-w-[1600px] mx-auto relative">
+<!-- Header Layer Section Title -->
+<div class="mb-10 flex items-center gap-4 opacity-80">
+<span class="font-label-caps text-[10px] text-primary tracking-[0.4em] uppercase">Capa Actual // Tu Héroe // v6.2</span>
+<div class="h-px flex-1 bg-gradient-to-r from-primary/30 to-transparent"></div>
+</div>
+<!-- Hero Identity & Spheres -->
+<div class="flex flex-col lg:flex-row gap-8 mb-12 items-start">
+<div class="flex-1">
+<div class="font-label-caps text-secondary text-[12px] tracking-[0.4em] mb-2 uppercase">Character Profile</div>
+<h1 class="font-audiowide text-display-lg text-on-surface glitch-text flex items-center gap-4">
+                Jean, <span class="text-secondary">LVL 8</span>
+</h1>
+<p class="font-mono-data text-outline mt-2 max-w-md">Sincronización cuántica establecida. Identidad integrada en la arquitectura v6.2.</p>
+<!-- Organized Human Spheres as Deep Glass Cards -->
+<div class="mt-8 grid grid-cols-2 sm:grid-cols-5 gap-4">
+<div class="p-4 glass-blur-deep rounded-xl flex flex-col items-center group cursor-pointer hover:bg-primary/5 transition-all">
+<span class="material-symbols-outlined text-primary mb-2 text-3xl">favorite</span>
+<span class="font-label-caps text-[10px] text-primary/80 uppercase tracking-widest">Vital</span>
+</div>
+<div class="p-4 glass-blur-deep rounded-xl flex flex-col items-center group cursor-pointer hover:bg-secondary/5 transition-all">
+<span class="material-symbols-outlined text-secondary mb-2 text-3xl">psychology</span>
+<span class="font-label-caps text-[10px] text-secondary/80 uppercase tracking-widest">Mental</span>
+</div>
+<div class="p-4 glass-blur-deep rounded-xl flex flex-col items-center group cursor-pointer hover:bg-tertiary/5 transition-all">
+<span class="material-symbols-outlined text-tertiary mb-2 text-3xl">payments</span>
+<span class="font-label-caps text-[10px] text-tertiary/80 uppercase tracking-widest">Material</span>
+</div>
+<div class="p-4 glass-blur-deep rounded-xl flex flex-col items-center group cursor-pointer hover:bg-secondary/5 transition-all">
+<span class="material-symbols-outlined text-secondary mb-2 text-3xl">groups</span>
+<span class="font-label-caps text-[10px] text-secondary/80 uppercase tracking-widest">Relacional</span>
+</div>
+<div class="p-4 glass-blur-deep rounded-xl flex flex-col items-center group cursor-pointer hover:bg-primary/5 transition-all">
+<span class="material-symbols-outlined text-primary mb-2 text-3xl">auto_awesome</span>
+<span class="font-label-caps text-[10px] text-primary/80 uppercase tracking-widest">Espiritual</span>
+</div>
+</div>
+</div>
+<!-- Core Attribute Icons (Specific Integration) -->
+<div class="flex gap-4 p-6 glass-blur-deep rounded-2xl border border-primary/20 self-center lg:self-end">
+<div class="flex flex-col items-center group">
+<img alt="Force" class="w-14 h-14 mb-2 icon-glow-primary transition-transform group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCa2dG0YRAL2bj7tjvXlM_F4F9pdrSG3gyigcvLWDeAjBYNe2ATPpTu0jezUbKV9-Z0LkVbbTpHZPEcrnUQqh1S-zLX7kdhy-nZn1CnKHBrXPeuVos1So_RVkZr4JboHcpT3PjKpmIgDbAYxSF-vfIYpmLSCnIA28WbW5sNl71ltyWJ-KMhlPkzcqxbgDwEdTgirnOZyqJ9d1EjePqwxB84_P73xh3uLS6G0Gi7gyyPshwJgS2KVtznJegRhzccFI2kr_i-Ewz8mWo5"/>
+<span class="font-label-caps text-[10px] text-primary">FUERZA</span>
+</div>
+<div class="flex flex-col items-center group">
+<img alt="Defense" class="w-14 h-14 mb-2 icon-glow-secondary transition-transform group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVW6s05pROZ-8jRvdyLAK346uFfsI-zy37rDLIiTcU11HjR-COK4Ns1uT1bnL8SKweX99FabkJ_wlHwsOUfM8pfwfYD3c2mH2E78S_5g-iRo68swHwAWzRmuO7xpGVY6FtWY21Pu4fRlQhp_yYRfvmCTMK8x4mDwbca3pGV5PdLiiv8uO9lIt7dg23UP3Kz5ySoTXq41iTFfE4JR5eWziKoAPGccrEPpyS3dGLfeQSIDUvNZqZP2Wb2g2ihXyjCyizxacbgVS9dz1C"/>
+<span class="font-label-caps text-[10px] text-secondary">DEFENSA</span>
+</div>
+<div class="flex flex-col items-center group">
+<img alt="Agility" class="w-14 h-14 mb-2 icon-glow-tertiary transition-transform group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpPoT1-Qtq40Wwx8cCseh_4rx7wX6b5RO7ZDiJk0fLLJDKN-VOCOkTnD4bdPxQRjrZdtfm7nVbQzwjnl3Qp8b0zZFe_MqHl1eMvx9mWRyXwdgqpULJ5uWuu76SvjF_il1kpRtIrxyIXR5JuSL0754qQUeNuH_RD-UUxtM1sOInyE6zX89i1UYgfF9tZ-dm0v5gqsTccUM6lsm_eARQBMqRfp4cGiUc-c1vRKqPuyoK-Q6FT3fAVF-ODBpdKTwlGyIGv4YUYDNs0zwr"/>
+<span class="font-label-caps text-[10px] text-tertiary">AGILIDAD</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
+<!-- Reimagined Character Sheet: Cosmic Compass -->
+<div class="lg:col-span-8 hero-panel p-8 md:p-12 overflow-hidden bg-surface-container-low/20 backdrop-blur-2xl flex flex-col items-center justify-center rounded-2xl min-h-[600px]">
+<div class="absolute top-4 left-6 font-label-caps text-[10px] text-outline/40">SYS_LOG // COSMIC_COMPASS_V6.2 // ULTRA_FIDELITY</div>
+<div class="relative w-full max-w-xl aspect-square flex items-center justify-center">
+<!-- Cosmic Rings -->
+<div class="absolute inset-0 border border-primary/20 rounded-full scale-[1.15] cosmic-ring backdrop-blur-[2px]"></div>
+<div class="absolute inset-0 border border-primary/30 rounded-full scale-[1.0] cosmic-ring backdrop-blur-[1px]" style="animation-delay: -2s;"></div>
+<!-- House Symbols Integrated -->
+<div class="absolute w-full h-full">
+<!-- Diamond (Red/Legacy) -->
+<div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer">
+<img alt="House Diamond" class="w-16 h-16 icon-glow-error group-hover:scale-125 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0afKm6PSiGCogI5xZNC8l8ZmyiZVQHTXiyiJLgVWoGsyc1X70ajbeCCg0FnU-V0PRII8aYyiJSVwKtbWk6bL1Sy5MnA2aoc7HW-yLSLBw8EWtnGiQDVLq27AKgsQXNHOtD-lYagRndKAhdXQKnhPNMm34IU7NeIWG16Bax9bTz1wwwPOZLnVU14GUs4uQ9p1uTS5cmvVloELxmI8uy8npyrZ09qMG1CCv9xs1JM-SGxsDKWk22c3J_561H3yCO-g7HEuCyoZXpEZE"/>
+<span class="font-label-caps text-[9px] text-error mt-1 uppercase tracking-widest font-bold">Legacy</span>
+</div>
+<!-- Trebol (Yellow/Wealth) -->
+<div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 flex flex-col items-center group cursor-pointer">
+<img alt="House Trebol" class="w-16 h-16 icon-glow-secondary group-hover:scale-125 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsOdX8yRlMGia2rZTkCOwXojCeyXE-T5N6p0EdB3hUSK2cQPlqZF2D7yNkC_JwqGM4Rg_fbTQtL9nRxs-y2cku15EB0kGlnJKhddgnI4JSyAjNQ5deNGwUR8gLwLmYx7ErraieeA3l6P9Xq8dj6Z_yPy3_qx9-JRKiuxw9AaDi3a-CiiR8tmG5dbH1Ch-fbz3W_ZN4qRwwkSK8Ib_9AA94IGPJj2bVimlrEIiSGd3x22ysBbnRUilQsK0HZRdFpurAg8xcK1mhvTH6"/>
+<span class="font-label-caps text-[9px] text-secondary mt-1 uppercase tracking-widest font-bold">Wealth</span>
+</div>
+<!-- Hearts (Blue/Spirit) -->
+<div class="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer">
+<img alt="House Hearts" class="w-16 h-16 icon-glow-primary group-hover:scale-125 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfajC0XmE3klPoJ1j-ETR3VwZJZimSF4KExRco9TpTM7Bq45Paz5Po66fl91DIikC7-_OvyPjSybD7u0lXZ3acMZokChkaR5kXoEwftz_pNLCddVULQpVoaZTSGkBw182l7qmc2D2bk6bF0juZopWjBr_J966LXW6o2yJfSvszbF-7r3wO-QunGiRWqMqhUl0X2qTY-nonCE0iWd9dyNiCrdZK7pTRtudn0FWX6V20MuZtgrVOWL-uKjUHS7L5t1e_t_VpsmuLgUZh"/>
+<span class="font-label-caps text-[9px] text-primary mt-1 uppercase tracking-widest font-bold">Spirit</span>
+</div>
+<!-- Ashes (Grey/Ashe) -->
+<div class="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer">
+<img alt="House Ashes" class="w-16 h-16 icon-glow-tertiary group-hover:scale-125 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBa3M9Jit-gmqvqr3jkPdDHXk2DeTM4QRmNTuDX24KMx-8BPJaqToRDfoROOy_DUOesR0K8EVVPR_7b6hJqAoZ09B0K_Pft_PEdwjZIdI7B-lu_xQ8HMSveR7qUck1xWuHuyYO9-eT3fPZSwcF0-U2W1pvcfj-avxlAo_ve2eh8bxFO9fJq0Pt26RD3eKG4ny9nGqBqv-u1c_5lzFZ_Ps7-aNDnPYBmRNFkRqxSgJW1ugUM0-vVNJfQYnFVTAWZAdN2Z2IpxoHa4dWd"/>
+<span class="font-label-caps text-[9px] text-tertiary mt-1 uppercase tracking-widest font-bold">Ashe</span>
+</div>
+</div>
+<!-- Radar Chart -->
+<svg class="w-full h-full relative z-10 drop-shadow-[0_0_30px_rgba(127,208,255,0.3)]" id="hero-radar-svg" viewbox="0 0 400 400">
+<g id="hero-petals"></g>
+</svg>
+<!-- Profile Central Image -->
+<div class="absolute w-44 h-44 hex-clip bg-surface border-2 border-primary shadow-[0_0_50px_rgba(127,208,255,0.5)] z-20 flex items-center justify-center overflow-hidden group">
+<div class="absolute inset-0 bg-primary/10 backdrop-blur-md"></div>
+<img alt="Hero Profile" class="w-full h-full object-cover relative z-10 opacity-90 transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHZs9SjHyiwOFKxRIvvHRkQ96IZ7JiyHQIxEKViaUxnkJB0YHlEdaySmfVb9l6fBooXw8CzpS6qRB8W_vPOslQs9jyQ5842aU7Yb-O6DrXDMpK7ygthu-1_NysxArA6nAIEwMiziDuYi3kDCIY2aaOR_TjsSl11xojd5torsksoDhng3WidXNhqaBUFsCU6ibL5FScZ30Bo3c3PqRpIrSTegKilVikNMm_kcMj_SkLf-dE9QW94z0IFrLIl-yQraaZhP2b15Wni5KY"/>
+<div class="absolute inset-x-0 bottom-0 bg-primary/40 backdrop-blur-md p-2 text-center z-30 transform translate-y-full group-hover:translate-y-0 transition-transform">
+<span class="font-label-caps text-[10px] text-white">REVISAR ATRIBUTOS</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar Components -->
+<div class="lg:col-span-4 space-y-6">
+<!-- SOF.IA Oracle -->
+<div class="hero-panel p-6 bg-secondary/5 border-secondary/10 backdrop-blur-2xl rounded-2xl">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center border border-secondary/30 overflow-hidden">
+<img alt="Oracle" class="w-8 h-8 icon-glow-secondary" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsOdX8yRlMGia2rZTkCOwXojCeyXE-T5N6p0EdB3hUSK2cQPlqZF2D7yNkC_JwqGM4Rg_fbTQtL9nRxs-y2cku15EB0kGlnJKhddgnI4JSyAjNQ5deNGwUR8gLwLmYx7ErraieeA3l6P9Xq8dj6Z_yPy3_qx9-JRKiuxw9AaDi3a-CiiR8tmG5dbH1Ch-fbz3W_ZN4qRwwkSK8Ib_9AA94IGPJj2bVimlrEIiSGd3x22ysBbnRUilQsK0HZRdFpurAg8xcK1mhvTH6"/>
+</div>
+<div>
+<div class="font-label-caps text-secondary text-[10px]">SOF.IA // ORACLE</div>
+<div class="font-mono-data text-[12px] text-outline">Análisis de la Capa Héroe</div>
+</div>
+</div>
+<p class="font-body-md text-on-surface leading-relaxed">
+                    "Jean, tu alineación con la <span class="text-secondary font-bold">Casa de la Riqueza</span> es óptima hoy. El radar muestra un excedente en la esfera Vital, permitiendo misiones de alta intensidad."
+                </p>
+<div class="mt-4 pt-4 border-t border-secondary/10">
+<button class="w-full py-2 bg-secondary/90 text-on-secondary font-label-caps text-[11px] tracking-widest uppercase hover:bg-secondary transition-all active:scale-95" style="clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);">
+                        Sincronizar Datos
+                    </button>
+</div>
+</div>
+<!-- Identity Status (Rank Badge Integration) -->
+<div class="hero-panel p-6 bg-primary/5 border-primary/10 backdrop-blur-2xl flex flex-col items-center text-center rounded-2xl relative">
+<div class="w-24 h-24 relative flex items-center justify-center mb-4">
+<div class="absolute inset-0 hex-clip bg-primary/10 animate-spin-slow border border-primary/20"></div>
+<img alt="Rank" class="w-16 h-16 object-contain icon-glow-primary" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3X8IUcmSKoJSNXBVgAm_OKXdCNWyg7lcKYPdTXM94aD2zv_SZaXRXOYZel5CwojmRlCsM24mKVfZVJA2G_KAtRj7SvzoFRv9xWprHWkTbtNJ26aV5ohNtTrFn0qk2gtbmuk6MIm4S9s-xEzueDbB4e7Ez52IXbkz4Gf_d_TaL7FtgpFlWnY0zi7OF8dqIwInkWpB669M53VhVFvs7yEbF7LKDldFvDKCJod3WEZkVldrWt6cfChrcEqg3n9UIhqc2xRNZ4V_fpDIt"/>
+</div>
+<div class="font-audiowide text-2xl text-primary tracking-tighter">TITAN_RANK</div>
+<div class="font-mono-data text-[10px] text-outline mt-1 uppercase tracking-[0.2em]">Top 2% Global de Operadores</div>
+</div>
+</div>
+</div>
+<!-- Highlighted Rank Badge in Bottom Right -->
+<div class="fixed bottom-24 right-margin-desktop z-50 hidden lg:block">
+<div class="relative group">
+<div class="absolute inset-0 bg-primary/20 blur-xl group-hover:bg-primary/40 transition-all rounded-full"></div>
+<img alt="LP Rank" class="w-20 h-20 relative z-10 transition-transform duration-500 group-hover:scale-125 drop-shadow-[0_0_15px_rgba(127,208,255,0.6)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtvkfiG2XTuiXyEQOvQiwAgGP8lWFTHwWxlAM3DVUXpCsNUCFq3jzCik12tRvbea1pP_R-LaR3Qgc816Fn5ym6JvqHK74phw5GtYG-iIkZvpAZe4rd4r2CCB63_twcUQb8Gg5Uar-fVtG3lbMuJ6VuG3zaKB0vYPJV-Dk34OcXtiTuIHGQUXpFh5BXmo4M9YLkuzk11nztMXwE7_Jpt83Jg4G_qN_uTIPcLPaQH1ypMQhYJNtVT6gtx9f4qaAcyzo_oCZKWdvu2Rv_"/>
+<div class="absolute -top-2 -right-2 bg-primary text-on-primary text-[8px] font-bold px-2 py-0.5 rounded-full z-20">MAX</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation (BottomNavBar) -->
+<footer class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 bg-surface-container/80 backdrop-blur-lg border-t border-primary/30 pb-safe px-4 shadow-[0_-4px_20px_rgba(0,0,0,0.5)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70 hover:opacity-100 transition-opacity active:scale-90" href="#">
+<span class="material-symbols-outlined">wb_sunny</span>
+<span class="font-label-caps text-[8px] uppercase">Hoy</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-110 active:scale-90" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-caps text-[8px] uppercase">Héroe</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70 hover:opacity-100 transition-opacity active:scale-90" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-[8px] uppercase">Sistema</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70 hover:opacity-100 transition-opacity active:scale-90" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-label-caps text-[8px] uppercase">Misiones</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70 hover:opacity-100 transition-opacity active:scale-90" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps text-[8px] uppercase">Hub</span>
+</a>
+</footer>
+<!-- System Footer -->
+<div class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop flex flex-col items-center gap-2 opacity-40 hover:opacity-100 transition-opacity duration-500 py-12 mb-20 md:mb-10">
+<div class="font-mono-data text-mono-data text-outline">MAGNOPVS OS v6.2.0 // ARCHITECTURE_3_LAYERS // ULTRA_FIDELITY_OPTIMIZED</div>
+<div class="flex gap-6">
+<a class="text-outline-variant hover:text-primary transition-colors text-[10px] uppercase tracking-widest" href="#">Hoy</a>
+<a class="text-outline-variant hover:text-primary transition-colors text-[10px] uppercase tracking-widest" href="#">Tu Héroe</a>
+<a class="text-outline-variant hover:text-primary transition-colors text-[10px] uppercase tracking-widest" href="#">Sistema</a>
+</div>
+</div>
+<script>
+    // Procedural petal generation for the Hero Layer Compass
+    const petalsContainer = document.getElementById('hero-petals');
+    const heroColors = ['#7fd0ff', '#48ddc1', '#ffafd4', '#7fd0ff', '#48ddc1', '#ffd8e7'];
+    
+    if (petalsContainer) {
+        petalsContainer.innerHTML = '';
+        // 13 Petals representing the 13 Houses
+        for (let i = 0; i < 13; i++) {
+            const angle = (i * 360 / 13);
+            const color = heroColors[i % heroColors.length];
+            const height = 130 + Math.random() * 50;
+            
+            // Outer glowing data line
+            const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            line.setAttribute("x1", "200");
+            line.setAttribute("y1", "200");
+            line.setAttribute("x2", "200");
+            line.setAttribute("y2", (200 - height - 15).toString());
+            line.setAttribute("transform", `rotate(${angle} 200 200)`);
+            line.setAttribute("stroke", color);
+            line.setAttribute("stroke-width", "0.5");
+            line.setAttribute("stroke-opacity", "0.3");
+            petalsContainer.appendChild(line);
+
+            // Petal path
+            const petal = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            petal.setAttribute("d", `M200 200 L${200} ${200-height} Q${200+40} ${200-height/1.6} 200 ${200-height/3}`);
+            petal.setAttribute("transform", `rotate(${angle} 200 200)`);
+            petal.setAttribute("class", "radar-petal");
+            petal.setAttribute("fill", color);
+            petal.setAttribute("fill-opacity", "0.1");
+            petal.setAttribute("stroke", color);
+            petal.setAttribute("stroke-opacity", "0.5");
+            petal.setAttribute("stroke-width", "1.5");
+            
+            petalsContainer.appendChild(petal);
+        }
+    }
+</script>
+</body></html>

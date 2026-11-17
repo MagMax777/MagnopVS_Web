@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOPVS | ONIRO-OS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&amp;family=Space+Grotesk:wght@300;500;700&amp;family=JetBrains+Mono:wght@400;700&amp;family=Audiowide&amp;family=Geist:wght@300;400;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=Orbitron:wght@100..900&amp;family=Space+Grotesk:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-container": "#ddcdff",
+                    "secondary-fixed": "#e9ddff",
+                    "secondary": "#d1bcff",
+                    "surface-container-high": "#292a2f",
+                    "tertiary-container": "#eacfff",
+                    "on-tertiary-fixed-variant": "#553b6f",
+                    "tertiary": "#fdf2ff",
+                    "surface": "#121318",
+                    "primary-container": "#00f0ff",
+                    "outline-variant": "#3b494b",
+                    "on-tertiary-fixed": "#280e40",
+                    "on-error": "#690005",
+                    "surface-container-lowest": "#0d0e13",
+                    "surface-tint": "#00dbe9",
+                    "surface-dim": "#121318",
+                    "background": "#121318",
+                    "inverse-on-surface": "#2f3036",
+                    "surface-variant": "#34343a",
+                    "surface-container-highest": "#34343a",
+                    "on-primary-fixed-variant": "#004f54",
+                    "on-tertiary": "#3e2457",
+                    "on-primary-fixed": "#002022",
+                    "inverse-surface": "#e3e1e9",
+                    "error": "#ffb4ab",
+                    "on-primary-container": "#006970",
+                    "outline": "#849495",
+                    "error-container": "#93000a",
+                    "on-error-container": "#ffdad6",
+                    "inverse-primary": "#006970",
+                    "on-surface-variant": "#b9cacb",
+                    "surface-container": "#1e1f25",
+                    "surface-bright": "#38393f",
+                    "secondary-fixed-dim": "#d1bcff",
+                    "surface-container-low": "#1a1b21",
+                    "primary-fixed-dim": "#00dbe9",
+                    "on-secondary": "#3c0090",
+                    "on-secondary-fixed-variant": "#5700c9",
+                    "tertiary-fixed-dim": "#dabaf7",
+                    "on-tertiary-container": "#6e5388",
+                    "tertiary-fixed": "#f0dbff",
+                    "primary-fixed": "#7df4ff",
+                    "primary": "#dbfcff",
+                    "on-surface": "#e3e1e9",
+                    "on-secondary-fixed": "#23005b",
+                    "secondary-container": "#7000ff",
+                    "on-background": "#e3e1e9",
+                    "on-primary": "#00363a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "margin-desktop": "64px",
+                    "gutter": "24px",
+                    "panel-gap": "12px",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Geist"],
+                    "body-md": ["Geist"],
+                    "mono-data": ["JetBrains Mono"],
+                    "label-caps": ["Space Grotesk"],
+                    "headline-sm": ["Orbitron"],
+                    "display-lg": ["Orbitron"],
+                    "headline-md": ["Orbitron"],
+                    "audiowide": ["Audiowide"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.2em", "fontWeight": "700"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "headline-md": ["32px", {"lineHeight": "40px", "letterSpacing": "0.05em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0d0e13;
+            color: #e3e1e9;
+            overflow-x: hidden;
+        }
+
+        .hud-glass {
+            background: rgba(26, 0, 51, 0.4);
+            backdrop-filter: blur(20px);
+            border-left: 3px solid rgba(0, 240, 255, 0.4);
+            border-right: 1px solid rgba(0, 240, 255, 0.1);
+            border-top: 1px solid rgba(0, 240, 255, 0.1);
+            border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+        }
+
+        .neon-glow {
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+        }
+
+        .scan-line {
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 240, 255, 0.15);
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: scan 4s linear infinite;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+
+        .hex-bg {
+            background-image: radial-gradient(circle, rgba(112, 0, 255, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .lucid-active {
+            border: 1px solid #00f0ff;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .data-stream {
+            mask-image: linear-gradient(to bottom, transparent, black, transparent);
+        }
+
+        .alchemical-icon {
+            filter: drop-shadow(0 0 5px rgba(209, 188, 255, 0.5));
+        }
+
+        /* Custom Scrollbar for the HUD */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+        ::-webkit-scrollbar-thumb { background: #00f0ff; border-radius: 10px; }
+    </style>
+</head>
+<body class="font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- Background Layer -->
+<div class="fixed inset-0 z-[-1] overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-lighten" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBRNsfswPZPnPUHF5HjOb1WutTwNyGVEocO267Lqq2sMsFEYIOMO3jr_tEosDmmG3i0nuA_WhXCA73s98hlHTAWkRKrsKXpB3qetAHPjmgkvzs2LJ5MSPg7hZcduNzE-pdZN9jbbDcigYvD5oxkbLaeB3_JvpBAPLwu7ph1ErpWIUh5_NMWr_pDO6us74LkF94wfMjbHlJXDETtslR_Nlrn47CndbAbAI-5rZs6TyW5f0XnjMvZ80SxJZeB-vZaqnNYpyzVOowKmOua')"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#0d0e13]/80 to-[#0d0e13]"></div>
+<div class="absolute inset-0 hex-bg"></div>
+</div>
+<!-- Top Navigation Shell -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20 shadow-[0_0_15px_rgba(0,240,255,0.1)] flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16">
+<div class="flex items-center gap-8">
+<h1 class="font-display-lg text-headline-sm md:text-display-lg text-primary tracking-widest cursor-pointer active:scale-95">MAGNOPVS</h1>
+<nav class="hidden md:flex gap-6">
+<a class="text-primary border-b-2 border-primary-container pb-1 font-label-caps text-label-caps hover:text-primary-fixed-dim transition-colors duration-300" href="#">TELEMETRY</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary-fixed-dim transition-colors duration-300" href="#">LOGS</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex flex-col items-end mr-4 hidden md:flex">
+<span class="font-label-caps text-[10px] text-primary/60">SOF.IA INTERFACE</span>
+<span class="font-mono-data text-[12px] text-primary-container">LINK_ESTABLISHED</span>
+</div>
+<div class="w-10 h-10 rounded-full border border-primary-container/40 p-0.5 overflow-hidden ring-2 ring-primary/20 cursor-pointer hover:ring-primary/60 transition-all">
+<img class="w-full h-full object-cover" data-alt="A futuristic AI avatar profile picture. A female humanoid with translucent, crystalline skin and bioluminescent circuits glowing in cyan and violet. She is surrounded by holographic sacred geometry symbols. The style is ethereal futurism, ultra-high-definition, with cinematic lighting on a dark nebula background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaV0_3LboB6Q2yk8YO0iKIjS3FrbJmY8q0G67oKlPcZJ4rcipXIY_RPU-mQPB0-Bae69adX_2JkwKlXNfyrLyw-Pdstj0SkvNh_O1_3fa6HJzaxFgBW63Aw_M8MD8kDQzutWnEsxLHet7fJtWjz3EGTAQ8VV1aitm0PoehmZcLgD7p23fUDjCx1DE26XO3SdDD6EqM8y3qZBNNSEmHPls78-H9vBcpePPbj9NlBgMH6aydMSZH0vO41m1d-v-74w3NCFb8CqA_Nkyo"/>
+</div>
+<div class="flex gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">settings</span>
+</div>
+</div>
+</header>
+<!-- Side Navigation Shell -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-20 md:w-64 z-40 bg-surface-container/60 backdrop-blur-2xl border-r border-outline-variant/20 flex flex-col py-panel-gap">
+<!-- User Profile Anchor -->
+<div class="px-4 py-6 border-b border-outline-variant/10 hidden md:block">
+<h3 class="font-headline-sm text-headline-sm text-primary text-sm mb-1 uppercase">ONEIRONAUT_01</h3>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="font-mono-data text-label-caps text-on-surface-variant text-[10px]">LUCIDITY_94%</span>
+</div>
+</div>
+<!-- Nav Links -->
+<nav class="flex-1 mt-4">
+<div class="space-y-1">
+<div class="group cursor-pointer bg-primary-container/10 text-primary-container border-l-4 border-primary shadow-[0_0_10px_rgba(0,240,255,0.2)] flex items-center gap-4 px-4 py-3">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<span class="font-label-caps text-label-caps hidden md:block">NEURAL</span>
+</div>
+<div class="group cursor-pointer text-on-surface-variant hover:text-primary/70 hover:bg-surface-variant/30 transition-all duration-200 flex items-center gap-4 px-4 py-3">
+<span class="material-symbols-outlined">vital_signs</span>
+<span class="font-label-caps text-label-caps hidden md:block">SOMATIC</span>
+</div>
+<div class="group cursor-pointer text-on-surface-variant hover:text-primary/70 hover:bg-surface-variant/30 transition-all duration-200 flex items-center gap-4 px-4 py-3">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-label-caps text-label-caps hidden md:block">ASTRAL</span>
+</div>
+<div class="group cursor-pointer text-on-surface-variant hover:text-primary/70 hover:bg-surface-variant/30 transition-all duration-200 flex items-center gap-4 px-4 py-3">
+<span class="material-symbols-outlined">memory</span>
+<span class="font-label-caps text-label-caps hidden md:block">RECALL</span>
+</div>
+<div class="group cursor-pointer text-on-surface-variant hover:text-primary/70 hover:bg-surface-variant/30 transition-all duration-200 flex items-center gap-4 px-4 py-3">
+<span class="material-symbols-outlined">cloud_off</span>
+<span class="font-label-caps text-label-caps hidden md:block">VOID</span>
+</div>
+</div>
+</nav>
+<!-- Sidebar Footer -->
+<div class="mt-auto px-4 py-6 border-t border-outline-variant/10">
+<button class="w-full bg-primary-container text-on-primary-container font-label-caps text-label-caps py-3 rounded-none tracking-widest lucid-active hover:brightness-110 active:scale-95 transition-all mb-4 hidden md:block">
+                INITIATE_REM
+            </button>
+<div class="flex justify-around md:justify-start md:gap-6 text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary" title="ARCHIVE">inventory_2</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary" title="SYNC">sync_alt</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-20 md:ml-64 mt-16 p-panel-gap min-h-[calc(100vh-64px)] overflow-y-auto">
+<div class="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- DREAM_INTERPRETER Section (Left/Center) -->
+<div class="lg:col-span-8 space-y-gutter">
+<!-- Main Card -->
+<section class="hud-glass rounded-xl p-6 relative overflow-hidden group">
+<div class="scan-line"></div>
+<header class="flex justify-between items-center mb-6">
+<div class="flex items-center gap-4">
+<h2 class="font-audiowide text-headline-sm text-primary tracking-wide">DREAM_INTERPRETER</h2>
+<span class="px-2 py-0.5 border border-primary-container/20 font-mono-data text-[10px] text-primary/60">v6.8_PROTOCOL</span>
+</div>
+<div class="flex gap-2">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse" title="REM_ANOMALY_DETECTED"></span>
+<span class="font-mono-data text-xs text-on-surface-variant uppercase">3 Pending Interpretations</span>
+</div>
+</header>
+<!-- Dream List Table/Grid -->
+<div class="space-y-4">
+<!-- Dream Item 1 -->
+<div class="p-4 border-l-2 border-primary-container bg-surface-container-low/40 hover:bg-surface-container-high/60 transition-all cursor-pointer group/item">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container alchemical-icon">brightness_5</span>
+<span class="font-audiowide text-body-lg text-primary tracking-tight">EL_ALBEDO_VUELO</span>
+</div>
+<span class="font-mono-data text-[12px] text-on-surface-variant">04:22 AM · REM_STRETCH_4</span>
+</div>
+<p class="font-body-md text-on-surface-variant/80 mb-3 line-clamp-2">Flying above a city made of crystalline geometry. The air was thick with the scent of ozone and the sound of bells. Sudden shift to gravity-defying architecture.</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-primary/10 border border-primary/20 text-primary font-mono-data text-[10px]">SOUL_ELEVATION</span>
+<span class="px-2 py-1 bg-primary/10 border border-primary/20 text-primary font-mono-data text-[10px]">LUCIDITY_HIGH</span>
+<span class="px-2 py-1 bg-secondary/10 border border-secondary/20 text-secondary font-mono-data text-[10px]">AETHER_ELEMENT</span>
+</div>
+</div>
+<!-- Dream Item 2 -->
+<div class="p-4 border-l-2 border-secondary bg-surface-container-low/40 hover:bg-surface-container-high/60 transition-all cursor-pointer group/item opacity-80">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary alchemical-icon">brightness_3</span>
+<span class="font-audiowide text-body-lg text-secondary tracking-tight">NIGREDO_LABERINTO</span>
+</div>
+<span class="font-mono-data text-[12px] text-on-surface-variant">01:15 AM · REM_STRETCH_1</span>
+</div>
+<p class="font-body-md text-on-surface-variant/80 mb-3 line-clamp-2">Searching for a key in a library where the books are made of water. A shadowy figure watched from the stairs. Deep emotional pressure in the chest area.</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-error/10 border border-error/20 text-error font-mono-data text-[10px]">ARCHETYPAL_SHADOW</span>
+<span class="px-2 py-1 bg-secondary/10 border border-secondary/20 text-secondary font-mono-data text-[10px]">FIXATIO</span>
+</div>
+</div>
+<!-- Dream Item 3 -->
+<div class="p-4 border-l-2 border-on-secondary-container bg-surface-container-low/40 hover:bg-surface-container-high/60 transition-all cursor-pointer group/item">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary alchemical-icon">auto_awesome</span>
+<span class="font-audiowide text-body-lg text-primary tracking-tight">RUBEDO_REBORN</span>
+</div>
+<span class="font-mono-data text-[12px] text-on-surface-variant">06:01 AM · REM_STRETCH_5</span>
+</div>
+<p class="font-body-md text-on-surface-variant/80 mb-3 line-clamp-2">Sun rising inside a cathedral. All colors turned to deep scarlet. Feeling of immense power and clarity before awakening.</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-primary/10 border border-primary/20 text-primary font-mono-data text-[10px]">TRANSFORMATION</span>
+<span class="px-2 py-1 bg-primary/10 border border-primary/20 text-primary font-mono-data text-[10px]">FULL_LUCIDITY</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ASTRAL_MAP Bottom Panel -->
+<section class="hud-glass rounded-xl p-6 h-[400px] relative overflow-hidden flex flex-col">
+<div class="flex justify-between items-center mb-4 z-10">
+<h2 class="font-audiowide text-headline-sm text-primary tracking-wide">ASTRAL_MAP</h2>
+<div class="flex gap-4 font-mono-data text-[10px]">
+<span class="text-primary-container">X: 144.22</span>
+<span class="text-primary-container">Y: 009.81</span>
+<span class="text-primary-container">DEPTH: -33%</span>
+</div>
+</div>
+<!-- Procedural Map Container -->
+<div class="flex-1 rounded-lg border border-primary-container/10 bg-black/40 relative overflow-hidden">
+<!-- ThreeJS or WebGL Placeholder for "Fractal Dreamscape" -->
+
+<!-- Overlay UI for Map -->
+<div class="absolute inset-0 p-4 pointer-events-none">
+<div class="h-full w-full border border-primary/5 border-dashed relative">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+<div class="w-24 h-24 rounded-full border border-primary-container/20 flex items-center justify-center">
+<div class="w-12 h-12 rounded-full border border-primary-container/40 animate-ping"></div>
+<span class="absolute text-[8px] font-mono-data text-primary bottom-[-20px]">CURRENT_LOCUS</span>
+</div>
+</div>
+<!-- Floating Data Points -->
+<div class="absolute top-10 right-10 flex flex-col items-end">
+<div class="w-32 h-[1px] bg-primary/20"></div>
+<span class="text-[8px] font-mono-data text-primary-container mt-1">NEBULA_CLUSTER_B7</span>
+</div>
+<div class="absolute bottom-20 left-10 flex flex-col items-start">
+<div class="w-24 h-[1px] bg-secondary/20"></div>
+<span class="text-[8px] font-mono-data text-secondary mt-1">VOID_SECTOR_EPSILON</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column (Sidebar Sections) -->
+<div class="lg:col-span-4 space-y-gutter">
+<!-- LUCIDITY_TRAINER Panel -->
+<section class="hud-glass rounded-xl p-6 relative">
+<h2 class="font-audiowide text-headline-sm text-primary-container tracking-wide mb-6">LUCIDITY_TRAINER</h2>
+<div class="space-y-6">
+<!-- Reality Checks Stat -->
+<div class="space-y-2">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-label-caps text-on-surface-variant">REALITY_CHECKS_TODAY</span>
+<span class="font-mono-data text-primary text-xl">18 / 24</span>
+</div>
+<div class="h-1 w-full bg-surface-container-highest">
+<div class="h-full bg-primary-container lucid-active" style="width: 75%;"></div>
+</div>
+</div>
+<!-- Dream Recall Stat -->
+<div class="space-y-2">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-label-caps text-on-surface-variant">DREAM_RECALL_%</span>
+<span class="font-mono-data text-secondary text-xl">88.4%</span>
+</div>
+<div class="h-1 w-full bg-surface-container-highest">
+<div class="h-full bg-secondary shadow-[0_0_10px_rgba(209,188,255,0.4)]" style="width: 88.4%;"></div>
+</div>
+</div>
+<!-- Stability Stat -->
+<div class="space-y-2">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-label-caps text-on-surface-variant">DREAM_STABILITY</span>
+<span class="font-mono-data text-primary-fixed-dim text-xl">STABLE</span>
+</div>
+<div class="flex gap-1 h-3">
+<div class="flex-1 bg-primary-container"></div>
+<div class="flex-1 bg-primary-container"></div>
+<div class="flex-1 bg-primary-container"></div>
+<div class="flex-1 bg-primary-container/20"></div>
+<div class="flex-1 bg-primary-container/20"></div>
+</div>
+</div>
+<!-- Focus Pulse Circle -->
+<div class="flex flex-col items-center py-4">
+<div class="relative w-32 h-32 flex items-center justify-center">
+<svg class="absolute inset-0 w-full h-full -rotate-90">
+<circle cx="64" cy="64" fill="none" r="60" stroke="#34343a" stroke-width="4"></circle>
+<circle class="animate-[dash_2s_ease-in-out_infinite]" cx="64" cy="64" fill="none" r="60" stroke="#00f0ff" stroke-dasharray="377" stroke-dashoffset="100" stroke-width="4"></circle>
+</svg>
+<div class="text-center">
+<span class="block font-mono-data text-xs text-primary/60">BPM</span>
+<span class="font-headline-sm text-primary">64</span>
+</div>
+</div>
+<p class="font-mono-data text-[10px] text-on-surface-variant mt-4">IS THIS A DREAM? CHECK NOW.</p>
+</div>
+</div>
+</section>
+<!-- SOF.IA ONIROID_ADVICE Panel -->
+<section class="hud-glass rounded-xl p-6 border-l-secondary border-l-[3px] bg-secondary-container/5">
+<header class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">auto_fix_high</span>
+<h2 class="font-audiowide text-body-lg text-secondary tracking-widest">SOF.IA_ADVICE</h2>
+</header>
+<div class="space-y-4">
+<div class="bg-black/20 p-4 border border-secondary/10 rounded-lg">
+<h3 class="font-label-caps text-[11px] text-secondary-fixed mb-2">ARCHETYPAL SHADOWS DETECTED</h3>
+<p class="font-body-md text-sm text-on-surface-variant leading-relaxed">
+                                System alert: Your last REM cycle (01:15 AM) registered significant resistance patterns. El <span class="text-secondary font-bold">Nigredo</span> detected implies a "Shadow Archetype" seeking integration. Recommend performing a <span class="italic text-primary-container underline decoration-dotted">Mirror Check</span> in the next Lucidity Window to confront the entity. Avoid escapist flight protocols.
+                            </p>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-mono-data text-[10px] text-on-surface-variant">RELIABILITY: 99.2%</span>
+<button class="font-label-caps text-[10px] text-secondary border border-secondary/40 px-3 py-1 hover:bg-secondary/10 transition-all">ACKNOWLEDGE</button>
+</div>
+</div>
+</section>
+<!-- Recent Tokens / Chips -->
+<section class="hud-glass rounded-xl p-4">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-4">ACTIVE_ARCHETYPES</h3>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1.5 bg-surface-container-high rounded-full border border-outline-variant/30 font-mono-data text-[10px] text-on-surface-variant">THE_SHADOW</span>
+<span class="px-3 py-1.5 bg-surface-container-high rounded-full border border-outline-variant/30 font-mono-data text-[10px] text-on-surface-variant">THE_WISE_OLD_MAN</span>
+<span class="px-3 py-1.5 bg-surface-container-high rounded-full border border-outline-variant/30 font-mono-data text-[10px] text-on-surface-variant">THE_ANIMUS</span>
+<span class="px-3 py-1.5 bg-surface-container-high rounded-full border border-outline-variant/30 font-mono-data text-[10px] text-on-surface-variant">FALLING_TOWER</span>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Floating Action Button (Only for specific focus) -->
+<button class="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-primary-container text-on-primary-container shadow-[0_0_20px_rgba(0,240,255,0.6)] flex items-center justify-center lucid-active hover:scale-110 active:scale-95 transition-all z-50 group">
+<span class="material-symbols-outlined text-3xl group-hover:rotate-180 transition-transform duration-500" style="font-variation-settings: 'FILL' 1;">add</span>
+</button>
+<script>
+        // Micro-interactions and Atmospheric effects
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+            document.documentElement.style.setProperty('--cursor-x', `${x}%`);
+            document.documentElement.style.setProperty('--cursor-y', `${y}%`);
+        });
+
+        // Simulating live data updates
+        setInterval(() => {
+            const bpms = [62, 63, 64, 65, 64, 63];
+            const display = document.querySelector('.text-headline-sm.text-primary');
+            if (display && display.innerText.length < 4) { // check if it's the bpm display
+                const current = parseInt(display.innerText);
+                const next = bpms[Math.floor(Math.random() * bpms.length)];
+                display.innerText = next;
+            }
+        }, 2000);
+    </script>
+</body></html>

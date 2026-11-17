@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · Legado Familiar (Legacy-OS v6.8)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide:wght@100..900&amp;family=Orbitron:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-container": "#002859",
+                        "on-primary-fixed": "#001b3f",
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface-container-highest": "#353534",
+                        "on-tertiary": "#5b005b",
+                        "secondary": "#5adcb3",
+                        "on-primary": "#002f66",
+                        "surface-bright": "#393939",
+                        "on-tertiary-fixed-variant": "#810081",
+                        "primary-fixed-dim": "#abc7ff",
+                        "surface-dim": "#131313",
+                        "on-error": "#690005",
+                        "on-error-container": "#ffdad6",
+                        "inverse-surface": "#e5e2e1",
+                        "tertiary": "#ffabf3",
+                        "on-tertiary-fixed": "#380038",
+                        "on-secondary-fixed-variant": "#00513d",
+                        "surface-container-high": "#2a2a2a",
+                        "on-secondary": "#003829",
+                        "secondary-fixed-dim": "#5adcb3",
+                        "tertiary-fixed-dim": "#ffabf3",
+                        "error-container": "#93000a",
+                        "primary-fixed": "#d7e2ff",
+                        "secondary-fixed": "#79f9ce",
+                        "on-surface-variant": "#c1c6d7",
+                        "primary-container": "#448fff",
+                        "on-surface": "#e5e2e1",
+                        "background": "#131313",
+                        "secondary-container": "#00a782",
+                        "outline": "#8b91a0",
+                        "outline-variant": "#414754",
+                        "on-background": "#e5e2e1",
+                        "surface-container-low": "#1c1b1b",
+                        "surface": "#131313",
+                        "surface-container": "#201f1f",
+                        "on-secondary-container": "#003326",
+                        "primary": "#abc7ff",
+                        "on-tertiary-container": "#500050",
+                        "error": "#ffb4ab",
+                        "surface-tint": "#abc7ff",
+                        "tertiary-fixed": "#ffd7f5",
+                        "surface-variant": "#353534",
+                        "on-secondary-fixed": "#002117",
+                        "on-primary-fixed-variant": "#004590",
+                        "tertiary-container": "#fe00fe",
+                        "inverse-primary": "#005cbc",
+                        "inverse-on-surface": "#313030"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "48px",
+                        "container-max": "1440px",
+                        "margin-mobile": "16px",
+                        "unit": "4px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Audiowide"],
+                        "body-lg": ["Orbitron"],
+                        "label-caps": ["Orbitron"],
+                        "headline-md": ["Audiowide"],
+                        "display-lg": ["Audiowide"],
+                        "data-num": ["Orbitron"],
+                        "body-md": ["Orbitron"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.15em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "data-num": ["20px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #050505;
+            background-image: radial-gradient(circle at 50% 50%, #1a0b1a 0%, #050505 100%);
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        }
+        .scanline {
+            background: linear-gradient(to bottom, rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+        .radar-line {
+            stroke-dasharray: 4;
+            animation: dash 20s linear infinite;
+        }
+        @keyframes dash {
+            to { stroke-dashoffset: -100; }
+        }
+        .bloom-magenta {
+            box-shadow: 0 0 20px rgba(254, 0, 254, 0.3);
+        }
+        .node-line {
+            stroke: #fe00fe;
+            stroke-width: 1;
+            opacity: 0.3;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="text-on-surface font-body-md selection:bg-tertiary/30">
+<!-- NAVIGATION SHELL -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop py-4 bg-background/80 backdrop-blur-xl border-b border-outline-variant/15 shadow-[0_0_15px_rgba(171,199,255,0.1)]">
+<div class="font-headline-lg text-headline-lg text-primary tracking-widest uppercase">MAGNOPVS LIFE HERO</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant font-medium font-label-caps text-label-caps hover:text-secondary hover:bg-surface-container-high/30 transition-all duration-300" href="#">Macro System 6</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-bold font-label-caps text-label-caps" href="#">Sanctuary</a>
+<a class="text-on-surface-variant font-medium font-label-caps text-label-caps hover:text-secondary hover:bg-surface-container-high/30 transition-all duration-300" href="#">Vital Management</a>
+<a class="text-on-surface-variant font-medium font-label-caps text-label-caps hover:text-secondary hover:bg-surface-container-high/30 transition-all duration-300" href="#">Quantvm Matrix</a>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">settings</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">notifications</span>
+<div class="w-10 h-10 rounded-full border border-primary/50 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A high-tech cinematic portrait of a futuristic military commander with glowing cyan cybernetic eye enhancements, wearing sleek obsidian-colored tactical armor with magenta trim, set against a dark space station background with floating holographic displays." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1VAZo_-6oNfFsRxCisA54_z8Z9BB9Utdg1E_b4Rm2isvy88LUjrd8uprA49tbYJm0VaWYpwe1T0Vc1Vwk4o0PKjqEqUKI180gbkzs9vZT4nMRxENRge6YmfTeaoh770MyxIG976QEu6WHhp_3g-H3nZov-yVhU9XBaYCuiJ_v446JhXXWL1dtZVkNf8jTif5sdVdWJM24bYO93qcwPeRiKxhxyXQ_ODrR8RglZautFfb3QMH7dRpF2A"/>
+</div>
+</div>
+</nav>
+<!-- SIDE NAV -->
+<aside class="fixed left-0 top-0 h-full z-40 flex flex-col pt-24 pb-8 bg-surface-container-lowest/90 backdrop-blur-2xl border-r border-outline-variant/10 w-64 hidden md:flex">
+<div class="px-6 mb-12">
+<div class="font-label-caps text-label-caps text-outline mb-1">OPERATOR</div>
+<div class="font-headline-md text-headline-md text-secondary">ID: 001</div>
+<div class="font-label-caps text-[10px] text-tertiary">RANK: PATRIARCH</div>
+</div>
+<div class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-4 px-6 py-3 text-outline hover:text-on-surface hover:bg-surface-container-highest/20 transition-colors" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label-caps text-label-caps">Legacy HUD</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 bg-primary-container/20 text-primary border-r-4 border-primary translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">home_work</span>
+<span class="font-label-caps text-label-caps">Sanctuary</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-outline hover:text-on-surface hover:bg-surface-container-highest/20 transition-colors" href="#">
+<span class="material-symbols-outlined">pets</span>
+<span class="font-label-caps text-label-caps">Entity Protocol</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-outline hover:text-on-surface hover:bg-surface-container-highest/20 transition-colors" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-caps text-label-caps">Vault</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-outline hover:text-on-surface hover:bg-surface-container-highest/20 transition-colors" href="#">
+<span class="material-symbols-outlined">terminal</span>
+<span class="font-label-caps text-label-caps">System Log</span>
+</a>
+</div>
+<div class="px-6 mt-auto">
+<button class="w-full py-3 bg-transparent border border-secondary text-secondary font-label-caps text-label-caps tracking-widest hover:bg-secondary hover:text-on-secondary transition-all duration-300 mb-6">
+                INITIATE PROTOCOL
+            </button>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-4 text-outline hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-caps text-[10px]">Support</span>
+</a>
+<a class="flex items-center gap-4 text-outline hover:text-error transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-caps text-[10px]">Log Out</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- MAIN CONTENT -->
+<main class="ml-0 md:ml-64 pt-24 min-h-screen px-margin-mobile md:px-margin-desktop pb-24 relative">
+<!-- BACKGROUND SHADER -->
+<div class="fixed inset-0 pointer-events-none z-0">
+
+<div class="scanline absolute inset-0 opacity-20"></div>
+</div>
+<!-- HEADER SECTION -->
+<header class="relative z-10 mb-12 flex flex-col md:flex-row justify-between items-end gap-6">
+<div>
+<div class="flex items-center gap-3 text-tertiary mb-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">security</span>
+<span class="font-label-caps text-label-caps tracking-[0.3em]">SECURE CONNECTION ESTABLISHED</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-white leading-none">MagnopVS · Legado Familiar</h1>
+<p class="font-label-caps text-outline mt-2 tracking-widest">LEGACY-OS v6.8 // DOMESTIC COMMAND INTERFACE</p>
+</div>
+<div class="flex gap-4">
+<div class="glass-card px-6 py-3 flex flex-col items-end">
+<span class="font-label-caps text-[10px] text-outline">STABILITY</span>
+<span class="font-data-num text-data-num text-secondary">98.4%</span>
+</div>
+<div class="glass-card px-6 py-3 flex flex-col items-end border-tertiary/30">
+<span class="font-label-caps text-[10px] text-tertiary">SYNC STATUS</span>
+<span class="font-data-num text-data-num text-tertiary">ACTIVE</span>
+</div>
+</div>
+</header>
+<!-- BENTO GRID -->
+<div class="grid grid-cols-12 gap-gutter relative z-10">
+<!-- 1. LEGACY TREE: Generational Nodes -->
+<section class="col-span-12 lg:col-span-8 glass-card min-h-[500px] p-8">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h2 class="font-headline-md text-headline-md text-white mb-1 uppercase">Legacy Tree</h2>
+<p class="font-label-caps text-[10px] text-outline">GENERATIONAL NODE VISUALIZATION</p>
+</div>
+<span class="material-symbols-outlined text-tertiary animate-pulse">hub</span>
+</div>
+<div class="relative w-full h-[380px] flex items-center justify-center overflow-hidden">
+<!-- SVG Tree Links -->
+<svg class="absolute inset-0 w-full h-full">
+<line class="node-line" x1="50%" x2="30%" y1="20%" y2="50%"></line>
+<line class="node-line" x1="50%" x2="70%" y1="20%" y2="50%"></line>
+<line class="node-line" x1="30%" x2="20%" y1="50%" y2="80%"></line>
+<line class="node-line" x1="30%" x2="40%" y1="50%" y2="80%"></line>
+</svg>
+<!-- Patriarch Node -->
+<div class="absolute top-[10%] left-1/2 -translate-x-1/2 group cursor-pointer">
+<div class="w-20 h-20 rounded-full border-2 border-tertiary p-1 relative z-10 transition-transform group-hover:scale-110">
+<div class="w-full h-full rounded-full overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" data-alt="Close up cinematic shot of a wise patriarch figure with silver hair and glowing violet digital lines on his temples, wearing a high-collared black silk futuristic robe, lighting from a magenta nebula window." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmxxF5uy970cUkxeFjV-xrptasoS0te_uvcNfssb6RZemFPXFHHboGEejGJdnf-iS_92dRTw091RJg29p-_nc4B183ZnQ1HpXceGvq13fIvkyMK3AIfQsEvuIqs4VKokiyRcMqd584sNu8mXFlCLZswlAYAHHX2zdCSqJgtUhV_bN5WzScVtY8NrCnylAoOJFUCbFyHeQosM83wGHG7nINCOrJVdnAJWwVylTjFMoh6AWQ2FLYiGxeeQ"/>
+</div>
+<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-tertiary text-on-tertiary px-3 py-0.5 font-label-caps text-[8px] whitespace-nowrap bloom-magenta">PATRIARCH</div>
+</div>
+</div>
+<!-- Guardian Node -->
+<div class="absolute top-[40%] left-[25%] -translate-x-1/2 group cursor-pointer">
+<div class="w-16 h-16 rounded-full border-2 border-secondary p-1 relative z-10 transition-transform group-hover:scale-110">
+<div class="w-full h-full rounded-full overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" data-alt="A portrait of a strong female guardian with glowing teal tactical goggles and sleek dark armor, background features a high-tech sanctuary garden with bioluminescent plants." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDv_rc1rCF9LERxZoNKJzoBdhdmI6OQRKRR8urvV1in44iqCAuUwO4seh2_WqWWv0spL0yjnfc6ddQ-VcRCf2dFhLiim8glSDnHFUzE5SeOKMuU9JQhlpOvjsFd525w4sBFq060zDJmLkHv9RUuaElqJPRZB847N0uzkPCEEwWIa9P-DzZLb15hHgWdWM46T8F7AnUQa1rWUz-7XoxKRpIua0gKXkiARKm3DQruYE33WPGeH5um0TyVnw"/>
+</div>
+<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-secondary text-on-secondary px-3 py-0.5 font-label-caps text-[8px] whitespace-nowrap">GUARDIAN</div>
+</div>
+</div>
+<!-- Apprentice Nodes -->
+<div class="absolute top-[70%] left-[15%] -translate-x-1/2 group cursor-pointer">
+<div class="w-14 h-14 rounded-full border border-outline p-1 relative z-10 transition-transform group-hover:scale-110">
+<div class="w-full h-full rounded-full overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" data-alt="A youthful apprentice with bright curious eyes and small glowing neural interface pins on the forehead, wearing a modern techwear hoodie in a dark noir laboratory." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgXcEt5KxCOS1GybKyKgc-x2T1FkHf8vOEExyvQRhfHIcN_x4Utt_hAwT1wdn7O2Dqs3whqm31Dis1aS_PwRihBrdZ8Mik2l6tt_VwKwk9X1oQw5bOWPZcOS5yIer8YNHabXBUXRkAdv7SJ3MGlTUM0uB77RAl7MjdPi0sk8q4a83oTqZu730toyKtyBTlAYSOaI6K4ODfV_W_vXyG_mIKeOiUwxd6Iw_hCxGGKfT8z6kYdCzAz0yt7w"/>
+</div>
+<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-surface-container-highest text-white px-3 py-0.5 font-label-caps text-[8px] whitespace-nowrap">APPRENTICE</div>
+</div>
+</div>
+<div class="absolute top-[70%] left-[35%] -translate-x-1/2 group cursor-pointer">
+<div class="w-14 h-14 rounded-full border border-outline p-1 relative z-10 transition-transform group-hover:scale-110">
+<div class="w-full h-full rounded-full overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" data-alt="A young girl apprentice with braided hair containing fiber optic lights, focused on a floating holographic puzzle in a dark cyberpunk bedroom." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5h9J-lfj_WgdbjqYbvf_aVXq4mVXyXe4XESmWoNCvCBReoF4iA7XNieFVMRYId97mt0qoxy3wxg9HyCTMtEAMa1XlPS5XfmImMIUi6aF-R5G9V8k_LNnLH3g3-R3VIn3PACcdq94FoF-919636PRjW25BDZCoOTORrL_aRy6Gy2aPucIiIxVu4ApAoiEdztpMhA5421QiWEwYCDkMpixqNm5ZcZL8rvXVJNY7Z1OHtEzOCo5CoTqkrg"/>
+</div>
+<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-surface-container-highest text-white px-3 py-0.5 font-label-caps text-[8px] whitespace-nowrap">APPRENTICE</div>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-6 border-t border-outline-variant/15 flex justify-around">
+<div class="text-center">
+<div class="font-label-caps text-[10px] text-outline mb-1">TOTAL NODES</div>
+<div class="font-data-num text-data-num text-white">08</div>
+</div>
+<div class="text-center">
+<div class="font-label-caps text-[10px] text-outline mb-1">ACTIVE LINKS</div>
+<div class="font-data-num text-data-num text-secondary">06</div>
+</div>
+<div class="text-center">
+<div class="font-label-caps text-[10px] text-outline mb-1">HERITAGE PT</div>
+<div class="font-data-num text-data-num text-tertiary">1,240</div>
+</div>
+</div>
+</section>
+<!-- 2. AFFINITY MATRIX: Radar Chart -->
+<section class="col-span-12 lg:col-span-4 glass-card p-8 flex flex-col">
+<div class="mb-8">
+<h2 class="font-headline-md text-headline-md text-white mb-1 uppercase">Affinity Matrix</h2>
+<p class="font-label-caps text-[10px] text-outline">SOCIO-COGNITIVE SYNC</p>
+</div>
+<div class="flex-1 flex items-center justify-center relative py-12">
+<svg class="w-full max-w-[240px] drop-shadow-[0_0_15px_rgba(90,220,179,0.2)]" viewbox="0 0 200 200">
+<!-- Grid Lines -->
+<circle cx="100" cy="100" fill="none" r="90" stroke="white" stroke-opacity="0.05"></circle>
+<circle cx="100" cy="100" fill="none" r="60" stroke="white" stroke-opacity="0.05"></circle>
+<circle cx="100" cy="100" fill="none" r="30" stroke="white" stroke-opacity="0.05"></circle>
+<!-- Axis -->
+<line stroke="white" stroke-opacity="0.1" x1="100" x2="100" y1="10" y2="190"></line>
+<line stroke="white" stroke-opacity="0.1" x1="10" x2="190" y1="100" y2="100"></line>
+<!-- Data Shape -->
+<polygon class="radar-line" fill="rgba(90,220,179,0.2)" points="100,30 170,100 100,160 50,100" stroke="#5adcb3" stroke-width="2"></polygon>
+<circle cx="100" cy="30" fill="#5adcb3" r="3"></circle>
+<circle cx="170" cy="100" fill="#5adcb3" r="3"></circle>
+<circle cx="100" cy="160" fill="#5adcb3" r="3"></circle>
+<circle cx="50" cy="100" fill="#5adcb3" r="3"></circle>
+</svg>
+<!-- Labels -->
+<span class="absolute top-2 left-1/2 -translate-x-1/2 font-label-caps text-[9px] text-secondary">TRUST</span>
+<span class="absolute bottom-2 left-1/2 -translate-x-1/2 font-label-caps text-[9px] text-secondary">VALUES</span>
+<span class="absolute right-0 top-1/2 -translate-y-1/2 font-label-caps text-[9px] text-secondary">COMM.</span>
+<span class="absolute left-0 top-1/2 -translate-y-1/2 font-label-caps text-[9px] text-secondary">EMPATHY</span>
+</div>
+<div class="mt-auto space-y-4">
+<div class="flex justify-between items-center text-xs">
+<span class="font-label-caps text-outline">COMMUNICATION</span>
+<div class="w-32 h-1 bg-surface-container-highest relative">
+<div class="absolute left-0 top-0 h-full bg-secondary shadow-[0_0_8px_#5adcb3]" style="width: 85%;"></div>
+</div>
+</div>
+<div class="flex justify-between items-center text-xs">
+<span class="font-label-caps text-outline">SHARED TRUST</span>
+<div class="w-32 h-1 bg-surface-container-highest relative">
+<div class="absolute left-0 top-0 h-full bg-tertiary shadow-[0_0_8px_#fe00fe]" style="width: 92%;"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. FAMILY MISSIONS: Quest Board -->
+<section class="col-span-12 lg:col-span-7 glass-card p-8">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h2 class="font-headline-md text-headline-md text-white mb-1 uppercase">Family Missions</h2>
+<p class="font-label-caps text-[10px] text-outline">DOMESTIC GOAL PROTOCOLS</p>
+</div>
+<button class="bg-primary/10 border border-primary text-primary px-4 py-2 font-label-caps text-[10px] hover:bg-primary hover:text-on-primary transition-all">NEW OBJECTIVE</button>
+</div>
+<div class="space-y-4">
+<!-- Mission 1 -->
+<div class="group flex items-center justify-between p-4 bg-white/5 border-l-4 border-secondary hover:bg-white/10 transition-colors cursor-pointer">
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-secondary text-3xl">cloud_sync</span>
+<div>
+<div class="text-white font-body-lg font-bold">Ancestral Archive Sync</div>
+<div class="text-outline font-label-caps text-[9px] tracking-widest mt-1">REWARD: +50 HERITAGE // TIME REMAINING: 14H</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-secondary font-data-num">88%</div>
+<div class="w-24 h-1.5 bg-surface-container-highest mt-1">
+<div class="h-full bg-secondary" style="width: 88%;"></div>
+</div>
+</div>
+</div>
+<!-- Mission 2 -->
+<div class="group flex items-center justify-between p-4 bg-white/5 border-l-4 border-tertiary hover:bg-white/10 transition-colors cursor-pointer">
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-tertiary text-3xl">celebration</span>
+<div>
+<div class="text-white font-body-lg font-bold">Holiday Logistics Protocol</div>
+<div class="text-outline font-label-caps text-[9px] tracking-widest mt-1">REWARD: +120 COHESION // STATUS: IN PLANNING</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-tertiary font-data-num">24%</div>
+<div class="w-24 h-1.5 bg-surface-container-highest mt-1">
+<div class="h-full bg-tertiary" style="width: 24%;"></div>
+</div>
+</div>
+</div>
+<!-- Mission 3 -->
+<div class="group flex items-center justify-between p-4 bg-white/5 border-l-4 border-primary hover:bg-white/10 transition-colors cursor-pointer">
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-primary text-3xl">history_edu</span>
+<div>
+<div class="text-white font-body-lg font-bold">Origin Story Recital</div>
+<div class="text-outline font-label-caps text-[9px] tracking-widest mt-1">REWARD: APPRENTICE XP // STATUS: PENDING</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-primary font-data-num">READY</div>
+<div class="w-24 h-1.5 bg-surface-container-highest mt-1">
+<div class="h-full bg-primary" style="width: 0%;"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. INHERITED BUFFS -->
+<section class="col-span-12 lg:col-span-5 glass-card p-8">
+<div class="mb-8">
+<h2 class="font-headline-md text-headline-md text-white mb-1 uppercase">Inherited Buffs</h2>
+<p class="font-label-caps text-[10px] text-outline">LINEAGE TRAIT PERSISTENCE</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-4 bg-white/5 rounded-lg border border-white/10 flex flex-col items-center text-center group hover:border-secondary transition-colors">
+<span class="material-symbols-outlined text-secondary mb-2 scale-125" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<div class="text-white font-bold text-sm mb-1 uppercase">Relentless Drive</div>
+<div class="text-[10px] text-outline font-label-caps">+15% Focus Persistence</div>
+</div>
+<div class="p-4 bg-white/5 rounded-lg border border-white/10 flex flex-col items-center text-center group hover:border-tertiary transition-colors">
+<span class="material-symbols-outlined text-tertiary mb-2 scale-125" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<div class="text-white font-bold text-sm mb-1 uppercase">Stoic Foundation</div>
+<div class="text-[10px] text-outline font-label-caps">+20% Calm Retention</div>
+</div>
+<div class="p-4 bg-white/5 rounded-lg border border-white/10 flex flex-col items-center text-center group hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-primary mb-2 scale-125" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<div class="text-white font-bold text-sm mb-1 uppercase">Artisan Hand</div>
+<div class="text-[10px] text-outline font-label-caps">+10% Creative Output</div>
+</div>
+<div class="p-4 bg-white/5 rounded-lg border border-white/10 flex flex-col items-center text-center group hover:border-secondary transition-colors">
+<span class="material-symbols-outlined text-secondary mb-2 scale-125" style="font-variation-settings: 'FILL' 1;">chevron_left</span>
+<div class="text-white font-bold text-sm mb-1 uppercase">Empathic Shield</div>
+<div class="text-[10px] text-outline font-label-caps">Resistance to Burnout</div>
+</div>
+</div>
+<div class="mt-8 p-4 bg-primary/5 border border-primary/20 flex gap-4 items-center">
+<span class="material-symbols-outlined text-primary">info</span>
+<p class="text-[10px] font-label-caps text-primary leading-tight">These traits are active across all family nodes within the Sanctuary perimeter.</p>
+</div>
+</section>
+</div>
+</main>
+<!-- FOOTER -->
+<footer class="w-full py-6 px-margin-desktop flex flex-col md:flex-row justify-between items-center bg-black/40 border-t border-outline-variant/5 z-50 relative">
+<div class="font-label-caps text-label-caps text-secondary mb-4 md:mb-0 uppercase tracking-tighter">MAGNOPVS CORP. NEURAL-LINK</div>
+<div class="flex gap-8">
+<a class="font-label-caps text-label-caps text-outline hover:text-primary transition-colors" href="#">Privacy Protocol</a>
+<a class="font-label-caps text-label-caps text-outline hover:text-primary transition-colors" href="#">Terms of Engagement</a>
+<a class="font-label-caps text-label-caps text-outline hover:text-primary transition-colors" href="#">System Status</a>
+</div>
+<div class="font-label-caps text-label-caps text-outline mt-4 md:mt-0">© 2024 ESTABLISHED.</div>
+</footer>
+<!-- MOBILE NAV -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-background/90 backdrop-blur-xl flex justify-around py-3 px-2">
+<button class="flex flex-col items-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="text-[8px] font-label-caps">HUD</span>
+</button>
+<button class="flex flex-col items-center text-outline">
+<span class="material-symbols-outlined">home_work</span>
+<span class="text-[8px] font-label-caps">SANCTUARY</span>
+</button>
+<button class="flex flex-col items-center text-outline">
+<span class="material-symbols-outlined">pets</span>
+<span class="text-[8px] font-label-caps">ENTITY</span>
+</button>
+<button class="flex flex-col items-center text-outline">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-[8px] font-label-caps">VAULT</span>
+</button>
+</nav>
+<script>
+        // Micro-interactions for HUD effects
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // Simple flicker effect for tactical buttons
+        const tacticalButtons = document.querySelectorAll('button');
+        tacticalButtons.forEach(btn => {
+            btn.addEventListener('mouseenter', () => {
+                btn.style.opacity = '0.5';
+                setTimeout(() => btn.style.opacity = '1', 50);
+                setTimeout(() => btn.style.opacity = '0.7', 100);
+                setTimeout(() => btn.style.opacity = '1', 150);
+            });
+        });
+    </script>
+</body></html>

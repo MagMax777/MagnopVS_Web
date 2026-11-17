@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · Despliegue de Entrenamiento</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;family=Anybody:wght@100..900&amp;family=JetBrains+Mono:wght@100..800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:wght@100..900&amp;family=Space+Grotesk:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --celestial-blue: #00dbe9;
+            --neon-lime: #abf900;
+        }
+        body {
+            background-color: #111318;
+            color: #e2e2e8;
+            overflow-x: hidden;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(26, 28, 32, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(185, 202, 203, 0.1);
+        }
+        .sync-border {
+            border: 1px solid var(--celestial-blue);
+            box-shadow: 0 0 15px rgba(0, 219, 233, 0.2);
+        }
+        .sync-border-lime {
+            border: 1px solid var(--neon-lime);
+            box-shadow: 0 0 10px rgba(171, 249, 0, 0.15);
+        }
+        @keyframes pulse-aether {
+            0%, 100% { opacity: 0.8; transform: scale(1); filter: brightness(1); }
+            50% { opacity: 1; transform: scale(1.02); filter: brightness(1.3); }
+        }
+        .animate-aether {
+            animation: pulse-aether 3s infinite ease-in-out;
+        }
+        .segment-bar {
+            display: flex;
+            gap: 2px;
+        }
+        .segment {
+            height: 8px;
+            flex: 1;
+            background: rgba(185, 202, 203, 0.1);
+        }
+        .segment-active {
+            background: var(--neon-lime);
+        }
+        .hud-grid {
+            background-image: linear-gradient(rgba(0, 219, 233, 0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(0, 219, 233, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .monospaced { font-family: 'JetBrains Mono', monospace; }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-background": "#e2e2e8",
+                "on-secondary": "#223600",
+                "secondary": "#ffffff",
+                "on-tertiary-fixed-variant": "#5700c9",
+                "secondary-container": "#abf900",
+                "primary-fixed-dim": "#00dbe9",
+                "secondary-fixed": "#abf900",
+                "surface-bright": "#37393e",
+                "primary": "#dbfcff",
+                "secondary-fixed-dim": "#95da00",
+                "surface-tint": "#00dbe9",
+                "on-tertiary-fixed": "#23005b",
+                "inverse-primary": "#006970",
+                "error": "#ffb4ab",
+                "inverse-on-surface": "#2f3035",
+                "primary-container": "#00f0ff",
+                "on-tertiary-container": "#7213ff",
+                "on-secondary-container": "#4a6f00",
+                "on-secondary-fixed-variant": "#334f00",
+                "outline-variant": "#3b494b",
+                "on-primary-fixed-variant": "#004f54",
+                "on-primary-container": "#006970",
+                "tertiary": "#faf3ff",
+                "on-error": "#690005",
+                "error-container": "#93000a",
+                "inverse-surface": "#e2e2e8",
+                "outline": "#849495",
+                "surface": "#111318",
+                "surface-container-high": "#282a2e",
+                "on-surface-variant": "#b9cacb",
+                "surface-container-low": "#1a1c20",
+                "on-surface": "#e2e2e8",
+                "on-secondary-fixed": "#121f00",
+                "surface-variant": "#333539",
+                "on-primary": "#00363a",
+                "surface-dim": "#111318",
+                "on-tertiary": "#3c0090",
+                "tertiary-fixed-dim": "#d1bcff",
+                "tertiary-container": "#e1d2ff",
+                "surface-container-lowest": "#0c0e12",
+                "on-primary-fixed": "#002022",
+                "on-error-container": "#ffdad6",
+                "background": "#111318",
+                "surface-container-highest": "#333539",
+                "primary-fixed": "#7df4ff",
+                "tertiary-fixed": "#e9ddff",
+                "surface-container": "#1e2024"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+            },
+            "spacing": {
+                "margin-desktop": "40px",
+                "gutter": "16px",
+                "panel-gap": "24px",
+                "unit": "4px",
+                "margin-mobile": "20px"
+            },
+            "fontFamily": {
+                "body-md": ["Space Grotesk"],
+                "display-xl": ["Anybody"],
+                "headline-lg": ["Anybody"],
+                "headline-lg-mobile": ["Anybody"],
+                "label-sm": ["Space Grotesk"],
+                "data-point": ["JetBrains Mono"]
+            },
+            "fontSize": {
+                "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                "display-xl": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.2em", "fontWeight": "600"}],
+                "data-point": ["20px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "500"}]
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-surface text-on-surface hud-grid">
+<!-- TopAppBar Component -->
+<header class="fixed top-0 w-full z-50 bg-surface/60 backdrop-blur-xl border-b border-primary-container/20 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20">
+<div class="flex items-center gap-4">
+<span class="font-display-xl text-data-point tracking-tighter text-primary-fixed-dim">MagnopVS Life Hero</span>
+<div class="hidden md:block h-6 w-[1px] bg-outline-variant/30"></div>
+<h1 class="hidden md:block font-headline-lg text-headline-lg text-primary uppercase tracking-widest opacity-80">Despliegue de Entrenamiento</h1>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 px-3 py-1 bg-surface-container-high rounded-full">
+<img alt="XP" class="w-6 h-6 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvcMH53VqfPujwPOCQqW2qzRKjoEF_9t-d7H2nAaySeLIya1o19PIXnLllaXKFrRLhGAPRhbkiknDJkIuQJ3rN4HxSvz8ZXgXmhPgZUDzsZ5kmnRUADJ80-pnffFc9gjDWqsLIcuhabc9YreGe-WUo16qlM7_wIm72_pt96HEiIpha-Kv_YDoJn7jS5OHhGOYgtm8L31hGC4lKiaVyl5Al0eHCNMeESGLyt40mCP3ArCmnKJuCJD0r4EgS6Tlq0pXDFRE"/>
+<span class="font-data-point text-label-sm text-primary-fixed-dim">12,450 XP</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1 bg-surface-container-high rounded-full">
+<img alt="Energy" class="w-6 h-6 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuGMNmm7zBVU4Mbv6utZL9Q-093lFJbrk3Dc_LcetVQbhW4_deEwX9B67EKJIFtbFQfgV65ywfHu_NU8m_lVlHJclByOFcpL3Ie70CznbYnXY4zFzv82vAdW9npcMRHlqXIVh_PSniEmoJh7FYotUn5_4GsDuUNTUYXPfmq1SORjM-Yq0q5tp5TTp868CajT8FDG1YrfPL5ynTZA3aQOYp1Yp05dU9rzQzpJuOLZKV9Ni8pplcWuoDFRt-ARGAkUIrUjo"/>
+<span class="font-data-point text-label-sm text-secondary-fixed">88%</span>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer">account_circle</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer">settings</span>
+</div>
+</div>
+</header>
+<!-- SideNavBar Component -->
+<nav class="fixed left-0 top-0 h-screen w-64 z-40 bg-surface-container-low/40 backdrop-blur-2xl border-r border-outline-variant/30 flex flex-col pt-24 pb-8 hidden md:flex">
+<div class="px-6 mb-8">
+<div class="text-secondary-fixed font-label-sm text-label-sm uppercase tracking-widest mb-1">OPERATOR STATUS</div>
+<div class="text-on-surface font-headline-lg-mobile text-headline-lg-mobile font-bold tracking-tight">BIO-SYNC ACTIVE</div>
+<div class="text-on-surface-variant text-[10px] uppercase tracking-[0.2em] mt-1">Peak Synchronization: 98%</div>
+</div>
+<div class="flex-grow flex flex-col">
+<a class="text-on-surface-variant py-4 px-6 opacity-70 hover:bg-surface-bright/20 hover:text-secondary-fixed-dim transition-all flex items-center gap-4" href="#">
+<span class="material-symbols-outlined">accessibility_new</span>
+<span class="font-label-sm">ANATOMY</span>
+</a>
+<a class="text-secondary-fixed border-l-4 border-secondary-fixed bg-secondary-fixed/10 py-4 px-6 flex items-center gap-4" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="font-label-sm">WORKOUTS</span>
+</a>
+<a class="text-on-surface-variant py-4 px-6 opacity-70 hover:bg-surface-bright/20 hover:text-secondary-fixed-dim transition-all flex items-center gap-4" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-sm">TELEMETRY</span>
+</a>
+<a class="text-on-surface-variant py-4 px-6 opacity-70 hover:bg-surface-bright/20 hover:text-secondary-fixed-dim transition-all flex items-center gap-4" href="#">
+<span class="material-symbols-outlined">smart_toy</span>
+<span class="font-label-sm">SOF.IA</span>
+</a>
+<a class="text-on-surface-variant py-4 px-6 opacity-70 hover:bg-surface-bright/20 hover:text-secondary-fixed-dim transition-all flex items-center gap-4" href="#">
+<span class="material-symbols-outlined">database</span>
+<span class="font-label-sm">BIO-VAULT</span>
+</a>
+</div>
+<div class="px-6 mt-auto">
+<button class="w-full py-3 bg-secondary-fixed text-on-secondary font-label-sm rounded-lg tracking-[0.2em] active:scale-95 transition-transform">
+                CALIBRATE
+            </button>
+<div class="mt-6 flex items-center gap-4 text-on-surface-variant hover:text-error transition-colors cursor-pointer px-2">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-sm uppercase">Log Out</span>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="pt-24 pb-32 md:pl-64 px-margin-mobile md:px-margin-desktop min-h-screen">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-panel-gap">
+<!-- Main Exercise Module -->
+<div class="lg:col-span-8 flex flex-col gap-panel-gap">
+<div class="glass-panel sync-border p-6 relative overflow-hidden min-h-[500px] flex flex-col justify-between">
+<!-- Holographic Viewport Overlay -->
+<div class="absolute top-4 right-4 text-right">
+<div class="text-[10px] text-primary-fixed-dim uppercase tracking-[0.3em] font-bold">Exercise View v2.4</div>
+<div class="font-data-point text-primary text-sm">CAM_01 // ANATOMY_LOD_4</div>
+</div>
+<div class="relative z-10">
+<div class="font-label-sm text-primary-fixed-dim uppercase tracking-widest mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">adjust</span> Current Deployment
+                        </div>
+<h2 class="font-display-xl text-primary leading-none uppercase italic">Barbell Back Squat</h2>
+<div class="mt-4 flex gap-8">
+<div>
+<div class="text-[10px] text-on-surface-variant uppercase tracking-widest">Focus Region</div>
+<div class="text-primary font-bold">Posterior Chain</div>
+</div>
+<div>
+<div class="text-[10px] text-on-surface-variant uppercase tracking-widest">Load Phase</div>
+<div class="text-primary font-bold">Hypertrophy Opt.</div>
+</div>
+</div>
+</div>
+<!-- Holographic Placeholder -->
+<div class="flex-grow flex items-center justify-center py-8">
+<div class="w-full max-w-lg aspect-video glass-panel border-primary-fixed-dim/40 flex items-center justify-center relative overflow-hidden">
+<img alt="Ghost Avatar" class="absolute inset-0 w-full h-full object-cover opacity-80 animate-aether" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtAZqjkl0ZIh4V8WmOzalGpnPJ5gXUmD_xsCvAw1w53CtlzISoxnZ3ypU7oO7RH_TSIO7ZypPj5o-SovS6TaDuFD-5gHtYcHsOACxuBMbge7yq4lUrvfc8Ee_j8in-JdBwGBZ1u0pxLsGySikNoHWnxm0akKg0Qqfhg4VL9J5D6qv2NVjH3j2SRkd2DDuUjYjJtqlK-Nh91mLvjxhB3Z0m1Ky3iCKlCBI_bYV6opblWukC8neuS79E8A"/>
+<div class="absolute inset-0 opacity-40 pointer-events-none">
+<div class="absolute top-1/2 left-0 w-full h-[1px] bg-primary-fixed-dim"></div>
+<div class="absolute top-0 left-1/2 w-[1px] h-full bg-primary-fixed-dim"></div>
+</div>
+<div class="absolute top-4 left-4 bg-surface/80 p-2 border border-primary-fixed-dim/40 rounded flex items-center gap-2">
+<span class="w-2 h-2 bg-primary-fixed-dim rounded-full animate-pulse"></span>
+<div class="text-[10px] text-primary-fixed-dim font-bold uppercase tracking-widest">GHOST AVATAR: ACTIVE</div>
+</div>
+<div class="absolute bottom-4 right-4 bg-surface/80 p-2 border border-secondary-fixed/40 rounded text-right">
+<div class="text-[9px] text-secondary-fixed font-bold uppercase tracking-widest">FORM SYNC</div>
+<div class="text-[14px] text-secondary-fixed monospaced">98.2% ACCURACY</div>
+</div>
+<div class="absolute bottom-4 left-4 bg-surface/80 p-2 border border-primary-fixed-dim/40 rounded">
+<div class="text-[9px] text-primary-fixed-dim font-bold uppercase tracking-widest">Form Analysis</div>
+<div class="text-[14px] text-secondary-fixed monospaced">DEPTH: 104° (OPTIMAL)</div>
+</div>
+</div>
+</div>
+<!-- HUD Footer Stats -->
+<div class="grid grid-cols-3 gap-4 border-t border-primary-container/10 pt-6">
+<div class="text-center p-4 glass-panel sync-border-lime">
+<div class="text-[10px] text-on-surface-variant uppercase font-bold tracking-[0.2em] mb-1">Set</div>
+<div class="font-display-xl text-secondary-fixed text-[48px] leading-none">03<span class="text-lg opacity-50">/05</span></div>
+</div>
+<div class="text-center p-4 glass-panel bg-primary-container/5 border border-primary-container/20">
+<div class="text-[10px] text-on-surface-variant uppercase font-bold tracking-[0.2em] mb-1">Reps</div>
+<div class="font-display-xl text-primary text-[48px] leading-none">08<span class="text-lg opacity-50">/12</span></div>
+</div>
+<div class="text-center p-4 glass-panel bg-error-container/10 border border-error/20 relative animate-aether">
+<div class="text-[10px] text-on-error uppercase font-bold tracking-[0.2em] mb-1">Rest Timer</div>
+<div class="font-data-point text-error text-[48px] leading-none monospaced" id="timer">45s</div>
+<div class="absolute top-2 right-2 flex gap-1">
+<span class="w-1.5 h-1.5 bg-error rounded-full"></span>
+<span class="w-1.5 h-1.5 bg-error rounded-full opacity-50"></span>
+</div>
+</div>
+</div>
+</div>
+<!-- SOF.IA Coaching Alert -->
+<div class="glass-panel border-l-4 border-secondary-fixed p-6 flex items-start gap-6">
+<div class="w-12 h-12 rounded-full bg-secondary-fixed/20 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-secondary-fixed text-3xl animate-pulse">smart_toy</span>
+</div>
+<div>
+<div class="text-secondary-fixed font-bold text-sm uppercase tracking-widest mb-1">SOF.IA Protocol 09</div>
+<p class="text-on-surface font-body-md italic leading-relaxed">"Ghost Avatar synchronized. Maintaining perfect form calibration. <span class="text-secondary-fixed-dim font-bold">Mirror the hologram's velocity to maximize hypertrophic yield.</span> Mantén la fase excéntrica por 1.5 segundos adicionales."</p>
+</div>
+</div>
+</div>
+<!-- Biometric Sidebar -->
+<div class="lg:col-span-4 flex flex-col gap-panel-gap">
+<!-- Telemetry Card -->
+<div class="glass-panel p-6">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-label-sm text-on-surface-variant uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">monitoring</span> BIOMETRIC TELEMETRY
+                        </h3>
+<span class="text-[10px] text-secondary-fixed font-bold animate-pulse">LIVE FEED</span>
+</div>
+<div class="space-y-6">
+<div class="flex justify-between items-end border-b border-outline-variant/20 pb-4">
+<div>
+<div class="text-[10px] text-on-surface-variant uppercase mb-1">Heart Rate</div>
+<div class="font-display-xl text-primary text-[32px] monospaced">144 <span class="text-sm font-normal opacity-50">BPM</span></div>
+</div>
+<div class="w-24 h-10">
+<!-- Tiny sparkline mock -->
+<div class="flex items-end gap-1 h-full">
+<div class="w-1 bg-primary h-1/2"></div>
+<div class="w-1 bg-primary h-2/3"></div>
+<div class="w-1 bg-primary h-3/4"></div>
+<div class="w-1 bg-primary h-1/2"></div>
+<div class="w-1 bg-primary h-5/6"></div>
+<div class="w-1 bg-primary h-3/4"></div>
+</div>
+</div>
+</div>
+<div class="flex justify-between items-end border-b border-outline-variant/20 pb-4">
+<div>
+<div class="text-[10px] text-on-surface-variant uppercase mb-1">Caloric Burn</div>
+<div class="font-display-xl text-primary text-[32px] monospaced">582 <span class="text-sm font-normal opacity-50">KCAL</span></div>
+</div>
+<div class="text-right">
+<div class="text-[10px] text-on-surface-variant uppercase mb-1">HRV</div>
+<div class="font-data-point text-primary-fixed-dim text-lg">82ms</div>
+</div>
+</div>
+<!-- Metabolic Flux Gauge -->
+<div class="pt-2">
+<div class="flex justify-between items-center mb-3">
+<span class="text-[10px] text-secondary-fixed uppercase tracking-widest font-bold">Metabolic Flux</span>
+<span class="text-xs text-secondary-fixed monospaced">78.4%</span>
+</div>
+<div class="segment-bar">
+<div class="segment segment-active"></div>
+<div class="segment segment-active"></div>
+<div class="segment segment-active"></div>
+<div class="segment segment-active"></div>
+<div class="segment segment-active"></div>
+<div class="segment segment-active"></div>
+<div class="segment segment-active"></div>
+<div class="segment"></div>
+<div class="segment"></div>
+<div class="segment"></div>
+</div>
+<div class="mt-2 text-[9px] text-on-surface-variant uppercase text-center opacity-60">Anabolic State Identified</div>
+</div>
+</div>
+</div>
+<!-- Muscle Map Visual -->
+<div class="glass-panel p-6 flex-grow flex flex-col">
+<h3 class="font-label-sm text-on-surface-variant uppercase tracking-widest mb-6">Muscle Engagement</h3>
+<div class="flex-grow flex items-center justify-center relative">
+<!-- Muscle Wireframe Placeholder -->
+<div class="w-full h-64 bg-surface-variant/20 rounded flex items-center justify-center overflow-hidden border border-outline-variant/10">
+</div>
+<!-- Callouts -->
+<div class="absolute top-2 left-2 text-[10px] monospaced text-secondary-fixed">
+                            [GLUTEUS_MAX: 92%]
+                        </div>
+<div class="absolute bottom-2 right-2 text-[10px] monospaced text-primary-fixed-dim">
+                            [QUADRICEPS: 84%]
+                        </div>
+</div>
+<div class="mt-6 flex justify-between gap-4">
+<button class="flex-1 py-2 border border-primary text-primary font-label-sm uppercase hover:bg-primary/10 transition-colors">
+                            DETAILS
+                        </button>
+<button class="flex-1 py-2 bg-primary text-on-primary font-label-sm uppercase hover:brightness-110 transition-all">
+                            SYNC MAP
+                        </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Daily Routine Timeline -->
+<div class="mt-panel-gap glass-panel p-6 overflow-x-auto">
+<h3 class="font-label-sm text-on-surface-variant uppercase tracking-widest mb-6">Deployment Routine Timeline</h3>
+<div class="flex items-center gap-4 min-w-[800px]">
+<!-- Completed Step -->
+<div class="flex items-center gap-4 group">
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full border-2 border-secondary-fixed flex items-center justify-center bg-secondary-fixed/20 text-secondary-fixed">
+<span class="material-symbols-outlined text-sm">check</span>
+</div>
+<div class="h-10 w-[2px] bg-secondary-fixed/30 mt-2"></div>
+</div>
+<div class="glass-panel p-3 border-secondary-fixed/40 opacity-50 grayscale">
+<div class="text-[9px] text-on-surface-variant uppercase">01 // Warm Up</div>
+<div class="text-xs font-bold">Dynamic Mobility</div>
+</div>
+</div>
+<!-- Active Step -->
+<div class="flex items-center gap-4">
+<div class="h-[2px] w-8 bg-secondary-fixed"></div>
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full border-2 border-secondary-fixed flex items-center justify-center bg-secondary-fixed text-on-secondary shadow-[0_0_15px_rgba(171,249,0,0.4)]">
+<span class="material-symbols-outlined">fitness_center</span>
+</div>
+<div class="h-10 w-[2px] bg-outline-variant/30 mt-2"></div>
+</div>
+<div class="glass-panel p-4 border-secondary-fixed ring-1 ring-secondary-fixed/50 scale-105">
+<div class="text-[10px] text-secondary-fixed uppercase font-bold tracking-widest">Active Phase</div>
+<div class="text-sm font-bold uppercase">Back Squats</div>
+<div class="text-[10px] text-on-surface-variant">5 Sets x 12 Reps</div>
+</div>
+<div class="h-[2px] w-8 bg-outline-variant/30"></div>
+</div>
+<!-- Future Steps -->
+<div class="flex items-center gap-4">
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full border-2 border-outline-variant/50 flex items-center justify-center text-on-surface-variant">
+<span class="font-data-point text-xs">03</span>
+</div>
+</div>
+<div class="glass-panel p-3 border-outline-variant/20 opacity-40">
+<div class="text-[9px] text-on-surface-variant uppercase">03 // Accessory</div>
+<div class="text-xs font-bold">Romanian Deadlift</div>
+</div>
+<div class="h-[2px] w-8 bg-outline-variant/30"></div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full border-2 border-outline-variant/50 flex items-center justify-center text-on-surface-variant">
+<span class="font-data-point text-xs">04</span>
+</div>
+</div>
+<div class="glass-panel p-3 border-outline-variant/20 opacity-40">
+<div class="text-[9px] text-on-surface-variant uppercase">04 // Core</div>
+<div class="text-xs font-bold">Plank Rotations</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Task Focused Actions / FAB Suppression -->
+<div class="fixed bottom-8 right-8 z-50 flex flex-col gap-4">
+<button class="w-16 h-16 rounded-full bg-secondary-fixed text-on-secondary shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all group overflow-hidden">
+<span class="material-symbols-outlined text-3xl group-hover:rotate-12 transition-transform">bolt</span>
+<div class="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-full transition-transform duration-500 skew-x-12"></div>
+</button>
+</div>
+<!-- Mobile Bottom Navigation (Visible only on mobile) -->
+<div class="fixed bottom-0 left-0 w-full h-16 md:hidden bg-surface-container-high/90 backdrop-blur-xl border-t border-outline-variant/20 flex justify-around items-center z-50">
+<button class="flex flex-col items-center text-secondary-fixed">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="text-[10px] uppercase font-bold">Workouts</span>
+</button>
+<button class="flex flex-col items-center text-on-surface-variant opacity-60">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="text-[10px] uppercase">Telemetry</span>
+</button>
+<button class="flex flex-col items-center text-on-surface-variant opacity-60">
+<span class="material-symbols-outlined">smart_toy</span>
+<span class="text-[10px] uppercase">SOF.IA</span>
+</button>
+<button class="flex flex-col items-center text-on-surface-variant opacity-60">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] uppercase">Profile</span>
+</button>
+</div>
+<script>
+        // Micro-interaction for the rest timer
+        let timeLeft = 45;
+        const timerEl = document.getElementById('timer');
+        
+        setInterval(() => {
+            if (timeLeft > 0) {
+                timeLeft--;
+                timerEl.innerText = timeLeft + 's';
+            } else {
+                timeLeft = 60; // Reset for demo
+            }
+        }, 1000);
+
+        // Simple metabolic flux bar animation simulation
+        setInterval(() => {
+            const segments = document.querySelectorAll('.segment');
+            const activeCount = Math.floor(Math.random() * 3) + 6; // Random 6-8 segments
+            segments.forEach((seg, index) => {
+                if (index < activeCount) {
+                    seg.classList.add('segment-active');
+                } else {
+                    seg.classList.remove('segment-active');
+                }
+            });
+        }, 5000);
+    </script>
+</body></html>

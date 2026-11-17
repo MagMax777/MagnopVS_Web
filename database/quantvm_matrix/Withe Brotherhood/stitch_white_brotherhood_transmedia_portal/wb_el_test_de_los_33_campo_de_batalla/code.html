@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>WHITE BROTHERHOOD // EL TEST DE LOS 33 — CAMPO DE BATALLA</title>
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=IBM+Plex+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@500;600;700;900&display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          void: "#050505",
+          obsidian: "#0d0d0d",
+          ivory: "#f4f1e8",
+          gold: "#c9a227",
+          "royal-gold": "#e6c45a",
+          warning: "#ffd400",
+          "signal-yellow": "#fff000",
+          "pan-cyan": "#00e5ff",
+          "pan-green": "#00ffb3"
+        },
+        fontFamily: {
+          cinzel: ["Cinzel", "serif"],
+          orbitron: ["Orbitron", "sans-serif"],
+          mono: ["IBM Plex Mono", "monospace"],
+          sans: ["Inter", "sans-serif"]
+        }
+      }
+    }
+  }
+</script>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    background-color: #050505;
+    color: #f4f1e8;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    user-select: none;
+  }
+
+  /* Scanline & Sacred Hairline Grids */
+  .grid-bg {
+    background-size: 40px 40px;
+    background-image: 
+      linear-gradient(to right, rgba(201, 162, 39, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(201, 162, 39, 0.04) 1px, transparent 1px);
+  }
+
+  .scanlines {
+    background: linear-gradient(rgba(5, 5, 5, 0) 50%, rgba(0, 0, 0, 0.45) 50%);
+    background-size: 100% 4px;
+  }
+
+  /* Chamfer button & borders */
+  .border-chamfer {
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  }
+  
+  .glow-gold {
+    box-shadow: 0 0 25px rgba(201, 162, 39, 0.25);
+  }
+  .glow-yellow {
+    box-shadow: 0 0 25px rgba(255, 212, 0, 0.35);
+  }
+  .glow-pan {
+    box-shadow: 0 0 35px rgba(0, 229, 255, 0.25);
+  }
+
+  /* Pulsing glyphs */
+  @keyframes slowRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes reverseRotate {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+  }
+  .animate-slow-rotate {
+    animation: slowRotate 70s linear infinite;
+  }
+  .animate-reverse-rotate {
+    animation: reverseRotate 50s linear infinite;
+  }
+  
+  /* Answer transition */
+  .answer-card {
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .answer-card:hover {
+    transform: translateY(-2px);
+    border-color: #e6c45a;
+    background-color: rgba(201, 162, 39, 0.06);
+  }
+  .answer-card.selected {
+    border-color: #ffd400;
+    background-color: rgba(255, 212, 0, 0.08);
+    box-shadow: 0 0 20px rgba(255, 212, 0, 0.2);
+  }
+
+  /* Node pulses for Panarchy Constellation */
+  @keyframes nodePulse {
+    0%, 100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.3); opacity: 0.4; }
+  }
+  .node-anim {
+    animation: nodePulse 3s infinite ease-in-out;
+  }
+
+  /* Redacted bar reveal */
+  .redacted {
+    background-color: #000;
+    color: transparent;
+    transition: all 0.3s ease;
+  }
+  .redacted:hover {
+    color: #ffd400;
+    background-color: rgba(255,212,0,0.1);
+  }
+</style>
+</head>
+<body class="min-h-screen relative flex flex-col justify-between selection:bg-gold selection:text-black">
+
+<!-- SCANLINES & RETICLE BACKGROUND -->
+<div class="fixed inset-0 pointer-events-none z-0 grid-bg opacity-70"></div>
+<div class="fixed inset-0 pointer-events-none z-0 scanlines opacity-30"></div>
+
+<!-- TOP DIEGETIC SYSTEM BAR -->
+<header class="relative z-30 w-full px-4 sm:px-8 py-3 border-b border-white/10 bg-obsidian/90 backdrop-blur-md flex items-center justify-between text-xs font-mono tracking-widest text-ivory/60">
+  <div class="flex items-center gap-3">
+    <!-- Mini WB Monogram -->
+    <div class="w-7 h-7 rounded border border-gold/40 flex items-center justify-center text-gold font-cinzel text-xs font-bold bg-void">
+      Ω
+    </div>
+    <div class="flex flex-col">
+      <span class="text-ivory font-orbitron font-semibold tracking-wider text-[11px]">WHITE BROTHERHOOD</span>
+      <span class="text-[9px] text-gold/80 tracking-widest">RITO INICIÁTICO // PROTOCOLO 33</span>
+    </div>
+  </div>
+
+  <!-- Central State Display -->
+  <div class="hidden md:flex items-center gap-6 text-[10px]">
+    <div class="flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-gold animate-pulse"></span>
+      <span id="nav-mode-label" class="text-ivory/80">ESTADO: UMBRAL DE ENTRADA</span>
+    </div>
+    <span class="text-white/20">|</span>
+    <span class="text-warning font-mono">AUTORIZACIÓN: KETHER-0</span>
+    <span class="text-white/20">|</span>
+    <span class="text-ivory/60 font-mono">FRECUENCIA: 432.08 Hz</span>
+  </div>
+
+  <!-- Trailing Status Indicator -->
+  <div class="flex items-center gap-3">
+    <div id="progress-pill" class="hidden px-2.5 py-0.5 border border-gold/40 bg-gold/10 text-royal-gold rounded font-mono text-[10px] tracking-wider">
+      PREGUNTA <span id="nav-step-count" class="font-bold text-white">01</span> / 33
+    </div>
+    <div class="px-2 py-0.5 border border-warning/40 text-warning bg-warning/10 text-[9px] font-mono tracking-widest uppercase">
+      OBSERVATION ACTIVE
+    </div>
+  </div>
+</header>
+
+<!-- MAIN APP CONTAINER -->
+<main class="relative z-20 flex-1 flex items-center justify-center px-4 sm:px-6 py-8">
+
+  <!-- ========================================== -->
+  <!-- 1. PANTALLA INICIAL: OPENING THRESHOLD     -->
+  <!-- ========================================== -->
+  <section id="screen-intro" class="w-full max-w-4xl mx-auto flex flex-col items-center text-center space-y-8 py-6">
+    
+    <!-- Concentric Sacred Ring Visualizer with WB Monogram -->
+    <div class="relative w-56 h-56 sm:w-64 sm:h-64 flex items-center justify-center">
+      <!-- Outer Dashed Ring -->
+      <div class="absolute inset-0 rounded-full border border-gold/30 border-dashed animate-slow-rotate"></div>
+      <!-- Middle Hairline Ring with Cardinal Marks -->
+      <div class="absolute inset-3 rounded-full border border-ivory/40 animate-reverse-rotate flex items-center justify-between px-1">
+        <span class="w-1 h-1 bg-gold rounded-full"></span>
+        <span class="w-1 h-1 bg-gold rounded-full"></span>
+      </div>
+      <div class="absolute inset-8 rounded-full border border-gold/60"></div>
+      
+      <!-- Central Eye / Seal Symbol -->
+      <div class="relative z-10 w-28 h-28 rounded-full bg-void border border-royal-gold flex flex-col items-center justify-center glow-gold">
+        <svg class="w-16 h-16 text-royal-gold" viewBox="0 0 100 100" fill="none">
+          <circle cx="50" cy="50" r="46" stroke="#C9A227" stroke-width="1" stroke-dasharray="2 4"/>
+          <polygon points="50,14 84,78 16,78" stroke="#F4F1E8" stroke-width="1.2" fill="none"/>
+          <polygon points="50,86 16,22 84,22" stroke="#C9A227" stroke-width="0.8" fill="none" opacity="0.6"/>
+          <!-- Eye -->
+          <path d="M26,50 Q50,28 74,50 Q50,72 26,50 Z" stroke="#E6C45A" stroke-width="1.4" fill="#0D0D0D"/>
+          <circle cx="50" cy="50" r="8" fill="#FFD400"/>
+          <circle cx="50" cy="50" r="3" fill="#FFFFFF"/>
+        </svg>
+      </div>
+
+      <!-- Golden Line Splitting in Two (Sacred Bifurcation) -->
+      <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center">
+        <div class="w-px h-8 bg-gradient-to-b from-royal-gold to-white"></div>
+        <div class="flex items-center gap-10">
+          <div class="flex flex-col items-center">
+            <div class="w-5 h-px bg-white/60"></div>
+            <span class="text-[9px] font-mono text-ivory/60 mt-1 tracking-widest">RED DISTRIBUIDA</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <div class="w-5 h-px bg-warning/60"></div>
+            <span class="text-[9px] font-mono text-warning/80 mt-1 tracking-widest">VÉRTICE CENTRAL</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Opening Text Hierarchy -->
+    <div class="space-y-4 pt-6 max-w-2xl">
+      <div class="inline-flex items-center gap-2 px-3 py-1 border border-gold/30 bg-gold/5 rounded-full">
+        <span class="w-1.5 h-1.5 rounded-full bg-warning animate-ping"></span>
+        <span class="text-[10px] font-mono text-gold tracking-widest uppercase">PRIMER RITO // CALIBRACIÓN ONTOLÓGICA</span>
+      </div>
+
+      <h1 class="font-cinzel text-3xl sm:text-5xl lg:text-6xl font-bold tracking-wider text-ivory uppercase leading-tight">
+        THE BATTLEFIELD <br/>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-ivory via-royal-gold to-warning">
+          IS ALREADY HERE.
+        </span>
+      </h1>
+
+      <p class="font-cinzel text-lg sm:text-xl text-royal-gold tracking-widest uppercase font-medium">
+        YOU JUST HAVE NOT CHOSEN YOUR SIDE.
+      </p>
+
+      <!-- 3 Pillars Matrix -->
+      <div class="pt-4 grid grid-cols-3 gap-3 max-w-lg mx-auto border-y border-white/10 py-3 text-center">
+        <div>
+          <div class="font-orbitron text-lg sm:text-2xl font-bold text-white">33</div>
+          <div class="font-mono text-[9px] sm:text-[10px] text-ivory/60 tracking-widest">PREGUNTAS</div>
+        </div>
+        <div class="border-x border-white/10">
+          <div class="font-orbitron text-lg sm:text-2xl font-bold text-royal-gold">2</div>
+          <div class="font-mono text-[9px] sm:text-[10px] text-ivory/60 tracking-widest">ARQUITECTURAS</div>
+        </div>
+        <div>
+          <div class="font-orbitron text-lg sm:text-2xl font-bold text-warning">1</div>
+          <div class="font-mono text-[9px] sm:text-[10px] text-ivory/60 tracking-widest">POSICIÓN</div>
+        </div>
+      </div>
+
+      <p class="text-sm font-sans text-ivory/70 leading-relaxed font-light pt-2">
+        La realidad no es neutral: es un constructo administrado. Tu respuesta no determina quién eres ni emite un diagnóstico moral; <strong class="text-ivory font-normal">revela exactamente cómo estás leyendo el juego</strong> y desde qué arquitectura operas.
+      </p>
+    </div>
+
+    <!-- CTA Trigger Button -->
+    <div class="pt-4 flex flex-col items-center gap-3">
+      <button id="btn-start-test" class="border-chamfer group relative px-8 sm:px-12 py-4 bg-ivory text-black font-cinzel font-bold text-sm sm:text-base tracking-[0.2em] uppercase hover:bg-royal-gold hover:text-void transition-all duration-300 glow-gold active:scale-[0.98]">
+        <span class="relative z-10 flex items-center gap-3">
+          ENTRAR AL CAMPO DE BATALLA
+          <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+          </svg>
+        </span>
+      </button>
+
+      <span class="text-[10px] font-mono text-ivory/40 tracking-wider">
+        [ TIEMPO ESTIMADO: 4 MINUTOS // NO EXISTEN RESPUESTAS TRIVIALES ]
+      </span>
+    </div>
+  </section>
+
+
+  <!-- ========================================== -->
+  <!-- 2. PANTALLA DEL TEST: EL TEST DE LOS 33    -->
+  <!-- ========================================== -->
+  <section id="screen-test" class="hidden w-full max-w-3xl mx-auto flex flex-col space-y-8 py-4">
+    
+    <!-- Progress Indicator Bar & Telemetry Meta -->
+    <div class="space-y-2">
+      <div class="flex items-center justify-between text-xs font-mono text-ivory/60">
+        <div class="flex items-center gap-2">
+          <span class="text-warning font-semibold tracking-wider font-orbitron" id="display-domain-tag">DOMINIO // PODER</span>
+          <span class="text-white/20">/</span>
+          <span class="text-ivory/40 text-[10px]" id="display-domain-desc">CALIBRACIÓN ESTRUCTURAL</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-ivory/40">CALIBRACIÓN:</span>
+          <span class="font-orbitron font-bold text-royal-gold text-sm" id="display-step-num">01</span>
+          <span class="text-ivory/30">/ 33</span>
+        </div>
+      </div>
+
+      <!-- Linear Gold Progress Bar -->
+      <div class="w-full h-1.5 bg-obsidian border border-white/10 rounded-full overflow-hidden relative">
+        <div id="test-progress-bar" class="h-full bg-gradient-to-r from-gold via-royal-gold to-warning transition-all duration-300" style="width: 3.03%;"></div>
+      </div>
+    </div>
+
+    <!-- Question Card -->
+    <div class="border border-white/15 bg-obsidian/90 backdrop-blur-md p-6 sm:p-10 rounded relative space-y-8 border-chamfer glow-gold">
+      
+      <!-- Top Decorative Reticles -->
+      <div class="absolute top-3 left-3 text-[9px] font-mono text-gold/50 pointer-events-none">+ SEC_NODE_0x33</div>
+      <div class="absolute top-3 right-3 text-[9px] font-mono text-warning/60 pointer-events-none">[ SIN SESGO RECONOCIDO ]</div>
+      <div class="absolute bottom-3 left-3 text-[9px] font-mono text-ivory/30 pointer-events-none">VAL: DELIBERACIÓN INICIADA</div>
+      <div class="absolute bottom-3 right-3 text-[9px] font-mono text-gold/40 pointer-events-none">OMEGA-33 +</div>
+
+      <!-- Question Text -->
+      <div class="space-y-3 pt-2">
+        <span class="text-[11px] font-mono text-royal-gold tracking-widest block uppercase" id="question-index-label">
+          VECTOR DE CONFRONTACIÓN 01
+        </span>
+        <h2 id="question-text" class="font-cinzel text-xl sm:text-2xl md:text-3xl text-white font-medium leading-relaxed">
+          Cuando una sociedad enfrenta una amenaza extraordinaria, ¿qué debería cambiar primero?
+        </h2>
+      </div>
+
+      <!-- 4 Option Cards -->
+      <div class="space-y-3 pt-2" id="answers-container">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Controls: Back Button & Context Helper -->
+      <div class="flex items-center justify-between pt-4 border-t border-white/10">
+        <button id="btn-prev-question" class="px-4 py-2 text-xs font-mono text-ivory/60 hover:text-white border border-white/10 hover:border-gold/50 transition-colors flex items-center gap-2 disabled:opacity-30 disabled:pointer-events-none">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+          RETROCEDER
+        </button>
+
+        <div class="text-[10px] font-mono text-ivory/40 tracking-wider">
+          SELECCIONA UNA POSTURA PARA CONTINUAR
+        </div>
+
+        <button id="btn-next-question" class="px-5 py-2 text-xs font-mono text-black bg-gold hover:bg-royal-gold font-semibold transition-colors flex items-center gap-2 disabled:opacity-30 disabled:pointer-events-none">
+          CONFIRMAR
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Live Subtle Metrics Footnote -->
+    <div class="flex items-center justify-between text-[10px] font-mono text-ivory/30 px-2">
+      <span>CALIBRANDO MULTIDIMENSIONALMENTE: AUTONOMÍA vs CENTRALIZACIÓN</span>
+      <span>DATOS ENCRIPTADOS // REGISTRO LOCAL</span>
+    </div>
+  </section>
+
+
+  <!-- ========================================== -->
+  <!-- 3. PANTALLA DE REVELACIÓN: FACTION REVEAL  -->
+  <!-- ========================================== -->
+  <section id="screen-result" class="hidden w-full max-w-5xl mx-auto flex flex-col space-y-10 py-6">
+    
+    <!-- Result Header Pill -->
+    <div class="text-center space-y-3">
+      <div class="inline-flex items-center gap-2 px-3 py-1 border border-royal-gold/40 bg-royal-gold/10 rounded-full">
+        <span class="w-2 h-2 rounded-full bg-royal-gold animate-pulse"></span>
+        <span class="text-[10px] font-mono text-royal-gold tracking-widest uppercase">REGISTRO FINALIZADO // MATRIZ 33/33</span>
+      </div>
+      <h1 class="font-cinzel text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-wider">
+        TU POSICIÓN HA SIDO REGISTRADA
+      </h1>
+      <p class="font-mono text-xs sm:text-sm text-ivory/60 max-w-xl mx-auto">
+        Tus 33 respuestas han convergido en una geometría fractal. Se ha determinado la arquitectura de tu visión ontológica.
+      </p>
+    </div>
+
+    <!-- DYNAMIC FACTION BANNER (PANARQUÍA o SINARQUÍA) -->
+    <div id="faction-reveal-banner" class="border border-chamfer p-8 sm:p-12 relative overflow-hidden transition-all duration-700 bg-obsidian">
+      <!-- Background Graphic & Grid rendered dynamically -->
+      <div id="faction-dynamic-content" class="relative z-10 flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+        <!-- Rendered by JS based on user score -->
+      </div>
+    </div>
+
+    <!-- 6 CARDS SPEC SHEET: PRINCIPIOS, TENSIONES, VENTAJAS, RIESGOS, DIMENSIONES, MISIÓN -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="spec-sheet-grid">
+      <!-- Card 1: Principios Rectores -->
+      <div class="border border-white/10 bg-obsidian/80 p-5 rounded space-y-3 hover:border-gold/40 transition-colors">
+        <div class="flex items-center justify-between border-b border-white/10 pb-2">
+          <span class="text-[10px] font-mono text-royal-gold tracking-widest uppercase">01 // ARQUITECTURA</span>
+          <span class="text-xs font-mono text-ivory/40">PRINCIPIOS</span>
+        </div>
+        <h3 class="font-cinzel text-lg text-white font-bold" id="card-principles-title">Autonomía & Distribución</h3>
+        <p class="text-xs font-sans text-ivory/70 leading-relaxed" id="card-principles-desc">
+          Operas bajo la premisa de que la realidad y el poder deben diseminarse en nodos auto-coordinados, previniendo el estrangulamiento de una sola cúspide.
+        </p>
+      </div>
+
+      <!-- Card 2: Tensiones Ontológicas -->
+      <div class="border border-white/10 bg-obsidian/80 p-5 rounded space-y-3 hover:border-warning/40 transition-colors">
+        <div class="flex items-center justify-between border-b border-white/10 pb-2">
+          <span class="text-[10px] font-mono text-warning tracking-widest uppercase">02 // TENSIONES</span>
+          <span class="text-xs font-mono text-ivory/40">CONFLICTO</span>
+        </div>
+        <h3 class="font-cinzel text-lg text-white font-bold" id="card-tension-title">Fragmentación vs Cohesión</h3>
+        <p class="text-xs font-sans text-ivory/70 leading-relaxed" id="card-tension-desc">
+          La soberanía radical acarrea el riesgo de dispersión caótica. El desafío vital consiste en coordinar sin que la coordinación degenere en nueva tiranía.
+        </p>
+      </div>
+
+      <!-- Card 3: Ventajas Tácticas -->
+      <div class="border border-white/10 bg-obsidian/80 p-5 rounded space-y-3 hover:border-gold/40 transition-colors">
+        <div class="flex items-center justify-between border-b border-white/10 pb-2">
+          <span class="text-[10px] font-mono text-royal-gold tracking-widest uppercase">03 // VENTAJAS</span>
+          <span class="text-xs font-mono text-ivory/40">POTENCIAL</span>
+        </div>
+        <h3 class="font-cinzel text-lg text-white font-bold" id="card-advantages-title">Inmunidad Anti-Frágil</h3>
+        <p class="text-xs font-sans text-ivory/70 leading-relaxed" id="card-advantages-desc">
+          Al no tener una cabeza que decapitar, tu estructura es prácticamente imposible de neutralizar mediante un ataque centralizado o un pulso de contención.
+        </p>
+      </div>
+
+      <!-- Card 4: Riesgos Fatales -->
+      <div class="border border-white/10 bg-obsidian/80 p-5 rounded space-y-3 hover:border-warning/40 transition-colors">
+        <div class="flex items-center justify-between border-b border-white/10 pb-2">
+          <span class="text-[10px] font-mono text-warning tracking-widest uppercase">04 // RIESGOS</span>
+          <span class="text-xs font-mono text-ivory/40">VULNERABILIDAD</span>
+        </div>
+        <h3 class="font-cinzel text-lg text-white font-bold" id="card-risks-title">Alergia a la Acción Rápida</h3>
+        <p class="text-xs font-sans text-ivory/70 leading-relaxed" id="card-risks-desc">
+          En momentos de colapso repentino, la deliberación horizontal puede provocar parálisis decisional frente a un adversario verticalmente unificado.
+        </p>
+      </div>
+
+      <!-- Card 5: Desglose Multidimensional de Vectores -->
+      <div class="border border-white/10 bg-obsidian/80 p-5 rounded space-y-3 hover:border-gold/40 transition-colors">
+        <div class="flex items-center justify-between border-b border-white/10 pb-2">
+          <span class="text-[10px] font-mono text-royal-gold tracking-widest uppercase">05 // TELEMETRÍA</span>
+          <span class="text-xs font-mono text-ivory/40">VECTORES</span>
+        </div>
+        <div class="space-y-2 pt-1">
+          <div>
+            <div class="flex justify-between text-[10px] font-mono text-ivory/80">
+              <span>DESCENTRALIZACIÓN / AUTONOMÍA</span>
+              <span id="metric-pan-val" class="text-royal-gold font-bold">78%</span>
+            </div>
+            <div class="w-full bg-white/10 h-1 rounded-full overflow-hidden mt-1">
+              <div id="metric-pan-bar" class="bg-royal-gold h-full" style="width: 78%;"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-[10px] font-mono text-ivory/80">
+              <span>JERARQUÍA / CONTROL VERTICAL</span>
+              <span id="metric-sin-val" class="text-warning font-bold">22%</span>
+            </div>
+            <div class="w-full bg-white/10 h-1 rounded-full overflow-hidden mt-1">
+              <div id="metric-sin-bar" class="bg-warning h-full" style="width: 22%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 6: Tu Primera Misión (Quest) -->
+      <div class="border border-warning/40 bg-warning/5 p-5 rounded space-y-3 glow-yellow">
+        <div class="flex items-center justify-between border-b border-warning/20 pb-2">
+          <span class="text-[10px] font-mono text-warning tracking-widest uppercase">06 // PRIMERA MISIÓN</span>
+          <span class="text-xs font-mono text-warning/80 animate-pulse">ACTIVA</span>
+        </div>
+        <h3 class="font-cinzel text-lg text-white font-bold" id="card-quest-title">ENCUENTRA LA PRIMERA SEÑAL</h3>
+        <p class="text-xs font-sans text-ivory/80 leading-relaxed" id="card-quest-desc">
+          Se ha transmitido un paquete de datos encriptado al Sector Sub-Éter. Tu objetivo es interceptar la emisión del Gran Faro sin alertar a los arcontes de la Sinarquía.
+        </p>
+      </div>
+    </div>
+
+    <!-- POST RESULT ACTIONS (EXPEDIENTE, MUNDO, MISIÓN) -->
+    <div class="border-t border-white/10 pt-6 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex flex-col">
+        <span class="text-[10px] font-mono text-gold tracking-widest uppercase">PERFIL PERSISTENTE REGISTRADO</span>
+        <span class="text-xs font-mono text-ivory/60">ID DE AGENTE: Ω-33-<span id="agent-hash-id">7F49</span> // CLEARANCE: LVL 1 [INICIADO]</span>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3">
+        <button onclick="restartTest()" class="px-4 py-2.5 border border-white/20 text-ivory/70 hover:text-white hover:border-white font-mono text-xs tracking-wider transition-colors">
+          REPETIR CALIBRACIÓN
+        </button>
+        <button class="border-chamfer px-6 py-2.5 bg-royal-gold text-void font-cinzel font-bold text-xs tracking-widest hover:bg-white transition-all glow-gold active:scale-[0.98]">
+          COMENZAR MI PRIMERA MISIÓN
+        </button>
+        <button class="border-chamfer px-6 py-2.5 bg-obsidian border border-warning text-warning font-cinzel font-bold text-xs tracking-widest hover:bg-warning hover:text-black transition-all glow-yellow active:scale-[0.98]">
+          VER MI EXPEDIENTE COMPLETO
+        </button>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- BOTTOM DIEGETIC TELEMETRY FOOTER -->
+<footer class="relative z-30 w-full px-4 sm:px-8 py-2.5 border-t border-white/10 bg-void/90 backdrop-blur-md flex flex-wrap items-center justify-between text-[10px] font-mono text-ivory/50">
+  <div class="flex items-center gap-4">
+    <span>WHITE BROTHERHOOD PROTOCOLS © MCMXXIV</span>
+    <span class="hidden md:inline text-white/20">|</span>
+    <span class="hidden md:inline text-gold">DISPOSITIVO: TEST DE LOS 33 // CAMPO DE BATALLA</span>
+  </div>
+  <div class="flex items-center gap-4">
+    <span class="text-ivory/40">PANARQUÍA ⇄ SINARQUÍA</span>
+    <span class="text-warning">ENCRYPTION: QUANTUM-GOTHIC</span>
+    <span class="text-royal-gold">STATUS: ONLINE</span>
+  </div>
+</footer>
+
+<!-- SCRIPT: ENGINE OF THE 33 QUESTIONS & FACTION SCORING -->
+<script>
+  // Complete Dataset of 33 Questions across all 33 Philosophical/Tactical Domains
+  const QUESTIONS_DATA = [
+    {
+      id: 1,
+      domain: "PODER",
+      desc: "CONCENTRACIÓN VS DISTRIBUCIÓN",
+      question: "Cuando una sociedad enfrenta una amenaza extraordinaria, ¿qué debería cambiar primero?",
+      answers: [
+        { text: "La autoridad debería concentrarse temporalmente para responder con rapidez y disciplina unificada.", type: "sinarquia", weight: 2 },
+        { text: "Las comunidades deberían coordinarse en red sin ceder su soberanía local ni sus libertades.", type: "panarquia", weight: 2 },
+        { text: "Evaluar la escala de la emergencia antes de permitir cualquier concentración de mando.", type: "panarquia", weight: 1 },
+        { text: "La prioridad absoluta debe ser asegurar la estabilidad y supervivencia de las instituciones existentes.", type: "sinarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 2,
+      domain: "LIBERTAD",
+      desc: "ORDEN ESTRUCTURADO VS AGENCIA",
+      question: "¿Qué constituye la base fundamental de una sociedad verdaderamente fuerte?",
+      answers: [
+        { text: "Una estructura jerárquica con directrices claras capaz de tomar decisiones sin vacilación.", type: "sinarquia", weight: 2 },
+        { text: "Una constelación de comunidades autónomas capaces de apoyarse y adaptarse mutuamente.", type: "panarquia", weight: 2 },
+        { text: "Leyes rígidas que garanticen que nadie pueda perturbar el orden civil establecido.", type: "sinarquia", weight: 1 },
+        { text: "Individuos soberanos capaces de asumir plena responsabilidad directa por sus decisiones.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 3,
+      domain: "ORDEN",
+      desc: "EXPERIMENTACIÓN VS UNIFORMIDAD",
+      question: "Si diez grupos proponen diez soluciones distintas para una misma crisis, ¿cómo se debe proceder?",
+      answers: [
+        { text: "Una autoridad calificada debe seleccionar la mejor estrategia y ejecutarla con disciplina total.", type: "sinarquia", weight: 2 },
+        { text: "Permitir que múltiples soluciones sean probadas en paralelo por los grupos que las propusieron.", type: "panarquia", weight: 2 },
+        { text: "Someter las opciones a análisis centralizado para eliminar cualquier riesgo impredecible.", type: "sinarquia", weight: 1 },
+        { text: "Dejar que los afectados directos adopten la respuesta que mejor responda a su contexto.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 4,
+      domain: "AUTORIDAD",
+      desc: "PELIGRO DE CAOS VS TIRANÍA",
+      question: "¿Cuál de estos dos abismos consideras más destructivo para la evolución humana?",
+      answers: [
+        { text: "El caos endémico producido por la dispersión incesante y la falta de un rumbo unificado.", type: "sinarquia", weight: 2 },
+        { text: "La concentración de control en una cúpula que convierte a los gobernados en instrumentos ciegos.", type: "panarquia", weight: 2 },
+        { text: "La desobediencia civil que fractura el pacto de orden institucional.", type: "sinarquia", weight: 1 },
+        { text: "La domesticación pacífica que destruye la capacidad individual de discernimiento y resistencia.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 5,
+      domain: "CONOCIMIENTO",
+      desc: "RESERVADO VS ABIERTO",
+      question: "Si se descubre una tecnología capaz de alterar la percepción colectiva de la realidad, ¿quién debe custodiarla?",
+      answers: [
+        { text: "Un consejo hermético de arquitectos capaces de dosificarla sin provocar un colapso generalizado.", type: "sinarquia", weight: 2 },
+        { text: "Debe desclasificarse abiertamente para que ninguna élite pueda monopolizar la verdad.", type: "panarquia", weight: 2 },
+        { text: "Cifrarla bajo protocolos de seguridad máxima hasta garantizar la estabilidad social.", type: "sinarquia", weight: 1 },
+        { text: "Distribuir sus planos entre múltiples colectivos independientes para impedir su monopolio.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 6,
+      domain: "ECONOMÍA",
+      desc: "PLANIFICACIÓN CENTRAL VS MONEDAS DE RED",
+      question: "¿Cómo debe orquestarse el flujo de recursos para evitar la escasez?",
+      answers: [
+        { text: "Mediante una distribución centralizada guiada por métricas y algoritmos estrictos de eficiencia.", type: "sinarquia", weight: 2 },
+        { text: "A través de sistemas descentralizados de intercambio directo y acuerdos entre pares.", type: "panarquia", weight: 2 },
+        { text: "Controlando férreamente la emisión y el precio de los bienes primordiales.", type: "sinarquia", weight: 1 },
+        { text: "Fomentando múltiples sistemas económicos experimentales que compitan y cooperen.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 7,
+      domain: "COMUNIDAD",
+      desc: "HOMOGENEIDAD VS POLICENTRISMO",
+      question: "¿Qué vínculo debe unir a los miembros de una civilización?",
+      answers: [
+        { text: "La lealtad incondicional a un ideal unificado, una ley común y un estandarte soberano.", type: "sinarquia", weight: 2 },
+        { text: "Pactos voluntarios basados en intereses compartidos, sin imposición de homogeneidad cultural.", type: "panarquia", weight: 2 },
+        { text: "El respeto incuestionable a las jerarquías que aseguran la continuidad histórica.", type: "sinarquia", weight: 1 },
+        { text: "La afinidad ética y la libertad irrestricta de abandonar un grupo para crear otro.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 8,
+      domain: "TECNOLOGÍA",
+      desc: "SUPERINTELIGENCIA ARQUITÉCTICA VS CÓDIGO ABIERTO",
+      question: "Frente a la emergencia de una Inteligencia Artificial General, ¿cuál es el rumbo imperativo?",
+      answers: [
+        { text: "Unificarla en un único núcleo de gobierno que optimice todas las variables de la biosfera.", type: "sinarquia", weight: 2 },
+        { text: "Diseminar su código en millones de nodos autónomos para evitar un ojo orwelliano omnisciente.", type: "panarquia", weight: 2 },
+        { text: "Subordinarla rígidamente a los protocolos de seguridad de la autoridad suprema.", type: "sinarquia", weight: 1 },
+        { text: "Crear inteligencias locales diversas que se fiscalicen y contrapesen mutuamente.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 9,
+      domain: "VIOLENCIA",
+      desc: "MONOPOLIO ESTATAL VS DEFENSA DISTRIBUIDA",
+      question: "¿A quién corresponde la legitimidad en el uso de la fuerza?",
+      answers: [
+        { text: "Única y exclusivamente a las fuerzas institucionales del orden para evitar la anarquía sangrienta.", type: "sinarquia", weight: 2 },
+        { text: "A cada comunidad soberana para defender su integridad frente a cualquier agresor, sea interno o externo.", type: "panarquia", weight: 2 },
+        { text: "A un tribunal central con potestad ejecutiva indiscutible.", type: "sinarquia", weight: 1 },
+        { text: "La fuerza solo es legítima en legítima defensa descentralizada y nunca como monopolio opresor.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 10,
+      domain: "JUSTICIA",
+      desc: "CÓDIGO INVARIABLE VS DERECHO POLICÉNTRICO",
+      question: "¿Cómo se define una justicia auténtica?",
+      answers: [
+        { text: "Leyes universales e inflexibles aplicadas por magistrados del más alto rango institucional.", type: "sinarquia", weight: 2 },
+        { text: "Mecanismos de restitución acordados entre las partes afectadas según su propia tradición jurídica.", type: "panarquia", weight: 2 },
+        { text: "El castigo ejemplar que disuade cualquier quebrantamiento del orden civil.", type: "sinarquia", weight: 1 },
+        { text: "Sistemas de resolución de disputas elegidos voluntariamente por los ciudadanos.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 11,
+      domain: "PROPIEDAD",
+      desc: "CUSTODIA COLECTIVA VS POSESIÓN SOBERANA",
+      question: "¿Cómo debe gestionarse la tierra y los medios de existencia?",
+      answers: [
+        { text: "Bajo la administración tutelar del Estado, que asigna funciones según el interés supremo del todo.", type: "sinarquia", weight: 2 },
+        { text: "Mediante soberanía individual y bienes comunales autogestionados por quienes los trabajan.", type: "panarquia", weight: 2 },
+        { text: "Registros centralizados que garanticen el orden tributario y catastral inviolable.", type: "sinarquia", weight: 1 },
+        { text: "Diversidad de regímenes: propiedad privada, comunal o cooperativa conviviendo en libre federación.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 12,
+      domain: "EDUCACIÓN",
+      desc: "CURRÍCULO INSTITUCIONAL VS AUTO-APRENDIZAJE",
+      question: "¿Cuál debe ser la meta primordial de la instrucción de las nuevas generaciones?",
+      answers: [
+        { text: "Inculcar disciplina, deber patriótico y las habilidades precisas que el sistema demanda.", type: "sinarquia", weight: 2 },
+        { text: "Despertar la autonomía crítica, la soberanía interior y el pensamiento independiente de todo dogma.", type: "panarquia", weight: 2 },
+        { text: "Formar ciudadanos respetuosos de las normas y la estructura jerárquica existente.", type: "sinarquia", weight: 1 },
+        { text: "Proveer herramientas para que cada individuo construya su propio modelo de conocimiento y agencia.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 13,
+      domain: "FAMILIA",
+      desc: "CÉLULA DEL ESTADO VS COMUNA LIBRE",
+      question: "¿Qué rol juega la estructura familiar en el tejido social?",
+      answers: [
+        { text: "Es el cimiento moral regulado por el orden institucional para preservar la continuidad de la civilización.", type: "sinarquia", weight: 2 },
+        { text: "Un pacto privado y soberano cuyos modelos y acuerdos no requieren validación de ninguna autoridad exterior.", type: "panarquia", weight: 2 },
+        { text: "El primer eslabón en la cadena de transmisión del respeto a la autoridad.", type: "sinarquia", weight: 1 },
+        { text: "Una red afectiva abierta a transformarse libremente según la voluntad de sus integrantes.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 14,
+      domain: "TRADICIÓN",
+      desc: "DOGMA ANCESTRAL VS RE-INVENCIÓN CONSTANTE",
+      question: "¿Cómo debe tratarse el legado de los ancestros?",
+      answers: [
+        { text: "Como un canon sagrado inmutable que protege a la humanidad de sus peores impulsos nihilistas.", type: "sinarquia", weight: 2 },
+        { text: "Como un archivo vivo que debe ser cuestionado, reinterpretado o descartado según sirva a la vida presente.", type: "panarquia", weight: 2 },
+        { text: "La preservación de los rituales ancestrales es el único baluarte contra la decadencia.", type: "sinarquia", weight: 1 },
+        { text: "Honrar la raíz sin convertirla en cárcel, permitiendo que cada generación cree sus propios mitos.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 15,
+      domain: "INNOVACIÓN",
+      desc: "PLANIFICACIÓN GUIADA VS CAOS CREATIVO",
+      question: "¿Cuál es el motor más fecundo para el avance de la civilización?",
+      answers: [
+        { text: "Grandes proyectos estratégicos financiados y dirigidos por una élite tecnocrática con visión de largo plazo.", type: "sinarquia", weight: 2 },
+        { text: "La proliferación incontrolada de experimentos descentralizados llevados a cabo en los márgenes.", type: "panarquia", weight: 2 },
+        { text: "Canalizar la investigación científica hacia los objetivos prioritarios del sistema.", type: "sinarquia", weight: 1 },
+        { text: "La libre colisión de ideas sin patentes monopolísticas ni permisos gubernamentales.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 16,
+      domain: "RIESGO",
+      desc: "SEGURIDAD TOTAL VS INCERTIDUMBRE FÉRTIL",
+      question: "¿Hasta qué punto debe una sociedad sacrificar libertad por seguridad?",
+      answers: [
+        { text: "La seguridad es el requisito previo de toda libertad; el orden debe imponerse cueste lo que cueste.", type: "sinarquia", weight: 2 },
+        { text: "La promesa de seguridad total es la trampa perfecta de la servidumbre; el riesgo es el precio de estar vivo.", type: "panarquia", weight: 2 },
+        { text: "Los disidentes que ponen en riesgo la seguridad colectiva deben ser neutralizados preventivamente.", type: "sinarquia", weight: 1 },
+        { text: "Es preferible convivir con la incertidumbre que aceptar una jaula de vigilancia perfecta.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 17,
+      domain: "RESPONSABILIDAD",
+      desc: "OBEDIENCIA AL PROTOCOLO VS ÉTICA RADICAL",
+      question: "Si una orden directa contradice tu sentido ético fundamental, ¿qué curso de acción tomas?",
+      answers: [
+        { text: "Acatarla, confiando en que mis superiores poseen información de contexto que yo desconozco.", type: "sinarquia", weight: 2 },
+        { text: "Desobedecerla de inmediato y asumir las consecuencias de mi objeción de conciencia.", type: "panarquia", weight: 2 },
+        { text: "Cumplirla mientras presento una queja por los canales burocráticos correspondientes.", type: "sinarquia", weight: 1 },
+        { text: "Sabotear la directiva y alertar a la red sobre la naturaleza de la orden.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 18,
+      domain: "IDENTIDAD",
+      desc: "PERTENENCIA INSTITUCIONAL VS INDIVIDUALIDAD SOBERANA",
+      question: "¿Quién eres en relación con el cuerpo social?",
+      answers: [
+        { text: "Una célula disciplinada de un organismo superior cuya misión trasciende mis caprichos individuales.", type: "sinarquia", weight: 2 },
+        { text: "Un centro soberano de consciencia que coopera voluntariamente con otros sin disolverse en la masa.", type: "panarquia", weight: 2 },
+        { text: "El cumplimiento de mi deber asignado es la única medida real de mi valor.", type: "sinarquia", weight: 1 },
+        { text: "Una singularidad irreducible que rechaza ser clasificada bajo cualquier etiqueta corporativa o estatal.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 19,
+      domain: "ESPIRITUALIDAD",
+      desc: "SACERDOCIO JERÁRQUICO VS GNOTICISMO PERSONAL",
+      question: "¿Cómo se accede al misterio de lo trascendente?",
+      answers: [
+        { text: "A través de la liturgia, los intermediarios consagrados y las iniciaciones canónicas de la Orden.", type: "sinarquia", weight: 2 },
+        { text: "Por experiencia directa interior, introspección sin intermediarios y discernimiento ontológico propio.", type: "panarquia", weight: 2 },
+        { text: "La doctrina oficial proporciona el único mapa infalible para no extraviarse en el error.", type: "sinarquia", weight: 1 },
+        { text: "Cada ser humano es un templo vivo; cualquier sacerdocio que pretenda monopolizar lo divino es un engaño.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 20,
+      domain: "CIENCIA",
+      desc: "CONSENSO OFICIAL VS METODOLOGÍA ABIERTA",
+      question: "¿Cómo debe validarse la verdad científica?",
+      answers: [
+        { text: "Mediante el consenso estricto de las academias e instituciones certificadas por el sistema.", type: "sinarquia", weight: 2 },
+        { text: "Permitiendo que cualquier persona replique experimentos y cuestione cualquier dogma establecido con datos abiertos.", type: "panarquia", weight: 2 },
+        { text: "Censurando teorías marginales que puedan desorientar la comprensión del público general.", type: "sinarquia", weight: 1 },
+        { text: "Fomentando el escepticismo radical y la libre refutación de todo paradigma científico dominante.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 21,
+      domain: "GOBERNANZA",
+      desc: "PIRÁMIDE IMPERIAL VS POLICENTRISMO PANÁRQUICO",
+      question: "Si pudieras diseñar la gobernanza del planeta, ¿qué principio elegirías?",
+      answers: [
+        { text: "Un gobierno mundial unificado con leyes universales y una arquitectura de control centralizada.", type: "sinarquia", weight: 2 },
+        { text: "Un archipiélago de jurisdicciones libres donde cada individuo elija su propio sistema legal sin barreras territoriales.", type: "panarquia", weight: 2 },
+        { text: "Una federación de tecnócratas que tomen decisiones racionales en nombre de todos.", type: "sinarquia", weight: 1 },
+        { text: "La disolución de los mega-estados en miles de cantones autónomos interconectados por protocolos comunes.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 22,
+      domain: "CONFLICTO",
+      desc: "PACIFICACIÓN COERCITIVA VS MEDIACIÓN HORIZONTAL",
+      question: "¿Cómo se debe resolver una disputa irreconciliable entre dos colectivos?",
+      answers: [
+        { text: "Una autoridad superior debe dictar un fallo forzoso y obligar a ambas partes a someterse.", type: "sinarquia", weight: 2 },
+        { text: "Permitir la separación física o jurídica: el derecho de secesión voluntaria sin represalias.", type: "panarquia", weight: 2 },
+        { text: "Sancionar económicamente a la facción que desafíe el veredicto del consejo supremo.", type: "sinarquia", weight: 1 },
+        { text: "Designar árbitros mutuamente aceptados bajo contratos inteligentes sin coerción armada.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 23,
+      domain: "PRIVACIDAD",
+      desc: "TRANSPARENCIA CIUDADANA VS CRIPTOGRAFÍA INVIOLABLE",
+      question: "¿Debe el individuo tener secretos frente a su sociedad?",
+      answers: [
+        { text: "No. El que nada oculta nada teme; la opacidad individual es el germen de la sedición y el crimen.", type: "sinarquia", weight: 2 },
+        { text: "Sí. La privacidad inviolable y el cifrado fuerte son el último santuario inexpugnable de la dignidad humana.", type: "panarquia", weight: 2 },
+        { text: "La vigilancia algorítmica es indispensable para prevenir atentados y mantener la paz pública.", type: "sinarquia", weight: 1 },
+        { text: "El Estado y las corporaciones deben ser transparentes; el individuo debe permanecer completamente privado.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 24,
+      domain: "SEGURIDAD",
+      desc: "FRONTERAS Y CORTAFUEGOS VS FLUJO LIBRE",
+      question: "¿Cómo se protege una sociedad de influencias subversivas externas?",
+      answers: [
+        { text: "Erigiendo murallas, filtros de información y cortafuegos estrictos en todos los puntos de acceso.", type: "sinarquia", weight: 2 },
+        { text: "Desarrollando anticuerpos críticos en cada individuo mediante la exposición deliberada al contraste de ideas.", type: "panarquia", weight: 2 },
+        { text: "Monitoreando las comunicaciones para identificar vectores de contagio ideológico.", type: "sinarquia", weight: 1 },
+        { text: "Aceptando el flujo de información como una fuerza natural que ningún muro puede contener legítimamente.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 25,
+      domain: "IGUALDAD",
+      desc: "NIVELACIÓN POR ARRIBA VS DIVERSIDAD DE DESTINOS",
+      question: "¿Cuál es el verdadero significado de la equidad?",
+      answers: [
+        { text: "Garantizar que todos los ciudadanos cumplan los mismos estándares mediante una regulación equitativa.", type: "sinarquia", weight: 2 },
+        { text: "Respetar la irreductible singularidad de cada ser humano sin forzar la uniformidad artificial.", type: "panarquia", weight: 2 },
+        { text: "Que cada persona ocupe el rango exacto que sus capacidades y lealtad al sistema determinen.", type: "sinarquia", weight: 1 },
+        { text: "La igualdad estricta ante las normas pactadas, acompañada de libertad total para diferenciarse.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 26,
+      domain: "MÉRITO",
+      desc: "EVALUACIÓN POR COMITÉ VS RECONOCIMIENTO ORGÁNICO",
+      question: "¿Quién debe decidir quién merece ascender a posiciones de liderazgo?",
+      answers: [
+        { text: "Un sistema estandarizado de exámenes, créditos sociales y evaluación de lealtad institucional.", type: "sinarquia", weight: 2 },
+        { text: "El reconocimiento espontáneo y voluntario de las comunidades que eligen seguir a ese líder.", type: "panarquia", weight: 2 },
+        { text: "Los líderes ya consagrados que eligen a sus propios sucesores mediante cooptación calificada.", type: "sinarquia", weight: 1 },
+        { text: "La prueba empírica en el campo de batalla: quien aporta valor real es respaldado por sus pares.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 27,
+      domain: "JERARQUÍA",
+      desc: "ORDEN CÓSMICO PIRAMIDAL VS HETERARQUÍA",
+      question: "¿Es la jerarquía un hecho inevitable del cosmos o una imposición artificial?",
+      answers: [
+        { text: "Es una ley cósmica sagrada: desde los astros hasta las células, todo orden requiere gradación y obediencia.", type: "sinarquia", weight: 2 },
+        { text: "Es un constructo contingente; la naturaleza opera como una red simbiótica sin una cúspide permanente.", type: "panarquia", weight: 2 },
+        { text: "Sin jerarquía, los más aptos se ven aplastados por la tiranía de la mediocridad colectiva.", type: "sinarquia", weight: 1 },
+        { text: "Las jerarquías deben ser temporales y funcionales, disolviéndose al concluir la tarea específica.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 28,
+      domain: "COOPERACIÓN",
+      desc: "COORDINACIÓN COERCITIVA VS AYUDA MUTUA VOLUNTARIA",
+      question: "¿Qué hace que millones de personas colaboren armónicamente en objetivos colosales?",
+      answers: [
+        { text: "Una estructura de incentivos y sanciones respaldada por el poder disuasorio de la ley.", type: "sinarquia", weight: 2 },
+        { text: "El alineamiento libre de propósitos y la convicción compartida de que cooperar enriquece a todos.", type: "panarquia", weight: 2 },
+        { text: "La subordinación de las voluntades particulares a la visión monumental del arquitecto.", type: "sinarquia", weight: 1 },
+        { text: "La descentralización de los beneficios, asegurando que nadie sea parasitado por intermediarios.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 29,
+      domain: "AUTONOMÍA",
+      desc: "DERECHO DE SALIDA VS OBLIGACIÓN SOCIAL",
+      question: "¿Debe permitirse a una comunidad separarse por completo de la sociedad mayoritaria?",
+      answers: [
+        { text: "No, la fragmentación territorial debilita a la civilización entera y siembra las semillas de la guerra civil.", type: "sinarquia", weight: 2 },
+        { text: "Sí, el derecho incondicional de secesión pacífica es el fundamento irrenunciable de la verdadera soberanía.", type: "panarquia", weight: 2 },
+        { text: "Solo si demuestra autosuficiencia y paga una indemnización compensatoria al Estado nodriza.", type: "sinarquia", weight: 1 },
+        { text: "Cualquier unión que no sea voluntaria en todo momento es, por definición, una prisión.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 30,
+      domain: "DISCIPLINA",
+      desc: "CUMPLIMIENTO DE PROTOCOLO VS SOBERANÍA INTERIOR",
+      question: "¿Qué valoras más en un compañero de combate o proyecto?",
+      answers: [
+        { text: "La fidelidad inquebrantable a las órdenes recibidas y la puntualidad estricta en el cumplimiento del plan.", type: "sinarquia", weight: 2 },
+        { text: "La capacidad de improvisar con criterio propio cuando el plan previsto colapsa frente a lo inesperado.", type: "panarquia", weight: 2 },
+        { text: "El rechazo frontal a cuestionar en público las decisiones del mando superior.", type: "sinarquia", weight: 1 },
+        { text: "El coraje de advertir el error del líder antes de estrellarse contra el abismo.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 31,
+      domain: "CAMBIO",
+      desc: "REFORMA GRADUAL TUTELADA VS DISRUPCIÓN ORGÁNICA",
+      question: "¿Cómo debe transformarse un sistema obsoleto que ya no sirve a la vida?",
+      answers: [
+        { text: "A través de reformas meticulosamente calculadas y supervisadas por la autoridad para evitar el caos.", type: "sinarquia", weight: 2 },
+        { text: "Construyendo sistemas alternativos paralelos que hagan que el viejo modelo quede obsoleto por inanición.", type: "panarquia", weight: 2 },
+        { text: "Purgando a los elementos corruptos pero conservando intacto el andamiaje institucional.", type: "sinarquia", weight: 1 },
+        { text: "Dejando que la obsolescencia colapse por su propio peso mientras los nodos resilientes continúan operando.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 32,
+      domain: "FUTURO",
+      desc: "CIVILIZACIÓN MONOLÍTICA VS ENJAMBRE INTERPLANETARIO",
+      question: "¿Cuál es tu visión suprema para la expansión de la humanidad entre las estrellas?",
+      answers: [
+        { text: "Un Imperio unificado bajo un único Trono o Consejo que asegure el orden monolítico de la especie.", type: "sinarquia", weight: 2 },
+        { text: "Un enjambre infinito de hábitats soberanos, cada uno explorando formas biológicas, éticas y políticas inéditas.", type: "panarquia", weight: 2 },
+        { text: "Una red colonial estrictamente jerarquizada dependiente de la metrópoli central.", type: "sinarquia", weight: 1 },
+        { text: "La diáspora absoluta: ningún planeta ni estación espacial sometida a leyes ajenas a sus habitantes.", type: "panarquia", weight: 1 }
+      ]
+    },
+    {
+      id: 33,
+      domain: "AGENCIA",
+      desc: "EL SENTIDO DEL JUEGO",
+      question: "En última instancia: ¿Qué significa triunfar en el universo de WHITE BROTHERHOOD?",
+      answers: [
+        { text: "Ascender a las cámaras secretas de la cúspide y participar en el diseño geométrico de la realidad de los demás.", type: "sinarquia", weight: 2 },
+        { text: "Despertar la soberanía del propio nodo, cortar los hilos de toda titiritería y enseñar a otros a hacer lo mismo.", type: "panarquia", weight: 2 },
+        { text: "Ser asimilado con honores en el núcleo del Gran Faro como uno de sus arquitectos eternos.", type: "sinarquia", weight: 1 },
+        { text: "Operar como un agente indetectable que preserva la brecha ontológica y el fuego de la libertad humana.", type: "panarquia", weight: 1 }
+      ]
+    }
+  ];
+
+  // State Management
+  let currentStep = 0; // 0 to 32
+  let userAnswers = new Array(33).fill(null);
+  let panarquiaScore = 0;
+  let sinarquiaScore = 0;
+
+  // DOM Elements
+  const screenIntro = document.getElementById('screen-intro');
+  const screenTest = document.getElementById('screen-test');
+  const screenResult = document.getElementById('screen-result');
+
+  const btnStart = document.getElementById('btn-start-test');
+  const btnPrev = document.getElementById('btn-prev-question');
+  const btnNext = document.getElementById('btn-next-question');
+
+  const progressPill = document.getElementById('progress-pill');
+  const navStepCount = document.getElementById('nav-step-count');
+  const navModeLabel = document.getElementById('nav-mode-label');
+
+  const displayStepNum = document.getElementById('display-step-num');
+  const testProgressBar = document.getElementById('test-progress-bar');
+  const displayDomainTag = document.getElementById('display-domain-tag');
+  const displayDomainDesc = document.getElementById('display-domain-desc');
+  const questionIndexLabel = document.getElementById('question-index-label');
+  const questionText = document.getElementById('question-text');
+  const answersContainer = document.getElementById('answers-container');
+
+  // Event Listeners
+  btnStart.addEventListener('click', () => {
+    screenIntro.classList.add('hidden');
+    screenTest.classList.remove('hidden');
+    progressPill.classList.remove('hidden');
+    navModeLabel.textContent = "ESTADO: CALIBRACIÓN ACTIVA";
+    renderQuestion(currentStep);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  btnPrev.addEventListener('click', () => {
+    if (currentStep > 0) {
+      currentStep--;
+      renderQuestion(currentStep);
+    }
+  });
+
+  btnNext.addEventListener('click', () => {
+    if (userAnswers[currentStep] !== null) {
+      if (currentStep < 32) {
+        currentStep++;
+        renderQuestion(currentStep);
+      } else {
+        finishTestAndCalculate();
+      }
+    }
+  });
+
+  function renderQuestion(index) {
+    const q = QUESTIONS_DATA[index];
+    const stepNumberFormatted = (index + 1).toString().padStart(2, '0');
+
+    // Update Telemetry Header
+    navStepCount.textContent = stepNumberFormatted;
+    displayStepNum.textContent = stepNumberFormatted;
+    displayDomainTag.textContent = `DOMINIO // ${q.domain}`;
+    displayDomainDesc.textContent = q.desc;
+    questionIndexLabel.textContent = `VECTOR DE CONFRONTACIÓN ${stepNumberFormatted}`;
+    questionText.textContent = q.question;
+
+    // Update Progress Bar
+    const percent = ((index + 1) / 33) * 100;
+    testProgressBar.style.width = `${percent}%`;
+
+    // Update Controls State
+    btnPrev.disabled = (index === 0);
+    btnNext.disabled = (userAnswers[index] === null);
+    btnNext.innerHTML = (index === 32) 
+      ? `VER REVELACIÓN FINAL <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>`
+      : `CONFIRMAR <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>`;
+
+    // Render 4 Answer Cards
+    answersContainer.innerHTML = '';
+    const letters = ['A', 'B', 'C', 'D'];
+
+    q.answers.forEach((ans, aIdx) => {
+      const isSelected = (userAnswers[index] === aIdx);
+      const card = document.createElement('div');
+      card.className = `answer-card cursor-pointer p-4 sm:p-5 rounded border border-white/10 bg-void/80 flex items-start gap-4 ${isSelected ? 'selected' : ''}`;
+      card.onclick = () => selectAnswer(index, aIdx);
+
+      card.innerHTML = `
+        <div class="w-7 h-7 shrink-0 rounded border ${isSelected ? 'border-warning bg-warning text-black' : 'border-white/20 text-ivory/60'} font-mono text-xs font-bold flex items-center justify-center transition-colors">
+          ${letters[aIdx]}
+        </div>
+        <div class="flex-1 text-sm sm:text-base font-sans ${isSelected ? 'text-white font-medium' : 'text-ivory/80'} leading-relaxed">
+          ${ans.text}
+        </div>
+      `;
+      answersContainer.appendChild(card);
+    });
+  }
+
+  function selectAnswer(qIndex, answerIndex) {
+    userAnswers[qIndex] = answerIndex;
+    renderQuestion(qIndex);
+    
+    // Auto advance smoothly after quick selection if desired, or user clicks confirm
+    btnNext.disabled = false;
+  }
+
+  function finishTestAndCalculate() {
+    panarquiaScore = 0;
+    sinarquiaScore = 0;
+
+    userAnswers.forEach((ansIdx, qIdx) => {
+      const ansObj = QUESTIONS_DATA[qIdx].answers[ansIdx];
+      if (ansObj.type === 'panarquia') {
+        panarquiaScore += ansObj.weight;
+      } else if (ansObj.type === 'sinarquia') {
+        sinarquiaScore += ansObj.weight;
+      }
+    });
+
+    const total = panarquiaScore + sinarquiaScore;
+    const panPercent = Math.round((panarquiaScore / total) * 100);
+    const sinPercent = 100 - panPercent;
+
+    // Transition Screens
+    screenTest.classList.add('hidden');
+    screenResult.classList.remove('hidden');
+    navModeLabel.textContent = "ESTADO: AFINIDAD DETERMINADA";
+    progressPill.innerHTML = `AFINIDAD: <span class="text-white font-bold">${panPercent >= sinPercent ? 'PANARQUÍA' : 'SINARQUÍA'}</span>`;
+
+    // Render Result Spec
+    renderFactionResult(panPercent, sinPercent);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function renderFactionResult(panPercent, sinPercent) {
+    const isPanarquia = (panPercent >= sinPercent);
+    const banner = document.getElementById('faction-reveal-banner');
+    const dynamicContent = document.getElementById('faction-dynamic-content');
+
+    // Telemetry metric bars
+    document.getElementById('metric-pan-val').textContent = `${panPercent}%`;
+    document.getElementById('metric-pan-bar').style.width = `${panPercent}%`;
+    document.getElementById('metric-sin-val').textContent = `${sinPercent}%`;
+    document.getElementById('metric-sin-bar').style.width = `${sinPercent}%`;
+
+    // Random Agent Hash
+    document.getElementById('agent-hash-id').textContent = Math.random().toString(16).substr(2, 4).toUpperCase();
+
+    if (isPanarquia) {
+      // PANARQUIA VISUAL LANGUAGE: Constellation, white + gold + cyan, open nodes
+      banner.className = "border border-royal-gold/60 border-chamfer p-8 sm:p-12 relative overflow-hidden transition-all duration-700 bg-gradient-to-br from-obsidian via-void to-obsidian glow-pan";
+      
+      dynamicContent.innerHTML = `
+        <!-- Constellation Interactive SVG Visual -->
+        <div class="relative w-64 h-64 shrink-0 flex items-center justify-center">
+          <svg class="w-full h-full text-royal-gold" viewBox="0 0 200 200" fill="none">
+            <!-- Interconnecting constellation network lines -->
+            <line x1="100" y1="40" x2="40" y2="90" stroke="#E6C45A" stroke-width="1" opacity="0.6"/>
+            <line x1="100" y1="40" x2="160" y2="90" stroke="#E6C45A" stroke-width="1" opacity="0.6"/>
+            <line x1="40" y1="90" x2="60" y2="160" stroke="#E6C45A" stroke-width="1" opacity="0.6"/>
+            <line x1="160" y1="90" x2="140" y2="160" stroke="#E6C45A" stroke-width="1" opacity="0.6"/>
+            <line x1="60" y1="160" x2="140" y2="160" stroke="#E6C45A" stroke-width="1" opacity="0.6"/>
+            <line x1="40" y1="90" x2="160" y2="90" stroke="#00E5FF" stroke-width="0.8" stroke-dasharray="3 3" opacity="0.5"/>
+            <line x1="100" y1="40" x2="100" y2="160" stroke="#00E5FF" stroke-width="0.8" stroke-dasharray="2 4" opacity="0.4"/>
+            <!-- Distributed Nodes (None is dominant center) -->
+            <circle cx="100" cy="40" r="7" fill="#F4F1E8" stroke="#E6C45A" stroke-width="2" class="node-anim"/>
+            <circle cx="40" cy="90" r="6" fill="#00E5FF" stroke="#F4F1E8" stroke-width="1.5" class="node-anim" style="animation-delay: 0.5s;"/>
+            <circle cx="160" cy="90" r="6" fill="#00E5FF" stroke="#F4F1E8" stroke-width="1.5" class="node-anim" style="animation-delay: 1s;"/>
+            <circle cx="60" cy="160" r="5" fill="#E6C45A" stroke="#050505" stroke-width="1.5" class="node-anim" style="animation-delay: 1.5s;"/>
+            <circle cx="140" cy="160" r="5" fill="#E6C45A" stroke="#050505" stroke-width="1.5" class="node-anim" style="animation-delay: 2s;"/>
+            <!-- Peripheral Rings -->
+            <circle cx="100" cy="100" r="85" stroke="#E6C45A" stroke-width="0.5" stroke-dasharray="4 6" opacity="0.3"/>
+          </svg>
+          <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <span class="text-[9px] font-mono text-pan-cyan/80 tracking-widest bg-void/80 px-2 py-0.5 border border-pan-cyan/30 rounded">POLICENTRISMO</span>
+          </div>
+        </div>
+
+        <!-- Faction Dossier Info -->
+        <div class="space-y-4 text-left flex-1">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 bg-royal-gold/20 border border-royal-gold text-royal-gold font-mono text-[10px] tracking-widest uppercase">AFINIDAD PRIMARIA DETECTADA</span>
+            <span class="text-xs font-mono text-ivory/50 font-bold">${panPercent}% CONVERGENCIA</span>
+          </div>
+          <h2 class="font-cinzel text-3xl sm:text-5xl font-extrabold text-white tracking-wider">
+            PANARQUÍA
+          </h2>
+          <p class="font-cinzel text-base sm:text-lg text-royal-gold tracking-widest uppercase font-semibold">
+            "NINGÚN CENTRO CONTIENE EL TODO."
+          </p>
+          <p class="text-sm font-sans text-ivory/80 leading-relaxed font-light">
+            Tu patrón de respuestas demuestra una resonancia natural con el <strong>orden distribuido</strong>, la autonomía inviolable y la cooperación entre comunidades soberanas. Rechazas la comodidad de ser tutelado por una cúspide y asumes el peso de la propia agencia.
+          </p>
+          <div class="flex flex-wrap gap-2 pt-2">
+            <span class="px-2 py-1 bg-white/5 border border-white/10 text-ivory/80 text-[10px] font-mono">AUTONOMÍA</span>
+            <span class="px-2 py-1 bg-white/5 border border-white/10 text-ivory/80 text-[10px] font-mono">PLURALIDAD</span>
+            <span class="px-2 py-1 bg-white/5 border border-white/10 text-ivory/80 text-[10px] font-mono">COOPERACIÓN VOLUNTARIA</span>
+            <span class="px-2 py-1 bg-white/5 border border-white/10 text-ivory/80 text-[10px] font-mono">AGENCIA RADICAL</span>
+          </div>
+        </div>
+      `;
+
+      // Update Spec Sheet Content for Panarquía
+      document.getElementById('card-principles-title').textContent = "Autonomía & Policentrismo";
+      document.getElementById('card-principles-desc').textContent = "Operas bajo la convicción de que el poder debe desconcentrarse en múltiples centros autónomos, asegurando que ninguna jerarquía pueda asimilar a toda la especie.";
+
+      document.getElementById('card-tension-title').textContent = "Fragmentación vs Coordinación";
+      document.getElementById('card-tension-desc').textContent = "Tu principal desafío: la soberanía irrestricta puede decantar en dispersión e incapacidad de consensuar respuestas ágiles frente a invasiones masivas.";
+
+      document.getElementById('card-advantages-title').textContent = "Resiliencia Anti-Frágil";
+      document.getElementById('card-advantages-desc').textContent = "Al carecer de un punto único de falla, tu red no puede ser descabezada. La destrucción de un nodo solo fortalece la autonomía de los restantes.";
+
+      document.getElementById('card-risks-title').textContent = "Parálisis por Deliberación";
+      document.getElementById('card-risks-desc').textContent = "El exceso de consulta horizontal puede volverte vulnerable frente a adversarios implacables estructurados en torno a una cadena de mando militar.";
+
+      document.getElementById('card-quest-title').textContent = "ENCUENTRA LA PRIMERA SEÑAL";
+      document.getElementById('card-quest-desc').textContent = "Intercepta la transmisión del vector 432 Hz en la noosfera. Localiza a las células durmientes de la resistencia antes de que la Sinarquía colapse sus cortafuegos.";
+
+    } else {
+      // SINARQUIA VISUAL LANGUAGE: Pyramid, black + gold + warning yellow, central eye
+      banner.className = "border border-warning/60 border-chamfer p-8 sm:p-12 relative overflow-hidden transition-all duration-700 bg-gradient-to-br from-obsidian via-void to-obsidian glow-yellow";
+
+      dynamicContent.innerHTML = `
+        <!-- Hierarchical Monolith & Central Eye SVG -->
+        <div class="relative w-64 h-64 shrink-0 flex items-center justify-center">
+          <svg class="w-full h-full text-warning" viewBox="0 0 200 200" fill="none">
+            <!-- Concentric Pyramidal Geometry -->
+            <polygon points="100,20 180,170 20,170" stroke="#FFD400" stroke-width="1.5" fill="rgba(255,212,0,0.03)"/>
+            <polygon points="100,55 155,160 45,160" stroke="#E6C45A" stroke-width="1" fill="none"/>
+            <polygon points="100,85 135,150 65,150" stroke="#FFD400" stroke-width="0.75" stroke-dasharray="3 3"/>
+            <!-- Vertical Meridian Axis of Authority -->
+            <line x1="100" y1="10" x2="100" y2="185" stroke="#FFFFFF" stroke-width="1.2" opacity="0.6"/>
+            <!-- Central Illuminating Surveillance Eye -->
+            <circle cx="100" cy="115" r="24" fill="#050505" stroke="#FFD400" stroke-width="1.5"/>
+            <path d="M78,115 Q100,95 122,115 Q100,135 78,115 Z" stroke="#FFFFFF" stroke-width="1.2" fill="#0D0D0D"/>
+            <circle cx="100" cy="115" r="7" fill="#FFD400" class="animate-ping" style="animation-duration: 2.5s;"/>
+            <circle cx="100" cy="115" r="3" fill="#FFFFFF"/>
+          </svg>
+          <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <span class="text-[9px] font-mono text-warning/90 tracking-widest bg-void/90 px-2 py-0.5 border border-warning/40 rounded mt-32">VÉRTICE SUPREMO</span>
+          </div>
+        </div>
+
+        <!-- Faction Dossier Info -->
+        <div class="space-y-4 text-left flex-1">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 bg-warning/20 border border-warning text-warning font-mono text-[10px] tracking-widest uppercase">AFINIDAD PRIMARIA DETECTADA</span>
+            <span class="text-xs font-mono text-warning font-bold">${sinPercent}% CONVERGENCIA</span>
+          </div>
+          <h2 class="font-cinzel text-3xl sm:text-5xl font-extrabold text-white tracking-wider">
+            SINARQUÍA
+          </h2>
+          <p class="font-cinzel text-base sm:text-lg text-warning tracking-widest uppercase font-semibold">
+            "EL ORDEN NECESITA UN CENTRO."
+          </p>
+          <p class="text-sm font-sans text-ivory/80 leading-relaxed font-light">
+            Tu patrón de respuestas demuestra una profunda comprensión de la <strong>arquitectura del orden jerárquico</strong>, la disciplina unificada y la necesidad de una autoridad centralizada para contener el caos primordial y dirigir los destinos de la civilización.
+          </p>
+          <div class="flex flex-wrap gap-2 pt-2">
+            <span class="px-2 py-1 bg-white/5 border border-white/10 text-ivory/80 text-[10px] font-mono">JERARQUÍA SAGRADA</span>
+            <span class="px-2 py-1 bg-white/5 border border-white/10 text-ivory/80 text-[10px] font-mono">CENTRALIZACIÓN</span>
+            <span class="px-2 py-1 bg-white/5 border border-white/10 text-ivory/80 text-[10px] font-mono">DISCIPLINA UNIFICADA</span>
+            <span class="px-2 py-1 bg-white/5 border border-white/10 text-ivory/80 text-[10px] font-mono">ESTABILIDAD TOTAL</span>
+          </div>
+        </div>
+      `;
+
+      // Update Spec Sheet Content for Sinarquía
+      document.getElementById('card-principles-title').textContent = "Jerarquía & Concentración";
+      document.getElementById('card-principles-desc').textContent = "Sostienes que la civilización únicamente sobrevive cuando las decisiones cruciales son tomadas por una cúspide calificada capaz de imponer disciplina sobre la masa indecisa.";
+
+      document.getElementById('card-tension-title').textContent = "Estabilidad vs Petrificación";
+      document.getElementById('card-tension-desc').textContent = "Tu principal tensión: la búsqueda obsesiva de orden puede transformar la arquitectura social en una maquinaria asfixiante que aniquile toda chispa de espontaneidad.";
+
+      document.getElementById('card-advantages-title').textContent = "Ejecución Monolítica";
+      document.getElementById('card-advantages-desc').textContent = "Capacidad inigualable de movilización de recursos a escala cósmica, rapidez de respuesta inmediata ante catástrofes y ausencia de desgaste burocrático horizontal.";
+
+      document.getElementById('card-risks-title').textContent = "Colapso del Vértice";
+      document.getElementById('card-risks-desc').textContent = "Cualquier corrupción, engaño o ceguera en la cumbre de la pirámide se propaga letalmente a todos los estratos sin encontrar frenos ni contrapesos.";
+
+      document.getElementById('card-quest-title').textContent = "ASEGURA EL TRANSMISOR CENTRAL";
+      document.getElementById('card-quest-desc').textContent = "Supervisa la calibración del Gran Faro. Aplica el Protocolo Silencio sobre las anomalías perceptivas registradas en el Sector Sub-Éter.";
+    }
+  }
+
+  function restartTest() {
+    currentStep = 0;
+    userAnswers.fill(null);
+    screenResult.classList.add('hidden');
+    screenIntro.classList.remove('hidden');
+    progressPill.classList.add('hidden');
+    navModeLabel.textContent = "ESTADO: UMBRAL DE ENTRADA";
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>

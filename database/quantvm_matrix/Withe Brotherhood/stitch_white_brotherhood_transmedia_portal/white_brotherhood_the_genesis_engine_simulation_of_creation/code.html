@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WHITE BROTHERHOOD // THE GENESIS ENGINE</title>
+<!-- Typography: Bodoni Moda, Space Mono, Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=Inter:wght@300;400;500;600;700&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "inverse-surface": "#e5e2e1",
+            "on-surface": "#e5e2e1",
+            "royal-gold": "#E6C45A",
+            "primary-container": "#e5e2da",
+            "void-obsidian": "#050505",
+            "on-secondary": "#3d2e00",
+            "on-error-container": "#ffdad6",
+            "primary-fixed": "#e5e2da",
+            "on-error": "#690005",
+            "surface-container-highest": "#353534",
+            "error": "#ffb4ab",
+            "primary-fixed-dim": "#c9c6be",
+            "imperial-gold": "#C9A227",
+            "outline-variant": "#474740",
+            "secondary-fixed-dim": "#ecc246",
+            "on-tertiary": "#3c2f00",
+            "inverse-on-surface": "#313030",
+            "surface-dim": "#131313",
+            "on-surface-variant": "#c9c6bd",
+            "tertiary-container": "#ffe086",
+            "surface-elevated": "#141414",
+            "primary": "#ffffff",
+            "secondary-container": "#b18c09",
+            "surface": "#131313",
+            "outline": "#929188",
+            "error-container": "#93000a",
+            "on-tertiary-container": "#7a6200",
+            "on-primary-container": "#65645e",
+            "secondary": "#ecc246",
+            "surface-container": "#201f1f",
+            "on-tertiary-fixed-variant": "#574500",
+            "inverse-primary": "#5f5f58",
+            "background": "#131313",
+            "on-secondary-container": "#352800",
+            "surface-variant": "#353534",
+            "surface-container-high": "#2a2a2a",
+            "panel-surface": "#0D0D0D",
+            "sacred-ivory": "#F4F1E8",
+            "secondary-fixed": "#ffe08e",
+            "on-secondary-fixed-variant": "#584400",
+            "tertiary": "#ffffff",
+            "surveillance-warning": "#FFD400",
+            "surface-bright": "#3a3939",
+            "on-tertiary-fixed": "#231b00",
+            "tertiary-fixed-dim": "#e5c35a",
+            "on-secondary-fixed": "#241a00",
+            "on-primary": "#31312b",
+            "on-primary-fixed": "#1c1c17",
+            "surface-tint": "#c9c6be",
+            "on-background": "#e5e2e1",
+            "surface-container-low": "#1c1b1b",
+            "on-primary-fixed-variant": "#474741",
+            "tertiary-fixed": "#ffe086",
+            "surface-container-lowest": "#0e0e0e"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "gutter-mobile": "0.75rem",
+            "gutter": "1.5rem",
+            "space-sm": "0.5rem",
+            "margin": "3rem",
+            "space-xl": "2.5rem",
+            "space-lg": "1.5rem",
+            "space-md": "1rem",
+            "space-xs": "0.25rem",
+            "margin-mobile": "1rem"
+          },
+          fontFamily: {
+            "headline-lg": ["Bodoni Moda"],
+            "body-sm": ["Inter"],
+            "body-lg": ["Inter"],
+            "label-md": ["Space Mono"],
+            "display-lg-mobile": ["Bodoni Moda"],
+            "label-lg": ["Space Mono"],
+            "label-sm": ["Space Mono"],
+            "body-md": ["Inter"],
+            "headline-md": ["Bodoni Moda"],
+            "headline-sm": ["Bodoni Moda"],
+            "title-md": ["Space Mono"],
+            "headline-lg-mobile": ["Bodoni Moda"],
+            "display-lg": ["Bodoni Moda"]
+          },
+          fontSize: {
+            "headline-lg": ["40px", { lineHeight: "48px", letterSpacing: "0.06em", fontWeight: "600" }],
+            "body-sm": ["13px", { lineHeight: "20px", fontWeight: "400" }],
+            "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+            "label-md": ["11px", { lineHeight: "16px", letterSpacing: "0.15em", fontWeight: "500" }],
+            "display-lg-mobile": ["36px", { lineHeight: "44px", letterSpacing: "0.06em", fontWeight: "700" }],
+            "label-lg": ["14px", { lineHeight: "20px", letterSpacing: "0.1em", fontWeight: "700" }],
+            "label-sm": ["9px", { lineHeight: "12px", letterSpacing: "0.2em", fontWeight: "400" }],
+            "body-md": ["15px", { lineHeight: "24px", fontWeight: "400" }],
+            "headline-md": ["30px", { lineHeight: "38px", letterSpacing: "0.04em", fontWeight: "600" }],
+            "headline-sm": ["22px", { lineHeight: "28px", letterSpacing: "0.03em", fontWeight: "500" }],
+            "title-md": ["16px", { lineHeight: "24px", letterSpacing: "0.12em", fontWeight: "700" }],
+            "headline-lg-mobile": ["28px", { lineHeight: "36px", letterSpacing: "0.04em", fontWeight: "600" }],
+            "display-lg": ["56px", { lineHeight: "64px", letterSpacing: "0.08em", fontWeight: "700" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    
+    /* Technical crosshair and grid aesthetics */
+    .blueprint-grid {
+      background-size: 24px 24px;
+      background-image: 
+        linear-gradient(to right, rgba(201, 162, 39, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(201, 162, 39, 0.05) 1px, transparent 1px);
+    }
+    
+    .reticle-corner {
+      position: relative;
+    }
+    .reticle-corner::before, .reticle-corner::after {
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-color: #C9A227;
+      pointer-events: none;
+    }
+    .reticle-corner::before {
+      top: 0;
+      left: 0;
+      border-top: 1px solid;
+      border-left: 1px solid;
+    }
+    .reticle-corner::after {
+      bottom: 0;
+      right: 0;
+      border-bottom: 1px solid;
+      border-right: 1px solid;
+    }
+
+    /* Range slider custom styling */
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 14px;
+      width: 6px;
+      background: #E6C45A;
+      cursor: pointer;
+      border: 1px solid #050505;
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+      background: #201f1f;
+      height: 4px;
+    }
+  </style>
+</head>
+<body class="bg-void-obsidian text-on-surface antialiased selection:bg-imperial-gold selection:text-void-obsidian min-h-screen relative flex flex-col justify-between overflow-x-hidden">
+<!-- Shader Background (Procedural Background) -->
+<!-- STITCH_SHADER_START:ANIMATION_16 class="fixed inset-0 w-full h-full pointer-events-none z-0 opacity-75" -->
+<div class="fixed inset-0 w-full h-full pointer-events-none z-0 opacity-75" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_16" style="display:block;width:100%;height:100%"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_16');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+uniform float u_time;
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+
+// Procedural Genesis Matrix Shader: Quantum Lattice, Alchemical Crucible, Cellular Bioluminescence & Planetary Rings
+// Palette: Void Obsidian #050505, Imperial Gold #C9A227, Bioluminescent Azure #00E5FF, Warning Solar Amber #FFD400, Ivory White #F4F1E8
+
+float hash(vec2 p) {
+    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+}
+
+float noise(vec2 p) {
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    vec2 u = f * f * (3.0 - 2.0 * f);
+    return mix(mix(hash(i + vec2(0.0, 0.0)), hash(i + vec2(1.0, 0.0)), u.x),
+               mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
+}
+
+void main() {
+    vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution.xy) / min(u_resolution.y, u_resolution.x);
+    vec2 mouse = (u_mouse - 0.5 * u_resolution.xy) / min(u_resolution.y, u_resolution.x);
+    
+    float dist = length(uv);
+    float angle = atan(uv.y, uv.x);
+    float t = u_time * 0.14;
+
+    // Deep Void Obsidian baseline #040406
+    vec3 col = vec3(0.016, 0.018, 0.024);
+
+    // Dynamic Micro-Lattice Grid (Quantum Scale simulation)
+    vec2 gridUV = uv * 24.0;
+    vec2 gridF = abs(fract(gridUV - 0.5) - 0.5) / fwidth(gridUV);
+    float grid = 1.0 - min(min(gridF.x, gridF.y), 1.0);
+    col += vec3(0.03, 0.05, 0.08) * grid * 0.35;
+
+    // Sacred Concentric Genesis Aperture (Alchemical Atanor rings)
+    float r1 = abs(sin(dist * 22.0 - t * 0.7));
+    r1 = smoothstep(0.965, 0.995, r1) * 0.32;
+
+    float r2 = abs(sin(dist * 9.0 + t * 0.3));
+    r2 = smoothstep(0.94, 0.99, r2) * 0.22;
+
+    // 12-Ray Cardinal Emanations & Alchemical transmutation axes
+    float rays = abs(sin(angle * 6.0 + dist * 4.0 - t * 0.4));
+    rays = smoothstep(0.85, 0.995, rays) * (0.18 / (dist + 0.35));
+
+    // Cellular & Organic fluid swirls (Noise field for Life & Biosphere)
+    vec2 pCell = uv * 4.5 + vec2(sin(t * 0.5), cos(t * 0.4)) * 0.3;
+    float cellNoise = noise(pCell * 2.0);
+    float cellGlow = smoothstep(0.45, 0.85, cellNoise) * smoothstep(1.1, 0.2, dist) * 0.25;
+
+    // Golden Ley-Lines and Warning surveillance pulses
+    float sweepAngle = mod(angle - t * 0.6, 6.28318);
+    float radarSweep = smoothstep(6.28318, 0.0, sweepAngle) * smoothstep(1.2, 0.1, dist) * 0.15;
+
+    // Floating Starlight & Alchemical dust embers
+    vec2 pEmbers = uv * 12.0 + vec2(t * 0.2, -t * 0.3);
+    float dust = pow(noise(pEmbers), 6.0) * 0.45;
+
+    // Interactive pointer ripple & distortion
+    float mDist = length(uv - mouse * 0.25);
+    float mGlow = smoothstep(0.38, 0.0, mDist) * 0.18;
+
+    vec3 gold = vec3(0.79, 0.63, 0.15);       // #C9A227 Imperial Gold
+    vec3 cyan = vec3(0.0, 0.88, 1.0);        // #00E5FF Genesis Quantum Pulse
+    vec3 ivory = vec3(0.96, 0.94, 0.91);     // #F4F1E8 Sacred Ivory
+    vec3 amber = vec3(1.0, 0.83, 0.0);       // #FFD400 Warning Alert
+
+    col += gold * (r1 + rays * 0.8 + mGlow);
+    col += cyan * (r2 + cellGlow * 1.2);
+    col += ivory * dust;
+    col += amber * radarSweep;
+
+    // Cinematic deep peripheral falloff vignette
+    col *= smoothstep(1.35, 0.3, dist);
+
+    gl_FragColor = vec4(col, 1.0);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_16 -->
+<!-- Global Content Wrapper (Above Shader) -->
+<div class="relative z-10 flex flex-col flex-1 pb-16">
+<!-- 1. TOP COMMAND DECK (TopNavBar execution) -->
+<header class="flex flex-col w-full px-space-md lg:px-margin border-b border-imperial-gold/30 bg-panel-surface">
+<!-- Upper Tier: Brand Logo, System Subtext, Actions & Resource Tickers -->
+<div class="flex flex-col xl:flex-row items-start xl:items-center justify-between py-space-sm border-b border-imperial-gold/20 gap-3">
+<!-- Brand Cluster -->
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 border border-imperial-gold/60 p-0.5 bg-void-obsidian flex items-center justify-center shrink-0">
+<img alt="Archon High Clearance Glyph Seal" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Ux90Had9HYUl0VZ0PljvKV7JmuZSFlSxoinebPpMwmZTybSSpHSvbL1YY2EDpg7pdcV5hLn6fWXfKUT5-csYYjp2LRXcHCW2XxJUQGgr4Rz_zpmV_oog-1ENext36p6Zx8ZVAUPqKqLgEUCqLsE3vci0r8nCjuVn8dHs6eTA9ewA-ZiKd9h75UbzOGQrOVjNoFRdbO1UHFGg3-TB_tEn_eVQGVGraFvozKX6An1ZoCbjSCeWKX2PBIklB1"/>
+</div>
+<div>
+<div class="text-title-md font-title-md uppercase tracking-widest text-sacred-ivory flex items-center gap-2">
+              WHITE BROTHERHOOD // THE GENESIS ENGINE
+              <span class="inline-block w-2 h-2 bg-surveillance-warning animate-pulse"></span>
+</div>
+<div class="text-label-sm font-label-sm text-outline tracking-widest uppercase">
+              OS v8.1.0 // SIMULATION OF CREATION // ARCHON CLEARANCE TIER-IV
+            </div>
+</div>
+</div>
+<!-- Global Resources 4X Ticker -->
+<div class="grid grid-cols-3 sm:grid-cols-6 gap-2 w-full xl:w-auto bg-void-obsidian/90 border border-imperial-gold/30 px-space-sm py-space-xs">
+<div class="flex flex-col border-r border-imperial-gold/20 pr-2">
+<span class="text-label-sm font-label-sm text-outline">ENERGY</span>
+<div class="text-label-md font-label-md text-sacred-ivory">142.8K <span class="text-royal-gold text-label-sm font-label-sm">+340/s</span></div>
+</div>
+<div class="flex flex-col border-r border-imperial-gold/20 pr-2">
+<span class="text-label-sm font-label-sm text-outline">MATTER</span>
+<div class="text-label-md font-label-md text-sacred-ivory">89.2K <span class="text-royal-gold text-label-sm font-label-sm">+210/s</span></div>
+</div>
+<div class="flex flex-col border-r border-imperial-gold/20 pr-2">
+<span class="text-label-sm font-label-sm text-outline">LIFE ESSENCE</span>
+<div class="text-label-md font-label-md text-sacred-ivory">4,120 <span class="text-royal-gold text-label-sm font-label-sm">+42/s</span></div>
+</div>
+<div class="flex flex-col border-r border-imperial-gold/20 pr-2">
+<span class="text-label-sm font-label-sm text-outline">KNOWLEDGE</span>
+<div class="text-label-md font-label-md text-sacred-ivory">38.4K <span class="text-royal-gold text-label-sm font-label-sm">+88/s</span></div>
+</div>
+<div class="flex flex-col border-r border-imperial-gold/20 pr-2">
+<span class="text-label-sm font-label-sm text-outline">AGENCIA SOBERANA</span>
+<div class="text-label-md font-label-md text-surveillance-warning">96/100</div>
+</div>
+<div class="flex flex-col">
+<span class="text-label-sm font-label-sm text-outline">CODEX</span>
+<div class="text-label-md font-label-md text-sacred-ivory">128 / 512</div>
+</div>
+</div>
+<!-- Trailing System Actions -->
+<div class="hidden sm:flex items-center gap-2">
+<button class="bg-sacred-ivory text-void-obsidian px-space-md py-space-xs font-label-md uppercase tracking-wider font-bold border border-sacred-ivory hover:border-imperial-gold duration-0 transition-colors">
+            DECREE [SOVEREIGN]
+          </button>
+<div class="flex items-center gap-1 border border-outline-variant/30 px-1 py-1">
+<span class="material-symbols-outlined text-outline hover:text-royal-gold cursor-pointer text-base p-1">radar</span>
+<span class="material-symbols-outlined text-outline hover:text-royal-gold cursor-pointer text-base p-1">hub</span>
+<span class="material-symbols-outlined text-outline hover:text-royal-gold cursor-pointer text-base p-1">satellite_alt</span>
+<span class="material-symbols-outlined text-outline hover:text-royal-gold cursor-pointer text-base p-1">shield</span>
+</div>
+</div>
+</div>
+<!-- Lower Tier: Seamless Scale Navigation Bar & Zoom Slider -->
+<div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between py-space-xs gap-3">
+<!-- Scale Selector Tabs -->
+<div class="flex items-center overflow-x-auto scrollbar-none gap-1 py-1 text-label-md font-label-md">
+<button class="text-on-surface-variant font-label-md uppercase px-space-sm py-space-xs border border-outline-variant/30 hover:text-sacred-ivory whitespace-nowrap">
+            1. QUANTUM / VOID
+          </button>
+<button class="text-on-surface-variant font-label-md uppercase px-space-sm py-space-xs border border-outline-variant/30 hover:text-sacred-ivory whitespace-nowrap">
+            2. ATOMIC FORGE
+          </button>
+<button class="text-on-surface-variant font-label-md uppercase px-space-sm py-space-xs border border-outline-variant/30 hover:text-sacred-ivory whitespace-nowrap">
+            3. ALCHEMY
+          </button>
+<button class="bg-sacred-ivory text-void-obsidian font-label-md uppercase px-space-sm py-space-xs border border-imperial-gold whitespace-nowrap shadow-[0_0_12px_rgba(201,162,39,0.3)]">
+            4. CELL GENESIS
+          </button>
+<button class="text-on-surface-variant font-label-md uppercase px-space-sm py-space-xs border border-outline-variant/30 hover:text-sacred-ivory whitespace-nowrap">
+            5. EVOLUTION
+          </button>
+<button class="text-on-surface-variant font-label-md uppercase px-space-sm py-space-xs border border-outline-variant/30 hover:text-sacred-ivory whitespace-nowrap">
+            6. BIOSPHERE / TERRAFORMING
+          </button>
+<button class="text-on-surface-variant font-label-md uppercase px-space-sm py-space-xs border border-outline-variant/30 hover:text-sacred-ivory whitespace-nowrap">
+            7. CITY &amp; DOMINIO
+          </button>
+<button class="text-on-surface-variant font-label-md uppercase px-space-sm py-space-xs border border-outline-variant/30 hover:text-sacred-ivory whitespace-nowrap">
+            8. COSMOS
+          </button>
+</div>
+<!-- Scale Zoom Slider (QUARK -> GALAXY) -->
+<div class="flex items-center gap-space-sm bg-void-obsidian/80 px-space-sm py-1 border border-imperial-gold/20 shrink-0">
+<span class="text-label-sm font-label-sm text-outline tracking-wider uppercase">SCALE ZOOM:</span>
+<span class="text-label-sm font-label-sm text-royal-gold">QUARK</span>
+<input class="w-24 sm:w-36 accent-imperial-gold cursor-pointer bg-surface-container" id="scaleZoom" max="7" min="1" type="range" value="3"/>
+<span class="text-label-sm font-label-sm text-royal-gold">GALAXY</span>
+</div>
+</div>
+</header>
+<!-- 2. ETERNAL ENGINE STATUS BANNER (Background Simulation Heartbeat) -->
+<section class="bg-panel-surface/90 border-b border-imperial-gold/20 px-space-md lg:px-margin py-space-xs">
+<div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-2">
+<div class="flex items-center gap-space-sm">
+<span class="w-2 h-2 rounded-none bg-surveillance-warning"></span>
+<span class="text-label-md font-label-md text-sacred-ivory tracking-widest uppercase">
+            ETERNAL ENGINE // SIMULACIÓN EN SEGUNDO PLANO ACTIVA
+          </span>
+<span class="text-outline-variant text-label-sm font-label-sm">|</span>
+<span class="text-body-sm font-body-sm text-on-surface-variant">
+            Offline generation active: <span class="text-royal-gold font-label-sm">+18,400 Átomos sintéticos</span>, <span class="text-royal-gold font-label-sm">+3 Especiaciones celulares</span>, <span class="text-royal-gold font-label-sm">+1.2% Oxigenación Planetaria en últimas 4h</span>
+</span>
+</div>
+<div class="flex items-center gap-space-md self-end md:self-auto">
+<div class="text-label-sm font-label-sm text-outline uppercase tracking-wider">
+            NEXT TRANSMUTATION EPOCH:
+            <span class="text-surveillance-warning font-label-md ml-1 font-bold">00:14:32</span>
+</div>
+<span class="text-label-sm font-label-sm text-imperial-gold border border-imperial-gold/40 px-2 py-0.5 uppercase">
+            SYNC 432Hz
+          </span>
+</div>
+</div>
+</section>
+<!-- 3. MAIN COCKPIT 12-COLUMN BENTO GRID -->
+<main class="w-full px-space-md lg:px-margin mt-space-md flex-1">
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-md items-start">
+<!-- LEFT COLUMN (3 cols) - "ATANOR ALQUÍMICO & CODEX GENESIS" (Alchemy Engine) -->
+<aside class="xl:col-span-3 flex flex-col gap-space-md">
+<!-- Transmutation Crucible -->
+<div class="bg-panel-surface/90 border border-imperial-gold/30 p-space-md reticle-corner shadow-lg">
+<div class="flex items-center justify-between border-b border-imperial-gold/20 pb-2 mb-space-md">
+<div>
+<span class="text-label-sm font-label-sm text-imperial-gold tracking-widest uppercase">CLEARANCE: TIER-IV</span>
+<h3 class="text-title-md font-title-md text-sacred-ivory uppercase tracking-wider">ATANOR ALQUÍMICO</h3>
+</div>
+<span class="material-symbols-outlined text-royal-gold">auto_stories</span>
+</div>
+<div class="text-label-sm font-label-sm text-outline mb-2 uppercase tracking-wider">
+              CRISOL DE TRANSMUTACIÓN // 2 SLOTS ACTIVOS
+            </div>
+<!-- Combination Slots -->
+<div class="grid grid-cols-2 gap-space-sm mb-space-md">
+<div class="border border-dashed border-imperial-gold/40 bg-void-obsidian/70 p-3 text-center flex flex-col items-center justify-center min-h-[90px]">
+<span class="text-label-sm font-label-sm text-outline uppercase tracking-widest">SLOT ALPHA</span>
+<span class="text-label-md font-label-md text-sacred-ivory font-bold mt-1">FUEGO PRIMIGENIO</span>
+<span class="text-label-sm font-label-sm text-royal-gold">[MATERIA ACTIVA]</span>
+</div>
+<div class="border border-dashed border-imperial-gold/40 bg-void-obsidian/70 p-3 text-center flex flex-col items-center justify-center min-h-[90px]">
+<span class="text-label-sm font-label-sm text-outline uppercase tracking-widest">SLOT BETA</span>
+<span class="text-label-md font-label-md text-sacred-ivory font-bold mt-1">CONSCIENCIA</span>
+<span class="text-label-sm font-label-sm text-royal-gold">[ENTROPÍA PURA]</span>
+</div>
+</div>
+<button class="w-full bg-sacred-ivory text-void-obsidian py-space-sm font-label-md uppercase tracking-widest font-bold border border-sacred-ivory hover:border-imperial-gold hover:bg-royal-gold duration-0 transition-all flex items-center justify-center gap-2 shadow-[0_0_16px_rgba(201,162,39,0.35)]">
+<span class="material-symbols-outlined text-base">token</span>
+              EJECUTAR TRANSMUTACIÓN ALQUÍMICA
+            </button>
+<!-- Elemental Inventory (Doodle God Palette) -->
+<div class="mt-space-md">
+<div class="flex items-center justify-between text-label-sm font-label-sm text-outline uppercase mb-2">
+<span>INVENTARIO ELEMENTAL (10)</span>
+<span class="text-royal-gold">NEXUS SECTOR</span>
+</div>
+<div class="grid grid-cols-2 gap-1.5 max-h-52 overflow-y-auto pr-1">
+<button class="text-left bg-void-obsidian border border-outline-variant/30 hover:border-imperial-gold p-1.5 flex items-center justify-between transition-colors">
+<span class="text-label-sm font-label-sm text-sacred-ivory">01. FUEGO</span>
+<span class="text-label-sm font-label-sm text-surveillance-warning">∞</span>
+</button>
+<button class="text-left bg-void-obsidian border border-outline-variant/30 hover:border-imperial-gold p-1.5 flex items-center justify-between transition-colors">
+<span class="text-label-sm font-label-sm text-sacred-ivory">02. AGUA</span>
+<span class="text-label-sm font-label-sm text-surveillance-warning">∞</span>
+</button>
+<button class="text-left bg-void-obsidian border border-outline-variant/30 hover:border-imperial-gold p-1.5 flex items-center justify-between transition-colors">
+<span class="text-label-sm font-label-sm text-sacred-ivory">03. AIRE</span>
+<span class="text-label-sm font-label-sm text-surveillance-warning">∞</span>
+</button>
+<button class="text-left bg-void-obsidian border border-outline-variant/30 hover:border-imperial-gold p-1.5 flex items-center justify-between transition-colors">
+<span class="text-label-sm font-label-sm text-sacred-ivory">04. TIERRA</span>
+<span class="text-label-sm font-label-sm text-surveillance-warning">∞</span>
+</button>
+<button class="text-left bg-surface-elevated border border-imperial-gold/40 hover:border-imperial-gold p-1.5 flex items-center justify-between transition-colors">
+<span class="text-label-sm font-label-sm text-royal-gold">05. VACÍO</span>
+<span class="text-label-sm font-label-sm text-outline">x410</span>
+</button>
+<button class="text-left bg-surface-elevated border border-imperial-gold/40 hover:border-imperial-gold p-1.5 flex items-center justify-between transition-colors">
+<span class="text-label-sm font-label-sm text-royal-gold">06. LUZ</span>
+<span class="text-label-sm font-label-sm text-outline">x280</span>
+</button>
+<button class="text-left bg-surface-elevated border border-surveillance-warning/60 hover:border-surveillance-warning p-1.5 flex items-center justify-between transition-colors">
+<span class="text-label-sm font-label-sm text-surveillance-warning">07. CONSCIENCIA</span>
+<span class="text-label-sm font-label-sm text-surveillance-warning">x18</span>
+</button>
+<button class="text-left bg-surface-elevated border border-outline-variant/30 hover:border-imperial-gold p-1.5 flex items-center justify-between transition-colors">
+<span class="text-label-sm font-label-sm text-sacred-ivory">08. TIEMPO</span>
+<span class="text-label-sm font-label-sm text-outline">x94</span>
+</button>
+<button class="text-left bg-surface-elevated border border-outline-variant/30 hover:border-imperial-gold p-1.5 flex items-center justify-between transition-colors">
+<span class="text-label-sm font-label-sm text-sacred-ivory">09. MATERIA</span>
+<span class="text-label-sm font-label-sm text-outline">x1.2K</span>
+</button>
+<button class="text-left bg-surface-elevated border border-outline-variant/30 hover:border-imperial-gold p-1.5 flex items-center justify-between transition-colors">
+<span class="text-label-sm font-label-sm text-sacred-ivory">10. INFORMACIÓN</span>
+<span class="text-label-sm font-label-sm text-outline">x840</span>
+</button>
+</div>
+</div>
+<!-- Recent Discovery Log -->
+<div class="mt-space-md border-t border-imperial-gold/20 pt-space-sm bg-void-obsidian p-space-sm border border-imperial-gold/10">
+<span class="text-label-sm font-label-sm text-surveillance-warning uppercase block mb-1">
+                // REGISTRO DE TRANSMUTACIÓN RECIENTE
+              </span>
+<p class="text-label-sm font-label-sm text-sacred-ivory font-mono">
+                [DESCUBRIMIENTO RARO: 0x99-PHILOSOPHER_ENZYME] <br/>
+<span class="text-outline">Catalizador bio-alquímico sintetizado con pureza 99.8%. Desbloqueado en Códice Astral.</span>
+</p>
+</div>
+</div>
+<!-- CODEX GENESIS Progress Dossier -->
+<div class="bg-panel-surface/90 border border-imperial-gold/30 p-space-md reticle-corner">
+<div class="flex items-center justify-between mb-2">
+<span class="text-title-md font-title-md text-sacred-ivory uppercase">CÓDICE GÉNESIS</span>
+<span class="text-label-sm font-label-sm text-royal-gold">INDEX: 0884-A</span>
+</div>
+<div class="space-y-space-xs text-label-sm font-label-sm">
+<div class="flex justify-between text-outline">
+<span>ELEMENTOS DESCUBIERTOS:</span>
+<span class="text-sacred-ivory font-bold">42 / 120</span>
+</div>
+<div class="w-full bg-void-obsidian h-1.5 border border-outline-variant/30">
+<div class="bg-imperial-gold h-full w-[35%]"></div>
+</div>
+<div class="flex justify-between text-outline pt-2">
+<span>REACCIONES SECRETAS:</span>
+<span class="text-surveillance-warning font-bold">18 / 60</span>
+</div>
+<div class="w-full bg-void-obsidian h-1.5 border border-outline-variant/30">
+<div class="bg-surveillance-warning h-full w-[30%]"></div>
+</div>
+</div>
+</div>
+</aside>
+<!-- CENTER COLUMN (6 cols) - "VISOR INTERACTIVO MULTI-ESCALA" (Cellular & Planetary Sandbox) -->
+<section class="xl:col-span-6 flex flex-col gap-space-md">
+<div class="bg-panel-surface/95 border border-imperial-gold/40 p-space-md reticle-corner blueprint-grid relative">
+<!-- Viewport Mode Tabs -->
+<div class="flex flex-wrap items-center justify-between border-b border-imperial-gold/20 pb-space-sm gap-2">
+<div class="flex items-center gap-1">
+<button class="text-on-surface-variant font-label-md uppercase px-space-sm py-1 border border-outline-variant/30 hover:text-sacred-ivory text-label-sm">
+                  [MODO A: FORJA ATÓMICA]
+                </button>
+<button class="bg-sacred-ivory text-void-obsidian font-label-md uppercase px-space-sm py-1 border border-imperial-gold font-bold text-label-sm shadow-[0_0_12px_rgba(201,162,39,0.3)]">
+                  [MODO B: SIMULADOR CELULAR &amp; ADN]
+                </button>
+<button class="text-on-surface-variant font-label-md uppercase px-space-sm py-1 border border-outline-variant/30 hover:text-sacred-ivory text-label-sm">
+                  [MODO C: TERRAFORMACIÓN 432Hz]
+                </button>
+</div>
+<div class="text-label-sm font-label-sm text-surveillance-warning flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">filter_vintage</span>
+<span>ESCENARIO VIVO // GENERACIÓN ACTIVA</span>
+</div>
+</div>
+<!-- Viewport Stage -->
+<div class="my-space-md relative min-h-[360px] border border-imperial-gold/30 bg-void-obsidian/80 overflow-hidden flex flex-col justify-between p-space-md">
+<!-- Reticle Coordinates Overlay -->
+<div class="flex items-center justify-between text-label-sm font-label-sm text-outline">
+<span>LAT: 52°14'08"N // LON: 13°24'11"E // ALT: 0.000000004m</span>
+<span class="text-royal-gold">MAGNIFICATION: 40,000X [BIO-QUANTUM FOCUS]</span>
+</div>
+<!-- Primordial Cellular Organism Graphic Staging -->
+<div class="relative w-full py-8 flex items-center justify-center">
+<!-- Outer Concentric Golden Geometry -->
+<div class="w-64 h-64 border border-imperial-gold/30 rounded-full flex items-center justify-center animate-spin" style="animation-duration: 40s;">
+<div class="w-56 h-56 border border-dashed border-imperial-gold/40 rounded-full flex items-center justify-center">
+<div class="w-48 h-48 border border-royal-gold/20 rounded-full"></div>
+</div>
+</div>
+<!-- Central Organism Entity Card -->
+<div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+<div class="w-40 h-40 bg-surface-elevated/90 border-2 border-imperial-gold p-3 flex flex-col items-center justify-between shadow-[0_0_24px_rgba(201,162,39,0.25)] pointer-events-auto">
+<div class="text-center">
+<span class="text-label-sm font-label-sm text-surveillance-warning block">HOMUNCULUS ARCHETYPE</span>
+<h4 class="text-label-md font-label-md text-sacred-ivory font-bold uppercase">PROTO-OMNIS 09</h4>
+</div>
+<!-- Pulsing Organelle Glyph -->
+<div class="relative flex items-center justify-center my-2">
+<span class="material-symbols-outlined text-4xl text-royal-gold" style="font-variation-settings: 'FILL' 1;">all_inclusive</span>
+<span class="absolute w-12 h-12 border border-imperial-gold/50 rounded-full animate-ping"></span>
+</div>
+<div class="w-full text-center border-t border-imperial-gold/20 pt-1">
+<span class="text-label-sm font-label-sm text-outline">GENOME FREQ: 432.08 Hz</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Organelles Matrix (Interactive Sockets) -->
+<div class="grid grid-cols-2 md:grid-cols-5 gap-1.5 pt-space-sm border-t border-imperial-gold/20 bg-void-obsidian/90 -mx-space-md -mb-space-md p-space-sm">
+<div class="border border-imperial-gold/30 p-1.5 text-center">
+<span class="text-label-sm font-label-sm text-outline block">MEMBRANE</span>
+<span class="text-label-sm font-label-sm text-sacred-ivory font-bold">Chitin-Gold</span>
+<span class="text-label-sm font-label-sm text-royal-gold block">+40 Def</span>
+</div>
+<div class="border border-imperial-gold/30 p-1.5 text-center">
+<span class="text-label-sm font-label-sm text-outline block">MITOCHONDRIA</span>
+<span class="text-label-sm font-label-sm text-sacred-ivory font-bold">Resonancia 432Hz</span>
+<span class="text-label-sm font-label-sm text-royal-gold block">+65 ATP</span>
+</div>
+<div class="border border-imperial-gold/30 p-1.5 text-center">
+<span class="text-label-sm font-label-sm text-outline block">NUCLEUS</span>
+<span class="text-label-sm font-label-sm text-sacred-ivory font-bold">Códice Cripto</span>
+<span class="text-label-sm font-label-sm text-royal-gold block">+99 Info</span>
+</div>
+<div class="border border-imperial-gold/30 p-1.5 text-center">
+<span class="text-label-sm font-label-sm text-outline block">FLAGELLA</span>
+<span class="text-label-sm font-label-sm text-sacred-ivory font-bold">Cilios Cuánticos</span>
+<span class="text-label-sm font-label-sm text-royal-gold block">+28 Vel</span>
+</div>
+<div class="border border-imperial-gold/30 p-1.5 text-center col-span-2 md:col-span-1">
+<span class="text-label-sm font-label-sm text-outline block">CHLOROPLAST</span>
+<span class="text-label-sm font-label-sm text-sacred-ivory font-bold">Solares Áureos</span>
+<span class="text-label-sm font-label-sm text-royal-gold block">+82 O2</span>
+</div>
+</div>
+</div>
+<!-- Evolutionary Metrics & Actions -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md mb-space-md">
+<div class="space-y-1.5">
+<span class="text-label-sm font-label-sm text-outline uppercase tracking-wider block">EVOLUTIONARY METRICS</span>
+<div>
+<div class="flex justify-between text-label-sm font-label-sm text-sacred-ivory">
+<span>RESISTENCIA AL VACÍO</span>
+<span class="text-royal-gold">88.4%</span>
+</div>
+<div class="w-full bg-void-obsidian h-1 border border-outline-variant/30 mt-0.5">
+<div class="bg-royal-gold h-full w-[88%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-label-sm font-label-sm text-sacred-ivory">
+<span>ADAPTABILIDAD GENÓMICA</span>
+<span class="text-royal-gold">94.1%</span>
+</div>
+<div class="w-full bg-void-obsidian h-1 border border-outline-variant/30 mt-0.5">
+<div class="bg-royal-gold h-full w-[94%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-label-sm font-label-sm text-sacred-ivory">
+<span>VELOCIDAD DE REPLICACIÓN</span>
+<span class="text-surveillance-warning">1.4s / ciclo</span>
+</div>
+<div class="w-full bg-void-obsidian h-1 border border-outline-variant/30 mt-0.5">
+<div class="bg-surveillance-warning h-full w-[72%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-label-sm font-label-sm text-sacred-ivory">
+<span>CONSUMO METABÓLICO</span>
+<span class="text-sacred-ivory">24 ATP/s</span>
+</div>
+<div class="w-full bg-void-obsidian h-1 border border-outline-variant/30 mt-0.5">
+<div class="bg-sacred-ivory h-full w-[45%]"></div>
+</div>
+</div>
+</div>
+<!-- Interactive Mutation Triggers -->
+<div class="flex flex-col justify-between gap-2">
+<span class="text-label-sm font-label-sm text-outline uppercase tracking-wider block">MUTACIÓN &amp; EVOLUCIÓN DIRECTA</span>
+<button class="bg-void-obsidian border border-surveillance-warning text-surveillance-warning py-space-xs px-space-sm font-label-sm uppercase tracking-widest hover:bg-surveillance-warning hover:text-void-obsidian transition-colors text-left flex items-center justify-between">
+<span>[INDUCCIÓN DE RADIACIÓN // MUTAR]</span>
+<span class="material-symbols-outlined text-sm">bolt</span>
+</button>
+<button class="bg-void-obsidian border border-imperial-gold text-royal-gold py-space-xs px-space-sm font-label-sm uppercase tracking-widest hover:bg-imperial-gold hover:text-void-obsidian transition-colors text-left flex items-center justify-between">
+<span>[DUPLICAR CADENA ADN]</span>
+<span class="material-symbols-outlined text-sm">content_copy</span>
+</button>
+<button class="bg-sacred-ivory text-void-obsidian py-space-xs px-space-sm font-label-sm uppercase tracking-widest font-bold hover:bg-royal-gold transition-colors text-left flex items-center justify-between">
+<span>[ESTABILIZAR GENOMA // CRISOL]</span>
+<span class="material-symbols-outlined text-sm">lock</span>
+</button>
+</div>
+</div>
+<!-- Evolutionary Tree & Dynamic Branching Dossier -->
+<div class="border-t border-imperial-gold/30 pt-space-sm">
+<div class="flex items-center justify-between mb-2">
+<span class="text-label-sm font-label-sm text-royal-gold tracking-widest uppercase">
+                  ÁRBOL EVOLUTIVO DINÁMICO &amp; RAMIFICACIÓN FILOGENÉTICA
+                </span>
+<span class="text-label-sm font-label-sm text-outline">EXTINCIONES ARCHIVADAS: 04</span>
+</div>
+<div class="grid grid-cols-4 gap-2 text-center text-label-sm font-label-sm">
+<div class="bg-void-obsidian border border-imperial-gold/60 p-2">
+<span class="text-outline block">NIVEL 01</span>
+<span class="text-sacred-ivory font-bold">PROTOBIONTE</span>
+<span class="text-royal-gold block text-[8px]">[COMPLETO]</span>
+</div>
+<div class="bg-surface-elevated border-2 border-imperial-gold p-2 shadow-[0_0_8px_rgba(201,162,39,0.3)]">
+<span class="text-surveillance-warning block">ACTIVO</span>
+<span class="text-sacred-ivory font-bold">EUCARIOTA OMNIS</span>
+<span class="text-royal-gold block text-[8px]">[EN CURSO]</span>
+</div>
+<div class="bg-void-obsidian border border-outline-variant/30 p-2 opacity-60">
+<span class="text-outline block">BLOQUEADO</span>
+<span class="text-on-surface-variant font-bold">MULTICELULAR</span>
+<span class="text-outline block text-[8px]">[REQ. O2 &gt; 25%]</span>
+</div>
+<div class="bg-void-obsidian border border-outline-variant/30 p-2 opacity-40">
+<span class="text-outline block">BLOQUEADO</span>
+<span class="text-on-surface-variant font-bold">HOMO SAPIENS+</span>
+<span class="text-outline block text-[8px]">[TIER-VI]</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- RIGHT COLUMN (3 cols) - "PLANETARY TERRAFORMING & CIVILIZATION FEED" (Terraforming & Dominio) -->
+<aside class="xl:col-span-3 flex flex-col gap-space-md">
+<!-- Host Planet Status Dossier -->
+<div class="bg-panel-surface/90 border border-imperial-gold/30 p-space-md reticle-corner shadow-lg">
+<div class="flex items-center justify-between border-b border-imperial-gold/20 pb-2 mb-space-md">
+<div>
+<span class="text-label-sm font-label-sm text-surveillance-warning tracking-widest uppercase">HOST WORLD DIRECTIVE</span>
+<h3 class="text-title-md font-title-md text-sacred-ivory uppercase tracking-wider">PLANETA ASTRALIS-IV</h3>
+</div>
+<span class="material-symbols-outlined text-imperial-gold">public</span>
+</div>
+<!-- Planetary Parameters with Progress Bars -->
+<div class="space-y-space-sm text-label-sm font-label-sm">
+<div>
+<div class="flex justify-between text-sacred-ivory">
+<span>TEMPERATURA GLOBAL:</span>
+<span class="text-royal-gold font-bold">24.2°C [ÓPTIMA]</span>
+</div>
+<div class="w-full bg-void-obsidian h-1.5 border border-outline-variant/30 mt-1">
+<div class="bg-royal-gold h-full w-[65%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-sacred-ivory">
+<span>PRESIÓN ATMOSFÉRICA:</span>
+<span class="text-sacred-ivory font-bold">1.04 bar</span>
+</div>
+<div class="w-full bg-void-obsidian h-1.5 border border-outline-variant/30 mt-1">
+<div class="bg-sacred-ivory h-full w-[52%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-sacred-ivory">
+<span>OXIGENACIÓN (O2):</span>
+<span class="text-royal-gold font-bold">21.4%</span>
+</div>
+<div class="w-full bg-void-obsidian h-1.5 border border-outline-variant/30 mt-1">
+<div class="bg-royal-gold h-full w-[70%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-sacred-ivory">
+<span>AGUA SUPERFICIAL:</span>
+<span class="text-royal-gold font-bold">68.2%</span>
+</div>
+<div class="w-full bg-void-obsidian h-1.5 border border-outline-variant/30 mt-1">
+<div class="bg-royal-gold h-full w-[68%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-sacred-ivory">
+<span>CAMPO MAGNÉTICO:</span>
+<span class="text-surveillance-warning font-bold">98% [ESCUDO ACTIVO]</span>
+</div>
+<div class="w-full bg-void-obsidian h-1.5 border border-outline-variant/30 mt-1">
+<div class="bg-surveillance-warning h-full w-[98%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-sacred-ivory">
+<span>COEFICIENTE BIODIVERSIDAD:</span>
+<span class="text-royal-gold font-bold">74%</span>
+</div>
+<div class="w-full bg-void-obsidian h-1.5 border border-outline-variant/30 mt-1">
+<div class="bg-royal-gold h-full w-[74%]"></div>
+</div>
+</div>
+</div>
+<!-- Directives Triggers -->
+<div class="mt-space-md space-y-2 border-t border-imperial-gold/20 pt-space-sm">
+<span class="text-label-sm font-label-sm text-outline uppercase tracking-wider block">DIRECTIVAS DE TERRAFORMACIÓN</span>
+<button class="w-full bg-void-obsidian border border-imperial-gold/40 text-sacred-ivory py-1.5 px-space-sm text-label-sm font-label-sm uppercase tracking-wider hover:border-imperial-gold hover:text-royal-gold transition-colors text-left flex items-center justify-between">
+<span>[INTRODUCIR AGUA PRIMORDIAL]</span>
+<span class="text-royal-gold">+2.4%</span>
+</button>
+<button class="w-full bg-void-obsidian border border-imperial-gold/40 text-sacred-ivory py-1.5 px-space-sm text-label-sm font-label-sm uppercase tracking-wider hover:border-imperial-gold hover:text-royal-gold transition-colors text-left flex items-center justify-between">
+<span>[SEMBRAR MICROORGANISMOS]</span>
+<span class="text-royal-gold">+5.1% Bio</span>
+</button>
+<button class="w-full bg-void-obsidian border border-imperial-gold/40 text-sacred-ivory py-1.5 px-space-sm text-label-sm font-label-sm uppercase tracking-wider hover:border-imperial-gold hover:text-royal-gold transition-colors text-left flex items-center justify-between">
+<span>[AJUSTAR RESONANCIA 432Hz]</span>
+<span class="text-surveillance-warning">ARMÓNICO</span>
+</button>
+</div>
+</div>
+<!-- Planetary Event Alert & Civilization Impact -->
+<div class="bg-void-obsidian/90 border border-surveillance-warning/50 p-space-md reticle-corner">
+<div class="flex items-center gap-2 text-surveillance-warning mb-2">
+<span class="material-symbols-outlined text-base">warning</span>
+<span class="text-label-sm font-label-sm uppercase font-bold tracking-widest">ALERTA GEO-BIOLÓGICA</span>
+</div>
+<p class="text-label-sm font-label-sm text-sacred-ivory leading-relaxed">
+              "FLORECIMIENTO BIOLÓGICO EXPONENCIAL EN SECTOR MERIDIANO. La biomasa del proto-organismo ha colonizado las cuencas oceánicas del este."
+            </p>
+<div class="mt-space-sm pt-space-sm border-t border-surveillance-warning/20">
+<span class="text-label-sm font-label-sm text-royal-gold uppercase tracking-wider block mb-1">
+                CIVILIZATION IMPACT // CITY DOMINIO
+              </span>
+<p class="text-label-sm font-label-sm text-outline">
+                El avance celular ha transferido el códice de <span class="text-sacred-ivory font-bold">[MEDICINA DE ENGRÁMICA]</span> a La Ciudadela central (+15% Crecimiento Ciudadano).
+              </p>
+</div>
+</div>
+<!-- Quick Scale Jump Hotkeys Matrix -->
+<div class="bg-panel-surface/90 border border-imperial-gold/30 p-space-sm">
+<span class="text-label-sm font-label-sm text-outline uppercase tracking-wider block mb-2">
+              ACCESO RÁPIDO DE ESCALA [HOTKEYS 1-8]
+            </span>
+<div class="grid grid-cols-4 gap-1">
+<button class="bg-void-obsidian border border-outline-variant/30 text-label-sm font-label-sm py-1 text-sacred-ivory hover:border-imperial-gold">1:QUARK</button>
+<button class="bg-void-obsidian border border-outline-variant/30 text-label-sm font-label-sm py-1 text-sacred-ivory hover:border-imperial-gold">2:ATOM</button>
+<button class="bg-void-obsidian border border-outline-variant/30 text-label-sm font-label-sm py-1 text-sacred-ivory hover:border-imperial-gold">3:ALCH</button>
+<button class="bg-sacred-ivory text-void-obsidian border border-imperial-gold text-label-sm font-label-sm py-1 font-bold">4:CELL</button>
+<button class="bg-void-obsidian border border-outline-variant/30 text-label-sm font-label-sm py-1 text-sacred-ivory hover:border-imperial-gold">5:EVO</button>
+<button class="bg-void-obsidian border border-outline-variant/30 text-label-sm font-label-sm py-1 text-sacred-ivory hover:border-imperial-gold">6:TERRA</button>
+<button class="bg-void-obsidian border border-outline-variant/30 text-label-sm font-label-sm py-1 text-sacred-ivory hover:border-imperial-gold">7:CITY</button>
+<button class="bg-void-obsidian border border-outline-variant/30 text-label-sm font-label-sm py-1 text-sacred-ivory hover:border-imperial-gold">8:COSM</button>
+</div>
+</div>
+</aside>
+</div>
+</main>
+</div>
+<!-- 4. BOTTOM ACTION & TRANSCENDENCE BAR (Diegetic Footer execution) -->
+<footer class="flex flex-col md:flex-row justify-between items-center w-full px-space-md lg:px-margin py-space-xs border-t border-imperial-gold/30 bg-void-obsidian fixed bottom-0 left-0 z-40">
+<!-- Telemetry Ciphers & Protocol Indicators -->
+<div class="flex flex-wrap items-center gap-space-md text-label-sm font-label-sm">
+<span class="text-royal-gold font-bold">AETERNITAS CYCLE 884.12</span>
+<span class="text-outline">QUANTUM LOCK: <span class="text-sacred-ivory">ACTIVE</span></span>
+<span class="text-outline">ENLACE AL ATANOR: <span class="text-surveillance-warning">432Hz SINCRONIZADO</span></span>
+<span class="text-outline">AUTONOMÍA SOBERANA: <span class="text-royal-gold font-bold">96%</span></span>
+<span class="text-outline">PANARCHIA RATIO: <span class="text-sacred-ivory">1.18</span></span>
+</div>
+<!-- Transcendence Sovereign CTA -->
+<div class="flex items-center gap-space-sm mt-2 md:mt-0">
+<span class="text-label-sm font-label-sm text-outline uppercase tracking-wider hidden sm:inline">
+        MAGNOPVS: VINCULADO
+      </span>
+<button class="bg-imperial-gold text-void-obsidian hover:bg-royal-gold px-space-lg py-1 font-label-md font-bold uppercase tracking-widest border border-imperial-gold shadow-[0_0_16px_rgba(201,162,39,0.45)] transition-all duration-0">
+        DECRETO DE CREACIÓN
+      </button>
+</div>
+</footer>
+<!-- Script for Interactive Micro-Interactions -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Scale Zoom Slider interaction
+      const slider = document.getElementById('scaleZoom');
+      if (slider) {
+        slider.addEventListener('input', (e) => {
+          console.log(`[GENESIS ENGINE] Scale adjusted to tier index: ${e.target.value}`);
+        });
+      }
+    });
+  </script>
+</body></html>

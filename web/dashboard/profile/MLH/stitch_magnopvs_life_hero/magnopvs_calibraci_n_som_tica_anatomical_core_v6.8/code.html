@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · Calibración Somática</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Anybody:wght@100..900&amp;family=JetBrains+Mono:wght@100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#e2e2e8",
+                        "on-secondary": "#223600",
+                        "secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#5700c9",
+                        "secondary-container": "#abf900",
+                        "primary-fixed-dim": "#00dbe9",
+                        "secondary-fixed": "#abf900",
+                        "surface-bright": "#37393e",
+                        "primary": "#dbfcff",
+                        "secondary-fixed-dim": "#95da00",
+                        "surface-tint": "#00dbe9",
+                        "on-tertiary-fixed": "#23005b",
+                        "inverse-primary": "#006970",
+                        "error": "#ffb4ab",
+                        "inverse-on-surface": "#2f3035",
+                        "primary-container": "#00f0ff",
+                        "on-tertiary-container": "#7213ff",
+                        "on-secondary-container": "#4a6f00",
+                        "on-secondary-fixed-variant": "#334f00",
+                        "outline-variant": "#3b494b",
+                        "on-primary-fixed-variant": "#004f54",
+                        "on-primary-container": "#006970",
+                        "tertiary": "#faf3ff",
+                        "on-error": "#690005",
+                        "error-container": "#93000a",
+                        "inverse-surface": "#e2e2e8",
+                        "outline": "#849495",
+                        "surface": "#111318",
+                        "surface-container-high": "#282a2e",
+                        "on-surface-variant": "#b9cacb",
+                        "surface-container-low": "#1a1c20",
+                        "on-surface": "#e2e2e8",
+                        "on-secondary-fixed": "#121f00",
+                        "surface-variant": "#333539",
+                        "on-primary": "#00363a",
+                        "surface-dim": "#111318",
+                        "on-tertiary": "#3c0090",
+                        "tertiary-fixed-dim": "#d1bcff",
+                        "tertiary-container": "#e1d2ff",
+                        "surface-container-lowest": "#0c0e12",
+                        "on-primary-fixed": "#002022",
+                        "on-error-container": "#ffdad6",
+                        "background": "#111318",
+                        "surface-container-highest": "#333539",
+                        "primary-fixed": "#7df4ff",
+                        "tertiary-fixed": "#e9ddff",
+                        "surface-container": "#1e2024"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "gutter": "16px",
+                        "panel-gap": "24px",
+                        "unit": "4px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Space Grotesk"],
+                        "display-xl": ["Anybody"],
+                        "headline-lg": ["Anybody"],
+                        "headline-lg-mobile": ["Anybody"],
+                        "label-sm": ["Space Grotesk"],
+                        "data-point": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "display-xl": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "1", "letterSpacing": "0.2em", "fontWeight": "600" }],
+                        "data-point": ["20px", { "lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "500" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #111318;
+            color: #e2e2e8;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(26, 28, 32, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(132, 148, 149, 0.2);
+        }
+
+        .sync-border {
+            border: 1px solid #00dbe9;
+            box-shadow: 0 0 8px rgba(0, 219, 233, 0.3);
+        }
+
+        .neon-glow-lime {
+            box-shadow: 0 0 15px rgba(171, 249, 0, 0.2);
+        }
+
+        .scanning-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00dbe9, transparent);
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        .pulse-lime {
+            animation: pulse-lime 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse-lime {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.02); }
+        }
+
+        .data-grid {
+            background-image: radial-gradient(rgba(0, 219, 233, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .vessel-point {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #abf900;
+            box-shadow: 0 0 10px #abf900;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .vessel-point:hover {
+            transform: scale(1.5);
+            background: #00dbe9;
+            box-shadow: 0 0 15px #00dbe9;
+        }
+    </style>
+</head>
+<body class="font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar Navigation Shell -->
+<header class="fixed top-0 w-full z-50 bg-surface/60 backdrop-blur-xl border-b border-primary-container/20 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20">
+<div class="flex items-center gap-4">
+<h1 class="font-display-xl text-data-point tracking-tighter text-primary-fixed-dim uppercase">MagnopVS</h1>
+<div class="hidden md:block h-6 w-px bg-outline-variant/30 mx-2"></div>
+<span class="hidden md:block font-headline-lg text-headline-lg text-primary uppercase">Calibración Somática (Anatomical Core v6.8)</span>
+</div>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors active:scale-95">search</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors active:scale-95">settings</button>
+<div class="w-10 h-10 rounded-full border border-primary-fixed-dim/30 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional high-tech portrait of a futuristic operator with cybernetic enhancements, wearing sleek dark tactical gear, soft neon blue rim lighting, cinematic shadows, 8k resolution." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQtC9JhOUMbGsQwwxJa9YN2259ITYWkAYqiaCda74p7Y-ROpdA-bMuzlgeIad15zNXmJqhF12e9TpdYArAH3GSrUYKk5VRaxgkn_RW0lHVNLapXNsFXMO0BaWUuqLXnd-A2dHgVocstzuev5pdQQuu5FtiYR_0Zun6O67AOstvCHTl44kn0fdq0nXs9v6PTH5SzC2QYMgJoNnlN9aZtvXYy9giiDs2NbpgRFeMebLYHXMRODFkyg6yRw"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar Shell -->
+<aside class="fixed left-0 top-0 h-screen w-64 z-40 bg-surface-container-low/40 backdrop-blur-2xl border-r border-outline-variant/30 hidden md:flex flex-col pt-24 pb-8">
+<div class="px-6 mb-8">
+<p class="font-label-sm text-label-sm uppercase tracking-widest text-secondary-fixed mb-1">OPERATOR STATUS</p>
+<p class="text-[10px] text-on-surface-variant opacity-70">Peak Synchronization: 98%</p>
+</div>
+<nav class="flex-1">
+<ul class="space-y-1">
+<li><a class="flex items-center gap-4 text-secondary-fixed border-l-4 border-secondary-fixed bg-secondary-fixed/10 py-4 px-6 font-label-sm text-label-sm uppercase tracking-widest" href="#"><span class="material-symbols-outlined">accessibility_new</span> Anatomy</a></li>
+<li><a class="flex items-center gap-4 text-on-surface-variant py-4 px-6 opacity-70 hover:bg-surface-bright/20 hover:text-secondary-fixed-dim transition-all duration-200 font-label-sm text-label-sm uppercase tracking-widest" href="#"><span class="material-symbols-outlined">fitness_center</span> Workouts</a></li>
+<li><a class="flex items-center gap-4 text-on-surface-variant py-4 px-6 opacity-70 hover:bg-surface-bright/20 hover:text-secondary-fixed-dim transition-all duration-200 font-label-sm text-label-sm uppercase tracking-widest" href="#"><span class="material-symbols-outlined">monitoring</span> Telemetry</a></li>
+<li><a class="flex items-center gap-4 text-on-surface-variant py-4 px-6 opacity-70 hover:bg-surface-bright/20 hover:text-secondary-fixed-dim transition-all duration-200 font-label-sm text-label-sm uppercase tracking-widest" href="#"><span class="material-symbols-outlined">smart_toy</span> SOF.IA</a></li>
+<li><a class="flex items-center gap-4 text-on-surface-variant py-4 px-6 opacity-70 hover:bg-surface-bright/20 hover:text-secondary-fixed-dim transition-all duration-200 font-label-sm text-label-sm uppercase tracking-widest" href="#"><span class="material-symbols-outlined">database</span> Bio-Vault</a></li>
+</ul>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full py-3 bg-primary-fixed-dim text-on-primary-fixed font-bold tracking-widest text-xs uppercase hover:brightness-110 transition-all active:scale-95 mb-4">CALIBRATE</button>
+<a class="flex items-center gap-4 text-on-surface-variant py-4 opacity-70 hover:text-error transition-colors font-label-sm text-label-sm uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined">logout</span> Log Out
+            </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pt-24 md:pl-64 min-h-screen">
+<div class="p-margin-mobile md:p-margin-desktop max-w-[1600px] mx-auto">
+<!-- Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-panel-gap">
+<!-- Left Column: Biometric Stats -->
+<div class="lg:col-span-3 space-y-panel-gap">
+<div class="glass-panel p-6 rounded-lg relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<h3 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-6">Biometric Core</h3>
+<div class="space-y-8">
+<!-- Force -->
+<div class="flex items-center gap-4">
+<img alt="Force Icon" class="w-12 h-12 brightness-150" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYyfCPE396DVLFgSZAqG-jfDvdY7uXnjk1-4_SY5ZkrcuQigdbE2NN-Z0En6ll1v3yzAfC0TCEQ8W0P75ML_OH2b11a0AotZzlQ4mcNAFZZ-jatj7n62MTfnA-PV-FqEBX24dEOwWyArdjE0Bud8MC2jN5lwOytdnCO1PCekpeaqZFRdo34LrolOO9u4f27-LF7tBMHkR6CyZVwRpDsFqXyNULdYqtf-VRb8Ef5wkuZPpKTI9PJ66lR8nyXfHkhbztElg"/>
+<div class="flex-1">
+<div class="flex justify-between items-end mb-1">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Force Output</span>
+<span class="font-data-point text-primary-fixed-dim">89.4%</span>
+</div>
+<div class="h-1 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary-fixed-dim w-[89%] shadow-[0_0_8px_#00dbe9]"></div>
+</div>
+</div>
+</div>
+<!-- Agility -->
+<div class="flex items-center gap-4">
+<img alt="Agility Icon" class="w-12 h-12 brightness-150" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDS-I4ft67grdy32toH8sNrAg6ZxhTL-SsUsKEjyv2hI42u7sPUmyMR5DqSY5W99-weoeTkOFBUaY0Wo2b2rwlfBZxze46hJVJc6233h8dl3NTmVF73Yg4GRTtag0i1SmpuWJDWIb8naIQsQE4cKm643MFKHV0cIBAdD3c3L2cECM5SlqsFNGD0xJbX8eFeRnqSqVU0cjTbYou3IxgIlfL9-p9ewsM_P8qCzvVBaXTQtIrbsCeSPWkLseCyOi5Aziz0_l0"/>
+<div class="flex-1">
+<div class="flex justify-between items-end mb-1">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Agility Sync</span>
+<span class="font-data-point text-secondary-fixed">72.1%</span>
+</div>
+<div class="h-1 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-secondary-fixed w-[72%] shadow-[0_0_8px_#abf900]"></div>
+</div>
+</div>
+</div>
+<!-- Defense -->
+<div class="flex items-center gap-4">
+<img alt="Defense Icon" class="w-12 h-12 brightness-150" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKCVjAzjgHhq_Nw_xBowp-h_zkY3aFZgZcTpXObqZThc57OQhEMXdgtmEMf76euRM1Ska3G9k6DlzBEcumYWOMrwtRlCGMsZnskWuvvWQV74qpDKtA27VFoi7-HZAOJXVi9ZiHRE0bYaPJ115nsrrODAW3XfyDYUwiHZMoeUYBBrJjlIoYstiK74tTlfcetOg0ldBJl33OWuV_uSVN9bFHhQF-lv97KjM90odPFLOsD5iQSeyH0Hsv8ySo6YyAR_ksnI4"/>
+<div class="flex-1">
+<div class="flex justify-between items-end mb-1">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Structural Defense</span>
+<span class="font-data-point text-primary-fixed-dim">94.8%</span>
+</div>
+<div class="h-1 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary-fixed-dim w-[94%] shadow-[0_0_8px_#00dbe9]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- SOF.IA Advisor -->
+<div class="glass-panel p-6 rounded-lg border-secondary-fixed/30 relative">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-secondary-fixed animate-pulse">smart_toy</span>
+<span class="font-label-sm text-label-sm text-secondary-fixed uppercase tracking-tighter">SOF.IA Tactical Advisor</span>
+</div>
+<div class="bg-secondary-fixed/5 p-4 border-l-2 border-secondary-fixed">
+<p class="text-xs text-on-surface-variant font-data-point leading-relaxed">
+<span class="text-secondary-fixed font-bold">CRITICAL:</span> Desynchronization detected in pelvic stability. Lower limb "Force" output is currently being throttled. <br/><br/>
+<span class="italic text-primary-fixed-dim">Calibration sync needed.</span>
+</p>
+</div>
+<button class="mt-4 w-full py-2 border border-secondary-fixed/40 text-secondary-fixed text-[10px] uppercase font-bold tracking-widest hover:bg-secondary-fixed hover:text-black transition-colors">INITIATE CORRECTION</button>
+</div>
+</div>
+<!-- Center Column: Holographic Vessel -->
+<div class="lg:col-span-6 min-h-[600px] glass-panel rounded-lg relative flex items-center justify-center data-grid group overflow-hidden">
+<div class="scanning-line"></div>
+<!-- HUD Elements -->
+<div class="absolute top-4 left-4 font-data-point text-[10px] text-primary/40 uppercase tracking-[0.3em]">
+                        VESSEL_ID: ALPHA_09<br/>
+                        SCAN_RES: 0.002mm<br/>
+                        HUD_ACTIVE: TRUE
+                    </div>
+<div class="absolute bottom-4 right-4 text-right font-data-point text-[10px] text-primary/40 uppercase tracking-[0.3em]">
+                        LATENCY: 4ms<br/>
+                        BIO_SIG: STABLE<br/>
+                        COORD_X: 42.92
+                    </div>
+<!-- The Holographic Body Representation -->
+<div class="relative w-full h-full flex items-center justify-center">
+<div class="w-[80%] h-[90%] relative">
+<img class="w-full h-full object-contain opacity-60 mix-blend-screen" data-alt="A futuristic 3D wireframe hologram of a human figure in a neutral standing pose, glowing neon cyan lines, architectural and medical precision, dark cosmic background, floating in a void, translucent digital interface overlay." src="https://lh3.googleusercontent.com/aida-public/AB6AXuALVTsUQjaOQiaPtJEXIzRdprsC8wB0Zt6K2qUJVz92kJl0RDoatrEJN6aRhN62td9eifN9r1OV21YE897mJ5wAZf2IoCZ8ZeINlYXZ4PyKs5EfXN9YuUtlazsIm0Y3a0SRVBVvsQOvkwz9eUhEbw3It6Oy53Qf47_jAh_YPJGl6dB1wI3VfZwSuhM99-NUkfYh9bi_pytDWpmcbgjGWaRRchvpeldfnvbT0zX2lbnl3-gWsZUcMVuilQ"/>
+<!-- Interactive Touch-Points -->
+<div class="vessel-point absolute top-[10%] left-[50%] -translate-x-1/2" title="Neck Alignment"></div>
+<div class="vessel-point absolute top-[25%] left-[40%]" title="Left Shoulder Mobility"></div>
+<div class="vessel-point absolute top-[25%] right-[40%]" title="Right Shoulder Mobility"></div>
+<div class="vessel-point absolute top-[45%] left-[50%] -translate-x-1/2 bg-error shadow-[0_0_10px_#ff0055] pulse-lime" title="Lumbar Tension Alert"></div>
+<div class="vessel-point absolute top-[65%] left-[42%]" title="Knee Stabilization"></div>
+<div class="vessel-point absolute top-[65%] right-[42%]" title="Knee Stabilization"></div>
+</div>
+</div>
+<!-- Floating Labels -->
+<div class="absolute top-[48%] left-[60%] glass-panel px-3 py-1 border-secondary-fixed/50 text-[10px] font-bold text-secondary-fixed uppercase animate-bounce">
+                        Sync Needed
+                    </div>
+</div>
+<!-- Right Column: Calibration Settings -->
+<div class="lg:col-span-3 space-y-panel-gap">
+<div class="glass-panel p-6 rounded-lg">
+<h3 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-6">Calibration Settings</h3>
+<div class="space-y-6">
+<div>
+<label class="font-label-sm text-[10px] text-primary uppercase tracking-widest block mb-3">ENVIRONMENT</label>
+<div class="grid grid-cols-1 gap-2">
+<button class="flex items-center justify-between p-3 border border-primary/20 hover:border-primary transition-colors text-xs uppercase font-bold tracking-widest bg-primary/5">
+                                        GYM FACILITY <span class="material-symbols-outlined text-sm">check_circle</span>
+</button>
+<button class="flex items-center justify-between p-3 border border-outline-variant/30 hover:border-primary transition-colors text-xs uppercase font-bold tracking-widest opacity-60">
+                                        BODYWEIGHT ONLY <span class="material-symbols-outlined text-sm">home_storage</span>
+</button>
+<button class="flex items-center justify-between p-3 border border-outline-variant/30 hover:border-primary transition-colors text-xs uppercase font-bold tracking-widest opacity-60">
+                                        HOME EQUIPMENT <span class="material-symbols-outlined text-sm">cottage</span>
+</button>
+</div>
+</div>
+<div>
+<label class="font-label-sm text-[10px] text-primary uppercase tracking-widest block mb-3">METABOLIC FOCUS</label>
+<select class="w-full bg-surface-container-highest border-b border-outline-variant text-on-surface font-data-point text-sm focus:ring-0 focus:border-primary transition-all p-2 uppercase">
+<option>Hypertrophic Sync</option>
+<option>Metabolic Conditioning</option>
+<option>Neural Adaption</option>
+<option>Mobility Restoration</option>
+</select>
+</div>
+<div>
+<label class="font-label-sm text-[10px] text-primary uppercase tracking-widest block mb-3">SESSION DURATION</label>
+<input class="w-full h-1 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-primary" type="range"/>
+<div class="flex justify-between mt-2 font-data-point text-[10px] text-on-surface-variant">
+<span>15m</span>
+<span>45m</span>
+<span>90m</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Panel -->
+<div class="glass-panel p-6 rounded-lg border-t-4 border-primary text-center">
+<p class="font-data-point text-headline-lg-mobile text-primary mb-1">08:42</p>
+<p class="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-[0.2em] mb-6">Est. Optimization Time</p>
+<button class="w-full py-4 bg-primary text-black font-extrabold tracking-[0.2em] uppercase hover:shadow-[0_0_20px_#00dbe9] transition-all transform active:scale-95">
+                            EXECUTE SYNC
+                        </button>
+</div>
+</div>
+</div>
+<!-- Bottom Data Ticker -->
+<div class="mt-panel-gap glass-panel p-3 rounded-lg overflow-hidden whitespace-nowrap">
+<div class="flex items-center gap-12 animate-[marquee_20s_linear_infinite]">
+<span class="font-data-point text-[10px] text-primary/60 uppercase">NEURAL LOAD: 42%</span>
+<span class="font-data-point text-[10px] text-secondary-fixed/60 uppercase">GLYCOGEN STATUS: OPTIMAL</span>
+<span class="font-data-point text-[10px] text-error/60 uppercase">RECOVERY DEBT: 12.4H</span>
+<span class="font-data-point text-[10px] text-primary/60 uppercase">VO2 MAX ESTIMATE: 64.2</span>
+<span class="font-data-point text-[10px] text-secondary-fixed/60 uppercase">BIO-SYNC ACCURACY: 0.998</span>
+<!-- Duplicate for infinite effect -->
+<span class="font-data-point text-[10px] text-primary/60 uppercase">NEURAL LOAD: 42%</span>
+<span class="font-data-point text-[10px] text-secondary-fixed/60 uppercase">GLYCOGEN STATUS: OPTIMAL</span>
+<span class="font-data-point text-[10px] text-error/60 uppercase">RECOVERY DEBT: 12.4H</span>
+</div>
+</div>
+</div>
+</main>
+<style>
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+    </style>
+<script>
+        // Micro-interactions for the "Sync" simulation
+        document.querySelectorAll('.vessel-point').forEach(point => {
+            point.addEventListener('click', () => {
+                const title = point.getAttribute('title');
+                console.log(`Analyzing: ${title}`);
+                point.classList.add('animate-ping');
+                setTimeout(() => point.classList.remove('animate-ping'), 1000);
+            });
+        });
+
+        // Subtle background mouse move effect
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) * 20 - 10;
+            const y = (e.clientY / window.innerHeight) * 20 - 10;
+            const body = document.querySelector('.group img');
+            if(body) {
+                body.style.transform = `translate(${x}px, ${y}px)`;
+            }
+        });
+    </script>
+</body></html>

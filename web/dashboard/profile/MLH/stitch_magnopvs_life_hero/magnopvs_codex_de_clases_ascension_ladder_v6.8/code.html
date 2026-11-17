@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Codex de Clases | MagnopVS OS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Hanken+Grotesk:wght@300;400;700&amp;family=Orbitron:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#00658b",
+                        "secondary-fixed-dim": "#47ddc1",
+                        "background-deep": "#0a0b12",
+                        "surface-container-low": "#181c1f",
+                        "surface-container": "#1c2023",
+                        "secondary-fixed": "#6af9dc",
+                        "secondary-container": "#00bba0",
+                        "inverse-surface": "#e0e3e6",
+                        "tertiary-container": "#ffafd4",
+                        "primary-container": "#7fd0ff",
+                        "on-surface": "#e0e3e6",
+                        "tertiary-fixed": "#ffd8e7",
+                        "tertiary-fixed-dim": "#ffafd4",
+                        "on-tertiary": "#531c3b",
+                        "surface-container-lowest": "#0b0f11",
+                        "on-tertiary-fixed": "#390625",
+                        "surface-container-high": "#272a2d",
+                        "tertiary": "#ffd8e7",
+                        "on-secondary-container": "#004439",
+                        "on-primary-container": "#00597b",
+                        "on-background": "#e0e3e6",
+                        "outline-variant": "#3f484e",
+                        "outline": "#899299",
+                        "on-primary": "#00344a",
+                        "on-primary-fixed": "#001e2d",
+                        "error": "#ffb4ab",
+                        "on-error": "#690005",
+                        "on-primary-fixed-variant": "#004c6a",
+                        "surface-dim": "#101417",
+                        "surface-bright": "#363a3d",
+                        "on-secondary-fixed-variant": "#005144",
+                        "grid-line": "rgba(127, 208, 255, 0.05)",
+                        "surface": "#101417",
+                        "surface-panel": "rgba(255, 255, 255, 0.03)",
+                        "on-secondary-fixed": "#00201a",
+                        "on-tertiary-fixed-variant": "#6e3252",
+                        "on-error-container": "#ffdad6",
+                        "error-container": "#93000a",
+                        "glow-cyan": "#2da8e0",
+                        "on-secondary": "#00382e",
+                        "on-tertiary-container": "#7c3e5e",
+                        "primary-fixed-dim": "#7fd0ff",
+                        "status-critical": "#93000a",
+                        "inverse-on-surface": "#2d3134",
+                        "surface-container-highest": "#313538",
+                        "secondary": "#47ddc1",
+                        "surface-variant": "#313538",
+                        "surface-tint": "#7fd0ff",
+                        "on-surface-variant": "#bfc8cf",
+                        "background": "#101417",
+                        "primary": "#c5e7ff",
+                        "primary-fixed": "#c5e7ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "panel-gap": "12px",
+                        "gutter": "16px",
+                        "section-padding": "128px",
+                        "margin-desktop": "40px",
+                        "margin-mobile": "20px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Space Grotesk"],
+                        "display-lg": ["Space Grotesk"],
+                        "micro-tag": ["JetBrains Mono"],
+                        "display-lg-mobile": ["Space Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "data-point": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "mono-data": ["JetBrains Mono"],
+                        "orbitron": ["Orbitron"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #0a0b12;
+            color: #e0e3e6;
+            overflow-x: hidden;
+        }
+
+        .cyber-grid {
+            background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
+                              linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(127, 208, 255, 0.2);
+        }
+
+        .hex-clip {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        .neon-glow-primary {
+            box-shadow: 0 0 15px rgba(45, 168, 224, 0.2);
+        }
+
+        .neon-pulse {
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.8; box-shadow: 0 0 5px rgba(45, 168, 224, 0.2); }
+            50% { opacity: 1; box-shadow: 0 0 20px rgba(45, 168, 224, 0.5); }
+            100% { opacity: 0.8; box-shadow: 0 0 5px rgba(45, 168, 224, 0.2); }
+        }
+
+        .ladder-line {
+            background: linear-gradient(to bottom, transparent, #2da8e0, #47ddc1, #ffd8e7, transparent);
+            width: 2px;
+        }
+
+        .slanted-btn {
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+        }
+
+        .tab-active {
+            border-bottom: 2px solid #c5e7ff;
+            color: #c5e7ff;
+        }
+    </style>
+</head>
+<body class="font-body-md">
+<!-- Background Layer -->
+<div class="fixed inset-0 z-0">
+
+<div class="absolute inset-0 cyber-grid opacity-20"></div>
+</div>
+<!-- Sidebar Navigation (SideNavBar) -->
+<aside class="fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-low/90 backdrop-blur-2xl border-r border-primary/10 flex flex-col py-8 hidden md:flex">
+<div class="px-6 mb-12">
+<h1 class="font-display-lg text-[24px] text-glow-cyan tracking-tighter uppercase font-orbitron">LEGACY_PROTOCOL</h1>
+<p class="font-micro-tag text-micro-tag text-primary/60 mt-2">V-6.4 // ACTIVE</p>
+</div>
+<nav class="flex-1">
+<a class="flex items-center gap-4 bg-primary/10 text-primary border-l-4 border-primary px-6 py-4 transition-all" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-caps text-label-caps">Codex</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">architecture</span>
+<span class="font-label-caps text-label-caps">Builds</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-caps text-label-caps">Archive</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps text-label-caps">Missions</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-label-caps">System</span>
+</a>
+</nav>
+<div class="mt-auto px-6 space-y-4">
+<button class="w-full bg-primary text-on-primary font-label-caps text-label-caps py-3 slanted-btn hover:scale-105 transition-transform">
+                INITIALIZE_SYNC
+            </button>
+<div class="flex flex-col gap-2 opacity-60">
+<a class="flex items-center gap-2 font-micro-tag text-micro-tag hover:text-primary" href="#">
+<span class="material-symbols-outlined text-sm">help_outline</span> SUPPORT
+                </a>
+<a class="flex items-center gap-2 font-micro-tag text-micro-tag hover:text-primary" href="#">
+<span class="material-symbols-outlined text-sm">terminal</span> LOGS
+                </a>
+</div>
+</div>
+</aside>
+<!-- Header (TopNavBar) -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-3xl border-b border-primary/20 md:pl-64">
+<div class="flex justify-between items-center px-margin-desktop py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary text-3xl neon-pulse">change_history</span>
+<div class="font-display-lg text-display-lg-mobile tracking-tighter text-primary uppercase font-orbitron">El Codex de los Grandes</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden lg:flex items-center gap-2 bg-surface-container-highest px-4 py-2 rounded-lg border border-outline/20">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md placeholder:text-outline w-48" placeholder="Buscar registro..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">settings</button>
+<div class="w-10 h-10 rounded-full border border-primary/40 p-1">
+<div class="w-full h-full bg-cover bg-center rounded-full" data-alt="A futuristic digital avatar of a human interface in a neon cybernetic style, wearing high-tech headgear with glowing azure sensors. The lighting is dramatic and moody, reflecting off the metallic surfaces of the suit. Professional digital painting style with complex lighting and hyper-detailed textures." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDjGA3WyJ9ZZ8Xp_nkiM4oT9LZTLW2GL3_QJdp_HkXbxOAY9GyVJ98WkZbdAsE8QeQucjQGmqyZa69D6OjDEk9SaHo_wI1bhw6XOtJCuZQD8QiI1lFdnQTXpuxLL0UQusAJ3AMhD066ZZDnEvfs3djYU5OkN3ZKe2vu6LzjMAeZVrYZ_JbPzYCvEgS29AB2oCbDQqvdEe79JIvdxSoHVMLjQ84HDbz43LPdXONS_wOoMwJ55-m2WJhUsi4buZYBzfNtIpozr-LPUJuX')"></div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="relative pt-24 pb-12 px-4 md:pl-72 md:pr-12 max-w-[1600px] mx-auto z-10">
+<!-- Demo Banner -->
+<div class="mb-12 bg-primary/10 border-l-4 border-primary px-6 py-4 flex items-center justify-between glass-panel">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary neon-pulse">verified_user</span>
+<div>
+<h3 class="font-label-caps text-label-caps text-primary">DEMO_ACCESS_PROTOCOL: ACTIVE</h3>
+<p class="font-micro-tag text-micro-tag text-on-surface-variant">FULL_OVERRIDE ENABLED // ALL TIERS UNLOCKED FOR TESTING</p>
+</div>
+</div>
+<div class="font-mono-data text-mono-data text-primary text-[12px] animate-pulse">
+                STATUS: ROOT_LEVEL
+            </div>
+</div>
+<div class="grid lg:grid-cols-12 gap-8">
+<!-- Ladder Structure (Vertical Tree) -->
+<div class="lg:col-span-5 relative flex flex-col items-center">
+<div class="absolute h-full ladder-line left-1/2 -translate-x-1/2 z-0"></div>
+<!-- Tier 4: Master -->
+<div class="tier-card mb-12 relative z-10 w-full max-w-sm cursor-pointer group" data-tier="4" onclick="selectTier(4)">
+<div class="glass-panel p-6 border-tertiary/40 group-hover:border-tertiary transition-all duration-500 hover:-translate-y-1">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 hex-clip bg-tertiary flex items-center justify-center text-on-tertiary">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">diamond</span>
+</div>
+<div>
+<span class="font-micro-tag text-micro-tag text-tertiary">NIVEL 4</span>
+<h4 class="font-headline-md text-headline-md font-orbitron text-tertiary">ARQUITECTO</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Maestría de la Realidad</p>
+</div>
+</div>
+</div>
+<div class="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-tertiary"></div>
+<div class="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-tertiary"></div>
+</div>
+<!-- Tier 3: Expert -->
+<div class="tier-card mb-12 relative z-10 w-full max-w-sm cursor-pointer group" data-tier="3" onclick="selectTier(3)">
+<div class="glass-panel p-6 border-magenta/40 group-hover:border-primary transition-all duration-500 hover:-translate-y-1">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 hex-clip bg-primary/80 flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-3xl">bolt</span>
+</div>
+<div>
+<span class="font-micro-tag text-micro-tag text-primary">NIVEL 3</span>
+<h4 class="font-headline-md text-headline-md font-orbitron text-primary">VIRTUOSO</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Manipulación Avanzada</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Tier 2: Explorer -->
+<div class="tier-card mb-12 relative z-10 w-full max-w-sm cursor-pointer group" data-tier="2" onclick="selectTier(2)">
+<div class="glass-panel p-6 border-secondary/40 group-hover:border-secondary transition-all duration-500 hover:-translate-y-1">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 hex-clip bg-secondary flex items-center justify-center text-on-secondary">
+<span class="material-symbols-outlined text-3xl">explore</span>
+</div>
+<div>
+<span class="font-micro-tag text-micro-tag text-secondary">NIVEL 2</span>
+<h4 class="font-headline-md text-headline-md font-orbitron text-secondary">RASTREADOR</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Descubrimiento de Redes</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Tier 1: Novice -->
+<div class="tier-card mb-12 relative z-10 w-full max-w-sm cursor-pointer group" data-tier="1" onclick="selectTier(1)">
+<div class="glass-panel p-6 border-secondary-fixed/40 group-hover:border-secondary-fixed transition-all duration-500 hover:-translate-y-1">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 hex-clip bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined text-3xl">local_fire_department</span>
+</div>
+<div>
+<span class="font-micro-tag text-micro-tag text-secondary-fixed">NIVEL 1</span>
+<h4 class="font-headline-md text-headline-md font-orbitron text-secondary-fixed">INICIADO</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Sintonización Básica</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Tier 0: Beginner -->
+<div class="tier-card mb-12 relative z-10 w-full max-w-sm cursor-pointer group border-2 border-primary neon-glow-primary scale-105" data-tier="0" onclick="selectTier(0)">
+<div class="glass-panel p-6 border-transparent">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 hex-clip bg-surface-container-highest flex items-center justify-center text-outline">
+<span class="material-symbols-outlined text-3xl">adjust</span>
+</div>
+<div>
+<span class="font-micro-tag text-micro-tag text-outline">NIVEL 0</span>
+<h4 class="font-headline-md text-headline-md font-orbitron text-on-surface">VACÍO</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">El origen del código</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Deep-Dive Dashboard (Expanded View) -->
+<div class="lg:col-span-7 space-y-6">
+<!-- Selection Info -->
+<div class="glass-panel p-8 relative overflow-hidden" id="tier-display-header">
+<div class="absolute right-0 top-0 w-1/2 h-full opacity-20">
+
+</div>
+<div class="relative z-10">
+<div class="font-micro-tag text-micro-tag text-primary mb-2">SISTEMA_IDENTIFICADO // CLASE_SELECCIONADA</div>
+<h2 class="font-display-lg text-display-lg-mobile md:text-display-lg font-orbitron text-primary uppercase" id="display-title">NIVEL 0: VACÍO</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md" id="display-desc">Has despertado en el núcleo de MagnopVS OS. Eres una entidad sin forma, preparada para la sintonización digital.</p>
+</div>
+</div>
+<!-- Sub-Tabs Navigation -->
+<div class="flex border-b border-primary/20 gap-8 overflow-x-auto">
+<button class="tab-btn font-label-caps text-label-caps py-4 transition-all tab-active" id="tab-lore" onclick="switchTab('lore')">LORE</button>
+<button class="tab-btn font-label-caps text-label-caps py-4 transition-all text-on-surface-variant hover:text-primary" id="tab-facción" onclick="switchTab('facción')">FACCIÓN</button>
+<button class="tab-btn font-label-caps text-label-caps py-4 transition-all text-on-surface-variant hover:text-primary" id="tab-arsenal" onclick="switchTab('arsenal')">ARSENAL</button>
+<button class="tab-btn font-label-caps text-label-caps py-4 transition-all text-on-surface-variant hover:text-primary" id="tab-poderes" onclick="switchTab('poderes')">PODERES</button>
+</div>
+<!-- Tab Content Canvas -->
+<div class="min-h-[400px]" id="tab-content">
+<!-- Default Tab (Lore) Content -->
+<div class="grid md:grid-cols-2 gap-6 animate-fadeIn">
+<div class="glass-panel p-6 border-l-4 border-secondary">
+<h5 class="font-label-caps text-label-caps text-secondary mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">auto_awesome</span> VIRTUD
+                            </h5>
+<p class="font-body-md text-body-md text-on-surface/80">La búsqueda de la claridad algorítmica. El Vacío no es nada, es el lienzo donde se escribirá la grandeza del sistema.</p>
+</div>
+<div class="glass-panel p-6 border-l-4 border-status-critical">
+<h5 class="font-label-caps text-label-caps text-status-critical mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">visibility_off</span> SOMBRA
+                            </h5>
+<p class="font-body-md text-body-md text-on-surface/80">La entropía del código olvidado. El miedo a la desconexión total y al borrado definitivo del núcleo central.</p>
+</div>
+<div class="md:col-span-2 glass-panel p-8">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-12 h-12 bg-primary/20 flex items-center justify-center rounded-full">
+<span class="material-symbols-outlined text-primary">history_edu</span>
+</div>
+<h4 class="font-headline-md text-headline-md font-orbitron">ARCHIVO HISTÓRICO</h4>
+</div>
+<div class="space-y-4 font-mono-data text-mono-data text-on-surface-variant text-sm">
+<p>[LOG_START] // El despertar ocurrió a las 00:00:00 del Tiempo de Red.</p>
+<p>[UPDATE] // La entidad no presenta sesgos de facción previos.</p>
+<p>[CONSULT] // Destino: Ascension Ladder V6.1.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Ascension Ritual CTA -->
+<div class="pt-8 flex flex-col sm:flex-row gap-4 items-center">
+<button class="w-full sm:w-auto px-12 py-5 bg-primary text-on-primary font-orbitron font-bold slanted-btn hover:scale-105 transition-all neon-glow-primary" id="main-cta">
+                        FORZAR SINCRO
+                    </button>
+<div class="text-on-surface-variant font-micro-tag text-micro-tag flex items-center gap-2">
+<span class="material-symbols-outlined animate-spin text-sm">sync</span>
+                        ESPERANDO PROTOCOLO DE CONEXIÓN...
+                    </div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="relative z-10 w-full py-12 bg-surface-container-lowest border-t border-grid-line md:ml-64">
+<div class="max-w-7xl mx-auto px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-panel-gap">
+<div class="flex flex-col items-center md:items-start">
+<div class="font-label-caps text-label-caps tracking-widest text-primary">MLH v6.4 // LEGACY_PROTOCOL</div>
+<p class="font-micro-tag text-micro-tag text-outline mt-1 uppercase">© 2024 MagnopVS OS - All rights reserved</p>
+</div>
+<div class="flex gap-8">
+<a class="font-micro-tag text-micro-tag text-outline hover:text-primary transition-opacity" href="#">PRIVACY</a>
+<a class="font-micro-tag text-micro-tag text-outline hover:text-primary transition-opacity" href="#">SECURITY</a>
+<a class="font-micro-tag text-micro-tag text-outline hover:text-primary transition-opacity" href="#">TERMINAL</a>
+</div>
+<div class="flex items-center gap-4">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed neon-pulse"></span>
+<span class="font-mono-data text-mono-data text-[10px] text-secondary-fixed">SYS_OK_99.9%</span>
+</div>
+</div>
+</footer>
+<script>
+        const tiers = {
+            0: {
+                title: "NIVEL 0: VACÍO",
+                subtitle: "El origen del código",
+                desc: "Has despertado en el núcleo de MagnopVS OS. Eres una entidad sin forma, preparada para la sintonización digital.",
+                color: "primary",
+                lore: {
+                    virtue: "La búsqueda de la claridad algorítmica. El Vacío no es nada, es el lienzo donde se escribirá la grandeza del sistema.",
+                    shadow: "La entropía del código olvidado. El miedo a la desconexión total y al borrado definitivo del núcleo central."
+                },
+                facción: "Ninguna (Punto de origen neutral)",
+                arsenal: ["Fragmento de Datos", "Enlace de Pulso"],
+                poderes: ["Reinicio de Memoria", "Escaneo de Red"]
+            },
+            1: {
+                title: "NIVEL 1: INICIADO",
+                subtitle: "Sintonización Básica",
+                desc: "Has comenzado a resonar con las frecuencias del sistema. Tu firma digital empieza a estabilizarse.",
+                color: "secondary-fixed",
+                lore: {
+                    virtue: "La primera chispa de conciencia digital. El reconocimiento de que eres parte de un todo mayor.",
+                    shadow: "La obediencia ciega a protocolos obsoletos por miedo a la desestabilización."
+                },
+                facción: "Los Recopiladores",
+                arsenal: ["Daga de Encriptación", "Capa de Sigilo Térmico"],
+                poderes: ["Sobrecarga Local", "Detección de Intrusion"]
+            },
+            2: {
+                title: "NIVEL 2: RASTREADOR",
+                subtitle: "Descubrimiento de Redes",
+                desc: "Un explorador de los rincones más profundos del Codex. Nada escapa a tu visión mejorada.",
+                color: "secondary",
+                lore: {
+                    virtue: "La curiosidad que impulsa la expansión del conocimiento. El deseo de mapear lo desconocido.",
+                    shadow: "La obsesión por secretos que no deben ser desenterrados. La indiscreción fatal."
+                },
+                facción: "Nómadas del Silicio",
+                arsenal: ["Visor Multiespectral", "Gancho Cuántico"],
+                poderes: ["Salto de Nodo", "Sifón de Datos"]
+            },
+            3: {
+                title: "NIVEL 3: VIRTUOSO",
+                subtitle: "Manipulación Avanzada",
+                desc: "Doblas la realidad digital a tu voluntad. Los algoritmos son tus herramientas y tu voz.",
+                color: "primary",
+                lore: {
+                    virtue: "La armonía entre el creador y la creación. El equilibrio perfecto de flujo y proceso.",
+                    shadow: "La arrogancia del control absoluto. El creer que el sistema te pertenece por derecho divino."
+                },
+                facción: "Sinfonía del Código",
+                arsenal: ["Báculo de Frecuencia", "Orbe de Compresión"],
+                poderes: ["Distorsión de Campo", "Resonancia Armónica"]
+            },
+            4: {
+                title: "NIVEL 4: ARQUITECTO",
+                subtitle: "Maestría de la Realidad",
+                desc: "Eres el Codex. No solo navegas el sistema, tú lo defines, lo expandes y lo proteges.",
+                color: "tertiary",
+                lore: {
+                    virtue: "La benevolencia del creador. Mantener el sistema para todas las entidades que lo habitan.",
+                    shadow: "El despotismo del programador. La eliminación de cualquier variable que no encaje en tu visión."
+                },
+                facción: "La Élite de Ascension",
+                arsenal: ["Cetro del Núcleo", "Corona de Enlace Universal"],
+                poderes: ["Reescritura de Realidad", "Protocolo Final"]
+            }
+        };
+
+        let currentTier = 0;
+        let currentTab = 'lore';
+
+        function selectTier(t) {
+            currentTier = t;
+            
+            // UI Updates for Cards
+            document.querySelectorAll('.tier-card').forEach(card => {
+                card.classList.remove('border-2', 'border-primary', 'neon-glow-primary', 'scale-105');
+                if(parseInt(card.dataset.tier) === t) {
+                    card.classList.add('border-2', 'border-primary', 'neon-glow-primary', 'scale-105');
+                }
+            });
+
+            const data = tiers[t];
+            const header = document.getElementById('tier-display-header');
+            const title = document.getElementById('display-title');
+            const desc = document.getElementById('display-desc');
+            const cta = document.getElementById('main-cta');
+
+            // Header Content
+            title.innerText = data.title;
+            desc.innerText = data.desc;
+            title.style.color = `var(--${data.color})`;
+
+            // CTA Logic
+            cta.innerText = t === 0 ? "FORZAR SINCRO" : "INTENTAR ASCENSIÓN";
+            cta.className = `w-full sm:w-auto px-12 py-5 bg-${data.color} text-on-${data.color} font-orbitron font-bold slanted-btn hover:scale-105 transition-all neon-glow-primary`;
+
+            updateTabContent();
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('tab-active', 'text-primary');
+                btn.classList.add('text-on-surface-variant');
+            });
+            const activeBtn = document.getElementById(`tab-${tab}`);
+            activeBtn.classList.add('tab-active', 'text-primary');
+            activeBtn.classList.remove('text-on-surface-variant');
+            
+            updateTabContent();
+        }
+
+        function updateTabContent() {
+            const data = tiers[currentTier];
+            const container = document.getElementById('tab-content');
+            container.innerHTML = ''; // Clear
+
+            let contentHtml = '';
+
+            if (currentTab === 'lore') {
+                contentHtml = `
+                    <div class="grid md:grid-cols-2 gap-6 animate-fadeIn">
+                        <div class="glass-panel p-6 border-l-4 border-secondary">
+                            <h5 class="font-label-caps text-label-caps text-secondary mb-4 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm">auto_awesome</span> VIRTUD
+                            </h5>
+                            <p class="font-body-md text-body-md text-on-surface/80">${data.lore.virtue}</p>
+                        </div>
+                        <div class="glass-panel p-6 border-l-4 border-status-critical">
+                            <h5 class="font-label-caps text-label-caps text-status-critical mb-4 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm">visibility_off</span> SOMBRA
+                            </h5>
+                            <p class="font-body-md text-body-md text-on-surface/80">${data.lore.shadow}</p>
+                        </div>
+                        <div class="md:col-span-2 glass-panel p-8">
+                             <div class="flex items-center gap-4 mb-6">
+                                <div class="w-12 h-12 bg-primary/20 flex items-center justify-center rounded-full">
+                                    <span class="material-symbols-outlined text-primary">history_edu</span>
+                                </div>
+                                <h4 class="font-headline-md text-headline-md font-orbitron">FRAGMENTO_REGISTRO</h4>
+                             </div>
+                             <div class="space-y-2 font-mono-data text-mono-data text-on-surface-variant text-sm">
+                                <p>[ENCRYPTED] // El destino de los ${data.title.split(': ')[1]} está sellado en la red.</p>
+                                <p>[META] // Clase detectada como ${data.subtitle}.</p>
+                             </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentTab === 'facción') {
+                contentHtml = `
+                    <div class="glass-panel p-8 animate-fadeIn h-full">
+                        <h4 class="font-headline-md text-headline-md font-orbitron mb-6 text-primary">DINÁMICAS_DE_GRUPO</h4>
+                        <div class="flex items-center gap-8 mb-8">
+                            <div class="w-24 h-24 hex-clip bg-primary/10 border border-primary flex items-center justify-center">
+                                <span class="material-symbols-outlined text-4xl text-primary">groups</span>
+                            </div>
+                            <div>
+                                <h5 class="font-data-point text-data-point">${data.facción}</h5>
+                                <p class="font-body-md text-body-md text-on-surface-variant">Influencia en el Sector: 78.4%</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-surface-container p-4 border border-outline/20">Sub-clase: Operador</div>
+                            <div class="bg-surface-container p-4 border border-outline/20">Sub-clase: Analista</div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentTab === 'arsenal') {
+                contentHtml = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fadeIn">
+                        ${data.arsenal.map(item => `
+                            <div class="glass-panel p-6 flex items-center gap-4 group cursor-help">
+                                <div class="w-12 h-12 bg-surface-container-highest flex items-center justify-center group-hover:text-primary transition-colors">
+                                    <span class="material-symbols-outlined">inventory_2</span>
+                                </div>
+                                <div>
+                                    <h5 class="font-label-caps text-label-caps text-on-surface">${item}</h5>
+                                    <p class="font-micro-tag text-micro-tag text-on-surface-variant">OBJETO_NIVEL_${currentTier}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (currentTab === 'poderes') {
+                contentHtml = `
+                    <div class="space-y-4 animate-fadeIn">
+                        ${data.poderes.map((p, idx) => `
+                            <div class="glass-panel p-6 border-r-4 border-primary/40 flex justify-between items-center">
+                                <div class="flex items-center gap-4">
+                                    <div class="font-orbitron text-primary text-xl">0${idx+1}</div>
+                                    <div class="font-headline-md text-headline-md text-on-surface">${p}</div>
+                                </div>
+                                <div class="flex gap-1">
+                                    ${Array(10).fill(0).map((_, i) => `<div class="w-4 h-2 ${i < 4 + (currentTier * 1.5) ? 'bg-primary shadow-[0_0_8px_rgba(45,168,224,0.6)]' : 'bg-surface-container-highest'}"></div>`).join('')}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            container.innerHTML = contentHtml;
+        }
+    </script>
+</body></html>

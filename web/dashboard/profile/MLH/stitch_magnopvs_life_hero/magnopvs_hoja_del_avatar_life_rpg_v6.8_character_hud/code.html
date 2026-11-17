@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOPVS OS - Character Sheet</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&amp;family=Audiowide&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0e1417;
+            color: #dde3e7;
+            overflow-x: hidden;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(22, 29, 31, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(187, 201, 207, 0.1);
+        }
+        .hex-clip {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+        .glow-cyan { filter: drop-shadow(0 0 8px rgba(71, 214, 255, 0.6)); }
+        .glow-violet { filter: drop-shadow(0 0 8px rgba(112, 0, 255, 0.6)); }
+        .glow-magenta { filter: drop-shadow(0 0 8px rgba(255, 0, 131, 0.6)); }
+        .glow-aqua { filter: drop-shadow(0 0 8px rgba(0, 255, 230, 0.6)); }
+        .glow-gold { filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6)); }
+
+        @keyframes pulse-scan {
+            0% { transform: translateY(-100%); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(100%); opacity: 0; }
+        }
+        .scanner-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #a5e7ff, transparent);
+            animation: pulse-scan 4s linear infinite;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                "on-surface-variant": "#bbc9cf",
+                "on-error": "#690005",
+                "on-primary-fixed": "#001f28",
+                "on-error-container": "#ffdad6",
+                "surface-bright": "#333a3d",
+                "tertiary-fixed-dim": "#fface8",
+                "surface-tint": "#47d6ff",
+                "surface-container-high": "#242b2e",
+                "secondary": "#d1bcff",
+                "surface-container-low": "#161d1f",
+                "on-tertiary": "#5e0053",
+                "background": "#0e1417",
+                "inverse-surface": "#dde3e7",
+                "outline-variant": "#3c494e",
+                "inverse-primary": "#00677f",
+                "on-secondary-container": "#ddcdff",
+                "on-primary-fixed-variant": "#004e60",
+                "tertiary": "#ffcfee",
+                "on-secondary-fixed-variant": "#5700c9",
+                "on-primary": "#003543",
+                "on-tertiary-fixed-variant": "#840076",
+                "on-secondary": "#3c0090",
+                "on-background": "#dde3e7",
+                "inverse-on-surface": "#2b3134",
+                "secondary-fixed": "#e9ddff",
+                "surface-container-lowest": "#090f12",
+                "error": "#ffb4ab",
+                "error-container": "#93000a",
+                "tertiary-container": "#ffa3e7",
+                "surface-container": "#1a2123",
+                "surface-container-highest": "#2f3639",
+                "primary": "#a5e7ff",
+                "on-tertiary-fixed": "#3a0033",
+                "on-surface": "#dde3e7",
+                "surface": "#0e1417",
+                "primary-container": "#00d2ff",
+                "secondary-fixed-dim": "#d1bcff",
+                "on-secondary-fixed": "#23005b",
+                "on-primary-container": "#00566a",
+                "surface-dim": "#0e1417",
+                "secondary-container": "#7000ff",
+                "primary-fixed-dim": "#47d6ff",
+                "primary-fixed": "#b6ebff",
+                "on-tertiary-container": "#920083",
+                "tertiary-fixed": "#ffd7f0",
+                "surface-variant": "#2f3639",
+                "outline": "#859399"
+              },
+              "fontFamily": {
+                "data-header": ["Orbitron"],
+                "body-md": ["Orbitron"],
+                "headline-lg-mobile": ["Audiowide"],
+                "display-xl": ["Audiowide"],
+                "label-caps": ["Orbitron"],
+                "headline-lg": ["Audiowide"]
+              },
+              "fontSize": {
+                "data-header": ["18px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                "body-md": ["14px", {"lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                "display-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                "label-caps": ["10px", {"lineHeight": "1", "letterSpacing": "0.2em", "fontWeight": "900"}],
+                "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "400"}]
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface min-h-screen selection:bg-primary selection:text-on-primary">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(71,214,255,0.2)] flex justify-between items-center px-8 h-16">
+<div class="font-headline-lg text-primary tracking-widest uppercase">MISSION CONTROL v2.4</div>
+<div class="hidden md:flex gap-8">
+<nav class="flex gap-6">
+<a class="font-data-header text-data-header text-primary drop-shadow-[0_0_8px_rgba(71,214,255,0.8)] cursor-pointer active:scale-95" href="#">Character</a>
+<a class="font-data-header text-data-header text-on-surface-variant hover:text-primary transition-all duration-300 cursor-pointer active:scale-95" href="#">Abilities</a>
+<a class="font-data-header text-data-header text-on-surface-variant hover:text-primary transition-all duration-300 cursor-pointer active:scale-95" href="#">Vault</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer">settings</span>
+<div class="w-8 h-8 rounded-full border border-primary/40 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A futuristic close-up portrait of a cybernetic alchemist with glowing blue eyes and intricate silver facial markings. The lighting is cold and cinematic, highlighting metallic textures and a high-tech headpiece. The background is a soft-focus laboratory filled with holographic data displays in a teal and charcoal palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuY_p99ARbbtqPizy6TlVPLC6P6CObK7zK0Rw8ELn-IoPqRa9vO8PKjEEqQPl8iz51wcyE8KvYFFI8CSU-ApoYwUmBOGiC52ZoyeW9krS2nVTGpJKq0aEdzVgZ8r-9rBU_GouDpcl5X95uXP8isOMwROFOL9g1MExc-U4FR4GXC_MROuLHleqYWVxtr-rvmLmSNeSZXQKfPerQCfTrWvA2pg4i7noL-NA_W53ktYpsB058bMOpSE1_0w"/>
+</div>
+</div>
+</header>
+<!-- Side Navigation (Desktop) -->
+<aside class="fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-low/90 backdrop-blur-md border-r border-outline-variant/20 shadow-2xl shadow-primary/5 hidden lg:flex flex-col py-24 px-4 gap-4">
+<div class="mb-8">
+<h2 class="font-display-xl text-primary text-2xl">MAGNOPVS</h2>
+<p class="font-label-caps text-label-caps text-on-surface-variant">VITAL SIGNS: OPTIMAL</p>
+</div>
+<div class="flex flex-col gap-2">
+<div class="bg-primary-container/20 text-primary border-l-4 border-primary p-3 flex items-center gap-3 cursor-pointer">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-caps text-label-caps">Character</span>
+</div>
+<div class="text-on-surface-variant hover:bg-surface-variant/30 p-3 flex items-center gap-3 cursor-pointer hover:translate-x-1 transition-transform">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label-caps text-label-caps">Abilities</span>
+</div>
+<div class="text-on-surface-variant hover:bg-surface-variant/30 p-3 flex items-center gap-3 cursor-pointer hover:translate-x-1 transition-transform">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-caps text-label-caps">Vault</span>
+</div>
+<div class="text-on-surface-variant hover:bg-surface-variant/30 p-3 flex items-center gap-3 cursor-pointer hover:translate-x-1 transition-transform">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-caps text-label-caps">Logs</span>
+</div>
+</div>
+<div class="mt-auto pt-8 border-t border-outline-variant/20">
+<button class="w-full py-3 bg-primary text-on-primary font-label-caps text-label-caps tracking-widest rounded shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">SYNC DATA</button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pt-24 pb-24 lg:pl-72 px-8 min-h-screen relative overflow-hidden">
+<!-- Atmospheric Background Element -->
+<div class="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none">
+
+</div>
+<div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
+<!-- Left Column: Attributes & Class -->
+<div class="lg:col-span-3 flex flex-col gap-6">
+<!-- Class & Rank Widget -->
+<div class="glass-panel p-6 rounded-xl border-l-4 border-primary">
+<h3 class="font-label-caps text-label-caps text-primary mb-1">CURRENT CLASS</h3>
+<div class="font-headline-lg text-2xl text-on-surface">TITAN</div>
+<div class="flex items-center gap-2 mt-2">
+<span class="font-data-header text-sm">LVL 42</span>
+<div class="flex-grow h-1 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary w-2/3 shadow-[0_0_10px_#a5e7ff]"></div>
+</div>
+</div>
+<p class="font-label-caps text-[8px] mt-4 opacity-50 tracking-tighter">XP TO NEXT: 14,204 / 20,000</p>
+</div>
+<!-- Attributes Section -->
+<div class="glass-panel p-6 rounded-xl flex flex-col gap-6">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-2">CORE ATTRIBUTES</h3>
+<!-- Force -->
+<div class="group">
+<div class="flex justify-between items-end mb-1">
+<span class="font-data-header text-xs text-primary group-hover:glow-cyan transition-all">FORCE ♦</span>
+<span class="font-data-header text-lg">88</span>
+</div>
+<div class="h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary/20 to-primary w-[88%] relative">
+<div class="absolute inset-0 scanner-line"></div>
+</div>
+</div>
+</div>
+<!-- Agility -->
+<div class="group">
+<div class="flex justify-between items-end mb-1">
+<span class="font-data-header text-xs text-secondary group-hover:glow-violet transition-all">AGILITY ♠</span>
+<span class="font-data-header text-lg">64</span>
+</div>
+<div class="h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-secondary/20 to-secondary w-[64%]"></div>
+</div>
+</div>
+<!-- Charisma -->
+<div class="group">
+<div class="flex justify-between items-end mb-1">
+<span class="font-data-header text-xs text-error group-hover:glow-magenta transition-all">CHARISMA ♥</span>
+<span class="font-data-header text-lg">92</span>
+</div>
+<div class="h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-error/20 to-error w-[92%]"></div>
+</div>
+</div>
+<!-- Intelligence -->
+<div class="group">
+<div class="flex justify-between items-end mb-1">
+<span class="font-data-header text-xs text-primary-fixed-dim group-hover:glow-aqua transition-all">INTELLIGENCE ♣</span>
+<span class="font-data-header text-lg">75</span>
+</div>
+<div class="h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary-fixed-dim/20 to-primary-fixed-dim w-[75%]"></div>
+</div>
+</div>
+<!-- Brilliance -->
+<div class="group">
+<div class="flex justify-between items-end mb-1">
+<span class="font-data-header text-xs text-tertiary-fixed group-hover:glow-gold transition-all">BRILLIANCE ★</span>
+<span class="font-data-header text-lg">45</span>
+</div>
+<div class="h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-tertiary-fixed/20 to-tertiary-fixed w-[45%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Center Column: Avatar & Relics -->
+<div class="lg:col-span-6 relative">
+<div class="relative w-full aspect-[4/5] flex items-center justify-center">
+<!-- Geometric Hex Background -->
+<div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_#47d6ff33_0%,_transparent_70%)]"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-[80%] h-[80%] opacity-5" style="background-image: radial-gradient(#a5e7ff 1px, transparent 1px); background-size: 20px 20px;"></div>
+</div>
+<!-- Avatar Silhouette -->
+<div class="relative z-10 w-full h-full flex items-center justify-center">
+<img class="h-[90%] object-contain drop-shadow-[0_0_30px_rgba(165,231,255,0.3)]" data-alt="A stylized, full-body silhouette of a powerful futuristic warrior in a static, centered pose. The silhouette is filled with a dark charcoal and teal gradient, outlined by a shimmering celestial blue neon stroke. Faint mechanical internal details are visible as glowing white circuitry lines. The overall aesthetic is a high-end HUD asset for a premium RPG interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNNcEEjb8WcHTWp87wCl2UkWg9Km9ZD31PdFwqFeVvtltMh3f79L1Y7HKPiKBsSCwl46tl8l4A9jkeK6a1W1Rmn4glhHPhQOKh_2RIGgSKSoOBd-OTg68YffZQ5ovAD3JiX5zkOLAICjYCGIRwKeWo6mGy_xBQFOnlLfCpSfL5Omi78hX695cWXpC6-Ty0AlRcP0GIJ2-jS2FUKmGtY1v6Qg8aGSaJEJsVLTyv4qXYy-1tkkE4tnpgJw"/>
+<!-- Equipped Relics Slots (Floating around avatar) -->
+<!-- Head -->
+<div class="absolute top-[5%] left-1/2 -translate-x-1/2 w-16 h-16 hex-clip glass-panel border-primary/50 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform hover:border-primary">
+<span class="material-symbols-outlined text-primary text-3xl">psychology</span>
+</div>
+<!-- Chest -->
+<div class="absolute top-[30%] left-[15%] w-16 h-16 hex-clip glass-panel border-secondary/50 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform hover:border-secondary">
+<span class="material-symbols-outlined text-secondary text-3xl">shield</span>
+</div>
+<!-- Weapon L -->
+<div class="absolute top-[50%] left-[5%] w-16 h-16 hex-clip glass-panel border-error/50 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform hover:border-error">
+<span class="material-symbols-outlined text-error text-3xl">swords</span>
+</div>
+<!-- Weapon R -->
+<div class="absolute top-[50%] right-[5%] w-16 h-16 hex-clip glass-panel border-primary-fixed-dim/50 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform hover:border-primary-fixed-dim">
+<span class="material-symbols-outlined text-primary-fixed-dim text-3xl">flare</span>
+</div>
+<!-- Boots -->
+<div class="absolute bottom-[10%] left-1/2 -translate-x-1/2 w-16 h-16 hex-clip glass-panel border-tertiary-fixed/50 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform hover:border-tertiary-fixed">
+<span class="material-symbols-outlined text-tertiary-fixed text-3xl">bolt</span>
+</div>
+</div>
+</div>
+<!-- Footer Status Bar -->
+<div class="mt-8 glass-panel p-4 rounded-xl flex justify-between items-center px-8 border-t-2 border-primary/30">
+<div class="flex flex-col">
+<span class="font-label-caps text-[10px] text-on-surface-variant">PLANAR ALIGNMENT</span>
+<span class="font-data-header text-primary">CYAN / ASCENDANT</span>
+</div>
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined">share</span>
+</div>
+<div class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined">download</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Quests & Progression -->
+<div class="lg:col-span-3 flex flex-col gap-6">
+<!-- Active Quests -->
+<div class="flex-grow flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant">ACTIVE QUESTS</h3>
+<span class="font-data-header text-[10px] text-primary cursor-pointer hover:underline">VIEW ALL</span>
+</div>
+<!-- Epic Quest -->
+<div class="glass-panel p-4 rounded-lg border-l-4 border-error hover:bg-surface-container-highest transition-colors cursor-pointer">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-[8px] px-2 py-0.5 bg-error text-on-error rounded">EPIC</span>
+<span class="font-data-header text-[10px] opacity-60">#2940</span>
+</div>
+<h4 class="font-data-header text-sm text-on-surface mb-2">The Shattered Singularity</h4>
+<div class="flex items-center gap-2">
+<div class="flex-grow h-1 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-error w-1/4"></div>
+</div>
+<span class="font-data-header text-[10px]">25%</span>
+</div>
+</div>
+<!-- Main Quest -->
+<div class="glass-panel p-4 rounded-lg border-l-4 border-primary hover:bg-surface-container-highest transition-colors cursor-pointer">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-[8px] px-2 py-0.5 bg-primary text-on-primary rounded">MAIN</span>
+<span class="font-data-header text-[10px] opacity-60">#1104</span>
+</div>
+<h4 class="font-data-header text-sm text-on-surface mb-2">Protocol: Mirror Ghost</h4>
+<div class="flex items-center gap-2">
+<div class="flex-grow h-1 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary w-4/5"></div>
+</div>
+<span class="font-data-header text-[10px]">80%</span>
+</div>
+</div>
+<!-- Side Quest -->
+<div class="glass-panel p-4 rounded-lg border-l-4 border-outline hover:bg-surface-container-highest transition-colors cursor-pointer opacity-80">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-[8px] px-2 py-0.5 bg-outline text-surface rounded">SIDE</span>
+<span class="font-data-header text-[10px] opacity-60">#5512</span>
+</div>
+<h4 class="font-data-header text-sm text-on-surface mb-2">Data Harvest: Sector 7</h4>
+<div class="flex items-center gap-2">
+<div class="flex-grow h-1 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-outline w-[10%]"></div>
+</div>
+<span class="font-data-header text-[10px]">10%</span>
+</div>
+</div>
+</div>
+<!-- Quick Stats Bento -->
+<div class="grid grid-cols-2 gap-3 mt-auto">
+<div class="glass-panel p-4 rounded-lg text-center">
+<span class="block font-label-caps text-[8px] text-on-surface-variant mb-1">POWER SCORE</span>
+<span class="block font-headline-lg text-lg text-primary">14,800</span>
+</div>
+<div class="glass-panel p-4 rounded-lg text-center">
+<span class="block font-label-caps text-[8px] text-on-surface-variant mb-1">ALIGNMENT</span>
+<span class="block font-headline-lg text-lg text-secondary">ORDER</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="fixed bottom-0 w-full z-50 h-20 rounded-t-xl md:hidden flex justify-around items-center bg-surface-container-highest/95 border-t border-primary/40 bg-gradient-to-t from-surface-container-highest to-surface-container shadow-[0_-4px_20px_rgba(71,214,255,0.15)]">
+<div class="flex flex-col items-center text-on-surface-variant opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
+<span class="material-symbols-outlined">task_alt</span>
+<span class="font-label-caps text-[8px]">Dailies</span>
+</div>
+<div class="flex flex-col items-center text-primary drop-shadow-glow cursor-pointer scale-110">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-caps text-[8px]">Hero</span>
+</div>
+<div class="flex flex-col items-center text-on-surface-variant opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
+<span class="material-symbols-outlined">package_2</span>
+<span class="font-label-caps text-[8px]">Inventory</span>
+</div>
+<div class="flex flex-col items-center text-on-surface-variant opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
+<span class="material-symbols-outlined">memory</span>
+<span class="font-label-caps text-[8px]">Systems</span>
+</div>
+</nav>
+<script>
+        // Simple micro-interaction for attribute bars on hover
+        document.querySelectorAll('.group').forEach(group => {
+            group.addEventListener('mouseenter', () => {
+                const bar = group.querySelector('.h-full');
+                bar.style.filter = 'brightness(1.5)';
+            });
+            group.addEventListener('mouseleave', () => {
+                const bar = group.querySelector('.h-full');
+                bar.style.filter = 'brightness(1)';
+            });
+        });
+
+        // Toggle Active State for side nav
+        const sideNavItems = document.querySelectorAll('aside .flex.flex-col > div');
+        sideNavItems.forEach(item => {
+            item.addEventListener('click', () => {
+                sideNavItems.forEach(i => {
+                    i.classList.remove('bg-primary-container/20', 'text-primary', 'border-l-4', 'border-primary');
+                    i.classList.add('text-on-surface-variant', 'hover:bg-surface-variant/30');
+                });
+                item.classList.add('bg-primary-container/20', 'text-primary', 'border-l-4', 'border-primary');
+                item.classList.remove('text-on-surface-variant', 'hover:bg-surface-variant/30');
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOPVS | SANTUARIO ETÉREO</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#00f0ff",
+          "primary-glow": "#38bdf8",
+          "secondary": "#ff007f",
+          "secondary-glow": "#ec4899",
+          "tertiary": "#48ddc1",
+          "tertiary-glow": "#2dd4bf",
+          "metaphysic": "#7000ff",
+          "metaphysic-light": "#8b5cf6",
+          "dark-void": "#0a0b12",
+          "surface-acrylic": "#10121c",
+          "gunmetal": "#282b3d",
+          "gunmetal-border": "#3d4259",
+          "gunmetal-light": "#64748b",
+          "pearl-white": "#f8fafc",
+          "surface-container": "#131624",
+          "surface-container-high": "#1a1d2e"
+        },
+        fontFamily: {
+          "display": ["Audiowide", "cursive", "sans-serif"],
+          "hud": ["Orbitron", "sans-serif"],
+          "mono": ["JetBrains Mono", "monospace"]
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body {
+    background-color: #0a0b12;
+    color: #f8fafc;
+    overflow-x: hidden;
+    font-family: 'Orbitron', sans-serif;
+  }
+
+  /* Hexagonal Tactical Grid */
+  .hex-grid-tactical {
+    background-image: 
+      linear-gradient(30deg, #13172e 12%, transparent 12.5%, transparent 87%, #13172e 87.5%, #13172e),
+      linear-gradient(150deg, #13172e 12%, transparent 12.5%, transparent 87%, #13172e 87.5%, #13172e),
+      linear-gradient(30deg, #13172e 12%, transparent 12.5%, transparent 87%, #13172e 87.5%, #13172e),
+      linear-gradient(150deg, #13172e 12%, transparent 12.5%, transparent 87%, #13172e 87.5%, #13172e),
+      linear-gradient(60deg, #1a1e3b 25%, transparent 25.5%, transparent 75%, #1a1e3b 75%, #1a1e3b),
+      linear-gradient(60deg, #1a1e3b 25%, transparent 25.5%, transparent 75%, #1a1e3b 75%, #1a1e3b);
+    background-size: 60px 104px;
+    background-position: 0 0, 0 0, 30px 52px, 30px 52px, 0 0, 30px 52px;
+    opacity: 0.18;
+  }
+
+  /* Cyberpunk Chamfered HUD Clip */
+  .hud-chamfer {
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+  }
+  .hud-chamfer-sm {
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+
+  /* Acrylic Panels with Neon Edge */
+  .hud-panel {
+    background: rgba(16, 18, 28, 0.75);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(40, 43, 61, 0.85);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(0, 240, 255, 0.03);
+  }
+
+  .hud-panel:hover {
+    border-color: rgba(0, 240, 255, 0.35);
+  }
+
+  /* Glow Utilities */
+  .glow-cyan {
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.7), 0 0 22px rgba(0, 240, 255, 0.35);
+  }
+  .glow-magenta {
+    text-shadow: 0 0 10px rgba(255, 0, 127, 0.7), 0 0 22px rgba(255, 0, 127, 0.35);
+  }
+  .glow-aquamarine {
+    text-shadow: 0 0 10px rgba(72, 221, 193, 0.7), 0 0 20px rgba(72, 221, 193, 0.35);
+  }
+  .glow-violet {
+    text-shadow: 0 0 12px rgba(112, 0, 255, 0.8);
+  }
+
+  /* Tactical Scanlines */
+  .scanline-tactical {
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.3), rgba(255, 0, 127, 0.3), transparent);
+    position: absolute;
+    animation: tacticalScan 5s ease-in-out infinite;
+  }
+
+  @keyframes tacticalScan {
+    0% { top: 0%; opacity: 0; }
+    30% { opacity: 0.8; }
+    70% { opacity: 0.8; }
+    100% { top: 100%; opacity: 0; }
+  }
+
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+  }
+</style>
+</head>
+<body class="font-hud select-none">
+<!-- Cosmic Matt Tactical Background -->
+<div class="fixed inset-0 z-[-1] hex-grid-tactical"></div>
+<div class="fixed inset-0 z-[-2] bg-gradient-to-b from-[#0a0b12] via-[#0d0f1a] to-[#08090f]"></div>
+<!-- Ethereal Nebula Atmospheric Glows -->
+<div class="fixed inset-0 pointer-events-none overflow-hidden z-[-1]">
+<div class="absolute -top-24 left-1/4 w-[550px] h-[550px] bg-metaphysic/15 blur-[140px] rounded-full"></div>
+<div class="absolute bottom-1/4 -right-16 w-[600px] h-[600px] bg-primary/10 blur-[160px] rounded-full"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] bg-secondary/8 blur-[150px] rounded-full"></div>
+</div>
+<!-- Header / Top Cockpit HUD Bar -->
+<header class="fixed top-0 w-full z-50 bg-dark-void/90 backdrop-blur-xl border-b border-gunmetal-border/70 h-16 flex justify-between items-center px-4 md:px-8">
+<div class="flex items-center gap-4">
+<div class="relative p-1 rounded-sm border border-primary/40 bg-surface-container shadow-[0_0_12px_rgba(0,240,255,0.3)]">
+<img alt="MAGNOPVS LOGO" class="h-7 w-auto filter drop-shadow-[0_0_8px_rgba(0,240,255,0.7)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVC2h__1fSh1vfq0Rhiq-MLBvIMcBtI5pvfpaVX3-bqsRDJKtxTiPrxfI8Y9_xywxHqLJ_1Qpcfbo9_FATUb1y7Zbl12lZh6-C-IYtIZfMQay8ILo77sbRzwDBH5CC1UrY-fxngchhPwLSHIcmkZYaag4ne1j8CTyn5B5Um3zw04k_HoBFFPvtzYTuuGPDYsZI81rGSA1-aMwpksyKM708KPf91Pnp0ZU-xFPtYQ4K8tKeS-pmIXfV1UQQoMhPwgePleCcg0FFlrny"/>
+</div>
+<div class="flex flex-col">
+<h1 class="font-display text-xl md:text-2xl text-pearl-white tracking-[0.25em] glow-cyan">MAGNOPVS</h1>
+<span class="font-mono text-[9px] text-tertiary tracking-widest uppercase">SYNERGY_MATRIX // AETHER-CORE</span>
+</div>
+</div>
+<nav class="hidden lg:flex items-center gap-2 bg-surface-container/70 border border-gunmetal/80 px-3 py-1.5 rounded-sm">
+<a class="text-primary font-hud text-[11px] font-bold tracking-widest px-4 py-1 border-b-2 border-primary glow-cyan bg-primary/10" href="#">TELEMETRÍA</a>
+<a class="text-gunmetal-light hover:text-pearl-white font-hud text-[11px] tracking-widest px-4 py-1 transition-all hover:bg-gunmetal/40" href="#">REGISTROS</a>
+<a class="text-gunmetal-light hover:text-pearl-white font-hud text-[11px] tracking-widest px-4 py-1 transition-all hover:bg-gunmetal/40" href="#">SOF.IA</a>
+<a class="text-secondary hover:text-secondary-glow font-hud text-[11px] tracking-widest px-4 py-1 transition-all hover:bg-secondary/10" href="#">CÓDICE_ASTRAL</a>
+</nav>
+<div class="flex items-center gap-3">
+<div class="hidden md:flex flex-col items-end pr-2 border-r border-gunmetal">
+<span class="font-mono text-[10px] text-primary tracking-widest">AETHER-OS <span class="text-pearl-white">v7.2α</span></span>
+<span class="font-mono text-[9px] text-tertiary flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span> ESTADO: RESONANCIA_ÓPTIMA
+      </span>
+</div>
+<div class="flex gap-2">
+<button class="w-9 h-9 flex items-center justify-center rounded border border-gunmetal bg-surface-container text-primary-glow hover:border-primary hover:shadow-[0_0_10px_rgba(0,240,255,0.3)] transition-all">
+<span class="material-symbols-outlined text-[19px]">notifications_active</span>
+</button>
+<button class="w-9 h-9 flex items-center justify-center rounded border border-gunmetal bg-surface-container text-primary-glow hover:border-primary hover:shadow-[0_0_10px_rgba(0,240,255,0.3)] transition-all">
+<span class="material-symbols-outlined text-[19px]">tune</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Lateral Navigation Cockpit -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-20 md:w-64 z-40 bg-dark-void/90 backdrop-blur-2xl border-r border-gunmetal-border/70 flex flex-col justify-between">
+<div>
+<!-- User Capsule -->
+<div class="p-4 mx-3 my-3 bg-surface-container/90 border border-gunmetal rounded-sm flex items-center gap-3">
+<div class="w-10 h-10 rounded border border-primary/60 bg-gradient-to-br from-metaphysic to-primary/30 flex items-center justify-center shadow-[0_0_10px_rgba(0,240,255,0.3)]">
+<span class="material-symbols-outlined text-pearl-white text-xl" style="font-variation-settings: 'FILL' 1;">person_filled</span>
+</div>
+<div class="hidden md:block">
+<div class="font-hud text-[12px] font-bold text-pearl-white tracking-wider">ONEIRONAUT_01</div>
+<div class="font-mono text-[10px] text-tertiary">LUCIDEZ: 96.8%</div>
+</div>
+</div>
+<!-- Navigation Modules -->
+<nav class="flex flex-col gap-1.5 px-3">
+<div class="group cursor-pointer flex items-center gap-3.5 px-3.5 py-2.5 rounded-sm text-gunmetal-light hover:text-pearl-white hover:bg-gunmetal/40 border border-transparent hover:border-gunmetal transition-all">
+<span class="material-symbols-outlined text-primary-glow">psychology</span>
+<span class="hidden md:block text-[11px] font-bold tracking-widest">NEURAL</span>
+</div>
+<div class="group cursor-pointer flex items-center gap-3.5 px-3.5 py-2.5 rounded-sm bg-primary/10 text-primary border-l-4 border-primary border-y border-r border-primary/20 shadow-[0_0_15px_rgba(0,240,255,0.2)]">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">vital_signs</span>
+<span class="hidden md:block text-[11px] font-bold tracking-widest">SOMÁTICO</span>
+</div>
+<div class="group cursor-pointer flex items-center gap-3.5 px-3.5 py-2.5 rounded-sm text-gunmetal-light hover:text-pearl-white hover:bg-gunmetal/40 border border-transparent hover:border-gunmetal transition-all">
+<span class="material-symbols-outlined text-tertiary">auto_awesome</span>
+<span class="hidden md:block text-[11px] font-bold tracking-widest">ASTRAL</span>
+</div>
+<div class="group cursor-pointer flex items-center gap-3.5 px-3.5 py-2.5 rounded-sm text-gunmetal-light hover:text-pearl-white hover:bg-gunmetal/40 border border-transparent hover:border-gunmetal transition-all">
+<span class="material-symbols-outlined text-metaphysic-light">memory</span>
+<span class="hidden md:block text-[11px] font-bold tracking-widest">REMINISCENCIA</span>
+</div>
+<div class="group cursor-pointer flex items-center gap-3.5 px-3.5 py-2.5 rounded-sm text-gunmetal-light hover:text-pearl-white hover:bg-gunmetal/40 border border-transparent hover:border-gunmetal transition-all">
+<span class="material-symbols-outlined text-secondary">cloud_off</span>
+<span class="hidden md:block text-[11px] font-bold tracking-widest">VACÍO</span>
+</div>
+</nav>
+</div>
+<div class="p-3 flex flex-col gap-3">
+<!-- Hero Button Initiator -->
+<button class="w-full bg-gradient-to-r from-secondary to-secondary-glow text-pearl-white py-3 px-2 rounded-sm font-hud text-[11px] font-bold tracking-[0.2em] shadow-[0_0_15px_rgba(255,0,127,0.4)] active:scale-95 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[16px]">bolt</span>
+<span class="hidden md:inline">INICIAR_REM</span>
+</button>
+<div class="border-t border-gunmetal/80 pt-3 flex flex-col gap-2">
+<div class="flex items-center gap-2 text-gunmetal-light hover:text-primary transition-colors cursor-pointer text-[10px] tracking-wider">
+<span class="material-symbols-outlined text-sm">inventory_2</span>
+<span class="hidden md:inline">ARCHIVO_AKÁSHICO</span>
+</div>
+<div class="flex items-center gap-2 text-gunmetal-light hover:text-tertiary transition-colors cursor-pointer text-[10px] tracking-wider">
+<span class="material-symbols-outlined text-sm">sync_alt</span>
+<span class="hidden md:inline">SINCRONIZAR</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Tactical Cockpit Canvas -->
+<main class="ml-20 md:ml-64 mt-16 p-4 md:p-8 min-h-screen pb-16">
+<!-- Title / Mission Protocol Header -->
+<header class="mb-8 relative hud-panel p-6 rounded-sm border-l-4 border-l-primary">
+<div class="scanline-tactical"></div>
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<div class="flex items-center gap-3">
+<span class="px-2 py-0.5 text-[9px] font-mono tracking-widest bg-metaphysic/30 border border-metaphysic text-pearl-white rounded-sm">NIVEL_METAFÍSICO // VII</span>
+<span class="px-2 py-0.5 text-[9px] font-mono tracking-widest bg-tertiary/20 border border-tertiary text-tertiary rounded-sm">SINCRO: ACTIVA</span>
+</div>
+<h2 class="font-display text-2xl md:text-5xl text-pearl-white glow-cyan tracking-wider mt-2">SANTUARIO ETÉREO</h2>
+</div>
+<div class="flex flex-col md:items-end border-t md:border-t-0 md:border-l border-gunmetal pt-2 md:pt-0 md:pl-6">
+<span class="font-mono text-xs text-secondary-glow tracking-widest uppercase flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span> PROTOCOLO TRASCENDENTAL
+        </span>
+<span class="font-mono text-tertiary text-[11px] mt-1">SECTOR: 07-G // EJE: TETRAGRAMMATON</span>
+</div>
+</div>
+</header>
+<!-- HUD Grid Modules -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Left Column: Telemetría & Terminal -->
+<div class="col-span-12 lg:col-span-3 flex flex-col gap-6">
+<!-- ETHER_TELEMETRY -->
+<section class="hud-panel p-5 rounded-sm relative overflow-hidden">
+<div class="scanline-tactical"></div>
+<div class="flex items-center justify-between pb-3 border-b border-gunmetal mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">analytics</span>
+<h3 class="font-display text-xs text-pearl-white tracking-widest uppercase">TELEMETRÍA_ÉTER</h3>
+</div>
+<span class="font-mono text-[9px] text-primary">LIVE_FEED</span>
+</div>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between font-mono text-[11px] mb-1">
+<span class="text-gunmetal-light">ÍNDICE_INTUICIÓN</span>
+<span class="text-primary font-bold">88.4%</span>
+</div>
+<div class="h-2 w-full bg-surface-container rounded-sm overflow-hidden border border-gunmetal">
+<div class="h-full bg-gradient-to-r from-primary-glow to-primary shadow-[0_0_10px_rgba(0,240,255,0.7)] w-[88%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-mono text-[11px] mb-1">
+<span class="text-gunmetal-light">COCIENTE_PAZ</span>
+<span class="text-tertiary font-bold">92.1%</span>
+</div>
+<div class="h-2 w-full bg-surface-container rounded-sm overflow-hidden border border-gunmetal">
+<div class="h-full bg-gradient-to-r from-tertiary to-tertiary-glow shadow-[0_0_10px_rgba(72,221,193,0.7)] w-[92%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-mono text-[11px] mb-1">
+<span class="text-gunmetal-light">SINCRONÍA_DIVINA</span>
+<span class="text-secondary font-bold">Ø.68</span>
+</div>
+<div class="h-2 w-full bg-surface-container rounded-sm overflow-hidden border border-gunmetal">
+<div class="h-full bg-gradient-to-r from-secondary to-secondary-glow shadow-[0_0_10px_rgba(255,0,127,0.7)] w-[68%]"></div>
+</div>
+</div>
+</div>
+<div class="mt-6 grid grid-cols-2 gap-3 pt-4 border-t border-gunmetal/80">
+<div class="bg-surface-container p-3 rounded-sm border border-gunmetal">
+<div class="text-[9px] font-hud text-gunmetal-light uppercase">COHERENCIA_CORAZÓN</div>
+<div class="font-mono text-primary text-base font-bold mt-1 glow-cyan">1.42 Hz</div>
+</div>
+<div class="bg-surface-container p-3 rounded-sm border border-gunmetal">
+<div class="text-[9px] font-hud text-gunmetal-light uppercase">RADIO_AURAL</div>
+<div class="font-mono text-tertiary text-base font-bold mt-1 glow-aquamarine">4.50 m</div>
+</div>
+</div>
+</section>
+<!-- TERMINAL_MEDITACIÓN -->
+<section class="hud-panel p-5 rounded-sm flex-grow flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-gunmetal mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">self_improvement</span>
+<h3 class="font-display text-xs text-pearl-white tracking-widest uppercase">MEDITACIÓN_CORE</h3>
+</div>
+<span class="font-mono text-[9px] px-2 py-0.5 rounded bg-tertiary/20 text-tertiary border border-tertiary/40 animate-pulse">ACTIVO</span>
+</div>
+<!-- Chrono Circular HUD -->
+<div class="text-center py-2">
+<div class="inline-block relative">
+<svg class="w-36 h-36 transform -rotate-90">
+<circle cx="72" cy="72" fill="transparent" r="62" stroke="#282b3d" stroke-width="5"></circle>
+<circle class="transition-all duration-1000" cx="72" cy="72" fill="transparent" r="62" stroke="#00f0ff" stroke-dasharray="389" stroke-dashoffset="128" stroke-linecap="round" stroke-width="5"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-mono text-2xl font-bold text-pearl-white glow-cyan">18:42</span>
+<span class="font-hud text-[8px] tracking-widest text-tertiary">CICLO_REM_RESTANTE</span>
+</div>
+</div>
+</div>
+<div class="mt-2 space-y-2">
+<div class="flex items-center justify-between p-2.5 bg-surface-container border border-gunmetal rounded-sm">
+<span class="font-hud text-[10px] text-gunmetal-light">MODO_SESIÓN</span>
+<span class="text-pearl-white font-mono text-[11px] font-bold">VIPASSANA_V3</span>
+</div>
+<div class="flex items-center justify-between p-2.5 bg-surface-container border border-gunmetal rounded-sm">
+<span class="font-hud text-[10px] text-gunmetal-light">FRECUENCIA</span>
+<span class="text-secondary font-mono text-[11px] font-bold">SOLFEGGIO_528HZ</span>
+</div>
+</div>
+</div>
+<div class="mt-4 flex gap-2">
+<button class="flex-1 bg-primary/10 border border-primary text-primary py-2 font-hud text-[10px] font-bold tracking-widest hover:bg-primary/20 transition-all rounded-sm">PAUSAR</button>
+<button class="flex-1 bg-secondary/15 border border-secondary text-secondary-glow py-2 font-hud text-[10px] font-bold tracking-widest hover:bg-secondary/25 transition-all rounded-sm">ABORTAR</button>
+</div>
+</section>
+</div>
+<!-- Center Column: Geometría Sagrada / Arquitectura Espiritual -->
+<div class="col-span-12 lg:col-span-6 flex flex-col gap-6">
+<section class="hud-panel p-6 rounded-sm flex-grow flex flex-col justify-between relative min-h-[520px]">
+<div class="flex items-center justify-between border-b border-gunmetal pb-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-xl">token</span>
+<div>
+<h3 class="font-display text-sm text-pearl-white tracking-widest uppercase">ARQUITECTURA_ESPIRITUAL</h3>
+<p class="font-mono text-[9px] text-tertiary">VORTEX GEOMETRICUS // MERKABA FLUX</p>
+</div>
+</div>
+<div class="text-right font-mono text-[10px]">
+<span class="text-gunmetal-light">FIJACIÓN_EJE:</span> <span class="text-primary font-bold">ESTABLE</span><br/>
+<span class="text-gunmetal-light">VIBRACIÓN:</span> <span class="text-secondary font-bold">ETÉREA_PRIME</span>
+</div>
+</div>
+<!-- Sacred Geometry Merkaba Visualization Container -->
+<div class="relative w-full flex-grow flex items-center justify-center my-6">
+<!-- Animated Concentric Halos -->
+<div class="absolute w-80 h-80 border border-primary/20 rounded-full animate-[ping_9s_infinite]"></div>
+<div class="absolute w-96 h-96 border border-metaphysic/30 rounded-full animate-[pulse_4s_infinite]"></div>
+<div class="absolute w-[440px] h-[440px] border border-gunmetal rounded-full border-dashed opacity-40"></div>
+<!-- Merkaba Vector Graphics -->
+<div class="relative w-72 h-72">
+<svg class="w-full h-full filter drop-shadow-[0_0_24px_rgba(0,240,255,0.4)]" viewbox="0 0 200 200">
+<defs>
+<lineargradient id="cyber-geom" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#00f0ff"></stop>
+<stop offset="50%" stop-color="#7000ff"></stop>
+<stop offset="100%" stop-color="#ff007f"></stop>
+</lineargradient>
+</defs>
+<!-- Outer Hexagram Star (Merkaba) -->
+<g class="origin-center animate-[spin_50s_linear_infinite]">
+<polygon fill="none" points="100,18 182,150 18,150" stroke="url(#cyber-geom)" stroke-linecap="round" stroke-width="1.2"></polygon>
+<polygon fill="none" points="100,182 18,50 182,50" stroke="url(#cyber-geom)" stroke-linecap="round" stroke-width="1.2"></polygon>
+<circle cx="100" cy="100" fill="none" r="32" stroke="#48ddc1" stroke-dasharray="3,3" stroke-width="1"></circle>
+<circle cx="100" cy="100" fill="none" r="82" stroke="rgba(0,240,255,0.25)" stroke-width="0.8"></circle>
+<!-- Metatronic lines -->
+<path d="M100,10 L100,190 M10,100 L190,100 M36,36 L164,164 M36,164 L164,36" stroke="rgba(112,0,255,0.3)" stroke-width="0.6"></path>
+</g>
+<!-- Central Singularity Nexus -->
+<circle class="animate-pulse shadow-[0_0_12px_#00f0ff]" cx="100" cy="100" fill="#00f0ff" r="5"></circle>
+<circle class="animate-ping" cx="100" cy="100" fill="none" r="14" stroke="#ff007f" stroke-width="1"></circle>
+</svg>
+</div>
+<!-- Tactical HUD Dynamic Callouts -->
+<div class="absolute top-6 left-4 md:left-12 flex flex-col items-start bg-surface-container/70 border-l-2 border-primary px-3 py-1.5 backdrop-blur-sm">
+<span class="font-hud text-[9px] text-gunmetal-light uppercase tracking-widest">DISOLUCIÓN_EGO</span>
+<span class="font-mono text-xl text-primary font-bold glow-cyan">0.942</span>
+</div>
+<div class="absolute bottom-6 right-4 md:right-12 flex flex-col items-end bg-surface-container/70 border-r-2 border-secondary px-3 py-1.5 backdrop-blur-sm">
+<span class="font-hud text-[9px] text-gunmetal-light uppercase tracking-widest">COHESIÓN_UNIDAD</span>
+<span class="font-mono text-xl text-secondary font-bold glow-magenta">0.819</span>
+</div>
+</div>
+<!-- Resonance Matrix Bars & Total Σ Metric -->
+<div class="w-full pt-4 border-t border-gunmetal flex justify-between items-end">
+<div class="flex gap-5">
+<div class="text-center">
+<div class="w-2 h-16 bg-surface-container rounded-sm overflow-hidden border border-gunmetal">
+<div class="w-full bg-primary h-[85%] mt-[15%] shadow-[0_0_8px_#00f0ff]"></div>
+</div>
+<span class="font-mono text-[9px] text-primary mt-1 block">CH1</span>
+</div>
+<div class="text-center">
+<div class="w-2 h-16 bg-surface-container rounded-sm overflow-hidden border border-gunmetal">
+<div class="w-full bg-tertiary h-[60%] mt-[40%] shadow-[0_0_8px_#48ddc1]"></div>
+</div>
+<span class="font-mono text-[9px] text-tertiary mt-1 block">CH2</span>
+</div>
+<div class="text-center">
+<div class="w-2 h-16 bg-surface-container rounded-sm overflow-hidden border border-gunmetal">
+<div class="w-full bg-secondary h-[75%] mt-[25%] shadow-[0_0_8px_#ff007f]"></div>
+</div>
+<span class="font-mono text-[9px] text-secondary mt-1 block">CH3</span>
+</div>
+<div class="text-center">
+<div class="w-2 h-16 bg-surface-container rounded-sm overflow-hidden border border-gunmetal">
+<div class="w-full bg-metaphysic-light h-[90%] mt-[10%] shadow-[0_0_8px_#7000ff]"></div>
+</div>
+<span class="font-mono text-[9px] text-metaphysic-light mt-1 block">CH4</span>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<div class="font-hud text-[10px] text-gunmetal-light tracking-widest">RESONANCIA_TOTAL</div>
+<div class="font-display text-2xl md:text-3xl text-pearl-white glow-cyan tracking-wider">Σ_5.89 k</div>
+</div>
+</div>
+</section>
+<!-- TRABAJO_INTERIOR_ESOTÉRICO -->
+<section class="hud-panel p-5 rounded-sm">
+<div class="flex items-center justify-between mb-4 pb-2 border-b border-gunmetal">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary">visibility</span>
+<h3 class="font-display text-xs text-pearl-white tracking-widest uppercase">TRABAJO_INTERIOR_ESOTÉRICO</h3>
+</div>
+<span class="font-mono text-[9px] text-gunmetal-light">ENTRADAS: 02</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="p-3.5 bg-surface-container border border-gunmetal rounded-sm hover:border-primary/50 transition-all">
+<div class="flex justify-between items-start mb-2">
+<span class="font-hud text-[11px] font-bold text-primary">INTEGRACIÓN_SOMBRA</span>
+<span class="font-mono text-[9px] text-tertiary bg-tertiary/10 px-1 rounded">ACTIVO</span>
+</div>
+<p class="font-hud text-[11px] text-pearl-white/80 leading-relaxed italic">
+              "Observada resistencia al rendirse durante el 4º ciclo. Raíz identificada en patrones arcaicos de control."
+            </p>
+<div class="mt-3 flex justify-end">
+<span class="material-symbols-outlined text-sm text-primary hover:scale-110 cursor-pointer">edit_note</span>
+</div>
+</div>
+<div class="p-3.5 bg-surface-container border border-gunmetal rounded-sm hover:border-secondary/50 transition-all">
+<div class="flex justify-between items-start mb-2">
+<span class="font-hud text-[11px] font-bold text-secondary">AUTO-OBSERVACIÓN</span>
+<span class="font-mono text-[9px] text-secondary bg-secondary/10 px-1 rounded">ACTUALIZACIÓN</span>
+</div>
+<p class="font-hud text-[11px] text-pearl-white/80 leading-relaxed">
+              Detección de estado no-dual durante 142 segundos. Adelgazamiento del límite del ego verificado y cuantificado.
+            </p>
+<div class="mt-3 flex justify-end">
+<span class="material-symbols-outlined text-sm text-secondary hover:scale-110 cursor-pointer">open_in_new</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Protocolos & SOF.IA -->
+<div class="col-span-12 lg:col-span-3 flex flex-col gap-6">
+<!-- SOF.IA GUÍA ESPIRITUAL -->
+<section class="hud-panel p-5 rounded-sm border-l-4 border-l-primary relative overflow-hidden">
+<div class="scanline-tactical"></div>
+<div class="flex items-center gap-3 mb-3">
+<div class="w-8 h-8 rounded bg-gradient-to-tr from-primary to-metaphysic flex items-center justify-center shadow-[0_0_10px_rgba(0,240,255,0.5)]">
+<span class="material-symbols-outlined text-dark-void text-base font-bold" style="font-variation-settings: 'FILL' 1;">neurology</span>
+</div>
+<div>
+<h3 class="font-display text-xs text-pearl-white tracking-widest uppercase">SOF.IA_ORÁCULO</h3>
+<span class="font-mono text-[9px] text-tertiary">INTELIGENCIA_TRASCENDENTE</span>
+</div>
+</div>
+<div class="bg-surface-container p-3.5 rounded-sm border border-gunmetal mb-3">
+<div class="font-mono text-[9px] text-primary/80 mb-1 flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span> VISIÓN_METAFÍSICA_VIVA:
+          </div>
+<p class="font-hud text-[11px] text-pearl-white leading-relaxed">
+            "La bio-firma revela sutil desalineación en el Chakra Laríngeo. Re-modula la intención hacia la <span class="text-tertiary font-bold">Autenticidad Radical</span> para consumar la Sincronía Divina."
+          </p>
+</div>
+<div class="space-y-1.5 font-hud text-[10px]">
+<div class="flex items-center justify-between p-1.5 bg-dark-void/70 border border-gunmetal rounded-sm">
+<span class="text-gunmetal-light">POLUCIÓN_PENSAMIENTO</span>
+<span class="font-mono text-tertiary font-bold">0.04%</span>
+</div>
+<div class="flex items-center justify-between p-1.5 bg-dark-void/70 border border-gunmetal rounded-sm">
+<span class="text-gunmetal-light">TRAYECTORIA_ÁLMICA</span>
+<span class="font-mono text-primary font-bold animate-pulse">BLOQUEADA_100%</span>
+</div>
+</div>
+</section>
+<!-- PROTOCOLOS DE REZO / ORACIÓN -->
+<section class="hud-panel p-5 rounded-sm flex-grow flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-gunmetal mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">flare</span>
+<h3 class="font-display text-xs text-pearl-white tracking-widest uppercase">PROTOCOLOS_REZO</h3>
+</div>
+<span class="font-mono text-[9px] text-tertiary">3 ACTIVOS</span>
+</div>
+<div class="space-y-3">
+<div class="p-3 bg-surface-container rounded-sm border border-gunmetal hover:border-primary/50 transition-all cursor-pointer">
+<div class="flex justify-between items-center mb-1">
+<span class="font-hud text-[11px] font-bold text-primary">INTENCIÓN_01</span>
+<span class="font-mono text-[10px] text-tertiary">LVL_98</span>
+</div>
+<div class="font-hud text-[11px] text-pearl-white">Compasión Universal</div>
+<div class="mt-2 flex gap-1">
+<div class="flex-1 h-1.5 bg-primary shadow-[0_0_6px_#00f0ff]"></div>
+<div class="flex-1 h-1.5 bg-primary shadow-[0_0_6px_#00f0ff]"></div>
+<div class="flex-1 h-1.5 bg-primary shadow-[0_0_6px_#00f0ff]"></div>
+<div class="flex-1 h-1.5 bg-gunmetal"></div>
+</div>
+</div>
+<div class="p-3 bg-surface-container rounded-sm border border-gunmetal hover:border-secondary/50 transition-all cursor-pointer">
+<div class="flex justify-between items-center mb-1">
+<span class="font-hud text-[11px] font-bold text-secondary">MANTRA_72</span>
+<span class="font-mono text-[10px] text-secondary-glow">LVL_42</span>
+</div>
+<div class="font-hud text-[11px] text-pearl-white">OM_MANI_PADME_HUM</div>
+<div class="mt-2 flex gap-1">
+<div class="flex-1 h-1.5 bg-secondary shadow-[0_0_6px_#ff007f]"></div>
+<div class="flex-1 h-1.5 bg-gunmetal"></div>
+<div class="flex-1 h-1.5 bg-gunmetal"></div>
+<div class="flex-1 h-1.5 bg-gunmetal"></div>
+</div>
+</div>
+<div class="p-3 bg-surface-container rounded-sm border border-gunmetal hover:border-tertiary/50 transition-all cursor-pointer">
+<div class="flex justify-between items-center mb-1">
+<span class="font-hud text-[11px] font-bold text-tertiary">PROTOCOLO_X</span>
+<span class="font-mono text-[10px] text-tertiary">LVL_75</span>
+</div>
+<div class="font-hud text-[11px] text-pearl-white">Existencia_Agradecida</div>
+<div class="mt-2 flex gap-1">
+<div class="flex-1 h-1.5 bg-tertiary shadow-[0_0_6px_#48ddc1]"></div>
+<div class="flex-1 h-1.5 bg-tertiary shadow-[0_0_6px_#48ddc1]"></div>
+<div class="flex-1 h-1.5 bg-gunmetal"></div>
+<div class="flex-1 h-1.5 bg-gunmetal"></div>
+</div>
+</div>
+</div>
+</div>
+<button class="w-full mt-4 py-2.5 border border-dashed border-gunmetal hover:border-primary text-gunmetal-light hover:text-primary rounded-sm flex items-center justify-center gap-2 transition-all font-hud text-[10px] font-bold tracking-widest bg-dark-void/40">
+<span class="material-symbols-outlined text-base">add_circle</span>
+<span>NUEVA_INTENCIÓN</span>
+</button>
+</section>
+</div>
+</div>
+</main>
+<!-- Bottom Telemetry HUD Status Bar -->
+<footer class="fixed bottom-0 w-full h-8 bg-dark-void border-t border-gunmetal-border/80 flex items-center justify-between px-6 z-50">
+<div class="flex gap-6">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-tertiary shadow-[0_0_6px_#48ddc1] animate-pulse"></div>
+<span class="font-mono text-[9px] text-pearl-white/80">SINCRO_VIBRACIONAL: <span class="text-tertiary font-bold">ACTIVA</span></span>
+</div>
+<div class="flex items-center gap-2 border-l border-gunmetal pl-6">
+<span class="material-symbols-outlined text-[12px] text-primary">wifi_tethering</span>
+<span class="font-mono text-[9px] text-pearl-white/80">ENLACE_ÉTER: <span class="text-primary font-bold">32 ms</span></span>
+</div>
+</div>
+<div class="flex gap-5">
+<span class="font-mono text-[9px] text-secondary">UTC+0 [HORA_VACÍO]</span>
+<span class="font-mono text-[9px] text-gunmetal-light border-l border-gunmetal pl-4">COMPILACIÓN: 0.7.2-CYBER-CORE</span>
+</div>
+</footer>
+<script>
+  // Subtle Telemetry Numerical Flux Simulation
+  setInterval(() => {
+    const dataValues = document.querySelectorAll('.font-mono.text-base');
+    dataValues.forEach(val => {
+      const current = parseFloat(val.innerText);
+      const jitter = (Math.random() - 0.5) * 0.04;
+      val.innerText = (current + jitter).toFixed(2) + (val.innerText.includes('Hz') ? ' Hz' : ' m');
+    });
+  }, 2600);
+</script>
+</body></html>

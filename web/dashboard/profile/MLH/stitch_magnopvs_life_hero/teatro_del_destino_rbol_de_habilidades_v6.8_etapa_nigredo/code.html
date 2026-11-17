@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Teatro del Destino | The Great Work v6.8</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&amp;family=Audiowide&amp;family=Space+Mono&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #131313;
+            color: #e2e2e2;
+            overflow-x: hidden;
+            margin: 0;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .glass-panel {
+            background: rgba(14, 14, 14, 0.6);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(0, 220, 229, 0.1);
+        }
+
+        .node-pulse {
+            animation: pulse 3s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(0, 220, 229, 0.4)); transform: scale(1); }
+            50% { filter: drop-shadow(0 0 15px rgba(0, 220, 229, 0.8)); transform: scale(1.05); }
+        }
+
+        .constellation-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw 2s forwards ease-out;
+        }
+
+        @keyframes draw {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .arcane-glow {
+            box-shadow: 0 0 30px rgba(0, 220, 229, 0.15);
+        }
+
+        .glitch-hover:hover {
+            animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); text-shadow: -2px 0 #00dce5, 2px 0 #63f7ff; }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #131313; }
+        ::-webkit-scrollbar-thumb { background: #353535; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00dce5; }
+    </style>
+</head>
+<body class="font-body-lg text-body-lg selection:bg-tertiary/30 selection:text-tertiary">
+<!-- Volumetric Background Effects -->
+<div class="fixed inset-0 z-[-1] pointer-events-none overflow-hidden">
+<div class="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-tertiary/10 rounded-full blur-[160px]"></div>
+<div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[140px]"></div>
+<!-- Sacred Geometry Overlay -->
+<div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(circle, #00dce5 1px, transparent 1px); background-size: 60px 60px;"></div>
+</div>
+<!-- TopNavBar (JSON Managed) -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-background/40 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(0,220,229,0.1)]">
+<div class="font-display-xl-mobile text-display-xl-mobile tracking-widest text-on-surface uppercase font-headline-lg">TEATRO DEL DESTINO</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-tertiary border-b border-tertiary pb-1 font-title-md text-title-md hover:text-tertiary transition-all duration-500" href="#">The Great Work</a>
+<a class="text-on-surface-variant font-title-md text-title-md hover:text-tertiary transition-all duration-500" href="#">Grimoire</a>
+<a class="text-on-surface-variant font-title-md text-title-md hover:text-tertiary transition-all duration-500" href="#">Sanctum</a>
+</div>
+<div class="flex items-center space-x-6">
+<span class="text-tertiary font-data-mono text-data-mono tracking-widest bg-tertiary/10 px-3 py-1 border border-tertiary/20">Balance: 1250 CR</span>
+<div class="flex space-x-4">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-tertiary cursor-pointer transition-colors" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-tertiary cursor-pointer transition-colors" data-icon="settings">settings</span>
+</div>
+<div class="w-10 h-10 rounded-full border border-tertiary/30 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A stylized portrait of a high-tech alchemist wearing a sleek carbon-fiber mask with glowing cyan runes etched into the surface. The background is a deep, nebulous void with hints of violet light. Cinematic lighting highlights the sharp textures of the mask and the ethereal glow of the eyes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbZDMMa3wvl03MGFZmGgQLThTvKAfrjI3KDapkgtcaKU92Y_quAs8NYCRrbEDpkELaev69SG8262i7KcTgve62ezqta1CEzVHh4TOsv3mhphgU4Ox3kX_ORB3q3lYYpOneubALNa2iskJ6JTmwRfh3nBCHe79gCzlFBi0kDr6wt97V9Tkk39c67K7pub6XQB61lLjfulCKaB_HTJeB4jZ8mTkr_HyLesizgfhHTSejO_WuSMXilslXn-u_GeiZmI_6x79q5W-82wAN"/>
+</div>
+</div>
+</nav>
+<!-- SideNavBar (JSON Managed) -->
+<aside class="fixed left-0 top-20 h-[calc(100vh-80px)] w-64 bg-surface-container-lowest/60 backdrop-blur-2xl border-r border-outline-variant/20 shadow-2xl shadow-black flex flex-col py-8 z-40 hidden md:flex">
+<div class="px-6 mb-10">
+<div class="flex items-center space-x-3 mb-2">
+<div class="w-8 h-8 rounded-sm bg-tertiary/20 flex items-center justify-center border border-tertiary/40">
+<span class="material-symbols-outlined text-tertiary text-sm" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface leading-none text-base">THE GREAT WORK</h3>
+<p class="font-label-caps text-[10px] text-on-surface-variant tracking-[0.3em] uppercase">Ascension Protocol</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-2"><button class="w-full px-6 py-4 flex items-center space-x-4 bg-tertiary-container/30 text-tertiary border-l-2 border-tertiary group"><span class="material-symbols-outlined" data-icon="nights_stay">nights_stay</span><span class="font-label-caps text-label-caps tracking-widest uppercase">Nigredo</span></button><button class="w-full px-6 py-4 flex items-center space-x-4 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 transition-colors group"><span class="material-symbols-outlined group-hover:scale-110 transition-transform" data-icon="brightness_high">brightness_high</span><span class="font-label-caps text-label-caps tracking-widest uppercase">Albedo</span></button><button class="w-full px-6 py-4 flex items-center space-x-4 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 transition-colors group"><span class="material-symbols-outlined group-hover:scale-110 transition-transform" data-icon="wb_sunny">wb_sunny</span><span class="font-label-caps text-label-caps tracking-widest uppercase">Citrinitas</span></button><button class="w-full px-6 py-4 flex items-center space-x-4 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 transition-colors group"><span class="material-symbols-outlined group-hover:scale-110 transition-transform" data-icon="flare">flare</span><span class="font-label-caps text-label-caps tracking-widest uppercase">Rubedo</span></button></nav>
+<div class="px-6 mt-auto">
+<button class="w-full py-4 border border-tertiary text-tertiary font-label-caps text-label-caps uppercase tracking-widest hover:bg-tertiary/10 transition-all duration-300 group relative overflow-hidden">
+<span class="relative z-10">Transmute Essence</span>
+<div class="absolute inset-0 bg-tertiary opacity-0 group-hover:opacity-10 transition-opacity"></div>
+</button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-0 md:ml-64 pt-24 pb-20 px-margin-mobile md:px-margin-desktop min-h-screen grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Skill Tree Viewport (LHS/Center) -->
+<div class="lg:col-span-8 relative min-h-[600px] glass-panel rounded-xl overflow-hidden border border-outline-variant/10 flex flex-col">
+<!-- Background Decoration for Tree -->
+<div class="absolute inset-0 pointer-events-none opacity-20">
+</div>
+<!-- Top Header for Skill Tree -->
+<div class="relative z-10 p-8 flex justify-between items-start">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface uppercase mb-2">Archetype Skill Tree</h1>
+<div class="flex items-center space-x-4">
+<span class="text-tertiary font-data-mono text-data-mono uppercase tracking-[0.2em] border-l-2 border-tertiary pl-3">Stage: Nigredo (Decomposition)</span>
+<span class="text-on-surface-variant font-data-mono text-data-mono opacity-60">Completion: 34%</span>
+</div>
+</div>
+<div class="flex space-x-2">
+<div class="px-3 py-1 bg-surface-container-high border border-outline-variant text-on-surface text-[10px] font-data-mono">V6.8-LOCKED</div>
+</div>
+</div>
+<!-- The Constellation (SVG Overlay for connections) -->
+<div class="flex-1 relative flex items-center justify-center overflow-visible">
+<svg class="absolute inset-0 w-full h-full pointer-events-none z-0" preserveaspectratio="none">
+<!-- Connections -->
+<line class="constellation-line" stroke="rgba(0,220,229,0.3)" stroke-width="2" x1="50%" x2="35%" y1="50%" y2="40%"></line>
+<line class="constellation-line" stroke="rgba(0,220,229,0.3)" stroke-width="2" x1="50%" x2="65%" y1="50%" y2="40%"></line>
+<line stroke="rgba(76,69,70,0.5)" stroke-width="2" x1="35%" x2="25%" y1="40%" y2="25%"></line>
+<line class="constellation-line" stroke="rgba(0,220,229,0.3)" stroke-width="2" x1="65%" x2="75%" y1="40%" y2="25%"></line>
+</svg>
+<!-- Skill Nodes -->
+<div class="relative w-full h-full flex items-center justify-center p-12">
+<!-- Central Hub -->
+<div class="absolute group cursor-pointer" style="left: 50%; top: 50%; transform: translate(-50%, -50%);">
+<div class="w-20 h-20 rounded-full bg-surface-container-lowest border-2 border-tertiary node-pulse flex items-center justify-center z-10 relative overflow-hidden">
+<div class="absolute inset-0 bg-tertiary/20 animate-spin-slow"></div>
+<span class="material-symbols-outlined text-tertiary text-3xl" data-icon="all_inclusive" style="font-variation-settings: 'FILL' 1;">contrast</span>
+</div>
+<span class="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap font-label-caps text-[10px] tracking-widest text-tertiary uppercase">Shadow Integration</span>
+</div>
+<!-- Branch: Mirror Protocol (Active) -->
+<div class="absolute group cursor-pointer transition-all hover:scale-110" style="left: 35%; top: 40%; transform: translate(-50%, -50%);">
+<div class="w-14 h-14 rounded-sm bg-surface-container-high border border-tertiary flex items-center justify-center shadow-[0_0_20px_rgba(0,220,229,0.4)] relative">
+<span class="material-symbols-outlined text-tertiary" data-icon="visibility">visibility</span>
+<!-- Glow Ring -->
+<div class="absolute inset-[-4px] border border-tertiary/20 rounded-sm"></div>
+</div>
+<span class="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap font-label-caps text-[10px] tracking-widest text-on-surface uppercase">Void Echo</span>
+</div>
+<!-- Branch: Dharma Resonance (Active) -->
+<div class="absolute group cursor-pointer transition-all hover:scale-110" style="left: 65%; top: 40%; transform: translate(-50%, -50%);">
+<div class="w-14 h-14 rounded-sm bg-surface-container-high border border-tertiary flex items-center justify-center shadow-[0_0_20px_rgba(0,220,229,0.4)] relative">
+<span class="material-symbols-outlined text-tertiary" data-icon="hearing">hearing</span>
+</div>
+<span class="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap font-label-caps text-[10px] tracking-widest text-on-surface uppercase">Karmic Extraction</span>
+</div>
+<!-- Branch: Chronos Sight (Available) -->
+<div class="absolute group cursor-pointer transition-all hover:scale-110" style="left: 75%; top: 25%; transform: translate(-50%, -50%);">
+<div class="w-12 h-12 rounded-sm bg-surface-container border border-outline flex items-center justify-center hover:border-tertiary transition-colors group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-tertiary" data-icon="schedule">schedule</span>
+</div>
+<span class="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap font-label-caps text-[10px] tracking-widest text-on-surface-variant uppercase group-hover:text-tertiary">Fear Transmutation</span>
+</div>
+<!-- Branch: Vedic Elementalism (Locked) -->
+<div class="absolute group" style="left: 25%; top: 25%; transform: translate(-50%, -50%);">
+<div class="w-12 h-12 rounded-sm bg-surface-container-lowest border border-outline-variant flex items-center justify-center grayscale opacity-40">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="tsunami">tsunami</span>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px] text-error" data-icon="lock">lock</span>
+</div>
+</div>
+<span class="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap font-label-caps text-[10px] tracking-widest text-on-surface-variant uppercase">Vedic Elem.</span>
+</div>
+</div>
+</div>
+<!-- Footer Stats within Canvas -->
+<div class="p-6 border-t border-outline-variant/10 flex justify-between items-center">
+<div class="flex space-x-8">
+<div class="flex flex-col">
+<span class="text-[9px] font-label-caps text-on-surface-variant tracking-widest uppercase">Nodes Active</span>
+<span class="font-data-mono text-lg text-tertiary">14 / 42</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[9px] font-label-caps text-on-surface-variant tracking-widest uppercase">Ascension Tier</span>
+<span class="font-data-mono text-lg text-secondary">II - ADEPTO</span>
+</div>
+</div>
+<div class="flex space-x-2">
+<button class="px-4 py-2 bg-surface-container-high border border-outline-variant text-[10px] font-label-caps uppercase tracking-widest hover:border-tertiary transition-colors">Respec Points</button>
+<button class="px-4 py-2 bg-tertiary text-on-tertiary font-label-caps text-[10px] uppercase tracking-widest hover:bg-tertiary-fixed transition-colors">View Path</button>
+</div>
+</div>
+</div>
+<!-- Side Panel: Knowledge Codex (RHS) -->
+<aside class="lg:col-span-4 flex flex-col space-y-6">
+<!-- Selected Skill Details Card -->
+<div class="glass-panel rounded-xl overflow-hidden flex flex-col border border-tertiary/20">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A cinematic close-up of a digital artifact pulsing with neon cyan light. The surface of the artifact is etched with ancient Sanskrit symbols that glow with internal energy. Particles of light float around the object in a deep black void. The mood is mysterious, high-fidelity, and technologically advanced." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCrZjxiJz3dGxvQ1EDuaCzkSFWJXmGAQRZ9BgDu4_R_LOcNS7YHBQhFZxffjbe-KK8paEOoGDFB1BTi7aZyZrWP87KlSn4xm-xeNlRjbcxqHNQ_5fdzaUED-039w2cRkeWFCJOjf9F8d3gkQHJB921mYs1HZZ-vEazvyTLX74VAqsoGI8K3jlgREpMvmfVUBaaiWnrzW92kTBuM7p5MXcIkHvQQ1ztPyGjf-YuAvmLhAZIqtwqvTJG_-Pab0dQ8_Z993EKfcUxdWjA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="absolute top-4 right-4 bg-tertiary/20 backdrop-blur-md px-3 py-1 border border-tertiary/40 rounded-full">
+<span class="text-[10px] font-data-mono text-tertiary">RANK MAX</span>
+</div>
+</div>
+<div class="p-6 flex-1">
+<div class="flex items-center justify-between mb-4">
+<h2 class="font-headline-lg text-2xl text-on-surface uppercase tracking-tight">Shadow Integration</h2>
+<span class="material-symbols-outlined text-tertiary" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div class="flex items-center space-x-2 mb-6"><div class="h-1 flex-1 bg-tertiary rounded-full"></div><div class="h-1 flex-1 bg-tertiary rounded-full"></div><div class="h-1 flex-1 bg-surface-container-high rounded-full"></div><div class="h-1 flex-1 bg-surface-container-high rounded-full"></div><span class="text-[10px] font-data-mono text-on-surface-variant ml-2">Tier 2</span></div>
+<p class="text-on-surface-variant font-body-sm leading-relaxed mb-6">Transmute the energy of your suppressed traits into operational power. The darkness you acknowledge becomes the fuel for your Light. This is the first step of the Alchemical Work.</p>
+<!-- Alignment Indicator -->
+<div class="space-y-3 mb-8">
+<div class="flex justify-between items-center text-[10px] font-label-caps uppercase tracking-widest">
+<span class="text-on-surface-variant">Archetype Alignment</span>
+<span class="text-secondary">The Mystic</span>
+</div>
+<div class="w-full h-2 bg-surface-container-high overflow-hidden rounded-full flex">
+<div class="h-full bg-tertiary" style="width: 20%"></div>
+<div class="h-full bg-secondary" style="width: 70%"></div>
+<div class="h-full bg-error" style="width: 10%"></div>
+</div>
+</div>
+<div class="p-4 bg-tertiary/5 border border-tertiary/10 rounded-lg flex justify-between items-center mb-6"><div class="flex flex-col"><span class="text-[10px] font-label-caps text-tertiary/60 uppercase">Upgrade Cost</span><span class="font-data-mono text-lg text-tertiary">1200 CR</span></div><span class="text-[10px] font-data-mono text-tertiary">AVAILABLE</span></div>
+<button class="w-full py-4 bg-tertiary text-on-tertiary border border-tertiary font-label-caps text-label-caps uppercase tracking-[0.2em] hover:bg-tertiary-fixed transition-colors">Enhance Protocol</button>
+</div>
+</div>
+<!-- Archetype Summary -->
+<div class="glass-panel p-6 rounded-xl border border-outline-variant/10">
+<h3 class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface mb-4 flex items-center">
+<span class="material-symbols-outlined mr-2 text-sm" data-icon="account_tree">account_tree</span> Active Archetypes
+                </h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between group cursor-pointer"><div class="flex items-center space-x-3"><div class="w-2 h-2 rounded-full bg-surface-variant border border-outline-variant"></div><span class="font-body-sm text-on-surface-variant group-hover:text-on-surface transition-colors">The Architect</span></div><span class="font-data-mono text-[10px] text-on-surface-variant">Lv. 04</span></div>
+<div class="flex items-center justify-between group cursor-pointer">
+<div class="flex items-center space-x-3">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<span class="font-body-sm text-on-surface group-hover:text-secondary transition-colors">The Mystic</span>
+</div>
+<span class="font-data-mono text-[10px] text-on-surface-variant">Lv. 12</span>
+</div>
+<div class="flex items-center justify-between group cursor-pointer"><div class="flex items-center space-x-3"><div class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></div><span class="font-body-sm text-on-surface group-hover:text-tertiary transition-colors">The Shadow</span></div><span class="font-data-mono text-[10px] text-tertiary">Lv. 08</span></div>
+</div>
+</div>
+</aside>
+</main>
+<!-- Footer (JSON Managed) -->
+<footer class="fixed bottom-0 w-full z-40 flex flex-col md:flex-row justify-between items-center px-6 py-3 bg-background border-t border-outline-variant/10 font-data-mono text-data-mono text-on-surface-variant">
+<div class="font-label-caps text-label-caps text-on-primary-container mb-2 md:mb-0">© 2144 TEATRO DEL DESTINO. ALL SOULS ACCOUNTED.</div>
+<div class="flex space-x-6 text-[10px] tracking-tight">
+<span class="flex items-center hover:text-tertiary cursor-default transition-all duration-500">
+<span class="w-1.5 h-1.5 bg-tertiary rounded-full mr-2 animate-pulse"></span>
+                System Status: Optimal
+            </span>
+<span class="flex items-center hover:text-tertiary cursor-default transition-all duration-500">
+<span class="w-1.5 h-1.5 bg-secondary rounded-full mr-2"></span>
+                Neural Link: Active
+            </span>
+<button class="hover:text-primary transition-opacity opacity-80 hover:opacity-100 uppercase tracking-widest">Logout</button>
+</div>
+</footer>
+<!-- Interactive Layer: Floating Micro-particles -->
+<script>
+        // Simple Canvas Micro-particles for atmosphere
+        const createParticles = () => {
+            const container = document.createElement('div');
+            container.className = 'fixed inset-0 pointer-events-none z-[-1]';
+            document.body.appendChild(container);
+
+            for (let i = 0; i < 50; i++) {
+                const p = document.createElement('div');
+                p.style.position = 'absolute';
+                p.style.width = Math.random() * 2 + 'px';
+                p.style.height = p.style.width;
+                p.style.background = Math.random() > 0.5 ? '#00dce5' : '#bec6e0';
+                p.style.borderRadius = '50%';
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.top = Math.random() * 100 + 'vh';
+                p.style.opacity = Math.random() * 0.4;
+                
+                const anim = p.animate([
+                    { transform: 'translate(0, 0)', opacity: 0 },
+                    { transform: `translate(${Math.random() * 100 - 50}px, ${Math.random() * -200}px)`, opacity: 0.5 },
+                    { transform: `translate(${Math.random() * 200 - 100}px, ${Math.random() * -400}px)`, opacity: 0 }
+                ], {
+                    duration: Math.random() * 5000 + 5000,
+                    iterations: Infinity,
+                    easing: 'ease-in-out'
+                });
+                
+                container.appendChild(p);
+            }
+        };
+        
+        window.addEventListener('load', createParticles);
+    </script>
+</body></html>

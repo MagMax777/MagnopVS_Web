@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Jardín Digital de Hábitos | TEATRO DEL DESTINO</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Hanken+Grotesk:wght@300;400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --glow-cyan: rgba(45, 168, 224, 0.3);
+            --sage-glow: rgba(163, 190, 140, 0.2);
+        }
+        
+        body {
+            background-color: #101417;
+            color: #e0e3e6;
+            overflow-x: hidden;
+        }
+
+        .cyber-grid {
+            background-image: 
+                linear-gradient(to right, rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(197, 231, 255, 0.1);
+        }
+
+        .hex-clip {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        .neon-pulse {
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { filter: drop-shadow(0 0 5px var(--glow-cyan)); opacity: 0.8; }
+            50% { filter: drop-shadow(0 0 15px var(--glow-cyan)); opacity: 1; }
+        }
+
+        .aether-flora-container {
+            perspective: 1000px;
+        }
+
+        .flora-orb {
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .flora-orb:hover {
+            transform: scale(1.05) translateY(-5px);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #7fd0ff;
+            border-radius: 2px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "grid-line": "rgba(127, 208, 255, 0.05)",
+                      "on-tertiary-fixed": "#390625",
+                      "inverse-surface": "#e0e3e6",
+                      "on-surface": "#e0e3e6",
+                      "inverse-on-surface": "#2d3134",
+                      "surface-container-high": "#272a2d",
+                      "surface-tint": "#7fd0ff",
+                      "outline-variant": "#3f484e",
+                      "on-tertiary-fixed-variant": "#6e3252",
+                      "surface-bright": "#363a3d",
+                      "on-primary-fixed": "#001e2d",
+                      "on-secondary-fixed-variant": "#005144",
+                      "surface-panel": "rgba(255, 255, 255, 0.03)",
+                      "surface-variant": "#313538",
+                      "secondary-container": "#00bba0",
+                      "primary-container": "#7fd0ff",
+                      "on-primary-container": "#00597b",
+                      "on-secondary": "#00382e",
+                      "secondary-fixed": "#6af9dc",
+                      "primary-fixed-dim": "#7fd0ff",
+                      "on-primary": "#00344a",
+                      "on-primary-fixed-variant": "#004c6a",
+                      "tertiary-fixed": "#ffd8e7",
+                      "surface-container": "#1c2023",
+                      "status-critical": "#93000a",
+                      "tertiary-container": "#ffafd4",
+                      "secondary-fixed-dim": "#47ddc1",
+                      "tertiary": "#ffd8e7",
+                      "surface-container-low": "#181c1f",
+                      "primary": "#c5e7ff",
+                      "on-error-container": "#ffdad6",
+                      "inverse-primary": "#00658b",
+                      "on-secondary-container": "#004439",
+                      "surface": "#101417",
+                      "on-surface-variant": "#bfc8cf",
+                      "outline": "#899299",
+                      "surface-dim": "#101417",
+                      "on-secondary-fixed": "#00201a",
+                      "error": "#ffb4ab",
+                      "on-tertiary": "#531c3b",
+                      "primary-fixed": "#c5e7ff",
+                      "on-error": "#690005",
+                      "surface-container-highest": "#313538",
+                      "surface-container-lowest": "#0b0f11",
+                      "error-container": "#93000a",
+                      "on-tertiary-container": "#7c3e5e",
+                      "secondary": "#47ddc1",
+                      "glow-cyan": "#2da8e0",
+                      "background-deep": "#0a0b12",
+                      "tertiary-fixed-dim": "#ffafd4",
+                      "background": "#101417",
+                      "on-background": "#e0e3e6"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "20px",
+                      "gutter": "16px",
+                      "unit": "4px",
+                      "margin-desktop": "40px",
+                      "section-padding": "128px",
+                      "panel-gap": "12px"
+              },
+              "fontFamily": {
+                      "label-caps": ["JetBrains Mono"],
+                      "headline-md": ["Space Grotesk"],
+                      "micro-tag": ["JetBrains Mono"],
+                      "data-point": ["Hanken Grotesk"],
+                      "body-md": ["Hanken Grotesk"],
+                      "mono-data": ["JetBrains Mono"],
+                      "display-lg-mobile": ["Space Grotesk"],
+                      "display-lg": ["Space Grotesk"]
+              },
+              "fontSize": {
+                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                      "micro-tag": ["10px", {"letterSpacing": "0.3em", "fontWeight": "400"}],
+                      "data-point": ["20px", {"lineHeight": "28px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                      "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.05em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="cyber-grid font-body-md text-on-surface">
+<!-- Top AppBar (from JSON) -->
+<header class="fixed top-0 w-full z-50 bg-surface/40 backdrop-blur-xl border-b border-outline-variant/30 flex justify-between items-center px-margin-desktop py-4">
+<div class="font-headline-lg text-headline-lg text-on-surface tracking-widest font-bold">TEATRO DEL DESTINO</div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface transition-colors" href="#">ARCHETYPES</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface transition-colors" href="#">VAULT</a>
+<a class="font-label-caps text-label-caps text-tertiary border-b-2 border-tertiary pb-1" href="#">ALCHEMY</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface transition-colors" href="#">IMPACT</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-variant/20 transition-all rounded-full">
+<span class="material-symbols-outlined text-primary">notifications</span>
+</button>
+<button class="p-2 hover:bg-surface-variant/20 transition-all rounded-full">
+<span class="material-symbols-outlined text-primary">account_balance_wallet</span>
+</button>
+<div class="w-10 h-10 rounded-full border border-primary/30 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A highly detailed close-up of a futuristic user profile avatar with a metallic, iridescent visor. The character has glowing cyan markings etched into their skin, reflecting the cyber-alchemical aesthetic. The background is a soft-focus dark digital grid with subtle teal and violet light leaks, conveying a sense of mystical digital enlightenment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMvRVu0gezUjv9I1I1Eu1NwcN1DplT_TIMeblawj5FPTE7UF-VEbvmyTbRenUKUvKwPjfMkYHAierDNrQ_RuYbLPO8sKOgKD3ABi_F29UNZVRcqtP1Z37nbAfluqflrTe6DX8-L12WSMzt6DsVpY-Vo8pPyu-qtk7H8hz_bblcD6yJmAoHsIRW32Qu46dB4gTXwZviP0pl2t9Qyo1C1mniB069gD-VML6AgEJZUk8KVUE2YY70sHGw5g"/>
+</div>
+</div>
+</header>
+<!-- Side NavBar (from JSON) -->
+<aside class="hidden md:flex fixed left-0 top-0 h-full w-64 bg-surface-container-lowest/60 backdrop-blur-2xl border-r border-outline-variant/20 flex flex-col py-8 space-y-6 z-40">
+<div class="px-8 mb-8">
+<div class="text-primary font-headline-lg text-headline-lg mb-1 tracking-tighter">GREAT WORK</div>
+<div class="font-label-caps text-label-caps opacity-60">Progression Tracking</div>
+</div>
+<nav class="flex-1 px-4 space-y-2">
+<a class="flex items-center gap-4 text-on-surface-variant px-4 py-3 hover:bg-surface-variant/10 transition-transform hover:backdrop-brightness-125 font-mono-data text-mono-data" href="#">
+<span class="material-symbols-outlined">radio_button_unchecked</span> Nigredo
+            </a>
+<a class="flex items-center gap-4 text-on-surface-variant px-4 py-3 hover:bg-surface-variant/10 transition-transform hover:backdrop-brightness-125 font-mono-data text-mono-data" href="#">
+<span class="material-symbols-outlined">contrast</span> Albedo
+            </a>
+<a class="flex items-center gap-4 bg-tertiary-container/30 text-tertiary border-l-4 border-tertiary px-4 py-3 font-mono-data text-mono-data" href="#">
+<span class="material-symbols-outlined">wb_sunny</span> Citrinitas
+            </a>
+<a class="flex items-center gap-4 text-on-surface-variant px-4 py-3 hover:bg-surface-variant/10 transition-transform hover:backdrop-brightness-125 font-mono-data text-mono-data" href="#">
+<span class="material-symbols-outlined">brightness_high</span> Rubedo
+            </a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full bg-primary text-on-primary py-3 font-label-caps text-label-caps tracking-widest hover:brightness-110 transition-all">ASCEND</button>
+</div>
+<div class="px-4 py-4 border-t border-outline-variant/10 space-y-2">
+<a class="flex items-center gap-4 text-on-surface-variant px-4 py-2 hover:text-primary font-mono-data text-mono-data text-xs" href="#">
+<span class="material-symbols-outlined text-sm">settings</span> Settings
+            </a>
+<a class="flex items-center gap-4 text-on-surface-variant px-4 py-2 hover:text-primary font-mono-data text-mono-data text-xs" href="#">
+<span class="material-symbols-outlined text-sm">help</span> Support
+            </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pt-24 pb-32 px-margin-mobile md:px-margin-desktop min-h-screen">
+<div class="max-w-7xl mx-auto">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+<div>
+<div class="font-micro-tag text-micro-tag text-primary mb-2">SYSTEM_LOG // SESSION_042</div>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg tracking-tight">Jardín Digital de Hábitos</h1>
+<p class="text-on-surface-variant max-w-xl mt-2 font-body-md text-body-md">Your consciousness expansion is mirrored here. Cultivate your Aether Flora through consistent habitual resonance.</p>
+</div>
+<div class="glass-panel p-4 rounded-xl flex gap-8 items-center border-primary/20">
+<div class="text-center">
+<div class="font-label-caps text-label-caps text-on-surface-variant">SYNC RATE</div>
+<div class="font-display-lg text-headline-md text-secondary">94%</div>
+</div>
+<div class="text-center">
+<div class="font-label-caps text-label-caps text-on-surface-variant">FLORA DENSITY</div>
+<div class="font-display-lg text-headline-md text-tertiary">Lv. 08</div>
+</div>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Main Flora Display (6 Cols) -->
+<div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-gutter">
+<!-- Meditation Flora -->
+<div class="glass-panel rounded-2xl p-6 relative overflow-hidden flex flex-col h-[420px]">
+<div class="absolute top-0 left-0 w-full h-1 bg-primary/20"></div>
+<div class="flex justify-between items-start z-10">
+<div>
+<span class="font-micro-tag text-micro-tag px-2 py-1 bg-primary/10 text-primary border border-primary/20">MEDITATION</span>
+<h3 class="font-headline-md text-headline-md mt-2">Aether Lotus</h3>
+</div>
+<span class="material-symbols-outlined text-primary neon-pulse">self_improvement</span>
+</div>
+<div class="flex-1 flex items-center justify-center aether-flora-container relative">
+<div class="absolute inset-0 opacity-20 pointer-events-none">
+
+</div>
+<div class="flora-orb relative z-10">
+<img class="w-48 h-48 object-contain" data-alt="A bioluminescent digital plant resembling a crystalized lotus, growing inside a sleek, hexagonal glass cylinder. The plant emits a soft cyan and sage-green glow, with ethereal floating particles. The lighting is cold, futuristic, and moody, set against a dark, minimalist digital background with subtle grid lines. Professional 3D render style with high contrast and sharp details." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTbQBFvFMfESBpCvd1vVyXUkqHqmCmvVFp9_nrWGhe3OKcHaxy4oLgg3b8uqd4v5L8ADVo3zzzWajx8jb_LL2lhOCYw9qddZ5ro_ZawJAqv0aAA4ks72ze-RvHfKPy3IejyPQ-svoceljsEFnhGbf3qPK1Ot8-NXHWCsvzgkULP8FaCVDQ6T3XQSgwXJiKGHdV6qOjGC_KZvIxHO6yKMcs7NeUDPZBT3U_1E3wthOl9czoQ2-qLYnUXg"/>
+</div>
+</div>
+<div class="z-10">
+<div class="flex justify-between items-end mb-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant">STREAK: 14 DAYS</span>
+<span class="text-primary font-mono-data">92% GROWTH</span>
+</div>
+<div class="flex gap-1 h-2">
+<div class="flex-1 bg-primary shadow-[0_0_8px_rgba(127,208,255,0.5)]"></div>
+<div class="flex-1 bg-primary shadow-[0_0_8px_rgba(127,208,255,0.5)]"></div>
+<div class="flex-1 bg-primary shadow-[0_0_8px_rgba(127,208,255,0.5)]"></div>
+<div class="flex-1 bg-primary shadow-[0_0_8px_rgba(127,208,255,0.5)]"></div>
+<div class="flex-1 bg-primary shadow-[0_0_8px_rgba(127,208,255,0.5)]"></div>
+<div class="flex-1 bg-primary shadow-[0_0_8px_rgba(127,208,255,0.5)]"></div>
+<div class="flex-1 bg-surface-container-high"></div>
+<div class="flex-1 bg-surface-container-high"></div>
+<div class="flex-1 bg-surface-container-high"></div>
+<div class="flex-1 bg-surface-container-high"></div>
+</div>
+</div>
+</div>
+<!-- Exercise Flora -->
+<div class="glass-panel rounded-2xl p-6 relative overflow-hidden flex flex-col h-[420px]">
+<div class="absolute top-0 left-0 w-full h-1 bg-secondary/20"></div>
+<div class="flex justify-between items-start z-10">
+<div>
+<span class="font-micro-tag text-micro-tag px-2 py-1 bg-secondary/10 text-secondary border border-secondary/20">EXERCISE</span>
+<h3 class="font-headline-md text-headline-md mt-2">Vigor Spire</h3>
+</div>
+<span class="material-symbols-outlined text-secondary">fitness_center</span>
+</div>
+<div class="flex-1 flex items-center justify-center aether-flora-container relative">
+<div class="flora-orb relative z-10">
+<img class="w-48 h-48 object-contain" data-alt="A vibrant, 3D bioluminescent plant with sharp, fern-like neon leaves in shades of teal and emerald. It is housed in a tall, cylindrical glass container that shows a slight condensation texture. The environment is dark with a technical brutalist vibe, featuring glowing digital readouts on the base of the container. High-tech nature integration with cinematic lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwzrg4sf2a4DMmqdtYmQnH2K-bJBw9hoWNQtgsN3Dx8KFbduvY5_VBvRiuqf1rIhCZVBt1Mr8WObCbeg1UPfKAQFNvqXALwrmJC8TL_MPYpS-Hf1hVeVLTAvro0sgS0_K1uFnYL7NrSMEIgSsQvU6DqC7SVkfyUXIzVGpEK6281lPhMbeM_HVJVzeZanVxw4s9fZ5L5PmayQujwli2VbUKUj6j0KRVaWDPM4_DLZHQ-XvhVJ-WlWxwhA"/>
+</div>
+</div>
+<div class="z-10">
+<div class="flex justify-between items-end mb-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant">STREAK: 5 DAYS</span>
+<span class="text-secondary font-mono-data">45% GROWTH</span>
+</div>
+<div class="flex gap-1 h-2">
+<div class="flex-1 bg-secondary shadow-[0_0_8px_rgba(71,221,193,0.5)]"></div>
+<div class="flex-1 bg-secondary shadow-[0_0_8px_rgba(71,221,193,0.5)]"></div>
+<div class="flex-1 bg-secondary shadow-[0_0_8px_rgba(71,221,193,0.5)]"></div>
+<div class="flex-1 bg-surface-container-high"></div>
+<div class="flex-1 bg-surface-container-high"></div>
+<div class="flex-1 bg-surface-container-high"></div>
+<div class="flex-1 bg-surface-container-high"></div>
+<div class="flex-1 bg-surface-container-high"></div>
+<div class="flex-1 bg-surface-container-high"></div>
+<div class="flex-1 bg-surface-container-high"></div>
+</div>
+</div>
+</div>
+<!-- Learning Flora -->
+<div class="glass-panel rounded-2xl p-6 relative overflow-hidden flex flex-col h-[420px]">
+<div class="absolute top-0 left-0 w-full h-1 bg-tertiary/20"></div>
+<div class="flex justify-between items-start z-10">
+<div>
+<span class="font-micro-tag text-micro-tag px-2 py-1 bg-tertiary/10 text-tertiary border border-tertiary/20">LEARNING</span>
+<h3 class="font-headline-md text-headline-md mt-2">Codex Bloom</h3>
+</div>
+<span class="material-symbols-outlined text-tertiary">menu_book</span>
+</div>
+<div class="flex-1 flex items-center justify-center aether-flora-container relative">
+<div class="flora-orb relative z-10">
+<img class="w-48 h-48 object-contain" data-alt="A mystical digital flora that looks like an open flower with holographic book pages as petals. It glows with a warm pink and white Citrinitas light. The plant is in a pristine glass box on a dark pedestal. Cyber-glassmorphism style with complex geometric patterns in the background and a hazy, mystical atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAixXOt9QvdKWHlHIt17og9kOYxoy7giNB9Xvq6u3USrOj28zFgxjKlcEYs3KSJC48mkoCb6NXAG1ulWROvTcpx_G5lLRqAEhy3ZQMN2eyHlalRgpw6JV3XtfXzudsgTlAbAemgAyZ307GjdT4fj723TPxawKk6ZWiQYKjFO3WX91lUizZAyOLWY443R-XiwlPtCY8WBHLwOyOpcK8JQalZgOPYS15hPaMCA-OOdniVVmWPerEO4cMGWA"/>
+</div>
+</div>
+<div class="z-10">
+<div class="flex justify-between items-end mb-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant">STREAK: 21 DAYS</span>
+<span class="text-tertiary font-mono-data">MAX GROWTH</span>
+</div>
+<div class="flex gap-1 h-2">
+<div class="flex-1 bg-tertiary shadow-[0_0_8px_rgba(255,175,212,0.5)]"></div>
+<div class="flex-1 bg-tertiary shadow-[0_0_8px_rgba(255,175,212,0.5)]"></div>
+<div class="flex-1 bg-tertiary shadow-[0_0_8px_rgba(255,175,212,0.5)]"></div>
+<div class="flex-1 bg-tertiary shadow-[0_0_8px_rgba(255,175,212,0.5)]"></div>
+<div class="flex-1 bg-tertiary shadow-[0_0_8px_rgba(255,175,212,0.5)]"></div>
+<div class="flex-1 bg-tertiary shadow-[0_0_8px_rgba(255,175,212,0.5)]"></div>
+<div class="flex-1 bg-tertiary shadow-[0_0_8px_rgba(255,175,212,0.5)]"></div>
+<div class="flex-1 bg-tertiary shadow-[0_0_8px_rgba(255,175,212,0.5)]"></div>
+<div class="flex-1 bg-tertiary shadow-[0_0_8px_rgba(255,175,212,0.5)]"></div>
+<div class="flex-1 bg-tertiary shadow-[0_0_8px_rgba(255,175,212,0.5)]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Growth Telemetry Panel (4 Cols) -->
+<div class="md:col-span-4 flex flex-col gap-gutter">
+<div class="glass-panel rounded-2xl p-6 border-tertiary/10 flex-1">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-tertiary">query_stats</span>
+<h2 class="font-headline-md text-headline-md">Growth Telemetry</h2>
+</div>
+<div class="space-y-6">
+<div class="flex items-center justify-between p-4 bg-surface-container-low rounded-xl border border-outline-variant/10">
+<div>
+<p class="font-label-caps text-label-caps opacity-50">YIELD: AETHER DUST</p>
+<h4 class="font-data-point text-data-point text-primary">1,240 mg</h4>
+</div>
+<span class="material-symbols-outlined text-primary/40 text-4xl">blur_on</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-low rounded-xl border border-outline-variant/10">
+<div>
+<p class="font-label-caps text-label-caps opacity-50">STREAK MULTIPLIER</p>
+<h4 class="font-data-point text-data-point text-secondary">x2.4</h4>
+</div>
+<span class="material-symbols-outlined text-secondary/40 text-4xl">bolt</span>
+</div>
+<div class="mt-8">
+<p class="font-label-caps text-label-caps mb-4 opacity-70">HARVEST POTENTIAL</p>
+<div class="relative h-32 w-full flex items-end justify-between gap-1">
+<div class="bg-primary/20 w-full h-1/4 rounded-t"></div>
+<div class="bg-primary/20 w-full h-2/5 rounded-t"></div>
+<div class="bg-primary/20 w-full h-1/2 rounded-t"></div>
+<div class="bg-primary/40 w-full h-3/5 rounded-t"></div>
+<div class="bg-primary/60 w-full h-4/5 rounded-t"></div>
+<div class="bg-primary/80 w-full h-full rounded-t"></div>
+<div class="bg-primary w-full h-[110%] rounded-t shadow-[0_0_15px_rgba(127,208,255,0.4)]"></div>
+</div>
+</div>
+</div>
+<button class="w-full mt-8 border border-primary/40 text-primary py-4 font-label-caps text-label-caps hover:bg-primary/10 transition-all flex justify-center items-center gap-2">
+<span class="material-symbols-outlined">auto_fix_high</span> COLLECT RESOURCES
+                        </button>
+</div>
+</div>
+<!-- Logging Widgets (Full Width row below) -->
+<div class="md:col-span-12 glass-panel rounded-2xl p-8">
+<div class="flex flex-col md:flex-row items-center justify-between gap-8">
+<div>
+<h3 class="font-headline-md text-headline-md mb-2">Resonance Logging</h3>
+<p class="text-on-surface-variant font-body-md text-body-md">Manual session validation required for current cycle.</p>
+</div>
+<div class="flex flex-wrap gap-4">
+<button class="group relative px-6 py-4 flex items-center gap-3 glass-panel rounded-xl border-primary/30 hover:border-primary transition-all overflow-hidden" onclick="logHabit('meditation')">
+<div class="absolute inset-0 bg-primary/5 translate-y-full group-hover:translate-y-0 transition-transform"></div>
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">self_improvement</span>
+<div class="text-left relative z-10">
+<div class="font-label-caps text-label-caps text-primary">LOG_ZEN</div>
+<div class="text-xs opacity-50 font-mono-data">15 min</div>
+</div>
+</button>
+<button class="group relative px-6 py-4 flex items-center gap-3 glass-panel rounded-xl border-secondary/30 hover:border-secondary transition-all overflow-hidden" onclick="logHabit('exercise')">
+<div class="absolute inset-0 bg-secondary/5 translate-y-full group-hover:translate-y-0 transition-transform"></div>
+<span class="material-symbols-outlined text-secondary group-hover:scale-110 transition-transform">fitness_center</span>
+<div class="text-left relative z-10">
+<div class="font-label-caps text-label-caps text-secondary">LOG_MOVE</div>
+<div class="text-xs opacity-50 font-mono-data">45 min</div>
+</div>
+</button>
+<button class="group relative px-6 py-4 flex items-center gap-3 glass-panel rounded-xl border-tertiary/30 hover:border-tertiary transition-all overflow-hidden" onclick="logHabit('learning')">
+<div class="absolute inset-0 bg-tertiary/5 translate-y-full group-hover:translate-y-0 transition-transform"></div>
+<span class="material-symbols-outlined text-tertiary group-hover:scale-110 transition-transform">menu_book</span>
+<div class="text-left relative z-10">
+<div class="font-label-caps text-label-caps text-tertiary">LOG_GROW</div>
+<div class="text-xs opacity-50 font-mono-data">30 min</div>
+</div>
+</button>
+<button class="px-6 py-4 flex items-center gap-3 bg-surface-container-highest/50 rounded-xl border border-outline-variant/30 text-on-surface-variant hover:text-on-surface transition-all">
+<span class="material-symbols-outlined">add</span>
+<span class="font-label-caps text-label-caps">NEW_HABIT</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Recent Activity Feed (Glass Panel) -->
+<div class="md:col-span-12 glass-panel rounded-2xl overflow-hidden">
+<div class="p-6 border-b border-outline-variant/20 flex justify-between items-center">
+<h3 class="font-label-caps text-label-caps">SYSTEM_CHRONICLE</h3>
+<span class="text-xs font-mono-data text-on-surface-variant">UTC-0800_SYNCED</span>
+</div>
+<div class="h-64 overflow-y-auto custom-scrollbar p-6 space-y-4 font-mono-data text-sm">
+<div class="flex items-start gap-4">
+<span class="text-primary">[22:15:04]</span>
+<span class="text-on-surface-variant">Resonance event: <b class="text-tertiary">Codex Bloom</b> has reached Tier 4 expansion.</span>
+</div>
+<div class="flex items-start gap-4">
+<span class="text-primary">[21:40:12]</span>
+<span class="text-on-surface-variant">Harvest cycle complete. +140 Aether Dust added to vault.</span>
+</div>
+<div class="flex items-start gap-4 opacity-60">
+<span class="text-primary">[19:02:55]</span>
+<span class="text-on-surface-variant">System scan: <b class="text-secondary">Vigor Spire</b> hydration levels optimal.</span>
+</div>
+<div class="flex items-start gap-4 opacity-60">
+<span class="text-primary">[18:30:00]</span>
+<span class="text-on-surface-variant">Telemetry sync with Archetype: THE_SAGE complete.</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Mobile Nav -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin-mobile pb-4 pt-2 bg-surface-container/80 backdrop-blur-md border-t border-tertiary/10 rounded-t-xl animate-pulse-slow">
+<a class="flex flex-col items-center justify-center text-on-secondary-container p-2" href="#">
+<span class="material-symbols-outlined">lock</span>
+<span class="font-label-caps text-[10px] mt-1">Vault</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-container p-2" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-label-caps text-[10px] mt-1">Archetypes</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-tertiary/10 text-tertiary rounded-xl p-2 scale-110" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span class="font-label-caps text-[10px] mt-1">Karma</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-container p-2" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-caps text-[10px] mt-1">Social</span>
+</a>
+</nav>
+<script>
+        function logHabit(type) {
+            // Simple visual feedback for interaction
+            const colors = {
+                meditation: '#c5e7ff',
+                exercise: '#47ddc1',
+                learning: '#ffd8e7'
+            };
+            
+            const btn = event.currentTarget;
+            const originalColor = btn.style.borderColor;
+            btn.style.borderColor = colors[type];
+            btn.style.transform = 'scale(0.95)';
+            
+            // Create a temporary glow effect
+            const glow = document.createElement('div');
+            glow.className = 'fixed inset-0 pointer-events-none z-[100] transition-opacity duration-1000';
+            glow.style.background = `radial-gradient(circle at ${event.clientX}px ${event.clientY}px, ${colors[type]}22 0%, transparent 70%)`;
+            document.body.appendChild(glow);
+            
+            setTimeout(() => {
+                btn.style.borderColor = originalColor;
+                btn.style.transform = 'scale(1)';
+                glow.style.opacity = '0';
+                setTimeout(() => glow.remove(), 1000);
+            }, 200);
+
+            // Add log entry
+            const chronicle = document.querySelector('.custom-scrollbar');
+            const entry = document.createElement('div');
+            entry.className = 'flex items-start gap-4 animate-pulse';
+            const now = new Date();
+            const timeStr = `[${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}]`;
+            entry.innerHTML = `<span class="text-primary">${timeStr}</span><span class="text-on-surface">Habit resonance validated: <b style="color:${colors[type]}">${type.toUpperCase()}</b> recorded.</span>`;
+            chronicle.prepend(entry);
+        }
+
+        // Float effect for orbs
+        document.addEventListener('mousemove', (e) => {
+            const orbs = document.querySelectorAll('.flora-orb');
+            const x = (e.clientX / window.innerWidth - 0.5) * 20;
+            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+            
+            orbs.forEach(orb => {
+                orb.style.transform = `translate(${x}px, ${y}px) scale(${1 + Math.abs(x/200)})`;
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOPVS // SUPER-YO (IDEAL_CORE)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;family=Space+Grotesk:wght@300;700&amp;family=JetBrains+Mono:wght@400;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..900&amp;family=Space+Grotesk:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "background": "#101417",
+                        "on-tertiary-fixed": "#390625",
+                        "primary-container": "#7fd0ff",
+                        "surface-container-highest": "#313538",
+                        "secondary": "#47ddc1",
+                        "tertiary-fixed": "#ffd8e7",
+                        "primary-fixed": "#c5e7ff",
+                        "primary-fixed-dim": "#7fd0ff",
+                        "on-primary-fixed-variant": "#004c6a",
+                        "surface-dim": "#101417",
+                        "on-primary-fixed": "#001e2d",
+                        "primary": "#c5e7ff",
+                        "on-background": "#e0e3e6",
+                        "outline-variant": "#3f484e",
+                        "on-surface": "#e0e3e6",
+                        "surface-bright": "#363a3d",
+                        "surface-variant": "#313538",
+                        "secondary-container": "#00bba0",
+                        "on-primary": "#00344a",
+                        "on-secondary-fixed-variant": "#005144",
+                        "surface-container-high": "#272a2d",
+                        "outline": "#899299",
+                        "on-secondary-container": "#004439",
+                        "on-primary-container": "#00597b",
+                        "tertiary-container": "#ffafd4",
+                        "secondary-fixed-dim": "#47ddc1",
+                        "surface-container": "#1c2023",
+                        "surface-panel": "rgba(255, 255, 255, 0.03)",
+                        "on-tertiary": "#531c3b",
+                        "inverse-on-surface": "#2d3134",
+                        "on-error-container": "#ffdad6",
+                        "glow-cyan": "#2da8e0",
+                        "surface": "#101417",
+                        "error": "#ffb4ab",
+                        "error-container": "#93000a",
+                        "on-tertiary-container": "#7c3e5e",
+                        "on-error": "#690005",
+                        "surface-tint": "#7fd0ff",
+                        "grid-line": "rgba(127, 208, 255, 0.05)",
+                        "on-surface-variant": "#bfc8cf",
+                        "on-secondary": "#00382e",
+                        "secondary-fixed": "#6af9dc",
+                        "status-critical": "#93000a",
+                        "on-tertiary-fixed-variant": "#6e3252",
+                        "tertiary-fixed-dim": "#ffafd4",
+                        "tertiary": "#ffd8e7",
+                        "on-secondary-fixed": "#00201a",
+                        "inverse-primary": "#00658b",
+                        "background-deep": "#0a0b12",
+                        "inverse-surface": "#e0e3e6",
+                        "surface-container-low": "#181c1f",
+                        "surface-container-lowest": "#0b0f11",
+                        "celestial": "#7fd0ff",
+                        "aquamarine": "#47ddc1",
+                        "magenta-neon": "#ff00ff",
+                        "violet-core": "#8b5cf6"
+                    },
+                    fontFamily: {
+                        "audiowide": ["Audiowide", "cursive"],
+                        "orbitron": ["Orbitron", "sans-serif"],
+                        "display-lg": ["Space Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "mono-data": ["JetBrains Mono"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #101417;
+            overflow-x: hidden;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .cyber-grid {
+            background-image: linear-gradient(to right, rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(197, 231, 255, 0.1);
+        }
+
+        .hexagon-clip {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        .neon-glow-primary {
+            text-shadow: 0 0 10px rgba(127, 208, 255, 0.8);
+        }
+
+        .neon-border-magenta {
+            border: 1px solid #ff00ff;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);
+        }
+
+        @keyframes neon-pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.98); }
+        }
+
+        .pulse-effect {
+            animation: neon-pulse 3s infinite ease-in-out;
+        }
+
+        .slant-btn {
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+        }
+
+        .scroll-hidden::-webkit-scrollbar {
+            display: none;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        .beacon-crystallize {
+            filter: drop-shadow(0 0 20px rgba(71, 221, 193, 0.3));
+        }
+    </style>
+</head>
+<body class="text-on-background selection:bg-secondary selection:text-background">
+<!-- BACKGROUND CANVAS -->
+<div class="fixed inset-0 z-[-1]">
+<div class="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-overlay" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCzmrEak5ocFMBDAm9p-DRobzKEvlLRYuwhVHmfSXpt0Ct05kZaM0KEXhX1_Ne4mnyq9iJl1EyHnyoGSvFXZu2wljN4niNgyVV7k8tTruMm5AZcD_PT50xqmgBu8NoLnAIA9tlfw1KwVeKmVcXKcsrG5M6xBBRboeXT3jY3yQRFeeLCBKwJhhii3B_o97Bxc49riVu7grlWWwYSz95SYVkKAHrkvbJzh5p8IaWeU9XmJs0VAYzl9J5Kudt1dDe3GCSoRwFS-LyNS_UA')"></div>
+<div class="absolute inset-0 cyber-grid"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background-deep"></div>
+</div>
+<!-- TOP NAVIGATION BAR -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/30 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-celestial neon-glow-primary text-3xl">diamond</span>
+<h1 class="font-audiowide text-primary text-xl md:text-2xl tracking-[0.2em] uppercase">MAGNOPVS <span class="text-outline opacity-50 font-orbitron font-light text-sm ml-2">// SUPER-YO (IDEAL_CORE)</span></h1>
+</div>
+<div class="hidden md:flex items-center gap-8 font-label-caps text-outline text-[10px] tracking-widest">
+<span class="flex items-center gap-2 hover:text-primary transition-colors cursor-pointer"><span class="material-symbols-outlined text-sm">bolt</span> SYSTEM_STABLE</span>
+<span class="flex items-center gap-2 hover:text-primary transition-colors cursor-pointer"><span class="material-symbols-outlined text-sm">stars</span> SYNC_ACTIVE</span>
+<div class="w-10 h-10 rounded-full border border-primary/30 flex items-center justify-center cursor-pointer hover:bg-primary/10 transition-all">
+<span class="material-symbols-outlined text-primary">account_circle</span>
+</div>
+</div>
+</header>
+<!-- SIDE NAVIGATION (WEB) -->
+<nav class="hidden lg:flex flex-col fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-low/50 backdrop-blur-2xl border-r border-primary/20 pt-24 pb-8 px-4">
+<div class="mb-8 px-4">
+<div class="text-primary font-audiowide text-lg">OPERATOR_01</div>
+<div class="text-outline text-[10px] font-label-caps tracking-widest mt-1">LVL 42 // TITAN</div>
+</div>
+<div class="space-y-2">
+<!-- Navigation Items Mapping -->
+<a class="flex items-center gap-4 p-4 text-outline-variant hover:text-primary hover:bg-primary/5 transition-all group" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps text-xs">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 p-4 text-primary border-l-2 border-primary bg-primary/5 font-bold shadow-[inset_4px_0_10px_rgba(127,208,255,0.1)]" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps text-xs">Super-Yo</span>
+</a>
+<a class="flex items-center gap-4 p-4 text-outline-variant hover:text-primary hover:bg-primary/5 transition-all group" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label-caps text-xs">13 Houses</span>
+</a>
+<a class="flex items-center gap-4 p-4 text-outline-variant hover:text-primary hover:bg-primary/5 transition-all group" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps text-xs">Missions</span>
+</a>
+<a class="flex items-center gap-4 p-4 text-outline-variant hover:text-primary hover:bg-primary/5 transition-all group" href="#">
+<span class="material-symbols-outlined">vitals</span>
+<span class="font-label-caps text-xs">Alchemy</span>
+</a>
+</div>
+<div class="mt-auto border-t border-primary/10 pt-8 px-4">
+<div class="flex items-center gap-2 text-secondary mb-2">
+<span class="w-2 h-2 rounded-full bg-secondary pulse-effect"></span>
+<span class="font-label-caps text-[10px]">DHARMA_ENGINE_ACTIVE</span>
+</div>
+<div class="text-[9px] text-outline opacity-40 font-mono-data leading-relaxed">
+                INTEGRATION_KEY: 0x8FA...921<br/>
+                PROTO_STABLE: 99.8%
+            </div>
+</div>
+</nav>
+<!-- MAIN CONTENT AREA -->
+<main class="lg:ml-64 pt-32 pb-32 px-margin-mobile md:px-margin-desktop min-h-screen">
+<div class="max-w-7xl mx-auto grid grid-cols-12 gap-8">
+<!-- LEFT COLUMN: PROTOCOLS -->
+<div class="col-span-12 lg:col-span-3 space-y-6">
+<!-- Stat Card: Ethical Cohesion -->
+<div class="glass-panel p-6 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-16 h-16 bg-primary/5 hexagon-clip flex items-center justify-center -translate-y-4 translate-x-4"></div>
+<div class="text-[10px] font-label-caps text-outline mb-2">INTEGRITY_INDEX</div>
+<div class="text-2xl font-audiowide text-primary neon-glow-primary">OPTIMAL</div>
+<div class="mt-4 flex items-end gap-2">
+<div class="flex-1 h-1 bg-surface-container flex gap-1">
+<div class="h-full w-2 bg-primary shadow-[0_0_8px_#c5e7ff]"></div>
+<div class="h-full w-2 bg-primary shadow-[0_0_8px_#c5e7ff]"></div>
+<div class="h-full w-2 bg-primary shadow-[0_0_8px_#c5e7ff]"></div>
+<div class="h-full w-2 bg-primary shadow-[0_0_8px_#c5e7ff]"></div>
+<div class="h-full w-2 bg-primary shadow-[0_0_8px_#c5e7ff]"></div>
+<div class="h-full w-2 bg-primary shadow-[0_0_8px_#c5e7ff]"></div>
+<div class="h-full w-2 bg-primary shadow-[0_0_8px_#c5e7ff]"></div>
+<div class="h-full w-2 bg-primary shadow-[0_0_8px_#c5e7ff]"></div>
+<div class="h-full w-2 bg-primary shadow-[0_0_8px_#c5e7ff]"></div>
+<div class="h-full w-2 bg-outline-variant"></div>
+</div>
+<span class="text-[10px] font-mono-data text-outline">90%</span>
+</div>
+</div>
+<!-- Código de Honor -->
+<div class="glass-panel p-6 border-l-2 border-celestial">
+<h3 class="font-audiowide text-celestial text-sm tracking-widest mb-6 flex items-center justify-between">
+                        CÓDIGO DE HONOR
+                        <span class="material-symbols-outlined text-xs animate-spin" style="animation-duration: 8s;">sync</span>
+</h3>
+<div class="space-y-4">
+<div class="flex flex-col">
+<div class="flex justify-between items-center mb-1">
+<span class="text-xs font-orbitron font-bold">Radical Authenticity</span>
+<span class="text-[10px] font-mono-data text-secondary">98% Sync</span>
+</div>
+<div class="w-full h-[2px] bg-surface-container">
+<div class="h-full bg-secondary shadow-[0_0_10px_#47ddc1]" style="width: 98%;"></div>
+</div>
+</div>
+<div class="flex flex-col">
+<div class="flex justify-between items-center mb-1">
+<span class="text-xs font-orbitron font-bold">Unyielding Focus</span>
+<span class="text-[10px] font-mono-data text-primary">82% Sync</span>
+</div>
+<div class="w-full h-[2px] bg-surface-container">
+<div class="h-full bg-primary" style="width: 82%;"></div>
+</div>
+</div>
+<div class="flex flex-col">
+<div class="flex justify-between items-center mb-1">
+<span class="text-xs font-orbitron font-bold">Shadow Integration</span>
+<span class="text-[10px] font-mono-data text-magenta-neon">65% Sync</span>
+</div>
+<div class="w-full h-[2px] bg-surface-container">
+<div class="h-full bg-magenta-neon" style="width: 65%;"></div>
+</div>
+</div>
+</div>
+<button class="w-full mt-8 slant-btn bg-celestial text-background text-[10px] font-bold py-3 uppercase hover:brightness-110 transition-all active:scale-95">
+                        Add New Protocol
+                    </button>
+</div>
+</div>
+<!-- CENTER: BEACON OF EXCELLENCE -->
+<div class="col-span-12 lg:col-span-6 flex flex-col items-center justify-center space-y-8 min-h-[60vh]">
+<div class="relative w-full aspect-square max-w-md flex items-center justify-center">
+<!-- Particle Background Placeholder -->
+<div class="absolute inset-0 opacity-20 pulse-effect">
+
+</div>
+<!-- The Beacon Visualization -->
+<div class="relative z-10 w-64 h-64 md:w-80 md:h-80 hexagon-clip glass-panel border-celestial/40 border-2 flex items-center justify-center group cursor-pointer overflow-hidden transition-transform hover:scale-105 beacon-crystallize">
+<div class="absolute inset-0 bg-gradient-to-tr from-celestial/10 via-magenta-neon/5 to-violet-core/10"></div>
+<div class="relative z-20 flex flex-col items-center">
+<span class="material-symbols-outlined text-white text-7xl md:text-9xl opacity-90 drop-shadow-[0_0_30px_#fff]">adjust</span>
+<div class="mt-4 font-audiowide text-white text-xs tracking-widest opacity-80">IDEAL_CORE_SYNC</div>
+<div class="text-secondary font-orbitron font-bold text-2xl mt-1">94.42%</div>
+</div>
+<!-- Hexagonal Grid Overlay -->
+<div class="absolute inset-0 pointer-events-none opacity-20">
+<svg class="w-full h-full" viewbox="0 0 100 100">
+<defs>
+<pattern height="17.32" id="hexagons" patterntransform="scale(1.5)" patternunits="userSpaceOnUse" width="10">
+<path d="M5 0 L10 2.88 L10 8.66 L5 11.54 L0 8.66 L0 2.88 Z" fill="none" stroke="white" stroke-width="0.1"></path>
+</pattern>
+</defs>
+<rect fill="url(#hexagons)" height="100" width="100"></rect>
+</svg>
+</div>
+</div>
+<!-- Orbiting HUD Elements -->
+<div class="absolute inset-0 animate-spin-slow pointer-events-none" style="animation: spin 60s linear infinite;">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-4 bg-secondary hexagon-clip shadow-[0_0_15px_#47ddc1]"></div>
+<div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-3 h-3 bg-magenta-neon hexagon-clip shadow-[0_0_15px_#ff00ff]"></div>
+</div>
+</div>
+<div class="text-center">
+<div class="text-[10px] font-label-caps text-outline tracking-[0.5em] mb-2 uppercase">Alignment Status</div>
+<div class="text-xl font-orbitron font-medium text-on-surface tracking-widest">BEACON OF EXCELLENCE // EMITTING</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: SENSOR & AI -->
+<div class="col-span-12 lg:col-span-3 space-y-6">
+<!-- Voz de la Conciencia (Sof.IA) -->
+<div class="glass-panel p-6 border-r-2 border-magenta-neon">
+<h3 class="font-audiowide text-magenta-neon text-sm tracking-widest mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">support_agent</span>
+                        SOF.IA HUD
+                    </h3>
+<div class="bg-surface-container-low p-4 font-mono-data text-[11px] leading-relaxed border border-white/5 relative">
+<div class="absolute top-2 right-2 flex gap-1">
+<span class="w-1 h-1 bg-magenta-neon animate-pulse"></span>
+<span class="w-1 h-1 bg-magenta-neon/50"></span>
+</div>
+<span class="text-magenta-neon font-bold">SOF.IA:</span> Current trajectory suggests a 4.2% deviation from <span class="text-primary italic">Universal Compassion</span> mandate. Recommendation: Execute "Pause &amp; Align" protocol before next decision node.
+                        <div class="mt-4 flex gap-2">
+<span class="px-2 py-1 bg-white/5 text-[9px] hover:bg-white/10 cursor-pointer transition-colors border border-white/10">IGNORE</span>
+<span class="px-2 py-1 bg-magenta-neon/20 text-[9px] hover:bg-magenta-neon/40 text-magenta-neon cursor-pointer transition-colors border border-magenta-neon/30">ALIGN_NOW</span>
+</div>
+</div>
+</div>
+<!-- Internal Judge -->
+<div class="glass-panel p-6">
+<h3 class="font-audiowide text-violet-core text-sm tracking-widest mb-4 uppercase">Internal Judge</h3>
+<div class="space-y-6">
+<div class="text-center py-4 bg-violet-core/5 border border-violet-core/10 hexagon-clip">
+<div class="text-[10px] text-outline font-label-caps">GAP_TELEMETRY</div>
+<div class="text-3xl font-audiowide text-on-surface">0.032</div>
+<div class="text-[9px] text-violet-core">MICRON_DEVIATION</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-[9px] font-mono-data uppercase text-outline">
+<span>Aspiration_Reach</span>
+<span>88%</span>
+</div>
+<div class="h-1 bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-violet-core shadow-[0_0_8px_#8b5cf6]" style="width: 88%;"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-[9px] font-mono-data uppercase text-outline">
+<span>Transcendence_Flow</span>
+<span>42%</span>
+</div>
+<div class="h-1 bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-celestial shadow-[0_0_8px_#7fd0ff]" style="width: 42%;"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Mandatos de Excelencia -->
+<div class="glass-panel p-6 border-b-2 border-secondary/30">
+<h3 class="font-audiowide text-secondary text-sm tracking-widest mb-4">MANDATOS</h3>
+<div class="flex items-center gap-4 group cursor-pointer p-2 hover:bg-secondary/5 transition-all">
+<div class="w-10 h-10 hexagon-clip bg-secondary/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-lg">favorite</span>
+</div>
+<div>
+<div class="text-xs font-bold text-on-surface">Universal Compassion</div>
+<div class="text-[10px] text-secondary font-mono-data">LVL 42 // PROGRESSING</div>
+</div>
+</div>
+</div>
+</div>
+<!-- BOTTOM: DIRECT LINKS / NAVIGATION RELEVANCE -->
+<div class="col-span-12 glass-panel p-6 mt-8">
+<div class="flex flex-wrap items-center justify-between gap-6">
+<div class="flex items-center gap-8">
+<a class="group flex items-center gap-3" href="#">
+<div class="w-8 h-8 rounded border border-primary/20 flex items-center justify-center group-hover:border-primary group-hover:bg-primary/10 transition-all">
+<span class="material-symbols-outlined text-primary text-sm">home_storage</span>
+</div>
+<div>
+<div class="text-[10px] font-label-caps text-outline-variant">SOURCE_NODE</div>
+<div class="text-xs font-orbitron font-bold group-hover:text-primary transition-colors">13 HOUSES</div>
+</div>
+</a>
+<a class="group flex items-center gap-3" href="#">
+<div class="w-8 h-8 rounded border border-secondary/20 flex items-center justify-center group-hover:border-secondary group-hover:bg-secondary/10 transition-all">
+<span class="material-symbols-outlined text-secondary text-sm">auto_awesome</span>
+</div>
+<div>
+<div class="text-[10px] font-label-caps text-outline-variant">LOGIC_CORE</div>
+<div class="text-xs font-orbitron font-bold group-hover:text-secondary transition-colors">DHARMA ENGINE</div>
+</div>
+</a>
+</div>
+<div class="flex gap-4">
+<div class="flex flex-col items-end">
+<div class="text-[10px] font-label-caps text-outline-variant">SYSTEM_TIMESTAMP</div>
+<div class="text-xs font-mono-data text-primary">[2023.10.27_08:42:01]</div>
+</div>
+<div class="flex flex-col items-end">
+<div class="text-[10px] font-label-caps text-outline-variant">LOC_KEY</div>
+<div class="text-xs font-mono-data text-secondary">ASTRAL_PLANE_V4</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- FOOTER -->
+<footer class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-8 flex flex-col items-center gap-4 opacity-40 hover:opacity-100 transition-opacity duration-500">
+<div class="w-full h-[1px] bg-outline-variant/20"></div>
+<div class="flex flex-col md:flex-row justify-between w-full items-center gap-4">
+<div class="font-mono-data text-[10px] text-outline">MAGNOPVS OS v4.2.0 // SYSTEM_STABLE</div>
+<div class="flex gap-6 font-mono-data text-[10px] text-outline-variant">
+<a class="hover:text-primary transition-colors" href="#">System Reset</a>
+<a class="hover:text-primary transition-colors" href="#">Log Export</a>
+<a class="hover:text-primary transition-colors" href="#">Protocol-9</a>
+</div>
+<div class="text-primary font-audiowide text-[10px] tracking-widest">LIFE_HERO // OPERATOR_SYNC</div>
+</div>
+</footer>
+<!-- MOBILE NAVIGATION -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 pb-safe px-4 bg-surface-container/80 backdrop-blur-lg border-t border-primary/20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">space_dashboard</span>
+<span class="text-[8px] font-label-caps mt-1">Dash</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-110" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="text-[8px] font-label-caps mt-1">Yo</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">temple_hindu</span>
+<span class="text-[8px] font-label-caps mt-1">Houses</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">assignment_late</span>
+<span class="text-[8px] font-label-caps mt-1">Miss</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">autorenew</span>
+<span class="text-[8px] font-label-caps mt-1">Cycle</span>
+</a>
+</nav>
+<!-- ATMOSPHERIC SCRIPT -->
+<script>
+        // Simple micro-interactions for the "Beacon"
+        const beacon = document.querySelector('.beacon-crystallize');
+        if(beacon) {
+            beacon.addEventListener('mouseenter', () => {
+                beacon.style.boxShadow = '0 0 50px rgba(127, 208, 255, 0.4)';
+            });
+            beacon.addEventListener('mouseleave', () => {
+                beacon.style.boxShadow = 'none';
+            });
+        }
+
+        // Random log entry simulator
+        const logs = [
+            "Syncing alignment protocols...",
+            "Analyzing ethical deviance...",
+            "Universal Compassion mandate Level 42 confirmed.",
+            "SOF.IA monitoring active.",
+            "Beacon of Excellence status: EMITTING."
+        ];
+        
+        setInterval(() => {
+            const randomLog = logs[Math.floor(Math.random() * logs.length)];
+            console.log(`[SYS_LOG] ${randomLog}`);
+        }, 10000);
+    </script>
+</body></html>

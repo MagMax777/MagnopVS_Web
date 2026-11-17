@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Alma: Terminal Fractal - MagnopVS OS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Orbitron:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide:wght@100..900&family=Hanken+Grotesk:wght@100..900&family=Orbitron:wght@100..900&display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface": "#101417",
+                    "surface-container-highest": "#313538",
+                    "tertiary-container": "#ffafd4",
+                    "secondary": "#47ddc1",
+                    "surface-bright": "#363a3d",
+                    "status-critical": "#93000a",
+                    "secondary-fixed": "#6af9dc",
+                    "surface-container-low": "#181c1f",
+                    "inverse-surface": "#e0e3e6",
+                    "on-secondary-fixed-variant": "#005144",
+                    "surface-container-lowest": "#0b0f11",
+                    "on-secondary-container": "#004439",
+                    "surface-tint": "#7fd0ff",
+                    "surface-panel": "rgba(255, 255, 255, 0.03)",
+                    "on-primary-container": "#00597b",
+                    "background": "#101417",
+                    "on-tertiary": "#531c3b",
+                    "on-primary-fixed": "#001e2d",
+                    "tertiary-fixed-dim": "#ffafd4",
+                    "outline": "#899299",
+                    "tertiary": "#ffd8e7",
+                    "primary-container": "#7fd0ff",
+                    "on-tertiary-container": "#7c3e5e",
+                    "on-secondary": "#00382e",
+                    "on-surface": "#e0e3e6",
+                    "secondary-container": "#00bba0",
+                    "error-container": "#93000a",
+                    "on-error": "#690005",
+                    "on-background": "#e0e3e6",
+                    "surface-container": "#1c2023",
+                    "surface-variant": "#313538",
+                    "on-error-container": "#ffdad6",
+                    "outline-variant": "#3f484e",
+                    "error": "#ffb4ab",
+                    "on-primary-fixed-variant": "#004c6a",
+                    "inverse-primary": "#00658b",
+                    "primary-fixed": "#c5e7ff",
+                    "secondary-fixed-dim": "#47ddc1",
+                    "on-secondary-fixed": "#00201a",
+                    "glow-cyan": "#2da8e0",
+                    "surface-container-high": "#272a2d",
+                    "on-surface-variant": "#bfc8cf",
+                    "background-deep": "#0a0b12",
+                    "tertiary-fixed": "#ffd8e7",
+                    "surface-dim": "#101417",
+                    "on-tertiary-fixed-variant": "#6e3252",
+                    "primary-fixed-dim": "#7fd0ff",
+                    "on-primary": "#00344a",
+                    "on-tertiary-fixed": "#390625",
+                    "inverse-on-surface": "#2d3134",
+                    "grid-line": "rgba(127, 208, 255, 0.05)",
+                    "primary": "#c5e7ff",
+                    "matrix-green": "#22C55E",
+                    "cyber-cyan": "#4DEEEA",
+                    "warning-amber": "#FBBF24",
+                    "alert-crimson": "#EF4444"
+            },
+            "fontFamily": {
+                    "micro-tag": ["JetBrains Mono"],
+                    "headline-md": ["Audiowide"],
+                    "body-md": ["Hanken Grotesk"],
+                    "mono-data": ["JetBrains Mono"],
+                    "label-caps": ["Orbitron"],
+                    "display-lg": ["Audiowide"],
+                    "data-point": ["Orbitron"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-color: #0b0f11;
+            color: #e0e3e6;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .cyber-grid {
+            background-image: linear-gradient(to right, rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .hex-overlay {
+            mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0 L93.3 25 L93.3 75 L50 100 L6.7 75 L6.7 25 Z" fill="black"/></svg>');
+            mask-size: 60px 60px;
+            opacity: 0.03;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(127, 208, 255, 0.1);
+        }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(77, 238, 234, 0.1);
+            position: absolute;
+            animation: scanline 8s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.2em;
+            background: #4DEEEA;
+            vertical-align: middle;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .glow-text-cyan { text-shadow: 0 0 8px rgba(77, 238, 234, 0.5); }
+        .glow-text-green { text-shadow: 0 0 8px rgba(34, 197, 94, 0.5); }
+        
+        .segmented-bar div {
+            height: 8px;
+            width: calc(10% - 2px);
+            background: #1c2023;
+            transition: all 0.3s ease;
+        }
+        .segmented-bar div.active-cyan { background: #4DEEEA; box-shadow: 0 0 10px #4DEEEA; }
+        .segmented-bar div.active-green { background: #22C55E; box-shadow: 0 0 10px #22C55E; }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(77, 238, 234, 0.2); }
+    </style>
+</head>
+<body class="font-body-md select-none">
+<!-- Atmospheric Layer -->
+<div class="fixed inset-0 cyber-grid pointer-events-none z-0"></div>
+<div class="fixed inset-0 hex-overlay pointer-events-none z-0"></div>
+<div class="scanline z-10"></div>
+<!-- Layout Container -->
+<div class="relative z-20 h-full flex flex-col">
+<!-- Top Navigation -->
+<header class="h-20 flex items-center justify-between px-margin-desktop bg-surface/40 backdrop-blur-xl border-b border-primary/20">
+<div class="flex items-center gap-6">
+<img alt="Logo" class="h-10 w-auto filter drop-shadow-[0_0_8px_rgba(127,208,255,0.4)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaSzAUvV7V2v4TtE5ks5dS1b9lfnjFc6ez1GfwM7yHAgGkD4PoGRsxZXfWRK3LXcJ5wAIr7v14r0NFu23QdNFMyOrvc5hbhaffEzTwucURLMvfAG3XcpLVS3X43ST-3lpGgr1UX-abAyBFlDyKFnA_-7yDVtbwUb6aiisMmh8FaYajC_PEncKGRkPNETQsjRaBQ_-jEO-sv-de9ZD_Oxz_znxNwKH2UeFaiYhsbZUc8VNon-qQ2EouWc8ypmdYeqJzdCPLbKS37qlU"/>
+<div class="flex flex-col">
+<span class="font-headline-md text-primary text-xl tracking-[0.2em] uppercase">MagnopVS</span>
+<span class="font-micro-tag text-outline text-[10px]">ALMA: TERMINAL FRACTAL v4.2.0</span>
+</div>
+</div>
+<div class="flex items-center gap-12 font-label-caps text-[10px] tracking-widest text-outline">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-matrix-green animate-pulse shadow-[0_0_8px_#22C55E]"></span>
+<span>LINK: ESTABLE</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-cyber-cyan shadow-[0_0_8px_#4DEEEA]"></span>
+<span>NODO: X-772</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-matrix-green shadow-[0_0_8px_#22C55E]"></span>
+<span>AKASHA: READ</span>
+</div>
+</div>
+<button class="flex items-center gap-2 group px-4 py-2 border border-outline-variant/30 hover:border-cyber-cyan transition-all duration-300">
+<span class="material-symbols-outlined text-outline group-hover:text-cyber-cyan text-sm">logout</span>
+<span class="font-label-caps text-[10px] text-outline group-hover:text-cyber-cyan">SALIR_SISTEMA</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="flex-1 grid grid-cols-12 gap-6 p-6 overflow-hidden">
+<!-- Left Column: Biometrics & Logs -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-6 overflow-hidden">
+<!-- Variables Biométricas -->
+<section class="glass-panel p-6 border-l-4 border-l-cyber-cyan flex flex-col gap-6">
+<div class="flex justify-between items-center border-b border-outline-variant/20 pb-2">
+<h2 class="font-label-caps text-sm text-cyber-cyan glow-text-cyan flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">ecg</span>
+                            VARIABLES BIOMÉTRICAS
+                        </h2>
+<span class="font-mono-data text-[10px] text-outline">LIVE_FEED</span>
+</div>
+<div class="space-y-6">
+<!-- BPM -->
+<div class="space-y-2">
+<div class="flex justify-between font-mono-data text-xs">
+<span class="text-on-surface-variant">HEART_RATE (BPM)</span>
+<span class="text-matrix-green">72 BPM</span>
+</div>
+<div class="segmented-bar flex gap-1">
+<div class="active-green"></div><div class="active-green"></div><div class="active-green"></div><div class="active-green"></div><div class="active-green"></div><div class="active-green"></div><div class="active-green"></div><div></div><div></div><div></div>
+</div>
+</div>
+<!-- SpO2 -->
+<div class="space-y-2">
+<div class="flex justify-between font-mono-data text-xs">
+<span class="text-on-surface-variant">SpO2_LEVEL (%)</span>
+<span class="text-cyber-cyan">98%</span>
+</div>
+<div class="segmented-bar flex gap-1">
+<div class="active-cyan"></div><div class="active-cyan"></div><div class="active-cyan"></div><div class="active-cyan"></div><div class="active-cyan"></div><div class="active-cyan"></div><div class="active-cyan"></div><div class="active-cyan"></div><div class="active-cyan"></div><div class="active-cyan"></div>
+</div>
+</div>
+<!-- Brain Waves -->
+<div class="space-y-2">
+<div class="flex justify-between font-mono-data text-xs">
+<span class="text-on-surface-variant">BRAIN_WAVES (α)</span>
+<span class="text-warning-amber">ALPHA DOMINANT</span>
+</div>
+<div class="segmented-bar flex gap-1">
+<div class="active-cyan opacity-40"></div><div class="active-cyan opacity-60"></div><div class="active-cyan opacity-80"></div><div class="active-cyan"></div><div class="active-cyan"></div><div></div><div></div><div></div><div></div><div></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Registros Álmicos -->
+<section class="glass-panel flex-1 flex flex-col p-6 overflow-hidden">
+<div class="flex justify-between items-center border-b border-outline-variant/20 pb-2 mb-4">
+<h2 class="font-label-caps text-sm text-matrix-green glow-text-green flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">history_edu</span>
+                            REGISTROS ÁLMICOS
+                        </h2>
+<span class="font-mono-data text-[10px] text-outline">SCROLL_ON</span>
+</div>
+<div class="flex-1 overflow-y-auto space-y-2 font-mono-data text-[11px] leading-relaxed" id="log-container">
+<div class="flex gap-3"><span class="text-outline">14:22:01</span><span class="text-matrix-green">[SYS]</span> Handshake con la matriz: COMPLETADO</div>
+<div class="flex gap-3"><span class="text-outline">14:22:05</span><span class="text-cyber-cyan">[NET]</span> Akasha: READ - Bloque fractal 9982</div>
+<div class="flex gap-3"><span class="text-outline">14:23:12</span><span class="text-alert-crimson">[BIO]</span> Interferencia egoica detectada en lóbulo frontal</div>
+<div class="flex gap-3"><span class="text-outline">14:24:45</span><span class="text-warning-amber">[WARN]</span> Batería Vital: 64% - Optimización requerida</div>
+<div class="flex gap-3"><span class="text-outline">14:25:30</span><span class="text-matrix-green">[SYS]</span> Sincronización de alma con el nodo local estable</div>
+<div class="flex gap-3"><span class="text-outline">14:26:10</span><span class="text-matrix-green">[SYS]</span> Limpieza de karma residual iniciada</div>
+<div class="flex gap-3"><span class="text-outline">14:27:01</span><span class="text-cyber-cyan">[NET]</span> Flujo de datos místico: 144 Gbps</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Terminal -->
+<div class="col-span-12 lg:col-span-8 flex flex-col overflow-hidden">
+<div class="flex-1 glass-panel border border-matrix-green/30 rounded-lg flex flex-col overflow-hidden shadow-[0_0_30px_rgba(34,197,94,0.1)]">
+<!-- Terminal Header -->
+<div class="bg-matrix-green/10 border-b border-matrix-green/30 px-4 py-2 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="flex gap-1.5">
+<div class="w-2.5 h-2.5 rounded-full bg-alert-crimson/50"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-warning-amber/50"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-matrix-green/50"></div>
+</div>
+<span class="font-mono-data text-[10px] text-matrix-green uppercase tracking-widest">Operator@Fractal:~ (bash)</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-matrix-green text-sm">settings_ethernet</span>
+<span class="font-mono-data text-[10px] text-matrix-green">ENCRYPTION: AES-FRACTAL</span>
+</div>
+</div>
+<!-- Terminal History -->
+<div class="flex-1 p-6 overflow-y-auto font-mono-data text-sm text-matrix-green space-y-2" id="terminal-history">
+<div class="text-matrix-green/60">MagnopVS ALMA Terminal Fractal [Versión 4.2.0.772]</div>
+<div class="text-matrix-green/60">(c) 2024 MagnopVS Corp. Todos los derechos reservados.</div>
+<div class="mt-4">Bienvenido, OPERADOR_01. El velo está rasgado.</div>
+<div class="text-cyber-cyan">Escriba 'help' para ver los comandos disponibles.</div>
+</div>
+<!-- Terminal Input -->
+<div class="p-4 border-t border-matrix-green/20 bg-black/40 flex items-center gap-3">
+<span class="text-cyber-cyan font-bold font-mono-data">></span>
+<input autofocus="" class="flex-1 bg-transparent border-none focus:ring-0 text-matrix-green font-mono-data p-0" id="terminal-input" placeholder="Ingrese comando_" type="text"/>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="h-10 px-margin-desktop flex items-center justify-between border-t border-outline-variant/10 bg-surface/50 font-mono-data text-[10px] text-outline uppercase tracking-[0.2em]">
+<div>ESTADO: EN LÍNEA // LATENCIA: 4MS // PLANO: MATERIAL</div>
+<div>MAGNOPVS OS v4.2.0 // SYSTEM_STABLE</div>
+</footer>
+</div>
+<script>
+        const terminalHistory = document.getElementById('terminal-history');
+        const terminalInput = document.getElementById('terminal-input');
+        const logContainer = document.getElementById('log-container');
+
+        // Commands Logic
+        const commands = {
+            'help': () => {
+                return `COMANDOS DISPONIBLES:
+  - help: Muestra esta ayuda.
+  - status: Estado de la conexión con la matriz.
+  - ping: Verifica latencia entre planos.
+  - hack: Inicia secuencia de descifrado akáshico.
+  - bio: Análisis profundo de variables biométricas.
+  - clear: Limpia la terminal.`;
+            },
+            'status': () => {
+                return `<span class="text-matrix-green">CONEXIÓN:</span> ESTABLE (Nodo X-772)
+<span class="text-matrix-green">IDENTIDAD:</span> OPERADOR_01 [TITÁN LVL 42]
+<span class="text-matrix-green">ALINEACIÓN:</span> CAÓTICO NEUTRAL
+<span class="text-matrix-green">AKASHA:</span> ACCESO NIVEL 3 CONCEDIDO`;
+            },
+            'ping': () => {
+                return `PING 127.0.0.1 (Matriz Fractal)...
+64 bytes from 127.0.0.1: icmp_seq=1 ttl=128 time=1.02ms
+64 bytes from 127.0.0.1: icmp_seq=2 ttl=128 time=0.98ms
+Ping finalizado. Sincronía perfecta alcanzada.`;
+            },
+            'hack': () => {
+                let steps = [
+                    "Iniciando handshake akáshico...",
+                    "Bypassing filtros egoicos...",
+                    "Accediendo a registros de vidas pasadas...",
+                    "ERROR: ENERGÍA KÁRMICA INSUFICIENTE.",
+                    "Por favor, medite 10 minutos e intente de nuevo."
+                ];
+                return steps.join('\n');
+            },
+            'bio': () => {
+                return `ANÁLISIS BIOMÉTRICO FRACTAL:
+  - Corazón: Pulso de 72 BPM sincronizado con la Tierra.
+  - Oxígeno: 98% - Saturación óptima de prana.
+  - Mente: Ondas Alpha dominantes. Acceso a subconsciente disponible.`;
+            },
+            'clear': () => {
+                terminalHistory.innerHTML = '';
+                return '';
+            }
+        };
+
+        terminalInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const input = terminalInput.value.trim().toLowerCase();
+                const output = document.createElement('div');
+                output.className = 'mt-4';
+                
+                // Add command to history
+                const cmdLine = document.createElement('div');
+                cmdLine.innerHTML = `<span class="text-cyber-cyan font-bold">> ${terminalInput.value}</span>`;
+                terminalHistory.appendChild(cmdLine);
+
+                // Process command
+                if (commands[input]) {
+                    const result = commands[input]();
+                    if (result) {
+                        const resultLine = document.createElement('pre');
+                        resultLine.className = 'mt-1 whitespace-pre-wrap';
+                        resultLine.innerHTML = result;
+                        terminalHistory.appendChild(resultLine);
+                    }
+                } else if (input !== '') {
+                    const errorLine = document.createElement('div');
+                    errorLine.className = 'text-alert-crimson mt-1';
+                    errorLine.innerText = `Error: Comando '${input}' no reconocido.`;
+                    terminalHistory.appendChild(errorLine);
+                }
+
+                terminalInput.value = '';
+                terminalHistory.scrollTop = terminalHistory.scrollHeight;
+
+                // Add random log when command is entered
+                addLogEntry();
+            }
+        });
+
+        // Dynamic Logs
+        const logTypes = [
+            { tag: '[SYS]', class: 'text-matrix-green', msgs: ['Verificación de integridad fractal completada', 'Actualizando kernel de alma', 'Compilando propósitos de hoy'] },
+            { tag: '[BIO]', class: 'text-alert-crimson', msgs: ['Micro-pico de cortisol detectado', 'Frecuencia cardíaca en reposo óptima', 'Ajustando equilibrio pránico'] },
+            { tag: '[NET]', class: 'text-cyber-cyan', msgs: ['Recibiendo paquetes del Akasha', 'Reflejando conciencia en espejo digital', 'Nueva conexión de nodo establecida'] },
+            { tag: '[WARN]', class: 'text-warning-amber', msgs: ['Alerta de fatiga existencial', 'Calibración de ego requerida', 'Baja latencia con el Ser Superior'] }
+        ];
+
+        function addLogEntry() {
+            const type = logTypes[Math.floor(Math.random() * logTypes.length)];
+            const time = new Date().toLocaleTimeString('es-ES', { hour12: false });
+            const msg = type.msgs[Math.floor(Math.random() * type.msgs.length)];
+            
+            const logEntry = document.createElement('div');
+            logEntry.className = 'flex gap-3 opacity-0 translate-y-2 transition-all duration-500';
+            logEntry.innerHTML = `<span class="text-outline">${time}</span><span class="${type.class}">${type.tag}</span> ${msg}`;
+            
+            logContainer.prepend(logEntry);
+            setTimeout(() => {
+                logEntry.classList.remove('opacity-0', 'translate-y-2');
+            }, 10);
+
+            if (logContainer.children.length > 30) {
+                logContainer.removeChild(logContainer.lastChild);
+            }
+        }
+
+        // Periodically add logs
+        setInterval(addLogEntry, 6000);
+
+        // Focus input on click anywhere on terminal area
+        document.querySelector('main').addEventListener('click', () => {
+            terminalInput.focus();
+        });
+    </script>
+</body></html>

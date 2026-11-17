@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SOMNOS-OS v6.8 | Terminal de Regeneración Neuronal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Audiowide&family=Orbitron:wght@400;500;600;700;800;900&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Space+Grotesk:wght@100..900&family=Space+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --neon-aqua: #00dbe9;
+            --neon-violet: #7701d0;
+        }
+        body {
+            background-color: #0A0B1A;
+            color: #e2e0f7;
+            overflow-x: hidden;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+        .font-audiowide { font-family: 'Audiowide', sans-serif; }
+        .glass-panel {
+            background: rgba(29, 30, 46, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 219, 233, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 219, 233, 0.4), transparent);
+        }
+        .glow-text-aqua { text-shadow: 0 0 10px rgba(0, 219, 233, 0.5); }
+        .glow-text-violet { text-shadow: 0 0 10px rgba(119, 1, 208, 0.5); }
+        
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 219, 233, 0.1);
+            position: absolute;
+            animation: scan 4s linear infinite;
+            z-index: 10;
+        }
+        @keyframes scan {
+            from { top: 0%; }
+            to { top: 100%; }
+        }
+
+        .orbit-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .orbit-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 219, 233, 0.2);
+            animation: rotate var(--dur) linear infinite;
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .biometric-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw 5s ease-in-out forwards infinite alternate;
+        }
+        @keyframes draw {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .crosshair-checkbox {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 1px solid var(--neon-aqua);
+            position: relative;
+            cursor: pointer;
+        }
+        .crosshair-checkbox:checked::after {
+            content: '+';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--neon-aqua);
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .nebula-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 30%, rgba(119, 1, 208, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(0, 219, 233, 0.1) 0%, transparent 50%);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-surface": "#e2e0f7",
+                      "primary-fixed-dim": "#00dbe9",
+                      "secondary-container": "#7701d0",
+                      "surface-container": "#1d1e2e",
+                      "on-tertiary-fixed-variant": "#42436b",
+                      "on-primary-fixed": "#002022",
+                      "on-background": "#e2e0f7",
+                      "secondary": "#dcb8ff",
+                      "error": "#ffb4ab",
+                      "primary": "#dbfcff",
+                      "outline": "#849495",
+                      "on-tertiary": "#2b2d53",
+                      "on-tertiary-fixed": "#16173d",
+                      "surface-variant": "#333344",
+                      "tertiary-fixed-dim": "#c2c2f2",
+                      "on-primary": "#00363a",
+                      "tertiary": "#f8f4ff",
+                      "surface-tint": "#00dbe9",
+                      "on-tertiary-container": "#5a5b85",
+                      "surface-bright": "#373849",
+                      "surface-container-high": "#282939",
+                      "primary-fixed": "#7df4ff",
+                      "on-secondary-container": "#dcb7ff",
+                      "error-container": "#93000a",
+                      "surface-container-low": "#191a2a",
+                      "inverse-primary": "#006970",
+                      "outline-variant": "#3b494b",
+                      "on-primary-container": "#006970",
+                      "inverse-on-surface": "#2e2f40",
+                      "surface": "#111221",
+                      "tertiary-container": "#d7d6ff",
+                      "secondary-fixed-dim": "#dcb8ff",
+                      "on-secondary-fixed": "#2c0051",
+                      "on-error-container": "#ffdad6",
+                      "background": "#111221",
+                      "primary-container": "#00f0ff",
+                      "surface-container-lowest": "#0c0d1c",
+                      "on-error": "#690005",
+                      "on-secondary": "#480081",
+                      "inverse-surface": "#e2e0f7",
+                      "tertiary-fixed": "#e1e0ff",
+                      "secondary-fixed": "#efdbff",
+                      "surface-dim": "#111221",
+                      "on-secondary-fixed-variant": "#6700b5",
+                      "surface-container-highest": "#333344",
+                      "on-surface-variant": "#b9cacb",
+                      "on-primary-fixed-variant": "#004f54"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-mobile": "20px",
+                      "gutter": "24px",
+                      "margin-desktop": "64px",
+                      "container-max": "1440px",
+                      "unit": "4px"
+              },
+              "fontFamily": {
+                      "data-point": ["Space Mono"],
+                      "display-lg": ["Space Grotesk"],
+                      "display-lg-mobile": ["Space Grotesk"],
+                      "body-md": ["Geist"],
+                      "label-caps": ["Space Mono"],
+                      "headline-md": ["Space Grotesk"]
+              },
+              "fontSize": {
+                      "data-point": ["14px", {"lineHeight": "20px", "fontWeight": "700"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-surface-dim selection:bg-primary-container selection:text-on-primary-container">
+<div class="nebula-bg"></div>
+<!-- Top AppBar Shell -->
+<header class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full sticky top-0 z-50 backdrop-blur-xl border-b border-primary-fixed-dim/20 bg-surface/10">
+<div class="flex items-center gap-6">
+<img alt="MagnopVS Logo" class="h-10 w-auto opacity-90 brightness-125" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6rzPUVGP6xcpO5BZJqmHNctvTdo18o1aOviYlKoT3KaBGMyxBKPSYOzbHXUcG_h5iIGQD1DTK3TDANW5pOR2iJWdcv7sD3gKvg-92pY_Z93QU4l2U8rWK__WfKJtkJbmbEF7ABQKUYKc5jCYugIXGI_MeG2jyAyLREEcECK9DwtudbnjM9l83Vs5j86Cqypx81h4e7SeAb8TB1BlmqC2rwRDYTdxeHYU0Ygb7VaGNh8UO0tNJP0JH_pIngsnLqdojoxU"/>
+<div class="hidden md:block h-8 w-[1px] bg-primary-fixed-dim/30"></div>
+<div class="hidden md:flex flex-col">
+<span class="font-audiowide text-primary-fixed-dim tracking-widest text-[14px]">SOMNOS-OS</span>
+<span class="font-label-caps text-on-surface-variant text-[10px]">VER_6.8.0_REGENERATION</span>
+</div>
+</div>
+<nav class="hidden lg:flex items-center gap-8">
+<a class="font-audiowide text-primary-fixed-dim font-bold transition-all duration-300 hover:text-primary-fixed" href="#">ESTADO</a>
+<a class="font-audiowide text-on-surface-variant transition-all duration-300 hover:text-primary-fixed-dim" href="#">PROTOCOLOS</a>
+<a class="font-audiowide text-on-surface-variant transition-all duration-300 hover:text-primary-fixed-dim" href="#">BIOMETRÍA</a>
+<a class="font-audiowide text-on-surface-variant transition-all duration-300 hover:text-primary-fixed-dim" href="#">ARCHIVO</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-fixed-dim cursor-pointer hover:bg-primary-fixed-dim/10 p-2 rounded-full transition-colors">bolt</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:bg-white/5 p-2 rounded-full transition-colors">settings</span>
+<div class="w-10 h-10 rounded-full border border-primary-fixed-dim/50 overflow-hidden bg-surface-container">
+<div class="w-full h-full bg-cover bg-center" data-alt="A portrait of a high-tech biohacker in profile, wearing sleek transparent interface glasses and neural sensors on their temple. The lighting is dominated by deep violet and aqua neon hues, reflecting off their skin. The background is a blurred digital dashboard in a dark, atmospheric sci-fi setting. Professional digital art style with cinematic depth of field." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBSjJu5upftoJN93sc8wCARYVX-8n9qxG8yIwTNrM9cvX5pylXE97wNdgMRvAQVjgLu8uivNPncMHJTi9geS6LC7jrWL0Jh9EsUIeiW8E2f32Cfwrp2t4iEgJ5JHPV4hct5RM3OIISq5T_4CxEiAd_JF7M8tHM_A7Z48v5v_gmcYP4YJ5-cFhfMKKYqyikrDDMepK-3ITjE20USBd9aiHDTmuDX_NIp4mua8wf8klXP7rgfzt0kg_sN7Q')"></div>
+</div>
+</div>
+</header>
+<!-- Side Navigation Bar (Desktop Only) -->
+<aside class="hidden lg:flex fixed left-0 top-[73px] h-[calc(100vh-73px)] w-64 bg-surface-container-low/30 backdrop-blur-2xl border-r border-primary-fixed-dim/10 flex-col justify-between py-8 z-40">
+<div class="flex flex-col gap-2">
+<div class="px-8 mb-6">
+<div class="text-[10px] font-label-caps text-primary-fixed-dim opacity-60 mb-1">USER_ENTITY</div>
+<div class="text-on-surface font-audiowide tracking-tight">OPERATOR_01</div>
+<div class="flex items-center gap-2 mt-1">
+<div class="w-2 h-2 rounded-full bg-primary-fixed-dim animate-pulse"></div>
+<span class="text-[9px] font-label-caps text-primary-fixed-dim">DEEP_SLEEP_ENGAGED</span>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-primary-fixed-dim/10 text-primary-fixed-dim border-r-2 border-primary-fixed-dim py-3 px-6 cursor-pointer">
+<span class="material-symbols-outlined">query_stats</span>
+<span class="font-label-caps text-[12px]">ARCHITECTURE</span>
+</div>
+<div class="flex items-center gap-4 text-on-tertiary-fixed-variant py-3 px-6 cursor-pointer hover:bg-primary-fixed-dim/5 hover:text-primary transition-all group">
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">schedule</span>
+<span class="font-label-caps text-[12px]">CIRCADIAN</span>
+</div>
+<div class="flex items-center gap-4 text-on-tertiary-fixed-variant py-3 px-6 cursor-pointer hover:bg-primary-fixed-dim/5 hover:text-primary transition-all group">
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">checklist_rtl</span>
+<span class="font-label-caps text-[12px]">PROTOCOLS</span>
+</div>
+<div class="flex items-center gap-4 text-on-tertiary-fixed-variant py-3 px-6 cursor-pointer hover:bg-primary-fixed-dim/5 hover:text-primary transition-all group">
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">monitoring</span>
+<span class="font-label-caps text-[12px]">BIOMETRICS</span>
+</div>
+<div class="flex items-center gap-4 text-on-tertiary-fixed-variant py-3 px-6 cursor-pointer hover:bg-primary-fixed-dim/5 hover:text-primary transition-all group">
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">rocket_launch</span>
+<span class="font-label-caps text-[12px]">MISSION</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-4 text-on-tertiary-fixed-variant py-3 px-6 cursor-pointer hover:text-primary transition-all">
+<span class="material-symbols-outlined">terminal</span>
+<span class="font-label-caps text-[12px]">DIAGNOSTICS</span>
+</div>
+<div class="flex items-center gap-4 text-on-tertiary-fixed-variant py-3 px-6 cursor-pointer hover:text-primary transition-all">
+<span class="material-symbols-outlined">contact_support</span>
+<span class="font-label-caps text-[12px]">HELP</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="lg:ml-64 p-margin-mobile md:p-margin-desktop min-h-screen">
+<!-- Header Section -->
+<div class="mb-12">
+<h1 class="font-audiowide text-[32px] md:text-[48px] text-primary glow-text-aqua mb-2">TERMINAL DE REGENERACIÓN NEURONAL</h1>
+<div class="flex flex-wrap items-center gap-4">
+<div class="px-3 py-1 glass-panel text-[11px] font-label-caps text-primary-fixed-dim flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-fixed-dim"></span>
+                    SISTEMA ACTIVO
+                </div>
+<div class="px-3 py-1 glass-panel text-[11px] font-label-caps text-secondary-fixed-dim flex items-center gap-2">
+                    ENCRYPTION: AES-256
+                </div>
+<div class="text-on-surface-variant font-label-caps text-[11px]">LOCATION: [HIDDEN]</div>
+</div>
+</div>
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- 1. Mapeo de Sueño Profundo (Bento Large) -->
+<section class="md:col-span-8 glass-panel rounded-xl p-8 relative">
+<div class="scanline"></div>
+<div class="flex justify-between items-start mb-10">
+<div>
+<h2 class="font-audiowide text-xl text-primary mb-1">MAPEO DE SUEÑO PROFUNDO</h2>
+<p class="font-label-caps text-xs text-on-surface-variant">FLUJO DE DATOS NEURONALES - TIEMPO REAL</p>
+</div>
+<div class="flex gap-2">
+<div class="flex items-center gap-1.5 px-2 py-1 glass-panel rounded text-[9px] font-label-caps">
+<div class="w-2 h-2 rounded-full bg-primary-fixed-dim"></div> REM
+                        </div>
+<div class="flex items-center gap-1.5 px-2 py-1 glass-panel rounded text-[9px] font-label-caps">
+<div class="w-2 h-2 rounded-full bg-secondary-container"></div> PROFUNDO
+                        </div>
+<div class="flex items-center gap-1.5 px-2 py-1 glass-panel rounded text-[9px] font-label-caps">
+<div class="w-2 h-2 rounded-full bg-on-tertiary-fixed-variant"></div> LIGERO
+                        </div>
+</div>
+</div>
+<!-- SVG Sleep Stream Chart -->
+<div class="w-full h-64 mt-4 overflow-visible">
+<svg class="w-full h-full" viewbox="0 0 800 200">
+<defs>
+<lineargradient id="lineGrad" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" stop-color="var(--neon-aqua)"></stop>
+<stop offset="50%" stop-color="var(--neon-violet)"></stop>
+<stop offset="100%" stop-color="var(--neon-aqua)"></stop>
+</lineargradient>
+<filter id="glow">
+<fegaussianblur result="blur" stddeviation="3"></fegaussianblur>
+<fecomposite in="SourceGraphic" in2="blur" operator="over"></fecomposite>
+</filter>
+</defs>
+<!-- Grid Lines -->
+<line stroke="rgba(255,255,255,0.05)" stroke-width="1" x1="0" x2="800" y1="50" y2="50"></line>
+<line stroke="rgba(255,255,255,0.05)" stroke-width="1" x1="0" x2="800" y1="100" y2="100"></line>
+<line stroke="rgba(255,255,255,0.05)" stroke-width="1" x1="0" x2="800" y1="150" y2="150"></line>
+<!-- Biometric Lines -->
+<path class="biometric-line" d="M0 100 Q 50 150, 100 80 T 200 120 T 300 40 T 400 160 T 500 100 T 600 60 T 700 140 T 800 90" fill="none" filter="url(#glow)" stroke="url(#lineGrad)" stroke-width="2"></path>
+<!-- Dots on peaks -->
+<circle class="animate-pulse" cx="300" cy="40" fill="var(--neon-aqua)" r="4"></circle>
+<circle cx="400" cy="160" fill="var(--neon-violet)" r="4"></circle>
+</svg>
+</div>
+<div class="grid grid-cols-4 gap-4 mt-8">
+<div class="text-center">
+<div class="text-[10px] font-label-caps text-on-surface-variant mb-1">EFICIENCIA</div>
+<div class="font-orbitron text-2xl text-primary">94.2%</div>
+</div>
+<div class="text-center">
+<div class="text-[10px] font-label-caps text-on-surface-variant mb-1">LATENCIA</div>
+<div class="font-orbitron text-2xl text-primary-fixed-dim">08:12</div>
+</div>
+<div class="text-center">
+<div class="text-[10px] font-label-caps text-on-surface-variant mb-1">HRV AVG</div>
+<div class="font-orbitron text-2xl text-secondary">72ms</div>
+</div>
+<div class="text-center">
+<div class="text-[10px] font-label-caps text-on-surface-variant mb-1">COGNITIVE</div>
+<div class="font-orbitron text-2xl text-primary">ALPHA</div>
+</div>
+</div>
+</section>
+<!-- 2. Sincronía Circadiana (Bento Tall) -->
+<section class="md:col-span-4 glass-panel rounded-xl p-8 flex flex-col items-center">
+<h2 class="font-audiowide text-xl text-primary mb-1 self-start">SINCRONÍA CIRCADIANA</h2>
+<p class="font-label-caps text-xs text-on-surface-variant mb-8 self-start">VENTANAS DE MELATONINA</p>
+<div class="orbit-container my-4">
+<!-- Spinning Rings -->
+<div class="orbit-ring w-64 h-64 opacity-20" style="--dur: 20s; border-style: dashed;"></div>
+<div class="orbit-ring w-52 h-52 border-primary-fixed-dim opacity-40" style="--dur: 15s;"></div>
+<div class="orbit-ring w-40 h-40 border-secondary opacity-30" style="--dur: 30s; border-width: 2px;"></div>
+<!-- Center Data -->
+<div class="text-center z-10">
+<div class="font-orbitron text-4xl text-primary glow-text-aqua">22:45</div>
+<div class="font-label-caps text-[10px] text-primary-fixed-dim mt-2 tracking-widest">NEXT_PEAK</div>
+</div>
+<!-- Highlight Segment -->
+<svg class="absolute inset-0 w-full h-full -rotate-90" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="45" stroke="rgba(0, 219, 233, 0.1)" stroke-width="4"></circle>
+<circle cx="50" cy="50" fill="none" filter="url(#glow)" r="45" stroke="var(--neon-aqua)" stroke-dasharray="70 200" stroke-width="4"></circle>
+</svg>
+</div>
+<div class="w-full mt-auto space-y-4">
+<div class="flex justify-between items-center text-[11px] font-label-caps">
+<span class="text-on-surface-variant">LUZ AZUL BLOQUEO</span>
+<span class="text-primary-fixed-dim">OPTIMAL</span>
+</div>
+<div class="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary-fixed-dim w-[85%]"></div>
+</div>
+<div class="flex justify-between items-center text-[11px] font-label-caps pt-2">
+<span class="text-on-surface-variant">REDUCCIÓN TÉRMICA</span>
+<span class="text-secondary">EN CURSO</span>
+</div>
+<div class="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[40%]"></div>
+</div>
+</div>
+</section>
+<!-- 3. Protocolos Activos (RPG Style) -->
+<section class="md:col-span-6 glass-panel rounded-xl p-8">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h2 class="font-audiowide text-xl text-primary">PROTOCOLOS ACTIVOS</h2>
+<span class="text-[10px] font-label-caps text-on-surface-variant">HYGIENE STATUS BUFFS</span>
+</div>
+<button class="px-4 py-1 border border-primary-fixed-dim text-primary-fixed-dim font-label-caps text-[10px] hover:bg-primary-fixed-dim hover:text-black transition-all">SYNC_ALL</button>
+</div>
+<div class="space-y-4">
+<!-- Status Item -->
+<div class="flex items-center gap-4 p-4 glass-panel bg-white/5 border-white/5 hover:border-primary-fixed-dim/30 transition-colors cursor-pointer group">
+<div class="p-2 border border-primary-fixed-dim/40 rounded-full group-hover:bg-primary-fixed-dim group-hover:text-black transition-all">
+<span class="material-symbols-outlined text-[18px]">visibility_off</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-center">
+<span class="font-audiowide text-sm tracking-wide">BLUE LIGHT BLOCKERS</span>
+<span class="text-[9px] font-label-caps px-2 bg-primary-fixed-dim/20 text-primary-fixed-dim">ACTIVE</span>
+</div>
+<div class="text-[11px] text-on-surface-variant mt-1">Niveles de cortisol reducidos un 14%.</div>
+</div>
+<input checked="" class="crosshair-checkbox" type="checkbox"/>
+</div>
+<div class="flex items-center gap-4 p-4 glass-panel bg-white/5 border-white/5 hover:border-primary-fixed-dim/30 transition-colors cursor-pointer group">
+<div class="p-2 border border-secondary/40 rounded-full group-hover:bg-secondary group-hover:text-black transition-all">
+<span class="material-symbols-outlined text-[18px]">graphic_eq</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-center">
+<span class="font-audiowide text-sm tracking-wide">NOISE FREQUENCIES (432HZ)</span>
+<span class="text-[9px] font-label-caps px-2 bg-secondary/20 text-secondary">READY</span>
+</div>
+<div class="text-[11px] text-on-surface-variant mt-1">Sincronización de ondas Theta preparada.</div>
+</div>
+<input class="crosshair-checkbox" type="checkbox"/>
+</div>
+<div class="flex items-center gap-4 p-4 glass-panel bg-white/5 border-white/5 hover:border-primary-fixed-dim/30 transition-colors cursor-pointer group">
+<div class="p-2 border border-primary-fixed-dim/40 rounded-full group-hover:bg-primary-fixed-dim group-hover:text-black transition-all">
+<span class="material-symbols-outlined text-[18px]">medication</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-center">
+<span class="font-audiowide text-sm tracking-wide">MAGNESIUM SYNC</span>
+<span class="text-[9px] font-label-caps px-2 bg-primary-fixed-dim/20 text-primary-fixed-dim">CHARGING</span>
+</div>
+<div class="text-[11px] text-on-surface-variant mt-1">Digestión completada. Absorción al 92%.</div>
+</div>
+<input checked="" class="crosshair-checkbox" type="checkbox"/>
+</div>
+</div>
+</section>
+<!-- 4. SOF.IA Advice (Tactical Insights) -->
+<section class="md:col-span-6 glass-panel rounded-xl p-8 relative">
+<div class="absolute top-0 right-0 p-4">
+<span class="material-symbols-outlined text-primary-fixed-dim/20 text-6xl">psychology</span>
+</div>
+<h2 class="font-audiowide text-xl text-primary mb-6">SOF.IA ADVICE</h2>
+<div class="flex flex-col gap-6">
+<div class="flex gap-4">
+<div class="flex-shrink-0 w-[2px] bg-gradient-to-b from-primary-fixed-dim to-transparent"></div>
+<div class="space-y-2">
+<p class="font-orbitron text-sm text-primary-fixed-dim tracking-tight">"Ajuste táctico sugerido: La temperatura de la cámara es 1.5°C superior al rango óptimo para sueño profundo v6.8. Activa el protocolo de enfriamiento ahora."</p>
+<p class="text-[11px] text-on-surface-variant italic">— IA de Optimización Neural</p>
+</div>
+</div>
+<div class="p-4 glass-panel bg-primary-fixed-dim/5 border-dashed border-primary-fixed-dim/30">
+<div class="font-label-caps text-[10px] text-primary-fixed-dim mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-xs">info</span>
+                            PREDICCIÓN COGNITIVA MAÑANA
+                        </div>
+<div class="flex items-end gap-4">
+<div class="font-orbitron text-3xl text-primary">A+</div>
+<div class="text-[11px] text-on-surface-variant pb-1">Readiness mental estimada: 98% si el ciclo actual no se interrumpe.</div>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="flex-1 bg-primary-fixed-dim text-black font-audiowide py-3 text-xs tracking-tighter hover:bg-primary transition-colors shadow-[0_0_20px_rgba(0,219,233,0.3)]">EJECUTAR ENFRIAMIENTO</button>
+<button class="flex-1 border border-white/20 text-on-surface font-audiowide py-3 text-xs tracking-tighter hover:bg-white/5 transition-colors">IGNORAR ALERTA</button>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer Data Stream -->
+<footer class="mt-12 flex flex-col md:flex-row justify-between items-center gap-6 border-t border-primary-fixed-dim/10 pt-8">
+<div class="flex gap-8">
+<div class="flex flex-col">
+<span class="text-[9px] font-label-caps text-on-surface-variant">SYSTEM_UPTIME</span>
+<span class="font-data-point text-primary text-xs">142:32:01</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[9px] font-label-caps text-on-surface-variant">DATA_TRAFFIC</span>
+<span class="font-data-point text-primary text-xs">1.2 GB/s</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[9px] font-label-caps text-on-surface-variant">KERNEL_VER</span>
+<span class="font-data-point text-primary text-xs">MAGNOP_6.8</span>
+</div>
+</div>
+<div class="text-[10px] font-label-caps text-on-surface-variant opacity-40">
+                © 2024 MAGNOPVS RESEARCH GROUP. TODOS LOS DERECHOS RESERVADOS.
+            </div>
+</footer>
+</main>
+<script>
+        // Micro-interactions and real-time feel
+        document.addEventListener('mousemove', (e) => {
+            const panels = document.querySelectorAll('.glass-panel');
+            const x = (e.clientX / window.innerWidth) - 0.5;
+            const y = (e.clientY / window.innerHeight) - 0.5;
+
+            panels.forEach(panel => {
+                panel.style.transform = `perspective(1000px) rotateY(${x * 2}deg) rotateX(${-y * 2}deg)`;
+            });
+        });
+
+        // Simulating data updates
+        setInterval(() => {
+            const dataPoints = document.querySelectorAll('.font-orbitron');
+            dataPoints.forEach(dp => {
+                if(dp.innerText.includes('%')) {
+                    const currentVal = parseFloat(dp.innerText);
+                    const newVal = (currentVal + (Math.random() * 0.2 - 0.1)).toFixed(1);
+                    dp.innerText = newVal + '%';
+                }
+            });
+        }, 3000);
+    </script>
+</body></html>

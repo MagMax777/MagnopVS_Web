@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ORACLE HUB v6.8 | COSMOS_OS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Space+Grotesk:wght@300;400;500;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary": "#00363a",
+                    "on-primary-fixed": "#002022",
+                    "surface-container-low": "#1a1b21",
+                    "tertiary-fixed": "#e9ddff",
+                    "outline": "#849495",
+                    "inverse-surface": "#e3e1e9",
+                    "primary-fixed-dim": "#00dbe9",
+                    "on-primary-container": "#006970",
+                    "on-error": "#690005",
+                    "on-primary-fixed-variant": "#004f54",
+                    "secondary-container": "#fe00fe",
+                    "tertiary-fixed-dim": "#d1bcff",
+                    "error": "#ffb4ab",
+                    "surface-container-high": "#292a2f",
+                    "surface": "#121318",
+                    "surface-container": "#1e1f25",
+                    "on-background": "#e3e1e9",
+                    "outline-variant": "#3b494b",
+                    "surface-container-highest": "#34343a",
+                    "on-secondary": "#5b005b",
+                    "inverse-primary": "#006970",
+                    "surface-container-lowest": "#0d0e13",
+                    "surface-bright": "#38393f",
+                    "secondary": "#ffabf3",
+                    "inverse-on-surface": "#2f3036",
+                    "background": "#121318",
+                    "surface-dim": "#121318",
+                    "tertiary": "#faf3ff",
+                    "secondary-fixed": "#ffd7f5",
+                    "surface-variant": "#34343a",
+                    "primary-container": "#00f0ff",
+                    "surface-tint": "#00dbe9",
+                    "on-secondary-container": "#500050",
+                    "on-secondary-fixed": "#380038",
+                    "on-tertiary-fixed": "#23005b",
+                    "tertiary-container": "#e1d2ff",
+                    "on-tertiary-container": "#7213ff",
+                    "on-surface-variant": "#b9cacb",
+                    "on-error-container": "#ffdad6",
+                    "on-secondary-fixed-variant": "#810081",
+                    "primary-fixed": "#7df4ff",
+                    "on-tertiary": "#3c0090",
+                    "secondary-fixed-dim": "#ffabf3",
+                    "primary": "#dbfcff",
+                    "error-container": "#93000a",
+                    "on-tertiary-fixed-variant": "#5700c9",
+                    "on-surface": "#e3e1e9"
+            },
+            "fontFamily": {
+                    "display-lg": ["Audiowide"],
+                    "display-lg-mobile": ["Audiowide"],
+                    "data-mono": ["Space Mono"],
+                    "body-lg": ["Space Grotesk"],
+                    "body-md": ["Space Grotesk"],
+                    "label-caps": ["Space Mono"],
+                    "headline-md": ["Audiowide"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-color: #0d0e13;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(0, 219, 233, 0.05) 0%, transparent 50%),
+                linear-gradient(rgba(18, 19, 24, 0.9), rgba(18, 19, 24, 0.9)),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60 4.02 45V15z' fill-opacity='0.03' fill='%2300dbe9' fill-rule='evenodd'/%3E%3C/svg%3E");
+            color: #e3e1e9;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(219, 252, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 219, 233, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-panel::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 100% 4px;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 219, 233, 0.2);
+            position: absolute;
+            animation: scanline 8s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
+
+        .pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(0, 219, 233, 0.2); }
+            50% { box-shadow: 0 0 20px rgba(0, 219, 233, 0.5); }
+        }
+
+        .clip-corner {
+            clip-path: polygon(0 0, 90% 0, 100% 10%, 100% 100%, 10% 100%, 0 90%);
+        }
+
+        .waveform-bar {
+            animation: waveform 1s ease-in-out infinite;
+        }
+
+        @keyframes waveform {
+            0%, 100% { height: 10%; }
+            50% { height: 80%; }
+        }
+    </style>
+</head>
+<body class="font-body-md selection:bg-primary selection:text-on-primary">
+<!-- Top Navigation -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 md:px-16 py-4 bg-surface/10 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(0,219,233,0.2)]">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-widest uppercase">COSMOS_OS</span>
+<div class="hidden md:block w-[1px] h-8 bg-outline-variant/50"></div>
+<span class="hidden md:block font-label-caps text-label-caps text-on-surface-variant">SECTOR_04 // ORACLE_HUB</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-sm">radar</span>
+<span class="font-label-caps text-[10px] tracking-widest">SIGNAL: 98%</span>
+</div>
+<div class="flex gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">fingerprint</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-secondary rounded-full"></span>
+</button>
+</div>
+</div>
+</header>
+<!-- Sidebar (Shared Component) -->
+<aside class="fixed left-0 top-0 h-full z-40 hidden md:flex flex-col pt-24 pb-8 w-64 bg-surface-container-lowest/40 backdrop-blur-2xl border-r border-outline-variant/20 shadow-2xl shadow-primary/5">
+<div class="px-6 mb-8">
+<h2 class="font-label-caps text-label-caps text-primary tracking-tighter uppercase">SECTOR_04</h2>
+<p class="font-data-mono text-[10px] text-outline opacity-70">PILOT_ID: 8829-X</p>
+</div>
+<nav class="flex-1 px-2 space-y-2">
+<a class="text-on-surface-variant hover:text-primary px-4 py-3 flex items-center gap-4 transition-all hover:bg-primary/5 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps text-label-caps">Neural</span>
+</a>
+<a class="bg-primary-container/20 text-primary border-l-4 border-primary px-4 py-3 flex items-center gap-4 transition-all" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="font-label-caps text-label-caps">Somatic</span>
+</a>
+<a class="text-on-surface-variant hover:text-primary px-4 py-3 flex items-center gap-4 transition-all hover:bg-primary/5 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-label-caps text-label-caps text-secondary">Astral</span>
+</a>
+<a class="text-on-surface-variant hover:text-primary px-4 py-3 flex items-center gap-4 transition-all hover:bg-primary/5 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-caps text-label-caps">Recall</span>
+</a>
+<a class="text-on-surface-variant hover:text-primary px-4 py-3 flex items-center gap-4 transition-all hover:bg-primary/5 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">brightness_empty</span>
+<span class="font-label-caps text-label-caps">Void</span>
+</a>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full bg-primary text-on-primary font-label-caps py-3 clip-corner hover:scale-105 transition-transform shadow-[0_0_15px_#00dbe9]">
+                SYNC_NEURAL
+            </button>
+<div class="mt-4 pt-4 border-t border-outline-variant/20">
+<a class="text-on-surface-variant hover:text-primary px-4 py-2 flex items-center gap-4 transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pt-28 pb-32 px-6 md:px-12 max-w-7xl mx-auto">
+<!-- Intelligent Triage Section -->
+<section class="mb-12">
+<div class="glass-panel p-8 rounded-xl relative overflow-hidden">
+<div class="scanline"></div>
+<div class="flex flex-col md:flex-row justify-between items-end gap-6">
+<div class="w-full">
+<label class="font-label-caps text-primary block mb-2 tracking-widest">CUÉNTANOS TU PROBLEMA</label>
+<p class="font-data-mono text-xs text-outline mb-6">SOF.IA buscará el profesional más adecuado para tu caso</p>
+<div class="relative group">
+<input class="w-full bg-surface-container-lowest/50 border-b-2 border-primary/30 focus:border-primary outline-none py-4 px-2 font-body-lg text-primary placeholder:text-outline/40 transition-all" placeholder="Describe los síntomas o el desajuste astral..." type="text"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 text-primary hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-4xl">auto_awesome</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Layout: Directory & Active Sync -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Expert Directory Grid -->
+<div class="lg:col-span-8 space-y-8">
+<div class="flex justify-between items-center border-b border-outline-variant/30 pb-4">
+<h3 class="font-headline-md text-primary uppercase">Expert Directory</h3>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-primary/10 border border-primary/20 rounded-full font-label-caps text-[10px] text-primary">ALL_AREAS</span>
+<span class="px-3 py-1 border border-outline-variant/30 rounded-full font-label-caps text-[10px] text-on-surface-variant">ONLINE_ONLY</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Expert Card 1 -->
+<div class="glass-panel p-4 group hover:bg-primary/5 transition-all cursor-pointer">
+<div class="flex gap-4">
+<div class="relative">
+<img class="w-16 h-16 rounded-lg object-cover grayscale group-hover:grayscale-0 transition-all border border-primary/30" data-alt="A portrait of a futuristic medical doctor with subtle holographic ocular implants, wearing a high-tech white laboratory coat with glowing blue fibers. The lighting is cold and clinical, set against a dark, tech-filled medical bay. Cinematic style with high-resolution details." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvgpkCOuaGrx8Kw97tx1srxyC9PLo4zn-hVD0oyDZxmmN3ZnC8HcjCxhcQcUdWBRKyzsHz_-866moOEJdKTz5H6LCDWgq4I3Z575FyMMes9sT1oeMOzYfhmleg6MGeTJ_oGJ6mQDfusBU0gnfeMVq9BDpcUJsWk2wy05bJwjBg97Iecl4p0p-3zNfTQXl6-LjA07HEJ-WBBSRYEw_a1I0MxB_eNbmIK-zNpcaf_YbpcaCVUtzcU5YbH_VXpUaL5keyZfwasaT3YaXK"/>
+<span class="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-surface shadow-[0_0_10px_#22c55e]"></span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-headline-md text-sm text-primary">DR. VANCE NEURAL</h4>
+<span class="font-data-mono text-[10px] text-secondary">SYNC: 98%</span>
+</div>
+<p class="font-label-caps text-[10px] text-outline-variant uppercase">Medical / Neural Architect</p>
+<div class="mt-3 flex items-center gap-2">
+<div class="h-1 flex-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-4/5"></div>
+</div>
+<span class="font-data-mono text-[9px] text-primary">EXPERT</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Expert Card 2 -->
+<div class="glass-panel p-4 group hover:bg-secondary/5 transition-all cursor-pointer border-secondary/20">
+<div class="flex gap-4">
+<div class="relative">
+<img class="w-16 h-16 rounded-lg object-cover grayscale group-hover:grayscale-0 transition-all border border-secondary/30" data-alt="A spiritual worker with flowing ethereal robes made of iridescent cosmic fabric. Her eyes glow with a soft violet light, and she is surrounded by floating sacred geometry symbols. The background is a dark, starlit nebula with deep magenta and indigo hues. Hyper-realistic digital art style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAV245RD-1YlQtVz7d3n011h0wSju68I8PIGJ7c-hKa0Qp3V1sXuOxwG8MSUfIjAPbKXmUjAI7cH2MIcMEGLK07t6C46GEnT-vo5Nn8k8gOt-ojm_0601dcTqgflQIh1ToL770ISCNk2hZ_ynNpckbT-7UKDiUHRRE1xDgFahllLW0l9oVElA2uZ-mPl7gtgSdenFxidYTPUIA_qfCZ2kdJhCXPPbFLeVsjUAse8qcl0thR1J5dxfE6AnqeI2murMonYO_17LmMOfUe"/>
+<span class="absolute -bottom-1 -right-1 w-3 h-3 bg-outline rounded-full border-2 border-surface"></span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-headline-md text-sm text-secondary">LYRA VOID-WALKER</h4>
+<span class="font-data-mono text-[10px] text-outline">SYNC: 72%</span>
+</div>
+<p class="font-label-caps text-[10px] text-outline-variant uppercase">Astral / Psychic Vident</p>
+<div class="mt-3 flex items-center gap-2">
+<div class="h-1 flex-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-2/3 shadow-[0_0_10px_#fe00fe]"></div>
+</div>
+<span class="font-data-mono text-[9px] text-secondary">OFFLINE</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Expert Card 3 -->
+<div class="glass-panel p-4 group hover:bg-primary/5 transition-all cursor-pointer">
+<div class="flex gap-4">
+<div class="relative">
+<img class="w-16 h-16 rounded-lg object-cover grayscale group-hover:grayscale-0 transition-all border border-primary/30" data-alt="A rugged coach in high-tech athletic gear with metallic exo-skeleton elements on his arms. He is standing in a gritty, neon-lit industrial training facility with dust motes dancing in shafts of teal light. The aesthetic is cybernetic and intense." src="https://lh3.googleusercontent.com/aida-public/AB6AXuByhOB6YLM8nZgTIFqcmslB-vqIFdPVRIJ1FLDcCSuR_-NJorpZiC5OwHN6tjInpiJOvCvnsKSMWVc7JkYHf0L2oR-obFJtD8C7Q1lixffbqoV14TcZ2vy3ROHnOI0kJAhfRZthzHJLpB8c6xyBagRgoPlrZecCKC71lJyLJw584Nbc14EFUc5AlWtV9t2IPJXlLSYYrWrw2KnejUfNvKqmwY3p7QOfx9pc9JHjv0y69JIndko-EC5xCtfabijl05q4ad8PFlk7GBzB"/>
+<span class="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-surface shadow-[0_0_10px_#22c55e]"></span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-headline-md text-sm text-primary">COACH AXEL-8</h4>
+<span class="font-data-mono text-[10px] text-primary">SYNC: 91%</span>
+</div>
+<p class="font-label-caps text-[10px] text-outline-variant uppercase">Somatic / High-Performance</p>
+<div class="mt-3 flex items-center gap-2">
+<div class="h-1 flex-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[91%] shadow-[0_0_10px_#00dbe9]"></div>
+</div>
+<span class="font-data-mono text-[9px] text-primary">ONLINE</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Expert Card 4 -->
+<div class="glass-panel p-4 group hover:bg-tertiary/5 transition-all cursor-pointer border-tertiary/20">
+<div class="flex gap-4">
+<div class="relative">
+<img class="w-16 h-16 rounded-lg object-cover grayscale group-hover:grayscale-0 transition-all border border-tertiary/30" data-alt="A calm therapist with a glowing neural interface headband, sitting in a serene room with digital plants and holographic rainfall outside the window. Soft, warm amber lighting contrasts with the cool blue technology. High-tech zen aesthetic, extremely detailed textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHPvcR-L80LRklqzzAmZoBuEmibnsU3J02bTzKNIj-Uj19471SjSU6PqpBkxwAGrPBss-5eQkCuWtnZqjpEVUzA_6nGL2fe1iR__M0R1HUn4J_WiJGSzXU4v2eq0ZW43nN85oLq1G3iYaVd2z-lmkIp48CrGtYACjpKEpdOFAMviaIdn_VrGrzPIFf1O3jy1xr8-ReeoW_omtZGDCsh0b61t9riph0LTHMDrlSuX8KaOOkKCVCMOGLbllv1yBtpr0mHq7hVuhjKmeu"/>
+<span class="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-surface shadow-[0_0_10px_#22c55e]"></span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-headline-md text-sm text-tertiary">MIRA EQUILIBRIUM</h4>
+<span class="font-data-mono text-[10px] text-tertiary">SYNC: 88%</span>
+</div>
+<p class="font-label-caps text-[10px] text-outline-variant uppercase">Therapist / Trauma Release</p>
+<div class="mt-3 flex items-center gap-2">
+<div class="h-1 flex-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[88%]"></div>
+</div>
+<span class="font-data-mono text-[9px] text-tertiary">ONLINE</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Action CTA -->
+<button class="w-full py-6 glass-panel border-dashed border-2 border-primary/40 rounded-xl hover:bg-primary/10 transition-all group">
+<div class="flex items-center justify-center gap-4">
+<span class="material-symbols-outlined text-primary group-hover:scale-125 transition-transform">add_moderator</span>
+<span class="font-headline-md text-lg text-primary tracking-widest">REQUEST ORACLE ASSISTANCE</span>
+</div>
+</button>
+</div>
+<!-- Active Tele-Sync Panel (Overlay/Side) -->
+<div class="lg:col-span-4">
+<div class="glass-panel rounded-2xl h-full flex flex-col p-6 sticky top-28 border-primary/30 pulse-glow">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">videocam</span>
+<span class="font-label-caps text-label-caps text-primary">ACTIVE_SYNC</span>
+</div>
+<span class="font-data-mono text-[10px] text-green-400 bg-green-400/10 px-2 py-0.5 rounded">ENCRYPTED</span>
+</div>
+<div class="aspect-video bg-black/40 rounded-xl mb-6 relative overflow-hidden flex items-center justify-center border border-primary/10">
+<div class="absolute inset-0 flex items-center justify-center opacity-20">
+<span class="material-symbols-outlined text-8xl text-primary animate-pulse">account_circle</span>
+</div>
+<div class="relative z-10 text-center">
+<p class="font-label-caps text-xs text-primary mb-2">CONNECTING TO ORACLE...</p>
+<div class="flex items-center justify-center gap-1 h-8">
+<div class="waveform-bar w-1 bg-primary rounded-full" style="animation-delay: 0.1s"></div>
+<div class="waveform-bar w-1 bg-primary rounded-full" style="animation-delay: 0.3s"></div>
+<div class="waveform-bar w-1 bg-primary rounded-full" style="animation-delay: 0.2s"></div>
+<div class="waveform-bar w-1 bg-primary rounded-full" style="animation-delay: 0.4s"></div>
+<div class="waveform-bar w-1 bg-primary rounded-full" style="animation-delay: 0.1s"></div>
+</div>
+</div>
+<!-- UI Elements Over Video -->
+<div class="absolute bottom-2 left-2 flex gap-1">
+<div class="w-1.5 h-1.5 bg-primary rounded-full animate-ping"></div>
+<span class="font-data-mono text-[8px] text-primary">REC: 00:12:44</span>
+</div>
+<div class="absolute top-2 right-2 flex flex-col items-end">
+<span class="font-data-mono text-[8px] text-outline uppercase">Translation Protocol</span>
+<span class="font-data-mono text-[10px] text-primary uppercase">Active: ES-EN-X</span>
+</div>
+</div>
+<div class="flex-1 space-y-4">
+<div class="bg-surface-container-low p-3 rounded-lg border-l-2 border-primary">
+<p class="font-data-mono text-[10px] text-outline mb-1">SOF.IA // PROTOCOL</p>
+<p class="font-body-md text-xs text-primary-fixed-dim">Analizando biométricas actuales... Ritmo cardíaco elevado. Sugiriendo enfoque en 'Somatic Recall'.</p>
+</div>
+<div class="space-y-3 max-h-48 overflow-y-auto pr-2 custom-scrollbar">
+<div class="flex flex-col gap-1">
+<span class="font-label-caps text-[8px] text-outline">USER</span>
+<div class="bg-surface-container-highest/40 p-2 rounded-lg text-xs">Siento una desconexión en el Sector 07.</div>
+</div>
+<div class="flex flex-col gap-1 items-end">
+<span class="font-label-caps text-[8px] text-primary">ORACLE_SYSTEM</span>
+<div class="bg-primary/10 border border-primary/20 p-2 rounded-lg text-xs">Buscando resonancia. El Dr. Vance está listo.</div>
+</div>
+</div>
+</div>
+<div class="mt-6 flex gap-2">
+<button class="flex-1 bg-red-500/20 text-red-400 font-label-caps py-2 rounded-lg border border-red-500/30 hover:bg-red-500/40 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">call_end</span>
+                            END_SYNC
+                        </button>
+<button class="flex-1 bg-primary text-on-primary font-label-caps py-2 rounded-lg shadow-[0_0_10px_#00dbe9] hover:scale-105 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">chat</span>
+                            OPEN_CHAT
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation (Shared Component) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface/5 backdrop-blur-lg border-t border-primary/30 bg-surface-container-highest/10 shadow-[0_-5px_20px_rgba(0,219,233,0.15)] md:hidden">
+<button class="flex flex-col items-center justify-center text-outline px-6 py-2 hover:text-primary transition-all">
+<span class="material-symbols-outlined">home_pin</span>
+<span class="font-label-caps text-[10px] mt-1">Hoy</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-primary text-on-primary-fixed-variant rounded-xl px-6 py-2 shadow-[0_0_10px_#00dbe9]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-caps text-[10px] mt-1">Tu Héroe</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline px-6 py-2 hover:text-primary transition-all">
+<span class="material-symbols-outlined">memory</span>
+<span class="font-label-caps text-[10px] mt-1">Sistema</span>
+</button>
+</nav>
+<script>
+        // Micro-interactions and effects
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mousemove', (e) => {
+                const rect = panel.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                panel.style.setProperty('--mouse-x', `${x}px`);
+                panel.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // Simple flicker effect for data elements
+        setInterval(() => {
+            const el = document.querySelector('.animate-pulse');
+            if (el) {
+                el.style.opacity = Math.random() > 0.9 ? '0.5' : '1';
+            }
+        }, 100);
+    </script>
+</body></html>

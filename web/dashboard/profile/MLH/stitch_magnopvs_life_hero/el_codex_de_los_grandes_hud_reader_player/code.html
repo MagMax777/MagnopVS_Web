@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EL_CODEX // HUD_READER</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@300;400;500;700&amp;family=Orbitron:wght@400;500;700;900&amp;family=Audiowide&amp;family=Hanken+Grotesk:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "secondary": "#47ddc1",
+                "on-secondary-fixed-variant": "#005144",
+                "secondary-container": "#00bba0",
+                "on-secondary": "#00382e",
+                "on-surface-variant": "#bfc8cf",
+                "error": "#ffb4ab",
+                "on-error-container": "#ffdad6",
+                "inverse-surface": "#e0e3e6",
+                "on-primary-fixed": "#001e2d",
+                "surface-dim": "#101417",
+                "on-tertiary-fixed": "#390625",
+                "on-primary-container": "#00597b",
+                "on-secondary-container": "#004439",
+                "background-deep": "#0a0b12",
+                "outline": "#899299",
+                "on-primary": "#00344a",
+                "surface-variant": "#313538",
+                "outline-variant": "#3f484e",
+                "on-secondary-fixed": "#00201a",
+                "on-error": "#690005",
+                "on-tertiary": "#531c3b",
+                "surface-tint": "#7fd0ff",
+                "surface-bright": "#363a3d",
+                "tertiary-fixed": "#ffd8e7",
+                "on-surface": "#e0e3e6",
+                "glow-cyan": "#2da8e0",
+                "surface-container-low": "#181c1f",
+                "secondary-fixed": "#6af9dc",
+                "primary-fixed-dim": "#7fd0ff",
+                "surface-container-lowest": "#0b0f11",
+                "on-background": "#e0e3e6",
+                "status-critical": "#93000a",
+                "primary-container": "#7fd0ff",
+                "primary-fixed": "#c5e7ff",
+                "inverse-on-surface": "#2d3134",
+                "on-primary-fixed-variant": "#004c6a",
+                "tertiary-container": "#ffafd4",
+                "surface-container": "#1c2023",
+                "primary": "#c5e7ff",
+                "tertiary-fixed-dim": "#ffafd4",
+                "surface-container-high": "#272a2d",
+                "grid-line": "rgba(127, 208, 255, 0.05)",
+                "background": "#101417",
+                "surface-panel": "rgba(255, 255, 255, 0.03)",
+                "secondary-fixed-dim": "#47ddc1",
+                "on-tertiary-fixed-variant": "#6e3252",
+                "inverse-primary": "#00658b",
+                "tertiary": "#ffd8e7",
+                "surface-container-highest": "#313538",
+                "surface": "#101417",
+                "on-tertiary-container": "#7c3e5e",
+                "error-container": "#93000a"
+            },
+            "fontFamily": {
+                "mono-data": ["JetBrains Mono"],
+                "micro-tag": ["JetBrains Mono"],
+                "headline-md": ["Space Grotesk"],
+                "body-md": ["Hanken Grotesk"],
+                "label-caps": ["JetBrains Mono"],
+                "display-lg": ["Space Grotesk"],
+                "audiowide": ["Audiowide"],
+                "orbitron": ["Orbitron"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-color: #0a0b12;
+            color: #e0e3e6;
+            overflow: hidden;
+        }
+
+        .cyber-grid {
+            background-image: 
+                linear-gradient(to right, rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(127, 208, 255, 0.1);
+        }
+
+        .neon-glow-cyan {
+            box-shadow: 0 0 15px rgba(45, 168, 224, 0.3);
+        }
+
+        .neon-glow-magenta {
+            box-shadow: 0 0 15px rgba(255, 175, 212, 0.3);
+        }
+
+        .corner-bracket {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-color: #7fd0ff;
+        }
+
+        .corner-tl { top: -1px; left: -1px; border-top-width: 2px; border-left-width: 2px; }
+        .corner-tr { top: -1px; right: -1px; border-top-width: 2px; border-right-width: 2px; }
+        .corner-bl { bottom: -1px; left: -1px; border-bottom-width: 2px; border-left-width: 2px; }
+        .corner-br { bottom: -1px; right: -1px; border-bottom-width: 2px; border-right-width: 2px; }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(127, 208, 255, 0.1);
+            position: absolute;
+            animation: scan 8s linear infinite;
+            z-index: 10;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        .audio-bar {
+            width: 3px;
+            background: #47ddc1;
+            margin-right: 2px;
+            animation: volume 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes volume {
+            0% { height: 5px; }
+            100% { height: 25px; }
+        }
+
+        .slanted-btn {
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #3f484e; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: #7fd0ff; }
+    </style>
+</head>
+<body class="font-body-md h-screen flex flex-col">
+<!-- ATMOSPHERIC BACKGROUND -->
+<div class="fixed inset-0 cyber-grid pointer-events-none opacity-40"></div>
+<div class="fixed inset-0 bg-gradient-to-b from-transparent via-background-deep/50 to-background-deep pointer-events-none"></div>
+<!-- TOP NAVIGATION (EL_CODEX) -->
+<header class="fixed top-0 w-full z-50 bg-background-deep/80 backdrop-blur-24 border-b border-outline-variant/20 flex justify-between items-center px-margin-desktop py-4 h-16">
+<div class="flex items-center gap-6">
+<img alt="MLH Logo" class="h-8" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATVkZNZOosP2ZM-PGpa3zxIifCxgxtaSi-1qV9ICggAoWglJXcu96Frsopjway1ibaXfXzj-TZAU5wTiwIH9OTyoNRA8dc9cvLc5PoM8gqbduSU7V_bBgfL8PBz9M1fKZt80ZeO8qsZCDIw9G1-SLsl0NAnNsl41dLZAgs3dzdb1CDl9mCFmHO2c-3eV5NOaDtyCh8qckSEEZuh8Q10pXnLpNLpZk6GUZdC-8wiwkvAQsJjgVzHarrOQIAZpKUSoBvf-qqXlzUhuSP"/>
+<div class="h-4 w-px bg-outline-variant/30"></div>
+<h1 class="font-audiowide text-headline-md text-primary tracking-widest uppercase">EL_CODEX</h1>
+</div>
+<nav class="hidden md:flex gap-8">
+<a class="text-primary border-b-2 border-primary pb-1 font-label-caps text-label-caps" href="#">TERMINAL</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary transition-colors" href="#">ARCHIVE</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary transition-colors" href="#">SYNC_STREAM</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary hover:bg-primary/10 p-2 transition-all active:scale-95">settings</button>
+<button class="material-symbols-outlined text-primary hover:bg-primary/10 p-2 transition-all active:scale-95">account_circle</button>
+</div>
+</header>
+<!-- SIDEBAR NAVIGATION (MENTOR_OS) -->
+<aside class="fixed left-0 top-0 h-full w-20 md:w-64 z-40 bg-surface-container-low/60 backdrop-blur-24 border-r border-outline-variant/20 flex flex-col pt-24 pb-8 transition-all duration-300">
+<div class="px-6 mb-12 hidden md:block">
+<h2 class="font-audiowide text-secondary text-headline-md tracking-tighter">MENTOR_OS</h2>
+<p class="font-mono-data text-micro-tag text-secondary/60">SYNC_ACTIVE_STABLE</p>
+</div>
+<nav class="flex-1">
+<a class="text-primary border-l-2 border-primary bg-primary/5 shadow-[inset_10px_0_15px_-10px_rgba(45,168,224,0.2)] px-6 py-4 flex items-center gap-4 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-weight="fill">grid_view</span>
+<span class="font-label-caps text-label-caps hidden md:inline">DASHBOARD</span>
+</a>
+<a class="text-on-surface-variant px-6 py-4 flex items-center gap-4 hover:bg-surface-variant/50 hover:text-primary transition-all duration-300" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps text-label-caps hidden md:inline">LEGENDARY_SYNC</span>
+</a>
+<a class="text-on-surface-variant px-6 py-4 flex items-center gap-4 hover:bg-surface-variant/50 hover:text-primary transition-all duration-300" href="#">
+<span class="material-symbols-outlined">play_circle</span>
+<span class="font-label-caps text-label-caps hidden md:inline">RESOURCE_PLAY</span>
+</a>
+<a class="text-on-surface-variant px-6 py-4 flex items-center gap-4 hover:bg-surface-variant/50 hover:text-primary transition-all duration-300" href="#">
+<span class="material-symbols-outlined">edit_note</span>
+<span class="font-label-caps text-label-caps hidden md:inline">ANNOTATIONS</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full bg-secondary text-on-secondary font-audiowide py-3 slanted-btn text-xs tracking-widest hover:brightness-110 active:scale-95 transition-all">
+                SYNC_PROGRESS
+            </button>
+</div>
+</aside>
+<!-- MAIN CONTENT CANVAS -->
+<main class="flex-1 ml-20 md:ml-64 pt-16 pb-12 flex overflow-hidden relative">
+<!-- CENTRAL HUD PLAYER -->
+<section class="flex-1 h-full flex flex-col p-6 overflow-hidden">
+<div class="flex-1 relative glass-panel rounded-lg overflow-hidden flex flex-col group">
+<div class="corner-bracket corner-tl"></div>
+<div class="corner-bracket corner-tr"></div>
+<div class="corner-bracket corner-bl"></div>
+<div class="corner-bracket corner-br"></div>
+<!-- CONTENT TYPE TOGGLE (SIMULATING VIDEO VS TEXT) -->
+<div class="absolute top-4 left-4 z-20 flex gap-2">
+<button class="bg-primary/20 border border-primary/40 px-4 py-1 font-mono-data text-micro-tag text-primary rounded-full uppercase">Visual_Link</button>
+<button class="bg-surface-variant/40 border border-outline-variant/40 px-4 py-1 font-mono-data text-micro-tag text-on-surface-variant rounded-full uppercase">Script_Data</button>
+</div>
+<!-- VIDEO PLAYER VIEW (ACTIVE) -->
+<div class="absolute inset-0 bg-black flex items-center justify-center">
+<div class="scanline"></div>
+<div class="w-full h-full relative" data-alt="A cinematic, high-definition space scenery showing a detailed nebula with vibrant swirls of celestial gas in shades of deep cyan and magenta. The view is framed as if through a high-tech starship visor, with subtle digital HUD elements, distance markers, and atmospheric data readouts flickering at the edges. Professional sci-fi art style with deep blacks and luminous lighting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD0hsIfs1YOaSWwfGEGtxeqAlrnOmeSs2O5eFA-_qLs_Y6-XvskvnOBTvwI_XzHIKaAdj-0Mj7JgUzmYGwwdwsQOF9FHj9z3lCAe_U6g0wADVirwpNyvQS6u4jKf_NdDRrzGCO_lgV-jcMr3hyTXBOOtBKq6B4BmTaNR312sNdvtPDUl4B4xAVjEZdvdrjP9RkeLNaeARskbn-BBFpmOFIq0yyDc-32-qCyLMb8I_w9DGmkFvm5FWWsrlxaIiiXU8zjmCKbw38o1bpu')">
+<!-- HUD OVERLAYS -->
+<div class="absolute inset-0 flex flex-col justify-between p-8 pointer-events-none">
+<div class="flex justify-between items-start">
+<div class="bg-background-deep/60 backdrop-blur-md p-3 border-l-2 border-primary">
+<p class="font-mono-data text-micro-tag text-primary">TIMECODE_REF</p>
+<p class="font-orbitron text-lg text-primary tracking-widest">00:42:15:08</p>
+</div>
+<div class="bg-background-deep/60 backdrop-blur-md p-3 border-r-2 border-secondary text-right">
+<p class="font-mono-data text-micro-tag text-secondary">BITRATE_STABLE</p>
+<p class="font-orbitron text-lg text-secondary tracking-widest">48.2 Mbps</p>
+</div>
+</div>
+<div class="flex justify-center mb-12">
+<div class="flex items-end gap-1 h-8 opacity-60">
+<div class="audio-bar" style="animation-delay: 0.1s"></div>
+<div class="audio-bar" style="animation-delay: 0.3s"></div>
+<div class="audio-bar" style="animation-delay: 0.2s"></div>
+<div class="audio-bar" style="animation-delay: 0.5s"></div>
+<div class="audio-bar" style="animation-delay: 0.4s"></div>
+<div class="audio-bar" style="animation-delay: 0.1s"></div>
+<div class="audio-bar" style="animation-delay: 0.3s"></div>
+<div class="audio-bar" style="animation-delay: 0.2s"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- READING PANE (HIDDEN BY DEFAULT, BUT STYLED) -->
+<div class="hidden absolute inset-0 bg-background-deep p-12 overflow-y-auto">
+<div class="max-w-2xl mx-auto font-orbitron text-on-surface leading-relaxed text-xl space-y-8">
+<p class="border-l-4 border-primary pl-6">"Enlightenment is the realization that the observer and the observed are not separate entities, but two nodes in a singular, crystalline simulation of existence."</p>
+<p>The codex of the ancients reveals that data is the only permanent substance. Everything else—matter, emotion, time—is merely a rendered effect of a deeper logic sequence...</p>
+<p>When the neural bridge is established at 88% synchronization, the user begins to perceive the underlying grid of reality. This is the first step of Mentor Da Vinci's curriculum.</p>
+</div>
+</div>
+</div>
+<!-- FLOATING PLAYER CONTROLS -->
+<div class="mt-6 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="flex gap-2 p-1 bg-surface-container-highest/40 backdrop-blur-24 rounded-full border border-secondary/30 shadow-[0_0_25px_rgba(71,221,193,0.15)]">
+<button class="material-symbols-outlined text-secondary/60 hover:text-secondary hover:scale-110 p-2 transition-all">skip_previous</button>
+<button class="bg-secondary-container text-on-secondary-container rounded-full p-3 shadow-[0_0_15px_rgba(71,221,193,0.5)] active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-weight="fill">play_arrow</span>
+</button>
+<button class="material-symbols-outlined text-secondary/60 hover:text-secondary hover:scale-110 p-2 transition-all">skip_next</button>
+</div>
+<div class="h-8 w-px bg-outline-variant/30"></div>
+<div class="flex items-center gap-4 px-4 py-2 glass-panel rounded-full">
+<span class="material-symbols-outlined text-primary text-sm">text_fields</span>
+<div class="w-24 h-1 bg-surface-variant rounded-full overflow-hidden">
+<div class="w-1/2 h-full bg-primary neon-glow-cyan"></div>
+</div>
+<span class="material-symbols-outlined text-primary text-sm">light_mode</span>
+<button class="material-symbols-outlined text-on-tertiary-container hover:text-tertiary">nights_stay</button>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="font-audiowide text-micro-tag border border-primary/20 px-3 py-1 text-primary hover:bg-primary/10 transition-colors">CHAPTER_04: NEURAL_LOGIC</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary">fullscreen</button>
+</div>
+</div>
+</section>
+<!-- RIGHT SIDEBAR (SYNC_STREAM) -->
+<aside class="w-80 h-full border-l border-outline-variant/20 bg-background-deep/50 backdrop-blur-24 flex flex-col p-6">
+<div class="mb-8">
+<h3 class="font-audiowide text-label-caps text-secondary mb-4 tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">sync</span>
+                    SYNC_STREAM
+                </h3>
+<div class="space-y-4">
+<div class="flex justify-between items-end mb-1">
+<span class="font-mono-data text-micro-tag text-on-surface-variant">NEURAL_COHERENCE</span>
+<span class="font-orbitron text-sm text-secondary">82.4%</span>
+</div>
+<div class="h-2 bg-surface-variant rounded-full overflow-hidden flex gap-1 p-0.5">
+<div class="w-2 h-full bg-secondary neon-glow-magenta shadow-[0_0_8px_#47ddc1]"></div>
+<div class="w-2 h-full bg-secondary neon-glow-magenta shadow-[0_0_8px_#47ddc1]"></div>
+<div class="w-2 h-full bg-secondary neon-glow-magenta shadow-[0_0_8px_#47ddc1]"></div>
+<div class="w-2 h-full bg-secondary neon-glow-magenta shadow-[0_0_8px_#47ddc1]"></div>
+<div class="w-2 h-full bg-secondary neon-glow-magenta shadow-[0_0_8px_#47ddc1]"></div>
+<div class="w-2 h-full bg-secondary neon-glow-magenta shadow-[0_0_8px_#47ddc1]"></div>
+<div class="w-2 h-full bg-secondary neon-glow-magenta shadow-[0_0_8px_#47ddc1]"></div>
+<div class="w-2 h-full bg-secondary neon-glow-magenta shadow-[0_0_8px_#47ddc1]"></div>
+<div class="w-2 h-full bg-surface-dim opacity-30"></div>
+<div class="w-2 h-full bg-surface-dim opacity-30"></div>
+</div>
+</div>
+</div>
+<div class="flex-1 space-y-6 overflow-y-auto pr-2">
+<div class="p-3 border border-secondary/20 bg-secondary/5 rounded">
+<div class="flex justify-between items-center mb-1">
+<span class="font-mono-data text-[10px] text-secondary">+24 XP Sabiduría</span>
+<span class="font-mono-data text-[8px] text-secondary/50">02:14s</span>
+</div>
+<div class="w-full h-px bg-secondary/20"></div>
+</div>
+<div class="p-3 border border-primary/20 bg-primary/5 rounded opacity-60">
+<div class="flex justify-between items-center mb-1">
+<span class="font-mono-data text-[10px] text-primary">+12 XP Arquitectura</span>
+<span class="font-mono-data text-[8px] text-primary/50">01:58s</span>
+</div>
+<div class="w-full h-px bg-primary/20"></div>
+</div>
+</div>
+<!-- MENTOR NOTES -->
+<div class="mt-auto pt-6 border-t border-outline-variant/20">
+<div class="flex items-start gap-4 p-4 glass-panel relative rounded-lg border border-primary/20">
+<div class="corner-bracket corner-tl scale-50"></div>
+<div class="w-12 h-12 rounded-full overflow-hidden border border-primary flex-shrink-0">
+<img class="object-cover w-full h-full" data-alt="A portrait of a legendary renaissance figure resembling Leonardo da Vinci, but stylized with futuristic digital glowing tattoos across the cheek and forehead. The lighting is dramatic, high-contrast, featuring cool blue and magenta neon highlights reflecting on his thoughtful face. He is wearing high-collared minimalist dark robes. 8k resolution, cinematic digital art style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkrHLmarRfq7K2OiQWLmr5IMpTG-E09stztTKzEDurGnh5NlLH-r-aGVp9JFlgq8eQcKWgvXdVGD6k-cgbYpmOU3yNwLvrWWYKcYq5xVW6d0rJdF0-Q0CYPZZ3T_aG1M2qpJxv7NFFrFOxdWG12p7sPfk5iUuwt2fq7OIpb2GEqD4s1ikjpSKNESJRVWdYL3yA6_XxDaek1Tm_uLGztgg-JqRiLxVgTgjMB0LljDCP8rYnHlhUom9flqjHzUBaak5WlariNE-aXc8a"/>
+</div>
+<div>
+<h4 class="font-audiowide text-[10px] text-primary tracking-tighter mb-1">MENTOR_VINCI</h4>
+<p class="font-orbitron text-[11px] text-on-surface leading-tight italic">"Simplicity is the ultimate sophistication... especially when coded correctly into the fabric of the cosmos."</p>
+</div>
+</div>
+</div>
+</aside>
+</main>
+<!-- FOOTER STATUS BAR -->
+<footer class="fixed bottom-0 w-full h-10 bg-surface-container-lowest border-t border-outline-variant/10 flex items-center justify-between px-margin-desktop z-50">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-secondary animate-pulse shadow-[0_0_8px_#47ddc1]"></div>
+<span class="font-mono-data text-micro-tag text-secondary">DATA_STREAM_ACTIVE</span>
+</div>
+<span class="font-mono-data text-micro-tag text-on-surface-variant/40">MLH v6.7 // SYSTEM_STABLE</span>
+</div>
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<span class="font-mono-data text-micro-tag text-on-surface-variant">PAGE_PROGRESS</span>
+<div class="w-32 h-1 bg-surface-variant rounded-full overflow-hidden">
+<div class="w-2/3 h-full bg-primary"></div>
+</div>
+<span class="font-orbitron text-[10px] text-primary">66%</span>
+</div>
+<div class="font-mono-data text-micro-tag text-on-surface-variant/60">
+                08-07-2026 // 14:52:12
+            </div>
+</div>
+</footer>
+<script>
+        // Micro-interactions for HUD buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const originalText = btn.innerHTML;
+                // Add flash effect
+                btn.style.filter = 'brightness(2)';
+                setTimeout(() => {
+                    btn.style.filter = 'brightness(1)';
+                }, 100);
+            });
+        });
+
+        // Simple parallax effect for grid background
+        window.addEventListener('mousemove', (e) => {
+            const grid = document.querySelector('.cyber-grid');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            grid.style.transform = `translate(${x * 10}px, ${y * 10}px)`;
+        });
+    </script>
+</body></html>

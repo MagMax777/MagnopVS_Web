@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS OS | Human Design Blueprint</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@300;400;600&amp;family=Audiowide&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @font-face {
+            font-family: 'Audiowide';
+            src: local('Audiowide');
+        }
+        
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .text-glow-cyan {
+            text-shadow: 0 0 10px rgba(77, 238, 234, 0.5), 0 0 20px rgba(77, 238, 234, 0.3);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(197, 231, 255, 0.1);
+        }
+
+        .cyber-grid {
+            background-image: linear-gradient(rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .hexagon-mask {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        @keyframes pulse-cyan {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(77, 238, 234, 0.4)); opacity: 1; }
+            50% { filter: drop-shadow(0 0 15px rgba(77, 238, 234, 0.8)); opacity: 0.8; }
+        }
+
+        .center-defined {
+            fill: #4DEEEA;
+            animation: pulse-cyan 3s infinite ease-in-out;
+        }
+
+        .center-open {
+            fill: rgba(197, 231, 255, 0.05);
+            stroke: rgba(197, 231, 255, 0.3);
+            stroke-width: 1px;
+        }
+
+        .center-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 8px;
+            fill: #bfc8cf;
+            text-anchor: middle;
+        }
+    </style>
+<!-- Tailwind Config Injection -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed-variant": "#6e3252",
+                    "surface-container-lowest": "#0b0f11",
+                    "on-tertiary-container": "#7c3e5e",
+                    "secondary-fixed-dim": "#47ddc1",
+                    "surface-dim": "#101417",
+                    "tertiary-fixed-dim": "#ffafd4",
+                    "background": "#101417",
+                    "glow-cyan": "#2da8e0",
+                    "on-surface": "#e0e3e6",
+                    "inverse-on-surface": "#2d3134",
+                    "on-primary-fixed-variant": "#004c6a",
+                    "surface-tint": "#7fd0ff",
+                    "secondary-fixed": "#6af9dc",
+                    "secondary": "#47ddc1",
+                    "on-secondary-fixed-variant": "#005144",
+                    "tertiary": "#ffd8e7",
+                    "on-secondary-container": "#004439",
+                    "on-primary-container": "#00597b",
+                    "background-deep": "#0a0b12",
+                    "surface-panel": "rgba(255, 255, 255, 0.03)",
+                    "on-error": "#690005",
+                    "outline-variant": "#3f484e",
+                    "tertiary-container": "#ffafd4",
+                    "outline": "#899299",
+                    "surface-container-high": "#272a2d",
+                    "tertiary-fixed": "#ffd8e7",
+                    "primary": "#c5e7ff",
+                    "inverse-surface": "#e0e3e6",
+                    "inverse-primary": "#00658b",
+                    "primary-fixed-dim": "#7fd0ff",
+                    "on-surface-variant": "#bfc8cf",
+                    "error": "#ffb4ab",
+                    "primary-fixed": "#c5e7ff",
+                    "grid-line": "rgba(127, 208, 255, 0.05)",
+                    "on-tertiary": "#531c3b",
+                    "on-primary-fixed": "#001e2d",
+                    "on-secondary-fixed": "#00201a",
+                    "on-secondary": "#00382e",
+                    "surface-container-low": "#181c1f",
+                    "on-background": "#e0e3e6",
+                    "surface-container": "#1c2023",
+                    "primary-container": "#7fd0ff",
+                    "surface-bright": "#363a3d",
+                    "surface": "#101417",
+                    "on-tertiary-fixed": "#390625",
+                    "error-container": "#93000a",
+                    "surface-variant": "#313538",
+                    "surface-container-highest": "#313538",
+                    "on-primary": "#00344a",
+                    "status-critical": "#93000a",
+                    "on-error-container": "#ffdad6",
+                    "secondary-container": "#00bba0"
+            },
+            "fontFamily": {
+                    "micro-tag": ["JetBrains Mono"],
+                    "headline-md": ["Space Grotesk"],
+                    "label-caps": ["JetBrains Mono"],
+                    "mono-data": ["JetBrains Mono"],
+                    "display-lg": ["Space Grotesk"],
+                    "body-md": ["Hanken Grotesk"],
+                    "display-lg-mobile": ["Space Grotesk"],
+                    "data-point": ["Hanken Grotesk"]
+            },
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md overflow-hidden h-screen flex flex-col">
+<!-- Global Background Elements -->
+<div class="fixed inset-0 cyber-grid z-0 opacity-40"></div>
+<div class="fixed top-[-10%] right-[-10%] w-[500px] h-[500px] bg-secondary/10 blur-[150px] rounded-full z-0"></div>
+<div class="fixed bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-tertiary/5 blur-[180px] rounded-full z-0"></div>
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-3xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)] h-16">
+<div class="flex justify-between items-center px-margin-desktop h-full max-w-7xl mx-auto">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg-mobile tracking-tighter text-primary uppercase">El Codex de los Grandes</span>
+<div class="h-4 w-px bg-primary/20"></div>
+<div class="flex flex-col">
+<span class="font-label-caps text-[10px] leading-tight text-secondary tracking-widest">DISEÑO ORIGINAL</span>
+<span class="font-micro-tag text-micro-tag text-outline">v4.0_STABLE</span>
+</div>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<nav class="flex gap-6">
+<a class="text-on-surface-variant font-medium hover:text-secondary-fixed hover:bg-surface-panel transition-colors px-2 py-1" href="#">Codex</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1" href="#">Nexus</a>
+<a class="text-on-surface-variant font-medium hover:text-secondary-fixed hover:bg-surface-panel transition-colors px-2 py-1" href="#">Archive</a>
+</nav>
+<div class="flex items-center gap-4 border-l border-outline/20 pl-6">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">search</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">settings</button>
+<div class="w-8 h-8 rounded-full border border-primary/40 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A futuristic professional headshot of a person with cybernetic ocular enhancements, illuminated by cool cyan and magenta lighting. The aesthetic is clean and high-tech, fitting for a system administrator of an advanced orbital operating system. Cinematic sharp focus with a slight holographic overlay effect." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCB5BcPeAIZAiYXWcDFhFPcVSKNv5jkcEwI5M4V3OAKxjCLn1HL1DsbgT8J9SR69mWGfqnu1oJmceqxfNmwMBdesVAJD7HRm1N_WRgHkzHWCaOOIp4K35kgtrQms2Id94xDQZQE-l1IVbU8kTW1XurO7WMHhMTFmovUjVViutlsWqjpgubiGTx_Asruo1cE4yutKErcUZ1DB9XO64BntFhAPp1BP6T5ioIajIae714h1qME1MDQB7Gv-Sqsdjs5iwGqHcgjuuXgd00b"/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 pt-16 h-full overflow-hidden">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-low/90 backdrop-blur-2xl border-r border-primary/10 shadow-2xl flex flex-col py-8 pt-24">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-2 h-2 bg-secondary animate-pulse rounded-full"></div>
+<span class="font-display-lg text-[20px] text-glow-cyan">LEGACY_PROTOCOL</span>
+</div>
+<p class="font-micro-tag text-micro-tag text-outline">V-6.4 // ACTIVE</p>
+</div>
+<nav class="flex-1">
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-caps text-label-caps">Codex</span>
+</a>
+<a class="flex items-center gap-4 bg-primary/10 text-primary border-l-4 border-primary px-6 py-4" href="#">
+<span class="material-symbols-outlined">hub</span>
+<span class="font-label-caps text-label-caps">Nexus</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">architecture</span>
+<span class="font-label-caps text-label-caps">Builds</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-caps text-label-caps">Archive</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps text-label-caps">Missions</span>
+</a>
+</nav>
+<div class="mt-auto px-6 border-t border-outline/10 pt-6">
+<button class="w-full py-3 bg-primary text-on-primary font-bold tracking-widest text-[11px] mb-4 hover:brightness-110 active:scale-95 transition-all">
+                    INITIALIZE_SYNC
+                </button>
+<div class="flex justify-between text-outline">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary">help_outline</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary">terminal</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-64 overflow-y-auto relative p-margin-desktop">
+<div class="max-w-6xl mx-auto space-y-12 pb-24">
+<!-- Page Header -->
+<div class="flex justify-between items-end border-b border-outline/10 pb-6">
+<div class="space-y-2">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 border border-secondary/50 font-micro-tag text-[10px] text-secondary">Módulo Blueprint v4.0</span>
+<span class="font-mono-data text-xs text-outline">// SYSTEM_LINK: ESTABLISHED</span>
+</div>
+<h1 class="font-[Audiowide] text-4xl text-primary tracking-tight text-glow-cyan uppercase">DISEÑO ORIGINAL</h1>
+</div>
+<div class="text-right">
+<p class="font-label-caps text-outline text-[10px] mb-1">LOCAL_TIMESTAMP</p>
+<p class="font-mono-data text-secondary">V-6.4 // 2024.11.08_14:23</p>
+</div>
+</div>
+<!-- Info Grid (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="glass-panel p-6 col-span-1">
+<span class="font-micro-tag text-outline block mb-2">TIPO DE VEHÍCULO</span>
+<h3 class="font-display-lg text-2xl text-primary">Proyector</h3>
+<p class="font-body-md text-on-surface-variant mt-2 text-sm leading-relaxed">Guía natural. Capacidad para ver el flujo de energía en otros.</p>
+</div>
+<div class="glass-panel p-6 col-span-1">
+<span class="font-micro-tag text-outline block mb-2">ESTRATEGIA VITAL</span>
+<h3 class="font-display-lg text-2xl text-secondary">Esperar la Invitación</h3>
+<p class="font-body-md text-on-surface-variant mt-2 text-sm leading-relaxed">El éxito proviene del reconocimiento externo.</p>
+</div>
+<div class="glass-panel p-6 col-span-2 border-l-4 border-primary">
+<div class="flex justify-between items-start">
+<div>
+<span class="font-micro-tag text-outline block mb-2">AUTORIDAD INTERNA</span>
+<h3 class="font-display-lg text-2xl text-on-surface">Emocional</h3>
+</div>
+<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl">psychology</span>
+</div>
+</div>
+<div class="mt-4 flex gap-1">
+<div class="h-1 flex-1 bg-primary"></div>
+<div class="h-1 flex-1 bg-primary"></div>
+<div class="h-1 flex-1 bg-primary"></div>
+<div class="h-1 flex-1 bg-primary/20"></div>
+<div class="h-1 flex-1 bg-primary/20"></div>
+</div>
+</div>
+</div>
+<!-- Bodygraph Visualizer & Interaction Area -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- SVG Bodygraph Column -->
+<div class="lg:col-span-7 glass-panel p-8 relative overflow-hidden flex flex-col items-center">
+<div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+
+</div>
+<h4 class="font-label-caps text-outline mb-8 z-10">MAPPING_NEURAL_CENTERS</h4>
+<svg class="z-10 drop-shadow-2xl" height="500" viewbox="0 0 400 500" width="400">
+<!-- Paths Connecting Centers (Simplified Wiring) -->
+<g fill="none" stroke="rgba(197, 231, 255, 0.2)" stroke-width="2">
+<path d="M200,60 L200,100"></path>
+<path d="M200,140 L200,180"></path>
+<path d="M200,240 L120,300"></path>
+<path d="M200,240 L280,300"></path>
+<path d="M200,240 L200,340"></path>
+<path d="M200,420 L200,460"></path>
+</g>
+<!-- 1. Cabeza (Triangle) -->
+<polygon class="center-open" points="200,30 220,60 180,60"></polygon>
+<text class="center-label" x="200" y="25">CABEZA</text>
+<!-- 2. Ajna (Down-Triangle) -->
+<polygon class="center-defined" points="180,75 220,75 200,105"></polygon>
+<text class="center-label" x="200" y="70">AJNA</text>
+<!-- 3. Garganta (Square) -->
+<rect class="center-defined" height="40" width="50" x="175" y="120"></rect>
+<text class="center-label" x="200" y="115">GARGANTA</text>
+<!-- 4. G-Center (Diamond) -->
+<rect class="center-open" height="40" transform="rotate(45 200 210)" width="40" x="180" y="190"></rect>
+<text class="center-label" x="200" y="185">G-CENTER</text>
+<!-- 5. Corazón (Small Triangle) -->
+<polygon class="center-open" points="230,220 250,220 240,240"></polygon>
+<text class="center-label" x="265" y="215">CORAZÓN</text>
+<!-- 6. Bazo (Triangle Left) -->
+<polygon class="center-open" points="120,280 140,320 100,320"></polygon>
+<text class="center-label" x="120" y="275">BAZO</text>
+<!-- 7. Sacral (Square) -->
+<rect class="center-open" height="40" width="40" x="180" y="340"></rect>
+<text class="center-label" x="200" y="335">SACRAL</text>
+<!-- 8. Plexo Solar (Triangle Right) -->
+<polygon class="center-defined" points="280,280 300,320 260,320"></polygon>
+<text class="center-label" x="280" y="275">PLEXO SOLAR</text>
+<!-- 9. Raíz (Square Bottom) -->
+<rect class="center-open" height="30" width="40" x="180" y="440"></rect>
+<text class="center-label" x="200" y="435">RAÍZ</text>
+</svg>
+<div class="mt-8 flex gap-4 z-10">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 bg-[#4DEEEA]"></div>
+<span class="font-micro-tag text-[10px] text-on-surface">DEFINIDO</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 border border-outline/40"></div>
+<span class="font-micro-tag text-[10px] text-on-surface">ABIERTO</span>
+</div>
+</div>
+</div>
+<!-- Details & Protocol Panel -->
+<div class="lg:col-span-5 space-y-6">
+<div class="glass-panel p-6 border-l-2 border-secondary">
+<h5 class="font-label-caps text-secondary text-xs mb-4">ANALYSIS: PLEXO SOLAR</h5>
+<div class="flex items-center justify-between mb-4">
+<span class="px-2 py-1 bg-secondary/10 text-secondary font-mono-data text-xs">CENTRO DEFINIDO</span>
+<span class="material-symbols-outlined text-secondary">bolt</span>
+</div>
+<p class="font-body-md text-on-surface-variant text-sm leading-relaxed mb-4">
+                                Motor de emociones y sentimientos. Al estar definido, posees una "Ola Emocional" constante. No hay claridad en el ahora; la verdad se revela a través del tiempo y el equilibrio.
+                            </p>
+<div class="grid grid-cols-2 gap-2">
+<div class="bg-surface-container-high/50 p-3 rounded">
+<span class="font-micro-tag text-outline text-[9px] block">POTENCIAL</span>
+<span class="font-mono-data text-xs">Profundidad Emocional</span>
+</div>
+<div class="bg-surface-container-high/50 p-3 rounded">
+<span class="font-micro-tag text-outline text-[9px] block">RETO</span>
+<span class="font-mono-data text-xs">Impulsividad Reactiva</span>
+</div>
+</div>
+</div>
+<div class="glass-panel p-6">
+<h5 class="font-label-caps text-primary text-xs mb-4">SOF.IA DESIGN PROTOCOL</h5>
+<div class="flex flex-col gap-4">
+<p class="font-body-md text-on-surface-variant text-sm italic">
+                                    "La invitación que buscas no es para tu mente, sino para tu frecuencia."
+                                </p>
+<button class="w-full py-4 border border-primary/40 text-primary font-bold tracking-widest text-[11px] hover:bg-primary/10 transition-all flex items-center justify-center gap-3">
+<span class="material-symbols-outlined text-lg">terminal</span>
+                                    CONSULTAR PROTOCOLO SOF.IA
+                                </button>
+</div>
+</div>
+<!-- Mini Stat Cards -->
+<div class="grid grid-cols-2 gap-4">
+<div class="glass-panel p-4 flex items-center gap-3">
+<div class="w-10 h-10 hexagon-mask bg-tertiary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary text-xl">star</span>
+</div>
+<div>
+<span class="font-micro-tag text-outline text-[9px] block">PERFIL</span>
+<span class="font-display-lg text-lg">4 / 6</span>
+</div>
+</div>
+<div class="glass-panel p-4 flex items-center gap-3">
+<div class="w-10 h-10 hexagon-mask bg-secondary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-xl">auto_awesome</span>
+</div>
+<div>
+<span class="font-micro-tag text-outline text-[9px] block">ENCARNACIÓN</span>
+<span class="font-display-lg text-lg">Cruz Maya</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="fixed bottom-0 w-full z-30 bg-surface-container-lowest border-t border-grid-line py-4 px-margin-desktop">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-panel-gap">
+<div class="flex items-center gap-6">
+<span class="font-label-caps text-label-caps tracking-widest text-outline">MLH v6.4 // LEGACY_PROTOCOL</span>
+<div class="flex gap-4">
+<a class="font-micro-tag text-micro-tag text-outline hover:text-primary transition-opacity" href="#">Privacy</a>
+<a class="font-micro-tag text-micro-tag text-outline hover:text-primary transition-opacity" href="#">Security</a>
+<a class="font-micro-tag text-micro-tag text-outline hover:text-primary transition-opacity" href="#">Terminal</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></div>
+<span class="font-mono-data text-[10px] text-secondary">CONEXIÓN_ESTABLE_98%</span>
+</div>
+<div class="w-32 h-1 bg-surface-container-high relative overflow-hidden">
+<div class="absolute inset-0 bg-primary w-4/5"></div>
+</div>
+</div>
+</div>
+</footer>
+<!-- Mobile Navigation (Hidden on Desktop) -->
+<div class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container-low/95 backdrop-blur-xl z-50 border-t border-primary/10 flex justify-around items-center py-3">
+<button class="flex flex-col items-center gap-1 text-outline">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="text-[9px] font-label-caps">Codex</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined">hub</span>
+<span class="text-[9px] font-label-caps">Nexus</span>
+</button>
+<div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center -mt-8 shadow-[0_0_20px_rgba(197,231,255,0.4)] border-4 border-background">
+<span class="material-symbols-outlined text-on-primary">bolt</span>
+</div>
+<button class="flex flex-col items-center gap-1 text-outline">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-[9px] font-label-caps">Archive</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-outline">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[9px] font-label-caps">System</span>
+</button>
+</div>
+<script>
+        // Micro-interaction: Update log timestamp periodically
+        function updateTimestamp() {
+            const now = new Date();
+            const ts = now.toISOString().replace('T', '_').split('.')[0].replace(/-/g, '.');
+            document.querySelectorAll('.font-mono-data.text-secondary').forEach(el => {
+                if(el.textContent.includes('2024')) el.textContent = `V-6.4 // ${ts}`;
+            });
+        }
+        setInterval(updateTimestamp, 1000);
+
+        // Hover effect on centers
+        document.querySelectorAll('polygon, rect').forEach(shape => {
+            shape.addEventListener('mouseenter', function() {
+                this.classList.add('brightness-150');
+                this.style.transition = 'all 0.3s ease';
+            });
+            shape.addEventListener('mouseleave', function() {
+                this.classList.remove('brightness-150');
+            });
+        });
+    </script>
+</body></html>

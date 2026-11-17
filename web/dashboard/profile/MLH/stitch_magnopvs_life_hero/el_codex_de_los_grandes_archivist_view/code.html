@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS | Codex Archivist View</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --glow-cyan: #2da8e0;
+            --glow-magenta: #ffafd4;
+            --glow-gold: #ffd8e7;
+            --grid-line: rgba(127, 208, 255, 0.05);
+            --celestial-primary: #7fd0ff;
+            --celestial-secondary: #47ddc1;
+            --celestial-tertiary: #ffd8e7;
+        }
+
+        body {
+            background-color: #0b0f11;
+            color: #e0e3e6;
+            overflow-x: hidden;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .cyber-grid {
+            background-image: 
+                linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .font-audiowide { font-family: 'Audiowide', cursive; }
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(127, 208, 255, 0.15);
+        }
+
+        .neon-border-gold {
+            border: 1px solid rgba(255, 216, 231, 0.3);
+            box-shadow: 0 0 15px rgba(255, 216, 231, 0.1);
+        }
+
+        .hex-bg {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        .slanted-edge {
+            clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+        }
+
+        .text-glow {
+            text-shadow: 0 0 10px rgba(127, 208, 255, 0.5);
+        }
+        
+        .text-glow-gold {
+            text-shadow: 0 0 10px rgba(255, 216, 231, 0.5);
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #0b0f11; }
+        ::-webkit-scrollbar-thumb { background: var(--celestial-primary); }
+
+        .mentor-card-active {
+            border-color: var(--celestial-primary);
+            background: rgba(127, 208, 255, 0.1);
+        }
+
+        .archivist-badge {
+            background: linear-gradient(90deg, rgba(127,208,255,0.1), rgba(255,216,231,0.1));
+            border-left: 2px solid var(--celestial-tertiary);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#7fd0ff",
+                        "secondary": "#47ddc1",
+                        "tertiary": "#ffd8e7",
+                        "surface": "#101417",
+                        "surface-container": "#1c2023",
+                        "on-surface": "#e0e3e6",
+                        "on-surface-variant": "#bfc8cf",
+                        "background-deep": "#0a0b12"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background-deep cyber-grid selection:bg-primary/30 selection:text-primary">
+<!-- TopNavBar Shell -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-3xl border-b border-primary/20">
+<div class="flex justify-between items-center px-6 md:px-10 py-3 max-w-[1600px] mx-auto">
+<div class="flex items-center gap-4">
+<img alt="MagnopVS Logo" class="h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvtMiK66zrQNnNalBIcJq03DsaZirmYk7DqZVjT_-V-iBfQ09P5Zn-otaJunNETWpjf6OY1aTzOAQtcl--mbvMoDqXbcxg-1zATUWCxhmR0U2ggxlGPwsvFIGsv3ZcVxXAjl77O404J8tdJju5hv8KU6vJ7iFbc_Y52vJ0iBmwyEu5x-uF1sB0jnWGG--jdSqQqFIFOx-zolH3g6wBDs3RvLDuT2j5giFe5wdMnpTOG1TatFhA9xYDcFNlQTMa4A75n679xZ0F2wct"/>
+<div class="hidden lg:block h-6 w-[1px] bg-primary/20 mx-2"></div>
+<div class="hidden lg:block font-audiowide text-sm tracking-widest text-primary/70 uppercase">
+                Capa Códice // Archivist Protocol
+            </div>
+</div>
+<div class="hidden md:flex items-center gap-8 font-orbitron text-[10px] tracking-[0.2em] uppercase font-semibold">
+<a class="text-primary border-b-2 border-primary pb-1" href="#">Mentores</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">13 Casas</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Pleroma</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Archivo</a>
+</div>
+<div class="flex items-center gap-6">
+<div class="material-symbols-outlined text-primary/60 cursor-pointer hover:text-primary">search</div>
+<div class="material-symbols-outlined text-tertiary/60 cursor-pointer hover:text-tertiary">hub</div>
+<div class="w-8 h-8 rounded-full border border-primary/40 overflow-hidden bg-surface-container">
+<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1wJIbO8Xshwj8XSYDeZrDu-iLG5FakL5Xy_S_qjKslHB6wDgEX2CpPn8InS6hS4CU1Hze8PcHcMZ1_on-Q4BFkIU3lEVSLSgFQQU-Lv0CpmVnjbNI0JneWGhRetjyPOZIUtbKMuWZsctgpZjLYIYDJCOBn00nePy4tLQJQD-Gs4HYDr2c5k42RRW5rUUh03TzAWuBywsxmH0mZxyGq6LDUMeklrGkTG0aJu7StJldMpLYQqS7OXFqV8i33zswMFV4vTVBWeNDESlq"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Interface -->
+<main class="pt-24 pb-20 min-h-screen px-6 md:px-10 max-w-[1600px] mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Legends Showcase -->
+<aside class="lg:col-span-3 space-y-6">
+<div class="flex items-center justify-between mb-2">
+<h3 class="font-audiowide text-xs text-primary tracking-widest uppercase">Pleroma: 30 Ecos</h3>
+<span class="font-mono text-[10px] text-secondary">SYNCED</span>
+</div>
+<div class="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-3 gap-3 overflow-y-auto max-h-[750px] pr-2 custom-scrollbar">
+<!-- Mentor Thumbnails -->
+<div class="group relative aspect-square hex-bg glass-panel border border-primary/20 cursor-pointer mentor-card-active hover:scale-105 transition-transform duration-300">
+<img alt="Policarpa" class="w-full h-full object-cover grayscale-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0RCjwQ655QdJ-Mi_pkOaKej1Q7_Jvvrpfua0dX3bwm_FADeGXfob7pP8hmOU0hvRxC7m4klNRYlesVbqqUoVGPylzf7-mmTs_vK1FOpnuzKwcBGBADBubYjshNAkQGbI-dBUVkDhaKod75tSz3TSrz23zTubOoVzfu3VZ5bRvwkQ78-6bXXiS-31ZHi0LTPC_xExYoh3tEVPHVR4ahR2MADQ17OA0W2aeySWLoDrs_sMKNU0V1YzpRJEO6IttgtoVl0HSimgTjcnU"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<script>
+                    for(let i=0; i<29; i++) {
+                        document.write(`
+                            <div class="group relative aspect-square hex-bg glass-panel border border-primary/10 cursor-pointer hover:border-primary/40 transition-all opacity-60 hover:opacity-100">
+                                <div class="w-full h-full bg-surface-container flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-primary/20 text-xl">lock_open</span>
+                                </div>
+                            </div>
+                        `);
+                    }
+                </script>
+</div>
+<!-- Arquitectura Vital (Macro Sistema 3) -->
+<div class="glass-panel p-4 rounded-xl border-l-2 border-tertiary/50">
+<h4 class="font-audiowide text-[10px] text-tertiary tracking-widest uppercase mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">architecture</span>
+                    Arquitectura Vital
+                </h4>
+<p class="font-orbitron text-[9px] text-on-surface-variant leading-relaxed">
+                    El Macro Sistema 3 estructura el Pleroma en las 13 Casas. Cada Mentor Legendario actúa como un ancla de Sincronía Axial, canalizando la Gran Obra hacia el tejido de la realidad del Jugador.
+                </p>
+<div class="mt-3 flex justify-between items-center border-t border-white/5 pt-2">
+<span class="text-[8px] font-mono text-tertiary/60">MACRO_SYS_V3.0</span>
+<span class="material-symbols-outlined text-xs text-tertiary animate-pulse">account_tree</span>
+</div>
+</div>
+</aside>
+<!-- Center/Right: Detailed Mentor View -->
+<div class="lg:col-span-9 space-y-8">
+<!-- Hero Section -->
+<section class="glass-panel p-8 rounded-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 flex flex-col items-end gap-2">
+<div class="flex items-center gap-2 px-3 py-1 bg-primary/10 border border-primary/30 rounded-full">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-orbitron text-[10px] text-primary tracking-tighter">SINCRONÍA_AXIAL: ACTIVE</span>
+</div>
+<!-- Casa Assignment Badge -->
+<div class="flex items-center gap-2 px-3 py-1 bg-tertiary/10 border border-tertiary/30 rounded-full neon-border-gold">
+<span class="material-symbols-outlined text-[12px] text-tertiary">fort</span>
+<span class="font-audiowide text-[9px] text-tertiary tracking-widest uppercase">Casa de la Comunidad</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+<div class="md:col-span-4 flex justify-center">
+<div class="relative w-64 h-64 hex-bg glass-panel border-2 border-primary/40 shadow-[0_0_30px_rgba(127,208,255,0.2)]">
+<img alt="Policarpa" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0RCjwQ655QdJ-Mi_pkOaKej1Q7_Jvvrpfua0dX3bwm_FADeGXfob7pP8hmOU0hvRxC7m4klNRYlesVbqqUoVGPylzf7-mmTs_vK1FOpnuzKwcBGBADBubYjshNAkQGbI-dBUVkDhaKod75tSz3TSrz23zTubOoVzfu3VZ5bRvwkQ78-6bXXiS-31ZHi0LTPC_xExYoh3tEVPHVR4ahR2MADQ17OA0W2aeySWLoDrs_sMKNU0V1YzpRJEO6IttgtoVl0HSimgTjcnU"/>
+</div>
+</div>
+<div class="md:col-span-8">
+<h1 class="font-audiowide text-4xl text-primary text-glow mb-2 uppercase">Policarpa Salavarrieta</h1>
+<p class="font-orbitron text-secondary tracking-[0.3em] mb-4 text-sm">// CLASE: LIBERTADORA // FILIACIÓN: COMUNIDAD &amp; LIDERAZGO</p>
+<!-- Sincronía de Pilar -->
+<div class="archivist-badge p-4 rounded-lg mb-6 border border-white/5">
+<h5 class="font-audiowide text-[10px] text-tertiary mb-2 uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">auto_awesome</span>
+                                Sincronía de Pilar
+                            </h5>
+<p class="font-orbitron text-xs text-on-surface leading-relaxed italic">
+                                La vida de La Pola refuerza el Lore de la Casa de la Comunidad al transmutar el sacrificio individual en cohesión colectiva. Su frecuencia vital desbloquea el nodo de "Liderazgo en la Sombra", esencial para la Gran Obra del Pleroma.
+                            </p>
+</div>
+<!-- Stats Stats -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-4">
+<!-- Stats entries kept same but compact -->
+<div class="space-y-1">
+<div class="flex justify-between items-end">
+<span class="font-orbitron text-[9px] text-on-surface-variant uppercase tracking-widest">Fuerza Axial</span>
+<span class="text-primary text-[10px] font-mono">75%</span>
+</div>
+<div class="h-[2px] bg-primary/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[75%] shadow-[0_0_8px_rgba(127,208,255,0.6)]"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between items-end">
+<span class="font-orbitron text-[9px] text-on-surface-variant uppercase tracking-widest">Carisma Social</span>
+<span class="text-primary text-[10px] font-mono">90%</span>
+</div>
+<div class="h-[2px] bg-primary/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[90%] shadow-[0_0_8px_rgba(127,208,255,0.6)]"></div>
+</div>
+</div>
+<!-- Brillantez (Gold Tint) -->
+<div class="space-y-1 sm:col-span-2">
+<div class="flex justify-between items-end">
+<span class="font-orbitron text-[9px] text-tertiary uppercase tracking-widest">Sincronía con la Casa</span>
+<div class="flex text-tertiary text-xs">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1">auto_awesome</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1">auto_awesome</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1">auto_awesome</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1">auto_awesome</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1">auto_awesome</span>
+</div>
+</div>
+<div class="h-[2px] bg-tertiary/10 rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[100%] shadow-[0_0_8px_rgba(255,216,231,0.6)]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Mission Action Section (Call to Action) -->
+<section class="bg-secondary/10 border-l-4 border-secondary p-8 rounded-r-xl relative overflow-hidden">
+<div class="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 rounded-full bg-secondary/20 flex items-center justify-center border border-secondary/40">
+<span class="material-symbols-outlined text-3xl text-secondary animate-pulse">military_tech</span>
+</div>
+<div>
+<h4 class="font-audiowide text-sm text-secondary tracking-widest mb-1 uppercase">Protocolo de Manifestación</h4>
+<p class="font-orbitron text-lg text-on-surface">Completa una acción valiente para catalizar la Sincronía Axial esta semana.</p>
+</div>
+</div>
+<button class="bg-secondary text-background-deep px-10 py-3 slanted-edge font-audiowide text-[10px] tracking-widest uppercase hover:brightness-110 transition-all shadow-[0_0_20px_rgba(71,221,193,0.3)]">
+                        ACTIVATE_AXIS
+                    </button>
+</div>
+<div class="absolute top-0 right-0 w-64 h-full opacity-10 bg-[radial-gradient(circle,_var(--celestial-secondary)_1px,_transparent_1px)] bg-[size:15px_15px]"></div>
+</section>
+<!-- Camino de Maestría Section -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="glass-panel p-6 rounded-lg space-y-4 border-t-2 border-primary/20">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">warning</span>
+<h4 class="font-audiowide text-[10px] text-primary tracking-widest uppercase">Fracturas del Pleroma</h4>
+</div>
+<p class="font-orbitron text-xs text-on-surface-variant leading-relaxed">
+                        Enfrentó la disonancia absoluta y el riesgo de traición constante. Su punto de ruptura fue el profundo apego a la causa, lo que permitía a las sombras del Códice intentar filtrar su esencia.
+                    </p>
+</div>
+<div class="glass-panel p-6 rounded-lg space-y-4 border-t-2 border-tertiary/20">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary">psychology</span>
+<h4 class="font-audiowide text-[10px] text-tertiary tracking-widest uppercase">Directriz para el Archivista</h4>
+</div>
+<p class="font-orbitron text-xs text-on-surface-variant leading-relaxed italic">
+                        "La verdadera valentía no es la ausencia de miedo, sino la convicción de que hay algo mucho más importante que la propia preservación."
+                    </p>
+<div class="pt-2 border-t border-tertiary/10">
+<span class="text-[10px] text-tertiary font-mono tracking-tighter">HABILIDAD DESBLOQUEADA: INQUEBRANTABLE</span>
+</div>
+</div>
+<div class="glass-panel p-6 rounded-lg space-y-4 border-t-2 border-primary/20">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">video_library</span>
+<h4 class="font-audiowide text-[10px] text-primary tracking-widest uppercase">Data-Streams Recomendados</h4>
+</div>
+<div class="space-y-3">
+<div class="flex items-start gap-3 group cursor-pointer">
+<span class="material-symbols-outlined text-primary/40 group-hover:text-primary">menu_book</span>
+<div>
+<p class="font-orbitron text-[10px] text-on-surface group-hover:text-primary transition-colors">La Pola (Análisis de Sincronía)</p>
+<p class="text-[8px] text-on-surface-variant uppercase tracking-widest">Documento Códice</p>
+</div>
+</div>
+<div class="flex items-start gap-3 group cursor-pointer">
+<span class="material-symbols-outlined text-primary/40 group-hover:text-primary">movie</span>
+<div>
+<p class="font-orbitron text-[10px] text-on-surface group-hover:text-primary transition-colors">Fragmentos de Independencia</p>
+<p class="text-[8px] text-on-surface-variant uppercase tracking-widest">Cinemática // 4K</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Footer Shell -->
+<footer class="w-full py-12 bg-surface-container-lowest border-t border-white/5 mt-12">
+<div class="max-w-[1600px] mx-auto px-6 md:px-10 flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="text-center md:text-left space-y-2">
+<div class="font-audiowide text-[10px] tracking-[0.4em] text-primary uppercase">MagnopVS // Códice de Mentores</div>
+<div class="font-mono text-[10px] text-on-surface-variant opacity-50">ARCHIVIST_VIEW_v7.0.0 // DATA_ENCRYPTED</div>
+</div>
+<div class="flex gap-10 font-orbitron text-[9px] tracking-widest uppercase font-semibold text-on-surface-variant">
+<a class="hover:text-primary transition-colors" href="#">Privacidad</a>
+<a class="hover:text-tertiary transition-colors" href="#">13 Casas</a>
+<a class="hover:text-primary transition-colors" href="#">Soporte</a>
+</div>
+<div class="flex items-center gap-4 text-tertiary/60">
+<span class="material-symbols-outlined text-sm">shield_lock</span>
+<span class="font-mono text-[10px] tracking-tighter">STATUS: SECURE_ARCHIVE_LINK</span>
+</div>
+</div>
+</footer>
+<!-- Floating Action Terminal -->
+<button class="fixed bottom-8 right-8 w-14 h-14 rounded-full bg-tertiary text-background-deep shadow-[0_0_25px_rgba(255,216,231,0.4)] flex items-center justify-center group hover:scale-110 active:scale-95 transition-all z-50 overflow-hidden">
+<span class="material-symbols-outlined text-2xl group-hover:rotate-12 transition-transform duration-300">terminal</span>
+<div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+</button>
+<script>
+    // Visual micro-interactions
+    document.addEventListener('mousemove', (e) => {
+        const panels = document.querySelectorAll('.glass-panel');
+        panels.forEach(panel => {
+            const rect = panel.getBoundingClientRect();
+            const panelX = (e.clientX - rect.left) / rect.width;
+            const panelY = (e.clientY - rect.top) / rect.height;
+            
+            if (panelX > 0 && panelX < 1 && panelY > 0 && panelY < 1) {
+                panel.style.boxShadow = `0 10px 40px rgba(127, 208, 255, ${0.05 + (panelY * 0.05)})`;
+            }
+        });
+    });
+</script>
+</body></html>

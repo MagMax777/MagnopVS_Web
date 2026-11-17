@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nexus Arcano | MagnopVS OS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Hanken+Grotesk:wght@300;400;700&amp;family=Orbitron:wght@400;700&amp;family=Audiowide&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-fixed-variant": "#6e3252",
+                        "surface-container-low": "#181c1f",
+                        "inverse-primary": "#00658b",
+                        "on-secondary-fixed": "#00201a",
+                        "tertiary-container": "#ffafd4",
+                        "on-error": "#690005",
+                        "surface-panel": "rgba(255, 255, 255, 0.03)",
+                        "secondary-fixed-dim": "#47ddc1",
+                        "inverse-on-surface": "#2d3134",
+                        "on-tertiary": "#531c3b",
+                        "error": "#ffb4ab",
+                        "tertiary": "#ffd8e7",
+                        "on-tertiary-container": "#7c3e5e",
+                        "inverse-surface": "#e0e3e6",
+                        "on-surface-variant": "#bfc8cf",
+                        "on-primary-container": "#00597b",
+                        "secondary": "#47ddc1",
+                        "surface-container": "#1c2023",
+                        "secondary-container": "#00bba0",
+                        "outline": "#899299",
+                        "background": "#101417",
+                        "grid-line": "rgba(127, 208, 255, 0.05)",
+                        "on-secondary": "#00382e",
+                        "on-error-container": "#ffdad6",
+                        "primary-fixed": "#c5e7ff",
+                        "status-critical": "#93000a",
+                        "glow-cyan": "#2da8e0",
+                        "outline-variant": "#3f484e",
+                        "tertiary-fixed-dim": "#ffafd4",
+                        "secondary-fixed": "#6af9dc",
+                        "surface-container-highest": "#313538",
+                        "surface-dim": "#101417",
+                        "on-primary-fixed-variant": "#004c6a",
+                        "error-container": "#93000a",
+                        "surface-bright": "#363a3d",
+                        "primary-fixed-dim": "#7fd0ff",
+                        "on-primary-fixed": "#001e2d",
+                        "on-background": "#e0e3e6",
+                        "surface-variant": "#313538",
+                        "on-secondary-fixed-variant": "#005144",
+                        "surface-container-lowest": "#0b0f11",
+                        "on-surface": "#e0e3e6",
+                        "on-tertiary-fixed": "#390625",
+                        "on-primary": "#00344a",
+                        "primary-container": "#7fd0ff",
+                        "surface-tint": "#7fd0ff",
+                        "tertiary-fixed": "#ffd8e7",
+                        "on-secondary-container": "#004439",
+                        "surface-container-high": "#272a2d",
+                        "primary": "#c5e7ff",
+                        "surface": "#101417",
+                        "background-deep": "#0a0b12",
+                        "celestial": "#7fd0ff",
+                        "aquamarine": "#47ddc1",
+                        "magenta-neon": "#ff00ff",
+                        "violet-neon": "#bf00ff"
+                    },
+                    fontFamily: {
+                        "display-lg": ["Space Grotesk"],
+                        "headline-md": ["Space Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "micro-tag": ["JetBrains Mono"],
+                        "orbitron": ["Orbitron"],
+                        "audiowide": ["Audiowide"]
+                    },
+                    spacing: {
+                        "panel-gap": "12px",
+                        "unit": "4px",
+                        "margin-desktop": "40px",
+                        "section-padding": "128px"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .cyber-grid {
+            background-image: linear-gradient(to right, rgba(45, 168, 224, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(45, 168, 224, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(127, 208, 255, 0.2);
+            position: relative;
+        }
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 4px;
+            border-top: 1px solid #c5e7ff; border-left: 1px solid #c5e7ff;
+        }
+        .glass-panel::after {
+            content: '';
+            position: absolute;
+            bottom: 0; right: 0; width: 4px; height: 4px;
+            border-bottom: 1px solid #c5e7ff; border-right: 1px solid #c5e7ff;
+        }
+        .neon-glow {
+            box-shadow: 0 0 15px rgba(45, 168, 224, 0.2);
+        }
+        .text-glow-cyan {
+            text-shadow: 0 0 10px rgba(45, 168, 224, 0.6);
+        }
+        @keyframes pulse-cyan {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+        .animate-pulse-cyan {
+            animation: pulse-cyan 4s infinite ease-in-out;
+        }
+        .slanted-btn {
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+        }
+        .hex-bg {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAtadyYJNr3u1bvlbTLbVvR5o7ExkHtvF48vxbNv1JRgg0KGS5Ef7-XmBV8hKb9E4p-S-ons4jaEG60gK0FSsG3UaUenTk2mGeduDCivFFKdChYpXdd0Zju6-BwdmDY7gclgdzaq93jw0CsUrrmD3raguWv9Zwm1RoC3XJeLUHsrPX7ZPmPnakulrSnQdsLq9e1d3gPHEc1yglQnQy4LktPDAAAWMFeoOp3A8l9U7JRe5Qruy3gp0Ox70q3JRApqr6vW-ML3cDRvd2w');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen overflow-x-hidden hex-bg">
+<!-- Background Overlay Layers -->
+<div class="fixed inset-0 cyber-grid pointer-events-none z-0 opacity-40"></div>
+<div class="fixed inset-0 bg-gradient-to-br from-background-deep via-transparent to-background-deep opacity-80 pointer-events-none z-0"></div>
+<!-- Side Navigation (Shared Component Integration) -->
+<nav class="fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-low/90 backdrop-blur-2xl border-r border-primary/10 flex flex-col py-8">
+<div class="px-6 mb-12">
+<img alt="MagnopVS Logo" class="h-10 mb-8 filter brightness-0 invert opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuL2X2l5Oe7azgmOQTkUeYP1lF8JLNpiklacLlFpdEwFjhhE0xIsndnqVkbt3P7aC4e7Gm-eFOB811cfxClfK95tOIg7qRF5m24Igfhfmf3l2vmdMjR_FgXe6GqFhqNHXmIzh0-kc1xFldjRERESR3kI177zvNanfDLnUuqvAUbRSYPbQ_VSIwxkxrQXstgpWDKE8sejClkVGmrQuqvq6xF-jOLnuOpo-Pxt9XlhMc2PcTcDECbjHrW2Ok5o6odwNRg5MKcPPQ2c_P"/>
+<div class="space-y-1">
+<h3 class="font-orbitron text-primary tracking-widest text-xs">LEGACY_PROTOCOL</h3>
+<p class="font-micro-tag text-on-surface-variant text-[10px]">V-6.4 // ACTIVE</p>
+</div>
+</div>
+<div class="flex-1 flex flex-col">
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-caps text-label-caps">Codex</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all" href="#">
+<span class="material-symbols-outlined">architecture</span>
+<span class="font-label-caps text-label-caps">Builds</span>
+</a>
+<!-- Active State: Nexus Arcano maps to System/Missions Context -->
+<a class="flex items-center gap-4 bg-primary/10 text-primary border-l-4 border-primary px-6 py-4" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps text-label-caps">Missions</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-caps text-label-caps">Archive</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-label-caps">System</span>
+</a>
+</div>
+<div class="mt-auto px-6 pt-8 border-t border-primary/10 space-y-4">
+<button class="w-full bg-primary text-on-primary py-3 slanted-btn font-label-caps text-xs tracking-widest hover:brightness-110 transition-all">
+                INITIALIZE_SYNC
+            </button>
+<div class="flex justify-around text-on-surface-variant pt-4">
+<span class="material-symbols-outlined text-sm cursor-pointer hover:text-primary">help_outline</span>
+<span class="material-symbols-outlined text-sm cursor-pointer hover:text-primary">terminal</span>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="ml-64 p-margin-desktop relative z-10">
+<!-- Header -->
+<header class="flex flex-col mb-12 animate-in fade-in slide-in-from-top duration-700">
+<h1 class="font-audiowide text-primary text-6xl tracking-tight mb-2 text-glow-cyan uppercase">NEXUS ARCANO</h1>
+<div class="flex items-center gap-4">
+<div class="h-[1px] w-12 bg-secondary/50"></div>
+<h2 class="font-orbitron text-on-surface-variant text-sm tracking-[0.3em] uppercase">Sincronización del Destino</h2>
+<div class="flex-1 h-[1px] bg-gradient-to-r from-secondary/50 to-transparent"></div>
+</div>
+</header>
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Left Column: Astral Calibration -->
+<aside class="col-span-12 lg:col-span-4 space-y-gutter">
+<section class="glass-panel p-6 space-y-6">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<h3 class="font-label-caps text-label-caps text-primary">CALIBRACIÓN_ASTRAL</h3>
+</div>
+<div class="space-y-4">
+<div class="group">
+<label class="font-micro-tag text-[10px] text-on-surface-variant block mb-1">IDENTIDAD_USUARIO</label>
+<input class="w-full bg-surface-container-highest/30 border border-primary/20 text-on-surface p-3 font-mono-data focus:border-primary focus:ring-0 transition-colors" placeholder="Ingresa tu nombre..." type="text"/>
+</div>
+<div class="group">
+<label class="font-micro-tag text-[10px] text-on-surface-variant block mb-1">COORDENADA_TEMPORAL</label>
+<input class="w-full bg-surface-container-highest/30 border border-primary/20 text-on-surface p-3 font-mono-data focus:border-primary focus:ring-0 transition-colors" type="date"/>
+</div>
+<div class="group">
+<label class="font-micro-tag text-[10px] text-on-surface-variant block mb-1">HORA_DE_ENTRADA</label>
+<input class="w-full bg-surface-container-highest/30 border border-primary/20 text-on-surface p-3 font-mono-data focus:border-primary focus:ring-0 transition-colors" type="time"/>
+</div>
+</div>
+<div class="pt-4">
+<button class="w-full border border-primary/40 text-primary py-3 hover:bg-primary/10 transition-all font-label-caps text-[11px] tracking-widest flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">sync</span>
+                            EJECUTAR_SCAN_KÁRMICO
+                        </button>
+</div>
+</section>
+<!-- Micro Logs Section -->
+<section class="glass-panel p-4 h-48 overflow-hidden font-micro-tag text-[10px] leading-relaxed">
+<div class="text-primary/60 border-b border-primary/10 pb-2 mb-2">SYSTEM_LOG // STREAM_001</div>
+<div class="space-y-1 opacity-70">
+<p class="text-secondary">[12:44:01] Conectando con servidor cósmico...</p>
+<p>[12:44:05] Cargando efemérides planetarias...</p>
+<p>[12:44:12] Calibrando KIN Maya 4/20...</p>
+<p class="text-magenta-neon">[12:44:18] ALERTA: Mercurio retrógrado detectado.</p>
+<p>[12:44:22] Sincronización de biorritmo al 88%</p>
+<p class="text-primary">[12:44:30] Interfaz Nexus activada.</p>
+</div>
+</section>
+</aside>
+<!-- Main Center: The Decryptor -->
+<div class="col-span-12 lg:col-span-8 space-y-gutter">
+<!-- Arcane Navigation Tabs -->
+<nav class="glass-panel p-2 flex flex-wrap justify-between items-center px-4">
+<button class="flex flex-col items-center gap-1 p-3 text-primary border-b-2 border-primary group transition-all">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 duration-200">auto_awesome</span>
+<span class="font-label-caps text-[10px]">C. Astral</span>
+</button>
+<button class="flex flex-col items-center gap-1 p-3 text-on-surface-variant hover:text-primary transition-all group">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 duration-200">cyclone</span>
+<span class="font-label-caps text-[10px]">Kin Maya</span>
+</button>
+<button class="flex flex-col items-center gap-1 p-3 text-on-surface-variant hover:text-primary transition-all group">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 duration-200">show_chart</span>
+<span class="font-label-caps text-[10px]">Bioritmo</span>
+</button>
+<button class="flex flex-col items-center gap-1 p-3 text-on-surface-variant hover:text-primary transition-all group">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 duration-200">calculate</span>
+<span class="font-label-caps text-[10px]">Número</span>
+</button>
+<button class="flex flex-col items-center gap-1 p-3 text-on-surface-variant hover:text-primary transition-all group">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 duration-200">hourglass_empty</span>
+<span class="font-label-caps text-[10px]">Vidas P.</span>
+</button>
+<button class="flex flex-col items-center gap-1 p-3 text-on-surface-variant hover:text-primary transition-all group">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 duration-200">vibration</span>
+<span class="font-label-caps text-[10px]">Horóscopo</span>
+</button>
+</nav>
+<!-- Biorhythms & Life Path Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Biorhythms Panel -->
+<section class="glass-panel p-6 flex flex-col min-h-[300px]">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-label-caps text-label-caps text-secondary flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+                                BIORITMO_ACTUAL
+                            </h3>
+<span class="font-micro-tag text-[10px] text-on-surface-variant opacity-50">SYNC: 92%</span>
+</div>
+<div class="flex-1 relative flex items-center justify-center py-4">
+<!-- Mock Chart Visualization -->
+<div class="w-full h-full flex items-end justify-between gap-1 px-2">
+<div class="w-2 bg-secondary/80 animate-pulse" style="height: 40%"></div>
+<div class="w-2 bg-magenta-neon/80" style="height: 65%"></div>
+<div class="w-2 bg-primary/80" style="height: 80%"></div>
+<div class="w-2 bg-secondary/80" style="height: 30%"></div>
+<div class="w-2 bg-magenta-neon/80 animate-pulse" style="height: 90%"></div>
+<div class="w-2 bg-primary/80" style="height: 55%"></div>
+<div class="w-2 bg-secondary/80" style="height: 70%"></div>
+<div class="w-2 bg-magenta-neon/80" style="height: 45%"></div>
+<div class="w-2 bg-primary/80" style="height: 85%"></div>
+<div class="w-2 bg-secondary/80" style="height: 60%"></div>
+</div>
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-20">
+<div class="w-full border-t border-dashed border-primary"></div>
+<div class="w-full border-t border-primary"></div>
+<div class="w-full border-t border-dashed border-primary"></div>
+</div>
+</div>
+<div class="flex justify-between mt-4 border-t border-primary/10 pt-4">
+<div class="text-center">
+<p class="font-micro-tag text-[9px] text-on-surface-variant mb-1 uppercase">Físico</p>
+<span class="font-mono-data text-primary">82%</span>
+</div>
+<div class="text-center">
+<p class="font-micro-tag text-[9px] text-on-surface-variant mb-1 uppercase">Emocional</p>
+<span class="font-mono-data text-magenta-neon">44%</span>
+</div>
+<div class="text-center">
+<p class="font-micro-tag text-[9px] text-on-surface-variant mb-1 uppercase">Intelecto</p>
+<span class="font-mono-data text-secondary">67%</span>
+</div>
+</div>
+</section>
+<!-- Life Path Panel -->
+<section class="glass-panel p-6 flex flex-col items-center justify-center text-center">
+<h3 class="font-label-caps text-label-caps text-primary/80 mb-8 tracking-[0.2em]">SENDERO_DE_VIDA</h3>
+<div class="relative group cursor-pointer">
+<div class="absolute inset-0 bg-primary/20 blur-3xl group-hover:bg-primary/40 transition-all rounded-full scale-150 animate-pulse-cyan"></div>
+<div class="relative w-32 h-32 flex items-center justify-center border-2 border-primary/40 rounded-full">
+<span class="font-audiowide text-6xl text-primary text-glow-cyan">11</span>
+</div>
+</div>
+<p class="mt-8 font-label-caps text-primary tracking-widest text-sm">EL_MAESTRO</p>
+<p class="mt-2 text-xs text-on-surface-variant max-w-[200px] leading-relaxed">
+                            Intuición elevada, canalizador de luz y portador de visiones místicas.
+                        </p>
+</section>
+</div>
+<!-- Akashic Portraits Generation Section -->
+<section class="glass-panel p-8 relative overflow-hidden">
+<div class="flex flex-col md:flex-row gap-8 items-center">
+<div class="w-48 h-48 flex-shrink-0 relative">
+<div class="absolute inset-0 border border-primary/30 rotate-45"></div>
+<div class="absolute inset-0 border border-primary/30"></div>
+<img class="w-full h-full object-cover filter brightness-90 contrast-125" data-alt="A highly detailed portrait of a mystical female entity named Sof.IA with long ethereal white hair, illuminated by bioluminescent circuitry on her skin. She is surrounded by a complex holographic mandala and alchemical symbols. The lighting is deep indigo and cyan with magenta neon highlights. Cinematic digital art style with 8k resolution and professional lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhXOwiytmUMK0TjGA-mBCTudf0qlBS4qp90TBq244G9GKvJrrfdXw5TB-oBGZmSTxqn3mHk0njeJCYIT3bT7jaAelg-TvTEnbhz0DAxT0VTF4Mu9Uqf7Hf4G-l1Vv-dK9ImOSt4BeImVJy4dT1GuU2J3Z4jTDNcYDKr_R9vOgagVA3kkLoiTDodG3pr_BMVdq6m-stPQ1LGUSixdf_D0xQ0sAmn0mEgVe95zyjeH44HxlhcfGjsUO88Cv3AmqD3qmwu9Vnn-hYe6z7"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60"></div>
+</div>
+<div class="flex-1 space-y-4">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 border border-primary/50 text-primary font-micro-tag text-[9px]">ACTIVE_GUIDE</span>
+<h3 class="font-orbitron text-lg tracking-widest">SOF.IA_GEN_VIII</h3>
+</div>
+<p class="font-body-md text-on-surface-variant text-sm italic">
+                                "Sincronizando con tu flujo akáshico... Percibo ecos de una existencia en la Atlántida, donde dominabas la alquimia del silicio."
+                            </p>
+<div class="flex gap-4 pt-4">
+<button class="bg-primary text-on-primary slanted-btn px-6 py-3 font-label-caps text-[10px] tracking-widest hover:brightness-110 transition-all shadow-lg shadow-primary/20">
+                                    RECONSTRUIR_PASADO
+                                </button>
+<button class="border border-secondary/40 text-secondary slanted-btn px-6 py-3 font-label-caps text-[10px] tracking-widest hover:bg-secondary/10 transition-all">
+                                    EXTRAER_MEMORIA
+                                </button>
+</div>
+</div>
+</div>
+<!-- Atmospheric Element -->
+<div class="absolute top-0 right-0 p-2 pointer-events-none opacity-20">
+<span class="material-symbols-outlined text-6xl text-primary">all_inclusive</span>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Footer (Shared Component Integration) -->
+<footer class="ml-64 border-t border-grid-line bg-surface-container-lowest py-12 px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-panel-gap relative z-10">
+<div class="flex items-center gap-4">
+<img alt="MagnopVS Logo Small" class="h-6 opacity-40 grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuL2X2l5Oe7azgmOQTkUeYP1lF8JLNpiklacLlFpdEwFjhhE0xIsndnqVkbt3P7aC4e7Gm-eFOB811cfxClfK95tOIg7qRF5m24Igfhfmf3l2vmdMjR_FgXe6GqFhqNHXmIzh0-kc1xFldjRERESR3kI177zvNanfDLnUuqvAUbRSYPbQ_VSIwxkxrQXstgpWDKE8sejClkVGmrQuqvq6xF-jOLnuOpo-Pxt9XlhMc2PcTcDECbjHrW2Ok5o6odwNRg5MKcPPQ2c_P"/>
+<span class="font-label-caps text-[10px] text-outline tracking-widest">MLH v6.4 // LEGACY_PROTOCOL</span>
+</div>
+<div class="flex gap-8">
+<a class="font-micro-tag text-[10px] text-outline hover:text-primary transition-opacity" href="#">Privacy</a>
+<a class="font-micro-tag text-[10px] text-outline hover:text-primary transition-opacity" href="#">Security</a>
+<a class="font-micro-tag text-[10px] text-outline hover:text-primary transition-opacity" href="#">Terminal</a>
+</div>
+<div class="font-micro-tag text-[10px] text-secondary-fixed opacity-50">
+            [ COORDINATES: 34.0522° N, 118.2437° W ]
+        </div>
+</footer>
+<!-- Interactive Micro-Interactions -->
+<script>
+        // Simple hover effect for glass panels to shift gradient slightly
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mousemove', (e) => {
+                const rect = panel.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                panel.style.setProperty('--mouse-x', `${x}px`);
+                panel.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body></html>

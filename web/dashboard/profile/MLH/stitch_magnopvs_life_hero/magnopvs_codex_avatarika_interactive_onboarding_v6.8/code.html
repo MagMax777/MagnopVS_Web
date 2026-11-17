@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Codex Avatarika | MagnopVS OS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@300;400;600;700&amp;family=Orbitron:wght@400;500;700&amp;family=Audiowide&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "error-container": "#93000a",
+                        "background": "#101417",
+                        "surface-container-low": "#181c1f",
+                        "secondary-fixed": "#6af9dc",
+                        "inverse-surface": "#e0e3e6",
+                        "on-primary-fixed": "#001e2d",
+                        "background-deep": "#0a0b12",
+                        "primary": "#c5e7ff",
+                        "inverse-on-surface": "#2d3134",
+                        "surface-container-lowest": "#0b0f11",
+                        "on-background": "#e0e3e6",
+                        "surface-container": "#1c2023",
+                        "inverse-primary": "#00658b",
+                        "error": "#ffb4ab",
+                        "on-tertiary-container": "#7c3e5e",
+                        "surface": "#101417",
+                        "on-tertiary-fixed": "#390625",
+                        "glow-cyan": "#2da8e0",
+                        "tertiary": "#ffd8e7",
+                        "on-secondary-fixed-variant": "#005144",
+                        "tertiary-fixed-dim": "#ffafd4",
+                        "primary-fixed-dim": "#7fd0ff",
+                        "tertiary-container": "#ffafd4",
+                        "on-primary": "#00344a",
+                        "on-error-container": "#ffdad6",
+                        "surface-dim": "#101417",
+                        "primary-fixed": "#c5e7ff",
+                        "surface-container-high": "#272a2d",
+                        "surface-panel": "rgba(255, 255, 255, 0.03)",
+                        "on-tertiary-fixed-variant": "#6e3252",
+                        "secondary": "#47ddc1",
+                        "on-error": "#690005",
+                        "status-critical": "#93000a",
+                        "on-primary-fixed-variant": "#004c6a",
+                        "surface-container-highest": "#313538",
+                        "surface-tint": "#7fd0ff",
+                        "on-secondary": "#00382e",
+                        "primary-container": "#7fd0ff",
+                        "secondary-container": "#00bba0",
+                        "on-primary-container": "#00597b",
+                        "on-surface": "#e0e3e6",
+                        "on-secondary-container": "#004439",
+                        "on-secondary-fixed": "#00201a",
+                        "surface-variant": "#313538",
+                        "on-tertiary": "#531c3b",
+                        "outline-variant": "#3f484e",
+                        "outline": "#899299",
+                        "grid-line": "rgba(127, 208, 255, 0.05)",
+                        "on-surface-variant": "#bfc8cf",
+                        "secondary-fixed-dim": "#47ddc1",
+                        "tertiary-fixed": "#ffd8e7",
+                        "surface-bright": "#363a3d",
+                        "celestial": "#2da8e0",
+                        "aquamarine": "#47ddc1",
+                        "magenta-glow": "#ff00ff",
+                        "violet-accent": "#8a2be2"
+                    },
+                    fontFamily: {
+                        "audiowide": ["Audiowide", "cursive"],
+                        "orbitron": ["Orbitron", "sans-serif"],
+                        "data-point": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "micro-tag": ["JetBrains Mono"],
+                        "display-lg": ["Space Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "mono-data": ["JetBrains Mono"]
+                    },
+                    spacing: {
+                        "unit": "4px",
+                        "section-padding": "128px",
+                        "margin-desktop": "40px",
+                        "margin-mobile": "20px"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #101417;
+            color: #e0e3e6;
+            overflow-x: hidden;
+            font-family: 'Hanken Grotesk', sans-serif;
+        }
+
+        .cyber-grid {
+            background-image: 
+                linear-gradient(to right, rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(197, 231, 255, 0.15);
+        }
+
+        .hex-clip {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        .neon-pulse {
+            animation: neon-pulse 2s infinite alternate;
+        }
+
+        @keyframes neon-pulse {
+            from { filter: drop-shadow(0 0 2px #2da8e0); }
+            to { filter: drop-shadow(0 0 10px #2da8e0); }
+        }
+
+        .synthesize-spin {
+            animation: spin-slow 8s linear infinite;
+        }
+
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #47ddc1;
+            box-shadow: 0 0 10px rgba(71, 221, 193, 0.3);
+        }
+
+        .step-inactive {
+            display: none;
+        }
+
+        .corner-bracket {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-color: #c5e7ff;
+            opacity: 0.6;
+        }
+
+        .bracket-tl { top: -2px; left: -2px; border-top: 2px solid; border-left: 2px solid; }
+        .bracket-tr { top: -2px; right: -2px; border-top: 2px solid; border-right: 2px solid; }
+        .bracket-bl { bottom: -2px; left: -2px; border-bottom: 2px solid; border-left: 2px solid; }
+        .bracket-br { bottom: -2px; right: -2px; border-bottom: 2px solid; border-right: 2px solid; }
+
+        .progress-block {
+            width: 100%;
+            height: 8px;
+            background: rgba(127, 208, 255, 0.1);
+            display: flex;
+            gap: 2px;
+        }
+
+        .block-unit {
+            flex: 1;
+            height: 100%;
+            background: #1c2023;
+        }
+
+        .block-unit.active {
+            background: #2da8e0;
+            box-shadow: 0 0 8px #2da8e0;
+        }
+    </style>
+</head>
+<body class="bg-background selection:bg-primary/30">
+<!-- Atmospheric Background -->
+<div class="fixed inset-0 z-[-1] pointer-events-none">
+<div class="absolute inset-0 cyber-grid"></div>
+<div class="absolute inset-0 bg-gradient-to-tr from-background via-transparent to-primary/5"></div>
+<div class="absolute inset-0 opacity-10 mix-blend-overlay bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC3Mc9EZBpaL8xihKLdG98I90f2rewwEal_hATsMHI1gU9ajQUowlHLahn5unNha2vgtDRM3g5RSTAdX5Lqn8lOlRwEhOOMrx5BUGyOLKiYIpGGHtiuKA666u_H35mKRjWpxIUWdukaJt39suGyH2u3mSNY7aAYuhl4UItVCWl0VYfaEdjzC9xbWP9UBn_UD8sMv2iVzJhEUEnHKyWJZahvVbb3WUZRXcKFFbhUKWfDmp3OUBMlFjchwRBWh_y3WUxbvvIbCYF0azBd')"></div>
+</div>
+<!-- Header / TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/30 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="flex items-center gap-4">
+<img alt="MagnopVS Logo" class="h-10 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaFa17DWM0JQ-o3GiYh3Vsi5VYn_Ll7E3knjtRnFSe0pH3Gr2HJvjUf09Zt3gj0ev-qm5fsoDVL5tM0fc2cNAPElU3VebVZdNaKjjLmzv1kWDrA4A8KYAtSVVkC5n0yPcAOAwsI40IiXGXpaHynJWY7Fzcn6HVtYJFJeCKWYC0g4lC-Rf0Xg3ZhFBuEtRWZSvg90Hc61MWNUP2EhgLCE3HoOZ_5NWXK7LjOB8sAfSBk-uvztrzY8sKiJM_YCZMUFZB_fkXs-wIhIgm"/>
+<div class="hidden md:block">
+<h1 class="font-audiowide text-xl tracking-widest text-primary uppercase">MAGNOPVS · Life Hero</h1>
+<p class="font-micro-tag text-micro-tag text-outline-variant">CODEX_AVATARIKA_SYSTEM_v6.8</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-primary neon-pulse cursor-pointer">bolt</span>
+<span class="material-symbols-outlined text-outline-variant hover:text-primary transition-colors cursor-pointer">account_circle</span>
+<span class="material-symbols-outlined text-outline-variant hover:text-primary transition-colors cursor-pointer">stars</span>
+</div>
+</header>
+<!-- Side Navigation (Web) -->
+<nav class="hidden lg:flex flex-col fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-low/50 backdrop-blur-2xl border-r border-primary/20 pt-24 px-6">
+<div class="mb-10">
+<h2 class="font-audiowide text-primary text-lg tracking-wider">OPERATOR_01</h2>
+<p class="font-mono-data text-xs text-secondary-fixed">LVL 42 // TITAN</p>
+</div>
+<ul class="space-y-4">
+<li class="group">
+<a class="flex items-center gap-3 py-3 px-4 rounded text-outline-variant hover:bg-primary/5 hover:text-primary transition-all border-l-2 border-transparent hover:border-primary" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+</li>
+<li class="group">
+<a class="flex items-center gap-3 py-3 px-4 rounded text-primary bg-primary/5 border-l-2 border-primary shadow-[inset_4px_0_10px_rgba(127,208,255,0.1)]" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label-caps text-label-caps">PCA Protocol</span>
+</a>
+</li>
+<li class="group">
+<a class="flex items-center gap-3 py-3 px-4 rounded text-outline-variant hover:bg-primary/5 hover:text-primary transition-all border-l-2 border-transparent hover:border-primary" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps text-label-caps">Missions</span>
+</a>
+</li>
+<li class="group">
+<a class="flex items-center gap-3 py-3 px-4 rounded text-outline-variant hover:bg-primary/5 hover:text-primary transition-all border-l-2 border-transparent hover:border-primary" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps text-label-caps">Attributes</span>
+</a>
+</li>
+</ul>
+</nav>
+<!-- Main Content Canvas -->
+<main class="pt-32 pb-40 px-margin-mobile md:pl-72 md:pr-margin-desktop min-h-screen">
+<div class="max-w-5xl mx-auto">
+<!-- PCA Calibration Flow -->
+<section id="calibration-interface">
+<div class="mb-12">
+<h2 class="font-audiowide text-display-lg-mobile md:text-display-lg text-primary mb-2">CALIBRACIÓN AVATARIKA</h2>
+<div class="flex items-center gap-4">
+<span class="font-mono-data text-secondary">PROTOCOL_V6.8</span>
+<div class="h-px flex-1 bg-outline-variant opacity-20"></div>
+<span class="font-micro-tag text-micro-tag uppercase text-outline">Status: Awaiting Data Input</span>
+</div>
+</div>
+<!-- Step Tabs Indicators -->
+<div class="flex gap-2 mb-8">
+<div class="h-1 flex-1 bg-primary rounded shadow-[0_0_10px_#7fd0ff]" id="tab-1"></div>
+<div class="h-1 flex-1 bg-surface-container-highest rounded transition-all duration-500" id="tab-2"></div>
+<div class="h-1 flex-1 bg-surface-container-highest rounded transition-all duration-500" id="tab-3"></div>
+</div>
+<!-- Form Steps Container -->
+<div class="glass-panel p-8 md:p-12 relative overflow-hidden">
+<div class="corner-bracket bracket-tl"></div>
+<div class="corner-bracket bracket-tr"></div>
+<div class="corner-bracket bracket-bl"></div>
+<div class="corner-bracket bracket-br"></div>
+<!-- Step 1: Identity Base -->
+<div class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700" id="step-1">
+<div class="flex items-center gap-4 mb-6">
+<div class="p-3 bg-primary/10 text-primary border border-primary/20">
+<span class="material-symbols-outlined">fingerprint</span>
+</div>
+<div>
+<h3 class="font-orbitron text-xl text-primary">01_IDENTIDAD_BASE</h3>
+<p class="text-on-surface-variant font-body-md text-sm">Define your biological and digital resonance tags.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="space-y-2">
+<label class="font-label-caps text-label-caps text-outline block">LEGAL_DESIGNATION (Full Name)</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant p-4 font-mono-data text-primary focus:border-primary transition-all" placeholder="Johnathan Doe" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-caps text-label-caps text-outline block">AVATAR_ALIAS</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant p-4 font-mono-data text-primary focus:border-primary transition-all" placeholder="NEO_ARCHITECT" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-caps text-label-caps text-outline block">TEMPORAL_ORIGIN (Birth Date)</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant p-4 font-mono-data text-primary focus:border-primary transition-all" type="date"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-caps text-label-caps text-outline block">COORDINATES (Birth Place)</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant p-4 font-mono-data text-primary focus:border-primary transition-all" placeholder="City, Country" type="text"/>
+</div>
+</div>
+<div class="flex justify-end pt-8">
+<button class="px-8 py-4 bg-primary text-background font-audiowide flex items-center gap-3 hover:bg-secondary-fixed transition-all group" onclick="nextStep(2)">
+                                NEXT_PROTOCOL
+                                <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Step 2: Personality Matrix -->
+<div class="step-inactive space-y-8 animate-in fade-in slide-in-from-right-4 duration-500" id="step-2">
+<div class="flex items-center gap-4 mb-6">
+<div class="p-3 bg-aquamarine/10 text-aquamarine border border-aquamarine/20">
+<span class="material-symbols-outlined">psychology</span>
+</div>
+<div>
+<h3 class="font-orbitron text-xl text-aquamarine">02_PERSONALITY_MATRIX</h3>
+<p class="text-on-surface-variant font-body-md text-sm">Mapping the internal neural architecture.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="space-y-2">
+<label class="font-label-caps text-label-caps text-outline block">DOMINANT_STRENGTHS</label>
+<select class="w-full bg-surface-container-lowest border border-outline-variant p-4 font-mono-data text-primary focus:border-primary">
+<option>Strategic Intelligence</option>
+<option>Creative Chaos</option>
+<option>Unyielding Discipline</option>
+<option>Empathetic Resonance</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="font-label-caps text-label-caps text-outline block">SYSTEM_LEAKS (Weaknesses)</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant p-4 font-mono-data text-primary focus:border-primary" placeholder="Procrastination, Impulse Control..." type="text"/>
+</div>
+<div class="col-span-full space-y-2">
+<label class="font-label-caps text-label-caps text-outline block">PRIMARY_OBJECTIVE (Goal)</label>
+<textarea class="w-full bg-surface-container-lowest border border-outline-variant p-4 font-mono-data text-primary focus:border-primary" placeholder="Describe the mission of your existence..." rows="3"></textarea>
+</div>
+</div>
+<div class="flex justify-between pt-8">
+<button class="px-8 py-4 border border-outline text-outline font-audiowide hover:bg-surface-container-highest transition-all" onclick="nextStep(1)">PREVIOUS</button>
+<button class="px-8 py-4 bg-aquamarine text-background font-audiowide flex items-center gap-3 hover:bg-white transition-all group" onclick="nextStep(3)">
+                                ENCODE_VALUES
+                                <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Step 3: Lifestyle Patrons -->
+<div class="step-inactive space-y-8 animate-in fade-in slide-in-from-right-4 duration-500" id="step-3">
+<div class="flex items-center gap-4 mb-6">
+<div class="p-3 bg-violet-accent/10 text-violet-accent border border-violet-accent/20">
+<span class="material-symbols-outlined">vitals</span>
+</div>
+<div>
+<h3 class="font-orbitron text-xl text-violet-accent">03_LIFESTYLE_PATRONS</h3>
+<p class="text-on-surface-variant font-body-md text-sm">Bio-rhythm and discipline calibration.</p>
+</div>
+</div>
+<div class="space-y-8">
+<div class="space-y-4">
+<div class="flex justify-between font-label-caps text-xs">
+<span>ENERGY_OUTPUT_STABILITY</span>
+<span class="text-violet-accent">65%</span>
+</div>
+<input class="w-full accent-violet-accent bg-surface-container-lowest h-2 rounded-lg appearance-none cursor-pointer" type="range"/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="space-y-2">
+<label class="font-label-caps text-label-caps text-outline block">SOCIAL_EXPOSURE_PREFERENCE</label>
+<div class="flex gap-4">
+<button class="flex-1 py-3 border border-outline-variant font-mono-data text-xs hover:border-primary">SOLO_NODE</button>
+<button class="flex-1 py-3 border border-primary bg-primary/10 font-mono-data text-xs">NETWORK_HUB</button>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label-caps text-label-caps text-outline block">DAILY_DISCIPLINE_LVL</label>
+<select class="w-full bg-surface-container-lowest border border-outline-variant p-4 font-mono-data text-primary focus:border-primary">
+<option>Strict Stoicism</option>
+<option>Fluid Adaptation</option>
+<option>Minimal Effort</option>
+</select>
+</div>
+</div>
+</div>
+<div class="flex justify-between pt-8">
+<button class="px-8 py-4 border border-outline text-outline font-audiowide hover:bg-surface-container-highest transition-all" onclick="nextStep(2)">PREVIOUS</button>
+<button class="px-8 py-4 bg-violet-accent text-white font-audiowide flex items-center gap-3 hover:shadow-[0_0_20px_rgba(138,43,226,0.5)] transition-all group" onclick="processDNA()">
+                                GENERATE_CODEX
+                                <span class="material-symbols-outlined group-hover:scale-125 transition-transform">auto_awesome</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Processing Screen -->
+<section class="hidden flex flex-col items-center justify-center min-h-[60vh] space-y-12 py-20" id="processing-layer">
+<div class="relative w-64 h-64">
+<!-- Spinning Rings -->
+<div class="absolute inset-0 border-4 border-dashed border-primary/20 rounded-full synthesize-spin"></div>
+<div class="absolute inset-4 border-2 border-aquamarine/40 rounded-full animate-pulse"></div>
+<div class="absolute inset-10 border border-violet-accent/60 rounded-full synthesize-spin" style="animation-direction: reverse; animation-duration: 4s;"></div>
+<!-- Core Glow -->
+<div class="absolute inset-20 bg-primary/20 blur-2xl rounded-full animate-ping"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-5xl text-primary neon-pulse" style="font-variation-settings: 'FILL' 1;">dns</span>
+</div>
+</div>
+<div class="text-center space-y-4">
+<h3 class="font-audiowide text-2xl text-primary animate-pulse tracking-widest uppercase">Synthesizing Cosmic DNA</h3>
+<div class="font-mono-data text-sm text-outline-variant space-y-1">
+<p class="h-6" id="process-log">Initializing Alchemical Engine...</p>
+<div class="w-full max-w-xs mx-auto h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary transition-all duration-300" id="process-bar" style="width: 0%"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Result Layer: The Generated Codex -->
+<section class="hidden space-y-12 pb-20" id="result-layer">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-8">
+<div>
+<span class="font-micro-tag text-secondary-fixed bg-secondary-fixed/10 px-3 py-1 border border-secondary-fixed/20 mb-2 inline-block">CALIBRATION_SUCCESSFUL</span>
+<h2 class="font-audiowide text-4xl text-primary">CODEX_AVATARIKA</h2>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-2 border border-primary/30 text-primary font-label-caps text-xs flex items-center gap-2 hover:bg-primary/10 transition-all">
+<span class="material-symbols-outlined text-sm">picture_as_pdf</span> EXPORT_PDF
+                        </button>
+<button class="px-6 py-2 bg-primary text-background font-label-caps text-xs flex items-center gap-2 hover:bg-secondary-fixed transition-all">
+<span class="material-symbols-outlined text-sm">print</span> PRINT_MAGZINE
+                        </button>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Character Identity -->
+<div class="lg:col-span-4 space-y-8">
+<div class="glass-panel p-6 relative">
+<div class="corner-bracket bracket-tl"></div>
+<div class="corner-bracket bracket-tr"></div>
+<div class="flex flex-col items-center text-center">
+<div class="w-48 h-48 hex-clip bg-surface-container relative mb-6">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A futuristic, cyber-alchemical portrait of a digital avatar wearing iridescent visor and metallic robes. The style is high-fidelity digital art with neon glowing circuits integrated into the skin, set against a dark grey matte background with celestial blue atmospheric lighting. The mood is heroic and enlightened, feeling like a premium RPG character sheet." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDCBdwxCxyCLmKaGqiWBAVnEjoacCMNjKOCJM2CoBCv1Hqc8q4Pm1_xOK_BhZodavuT5yIq1DqlHjWRoOK1Ufn3YA7xTW_cURSTUoAmwM30p0-bbber3_96iJxAk4iz9YZvKO_73MkT0FwUX4T0b5T7pdBq958_WYJloOg3jMbQ7p2RPGqvD8mZm7apdRmNKRdO3gChjf6KyXK5e3w6KyUEZ8l00HDrun3_jbiXMMsJpMzBb10bKaHX6lQgzL83JDLPvzYimOi5kMlg')"></div>
+<div class="absolute inset-0 border-4 border-primary/20 hex-clip"></div>
+</div>
+<h3 class="font-audiowide text-2xl text-primary">NEO_ARCHITECT</h3>
+<p class="font-orbitron text-aquamarine text-sm mb-4">Arquitecto del Caos | Level 1</p>
+<div class="w-full flex justify-between items-center px-4 py-2 bg-surface-container-lowest border border-outline-variant/30 rounded">
+<span class="font-mono-data text-[10px] text-outline">EXP_STATUS</span>
+<div class="h-1 flex-1 mx-4 bg-outline-variant/20 rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 5%"></div>
+</div>
+<span class="font-mono-data text-[10px] text-primary">5/1000</span>
+</div>
+</div>
+</div>
+<!-- 5 Core Stats -->
+<div class="glass-panel p-6 space-y-6">
+<h4 class="font-label-caps text-label-caps text-outline border-b border-outline-variant/20 pb-2">CORE_ATTRIBUTES</h4>
+<div class="space-y-4">
+<!-- Energy -->
+<div>
+<div class="flex justify-between text-xs font-mono-data mb-1">
+<span>ENERGY</span>
+<span class="text-primary">82</span>
+</div>
+<div class="progress-block">
+<div class="block-unit active"></div><div class="block-unit active"></div><div class="block-unit active"></div><div class="block-unit active"></div><div class="block-unit active"></div><div class="block-unit active"></div><div class="block-unit active"></div><div class="block-unit active"></div><div class="block-unit"></div><div class="block-unit"></div>
+</div>
+</div>
+<!-- Discipline -->
+<div>
+<div class="flex justify-between text-xs font-mono-data mb-1">
+<span>DISCIPLINE</span>
+<span class="text-aquamarine">64</span>
+</div>
+<div class="progress-block">
+<div class="block-unit active" style="background:#47ddc1; box-shadow: 0 0 8px #47ddc1"></div><div class="block-unit active" style="background:#47ddc1; box-shadow: 0 0 8px #47ddc1"></div><div class="block-unit active" style="background:#47ddc1; box-shadow: 0 0 8px #47ddc1"></div><div class="block-unit active" style="background:#47ddc1; box-shadow: 0 0 8px #47ddc1"></div><div class="block-unit active" style="background:#47ddc1; box-shadow: 0 0 8px #47ddc1"></div><div class="block-unit active" style="background:#47ddc1; box-shadow: 0 0 8px #47ddc1"></div><div class="block-unit"></div><div class="block-unit"></div><div class="block-unit"></div><div class="block-unit"></div>
+</div>
+</div>
+<!-- Creativity -->
+<div>
+<div class="flex justify-between text-xs font-mono-data mb-1">
+<span>CREATIVITY</span>
+<span class="text-magenta-glow">95</span>
+</div>
+<div class="progress-block">
+<div class="block-unit active" style="background:#ff00ff; box-shadow: 0 0 8px #ff00ff"></div><div class="block-unit active" style="background:#ff00ff; box-shadow: 0 0 8px #ff00ff"></div><div class="block-unit active" style="background:#ff00ff; box-shadow: 0 0 8px #ff00ff"></div><div class="block-unit active" style="background:#ff00ff; box-shadow: 0 0 8px #ff00ff"></div><div class="block-unit active" style="background:#ff00ff; box-shadow: 0 0 8px #ff00ff"></div><div class="block-unit active" style="background:#ff00ff; box-shadow: 0 0 8px #ff00ff"></div><div class="block-unit active" style="background:#ff00ff; box-shadow: 0 0 8px #ff00ff"></div><div class="block-unit active" style="background:#ff00ff; box-shadow: 0 0 8px #ff00ff"></div><div class="block-unit active" style="background:#ff00ff; box-shadow: 0 0 8px #ff00ff"></div><div class="block-unit"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Narrative & Esoterics -->
+<div class="lg:col-span-8 space-y-8">
+<!-- Bento Grid for Profile Details -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Narrative Section -->
+<div class="glass-panel p-6 md:col-span-2">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary">auto_stories</span>
+<h4 class="font-audiowide text-lg">ORIGIN_LOG</h4>
+</div>
+<p class="font-body-md text-on-surface-variant leading-relaxed">
+                                    Born under the convergence of the digital ether and physical reality, <span class="text-primary">NEO_ARCHITECT</span> seeks to restructure chaos into harmonic grids. Your resonance suggests a primary mission to neutralize the <span class="text-status-critical">Leaks of Procrastination</span> that currently siphon your creative output. The calibration indicates you are ready to initiate "Protocol Alpha-7".
+                                </p>
+</div>
+<!-- Esoteric Profile -->
+<div class="glass-panel p-6">
+<h4 class="font-label-caps text-outline text-xs mb-4">ESOTERIC_SIGNATURE</h4>
+<div class="space-y-3 font-mono-data text-sm">
+<div class="flex justify-between border-b border-outline-variant/10 pb-1">
+<span class="text-on-surface-variant">Natal Chart</span>
+<span class="text-primary">Sun: Aquarius</span>
+</div>
+<div class="flex justify-between border-b border-outline-variant/10 pb-1">
+<span class="text-on-surface-variant">Human Design</span>
+<span class="text-primary">Manifesting Generator</span>
+</div>
+<div class="flex justify-between border-b border-outline-variant/10 pb-1">
+<span class="text-on-surface-variant">Numerology</span>
+<span class="text-primary">Path 7 (The Seeker)</span>
+</div>
+</div>
+</div>
+<!-- Initial Mission -->
+<div class="glass-panel p-6 border-l-4 border-l-secondary">
+<h4 class="font-label-caps text-secondary text-xs mb-4">INITIAL_MISSION</h4>
+<p class="font-body-md text-primary font-bold mb-2 uppercase tracking-wide">Operation: Deep Flow</p>
+<p class="text-xs text-on-surface-variant mb-4">Achieve 120 minutes of undistracted creative architecture to secure your first attribute unlock.</p>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-secondary">verified</span>
+<span class="font-micro-tag text-secondary">REWARD: +5 Intelligence</span>
+</div>
+</div>
+<!-- System Recommendations -->
+<div class="glass-panel p-6 md:col-span-2">
+<h4 class="font-label-caps text-outline text-xs mb-4">TACTICAL_GROWTH_TIPS</h4>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="p-3 bg-surface-container-highest/30 border border-outline-variant/20 rounded">
+<div class="flex items-center gap-2 mb-2 text-primary">
+<span class="material-symbols-outlined text-sm">bedtime</span>
+<span class="font-mono-data text-[10px] font-bold uppercase">Sleep Opt</span>
+</div>
+<p class="text-[10px] text-on-surface-variant">Recalibrate circadian nodes at 23:00 to maximize mana regeneration.</p>
+</div>
+<div class="p-3 bg-surface-container-highest/30 border border-outline-variant/20 rounded">
+<div class="flex items-center gap-2 mb-2 text-aquamarine">
+<span class="material-symbols-outlined text-sm">bolt</span>
+<span class="font-mono-data text-[10px] font-bold uppercase">Focus Stack</span>
+</div>
+<p class="text-[10px] text-on-surface-variant">Utilize Pomodoro-9 protocol for high-density neural processing.</p>
+</div>
+<div class="p-3 bg-surface-container-highest/30 border border-outline-variant/20 rounded">
+<div class="flex items-center gap-2 mb-2 text-violet-accent">
+<span class="material-symbols-outlined text-sm">shield</span>
+<span class="font-mono-data text-[10px] font-bold uppercase">Bio-Shield</span>
+</div>
+<p class="text-[10px] text-on-surface-variant">Minimize digital noise for 1hr post-wake for shield reinforcement.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Bottom Navigation (Mobile) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 pb-safe px-4 bg-surface-container/80 backdrop-blur-lg border-t border-primary/20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">space_dashboard</span>
+<span class="font-label-caps text-[10px]">Dash</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-110" href="#">
+<span class="material-symbols-outlined">temple_hindu</span>
+<span class="font-label-caps text-[10px]">PCA</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">assignment_late</span>
+<span class="font-label-caps text-[10px]">Missions</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-caps text-[10px]">Stats</span>
+</a>
+</nav>
+<!-- Footer -->
+<footer class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-12 flex flex-col items-center gap-4 opacity-40 hover:opacity-100 transition-opacity duration-500">
+<div class="flex gap-8 font-mono-data text-xs text-outline">
+<a class="hover:text-primary transition-colors" href="#">System Reset</a>
+<a class="hover:text-primary transition-colors" href="#">Log Export</a>
+<a class="hover:text-primary transition-colors" href="#">Protocol-9</a>
+</div>
+<p class="font-mono-data text-xs tracking-widest uppercase">MAGNOPVS OS v4.2.0 // SYSTEM_STABLE</p>
+</footer>
+<script>
+        function nextStep(step) {
+            // Hide all steps
+            document.querySelectorAll('[id^="step-"]').forEach(el => el.classList.add('step-inactive'));
+            // Reset tabs
+            document.querySelectorAll('[id^="tab-"]').forEach(el => {
+                el.classList.remove('bg-primary', 'shadow-[0_0_10px_#7fd0ff]');
+                el.classList.add('bg-surface-container-highest');
+            });
+
+            // Show current step
+            document.getElementById('step-' + step).classList.remove('step-inactive');
+            
+            // Highlight current tab
+            const currentTab = document.getElementById('tab-' + step);
+            currentTab.classList.remove('bg-surface-container-highest');
+            currentTab.classList.add('bg-primary', 'shadow-[0_0_10px_#7fd0ff]');
+
+            // Scroll to top of interface
+            document.getElementById('calibration-interface').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function processDNA() {
+            // Hide main interface
+            document.getElementById('calibration-interface').classList.add('hidden');
+            // Show processing screen
+            document.getElementById('processing-layer').classList.remove('hidden');
+
+            const logEntries = [
+                "Accessing Bio-Resonance Nodes...",
+                "Decoding Alchemical Matrix...",
+                "Calculating Astrological Intersection...",
+                "Formatting Archetype Class...",
+                "Finalizing Avatar Codex..."
+            ];
+            
+            const logElement = document.getElementById('process-log');
+            const barElement = document.getElementById('process-bar');
+            let index = 0;
+
+            const interval = setInterval(() => {
+                if (index < logEntries.length) {
+                    logElement.innerText = logEntries[index];
+                    barElement.style.width = ((index + 1) / logEntries.length * 100) + '%';
+                    index++;
+                } else {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        showResults();
+                    }, 800);
+                }
+            }, 1000);
+        }
+
+        function showResults() {
+            document.getElementById('processing-layer').classList.add('hidden');
+            document.getElementById('result-layer').classList.remove('hidden');
+            document.getElementById('result-layer').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body></html>

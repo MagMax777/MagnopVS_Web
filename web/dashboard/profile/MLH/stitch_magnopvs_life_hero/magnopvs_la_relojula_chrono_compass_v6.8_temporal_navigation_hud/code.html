@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>La Relojula · Chrono Compass</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@300;400;700&amp;family=Orbitron:wght@400;700&amp;family=Audiowide&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-high": "#272a2d",
+                        "secondary-container": "#00bba0",
+                        "primary-fixed": "#c5e7ff",
+                        "surface-dim": "#101417",
+                        "surface-panel": "rgba(255, 255, 255, 0.03)",
+                        "on-tertiary-fixed": "#390625",
+                        "on-primary-container": "#00597b",
+                        "inverse-on-surface": "#2d3134",
+                        "error": "#ffb4ab",
+                        "surface-container-highest": "#313538",
+                        "outline": "#899299",
+                        "surface-container-low": "#181c1f",
+                        "background": "#101417",
+                        "error-container": "#93000a",
+                        "tertiary-container": "#ffafd4",
+                        "primary": "#c5e7ff",
+                        "on-secondary": "#00382e",
+                        "grid-line": "rgba(127, 208, 255, 0.05)",
+                        "surface-tint": "#7fd0ff",
+                        "secondary-fixed": "#6af9dc",
+                        "tertiary-fixed-dim": "#ffafd4",
+                        "on-primary-fixed": "#001e2d",
+                        "on-secondary-fixed": "#00201a",
+                        "surface-variant": "#313538",
+                        "background-deep": "#0a0b12",
+                        "outline-variant": "#3f484e",
+                        "on-surface-variant": "#bfc8cf",
+                        "inverse-primary": "#00658b",
+                        "tertiary-fixed": "#ffd8e7",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-container": "#004439",
+                        "primary-container": "#7fd0ff",
+                        "on-primary-fixed-variant": "#004c6a",
+                        "glow-cyan": "#2da8e0",
+                        "on-surface": "#e0e3e6",
+                        "surface-container-lowest": "#0b0f11",
+                        "on-tertiary-fixed-variant": "#6e3252",
+                        "on-tertiary-container": "#7c3e5e",
+                        "surface": "#101417",
+                        "on-primary": "#00344a",
+                        "on-error": "#690005",
+                        "on-secondary-fixed-variant": "#005144",
+                        "inverse-surface": "#e0e3e6",
+                        "primary-fixed-dim": "#7fd0ff",
+                        "surface-bright": "#363a3d",
+                        "on-tertiary": "#531c3b",
+                        "tertiary": "#ffd8e7",
+                        "status-critical": "#93000a",
+                        "secondary": "#47ddc1",
+                        "secondary-fixed-dim": "#47ddc1",
+                        "surface-container": "#1c2023",
+                        "on-background": "#e0e3e6"
+                    },
+                    spacing: {
+                        "margin-desktop": "40px",
+                        "unit": "4px",
+                        "margin-mobile": "20px",
+                        "gutter": "16px",
+                        "section-padding": "128px",
+                        "panel-gap": "12px"
+                    },
+                    fontFamily: {
+                        "audiowide": ["Audiowide", "cursive"],
+                        "orbitron": ["Orbitron", "sans-serif"],
+                        "data-point": ["Hanken Grotesk"],
+                        "mono-data": ["JetBrains Mono"],
+                        "micro-tag": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-md": ["Space Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "display-lg": ["Space Grotesk"],
+                        "display-lg-mobile": ["Space Grotesk"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        @keyframes pulse-cyan {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(127, 208, 255, 0.4)); }
+            50% { filter: drop-shadow(0 0 15px rgba(127, 208, 255, 0.8)); }
+        }
+        .neon-pulse { animation: pulse-cyan 3s infinite; }
+        
+        @keyframes slow-rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        .rotate-slow { animation: slow-rotate 60s linear infinite; }
+        .rotate-reverse { animation: slow-rotate 45s linear infinite reverse; }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(127, 208, 255, 0.2);
+            position: relative;
+        }
+        
+        .corner-bracket::before, .corner-bracket::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border: 1px solid #7fd0ff;
+        }
+        .corner-bracket::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+        .corner-bracket::after { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
+
+        .cyber-grid {
+            background-image: 
+                linear-gradient(rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .hex-clip {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        .resource-aura {
+            transition: stroke-dashoffset 1s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary selection:text-on-primary overflow-hidden">
+<!-- Ambient Grid & Visual Effects -->
+<div class="fixed inset-0 cyber-grid pointer-events-none z-0"></div>
+<div class="fixed inset-0 bg-gradient-to-b from-transparent via-background/20 to-background pointer-events-none z-1"></div>
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/30 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="flex items-center gap-4">
+<span class="font-audiowide text-primary tracking-widest uppercase text-xl md:text-2xl">MAGNOPVS · LIFE HERO</span>
+<div class="hidden md:flex h-6 w-px bg-primary/20"></div>
+<div class="hidden md:flex items-center gap-2">
+<span class="font-micro-tag text-secondary uppercase">OPERATOR_01</span>
+<span class="font-micro-tag text-outline">LVL 42 // TITAN</span>
+</div>
+</div>
+<div class="flex gap-6 items-center">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:text-secondary transition-all" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:text-secondary transition-all">bolt</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:text-secondary transition-all">account_circle</span>
+</div>
+</header>
+<!-- Sidebar Navigation (Desktop) -->
+<nav class="hidden lg:flex flex-col fixed left-0 top-20 h-[calc(100vh-80px)] w-64 z-40 bg-surface-container-low/50 backdrop-blur-2xl border-r border-primary/20 shadow-2xl shadow-primary/5 p-6">
+<div class="space-y-6 mt-4">
+<div class="flex items-center gap-4 p-3 text-primary border-l-2 border-primary bg-primary/5 font-bold shadow-[inset_4px_0_10px_rgba(127,208,255,0.1)] cursor-pointer group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">grid_view</span>
+<span class="font-label-caps uppercase tracking-widest">Dashboard</span>
+</div>
+<div class="flex items-center gap-4 p-3 text-outline-variant hover:text-on-surface hover:bg-surface-container-highest/30 transition-all cursor-pointer group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">account_tree</span>
+<span class="font-label-caps uppercase tracking-widest">13 Houses</span>
+</div>
+<div class="flex items-center gap-4 p-3 text-outline-variant hover:text-on-surface hover:bg-surface-container-highest/30 transition-all cursor-pointer group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">military_tech</span>
+<span class="font-label-caps uppercase tracking-widest">Missions</span>
+</div>
+<div class="flex items-center gap-4 p-3 text-outline-variant hover:text-on-surface hover:bg-surface-container-highest/30 transition-all cursor-pointer group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">psychology</span>
+<span class="font-label-caps uppercase tracking-widest">Attributes</span>
+</div>
+<div class="flex items-center gap-4 p-3 text-outline-variant hover:text-on-surface hover:bg-surface-container-highest/30 transition-all cursor-pointer group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">vitals</span>
+<span class="font-label-caps uppercase tracking-widest">Alchemy</span>
+</div>
+</div>
+<div class="mt-auto pt-8 border-t border-outline-variant/10">
+<div class="glass-panel p-4 rounded-lg corner-bracket">
+<div class="flex justify-between items-center mb-2">
+<span class="font-micro-tag text-outline">STAMINA_CORE</span>
+<span class="font-micro-tag text-secondary">82%</span>
+</div>
+<div class="flex gap-1">
+<div class="h-1.5 w-full bg-secondary shadow-[0_0_8px_#48ddc1]"></div>
+<div class="h-1.5 w-full bg-secondary shadow-[0_0_8px_#48ddc1]"></div>
+<div class="h-1.5 w-full bg-secondary shadow-[0_0_8px_#48ddc1]"></div>
+<div class="h-1.5 w-full bg-secondary shadow-[0_0_8px_#48ddc1]"></div>
+<div class="h-1.5 w-full bg-outline-variant/30"></div>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="lg:pl-64 pt-20 h-screen flex flex-col relative z-10 overflow-hidden">
+<div class="flex-1 relative flex items-center justify-center p-8">
+<!-- CENTRAL CHRONO COMPASS -->
+<div class="relative w-[500px] h-[500px] flex items-center justify-center">
+<!-- Orbital Rings (Decorative) -->
+<div class="absolute inset-0 border border-primary/10 rounded-full rotate-slow"></div>
+<div class="absolute inset-4 border border-secondary/10 rounded-full rotate-reverse"></div>
+<!-- Resource Auras (Outer) -->
+<svg class="absolute inset-0 w-full h-full -rotate-90">
+<circle class="text-primary/10" cx="250" cy="250" fill="none" r="240" stroke="currentColor" stroke-dasharray="4 4" stroke-width="1"></circle>
+<!-- Time Aura -->
+<circle class="resource-aura drop-shadow-[0_0_5px_#7fd0ff]" cx="250" cy="250" fill="none" r="235" stroke="#7fd0ff" stroke-dasharray="1476" stroke-dashoffset="400" stroke-width="2"></circle>
+<!-- Energy Aura -->
+<circle class="resource-aura drop-shadow-[0_0_5px_#47ddc1]" cx="250" cy="250" fill="none" r="230" stroke="#47ddc1" stroke-dasharray="1445" stroke-dashoffset="600" stroke-width="2"></circle>
+</svg>
+<!-- Middle Ring: Daily Blocks -->
+<div class="absolute inset-[60px] border-2 border-primary/20 rounded-full flex items-center justify-center">
+<div class="absolute inset-0 flex">
+<div class="w-1/2 h-full border-r border-primary/20"></div>
+<div class="absolute top-0 left-0 w-full h-1/2 border-b border-primary/20"></div>
+</div>
+<div class="absolute -top-6 font-label-caps text-primary/60">MAÑANA</div>
+<div class="absolute -right-12 font-label-caps text-secondary/60 rotate-90">MEDIODÍA</div>
+<div class="absolute -bottom-6 font-label-caps text-tertiary/60">TARDE</div>
+<div class="absolute -left-10 font-label-caps text-outline rotate-90">NOCHE</div>
+</div>
+<!-- Inner Ring: Directional Axes -->
+<div class="absolute inset-[130px] border border-primary/40 rounded-full pointer-events-none">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-6 flex flex-col items-center">
+<span class="material-symbols-outlined text-primary text-sm">expand_less</span>
+<span class="font-micro-tag text-primary">URGENTE</span>
+</div>
+<div class="absolute right-0 top-1/2 translate-x-10 -translate-y-1/2 flex items-center gap-1">
+<span class="font-micro-tag text-secondary">IMPORTANTE</span>
+<span class="material-symbols-outlined text-secondary text-sm">chevron_right</span>
+</div>
+<div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-6 flex flex-col items-center">
+<span class="font-micro-tag text-tertiary">OPCIONAL</span>
+<span class="material-symbols-outlined text-tertiary text-sm">expand_more</span>
+</div>
+<div class="absolute left-0 top-1/2 -translate-x-10 -translate-y-1/2 flex items-center gap-1">
+<span class="material-symbols-outlined text-outline text-sm">chevron_left</span>
+<span class="font-micro-tag text-outline">DESCANSO</span>
+</div>
+</div>
+<!-- Mission Center (Holographic Core) -->
+<div class="relative w-[220px] h-[220px] flex items-center justify-center">
+<div class="absolute inset-0 bg-primary/5 rounded-full backdrop-blur-3xl neon-pulse"></div>
+<div class="absolute inset-4 border-2 border-primary rounded-full opacity-20"></div>
+<div class="z-20 text-center flex flex-col items-center px-4">
+<span class="font-micro-tag text-secondary-container mb-1 tracking-widest">MISIÓN PRINCIPAL</span>
+<h2 class="font-audiowide text-primary text-xl leading-tight mb-2 uppercase drop-shadow-[0_0_10px_#7fd0ff]">Entrenar 45 Minutos</h2>
+<div class="font-orbitron text-primary-fixed text-4xl font-bold mb-1">24:12</div>
+<div class="flex gap-4 items-center mt-2">
+<div class="flex flex-col">
+<span class="font-micro-tag text-outline">RECOMPENSA</span>
+<span class="font-label-caps text-secondary">+450 XP</span>
+</div>
+<div class="w-px h-6 bg-outline-variant/30"></div>
+<div class="flex flex-col">
+<span class="font-micro-tag text-outline">STATUS</span>
+<span class="font-label-caps text-primary">ACTIVE</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- LEFT PANEL: Agenda del Destino -->
+<div class="absolute left-10 top-1/2 -translate-y-1/2 w-72 flex flex-col gap-4">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary">schedule</span>
+<h3 class="font-audiowide text-primary-fixed uppercase tracking-wider text-lg">Agenda del Destino</h3>
+</div>
+<div class="glass-panel p-4 rounded-lg corner-bracket space-y-6">
+<div class="flex gap-4 group cursor-pointer">
+<div class="flex flex-col items-center">
+<span class="font-mono-data text-outline text-xs">08:00</span>
+<div class="w-0.5 flex-1 bg-primary/20 my-1 group-hover:bg-primary transition-colors"></div>
+</div>
+<div class="pb-2">
+<span class="font-label-caps text-secondary-fixed block text-xs">LOGRADO</span>
+<span class="font-headline-md text-on-surface-variant text-sm">Meditación Solar</span>
+</div>
+</div>
+<div class="flex gap-4 group cursor-pointer">
+<div class="flex flex-col items-center">
+<span class="font-mono-data text-primary text-xs">10:00</span>
+<div class="w-0.5 flex-1 bg-primary/60 my-1 border-l border-dashed border-primary"></div>
+</div>
+<div class="pb-2">
+<span class="font-label-caps text-primary block text-xs">ACTUAL</span>
+<span class="font-headline-md text-primary-fixed text-sm">Bloque de Entrenamiento</span>
+</div>
+</div>
+<div class="flex gap-4 group opacity-50 cursor-pointer">
+<div class="flex flex-col items-center">
+<span class="font-mono-data text-outline text-xs">12:30</span>
+<div class="w-0.5 flex-1 bg-outline-variant/20 my-1"></div>
+</div>
+<div class="pb-2">
+<span class="font-label-caps text-outline block text-xs">PENDIENTE</span>
+<span class="font-headline-md text-on-surface-variant text-sm">Nutrición Alquímica</span>
+</div>
+</div>
+<div class="flex gap-4 group opacity-50 cursor-pointer">
+<div class="flex flex-col items-center">
+<span class="font-mono-data text-outline text-xs">15:00</span>
+</div>
+<div class="pb-2">
+<span class="font-label-caps text-outline block text-xs">PENDIENTE</span>
+<span class="font-headline-md text-on-surface-variant text-sm">Sesión de Trabajo Enfoque</span>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT PANEL: Misiones -->
+<div class="absolute right-10 top-1/2 -translate-y-1/2 w-72 flex flex-col gap-4">
+<div class="flex items-center gap-2 mb-4 justify-end text-right">
+<h3 class="font-audiowide text-primary-fixed uppercase tracking-wider text-lg">Bitácora de Misiones</h3>
+<span class="material-symbols-outlined text-primary">target</span>
+</div>
+<div class="space-y-3">
+<div class="glass-panel p-3 rounded-lg border-l-4 border-l-primary flex justify-between items-center group cursor-pointer hover:bg-primary/5">
+<div>
+<span class="font-micro-tag text-outline block">PRINCIPAL</span>
+<span class="font-label-caps text-primary">Cuerpo de Élite</span>
+</div>
+<div class="text-right">
+<span class="font-mono-data text-xs text-outline block">RECO: 5/12</span>
+<span class="font-label-caps text-secondary text-xs">+12.5k XP</span>
+</div>
+</div>
+<div class="glass-panel p-3 rounded-lg border-l-4 border-l-secondary flex justify-between items-center opacity-70 hover:opacity-100 transition-all cursor-pointer">
+<div>
+<span class="font-micro-tag text-outline block">SECUNDARIA</span>
+<span class="font-label-caps text-secondary">Maestría de Código</span>
+</div>
+<div class="text-right">
+<span class="font-mono-data text-xs text-outline block">30min</span>
+<span class="font-label-caps text-secondary text-xs">+200 XP</span>
+</div>
+</div>
+<div class="glass-panel p-3 rounded-lg border-l-4 border-l-tertiary flex justify-between items-center opacity-70 hover:opacity-100 transition-all cursor-pointer">
+<div>
+<span class="font-micro-tag text-outline block">DIARIA</span>
+<span class="font-label-caps text-tertiary">Lectura de Protocolo</span>
+</div>
+<div class="text-right">
+<span class="font-mono-data text-xs text-outline block">15min</span>
+<span class="font-label-caps text-secondary text-xs">+100 XP</span>
+</div>
+</div>
+<div class="glass-panel p-3 rounded-lg border-l-4 border-l-glow-cyan flex justify-between items-center group cursor-pointer hover:shadow-[0_0_15px_rgba(45,168,224,0.2)]">
+<div>
+<span class="font-micro-tag text-primary block">ÉPICA</span>
+<span class="font-label-caps text-on-surface">Ascenso de Titán</span>
+</div>
+<div class="text-right">
+<span class="material-symbols-outlined text-primary text-sm">lock</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Sof.IA Avatar Widget -->
+<div class="absolute bottom-32 right-10 z-50">
+<div class="relative group cursor-pointer">
+<!-- Advice Bubble -->
+<div class="absolute bottom-full right-0 mb-4 w-64 glass-panel p-3 rounded-xl border-secondary/30 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 shadow-2xl">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-micro-tag text-secondary">Sof.IA ADVISOR</span>
+<div class="h-1 w-1 rounded-full bg-secondary animate-ping"></div>
+</div>
+<p class="font-body-md text-xs leading-relaxed text-on-surface-variant">
+                            Tu energía es baja. Recomiendo mover el entrenamiento para las <span class="text-secondary font-bold">17:00</span> para maximizar el retorno de XP.
+                        </p>
+<div class="absolute -bottom-2 right-6 w-4 h-4 bg-surface-container border-r border-b border-secondary/30 rotate-45"></div>
+</div>
+<!-- Avatar Core -->
+<div class="w-16 h-16 glass-panel rounded-full flex items-center justify-center border-secondary/50 neon-pulse">
+<div class="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center overflow-hidden">
+<div class="w-8 h-8 hex-clip bg-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-background text-base" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</div>
+</div>
+<!-- Rotation ring -->
+<div class="absolute inset-0 border border-secondary/20 rounded-full border-dashed rotate-slow"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Horizontal Timeline Bar -->
+<footer class="h-24 bg-surface-container-low/80 backdrop-blur-2xl border-t border-primary/20 px-margin-desktop flex items-center justify-center gap-12 relative z-20">
+<div class="flex items-center gap-8">
+<button class="font-label-caps text-primary border-b-2 border-primary px-4 py-2 hover:bg-primary/5 transition-all">HOY</button>
+<button class="font-label-caps text-outline hover:text-primary px-4 py-2 transition-all">SEMANA</button>
+<button class="font-label-caps text-outline hover:text-primary px-4 py-2 transition-all">MES</button>
+<button class="font-label-caps text-outline hover:text-primary px-4 py-2 transition-all">AÑO</button>
+</div>
+<div class="h-1 flex-1 max-w-md bg-outline-variant/20 rounded-full overflow-hidden relative">
+<div class="absolute left-0 top-0 h-full w-[42%] bg-primary shadow-[0_0_10px_#7fd0ff]"></div>
+<!-- Time marker -->
+<div class="absolute left-[42%] top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-primary bg-background z-10"></div>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-mono-data text-outline text-xs">SYSTEM_STABLE</span>
+<span class="font-mono-data text-primary text-xs">v4.2.0</span>
+</div>
+</footer>
+</main>
+<!-- Bottom Nav Bar (Mobile) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 pb-safe px-4 bg-surface-container/80 backdrop-blur-lg border-t border-primary/20">
+<div class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-110">
+<span class="material-symbols-outlined">space_dashboard</span>
+<span class="font-label-caps text-[10px]">DASH</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">temple_hindu</span>
+<span class="font-label-caps text-[10px]">HOUSES</span>
+</div>
+<div class="w-12 h-12 -mt-8 glass-panel rounded-full border-secondary flex items-center justify-center bg-background shadow-lg">
+<span class="material-symbols-outlined text-secondary">add</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-caps text-[10px]">STATS</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">autorenew</span>
+<span class="font-label-caps text-[10px]">CYCLE</span>
+</div>
+</nav>
+<script>
+        // Simple Micro-interactions for the Compass
+        document.addEventListener('mousemove', (e) => {
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const moveX = (e.clientX - centerX) / 50;
+            const moveY = (e.clientY - centerY) / 50;
+            
+            const compass = document.querySelector('.relative.w-\\[500px\\]');
+            if(compass) {
+                compass.style.transform = `perspective(1000px) rotateY(${moveX}deg) rotateX(${-moveY}deg)`;
+            }
+        });
+
+        // Initialize resource aura animation
+        window.addEventListener('load', () => {
+            const auras = document.querySelectorAll('.resource-aura');
+            auras.forEach(aura => {
+                const length = aura.getTotalLength();
+                aura.style.strokeDasharray = length;
+                aura.style.strokeDashoffset = length * 0.3; // Default 70% fill
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SOR_OS | Relojula Maestra</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Orbitron:wght@400;500;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide:wght@100..900&family=Orbitron:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#544600",
+                        "on-secondary": "#3a3000",
+                        "error-container": "#93000a",
+                        "on-primary": "#2f3131",
+                        "on-background": "#e5e2e1",
+                        "surface-bright": "#3a3939",
+                        "secondary": "#fff9ef",
+                        "surface": "#131313",
+                        "outline-variant": "#444748",
+                        "on-surface": "#e5e2e1",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-primary-container": "#636565",
+                        "on-primary-fixed": "#1a1c1c",
+                        "surface-container-low": "#1c1b1b",
+                        "primary-container": "#e2e2e2",
+                        "on-surface-variant": "#c4c7c8",
+                        "tertiary-fixed-dim": "#00daf3",
+                        "tertiary": "#ffffff",
+                        "on-error": "#690005",
+                        "tertiary-container": "#9cf0ff",
+                        "error": "#ffb4ab",
+                        "surface-dim": "#131313",
+                        "secondary-fixed-dim": "#e9c400",
+                        "secondary-container": "#ffdb3c",
+                        "on-primary-fixed-variant": "#454747",
+                        "primary": "#ffffff",
+                        "primary-fixed": "#e2e2e2",
+                        "secondary-fixed": "#ffe16d",
+                        "on-secondary-container": "#725f00",
+                        "surface-tint": "#c6c6c7",
+                        "outline": "#8e9192",
+                        "on-tertiary-container": "#006f7c",
+                        "on-secondary-fixed": "#221b00",
+                        "surface-variant": "#353534",
+                        "surface-container": "#201f1f",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "surface-container-highest": "#353534",
+                        "on-tertiary-fixed-variant": "#004f58",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#001f24",
+                        "on-tertiary": "#00363d",
+                        "surface-container-high": "#2a2a2a",
+                        "inverse-primary": "#5d5f5f",
+                        "inverse-on-surface": "#313030",
+                        "background": "#131313",
+                        "tertiary-fixed": "#9cf0ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sacred-ratio": "1.618",
+                        "gutter": "24px",
+                        "unit": "8px",
+                        "margin-safe": "40px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Orbitron"],
+                        "display-hero": ["Audiowide"],
+                        "headline-lg-mobile": ["Audiowide"],
+                        "body-md": ["Orbitron"],
+                        "data-mono": ["Orbitron"],
+                        "headline-lg": ["Audiowide"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.3em", "fontWeight": "700"}],
+                        "display-hero": ["64px", {"lineHeight": "1.1", "letterSpacing": "0.2em", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "data-mono": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.15em", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0e0e0e;
+            color: #e5e2e1;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .sacred-glow {
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
+        }
+        .metatron-pattern {
+            background-image: radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, transparent 70%);
+            mask-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PHBhdGggZD0iTTIwIDAgTDM3LjMyIDExLjU0IEwzNy4zMiAzNC42NCBMMjAgNDUgTDIuNjggMzQuNjQgTDIuNjggMTEuNTQgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvc3ZnPg==');
+        }
+        @keyframes rotate-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes rotate-counter {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+        .animate-rotate-slow { animation: rotate-slow 60s linear infinite; }
+        .animate-rotate-medium { animation: rotate-slow 30s linear infinite; }
+        .animate-rotate-fast { animation: rotate-slow 15s linear infinite; }
+        .animate-rotate-counter { animation: rotate-counter 45s linear infinite; }
+
+        .progress-pulse {
+            position: relative;
+            overflow: hidden;
+        }
+        .progress-pulse::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 218, 243, 0.4), transparent);
+            animation: pulse-travel 2s infinite;
+        }
+        @keyframes pulse-travel {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md">
+<!-- Top AppBar Shell -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-safe h-20 bg-surface/30 backdrop-blur-xl border-b border-white/10">
+<div class="flex items-center gap-4">
+<span class="font-display-hero text-headline-lg-mobile text-primary tracking-widest">SOR_OS</span>
+</div>
+<nav class="hidden md:flex gap-8 items-center h-full">
+<a class="font-label-caps text-label-caps text-primary border-b-2 border-secondary-fixed-dim h-full flex items-center px-2 hover:text-primary transition-colors duration-300" href="#">SYNCHRONY</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">CHART</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">RELICS</a>
+</nav>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-95 duration-200">sync</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-95 duration-200">hub</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-95 duration-200">settings</span>
+</div>
+<div class="w-10 h-10 rounded-full border border-white/20 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A futuristic, hyper-detailed portrait of a divine hero with glowing technological circuitry integrated into their skin. The face is serene and symmetrical, framed by a soft golden halo against a deep void black background. The style is high-contrast minimalism with ethereal glassmorphism elements." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAioZGL4mrBlxMxaUmP9cVrpQtIvj_ci4W8t5tPrPa0RoI_TDtbpDrQ0Y_uUgedIzU0-S8b_KvokbITIPYEqCtUQwrchmQKabGKOu4FbK061NbRYE45XPeJ4w-AobkuKePcwMiiGa_N5ASAVmgJwoz1RAQHoRXKrf7GckDThQvWkhfYX1vvhG9c3zn9rxBfiKFHkBZufPBYNhgk295NDrN_gI-LumH2jllyOo50ggSPj-58AdReYWPnJmeF0-hnyUK453BtXd0ZwAfc"/>
+</div>
+</div>
+</header>
+<!-- Side Navigation Shell -->
+<aside class="fixed left-0 top-0 h-full flex flex-col pt-24 pb-8 bg-surface/20 backdrop-blur-2xl border-r border-white/10 w-64 z-40 hidden md:flex">
+<div class="px-6 mb-12">
+<h2 class="font-display-hero text-primary text-xl">HERO_SYNC</h2>
+<p class="font-label-caps text-[10px] text-tertiary-fixed-dim">REALITY LEVEL 7</p>
+</div>
+<nav class="flex-1 space-y-2">
+<div class="px-2">
+<a class="flex items-center gap-4 px-4 py-3 bg-secondary-container/10 text-secondary-fixed-dim border-r-2 border-secondary-fixed-dim transition-all duration-500 ease-in-out" href="#">
+<span class="material-symbols-outlined">castle</span>
+<span class="font-label-caps text-label-caps">13 Houses</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-outline-variant hover:bg-white/5 hover:text-primary transition-all duration-500 ease-in-out" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-label-caps text-label-caps">Missions</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-outline-variant hover:bg-white/5 hover:text-primary transition-all duration-500 ease-in-out" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps text-label-caps">Attributes</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-outline-variant hover:bg-white/5 hover:text-primary transition-all duration-500 ease-in-out" href="#">
+<span class="material-symbols-outlined">biotech</span>
+<span class="font-label-caps text-label-caps">Alchemy Bench</span>
+</a>
+</div>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full py-4 border border-secondary-fixed-dim text-secondary-fixed-dim font-label-caps text-[10px] tracking-widest hover:bg-secondary-fixed-dim/10 transition-colors">INITIATE_ASCENSION</button>
+<div class="mt-6 flex justify-around border-t border-white/10 pt-4">
+<span class="material-symbols-outlined text-outline-variant hover:text-primary cursor-pointer">settings</span>
+<span class="material-symbols-outlined text-outline-variant hover:text-primary cursor-pointer">help</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pt-24 pb-20 px-gutter min-h-screen relative overflow-hidden">
+<!-- Atmospheric Background Element -->
+<div class="absolute inset-0 pointer-events-none opacity-20 metatron-pattern"></div>
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
+<!-- Left Column: Tattwometer -->
+<div class="lg:col-span-4 space-y-8">
+<section class="glass-panel p-8 rounded-xl sacred-glow">
+<h3 class="font-label-caps text-label-caps text-secondary-fixed-dim mb-8 flex items-center justify-between">
+                        TATTWOMETER 
+                        <span class="text-[10px] text-tertiary-fixed-dim">ELEMENTAL_VIBE</span>
+</h3>
+<div class="space-y-6">
+<!-- Fire -->
+<div class="space-y-2">
+<div class="flex justify-between font-label-caps text-[10px]">
+<span class="text-error">TEJAS (FIRE)</span>
+<span>88%</span>
+</div>
+<div class="h-1 bg-white/5 rounded-full progress-pulse">
+<div class="h-full bg-error w-[88%] shadow-[0_0_8px_rgba(255,180,171,0.5)]"></div>
+</div>
+</div>
+<!-- Air -->
+<div class="space-y-2">
+<div class="flex justify-between font-label-caps text-[10px]">
+<span class="text-tertiary-fixed-dim">VAYU (AIR)</span>
+<span>64%</span>
+</div>
+<div class="h-1 bg-white/5 rounded-full progress-pulse">
+<div class="h-full bg-tertiary-fixed-dim w-[64%] shadow-[0_0_8px_rgba(0,218,243,0.5)]"></div>
+</div>
+</div>
+<!-- Earth -->
+<div class="space-y-2">
+<div class="flex justify-between font-label-caps text-[10px]">
+<span class="text-on-secondary-fixed-variant">PRITHVI (EARTH)</span>
+<span>42%</span>
+</div>
+<div class="h-1 bg-white/5 rounded-full progress-pulse">
+<div class="h-full bg-secondary-fixed-dim w-[42%] shadow-[0_0_8px_rgba(233,196,0,0.5)]"></div>
+</div>
+</div>
+<!-- Water -->
+<div class="space-y-2">
+<div class="flex justify-between font-label-caps text-[10px]">
+<span class="text-tertiary-fixed">APAS (WATER)</span>
+<span>15%</span>
+</div>
+<div class="h-1 bg-white/5 rounded-full progress-pulse">
+<div class="h-full bg-tertiary-fixed w-[15%] shadow-[0_0_8px_rgba(156,240,255,0.5)]"></div>
+</div>
+</div>
+<!-- Ether -->
+<div class="space-y-2">
+<div class="flex justify-between font-label-caps text-[10px]">
+<span class="text-primary">AKASHA (ETHER)</span>
+<span>100%</span>
+</div>
+<div class="h-1 bg-white/5 rounded-full progress-pulse">
+<div class="h-full bg-primary w-full shadow-[0_0_8px_rgba(255,255,255,0.5)]"></div>
+</div>
+</div>
+</div>
+<div class="mt-12 pt-8 border-t border-white/10">
+<div class="flex items-start gap-4 p-4 bg-primary/5 border border-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<div>
+<p class="font-label-caps text-[10px] text-primary mb-1">OPTIMAL_ACTION</p>
+<p class="text-[12px] leading-relaxed text-on-surface-variant">Ether and Fire peak identified. Recommended action: <b>INITIATE ALCHEMICAL MANIFESTATION</b>. Astral alignment favors high-risk, high-reward creative ventures.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="glass-panel p-6 rounded-xl border-dashed">
+<div class="flex justify-between items-center mb-4">
+<h4 class="font-label-caps text-[11px] text-outline-variant">ASTRAL_VECTORS</h4>
+<span class="material-symbols-outlined text-primary text-sm">trending_up</span>
+</div>
+<div class="flex gap-2">
+<div class="flex-1 h-12 bg-white/5 flex items-center justify-center font-data-mono text-[10px] text-tertiary-fixed-dim">MARS:UP</div>
+<div class="flex-1 h-12 bg-white/5 flex items-center justify-center font-data-mono text-[10px] text-secondary-fixed-dim">SOL:PEAK</div>
+</div>
+</section>
+</div>
+<!-- Center Column: Relojula Maestra -->
+<div class="lg:col-span-8 flex flex-col items-center">
+<div class="relative w-full max-w-[600px] aspect-square flex items-center justify-center">
+<!-- Layered Clock Rings -->
+<!-- Outer Ring: Tzolkin (Sacred) -->
+<div class="absolute inset-0 rounded-full border border-white/5 animate-rotate-slow">
+<div class="absolute inset-0 flex items-center justify-center">
+<!-- Simulated glyphs -->
+<div class="w-full h-full relative">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-4 bg-primary/20 rotate-45 border border-primary/40"></div>
+<div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-4 bg-primary/20 rotate-45 border border-primary/40"></div>
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-primary/20 rotate-45 border border-primary/40"></div>
+<div class="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-primary/20 rotate-45 border border-primary/40"></div>
+</div>
+</div>
+</div>
+<!-- Middle Ring: Astral -->
+<div class="absolute inset-[15%] rounded-full border border-secondary-fixed-dim/20 animate-rotate-counter">
+<div class="absolute inset-0 p-4">
+<div class="w-full h-full rounded-full border-t-2 border-secondary-fixed-dim/40"></div>
+</div>
+</div>
+<!-- Inner Ring: Human Time -->
+<div class="absolute inset-[30%] rounded-full border border-tertiary-fixed-dim/20 animate-rotate-medium">
+<div class="absolute top-4 left-1/2 -translate-x-1/2 font-data-mono text-[12px] text-tertiary-fixed-dim">11:11:44</div>
+</div>
+<!-- Central Icon Core -->
+<div class="absolute inset-[40%] rounded-full bg-surface shadow-[0_0_50px_rgba(0,0,0,0.5)] flex items-center justify-center p-8 z-20">
+<div class="relative w-full h-full group">
+<img alt="Geometric 13 Houses layer icon" class="w-full h-full object-contain drop-shadow-[0_0_15px_rgba(45,168,224,0.5)] transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida/AP1WRLvs20_F5czRNQ1R1yanTYBMnsomw6r3_E_sekHd-qp2SPSL17wW764EeYGa_Gw1IaMp50QBtPnML4iSBLtWjTwhfXXqTVEtlMxLtcxsE568YlLBFr04ez8SXJxrvkAD_uRrpXSRzCL0FOecCIUponlFYV_mcdCRG88L8657WF-MUMuiNlrd2UG34CG9zTRTs5MRn1_W1jzBvAG6v6iHky6G_QkDdCvHOJbd94c-FBs88DxHt2YItnCu8JFn"/>
+<div class="absolute inset-0 border border-primary/20 rounded-full animate-ping opacity-20"></div>
+</div>
+</div>
+<!-- HUD Markers -->
+<div class="absolute inset-0 pointer-events-none">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 h-full w-[1px] bg-gradient-to-b from-primary via-transparent to-primary opacity-20"></div>
+<div class="absolute top-1/2 left-0 -translate-y-1/2 w-full h-[1px] bg-gradient-to-r from-primary via-transparent to-primary opacity-20"></div>
+</div>
+</div>
+<!-- Clock Data Readouts -->
+<div class="mt-12 grid grid-cols-3 gap-12 w-full">
+<div class="text-center">
+<p class="font-label-caps text-[10px] text-outline-variant mb-2">HUMAN_CHRONOS</p>
+<p class="font-display-hero text-headline-lg-mobile text-primary">23:59</p>
+</div>
+<div class="text-center border-x border-white/10 px-8">
+<p class="font-label-caps text-[10px] text-secondary-fixed-dim mb-2">SACRED_K'IN</p>
+<p class="font-display-hero text-headline-lg-mobile text-secondary-fixed-dim">8 EB</p>
+</div>
+<div class="text-center">
+<p class="font-label-caps text-[10px] text-tertiary-fixed-dim mb-2">ASTRAL_VIBE</p>
+<p class="font-display-hero text-headline-lg-mobile text-tertiary-fixed-dim">ZOD_9</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Data Section (Bento Style) -->
+<div class="max-w-7xl mx-auto mt-20 grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="glass-panel p-6 rounded-xl hover:bg-white/5 transition-colors cursor-default">
+<span class="font-label-caps text-[10px] text-outline-variant">SYNC_STATUS</span>
+<p class="font-data-mono text-tertiary-fixed-dim text-lg mt-2">OPTIMAL</p>
+</div>
+<div class="glass-panel p-6 rounded-xl hover:bg-white/5 transition-colors cursor-default">
+<span class="font-label-caps text-[10px] text-outline-variant">PHASE_SHIFT</span>
+<p class="font-data-mono text-secondary-fixed-dim text-lg mt-2">+0.003s</p>
+</div>
+<div class="glass-panel p-6 rounded-xl hover:bg-white/5 transition-colors cursor-default">
+<span class="font-label-caps text-[10px] text-outline-variant">REALITY_ANCHOR</span>
+<p class="font-data-mono text-primary text-lg mt-2">DOM-772</p>
+</div>
+<div class="glass-panel p-6 rounded-xl hover:bg-white/5 transition-colors cursor-default">
+<span class="font-label-caps text-[10px] text-outline-variant">ENTROPY_LVL</span>
+<p class="font-data-mono text-error text-lg mt-2">MINIMAL</p>
+</div>
+</div>
+</main>
+<!-- Footer Shell -->
+<footer class="fixed bottom-0 w-full z-40 flex justify-between items-center px-gutter py-2 bg-surface-container-lowest/50 backdrop-blur-md border-t border-white/10">
+<div class="flex items-center gap-6">
+<span class="font-label-caps text-secondary text-[10px]">SOR_OS_KERNEL</span>
+<div class="flex gap-4">
+<a class="font-data-mono text-data-mono text-on-surface-variant/60 hover:text-tertiary-fixed-dim transition-colors duration-300" href="#">LOGS</a>
+<a class="font-data-mono text-data-mono text-on-surface-variant/60 hover:text-tertiary-fixed-dim transition-colors duration-300" href="#">KERNEL</a>
+<a class="font-data-mono text-data-mono text-on-surface-variant/60 hover:text-tertiary-fixed-dim transition-colors duration-300" href="#">VOID</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-2 h-2 rounded-full bg-tertiary-fixed-dim animate-pulse"></div>
+<span class="font-data-mono text-data-mono text-on-tertiary-fixed-variant">SYSTEM STATUS: OPTIMAL | REALITY_SYNC: 99.9%</span>
+</div>
+</footer>
+<!-- SACRED DIVIDER CENTER PIECE -->
+<div class="fixed bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-4 opacity-30">
+<div class="h-[1px] w-32 bg-gradient-to-r from-transparent to-white/50"></div>
+<span class="material-symbols-outlined text-white text-sm">hexagon</span>
+<div class="h-[1px] w-32 bg-gradient-to-l from-transparent to-white/50"></div>
+</div>
+<script>
+        // Micro-interactions and Clock updates
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const elements = document.querySelectorAll('.font-data-mono.text-[12px].text-tertiary-fixed-dim');
+            elements.forEach(el => el.textContent = timeString);
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Interaction logic for glass panels
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mouseenter', () => {
+                panel.style.borderColor = 'rgba(255, 215, 0, 0.3)';
+                panel.style.transform = 'translateY(-2px)';
+            });
+            panel.addEventListener('mouseleave', () => {
+                panel.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                panel.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body></html>

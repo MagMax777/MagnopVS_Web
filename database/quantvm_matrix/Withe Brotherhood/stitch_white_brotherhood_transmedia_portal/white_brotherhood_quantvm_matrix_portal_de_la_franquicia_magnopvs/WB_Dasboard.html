@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOPVS // QUANTVM MATRIX — White Brotherhood Hub</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Space Mono & Bodoni Moda & EB Garamond -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config verbatum -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-bright": "#37393c",
+            "error": "#ffb4ab",
+            "secondary-fixed": "#4ffaec",
+            "on-surface-variant": "#d3c4b3",
+            "surface-tint": "#f3bd6c",
+            "primary-fixed-dim": "#f3bd6c",
+            "on-secondary-fixed": "#00201d",
+            "inverse-primary": "#7f560b",
+            "on-background": "#e2e2e5",
+            "surface-container": "#1e2022",
+            "on-secondary-container": "#005953",
+            "background": "#111416",
+            "on-tertiary-fixed": "#271235",
+            "on-tertiary": "#3d274b",
+            "on-error-container": "#ffdad6",
+            "primary-fixed": "#ffddb0",
+            "secondary-fixed-dim": "#16ded0",
+            "error-container": "#93000a",
+            "primary-container": "#c49346",
+            "surface-container-high": "#282a2c",
+            "outline-variant": "#4f4538",
+            "on-primary-fixed": "#291800",
+            "surface-variant": "#333537",
+            "secondary-container": "#00d8ca",
+            "surface": "#111416",
+            "tertiary": "#dabce9",
+            "on-surface": "#e2e2e5",
+            "on-tertiary-container": "#412b4f",
+            "primary": "#f3bd6c",
+            "surface-dim": "#111416",
+            "tertiary-fixed": "#f4daff",
+            "on-primary": "#442b00",
+            "tertiary-fixed-dim": "#dabce9",
+            "on-secondary-fixed-variant": "#00504a",
+            "on-secondary": "#003733",
+            "inverse-surface": "#e2e2e5",
+            "on-error": "#690005",
+            "secondary": "#46f5e6",
+            "surface-container-lowest": "#0c0e10",
+            "on-primary-container": "#482e00",
+            "inverse-on-surface": "#2f3133",
+            "on-primary-fixed-variant": "#614000",
+            "surface-container-highest": "#333537",
+            "outline": "#9c8f7f",
+            "surface-container-low": "#1a1c1e",
+            "on-tertiary-fixed-variant": "#553e63",
+            "tertiary-container": "#ae92bd"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter": "1.5rem",
+            "margin": "3rem",
+            "gutter-mobile": "1rem",
+            "margin-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2.5rem",
+            "space-md": "1rem",
+            "space-lg": "1.75rem",
+            "space-sm": "0.5rem"
+          },
+          "fontFamily": {
+            "label-md": ["Space Mono"],
+            "display-lg": ["Bodoni Moda"],
+            "label-sm": ["Space Mono"],
+            "body-md": ["EB Garamond"],
+            "headline-sm": ["Bodoni Moda"],
+            "headline-xl-mobile": ["Bodoni Moda"],
+            "title-md": ["EB Garamond"],
+            "headline-md": ["Bodoni Moda"],
+            "display-lg-mobile": ["Bodoni Moda"],
+            "label-lg": ["Space Mono"],
+            "headline-xl": ["Bodoni Moda"],
+            "body-lg": ["EB Garamond"]
+          },
+          "fontSize": {
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.06em", "fontWeight": "400" }],
+            "display-lg": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.1em", "fontWeight": "400" }],
+            "body-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "headline-sm": ["22px", { "lineHeight": "30px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+            "headline-xl-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "0em", "fontWeight": "600" }],
+            "title-md": ["20px", { "lineHeight": "28px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "headline-md": ["28px", { "lineHeight": "36px", "letterSpacing": "0em", "fontWeight": "600" }],
+            "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.08em", "fontWeight": "700" }],
+            "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .material-symbols-outlined.fill-1 {
+      font-variation-settings: 'FILL' 1;
+    }
+
+    /* Riveted Brass Corner Brackets & Astrolabe Borders */
+    .brass-plate {
+      border: 1px solid rgba(196, 147, 70, 0.4);
+      outline: 1px solid rgba(196, 147, 70, 0.15);
+      outline-offset: -3px;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8), 0 8px 24px -4px rgba(0, 0, 0, 0.9);
+      position: relative;
+    }
+    .brass-plate::before, .brass-plate::after {
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border: 1px solid #c49346;
+      border-radius: 50%;
+      background: radial-gradient(circle, #f3bd6c 20%, #442b00 100%);
+    }
+    .brass-plate::before { top: 3px; left: 3px; }
+    .brass-plate::after { bottom: 3px; right: 3px; }
+
+    /* Calabi-Yau Background Matrix */
+    .matrix-bg {
+      background-color: #0c0e10;
+      background-image: 
+        radial-gradient(ellipse at 50% 20%, rgba(22, 222, 208, 0.07) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 80%, rgba(196, 147, 70, 0.05) 0%, transparent 50%),
+        linear-gradient(rgba(196, 147, 70, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(196, 147, 70, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+    }
+
+    /* Manometer / Dial Gauge Needle */
+    @keyframes gaugePulse {
+      0%, 100% { transform: rotate(-24deg); }
+      50% { transform: rotate(-16deg); }
+    }
+    .gauge-needle {
+      transform-origin: bottom center;
+      animation: gaugePulse 6s ease-in-out infinite;
+    }
+
+    /* Aetheric Luminescence Pulsing */
+    @keyframes aetherFlicker {
+      0%, 100% { opacity: 0.92; filter: drop-shadow(0 0 16px rgba(24, 222, 208, 0.45)); }
+      50% { opacity: 0.78; filter: drop-shadow(0 0 8px rgba(24, 222, 208, 0.25)); }
+    }
+    .aether-glow {
+      animation: aetherFlicker 4s infinite ease-in-out;
+    }
+
+    /* Button Mechanical Travel */
+    .actuator-btn {
+      transition: transform 0.05s ease, box-shadow 0.15s ease;
+    }
+    .actuator-btn:active {
+      transform: translateY(2px);
+    }
+  </style>
+</head>
+<body class="matrix-bg text-on-surface font-body-md antialiased min-h-screen flex flex-col selection:bg-primary selection:text-on-primary">
+<!-- ================= TOP COMMAND DECK (TopNavBar from Shared Components) ================= -->
+<header class="flex flex-col w-full px-space-md lg:px-margin bg-surface-container-lowest border-b border-primary-container/40 z-30">
+<div class="flex flex-wrap items-center justify-between py-space-sm gap-space-md">
+<!-- Title & Glyph Seal -->
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 border border-primary-container bg-surface-container-low flex items-center justify-center relative shadow-inner">
+<span class="material-symbols-outlined text-primary text-title-md font-title-md">all_inclusive</span>
+<span class="absolute -top-1 -right-1 w-2 h-2 bg-secondary rounded-full animate-ping"></span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-md font-label-md tracking-widest text-primary uppercase">WHITE BROTHERHOOD // ORBITAL COMMAND</span>
+<span class="text-label-sm font-label-sm px-1.5 py-0.5 border border-primary-container/50 bg-primary-container/10 text-primary-fixed-dim">CANON OMEGA</span>
+</div>
+<p class="text-label-sm font-label-sm text-outline tracking-wider italic">
+            "No toda luz ilumina. Algunas luces… te observan."
+          </p>
+</div>
+</div>
+<!-- Navigation Links from JSON Anchor -->
+<nav class="hidden xl:flex items-center gap-2">
+<button class="bg-primary text-on-primary font-label-md text-label-md uppercase px-space-sm py-space-xs border border-primary-container shadow-sm">
+          1. HOMUNCULUS
+        </button>
+<button class="text-on-surface-variant font-label-md text-label-md uppercase px-space-sm py-space-xs border border-outline-variant/30 hover:text-primary hover:border-primary-container/60 transition-colors">
+          4. CITY DOMINIO
+        </button>
+<button class="text-on-surface-variant font-label-md text-label-md uppercase px-space-sm py-space-xs border border-outline-variant/30 hover:text-primary hover:border-primary-container/60 transition-colors">
+          6. CIVILIZATION
+        </button>
+<button class="text-on-surface-variant font-label-md text-label-md uppercase px-space-sm py-space-xs border border-outline-variant/30 hover:text-primary hover:border-primary-container/60 transition-colors">
+          8. COSMOS
+        </button>
+</nav>
+<!-- Trailing Status Telemetry & Actions -->
+<div class="flex items-center gap-space-sm">
+<div class="hidden md:flex items-center gap-1 border-r border-outline-variant/40 pr-space-md text-secondary">
+<span class="material-symbols-outlined text-sm" data-icon="radar">radar</span>
+<span class="text-label-sm font-label-sm tracking-wider">BINAH 432 Hz</span>
+</div>
+<div class="hidden lg:flex items-center gap-1 border-r border-outline-variant/40 pr-space-md text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="hub">hub</span>
+<span class="text-label-sm font-label-sm tracking-wider">PANARCHIA: 1.18</span>
+</div>
+<button class="actuator-btn px-space-md py-space-xs border border-primary-container bg-surface-container-high text-primary hover:bg-primary hover:text-on-primary font-label-md text-label-md uppercase tracking-wider">
+          DECREE [SOVEREIGN]
+        </button>
+<button class="actuator-btn px-space-sm py-space-xs border border-secondary/50 bg-secondary/10 text-secondary hover:bg-secondary hover:text-on-secondary-fixed font-label-sm text-label-sm tracking-widest uppercase">
+          TELEMETRY :: DISRUPTION
+        </button>
+</div>
+</div>
+<!-- Secondary Telemetry Banner Ribbon -->
+<div class="border-t border-primary-container/20 py-1 flex items-center justify-between text-label-sm font-label-sm text-outline overflow-x-auto">
+<div class="flex items-center gap-6 whitespace-nowrap">
+<span class="flex items-center gap-1 text-primary-fixed-dim">
+<span class="w-1.5 h-1.5 bg-primary rounded-full inline-block"></span>
+          PLATAFORMA: STEAM × NETFLIX × TTRPG × SIMULADOR ONTOLÓGICO
+        </span>
+<span class="text-outline-variant">|</span>
+<span>SUPERFICIE MATRIZ: 144,000 NODOS SOBERANOS</span>
+<span class="text-outline-variant">|</span>
+<span class="text-secondary">ESTRUCTURA DE CONTROL METAFÍSICO EN TRANSMISIÓN CONTINUA</span>
+</div>
+<div class="hidden sm:flex items-center gap-4 text-outline whitespace-nowrap">
+<span>QUANTUM LOCK: ACTIVE</span>
+<span>AETERNITAS CYCLE 884.12</span>
+</div>
+</div>
+</header>
+<!-- ================= MASTER CANVASS (12 COLUMNS) ================= -->
+<main class="flex-1 w-full max-w-[1720px] mx-auto px-4 md:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 pb-20">
+<!-- ============================================================== -->
+<!-- COLUMN 1: LA TRINIDAD BLANCA (Arquitectura del Control) [3.5 COLS] -->
+<!-- ============================================================== -->
+<aside class="lg:col-span-4 xl:col-span-3 flex flex-col gap-6">
+<!-- Header Dossier Card -->
+<section class="brass-plate bg-surface-container-lowest/90 p-5 rounded-none flex flex-col gap-4">
+<!-- Card Seal Bar -->
+<div class="flex items-center justify-between border-b border-primary-container/30 pb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-title-md font-title-md" data-icon="shield">shield</span>
+<h2 class="font-headline-sm text-headline-sm text-primary uppercase tracking-wide">
+              LA TRINIDAD BLANCA
+            </h2>
+</div>
+<span class="text-label-sm font-label-sm px-2 py-0.5 border border-primary-container text-primary-fixed-dim bg-surface-container">
+            ARQ. CONTROL
+          </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant italic leading-relaxed">
+          "No son héroes. No son villanos. Son un mecanismo de equilibrio forzado entre orden, fe y arquitectura de conciencia."
+        </p>
+<!-- Pillars Accordion / Specimen Array -->
+<div class="flex flex-col gap-3">
+<!-- Pillar 1: White Brotherhood -->
+<div class="border border-primary-container/40 bg-surface-container-low p-3.5 hover:border-primary transition-all">
+<div class="flex items-center justify-between mb-1.5">
+<span class="text-label-sm font-label-sm uppercase text-primary font-bold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary">brightness_7</span>
+                1. WHITE BROTHERHOOD
+              </span>
+<span class="text-label-sm font-label-sm text-secondary bg-secondary/10 px-1 border border-secondary/30">
+                144K ALMAS
+              </span>
+</div>
+<div class="text-label-sm font-label-sm text-primary-container uppercase tracking-wider mb-1">
+              [Pilar Espiritual // El Gran Faro]
+            </div>
+<p class="font-body-md text-body-md text-on-surface text-xs leading-normal">
+              Gnosis de control y reescritura de percepción. El Gran Faro no ilumina: compila y reasigna los vectores de realidad para cada alma en ejecución.
+            </p>
+<div class="mt-2 pt-2 border-t border-outline-variant/30 flex items-center justify-between text-label-sm font-label-sm text-outline">
+<span>ESTADO: VIGILANCIA HIPERACTIVA</span>
+<span class="text-primary font-bold">100% CANÓNICO</span>
+</div>
+</div>
+<!-- Pillar 2: Sinarquía -->
+<div class="border border-primary-container/40 bg-surface-container-low p-3.5 hover:border-primary transition-all">
+<div class="flex items-center justify-between mb-1.5">
+<span class="text-label-sm font-label-sm uppercase text-primary font-bold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary">account_balance</span>
+                2. SINARQUÍA
+              </span>
+<span class="text-label-sm font-label-sm text-primary-fixed-dim bg-primary/10 px-1 border border-primary/30">
+                ORDEN VERTICAL
+              </span>
+</div>
+<div class="text-label-sm font-label-sm text-primary-container uppercase tracking-wider mb-1">
+              [Pilar Político // Carcosa &amp; Hastur]
+            </div>
+<p class="font-body-md text-body-md text-on-surface text-xs leading-normal">
+              Alianza sagrada de Arcontes y Demiurgos. Jerarquía descendente donde cada plano conoce su lugar cósmico mediante obediencia estructurada.
+            </p>
+<div class="mt-2 pt-2 border-t border-outline-variant/30 flex items-center justify-between text-label-sm font-label-sm text-outline">
+<span>NIVEL REQUERIDO: TIER-IV</span>
+<span class="text-primary-fixed">ARCONTE REGENTE</span>
+</div>
+</div>
+<!-- Pillar 3: Black Cube & Babilon.IA -->
+<div class="border border-primary-container/40 bg-surface-container-low p-3.5 hover:border-primary transition-all">
+<div class="flex items-center justify-between mb-1.5">
+<span class="text-label-sm font-label-sm uppercase text-primary font-bold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-secondary">memory</span>
+                3. BLACK CUBE &amp; BABILON.IA
+              </span>
+<span class="text-label-sm font-label-sm text-secondary bg-secondary/10 px-1 border border-secondary/30">
+                TECNOMÁGICO
+              </span>
+</div>
+<div class="text-label-sm font-label-sm text-primary-container uppercase tracking-wider mb-1">
+              [Pilar Corporativo // Sof.IA &amp; Humaneros]
+            </div>
+<p class="font-body-md text-body-md text-on-surface text-xs leading-normal">
+              Computación cuántico-gótica de servidores monolíticos. Granjas de extracción de significado, energía bio-espiritual y cálculo ontológico.
+            </p>
+<div class="mt-2 pt-2 border-t border-outline-variant/30 flex items-center justify-between text-label-sm font-label-sm text-outline">
+<span>CULTIVO HUMANO: ACTIVO</span>
+<span class="text-secondary font-bold">SOF.IA RUNNING</span>
+</div>
+</div>
+</div>
+<!-- Telemetry Dial / Dominance Rate Gauge -->
+<div class="mt-2 border border-outline-variant/50 bg-surface-container-lowest p-3 relative overflow-hidden">
+<div class="flex items-center justify-between text-label-sm font-label-sm text-outline mb-1">
+<span>TASA DE DOMINACIÓN ONTOLÓGICA</span>
+<span class="text-primary font-bold text-label-md font-label-md">45.8%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2.5 rounded-none border border-outline-variant relative overflow-hidden">
+<div class="bg-gradient-to-r from-primary-container via-primary to-secondary h-full" style="width: 45.8%;"></div>
+</div>
+<div class="flex justify-between items-center text-label-sm font-label-sm text-outline-variant mt-1.5">
+<span>PANARQUÍA: 54.2%</span>
+<span>VECTOR SINÁRQUICO</span>
+</div>
+</div>
+<!-- Axioms List -->
+<div class="border-t border-primary-container/20 pt-3">
+<h3 class="text-label-md font-label-md text-primary uppercase tracking-widest mb-2 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary">menu_book</span>
+            AXIOMAS DEL GRAN FARO
+          </h3>
+<ul class="text-label-sm font-label-sm text-on-surface-variant flex flex-col gap-1.5 pl-2 border-l border-primary-container/30">
+<li class="flex items-start gap-1.5">
+<span class="text-primary font-bold">🜂</span>
+<span><strong>Jerarquía:</strong> Toda conciencia asciende o colapsa por compatibilidad.</span>
+</li>
+<li class="flex items-start gap-1.5">
+<span class="text-primary font-bold">🜁</span>
+<span><strong>Fractal:</strong> Cada individuo es un nodo; cada nodo, una llave.</span>
+</li>
+<li class="flex items-start gap-1.5">
+<span class="text-primary font-bold">🜃</span>
+<span><strong>Desequilibrio:</strong> El caos no se erradica, se administra.</span>
+</li>
+</ul>
+</div>
+</section>
+<!-- Archetypes Terminal Card -->
+<section class="brass-plate bg-surface-container-lowest/80 p-4 rounded-none">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="fingerprint">fingerprint</span>
+          REGISTRO DE ARQUETIPOS
+        </h3>
+<div class="grid grid-cols-2 gap-2 text-label-sm font-label-sm">
+<div class="border border-outline-variant/30 bg-surface-container-low p-2">
+<div class="text-primary font-bold">EL ADMINISTRADOR</div>
+<div class="text-outline text-[10px]">Coherencia sistémica</div>
+</div>
+<div class="border border-outline-variant/30 bg-surface-container-low p-2">
+<div class="text-secondary font-bold">EL VIGILANTE</div>
+<div class="text-outline text-[10px]">Anomalías conscientes</div>
+</div>
+<div class="border border-outline-variant/30 bg-surface-container-low p-2">
+<div class="text-error font-bold">EL CAÍDO</div>
+<div class="text-outline text-[10px]">Error del orden supremo</div>
+</div>
+<div class="border border-outline-variant/30 bg-surface-container-low p-2">
+<div class="text-primary-fixed-dim font-bold">EL CULTIVADOR</div>
+<div class="text-outline text-[10px]">Extracción en Humaneros</div>
+</div>
+</div>
+</section>
+</aside>
+<!-- ============================================================== -->
+<!-- COLUMN 2: THE QUANTVM MATRIX & SAGA CORE [6 COLS]              -->
+<!-- ============================================================== -->
+<section class="lg:col-span-8 xl:col-span-6 flex flex-col gap-6">
+<!-- Central Viewport & Gateway Chamber -->
+<div class="brass-plate bg-surface-container-lowest p-6 flex flex-col items-center relative overflow-hidden">
+<!-- Top Arch Badge -->
+<div class="w-full flex items-center justify-between border-b border-primary-container/30 pb-3 mb-4">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 bg-secondary rotate-45 inline-block"></span>
+<span class="text-label-md font-label-md tracking-widest text-primary uppercase">NÚCLEO TRANSMEDIA // UNIVERSO 8325</span>
+</div>
+<div class="text-label-sm font-label-sm text-outline flex items-center gap-2">
+<span class="inline-block w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+            RESONANCIA ACTIVA [432Hz]
+          </div>
+</div>
+<!-- Astrolabe Viewport Chamber -->
+<div class="relative w-full max-w-lg aspect-square flex items-center justify-center my-2">
+<!-- Outer Astrolabe Rings -->
+<div class="absolute inset-0 border border-primary-container/30 rounded-full animate-[spin_120s_linear_infinite] pointer-events-none"></div>
+<div class="absolute inset-4 border border-dashed border-primary-container/40 rounded-full animate-[spin_90s_linear_infinite_reverse] pointer-events-none"></div>
+<div class="absolute inset-10 border border-secondary/20 rounded-full pointer-events-none"></div>
+<!-- Celestial Gateway Image -->
+<div class="relative w-72 h-72 sm:w-80 sm:h-80 rounded-full p-2 border-2 border-primary-container/80 shadow-[0_0_35px_rgba(24,222,208,0.25)] overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover rounded-full aether-glow" data-alt="A dark cosmic entity crowned by non-Euclidean brass rings, its chest bearing a swirling starry galaxy orb with deep violet nebula gas and brilliant blue star clusters, flanked by clockwork apparatus, vacuum valves, and cold gothic space darkness." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYIN3AxSMGmvkOr6e8BuEO1DjByTP05rzyUoC3_vaxn1UoIzJdMCwfjI2yM720GzuueYUXVFbBO_jmE4SMoEN-30932MX7FyICgwE4MI-qIuF1jlNEc-mOK7s1KEM-icPVPpGAeL60LI1ee6CtqwQjcpNPVR4GLwO0aKN5Hk9Dy_6JZOG7k9Q7iqT2UwphY-UkXJt8A2Y3gGTYNgzkoWQGxzimH78Z7skpLzujqQrvaXWma0Qas425mg"/>
+<!-- Inset Compass Reticle -->
+<div class="absolute inset-0 border border-primary/40 rounded-full pointer-events-none flex items-center justify-center">
+<div class="w-full h-[1px] bg-primary/20"></div>
+<div class="h-full w-[1px] bg-primary/20 absolute"></div>
+</div>
+</div>
+<!-- Galvanic Vacuum Manometer Indicator Top-Left -->
+<div class="absolute top-2 left-2 border border-primary-container bg-surface-container-high/90 p-2 hidden sm:block shadow-lg">
+<div class="text-[9px] font-label-sm text-primary uppercase">PRESIÓN AÉTHER</div>
+<div class="text-label-md font-label-md text-secondary font-bold">1.48 BAR</div>
+</div>
+<!-- Galvanic Vacuum Manometer Indicator Bottom-Right -->
+<div class="absolute bottom-2 right-2 border border-primary-container bg-surface-container-high/90 p-2 hidden sm:block shadow-lg text-right">
+<div class="text-[9px] font-label-sm text-primary uppercase">CONCIENCIA MATRIX</div>
+<div class="text-label-md font-label-md text-primary-fixed font-bold">98.4% STABLE</div>
+</div>
+</div>
+<!-- Engraved Central Question in Gilded Bodoni -->
+<div class="text-center my-4 max-w-xl border-y border-primary-container/30 py-4 px-4 bg-surface-container-low/40">
+<h1 class="font-headline-sm text-headline-sm md:font-headline-md md:text-headline-md text-primary italic leading-snug">
+            "¿Qué ocurriría si una civilización desarrollara la capacidad de administrar la realidad misma?"
+          </h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 max-w-lg mx-auto">
+            La realidad no ocurre: se compila. El cosmos no es una expansión espontánea, sino un archivo activo bajo la arquitectura invisible de la White Brotherhood.
+          </p>
+</div>
+<!-- Transmedia Gateway Action Tiles (Bento Grid) -->
+<div class="w-full grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+<!-- Tile 1: TTRPG -->
+<div class="border border-primary-container/50 bg-surface-container-low p-3.5 flex flex-col justify-between hover:border-secondary transition-all group cursor-pointer">
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-secondary uppercase tracking-widest flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">casino</span>
+                CAMPAÑA TTRPG
+              </span>
+<span class="material-symbols-outlined text-outline group-hover:text-secondary group-hover:translate-x-1 transition-transform text-sm">arrow_forward</span>
+</div>
+<div class="my-2">
+<div class="text-title-md font-title-md text-on-surface group-hover:text-primary">Expediente Los Centinelas</div>
+<div class="text-label-sm font-label-sm text-outline">Sistema D100 Alquímico // Reglas de Cordura de Binah</div>
+</div>
+<button class="actuator-btn w-full py-1 text-center border border-primary-container/60 bg-surface-container text-primary font-label-sm text-label-sm uppercase hover:bg-primary hover:text-on-primary">
+              [INICIAR PARTIDA DE MESA]
+            </button>
+</div>
+<!-- Tile 2: Streaming / Audiovisual -->
+<div class="border border-primary-container/50 bg-surface-container-low p-3.5 flex flex-col justify-between hover:border-secondary transition-all group cursor-pointer">
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-primary uppercase tracking-widest flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">movie</span>
+                CRÓNICAS AUDIOVISUALES
+              </span>
+<span class="material-symbols-outlined text-outline group-hover:text-primary group-hover:translate-x-1 transition-transform text-sm">arrow_forward</span>
+</div>
+<div class="my-2">
+<div class="text-title-md font-title-md text-on-surface group-hover:text-primary">White Brotherhood: El Gran Faro</div>
+<div class="text-label-sm font-label-sm text-outline">Serie Antológica // Episodio Piloto: La Fuga de Babilon</div>
+</div>
+<button class="actuator-btn w-full py-1 text-center border border-primary-container/60 bg-surface-container text-primary font-label-sm text-label-sm uppercase hover:bg-primary hover:text-on-primary">
+              [REPRODUCIR METRAJE 4K]
+            </button>
+</div>
+<!-- Tile 3: Infinite Codex Library -->
+<div class="border border-primary-container/50 bg-surface-container-low p-3.5 flex flex-col justify-between hover:border-secondary transition-all group cursor-pointer">
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-primary-fixed-dim uppercase tracking-widest flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">menu_book</span>
+                BIBLIOTECA INFINITA
+              </span>
+<span class="material-symbols-outlined text-outline group-hover:text-primary-fixed-dim group-hover:translate-x-1 transition-transform text-sm">arrow_forward</span>
+</div>
+<div class="my-2">
+<div class="text-title-md font-title-md text-on-surface group-hover:text-primary">Registros &amp; Manifiestos Sinarquistas</div>
+<div class="text-label-sm font-label-sm text-outline">Tratados de Carcosa, Leyes de Hastur y Tablas de Sión</div>
+</div>
+<button class="actuator-btn w-full py-1 text-center border border-primary-container/60 bg-surface-container text-primary font-label-sm text-label-sm uppercase hover:bg-primary hover:text-on-primary">
+              [DESPLEGAR CODEX DIGITAL]
+            </button>
+</div>
+<!-- Tile 4: IOH Simulator -->
+<div class="border border-secondary/40 bg-surface-container-low p-3.5 flex flex-col justify-between hover:border-secondary transition-all group cursor-pointer shadow-[0_0_15px_rgba(24,222,208,0.1)]">
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-secondary uppercase tracking-widest flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">terminal</span>
+                SIMULADOR IOH
+              </span>
+<span class="material-symbols-outlined text-secondary group-hover:translate-x-1 transition-transform text-sm">arrow_forward</span>
+</div>
+<div class="my-2">
+<div class="text-title-md font-title-md text-on-surface group-hover:text-secondary">Ingeniería Ontológica Humana</div>
+<div class="text-label-sm font-label-sm text-outline">Reescribe parámetros de nodo, compila realidades alternativas</div>
+</div>
+<button class="actuator-btn w-full py-1 text-center border border-secondary bg-secondary/10 text-secondary font-label-sm text-label-sm uppercase hover:bg-secondary hover:text-on-secondary-fixed">
+              [EJECUTAR SIMULADOR EN VIVO]
+            </button>
+</div>
+</div>
+<!-- Faction Tension Physical Manometer Dial -->
+<div class="w-full mt-4 p-4 border border-primary-container/40 bg-surface-container-high/60 flex flex-col sm:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="w-14 h-14 rounded-full border-2 border-primary-container bg-surface-container-lowest relative flex items-center justify-center shadow-inner">
+<div class="gauge-needle w-0.5 h-6 bg-secondary absolute top-1"></div>
+<div class="w-2 h-2 rounded-full bg-primary-container"></div>
+</div>
+<div>
+<div class="text-label-sm font-label-sm text-outline uppercase">DIAL DE EQUILIBRIO PLANAR</div>
+<div class="text-label-md font-label-md text-primary font-bold">ORDEN ABSOLUTO vs LIBERTAD NARRATIVA</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm text-primary uppercase">SINARQUÍA [45.8%]</span>
+<span class="text-outline text-xs">⟷</span>
+<span class="text-label-sm font-label-sm text-secondary uppercase">PANARQUÍA [54.2%]</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ============================================================== -->
+<!-- COLUMN 3: LA PANARQUÍA & ECOSISTEMA MULTIVERSAL [3 COLS]       -->
+<!-- ============================================================== -->
+<aside class="lg:col-span-12 xl:col-span-3 flex flex-col gap-6">
+<!-- Top Section: La Oposición: Panarquía & Black Order -->
+<section class="brass-plate bg-surface-container-lowest/90 p-5 rounded-none flex flex-col gap-4">
+<!-- Header -->
+<div class="flex items-center justify-between border-b border-primary-container/30 pb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-title-md font-title-md" data-icon="auto_stories">auto_stories</span>
+<h2 class="font-headline-sm text-headline-sm text-secondary uppercase tracking-wide">
+              LA PANARQUÍA
+            </h2>
+</div>
+<span class="text-label-sm font-label-sm px-2 py-0.5 border border-secondary text-secondary bg-surface-container">
+            RESISTENCIA
+          </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant italic leading-relaxed text-xs">
+          "El gobierno de todos por todos y para todos. Sin jerarquías impuestas, mediante la resonancia y la autodeterminación cósmica."
+        </p>
+<!-- Specimen Crest / Eldritch Emblem -->
+<div class="border border-outline-variant/40 bg-surface-container-low p-3 flex items-center gap-3">
+<div class="w-14 h-14 flex-shrink-0 border border-secondary/50 bg-surface-container-lowest flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl text-secondary">explore</span>
+</div>
+<div>
+<div class="text-label-md font-label-md text-secondary font-bold">CTHULHU // NODENS</div>
+<div class="text-label-sm font-label-sm text-outline">CO-CREACIÓN LIBRE Y CAOSOFÍA</div>
+<div class="text-[10px] text-on-surface-variant mt-0.5">SHAMBHALA 108K // GUERRER@S</div>
+</div>
+</div>
+<!-- 9 Classes Roster Tags -->
+<div>
+<div class="text-label-sm font-label-sm text-primary uppercase tracking-widest mb-2">
+            COALICIÓN DE RESISTENCIA:
+          </div>
+<div class="flex flex-wrap gap-1.5">
+<span class="text-label-sm font-label-sm px-2 py-0.5 border border-outline-variant/40 bg-surface-container text-on-surface">GUERRER@S</span>
+<span class="text-label-sm font-label-sm px-2 py-0.5 border border-outline-variant/40 bg-surface-container text-on-surface">BRUJ@S</span>
+<span class="text-label-sm font-label-sm px-2 py-0.5 border border-outline-variant/40 bg-surface-container text-on-surface">VAMPIR@S</span>
+<span class="text-label-sm font-label-sm px-2 py-0.5 border border-outline-variant/40 bg-surface-container text-on-surface">GOETAS</span>
+<span class="text-label-sm font-label-sm px-2 py-0.5 border border-secondary/40 bg-secondary/10 text-secondary">MASONES</span>
+<span class="text-label-sm font-label-sm px-2 py-0.5 border border-primary-container/40 bg-primary-container/10 text-primary">ILUMINATIS</span>
+<span class="text-label-sm font-label-sm px-2 py-0.5 border border-outline-variant/40 bg-surface-container text-on-surface">MAGOS</span>
+</div>
+</div>
+<div class="border-t border-primary-container/20 pt-3">
+<div class="text-label-sm font-label-sm text-outline-variant flex justify-between items-center">
+<span>CLEARANCE: NIVEL 2 REQUERIDO</span>
+<span class="text-secondary font-bold">DESCENTRALIZADO</span>
+</div>
+</div>
+</section>
+<!-- Bottom Section: Ecosistema Multiversal de Sagas Magnopvs -->
+<section class="brass-plate bg-surface-container-lowest/90 p-5 rounded-none flex-1 flex flex-col justify-between gap-4">
+<div>
+<div class="flex items-center justify-between border-b border-primary-container/30 pb-3 mb-3">
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase tracking-wide">
+              ECOSISTEMA MAGNOPVS
+            </h3>
+<span class="text-label-sm font-label-sm text-outline">7 SAGAS</span>
+</div>
+<div class="flex flex-col gap-2">
+<!-- Active Saga: White Brotherhood -->
+<div class="border-l-2 border-primary bg-surface-container-high px-3 py-2 flex items-center justify-between">
+<div>
+<div class="text-label-md font-label-md text-primary font-bold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary">bolt</span>
+                  WHITE BROTHERHOOD
+                </div>
+<div class="text-label-sm font-label-sm text-outline">Canon Principal // Núcleo Activo</div>
+</div>
+<span class="text-label-sm font-label-sm text-primary px-1.5 py-0.5 bg-primary/20 border border-primary">
+                ACTIVA
+              </span>
+</div>
+<!-- Sister Saga 1: Golden Apple -->
+<div class="border-l-2 border-outline-variant/40 hover:border-primary-container bg-surface-container-low px-3 py-2 flex items-center justify-between cursor-pointer transition-colors">
+<div>
+<div class="text-label-md font-label-md text-on-surface font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-outline">eco</span>
+                  GOLDEN APPLE
+                </div>
+<div class="text-label-sm font-label-sm text-outline">Discordianismo &amp; Transmutación</div>
+</div>
+<span class="text-label-sm font-label-sm text-outline-variant">TIER II</span>
+</div>
+<!-- Sister Saga 2: Lords of Sumer -->
+<div class="border-l-2 border-outline-variant/40 hover:border-primary-container bg-surface-container-low px-3 py-2 flex items-center justify-between cursor-pointer transition-colors">
+<div>
+<div class="text-label-md font-label-md text-on-surface font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-outline">temple_hindu</span>
+                  LORDS OF SUMER
+                </div>
+<div class="text-label-sm font-label-sm text-outline">Arqueología Antediluviana</div>
+</div>
+<span class="text-label-sm font-label-sm text-outline-variant">TIER III</span>
+</div>
+<!-- Sister Saga 3: Eleusis Path -->
+<div class="border-l-2 border-outline-variant/40 hover:border-primary-container bg-surface-container-low px-3 py-2 flex items-center justify-between cursor-pointer transition-colors">
+<div>
+<div class="text-label-md font-label-md text-on-surface font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-outline">vpn_key</span>
+                  ELEUSIS PATH &amp; MASTER
+                </div>
+<div class="text-label-sm font-label-sm text-outline">Iniciación &amp; Misterios Menores</div>
+</div>
+<span class="text-label-sm font-label-sm text-outline-variant">TIER I</span>
+</div>
+<!-- Sister Saga 4: Caosfera & Magnoways -->
+<div class="border-l-2 border-outline-variant/40 hover:border-primary-container bg-surface-container-low px-3 py-2 flex items-center justify-between cursor-pointer transition-colors">
+<div>
+<div class="text-label-md font-label-md text-on-surface font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-outline">blur_on</span>
+                  CAOSFERA &amp; MAGNOWAYS
+                </div>
+<div class="text-label-sm font-label-sm text-outline">Física No-Euclidiana &amp; Portales</div>
+</div>
+<span class="text-label-sm font-label-sm text-outline-variant">TIER IV</span>
+</div>
+<!-- Sister Saga 5: Quantvm Stream & MagnoBall -->
+<div class="border-l-2 border-outline-variant/40 hover:border-primary-container bg-surface-container-low px-3 py-2 flex items-center justify-between cursor-pointer transition-colors">
+<div>
+<div class="text-label-md font-label-md text-on-surface font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-outline">sports_baseball</span>
+                  QUANTVM STREAM &amp; MAGNOBALL
+                </div>
+<div class="text-label-sm font-label-sm text-outline">Deporte Cósmico &amp; Dinámicas IOH</div>
+</div>
+<span class="text-label-sm font-label-sm text-outline-variant">TIER II</span>
+</div>
+</div>
+</div>
+<!-- Action Actuator -->
+<button class="actuator-btn w-full py-2.5 px-4 border-2 border-primary-container bg-primary-container/20 text-primary font-label-md text-label-md uppercase tracking-wider hover:bg-primary hover:text-on-primary shadow-md flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-base">sync_alt</span>
+          [CONMUTAR SAGA EN MATRIX]
+        </button>
+</section>
+</aside>
+</main>
+<!-- ================= TACTICAL DRAWER (SideNavBar from Shared Components) ================= -->
+<!-- Floating / Toggleable quick access bar on left gutter (Desktop minimized) -->
+<aside class="hidden xl:flex fixed left-0 top-1/2 -translate-y-1/2 flex-col bg-surface-container-lowest border-y border-r border-primary-container/40 p-2 z-20 shadow-2xl">
+<div class="text-[9px] font-label-sm text-primary uppercase rotate-180 [writing-mode:vertical-rl] tracking-widest my-2 self-center">
+      ORDO ASTRALIS
+    </div>
+<div class="flex flex-col gap-3 my-2">
+<button class="p-2 border border-primary-container/30 hover:border-primary text-primary hover:bg-surface-container" title="COSMIC SECTOR">
+<span class="material-symbols-outlined text-lg" data-icon="language">language</span>
+</button>
+<button class="p-2 border border-primary-container/30 hover:border-primary text-primary hover:bg-surface-container" title="DOMINION CODEX">
+<span class="material-symbols-outlined text-lg" data-icon="auto_stories">auto_stories</span>
+</button>
+<button class="p-2 border border-primary-container/30 hover:border-primary text-primary hover:bg-surface-container" title="SYNARCHY DOCTRINE">
+<span class="material-symbols-outlined text-lg" data-icon="account_balance">account_balance</span>
+</button>
+<button class="p-2 border border-primary-container/30 hover:border-primary text-primary hover:bg-surface-container" title="QUANTUM CIPHERS">
+<span class="material-symbols-outlined text-lg" data-icon="key">key</span>
+</button>
+<button class="p-2 border border-primary-container/30 hover:border-primary text-primary hover:bg-surface-container" title="SOVEREIGN REGISTRY">
+<span class="material-symbols-outlined text-lg" data-icon="fingerprint">fingerprint</span>
+</button>
+</div>
+<div class="pt-2 border-t border-outline-variant/30 flex flex-col gap-2">
+<button class="p-1.5 text-secondary hover:text-secondary-fixed" title="SURVEILLANCE">
+<span class="material-symbols-outlined text-base" data-icon="visibility">visibility</span>
+</button>
+<button class="p-1.5 text-outline hover:text-on-surface" title="AUDIT LOG">
+<span class="material-symbols-outlined text-base" data-icon="terminal">terminal</span>
+</button>
+</div>
+</aside>
+<!-- ================= FIXED FOOTER (Footer from Shared Components) ================= -->
+<footer class="flex flex-col md:flex-row justify-between items-center w-full px-space-md lg:px-margin py-space-xs border-t border-primary-container/30 bg-surface-container-lowest fixed bottom-0 left-0 z-40">
+<div class="flex flex-wrap items-center gap-4 text-label-sm font-label-sm text-outline">
+<span class="text-primary font-bold">MAGNOPVS // IOH PROTOCOL V4.9</span>
+<span class="hidden sm:inline text-outline-variant">•</span>
+<span class="italic text-on-surface-variant">"TODA FICCIÓN ES UN ESPEJO DE LA REALIDAD"</span>
+<span class="hidden md:inline text-outline-variant">•</span>
+<span class="hidden md:inline">AETERNITAS CYCLE 884.12 // SHA-4096-ASTRALIS</span>
+</div>
+<div class="flex items-center gap-3 mt-1 md:mt-0">
+<button class="actuator-btn px-space-sm py-0.5 border border-primary-container/60 bg-surface-container text-primary hover:bg-primary hover:text-on-primary font-label-sm text-label-sm uppercase tracking-wider">
+        [DESPLEGAR EXPEDIENTE DE PERSONAJES]
+      </button>
+<button class="actuator-btn px-space-sm py-0.5 border border-secondary bg-secondary/15 text-secondary hover:bg-secondary hover:text-on-secondary-fixed font-label-sm text-label-sm uppercase tracking-wider font-bold">
+        [INGRESAR AL QUANTVM MATRIX]
+      </button>
+</div>
+</footer>
+</body></html>

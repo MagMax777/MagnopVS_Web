@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PHANTOM_NAVIGATOR | Dual-Life HUD</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Hanken+Grotesk:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --neon-glow: rgba(45, 168, 224, 0.4);
+            --p5-red: #93000a;
+        }
+
+        body {
+            background-color: #0a0b12;
+            overflow-x: hidden;
+            font-family: 'Hanken Grotesk', sans-serif;
+        }
+
+        .cyber-grid {
+            background-image: 
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 40px 40px;
+            perspective: 1000px;
+        }
+
+        .clip-p5-diagonal {
+            clip-path: polygon(0 0, 100% 0, 92% 100%, 0% 100%);
+        }
+
+        .clip-p5-header {
+            clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 90%);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(127, 208, 255, 0.1);
+        }
+
+        .neon-pulse {
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { filter: drop-shadow(0 0 2px var(--neon-glow)); }
+            50% { filter: drop-shadow(0 0 10px var(--neon-glow)); }
+        }
+
+        .slant-box {
+            transform: skewX(-12deg);
+        }
+
+        .slant-box-content {
+            transform: skewX(12deg);
+        }
+
+        .segmented-progress div {
+            box-shadow: 0 0 8px rgba(127, 208, 255, 0.2);
+        }
+
+        .floating-orb {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(127, 208, 255, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                "surface-tint": "#7fd0ff",
+                "secondary-container": "#00bba0",
+                "primary-fixed-dim": "#7fd0ff",
+                "on-secondary": "#00382e",
+                "on-secondary-container": "#004439",
+                "grid-line": "rgba(127, 208, 255, 0.05)",
+                "on-tertiary-fixed-variant": "#6e3252",
+                "tertiary-container": "#ffafd4",
+                "outline": "#899299",
+                "on-tertiary-container": "#7c3e5e",
+                "on-primary-fixed-variant": "#004c6a",
+                "on-tertiary": "#531c3b",
+                "surface-bright": "#363a3d",
+                "on-tertiary-fixed": "#390625",
+                "tertiary": "#ffd8e7",
+                "on-surface": "#e0e3e6",
+                "status-critical": "#93000a",
+                "background-deep": "#0a0b12",
+                "primary": "#c5e7ff",
+                "inverse-primary": "#00658b",
+                "on-primary-container": "#00597b",
+                "surface-container-lowest": "#0b0f11",
+                "surface-container-highest": "#313538",
+                "surface": "#101417",
+                "inverse-on-surface": "#2d3134",
+                "error": "#ffb4ab",
+                "tertiary-fixed-dim": "#ffafd4",
+                "on-primary": "#00344a",
+                "on-secondary-fixed": "#00201a",
+                "surface-container-low": "#181c1f",
+                "background": "#101417",
+                "primary-container": "#7fd0ff",
+                "outline-variant": "#3f484e",
+                "on-surface-variant": "#bfc8cf",
+                "error-container": "#93000a",
+                "secondary-fixed-dim": "#47ddc1",
+                "secondary-fixed": "#6af9dc",
+                "on-error": "#690005",
+                "surface-dim": "#101417",
+                "inverse-surface": "#e0e3e6",
+                "primary-fixed": "#c5e7ff",
+                "on-primary-fixed": "#001e2d",
+                "surface-container-high": "#272a2d",
+                "on-error-container": "#ffdad6",
+                "surface-container": "#1c2023",
+                "on-background": "#e0e3e6",
+                "on-secondary-fixed-variant": "#005144",
+                "tertiary-fixed": "#ffd8e7",
+                "surface-variant": "#313538",
+                "surface-panel": "rgba(255, 255, 255, 0.03)",
+                "secondary": "#47ddc1",
+                "glow-cyan": "#2da8e0"
+              },
+              "borderRadius": {
+                "DEFAULT": "0px",
+                "lg": "0px",
+                "xl": "0px",
+                "full": "9999px"
+              },
+              "spacing": {
+                "margin-desktop": "40px",
+                "margin-mobile": "20px",
+                "gutter": "16px",
+                "panel-gap": "12px",
+                "unit": "4px",
+                "section-padding": "128px"
+              },
+              "fontFamily": {
+                "display-lg-mobile": ["Space Grotesk"],
+                "micro-tag": ["JetBrains Mono"],
+                "headline-md": ["Space Grotesk"],
+                "label-caps": ["JetBrains Mono"],
+                "data-point": ["Hanken Grotesk"],
+                "mono-data": ["JetBrains Mono"],
+                "display-lg": ["Space Grotesk"],
+                "body-md": ["Hanken Grotesk"]
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface">
+<!-- ATMOSPHERIC BACKGROUND -->
+<div class="fixed inset-0 cyber-grid opacity-30 pointer-events-none"></div>
+<div class="floating-orb top-[-10%] left-[-5%]" style="background: radial-gradient(circle, #93000a15 0%, transparent 70%);"></div>
+<div class="floating-orb bottom-[10%] right-[-5%]" style="background: radial-gradient(circle, #2da8e015 0%, transparent 70%);"></div>
+<!-- TOP APP BAR -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-8 h-16 bg-surface/80 backdrop-blur-xl border-b-4 border-primary-container shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] clip-p5-header">
+<div class="flex items-center gap-6">
+<div class="flex items-center">
+<img alt="Logo" class="h-10 w-auto italic font-black text-primary-container skew-x-[-12deg]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfYhIz-mk3DJa21slmN3Pc0_cdHgYk4dU2E87kcPFHOwmCr3u8ennzcXGmXpm0OhUnb1-7Xi_s8tAV44fNyxsQnTwR6b6OeBr4wSOOaKpIaiEUEp1gEyJReKr5NMw605IwaTG5ntKhQUjfiGIoE0pDw_ebLO5UN_hIO3x7RRWQkGBxf9QnI4nDcxth310YLZISjgqwPiVdnPQidWlmZYEh9WW_IjPWzM5KiMpT5HZDiCuWWvuFm-mYEQkhphqEV1xCnNk"/>
+<span class="ml-4 font-headline-md text-headline-md uppercase tracking-tighter text-primary">PHANTOM_NAVIGATOR</span>
+</div>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="font-label-caps text-label-caps text-primary-container underline decoration-4 underline-offset-8" href="#">STATUS</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:skew-x-[-15deg] hover:text-tertiary transition-transform" href="#">INFILTRATE</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:skew-x-[-15deg] hover:text-tertiary transition-transform" href="#">ARSENAL</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-container active:scale-95 transition-all cursor-pointer">calendar_today</span>
+<span class="material-symbols-outlined text-primary-container active:scale-95 transition-all cursor-pointer">notifications_active</span>
+<span class="material-symbols-outlined text-primary-container active:scale-95 transition-all cursor-pointer">settings</span>
+</div>
+</header>
+<!-- SIDE NAV BAR (DESKTOP) -->
+<aside class="hidden lg:flex fixed left-0 top-0 h-full w-72 flex-col pt-24 pb-8 px-6 gap-4 bg-surface-container/90 backdrop-blur-lg border-r-8 border-primary shadow-[12px_0px_0px_0px_rgba(147,1,0,0.5)] z-40" style="clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);">
+<div class="mb-8">
+<h2 class="font-display-lg text-headline-lg text-primary leading-tight">PHANTOM<br/>OPERATIVE</h2>
+<p class="font-micro-tag text-micro-tag text-secondary uppercase mt-2">Rank: Joker // Level 42</p>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-4 p-4 bg-primary text-on-primary -skew-x-7 translate-x-4 shadow-[4px_4px_0px_0px_rgba(0,219,233,1)] transition-all" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps text-label-caps italic">DASHBOARD</span>
+</a>
+<a class="flex items-center gap-4 p-4 text-on-surface hover:bg-primary/20 hover:translate-x-2 transition-all" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-caps text-label-caps italic">CONFIDANTS</span>
+</a>
+<a class="flex items-center gap-4 p-4 text-on-surface hover:bg-primary/20 hover:translate-x-2 transition-all" href="#">
+<span class="material-symbols-outlined">security</span>
+<span class="font-label-caps text-label-caps italic">INFILTRATE</span>
+</a>
+<a class="flex items-center gap-4 p-4 text-on-surface hover:bg-primary/20 hover:translate-x-2 transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-label-caps text-label-caps italic">ARSENAL</span>
+</a>
+</nav>
+<div class="mt-auto">
+<button class="w-full bg-secondary text-on-secondary font-label-caps text-label-caps p-4 slant-box hover:brightness-110 transition-all">
+<span class="slant-box-content block">SYNC_SOUL</span>
+</button>
+</div>
+</aside>
+<!-- MAIN CONTENT CANVAS -->
+<main class="lg:ml-72 pt-24 pb-32 px-margin-mobile md:px-margin-desktop">
+<div class="max-w-7xl mx-auto space-y-12">
+<!-- DUAL LIFE HEADER -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
+<div class="space-y-2">
+<p class="font-micro-tag text-micro-tag text-secondary uppercase tracking-widest">Global_Status // 2026.07.08</p>
+<h1 class="font-display-lg text-display-lg uppercase leading-none tracking-tighter">Dual-Life<br/><span class="text-primary-container">Navigator</span></h1>
+</div>
+<div class="glass-panel p-6 -skew-x-6 border-l-4 border-l-secondary">
+<div class="skew-x-6 flex justify-between items-center">
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant">CURRENT_PHASE</p>
+<p class="font-data-point text-data-point text-secondary">TWILIGHT RESONANCE</p>
+</div>
+<div class="text-right">
+<p class="font-label-caps text-label-caps text-on-surface-variant">TIME_WINDOW</p>
+<p class="font-mono-data text-mono-data text-primary">18:45 — 22:30</p>
+</div>
+</div>
+</div>
+</section>
+<!-- THE SYNERGY HUD -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- SECRET LIFE (Left Side) -->
+<div class="lg:col-span-5 space-y-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary neon-pulse">house</span>
+<h3 class="font-headline-md text-headline-md text-secondary">SECRET_LIFE</h3>
+</div>
+<!-- Routine Card -->
+<div class="glass-panel p-6 border-t-2 border-t-secondary/40 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-10">
+<span class="material-symbols-outlined text-6xl">routine</span>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-label-caps text-label-caps text-primary">Daily Routine</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Balancing the mundane and meaningful.</p>
+</div>
+<span class="bg-secondary/20 text-secondary px-2 py-1 font-micro-tag text-micro-tag">ACTIVE</span>
+</div>
+<!-- Energy Blocks -->
+<div class="space-y-2">
+<p class="font-micro-tag text-micro-tag text-on-surface-variant">MUNDANE_ENERGY</p>
+<div class="flex gap-1 h-4 segmented-progress">
+<div class="flex-1 bg-secondary shadow-[0_0_8px_rgba(71,221,193,0.4)]"></div>
+<div class="flex-1 bg-secondary shadow-[0_0_8px_rgba(71,221,193,0.4)]"></div>
+<div class="flex-1 bg-secondary shadow-[0_0_8px_rgba(71,221,193,0.4)]"></div>
+<div class="flex-1 bg-secondary shadow-[0_0_8px_rgba(71,221,193,0.4)]"></div>
+<div class="flex-1 bg-secondary shadow-[0_0_8px_rgba(71,221,193,0.4)]"></div>
+<div class="flex-1 bg-surface-container-highest"></div>
+<div class="flex-1 bg-surface-container-highest"></div>
+<div class="flex-1 bg-surface-container-highest"></div>
+<div class="flex-1 bg-surface-container-highest"></div>
+<div class="flex-1 bg-surface-container-highest"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Activities Grid -->
+<div class="grid grid-cols-2 gap-4">
+<!-- Coffee Activity -->
+<button class="glass-panel p-4 text-left group hover:bg-secondary/10 transition-all border-b-2 border-transparent hover:border-secondary">
+<div class="flex justify-between mb-4">
+<span class="material-symbols-outlined text-secondary group-hover:scale-110 transition-transform">coffee</span>
+<span class="font-micro-tag text-micro-tag text-secondary">+2 Serenity</span>
+</div>
+<p class="font-label-caps text-label-caps text-on-surface">TAKING_COFFEE</p>
+<p class="font-micro-tag text-micro-tag text-on-surface-variant mt-1">Focus &amp; Brew</p>
+</button>
+<!-- Reading Activity -->
+<button class="glass-panel p-4 text-left group hover:bg-secondary/10 transition-all border-b-2 border-transparent hover:border-secondary">
+<div class="flex justify-between mb-4">
+<span class="material-symbols-outlined text-secondary group-hover:scale-110 transition-transform">book</span>
+<span class="font-micro-tag text-micro-tag text-secondary">+3 Inspiration</span>
+</div>
+<p class="font-label-caps text-label-caps text-on-surface">READING</p>
+<p class="font-micro-tag text-micro-tag text-on-surface-variant mt-1">Mental Prowess</p>
+</button>
+</div>
+</div>
+<!-- CENTER HUB / STATS -->
+<div class="lg:col-span-2 flex flex-col justify-center items-center py-8">
+<div class="relative w-full aspect-square max-w-[200px]">
+
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<p class="font-micro-tag text-micro-tag text-primary-container">CORE_SYNC</p>
+<p class="font-display-lg text-display-lg leading-none">88%</p>
+</div>
+<svg class="absolute inset-0 w-full h-full -rotate-90">
+<circle class="text-surface-container-highest" cx="50%" cy="50%" fill="transparent" r="48%" stroke="currentColor" stroke-width="2"></circle>
+<circle class="text-primary-container drop-shadow-[0_0_8px_rgba(127,208,255,0.6)]" cx="50%" cy="50%" fill="transparent" r="48%" stroke="currentColor" stroke-dasharray="300" stroke-dashoffset="40" stroke-width="4"></circle>
+</svg>
+</div>
+<div class="mt-8 space-y-4 w-full">
+<div class="text-center">
+<p class="font-micro-tag text-micro-tag text-on-surface-variant">SOCIAL_STATS</p>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between font-micro-tag text-micro-tag px-2">
+<span>SERENITY</span>
+<span class="text-secondary">LV. 4</span>
+</div>
+<div class="h-1 bg-surface-container-highest w-full">
+<div class="h-full bg-secondary w-4/5"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between font-micro-tag text-micro-tag px-2">
+<span>INSPIRATION</span>
+<span class="text-tertiary">LV. 2</span>
+</div>
+<div class="h-1 bg-surface-container-highest w-full">
+<div class="h-full bg-tertiary w-2/5"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- HEROIC LIFE (Right Side) -->
+<div class="lg:col-span-5 space-y-6">
+<div class="flex items-center gap-3 justify-end">
+<h3 class="font-headline-md text-headline-md text-primary-container">HEROIC_LIFE</h3>
+<span class="material-symbols-outlined text-primary-container neon-pulse">swords</span>
+</div>
+<!-- Quests Card -->
+<div class="glass-panel p-6 border-t-2 border-t-primary-container/40 relative overflow-hidden text-right">
+<div class="absolute top-0 left-0 p-2 opacity-10">
+<span class="material-symbols-outlined text-6xl">castle</span>
+</div>
+<div class="space-y-4">
+<div class="flex flex-row-reverse justify-between items-start">
+<div>
+<h4 class="font-label-caps text-label-caps text-secondary">Active Quests</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">The path to enlightenment is fraught.</p>
+</div>
+<span class="bg-primary/20 text-primary px-2 py-1 font-micro-tag text-micro-tag">HIGH_PRIORITY</span>
+</div>
+<!-- Heroic Energy Blocks -->
+<div class="space-y-2">
+<p class="font-micro-tag text-micro-tag text-on-surface-variant">COSMIC_ENERGY</p>
+<div class="flex gap-1 h-4 flex-row-reverse segmented-progress">
+<div class="flex-1 bg-primary-container shadow-[0_0_8px_rgba(127,208,255,0.4)]"></div>
+<div class="flex-1 bg-primary-container shadow-[0_0_8px_rgba(127,208,255,0.4)]"></div>
+<div class="flex-1 bg-primary-container shadow-[0_0_8px_rgba(127,208,255,0.4)]"></div>
+<div class="flex-1 bg-surface-container-highest"></div>
+<div class="flex-1 bg-surface-container-highest"></div>
+<div class="flex-1 bg-surface-container-highest"></div>
+<div class="flex-1 bg-surface-container-highest"></div>
+<div class="flex-1 bg-surface-container-highest"></div>
+<div class="flex-1 bg-surface-container-highest"></div>
+<div class="flex-1 bg-surface-container-highest"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Quest List -->
+<div class="space-y-3">
+<div class="glass-panel p-4 flex justify-between items-center border-r-4 border-r-primary group cursor-pointer hover:bg-primary/5 transition-all">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-container">shield</span>
+<div>
+<p class="font-label-caps text-label-caps">Infiltrate the Grid</p>
+<p class="font-micro-tag text-micro-tag text-on-surface-variant">Secure the digital core of District 9</p>
+</div>
+</div>
+<span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward_ios</span>
+</div>
+<div class="glass-panel p-4 flex justify-between items-center border-r-4 border-r-tertiary group cursor-pointer hover:bg-tertiary/5 transition-all">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-tertiary">diamond</span>
+<div>
+<p class="font-label-caps text-label-caps">The Alchemical Wedding</p>
+<p class="font-micro-tag text-micro-tag text-on-surface-variant">Merge family ties with ancient power</p>
+</div>
+</div>
+<span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward_ios</span>
+</div>
+</div>
+</div>
+</div>
+<!-- ASYMMETRIC BENTO GRID: HOUSES OF LIFE -->
+<section class="space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-on-surface uppercase italic tracking-widest">Houses_of_Life</h3>
+<div class="h-px bg-gradient-to-r from-transparent via-outline-variant to-transparent flex-grow mx-8"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-4 h-[500px]">
+<!-- House 1 -->
+<div class="md:col-span-2 md:row-span-2 glass-panel group relative overflow-hidden flex flex-col p-8 border-b-4 border-secondary">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover opacity-20 group-hover:opacity-40 transition-opacity duration-700" data-alt="A cinematic wide shot of a high-tech alchemical laboratory where digital code is being distilled into glowing vials of blue energy. The environment is dark and moody with a Cyber-Alchemical aesthetic, featuring floating holographic icons and semi-transparent technical grids. The lighting is dominated by cyan neon pulses reflecting off polished black surfaces." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTLNl4kl3QI4w1dHcL1itE1yjB2MUkoFvxKMBPnUwfSBAtPGaRQx3JXX3QU6VgjzjtoMtnAt8ONuffj2eblHYxu4Tl22bjPkJR2JxsAndSSrJoB-r4bAUCWX_mq2p8pxb1TJP210HxumIDGaIpVkU16OYV7y_mdSUDJdrtWnwgS2317mxkf0sNVzJsfTFPrZ-zM08IV6G5--CeMEfUobYNcRzo9XLjrE9w_pWIR3kr6MZD-dldzO1QPA"/>
+</div>
+<div class="relative z-10 h-full flex flex-col">
+<span class="font-micro-tag text-micro-tag text-secondary mb-2 tracking-[0.5em]">PRIMARY_DOMAIN</span>
+<h4 class="font-display-lg text-headline-lg uppercase mb-4">House of Flux</h4>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-sm">The center of creative transformation and alchemical synthesis. Here, routine activities are converted into heroic catalysts.</p>
+<div class="mt-auto flex gap-4">
+<div class="bg-surface p-4 border border-secondary/20">
+<p class="font-micro-tag text-micro-tag text-secondary">STABILITY</p>
+<p class="font-data-point text-data-point text-primary">82%</p>
+</div>
+<div class="bg-surface p-4 border border-secondary/20">
+<p class="font-micro-tag text-micro-tag text-secondary">POTENTIAL</p>
+<p class="font-data-point text-data-point text-primary">LV. 08</p>
+</div>
+</div>
+</div>
+</div>
+<!-- House 2 -->
+<div class="md:col-span-2 md:row-span-1 glass-panel group relative overflow-hidden flex items-end p-6 border-l-4 border-primary-container">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover opacity-10 group-hover:opacity-30 transition-opacity" data-alt="A sprawling futuristic megacity seen from a high-altitude glass balcony during a digital sunset. The sky is a blend of deep violet and electric blue with neon grid lines tracing the architecture. The mood is one of quiet contemplation and technological enlightenment, reflecting a high-concept sci-fi aesthetic with extreme focus on geometric precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0SEgrZ6Szt_rLqYp0pyNIxO2dysZyT0ey70XTdWYCf3USYyKTUWbgXTBO2dIqEYFT3w4eaGGRE-9K79HX8LO9hvDTx1_wvGnIgCAgHP1OnmlKuoZhOFvcTWfrfwwGz-VGsCxk_dzZSTldZErMAXRT5yClgqx1_FhZOoVKETsiyQf7lcXChqhkyX6jTl8_gPt8LuS6X3ZgQ4PyNVHDzs_HAGfG3F6xL_2Bv1UwVEFRBxKENrQwe3qj3Q"/>
+</div>
+<div class="relative z-10 w-full flex justify-between items-end">
+<div>
+<span class="font-micro-tag text-micro-tag text-primary-container block mb-1">SECONDARY_DOMAIN</span>
+<h4 class="font-headline-md text-headline-md uppercase">House of Echoes</h4>
+</div>
+<span class="material-symbols-outlined text-primary-container text-4xl neon-pulse">settings_input_antenna</span>
+</div>
+</div>
+<!-- House 3 -->
+<div class="md:col-span-1 md:row-span-1 glass-panel group relative overflow-hidden p-6 border-b-4 border-tertiary">
+<div class="relative z-10 h-full flex flex-col justify-center text-center">
+<span class="material-symbols-outlined text-tertiary text-3xl mb-2">auto_awesome</span>
+<p class="font-label-caps text-label-caps">Sanctum of Souls</p>
+</div>
+</div>
+<!-- House 4 -->
+<div class="md:col-span-1 md:row-span-1 glass-panel group relative overflow-hidden p-6 border-b-4 border-status-critical">
+<div class="relative z-10 h-full flex flex-col justify-center text-center">
+<span class="material-symbols-outlined text-status-critical text-3xl mb-2">warning</span>
+<p class="font-label-caps text-label-caps">The Void Edge</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- BOTTOM NAV BAR (MOBILE) -->
+<footer class="md:hidden fixed bottom-0 left-0 w-full h-20 flex justify-around items-center px-4 bg-surface-container-lowest z-50 clip-p5-diagonal shadow-[0px_-4px_10px_rgba(255,85,64,0.3)]">
+<div class="bg-gradient-to-t from-primary/20 to-transparent absolute inset-0 pointer-events-none"></div>
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 hover:opacity-100 transition-all" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-caps text-[10px] mt-1">STATUS</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container -skew-x-12 px-6 py-2 border-r-4 border-tertiary active:translate-y-1 transition-transform" href="#">
+<span class="material-symbols-outlined">sync_alt</span>
+<span class="font-label-caps text-[10px] mt-1">SYNC</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 hover:opacity-100 transition-all" href="#">
+<span class="material-symbols-outlined">warning</span>
+<span class="font-label-caps text-[10px] mt-1">ALERTS</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 hover:opacity-100 transition-all" href="#">
+<span class="material-symbols-outlined">memory</span>
+<span class="font-label-caps text-[10px] mt-1">CORE</span>
+</a>
+</footer>
+<!-- SYSTEM LOGS (TERMINAL STYLE) -->
+<div class="fixed bottom-6 right-6 hidden xl:block z-30">
+<div class="glass-panel p-4 w-64 border-l-2 border-l-primary/50 text-xs font-mono-data text-primary-container/80 space-y-1">
+<p class="flex justify-between"><span>[SYSTEM]</span> <span>OK</span></p>
+<p class="flex justify-between"><span>[SOUL_SYNC]</span> <span>88%</span></p>
+<p class="flex justify-between"><span>[PHASE]</span> <span>TWILIGHT</span></p>
+<div class="h-px bg-primary/20 my-2"></div>
+<p class="animate-pulse">_ Awaiting operator input...</p>
+</div>
+</div>
+<script>
+        // Micro-interactions for activities
+        document.querySelectorAll('button.glass-panel').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.classList.add('scale-95');
+                setTimeout(() => btn.classList.remove('scale-95'), 100);
+                
+                // Trigger a small visual feedback toast (conceptual)
+                console.log("Activity Triggered: " + btn.innerText);
+            });
+        });
+
+        // Atmospheric rotation for the center orb
+        const orb = document.querySelector('svg circle:last-child');
+        let offset = 40;
+        setInterval(() => {
+            offset = (offset + 0.5) % 300;
+            orb.style.strokeDashoffset = offset;
+        }, 50);
+    </script>
+</body></html>

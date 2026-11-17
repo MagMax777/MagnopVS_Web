@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>13 Houses | MagnopVS · Life Hero</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Hanken+Grotesk:wght@300;400;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&family=JetBrains+Mono:wght@100..900&family=Space+Grotesk:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --primary: #7fd0ff;
+            --secondary: #48ddc1;
+            --tertiary: #ffafd4;
+            --surface: #0f1417;
+        }
+
+        body {
+            background-color: #0f1417;
+            color: #dfe3e8;
+            overflow-x: hidden;
+            font-family: 'Hanken Grotesk', sans-serif;
+        }
+
+        .hex-bg {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60 4.02 45V15z' fill-rule='evenodd' stroke='%237fd0ff' stroke-width='0.5' fill='none' opacity='0.03'/%3E%3C/svg%3E");
+        }
+
+        .clip-corner {
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(45, 168, 224, 0.15);
+        }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(127, 208, 255, 0.1);
+            position: absolute;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        .segmented-progress div {
+            height: 100%;
+            width: 8%;
+            margin-right: 2%;
+            background: currentColor;
+            opacity: 0.2;
+            transition: all 0.3s ease;
+        }
+
+        .segmented-progress div.active {
+            opacity: 1;
+            box-shadow: 0 0 12px currentColor;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-background": "#dfe3e8",
+                      "outline-variant": "#3e484f",
+                      "error": "#ffb4ab",
+                      "background": "#0f1417",
+                      "surface-container-highest": "#303539",
+                      "primary": "#7fd0ff",
+                      "on-secondary-fixed-variant": "#005144",
+                      "surface-tint": "#7fd0ff",
+                      "tertiary": "#ffafd4",
+                      "surface-container-lowest": "#0a0f12",
+                      "on-tertiary-fixed-variant": "#8b005d",
+                      "on-secondary-fixed": "#00201a",
+                      "primary-container": "#2da8e0",
+                      "surface-variant": "#303539",
+                      "on-primary-fixed": "#001e2d",
+                      "tertiary-fixed": "#ffd8e7",
+                      "inverse-primary": "#00658c",
+                      "on-primary-fixed-variant": "#004c6a",
+                      "surface-container": "#1b2024",
+                      "on-tertiary": "#620041",
+                      "surface-container-low": "#171c20",
+                      "outline": "#88929a",
+                      "on-surface-variant": "#bec8d0",
+                      "surface-bright": "#353a3e",
+                      "primary-fixed-dim": "#7fd0ff",
+                      "on-error": "#690005",
+                      "on-primary": "#00344a",
+                      "on-tertiary-container": "#6a0046",
+                      "error-container": "#93000a",
+                      "inverse-surface": "#dfe3e8",
+                      "primary-fixed": "#c5e7ff",
+                      "secondary-fixed": "#6af9dc",
+                      "inverse-on-surface": "#2c3135",
+                      "surface-dim": "#0f1417",
+                      "secondary-container": "#00bba0",
+                      "surface": "#0f1417",
+                      "secondary": "#48ddc1",
+                      "secondary-fixed-dim": "#48ddc1",
+                      "surface-container-high": "#262b2e",
+                      "on-error-container": "#ffdad6",
+                      "on-primary-container": "#003951",
+                      "tertiary-container": "#ff64ba",
+                      "on-secondary": "#00382e",
+                      "on-tertiary-fixed": "#3d0026",
+                      "tertiary-fixed-dim": "#ffafd4",
+                      "on-secondary-container": "#004439",
+                      "on-surface": "#dfe3e8"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "panel-gap": "12px",
+                      "margin-mobile": "20px",
+                      "gutter": "16px",
+                      "margin-desktop": "40px"
+              },
+              "fontFamily": {
+                      "display-lg": ["Space Grotesk"],
+                      "label-caps": ["JetBrains Mono"],
+                      "headline-md": ["Space Grotesk"],
+                      "data-point": ["Hanken Grotesk"],
+                      "body-md": ["Hanken Grotesk"],
+                      "mono-data": ["JetBrains Mono"],
+                      "display-lg-mobile": ["Space Grotesk"]
+              },
+              "fontSize": {
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                      "data-point": ["20px", {"lineHeight": "28px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                      "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "0.05em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="hex-bg min-h-screen pb-32">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/30 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-primary tracking-widest uppercase">
+            MagnopVS <span class="text-secondary opacity-50">·</span> Life Hero
+        </div>
+<div class="flex gap-4">
+<button class="material-symbols-outlined text-outline hover:text-secondary transition-all scale-95 active:scale-90">stars</button>
+<button class="material-symbols-outlined text-outline hover:text-secondary transition-all scale-95 active:scale-90">bolt</button>
+<div class="w-10 h-10 rounded-full border border-primary/40 flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-primary">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Side Navigation (Desktop) -->
+<aside class="hidden lg:flex flex-col fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-low/50 backdrop-blur-2xl border-r border-primary/20 pt-24 px-6 gap-8">
+<div class="mb-8">
+<h2 class="font-label-caps text-label-caps text-primary opacity-60">OPERATOR_01</h2>
+<p class="font-mono-data text-mono-data text-on-surface">LVL 42 // TITAN</p>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 py-3 px-4 rounded-lg font-label-caps text-label-caps text-outline-variant hover:text-on-surface-variant transition-all" href="#">
+<span class="material-symbols-outlined">grid_view</span> Dashboard
+            </a>
+<a class="flex items-center gap-3 py-3 px-4 rounded-lg font-label-caps text-label-caps text-primary border-l-2 border-primary bg-primary/5 font-bold shadow-[inset_4px_0_10px_rgba(127,208,255,0.1)]" href="#">
+<span class="material-symbols-outlined">account_tree</span> 13 Houses
+            </a>
+<a class="flex items-center gap-3 py-3 px-4 rounded-lg font-label-caps text-label-caps text-outline-variant hover:text-on-surface-variant transition-all" href="#">
+<span class="material-symbols-outlined">military_tech</span> Missions
+            </a>
+<a class="flex items-center gap-3 py-3 px-4 rounded-lg font-label-caps text-label-caps text-outline-variant hover:text-on-surface-variant transition-all" href="#">
+<span class="material-symbols-outlined">psychology</span> Attributes
+            </a>
+<a class="flex items-center gap-3 py-3 px-4 rounded-lg font-label-caps text-label-caps text-outline-variant hover:text-on-surface-variant transition-all" href="#">
+<span class="material-symbols-outlined">vitals</span> Alchemy
+            </a>
+</nav>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:ml-64 pt-28 px-margin-mobile md:px-margin-desktop">
+<!-- Header Section -->
+<section class="mb-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<span class="font-mono-data text-mono-data text-primary/60 tracking-widest uppercase">System Core // Deployment</span>
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mt-2">13 HOUSES</h1>
+</div>
+<div class="glass-panel p-4 clip-corner flex items-center gap-6">
+<div class="text-right">
+<div class="font-label-caps text-label-caps text-outline">GLOBAL_HARMONY</div>
+<div class="font-display-lg-mobile text-display-lg-mobile text-secondary">84%</div>
+</div>
+<div class="w-16 h-16 relative">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container-highest" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-secondary drop-shadow-[0_0_8px_#48ddc1]" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-dasharray="175.9" stroke-dashoffset="28" stroke-width="4"></circle>
+</svg>
+</div>
+</div>
+</div>
+</section>
+<!-- Houses Grid/List -->
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-panel-gap">
+<!-- House Template Loop (Manual Generation of 13) -->
+<script>
+                const houses = [
+                    { name: 'Health', plane: 'Vital Plane', color: 'text-primary', val: 75, icon: 'fitness_center' },
+                    { name: 'Intellect', plane: 'Mental Plane', color: 'text-secondary', val: 90, icon: 'psychology' },
+                    { name: 'Emotions', plane: 'Relational Plane', color: 'text-tertiary', val: 45, icon: 'favorite' },
+                    { name: 'Character', plane: 'Spiritual Plane', color: 'text-primary', val: 60, icon: 'verified_user' },
+                    { name: 'Social', plane: 'Relational Plane', color: 'text-secondary', val: 82, icon: 'group' },
+                    { name: 'Financial', plane: 'Material Plane', color: 'text-tertiary', val: 30, icon: 'payments' },
+                    { name: 'Quality of Life', plane: 'Material Plane', color: 'text-primary', val: 68, icon: 'home_repair_service' },
+                    { name: 'Life Vision', plane: 'Spiritual Plane', color: 'text-secondary', val: 95, icon: 'visibility' },
+                    { name: 'Career', plane: 'Material Plane', color: 'text-tertiary', val: 55, icon: 'business_center' },
+                    { name: 'Parenting', plane: 'Relational Plane', color: 'text-primary', val: 20, icon: 'family_restroom' },
+                    { name: 'Romance', plane: 'Relational Plane', color: 'text-secondary', val: 40, icon: 'favorite_border' },
+                    { name: 'Adventure', plane: 'Vital Plane', color: 'text-tertiary', val: 15, icon: 'explore' },
+                    { name: 'Legacy', plane: 'Spiritual Plane', color: 'text-primary', val: 10, icon: 'auto_awesome' }
+                ];
+
+                document.write(houses.map((house, idx) => `
+                    <div class="glass-panel p-6 relative overflow-hidden group">
+                        <div class="scanline opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 flex items-center justify-center border border-primary/20 ${house.color} bg-surface-container-low">
+                                    <span class="material-symbols-outlined text-2xl">${house.icon}</span>
+                                </div>
+                                <div>
+                                    <div class="font-mono-data text-label-caps opacity-40 uppercase">SYS_LOG // ${idx < 9 ? '0' : ''}${idx + 1}</div>
+                                    <h3 class="font-headline-md text-headline-md text-on-surface uppercase tracking-tight">${house.name}</h3>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-label-caps text-label-caps text-outline">${house.plane}</div>
+                                <div class="font-data-point text-data-point ${house.color}">${house.val}%</div>
+                            </div>
+                        </div>
+
+                        <div class="relative h-4 w-full flex segmented-progress mb-6 ${house.color}">
+                            ${Array(10).fill(0).map((_, i) => `<div class="${i < (house.val/10) ? 'active' : ''}"></div>`).join('')}
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <div class="flex gap-2">
+                                <button onclick="updateVal(${idx}, -5)" class="w-10 h-10 border border-outline/20 hover:border-error hover:text-error transition-all flex items-center justify-center font-mono-data">-5</button>
+                                <button onclick="updateVal(${idx}, 5)" class="w-10 h-10 border border-outline/20 hover:border-secondary hover:text-secondary transition-all flex items-center justify-center font-mono-data">+5</button>
+                            </div>
+                            <button class="px-6 py-2 bg-primary text-on-primary font-label-caps text-label-caps clip-corner hover:shadow-[0_0_15px_#7fd0ff] transition-all active:scale-95">
+                                COMMIT_SYNC
+                            </button>
+                        </div>
+                    </div>
+                `).join(''));
+
+                function updateVal(idx, amount) {
+                    console.log(`Updating house ${idx} by ${amount}`);
+                    // Interactive logic for demo
+                }
+            </script>
+</div>
+</main>
+<!-- Bottom Navigation (Mobile) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 pb-safe px-4 bg-surface-container/80 backdrop-blur-lg border-t border-primary/20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">space_dashboard</span>
+<span class="font-label-caps text-[10px]">Dash</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-110">
+<span class="material-symbols-outlined">temple_hindu</span>
+<span class="font-label-caps text-[10px]">Houses</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">assignment_late</span>
+<span class="font-label-caps text-[10px]">Missions</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-caps text-[10px]">Stats</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">autorenew</span>
+<span class="font-label-caps text-[10px]">Cycle</span>
+</div>
+</nav>
+<!-- Footer -->
+<footer class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop mt-20 flex flex-col items-center gap-2 opacity-40 hover:opacity-100 transition-opacity duration-500 pb-32">
+<div class="font-mono-data text-mono-data text-outline">MAGNOPVS OS v4.2.0 // SYSTEM_STABLE</div>
+<div class="flex gap-6">
+<a class="font-mono-data text-mono-data text-outline-variant hover:text-primary transition-colors" href="#">System Reset</a>
+<a class="font-mono-data text-mono-data text-outline-variant hover:text-primary transition-colors" href="#">Log Export</a>
+<a class="font-mono-data text-mono-data text-outline-variant hover:text-primary transition-colors" href="#">Protocol-9</a>
+</div>
+</footer>
+<script>
+        // Micro-interaction for hover states
+        document.querySelectorAll('.glass-panel').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body></html>

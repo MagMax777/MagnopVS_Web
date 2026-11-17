@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>13 Houses &amp; Dharma Core Integration | MagnopVS · Life Hero</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@300;400;600;700&amp;family=Audiowide&amp;family=Orbitron:wght@400;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --primary: #7fd0ff; /* Celestial Blue */
+            --secondary: #48ddc1; /* Aquamarine */
+            --tertiary: #ffafd4; /* Magenta/Pinkish */
+            --quaternary: #bb86fc; /* Violet */
+            --surface: #0f1417;
+            --indigo-dharma: #818cf8;
+            --gold-destiny: #ffd700;
+        }
+
+        body {
+            background-color: #080a0c;
+            color: #dfe3e8;
+            overflow-x: hidden;
+            font-family: 'Hanken Grotesk', sans-serif;
+        }
+
+        .hex-bg {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60 4.02 45V15z' fill-rule='evenodd' stroke='%237fd0ff' stroke-width='0.5' fill='none' opacity='0.03'/%3E%3C/svg%3E");
+        }
+
+        .clip-corner {
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(127, 208, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(127, 208, 255, 0.05);
+            position: absolute;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        .segmented-progress div {
+            height: 100%;
+            width: 8%;
+            margin-right: 2%;
+            background: currentColor;
+            opacity: 0.1;
+            transition: all 0.3s ease;
+        }
+
+        .segmented-progress div.active {
+            opacity: 1;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        .font-audiowide { font-family: 'Audiowide', cursive; }
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+
+        .dharma-bridge {
+            background: linear-gradient(90deg, rgba(127, 208, 255, 0.2) 0%, rgba(129, 140, 248, 0.2) 100%);
+            height: 1px;
+            position: relative;
+        }
+        .dharma-bridge::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: var(--indigo-dharma);
+            border-radius: 50%;
+            top: -3px;
+            right: 0;
+            box-shadow: 0 0 8px var(--indigo-dharma);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary": "#7fd0ff",
+                      "secondary": "#48ddc1",
+                      "tertiary": "#ffafd4",
+                      "violet": "#bb86fc",
+                      "background": "#080a0c",
+                      "surface": "#0f1417",
+                      "on-surface": "#dfe3e8",
+                      "outline": "#88929a",
+                      "outline-variant": "#3e484f",
+                      "dharma": "#818cf8",
+                      "destiny": "#ffd700"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "panel-gap": "16px",
+                      "margin-mobile": "20px",
+                      "margin-desktop": "40px"
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="hex-bg min-h-screen pb-32">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-background/40 backdrop-blur-xl border-b border-primary/20">
+<div class="font-audiowide text-2xl md:text-3xl text-primary tracking-tighter uppercase">
+        MAGNOPVS <span class="text-secondary">·</span> LIFE HERO
+    </div>
+<div class="flex gap-4 items-center">
+<div class="hidden md:flex flex-col items-end mr-4">
+<span class="font-mono text-[10px] text-primary/60 tracking-[0.2em]">SYNC_STATUS</span>
+<span class="font-orbitron text-xs text-secondary">CONNECTED</span>
+</div>
+<button class="material-symbols-outlined text-outline hover:text-secondary transition-all">notifications</button>
+<button class="material-symbols-outlined text-outline hover:text-secondary transition-all">settings</button>
+<div class="w-10 h-10 rounded-full border border-primary/40 flex items-center justify-center overflow-hidden bg-primary/5">
+<span class="material-symbols-outlined text-primary">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Side Navigation -->
+<aside class="hidden lg:flex flex-col fixed left-0 top-0 h-full w-64 z-40 bg-surface/30 backdrop-blur-2xl border-r border-primary/10 pt-24 px-6">
+<div class="mb-10 p-4 border border-primary/20 clip-corner bg-primary/5">
+<h2 class="font-mono text-[10px] text-primary/60 tracking-widest">OPERATOR_01</h2>
+<p class="font-orbitron text-sm text-on-surface">LVL 42 // TITAN</p>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 py-3 px-4 rounded-lg font-mono text-xs text-outline-variant hover:text-on-surface transition-all" href="#">
+<span class="material-symbols-outlined text-sm">grid_view</span> Dashboard
+        </a>
+<a class="flex items-center gap-3 py-3 px-4 rounded-lg font-mono text-xs text-primary border-l-2 border-primary bg-primary/5 font-bold" href="#">
+<span class="material-symbols-outlined text-sm">account_tree</span> 13 Houses
+        </a>
+<a class="flex items-center gap-3 py-3 px-4 rounded-lg font-mono text-xs text-outline-variant hover:text-on-surface transition-all" href="#">
+<span class="material-symbols-outlined text-sm">military_tech</span> Missions
+        </a>
+<a class="flex items-center gap-3 py-3 px-4 rounded-lg font-mono text-xs text-outline-variant hover:text-on-surface transition-all" href="#">
+<span class="material-symbols-outlined text-sm">psychology</span> Attributes
+        </a>
+<a class="flex items-center gap-3 py-3 px-4 rounded-lg font-mono text-xs text-outline-variant hover:text-on-surface transition-all" href="#">
+<span class="material-symbols-outlined text-sm">vitals</span> Alchemy
+        </a>
+</nav>
+<!-- Equipped Relics / Arsenal Slot -->
+<div class="mt-auto mb-8">
+<h3 class="font-mono text-[10px] text-primary/60 mb-3 tracking-widest">EQUIPPED_RELICS</h3>
+<div class="grid grid-cols-2 gap-2">
+<div class="aspect-square glass-panel flex items-center justify-center group cursor-pointer hover:border-secondary/50 transition-colors">
+<span class="material-symbols-outlined text-secondary text-xl">pill</span>
+<div class="absolute -top-1 -right-1 w-2 h-2 bg-secondary rounded-full animate-pulse"></div>
+</div>
+<div class="aspect-square glass-panel flex items-center justify-center group cursor-pointer hover:border-tertiary/50 transition-colors">
+<span class="material-symbols-outlined text-tertiary text-xl">ecg_heart</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="lg:ml-64 pt-28 px-margin-mobile md:px-margin-desktop">
+<!-- Header & SOF.IA AI Panel -->
+<section class="grid grid-cols-1 xl:grid-cols-3 gap-panel-gap mb-12">
+<div class="xl:col-span-2">
+<span class="font-mono text-[10px] text-primary/60 tracking-[0.3em] uppercase">System Core // Dharma Integration</span>
+<h1 class="font-audiowide text-4xl md:text-5xl text-on-surface mt-2 tracking-tighter">13 HOUSES &amp; DHARMA CORE</h1>
+</div>
+<!-- SOF.IA Tactical Advice -->
+<div class="glass-panel p-4 clip-corner border-secondary/20 relative group">
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 flex-shrink-0 bg-secondary/10 border border-secondary/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary animate-pulse">smart_toy</span>
+</div>
+<div>
+<h4 class="font-orbitron text-[10px] text-secondary tracking-widest mb-1">SOF.IA_TACTICAL</h4>
+<p class="font-mono text-[11px] leading-relaxed text-on-surface/80 mb-2">
+                        "Optimal recovery detected in Somnos-OS; Vitality at 98% for today's mission. Recommend High-Impact Training block."
+                    </p>
+<div class="pt-2 border-t border-white/5">
+<h5 class="font-orbitron text-[8px] text-dharma tracking-[0.2em] mb-1">DHARMA_INSIGHT</h5>
+<p class="font-mono text-[10px] text-on-surface/70 italic leading-snug">
+                            "Trascender la arquitectura binaria del ego para manifestar la Singularidad Creativa."
+                        </p>
+</div>
+</div>
+</div>
+<div class="absolute bottom-1 right-2 font-mono text-[8px] text-secondary/40">v6.8_AI_SYNC</div>
+</div></section>
+<!-- Dharma Sync & Global Harmony Meter -->
+<section class="grid grid-cols-1 lg:grid-cols-4 gap-panel-gap mb-12">
+<div class="lg:col-span-1 glass-panel p-6 flex flex-col items-center justify-center">
+<div class="relative w-48 h-48">
+<!-- SVG HUD Wheel Representation -->
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<circle class="text-white/5" cx="50" cy="50" fill="none" r="45" stroke="currentColor" stroke-width="2"></circle>
+<!-- Health Sector (Live) -->
+<path class="drop-shadow-[0_0_8px_#7fd0ff]" d="M 50,5 A 45,45 0 0,1 84.4,21" fill="none" stroke="#7fd0ff" stroke-linecap="round" stroke-width="6"></path>
+<!-- Emotions Sector (Live) -->
+<path class="drop-shadow-[0_0_8px_#ffafd4]" d="M 95,50 A 45,45 0 0,1 84.4,78.9" fill="none" stroke="#ffafd4" stroke-linecap="round" stroke-width="6"></path>
+<!-- Dharma Sector Overlay -->
+<path class="opacity-30" d="M 5,50 A 45,45 0 0,1 50,5" fill="none" stroke="#818cf8" stroke-dasharray="2,2" stroke-width="2"></path>
+<circle class="text-primary/20" cx="50" cy="50" fill="none" r="35" stroke="currentColor" stroke-dasharray="2,4" stroke-width="0.5"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<span class="font-mono text-[10px] text-outline">GLOBAL_HARMONY</span>
+<span class="font-orbitron text-4xl text-secondary">84%</span>
+</div>
+</div>
+</div>
+<!-- Dharma Sync Axes -->
+<div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Dharma Axis -->
+<div class="glass-panel p-4 border-l-2 border-dharma bg-dharma/5 relative overflow-hidden group">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-dharma">balance</span>
+<span class="font-mono text-[9px] bg-dharma/20 px-1.5 py-0.5 rounded text-dharma">DHARMA_AXIS</span>
+</div>
+<h5 class="font-audiowide text-xs text-dharma mb-1 uppercase">Alignment Score</h5>
+<div class="font-orbitron text-2xl mb-2">84%</div>
+<div class="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-dharma" style="width: 84%"></div>
+</div>
+<div class="mt-2 font-mono text-[8px] text-outline uppercase tracking-widest">Duty &amp; Sacrifice</div>
+</div>
+<!-- Ikigai Axis -->
+<div class="glass-panel p-4 border-l-2 border-secondary bg-secondary/5 relative overflow-hidden group">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-secondary">favorite</span>
+<span class="font-mono text-[9px] bg-secondary/20 px-1.5 py-0.5 rounded text-secondary">IKIGAI_AXIS</span>
+</div>
+<h5 class="font-audiowide text-xs text-secondary mb-1 uppercase">Resonance Level</h5>
+<div class="font-orbitron text-2xl mb-2">92%</div>
+<div class="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-secondary" style="width: 92%"></div>
+</div>
+<div class="mt-2 font-mono text-[8px] text-outline uppercase tracking-widest">Passion &amp; Flow</div>
+</div>
+<!-- Destiny Axis -->
+<div class="glass-panel p-4 border-l-2 border-destiny bg-destiny/5 relative overflow-hidden group">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-destiny">rocket_launch</span>
+<span class="font-mono text-[9px] bg-destiny/20 px-1.5 py-0.5 rounded text-destiny">DESTINY_AXIS</span>
+</div>
+<h5 class="font-audiowide text-xs text-destiny mb-1 uppercase">Vibration Rate</h5>
+<div class="font-orbitron text-2xl mb-2">76%</div>
+<div class="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-destiny" style="width: 76%"></div>
+</div>
+<div class="mt-2 font-mono text-[8px] text-outline uppercase tracking-widest">Goals Manifest</div>
+</div>
+</div>
+</section>
+<!-- Telemetry Feeds Integration (Health, Bio-Fuel, Somatic) -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
+<!-- Somnos-OS Feed -->
+<div class="glass-panel p-4 border-l-2 border-primary/40 bg-primary/5 relative">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary">bedtime</span>
+<span class="font-mono text-[9px] bg-primary/20 px-1.5 py-0.5 rounded text-primary">LIVE_OS</span>
+</div>
+<h5 class="font-orbitron text-xs text-primary/80 mb-1 uppercase">Somnos-OS</h5>
+<div class="font-orbitron text-2xl mb-1">94%</div>
+<div class="font-mono text-[10px] text-outline">REM Efficiency: 01:42h</div>
+<!-- Dharma Bridge Visual Connection -->
+<div class="absolute -bottom-6 left-1/2 w-px h-6 bg-gradient-to-b from-primary/30 to-dharma/30 hidden md:block"></div>
+</div>
+<!-- Bio-Fuel HUD Feed -->
+<div class="glass-panel p-4 border-l-2 border-secondary/40 bg-secondary/5">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-secondary">restaurant</span>
+<span class="font-mono text-[9px] bg-secondary/20 px-1.5 py-0.5 rounded text-secondary">ACTIVE_SYNC</span>
+</div>
+<h5 class="font-orbitron text-xs text-secondary/80 mb-1 uppercase">Bio-Fuel HUD</h5>
+<div class="font-orbitron text-2xl mb-1">1,840 <span class="text-[10px]">kcal</span></div>
+<div class="font-mono text-[10px] text-outline">Energy Sync: Balanced</div>
+</div>
+<!-- Somatic Treatment Feed -->
+<div class="glass-panel p-4 border-l-2 border-violet/40 bg-violet/5">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-violet">medical_services</span>
+<span class="font-mono text-[9px] bg-violet/20 px-1.5 py-0.5 rounded text-violet">OPTIMIZED</span>
+</div>
+<h5 class="font-orbitron text-xs text-violet/80 mb-1 uppercase">Somatic Sync</h5>
+<div class="font-orbitron text-2xl mb-1">94%</div>
+<div class="font-mono text-[10px] text-outline">Treatment: Nominal</div>
+</div>
+</section>
+<!-- Houses Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-panel-gap">
+<!-- House Template Loop Integration -->
+<script>
+            const houses = [
+                { name: 'Health', plane: 'Vital Plane', color: 'text-primary', val: 94, icon: 'fitness_center', telemetry: 'REM: 94% / Sync: 94%', bridge: true },
+                { name: 'Intellect', plane: 'Mental Plane', color: 'text-secondary', val: 90, icon: 'psychology' },
+                { name: 'Emotions', plane: 'Relational Plane', color: 'text-tertiary', val: 45, icon: 'favorite', telemetry: 'Stress: Low / HRV: 72ms' },
+                { name: 'Character', plane: 'Spiritual Plane', color: 'text-violet', val: 60, icon: 'verified_user' },
+                { name: 'Social', plane: 'Relational Plane', color: 'text-secondary', val: 82, icon: 'group' },
+                { name: 'Financial', plane: 'Material Plane', color: 'text-tertiary', val: 30, icon: 'payments' },
+                { name: 'Quality of Life', plane: 'Material Plane', color: 'text-primary', val: 68, icon: 'home_repair_service' },
+                { name: 'Life Vision', plane: 'Spiritual Plane', color: 'text-secondary', val: 95, icon: 'visibility' },
+                { name: 'Career', plane: 'Material Plane', color: 'text-tertiary', val: 55, icon: 'business_center' },
+                { name: 'Parenting', plane: 'Relational Plane', color: 'text-primary', val: 20, icon: 'family_restroom' },
+                { name: 'Romance', plane: 'Relational Plane', color: 'text-secondary', val: 40, icon: 'favorite_border' },
+                { name: 'Adventure', plane: 'Vital Plane', color: 'text-tertiary', val: 15, icon: 'explore' },
+                { name: 'Legacy', plane: 'Spiritual Plane', color: 'text-violet', val: 10, icon: 'auto_awesome' }
+            ];
+
+            document.write(houses.map((house, idx) => `
+                <div class="glass-panel p-6 relative overflow-hidden group">
+                    <div class="scanline opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    
+                    ${house.bridge ? `
+                        <div class="absolute top-0 right-10 flex flex-col items-center">
+                            <div class="h-6 w-px bg-gradient-to-b from-primary to-dharma animate-pulse"></div>
+                            <div class="font-mono text-[7px] text-dharma tracking-widest -mt-1">DHARMA_FUEL_SYNC</div>
+                        </div>
+                    ` : ''}
+
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 flex items-center justify-center border border-white/10 ${house.color} bg-surface">
+                                <span class="material-symbols-outlined text-2xl">${house.icon}</span>
+                            </div>
+                            <div>
+                                <div class="font-mono text-[8px] opacity-40 uppercase tracking-[0.2em]">SYS_LOG // ${idx < 9 ? '0' : ''}${idx + 1}</div>
+                                <h3 class="font-audiowide text-lg text-on-surface uppercase tracking-tighter">${house.name}</h3>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-mono text-[9px] text-outline">${house.plane}</div>
+                            <div class="font-orbitron text-xl ${house.color}">${house.val}%</div>
+                        </div>
+                    </div>
+
+                    ${house.telemetry ? `
+                        <div class="mb-4 flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+                            <span class="font-mono text-[9px] text-secondary tracking-widest uppercase">${house.telemetry}</span>
+                        </div>
+                    ` : ''}
+
+                    <div class="relative h-4 w-full flex segmented-progress mb-6 ${house.color}">
+                        ${Array(10).fill(0).map((_, i) => `<div class="${i < (house.val/10) ? 'active' : ''}"></div>`).join('')}
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div class="flex gap-2">
+                            <button class="w-10 h-10 border border-white/5 hover:border-primary/50 transition-all flex items-center justify-center font-orbitron text-xs text-on-surface">-</button>
+                            <button class="w-10 h-10 border border-white/5 hover:border-primary/50 transition-all flex items-center justify-center font-orbitron text-xs text-on-surface">+</button>
+                        </div>
+                        <button class="px-6 py-2 bg-primary text-background font-orbitron text-[10px] clip-corner hover:brightness-125 transition-all">
+                            COMMIT_SYNC
+                        </button>
+                    </div>
+                </div>
+            `).join(''));
+        </script>
+</div>
+</main>
+<!-- Bottom Nav (Mobile) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 pb-safe px-4 bg-background/80 backdrop-blur-lg border-t border-primary/20">
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">space_dashboard</span>
+<span class="font-mono text-[9px]">Dash</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff]">
+<span class="material-symbols-outlined">temple_hindu</span>
+<span class="font-mono text-[9px]">Houses</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">assignment_late</span>
+<span class="font-mono text-[9px]">Missions</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">autorenew</span>
+<span class="font-mono text-[9px]">Cycle</span>
+</div>
+</nav>
+<!-- Footer -->
+<footer class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop mt-20 flex flex-col items-center gap-2 opacity-40 hover:opacity-100 transition-opacity duration-500 pb-32">
+<div class="font-mono text-[10px] text-outline tracking-[0.4em]">MAGNOPVS OS v4.2.0 // DHARMA_ENGINE_v6.8_LOADED</div>
+<div class="flex gap-6">
+<a class="font-mono text-[9px] text-outline-variant hover:text-primary transition-colors" href="#">System Reset</a>
+<a class="font-mono text-[9px] text-outline-variant hover:text-primary transition-colors" href="#">Log Export</a>
+<a class="font-mono text-[9px] text-outline-variant hover:text-primary transition-colors" href="#">Protocol-9</a>
+</div>
+</footer>
+<script>
+    // Parallax glass effect for HUD panels
+    document.querySelectorAll('.glass-panel').forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const midX = rect.width / 2;
+            const midY = rect.height / 2;
+            const angleX = (y - midY) / 20;
+            const angleY = (midX - x) / 20;
+            card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg)`;
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+        });
+    });
+</script>
+</body></html>

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TEATRO DEL DESTINO - Main Library</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;600;700&amp;family=Space+Mono&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide:wght@100..900&amp;family=Orbitron:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #131313;
+            color: #e2e2e2;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+            scrollbar-color: #353535 #131313;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131313;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #353535;
+            border-radius: 3px;
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .glass-card:hover {
+            background: rgba(15, 23, 42, 0.6);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 220, 229, 0.1);
+        }
+        .cyan-spark-border {
+            border: 1px solid #00dce5;
+        }
+        .cinematic-gradient {
+            background: linear-gradient(0deg, #131313 0%, rgba(19, 19, 19, 0.8) 40%, transparent 100%);
+        }
+        .hero-vignette {
+            background: radial-gradient(circle at center, transparent 0%, rgba(19, 19, 19, 0.6) 100%);
+        }
+        .glow-cyan {
+            box-shadow: 0 0 20px rgba(0, 220, 229, 0.3);
+        }
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        .animate-pulse-slow {
+            animation: pulse-slow 4s infinite ease-in-out;
+        }
+        .glitch-hover:hover {
+            text-shadow: 2px 0 #00dce5, -2px 0 #ff00c1;
+            animation: glitch 0.3s infinite linear alternate-reverse;
+        }
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#690005",
+                        "outline": "#988e90",
+                        "tertiary-container": "#000000",
+                        "on-primary-fixed-variant": "#474747",
+                        "tertiary": "#00dce5",
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface-dim": "#131313",
+                        "surface-tint": "#c6c6c6",
+                        "on-primary-fixed": "#1b1b1b",
+                        "on-primary": "#303030",
+                        "primary-fixed": "#e2e2e2",
+                        "surface": "#131313",
+                        "primary": "#c6c6c6",
+                        "on-secondary-container": "#adb4ce",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "on-tertiary": "#003739",
+                        "secondary": "#bec6e0",
+                        "on-tertiary-container": "#008288",
+                        "on-background": "#e2e2e2",
+                        "on-tertiary-fixed": "#002021",
+                        "outline-variant": "#4c4546",
+                        "tertiary-fixed": "#63f7ff",
+                        "on-secondary": "#283044",
+                        "on-primary-container": "#757575",
+                        "background": "#131313",
+                        "surface-variant": "#353535",
+                        "on-tertiary-fixed-variant": "#004f53",
+                        "secondary-container": "#3f465c",
+                        "primary-fixed-dim": "#c6c6c6",
+                        "inverse-on-surface": "#303030",
+                        "error": "#ffb4ab",
+                        "inverse-primary": "#5e5e5e",
+                        "tertiary-fixed-dim": "#00dce5",
+                        "surface-container": "#1f1f1f",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed": "#131b2e",
+                        "surface-container-highest": "#353535",
+                        "on-surface-variant": "#cfc4c5",
+                        "inverse-surface": "#e2e2e2",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-bright": "#393939",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "on-surface": "#e2e2e2",
+                        "primary-container": "#000000",
+                        "error-container": "#93000a",
+                        "surface-container-low": "#1b1b1b",
+                        "secondary-fixed": "#dae2fd"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Audiowide"],
+                        "data-mono": ["Space Mono"],
+                        "title-md": ["Orbitron"],
+                        "display-xl-mobile": ["Audiowide"],
+                        "body-lg": ["Orbitron"],
+                        "label-caps": ["Orbitron"],
+                        "headline-lg-mobile": ["Audiowide"],
+                        "body-sm": ["Orbitron"],
+                        "display-xl": ["Audiowide"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                        "data-mono": ["12px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                        "title-md": ["20px", {"lineHeight": "1.5", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                        "display-xl-mobile": ["40px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "1.6", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.2em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display-xl": ["72px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "400"}]
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "container-max": "1440px",
+                        "margin-mobile": "20px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-body-lg text-on-background selection:bg-tertiary/30">
+<!-- Global Shell -->
+<header class="bg-transparent backdrop-blur-xl text-primary font-title-md text-title-md docked full-width top-0 border-b border-outline-variant/30 flat no shadows flex justify-between items-center px-64 py-4 w-full sticky top-0 z-50">
+<div class="font-headline-lg text-headline-lg tracking-widest text-on-background uppercase">TEATRO DEL DESTINO</div>
+<nav class="hidden md:flex gap-10 items-center">
+<a class="text-tertiary font-bold hover:text-tertiary transition-colors duration-300" href="#">Chronicles</a>
+<a class="text-on-surface-variant hover:text-tertiary transition-colors duration-300" href="#">Scriptorium</a>
+<a class="text-on-surface-variant hover:text-tertiary transition-colors duration-300" href="#">The Council</a>
+<a class="text-on-surface-variant hover:text-tertiary transition-colors duration-300" href="#">Evolution</a>
+<div class="flex items-center gap-4 ml-8 border-l border-outline-variant/30 pl-8">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-tertiary transition-colors">account_balance_wallet</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-tertiary transition-colors">stars</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-tertiary transition-colors">settings</span>
+<div class="w-8 h-8 rounded-full border border-tertiary/40 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A high-contrast cinematic portrait of a mysterious traveler archetype, featuring sharp dramatic lighting from one side with deep shadows on the other. The face is partially obscured by a dark high-tech hood, with subtle cyan circuit patterns glowing faintly on the collar. The aesthetic is a blend of dark sci-fi minimalism and cosmic mystery, using a palette of absolute blacks and deep charcoals with sharp pearl accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQ2N04cd7ypILS_cRIqWrv1qo0tJqLszctSlBhUtINtKiKU2dyPMI5tdcXsvHcNnWRsaO-Szq86zcCBMXcbWPiIiyCqWsP2GB_Dl80UADSQBP4IHmj5sgThMHKLboYrCbp2V69JQqSQXQGhezwaRwKsANKTFNE3qfxZPj7IDj8SGbAc2maknv9CCeqWJrq0TrykRLzsa4OYFB5RZsMLOp-AaN-VrPDKiL0UYvxaYivHQb6rww4RyrdoikiE7F3OcIxJJJdonz2Eqrd"/>
+</div>
+</div>
+</nav>
+</header>
+<!-- Side Nav (Integrated Desktop Only) -->
+<aside class="hidden xl:flex bg-surface-dim/40 backdrop-blur-2xl text-tertiary font-label-caps text-label-caps h-screen w-64 fixed left-0 top-0 border-r border-tertiary/10 shadow-[20px_0_50px_rgba(0,220,229,0.05)] flex-col py-8 px-4 z-40">
+<div class="pt-20 pb-10 px-4">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 rounded-sm bg-tertiary/10 border border-tertiary/30 flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div>
+<p class="text-on-surface font-headline-lg text-[16px] leading-tight">OPUS 01</p>
+<p class="text-outline text-[10px]">The Seeker</p>
+</div>
+</div>
+</div>
+<div class="space-y-2 flex-grow">
+<a class="flex items-center gap-3 px-4 py-3 text-tertiary border-l-2 border-tertiary bg-tertiary/5 hover:bg-surface-variant/20 transition-all duration-500" href="#">
+<span class="material-symbols-outlined">theaters</span> Chronicles
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-outline hover:text-on-surface hover:bg-surface-variant/20 transition-all duration-500 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">edit_note</span> Scriptorium
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-outline hover:text-on-surface hover:bg-surface-variant/20 transition-all duration-500 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">groups_3</span> The Council
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-outline hover:text-on-surface hover:bg-surface-variant/20 transition-all duration-500 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">query_stats</span> Evolution
+            </a>
+</div>
+<div class="mt-auto px-4 space-y-4">
+<button class="w-full py-4 cyan-spark-border font-label-caps text-tertiary hover:bg-tertiary/10 transition-all duration-300 tracking-widest text-[10px]">INITIATE SESSION</button>
+<div class="pt-4 border-t border-outline-variant/20">
+<a class="flex items-center gap-3 text-outline text-[10px] hover:text-tertiary" href="#">
+<span class="material-symbols-outlined text-sm">terminal</span> System Logs
+                </a>
+</div>
+</div>
+</aside>
+<main class="xl:ml-64 pb-24">
+<!-- Hero Section: Continuar Interpretando -->
+<section class="relative h-[870px] w-full flex items-end overflow-hidden">
+
+<div class="absolute inset-0 bg-cover bg-center hero-vignette" data-alt="A cinematic wide-angle hero shot of a sprawling futuristic cityscape under a cosmic nebula. The sky is filled with swirling deep blues and magentas, while the city below features monolithic obsidian structures with glowing cyan highlights. The atmosphere is dense with volumetric fog and ethereal light shafts, creating a sense of immense scale and quiet mystery. Deep blacks and vibrant neon accents dominate the color palette." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBvxynwQ-wRyQnetogm3uexYqV0l-S42W2FbUjMJK-jysKypo5QpDZHVEZprUO4FonYprGiUcx5txNdZPXzBRQITnbPVzmpOQYF7dbtCjmG17dTlo0RNcbfTR-EaCJ3UjMCQ2TVWySiMGe2oIGJBmrwT3Zru-gemqevwY-3207i5G0peQXbDYXHnDeSUOKGqamKMkh2_94Vg1T4Cy3b9S4qPi_Bgeox_LuJGy5d4AGD1oqfw8eBU9_WVPl647CwAYRrRZYxjcaCF64B')"></div>
+<div class="absolute inset-0 cinematic-gradient"></div>
+<div class="relative z-10 px-margin-desktop pb-20 w-full max-w-5xl">
+<div class="flex items-center gap-4 mb-6">
+<span class="px-3 py-1 bg-tertiary/20 text-tertiary border border-tertiary/50 font-data-mono text-[10px] tracking-widest uppercase">Currently Active</span>
+<span class="text-outline font-data-mono text-[10px]">SYNC: 98.4%</span>
+</div>
+<h1 class="font-display-xl text-display-xl mb-4 leading-none glitch-hover">EPISODIO VIII: EL SILENCIO DE LAS ESTRELLAS</h1>
+<p class="font-body-lg text-on-surface-variant max-w-2xl mb-10 leading-relaxed opacity-80">
+                    Tu narrativa actual se encuentra en el umbral del Vacío. Las decisiones tomadas en el Sector Prime han resonado a través de las líneas temporales. El destino aguarda tu próxima interpretación.
+                </p>
+<div class="flex items-center gap-6">
+<button class="flex items-center gap-3 bg-tertiary text-on-tertiary px-10 py-4 font-label-caps hover:brightness-110 transition-all group active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                        CONTINUAR INTERPRETANDO
+                    </button>
+<button class="flex items-center gap-3 bg-transparent border border-outline-variant px-10 py-4 font-label-caps hover:bg-white/5 transition-all text-on-surface active:scale-95">
+<span class="material-symbols-outlined">info</span>
+                        DETALLES DE LA SAGA
+                    </button>
+</div>
+</div>
+</section>
+<!-- Horizontal Sections -->
+<div class="px-margin-desktop space-y-24 -mt-10 relative z-20">
+<!-- Temporadas del Alma -->
+<section>
+<div class="flex items-center justify-between mb-8">
+<h2 class="font-headline-lg text-headline-lg flex items-center gap-4">
+                        TEMPORADAS DEL ALMA 
+                        <span class="w-12 h-[1px] bg-tertiary/30"></span>
+</h2>
+<div class="flex gap-4">
+<button class="w-10 h-10 rounded-full border border-outline-variant/30 flex items-center justify-center hover:bg-tertiary/10 hover:border-tertiary/50 transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-full border border-outline-variant/30 flex items-center justify-center hover:bg-tertiary/10 hover:border-tertiary/50 transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Episode Card 1: Mastery (Gold Accent) -->
+<div class="glass-card group cursor-pointer aspect-video relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="A high-fidelity fantasy landscape featuring a floating cathedral of light above a sea of clouds. Golden divine albedo lighting permeates the scene, with floating sacred geometry symbols in the sky. The art style is painterly yet detailed, evoking a sense of divine discovery and monumental achievement." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCP0_2Ok5d1tpsjZS7fowtDohtS7pgK4MdvTSyD3U9PlKDpx6m508dItBa7XYmNCsSABgt7QRlFGMYruEK1e4atd4qVZ1YQYm49LUQQzsKp3C8oCofWP2u9SVjlBBQM1OVtMYp4zSZwEvU32RyrdaXlVjwdWprnfsc-IjNuJLOJNb3iFpVnIDJk1fnoABbZVMrVgX2gjJp9BXlGy0QdvU2PYCgNjTjVBg42-kKv5_xQPOcxLgusf51Th3l2L29qUKS-1xXtMUtbjgMo')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+<div class="absolute top-4 left-4">
+<span class="px-2 py-1 bg-[#FFD700]/20 text-[#FFD700] border border-[#FFD700]/50 font-data-mono text-[9px] uppercase">Mastery Unlocked</span>
+</div>
+<div class="absolute bottom-4 left-4 right-4">
+<p class="font-data-mono text-[10px] text-tertiary mb-1">E04 • ARCANE</p>
+<h3 class="font-label-caps text-sm text-on-surface">EL ASCENSO DIVINO</h3>
+</div>
+<div class="absolute inset-0 border-l-4 border-[#FFD700] opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<!-- Episode Card 2: Space -->
+<div class="glass-card group cursor-pointer aspect-video relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="A cinematic space view of a massive derelict spaceship orbiting a dying neutron star. The scene is lit by harsh white light from the star, contrasting with deep velvety shadows. Subtle cyan gas clouds swirl in the background. The mood is isolation and cosmic mystery." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCHbHiCNFBEakeHE1mGKqyEzp3adcvini7nliVroO4uptKSGFu40lB1qWO_dyYr3EzwvpzCTXdSJCMgy1LSZ7Ge-oopSs2C-gM3Qe6KYP_wSEkQ4PPKBrXYvLjoT0G_72Z9t_3KTTjJzqEE9pmAtkL5b_wfoY-OHUpbyxclQOat7JIbwaHmTIyyXpHQVGau32ni4o6mi4NjVbdkCg6Rjox0ow0_6f334eAAwUNbo0pkhGmrFqUJnYMOoT7PD_l3ehGRx3WIYHXA_xVl')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4">
+<p class="font-data-mono text-[10px] text-outline mb-1">E05 • COSMOS</p>
+<h3 class="font-label-caps text-sm text-on-surface">RECUERDOS DEL VACÍO</h3>
+</div>
+</div>
+<!-- Episode Card 3: Cyberpunk -->
+<div class="glass-card group cursor-pointer aspect-video relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="A rain-slicked cyberpunk alleyway at night, illuminated by flickering holographic billboards in cyan and magenta. Puddles reflect the neon lights. Volumetric steam rises from floor vents. A lone figure in a technical trench coat walks away into the fog. High-fidelity cinematic detail." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCnJcv2fOgUyMelIhgTRCYw9ZVjWYt78EhgbIPidphHiB0L8rKWAE_bWPUfXLblIwoeo8Hhp2kUUey2_CzRcVb5k1sDF8AgJO_RtfWsqs9e9Lh7VAK89JRaBTXq0_jUw45DMb0dOQLzQMvNau4qjd8m7lNijTN_MxmuBsjbYLUqacg6rEl8dlKNq5CZemjiakJ2IprHkEfQe7QFoacyuoa4XBtJy9fELRnwW6Kh_ya38QvLcTWScCt6legWEHnqfylZ0O_vZ6P3EGoI')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4">
+<p class="font-data-mono text-[10px] text-outline mb-1">E06 • TECHNO</p>
+<h3 class="font-label-caps text-sm text-on-surface">ECOS DEL SINTÉTICO</h3>
+</div>
+</div>
+<!-- Episode Card 4 -->
+<div class="glass-card group cursor-pointer aspect-video relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="An ethereal forest at twilight where the trees are made of crystalline structures. Soft violet and pearl light emanates from the flora. The atmosphere is magical and serene, like an artifact from another dimension. Minimalist composition with a focus on negative space." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAkTzh8tJclRHC_tOzRkj3nD6wa5j7ojtpxExegO1OVxSa0PAMs7v-wsVk8YooZtQg33DtB4tWMnU1VumEcksByTCbmcv4IJPZevScZn0cr38KFCDf1vDpNaBGgokjntH641pdiGrKAtU-Nqq5TIpuA0ahLPIqQYrRTbrMoiTqUJCBVdCz3tu_BEbuWjGY1pxU-wj6ThTcKL-824L45k7kntrEcJULjJVol0dE1qhwUrwlgc5tdAU9mKfbo9G1CnBgbqnNV3CjMwDrk')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4">
+<p class="font-data-mono text-[10px] text-outline mb-1">E07 • ETHEREAL</p>
+<h3 class="font-label-caps text-sm text-on-surface">EL BOSQUE DE CRISTAL</h3>
+</div>
+</div>
+</div>
+</section>
+<!-- Líneas Temporales Alternas -->
+<section class="py-12 border-y border-outline-variant/10">
+<div class="flex items-center gap-6 mb-10">
+<h2 class="font-headline-lg text-headline-lg uppercase tracking-tighter">Líneas Temporales Alternas</h2>
+<span class="material-symbols-outlined text-tertiary animate-pulse-slow">history_toggle_off</span>
+<div class="flex-grow h-[1px] bg-gradient-to-r from-tertiary/20 to-transparent"></div>
+</div>
+<div class="flex flex-col lg:flex-row gap-12 items-center">
+<div class="w-full lg:w-1/3 space-y-6">
+<p class="font-body-sm text-outline leading-relaxed">
+                            Aquí residen los fragmentos de lo que pudo ser. Decisiones no tomadas, caminos evitados y ecos de una realidad paralela. Explora estas ramificaciones para desbloquear la comprensión total de tu Arquetipo.
+                        </p>
+<div class="space-y-4">
+<div class="p-4 bg-surface-variant/20 border-l-2 border-tertiary flex items-start gap-4">
+<span class="material-symbols-outlined text-tertiary">call_split</span>
+<div>
+<h4 class="text-xs font-bold text-on-surface">NODO DE DIVERGENCIA: ALPHA</h4>
+<p class="text-[10px] text-outline">3 Ramas sin explorar en Episodio III</p>
+</div>
+</div>
+<div class="p-4 bg-surface-variant/10 border-l-2 border-outline-variant flex items-start gap-4">
+<span class="material-symbols-outlined text-outline">lock_open</span>
+<div>
+<h4 class="text-xs font-bold text-outline">NODO DE DIVERGENCIA: OMEGA</h4>
+<p class="text-[10px] text-outline-variant">Requiere nivel de Evolución 12</p>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-6">
+<!-- Alternate Reality 1 -->
+<div class="group relative overflow-hidden rounded-sm border border-outline-variant/20 bg-surface-container h-64">
+<div class="absolute inset-0 bg-cover bg-center grayscale group-hover:grayscale-0 transition-all duration-1000" data-alt="A surreal desert scene where the sand is made of finely crushed obsidian and the sky features three moons of different colors. Massive geometric prisms are buried partially in the dunes. The lighting is cold and atmospheric, with sharp pearl highlights on the edges of the prisms." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA1zciv4mkga_yD0A3pGrlpQb48AW-9niWO4Fe6JQftDlGv2KQwaZxNI0Xlh5Bq_0dSZ0x9ggzaDxfusJTXj1U8EZwjAveKP1EJH5D90p2N4Ea8NqqRWfHpQ3pojWmg5QxecEZg3mZIj2-pZiA_Wc40ob2C-cU0iiSAUV0-oHPiMYOowdIZxEKIjbrTwdjqsyHbw42JMB_lIug58gID5yzAierl-XJFitESjmXaQ14_vpyZu2VT2e-x1jXzhlG2SME2u9hR6PcfHns4')"></div>
+<div class="absolute inset-0 bg-black/60 group-hover:bg-black/20 transition-all"></div>
+<div class="absolute inset-0 flex flex-col justify-end p-6">
+<span class="text-[9px] font-data-mono text-tertiary mb-1 uppercase">Divergencia #012</span>
+<h3 class="font-label-caps text-on-surface mb-2">EL CAMINO DE CENIZA</h3>
+<button class="w-fit text-[10px] font-bold border-b border-tertiary text-tertiary opacity-0 group-hover:opacity-100 transition-opacity pb-1 uppercase tracking-widest">Reclamar Memoria</button>
+</div>
+</div>
+<!-- Alternate Reality 2 -->
+<div class="group relative overflow-hidden rounded-sm border border-outline-variant/20 bg-surface-container h-64">
+<div class="absolute inset-0 bg-cover bg-center grayscale group-hover:grayscale-0 transition-all duration-1000" data-alt="An underwater city encased in a massive glass dome on the ocean floor. The surrounding water is dark and deep, illuminated only by the internal bioluminescence of the city's structures and alien sea life. The aesthetic is elegant, futuristic, and claustrophobic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAmvKALFDac3jcJN5dyYqXZP4xyGb6vIPjEI_aLP4V1RZI6AYwTU8Aeg2TlY8vILCH7YULwPRP6ecKlQ-HK2w_26YM8NpBa8FM5g2pZdB7vGNeLRwvMIWEngf8b9oM1mYSIpeRykuhpWcoRzeyWmzgGJ_aphe4FSnMaNuOZzWASkdE05UNlQjQRvcrf8b-g12qQa3Ck1YAVOJ5NEF0J1fELwxcUhqZgLqaoJtg1MfHniy98rMat_bZyH10Aeq_Hu6Sp8zqIPosazh6c')"></div>
+<div class="absolute inset-0 bg-black/60 group-hover:bg-black/20 transition-all"></div>
+<div class="absolute inset-0 flex flex-col justify-end p-6">
+<span class="text-[9px] font-data-mono text-tertiary mb-1 uppercase">Divergencia #047</span>
+<h3 class="font-label-caps text-on-surface mb-2">ABISMO DE CRISTAL</h3>
+<button class="w-fit text-[10px] font-bold border-b border-tertiary text-tertiary opacity-0 group-hover:opacity-100 transition-opacity pb-1 uppercase tracking-widest">Reclamar Memoria</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Sacred Divider -->
+<div class="flex items-center justify-center gap-4 py-12">
+<div class="h-[1px] w-32 bg-gradient-to-r from-transparent to-[#FFD700]"></div>
+<div class="w-3 h-3 border border-[#FFD700] rotate-45"></div>
+<div class="h-[1px] w-32 bg-gradient-to-l from-transparent to-[#FFD700]"></div>
+</div>
+<!-- Footer Section Placeholder within Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 pt-12 text-outline-variant font-data-mono text-[10px]">
+<div>
+<h5 class="text-tertiary font-label-caps mb-4 uppercase tracking-widest">Archive of Destiny</h5>
+<p class="leading-relaxed">Tu narrativa es única. Cada frame, cada decisión, cada silencio es registrado en el Registro Eterno.</p>
+</div>
+<div>
+<h5 class="text-on-surface font-label-caps mb-4 uppercase tracking-widest">Global Status</h5>
+<ul class="space-y-2">
+<li>Void Status: Nominal</li>
+<li>Active Synchro: 98.4%</li>
+<li>Temporal Drift: 0.002s</li>
+</ul>
+</div>
+<div>
+<h5 class="text-on-surface font-label-caps mb-4 uppercase tracking-widest">Navigation Logs</h5>
+<ul class="space-y-2">
+<li class="hover:text-tertiary cursor-pointer transition-colors">Decrypting Profile...</li>
+<li class="hover:text-tertiary cursor-pointer transition-colors">Accessing Scriptorium</li>
+<li class="hover:text-tertiary cursor-pointer transition-colors">Void Protocols</li>
+</ul>
+</div>
+</div>
+</div>
+</main>
+<!-- Global Footer -->
+<footer class="bg-surface-container-lowest/80 backdrop-blur-md text-tertiary font-data-mono text-data-mono docked full-width bottom-0 border-t border-outline-variant/20 flat no shadows flex justify-between items-center px-margin-desktop py-2 w-full fixed bottom-0 z-40 animate-pulse-slow">
+<div class="font-label-caps text-label-caps text-tertiary">© 2124 ARCHIVE OF DESTINY. ALL REALITIES RESERVED.</div>
+<div class="hidden md:flex gap-8">
+<span class="hover:text-tertiary transition-opacity cursor-default">Void Status: Nominal</span>
+<span class="hover:text-tertiary transition-opacity cursor-default">Active Synchro: 98.4%</span>
+<span class="hover:text-tertiary transition-opacity cursor-default">Decrypting...</span>
+</div>
+</footer>
+<!-- FAB (Contextual for Home/Library) -->
+<button class="fixed bottom-16 right-8 w-16 h-16 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all z-50 glow-cyan">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">add</span>
+</button>
+<script>
+        // Micro-interactions for glass cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                // Potential for dynamic sound effects or logic
+            });
+        });
+
+        // Sticky header opacity logic
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.replace('bg-transparent', 'bg-surface-dim/80');
+            } else {
+                header.classList.replace('bg-surface-dim/80', 'bg-transparent');
+            }
+        });
+    </script>
+</body></html>

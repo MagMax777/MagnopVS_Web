@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOPVS_LEGION | SHADOW EXTRACTION</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#7fd0ff",
+                        "tertiary-fixed": "#ffd8e7",
+                        "secondary-fixed-dim": "#48ddc1",
+                        "primary-fixed-dim": "#7fd0ff",
+                        "outline": "#88929a",
+                        "inverse-primary": "#00658c",
+                        "surface-container-highest": "#303539",
+                        "surface": "#0f1417",
+                        "secondary": "#48ddc1",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed": "#00201a",
+                        "surface-variant": "#303539",
+                        "on-surface-variant": "#bec8d0",
+                        "on-primary-fixed-variant": "#004c6a",
+                        "on-background": "#dfe3e8",
+                        "surface-bright": "#353a3e",
+                        "error": "#ffb4ab",
+                        "surface-dim": "#0f1417",
+                        "on-tertiary-container": "#6a0046",
+                        "surface-container-high": "#262b2e",
+                        "surface-container": "#1b2024",
+                        "on-tertiary-fixed-variant": "#8b005d",
+                        "on-primary": "#00344a",
+                        "tertiary": "#ffafd4",
+                        "inverse-surface": "#dfe3e8",
+                        "surface-container-lowest": "#0a0f12",
+                        "primary-fixed": "#c5e7ff",
+                        "on-tertiary": "#620041",
+                        "on-secondary-fixed-variant": "#005144",
+                        "primary-container": "#2da8e0",
+                        "error-container": "#93000a",
+                        "tertiary-container": "#ff64ba",
+                        "surface-container-low": "#171c20",
+                        "on-error": "#690005",
+                        "on-primary-container": "#003951",
+                        "secondary-container": "#00bba0",
+                        "outline-variant": "#3e484f",
+                        "secondary-fixed": "#6af9dc",
+                        "on-secondary": "#00382e",
+                        "tertiary-fixed-dim": "#ffafd4",
+                        "primary": "#7fd0ff",
+                        "on-secondary-container": "#004439",
+                        "on-primary-fixed": "#001e2d",
+                        "background": "#0f1417",
+                        "on-tertiary-fixed": "#3d0026",
+                        "on-surface": "#dfe3e8",
+                        "inverse-on-surface": "#2c3135",
+                        "glow-cyan": "#2da8e0"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Space Mono"],
+                        "data-viz": ["Space Mono"],
+                        "body-sm": ["Space Mono"],
+                        "display-lg": ["Space Grotesk"],
+                        "label-caps": ["Space Mono"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "data-viz": ["18px", {"lineHeight": "1.0", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.15em", "fontWeight": "700"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "700"}]
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "margin-desktop": "64px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        @font-face { font-family: 'spaceGrotesk'; src: url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap'); }
+        @font-face { font-family: 'spaceMono'; src: url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap'); }
+        
+        body {
+            background-color: #0a0b10;
+            color: #dfe3e8;
+            overflow-x: hidden;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .hex-grid {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5z' fill='none' stroke='%232da8e0' stroke-opacity='0.05'/%3E%3C/svg%3E");
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+        }
+
+        .glass-panel {
+            background: rgba(27, 32, 36, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(127, 208, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .neon-border-cyan { border: 1px solid #2da8e0; box-shadow: 0 0 10px rgba(45, 168, 224, 0.3); }
+        .neon-border-magenta { border: 1px solid #ff64ba; box-shadow: 0 0 10px rgba(255, 100, 186, 0.3); }
+        
+        .portal-pulse {
+            animation: pulse 4s infinite ease-in-out;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.05); filter: brightness(1.3); }
+        }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(45, 168, 224, 0.1);
+            position: absolute;
+            animation: scan 8s linear infinite;
+        }
+        @keyframes scan {
+            from { top: 0; }
+            to { top: 100%; }
+        }
+
+        .arise-glow {
+            text-shadow: 0 0 15px #2da8e0, 0 0 30px #2da8e0;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background">
+<div class="hex-grid"></div>
+<div class="scanline"></div>
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop py-unit border-b border-outline-variant/20 bg-surface-container/30 backdrop-blur-3xl shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="font-display-lg text-display-lg font-bold text-primary uppercase tracking-widest">
+            MAGNOPVS_LEGION
+        </div>
+<nav class="hidden md:flex items-center space-x-8">
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary transition-colors duration-300" href="#">TACTICAL_HUD</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary transition-colors duration-300" href="#">BATTLE_LOG</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary transition-colors duration-300" href="#">ALCHEMICAL_LAB</a>
+</nav>
+<div class="flex items-center space-x-6 text-primary">
+<span class="material-symbols-outlined cursor-pointer hover:scale-110 transition-transform">security</span>
+<span class="material-symbols-outlined cursor-pointer hover:scale-110 transition-transform">emergency_home</span>
+<span class="material-symbols-outlined cursor-pointer hover:scale-110 transition-transform">settings</span>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full z-40 flex flex-col pt-24 pb-8 border-r border-outline-variant/20 backdrop-blur-2xl w-64 bg-surface-container/30">
+<div class="px-6 mb-12">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container">psychology</span>
+</div>
+<div>
+<div class="font-label-caps text-label-caps text-primary">SOF.IA_v2.1</div>
+<div class="font-label-caps text-[8px] opacity-60">TACTICAL_ADVISOR</div>
+</div>
+</div>
+</div>
+<nav class="flex-1">
+<div class="space-y-1">
+<a class="flex items-center px-6 py-4 space-x-4 text-on-surface-variant hover:bg-surface-variant/10 transition-all border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps text-label-caps">COCKPIT</span>
+</a>
+<a class="flex items-center px-6 py-4 space-x-4 border-l-2 border-primary text-primary bg-primary/5 transition-all" href="#">
+<span class="material-symbols-outlined">swords</span>
+<span class="font-label-caps text-label-caps">MISSIONS</span>
+</a>
+<a class="flex items-center px-6 py-4 space-x-4 text-on-surface-variant hover:bg-surface-variant/10 transition-all border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined">backpack</span>
+<span class="font-label-caps text-label-caps">INVENTORY</span>
+</a>
+<a class="flex items-center px-6 py-4 space-x-4 text-on-surface-variant hover:bg-surface-variant/10 transition-all border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined">experiment</span>
+<span class="font-label-caps text-label-caps">ALCHEMY</span>
+</a>
+<a class="flex items-center px-6 py-4 space-x-4 text-on-surface-variant hover:bg-surface-variant/10 transition-all border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined">terminal</span>
+<span class="font-label-caps text-label-caps">SYSTEM</span>
+</a>
+</div>
+</nav>
+<div class="px-6">
+<button class="w-full py-3 bg-primary text-on-primary font-label-caps text-label-caps rounded-sm hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-primary/20">
+                INITIATE_COMBAT
+            </button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-64 pt-24 px-margin-desktop pb-24">
+<!-- Header Section -->
+<div class="flex justify-between items-end mb-12">
+<div>
+<h1 class="font-display-lg text-display-lg text-primary tracking-tighter mb-2">PROTOCOLO DE SOMBRA</h1>
+<p class="font-body-sm text-on-surface-variant opacity-60">CONVIERTE MISIONES DE DISCIPLINA EN EMANACIONES DE HÁBITOS</p>
+</div>
+<div class="text-right glass-panel px-6 py-4 rounded-xl border-secondary/30">
+<div class="font-label-caps text-label-caps text-secondary mb-1">SHADOW ARMY STRENGTH</div>
+<div class="font-data-viz text-data-viz text-secondary flex items-center justify-end space-x-2">
+<span class="material-symbols-outlined">groups</span>
+<span>14,208 CP</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Left: Extracted Shadows List -->
+<div class="col-span-12 lg:col-span-4 space-y-gutter">
+<div class="glass-panel p-6 rounded-2xl relative overflow-hidden">
+<div class="absolute top-2 right-4 font-mono text-[8px] opacity-30">#SN-992-BX</div>
+<h3 class="font-label-caps text-label-caps text-primary mb-6 flex items-center">
+<span class="material-symbols-outlined mr-2">military_tech</span>
+                        EXTRACTED_SHADOWS
+                    </h3>
+<div class="space-y-4">
+<!-- Shadow Item 1 -->
+<div class="flex items-center p-3 rounded-lg bg-surface-container-high/40 border border-outline-variant/10 hover:border-primary/40 transition-all group cursor-pointer">
+<div class="w-12 h-12 rounded bg-primary/10 flex items-center justify-center mr-4 border border-primary/20 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-primary">person_check</span>
+</div>
+<div class="flex-1">
+<div class="font-label-caps text-[13px] text-on-surface">IGRIS_DISCIPLINE</div>
+<div class="flex items-center space-x-2">
+<span class="px-2 py-0.5 bg-tertiary-container/20 text-tertiary font-label-caps text-[9px] rounded">COMMANDER</span>
+<span class="font-mono text-[10px] opacity-50">LVL. 82</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant opacity-30 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</div>
+<!-- Shadow Item 2 -->
+<div class="flex items-center p-3 rounded-lg bg-surface-container-high/40 border border-outline-variant/10 hover:border-secondary/40 transition-all group cursor-pointer">
+<div class="w-12 h-12 rounded bg-secondary/10 flex items-center justify-center mr-4 border border-secondary/20">
+<span class="material-symbols-outlined text-secondary">fitness_center</span>
+</div>
+<div class="flex-1">
+<div class="font-label-caps text-[13px] text-on-surface">TANK_WORKOUT</div>
+<div class="flex items-center space-x-2">
+<span class="px-2 py-0.5 bg-secondary-container/20 text-secondary font-label-caps text-[9px] rounded">ELITE</span>
+<span class="font-mono text-[10px] opacity-50">LVL. 45</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant opacity-30 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</div>
+<!-- Shadow Item 3 -->
+<div class="flex items-center p-3 rounded-lg bg-surface-container-high/40 border border-outline-variant/10 hover:border-primary/40 transition-all group cursor-pointer">
+<div class="w-12 h-12 rounded bg-primary/10 flex items-center justify-center mr-4 border border-primary/20">
+<span class="material-symbols-outlined text-primary">book</span>
+</div>
+<div class="flex-1">
+<div class="font-label-caps text-[13px] text-on-surface">KAISER_STUDY</div>
+<div class="flex items-center space-x-2">
+<span class="px-2 py-0.5 bg-primary-container/20 text-primary font-label-caps text-[9px] rounded">KNIGHT</span>
+<span class="font-mono text-[10px] opacity-50">LVL. 12</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant opacity-30 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</div>
+</div>
+<button class="w-full mt-6 py-2 border border-outline-variant/30 text-on-surface-variant font-label-caps text-[10px] hover:bg-surface-variant/20 transition-all">VIEW_FULL_ARMY</button>
+</div>
+<div class="glass-panel p-6 rounded-2xl border-magenta/20">
+<h3 class="font-label-caps text-label-caps text-tertiary mb-4 flex items-center">
+<span class="material-symbols-outlined mr-2">bolt</span>
+                        MANA CONSUMPTION
+                    </h3>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between mb-1 font-mono text-[10px]">
+<span>SUSTENANCE_FLOW</span>
+<span class="text-tertiary">78%</span>
+</div>
+<div class="h-2 bg-surface-container-highest rounded-full overflow-hidden flex space-x-0.5 p-0.5">
+<div class="h-full w-1/6 bg-tertiary"></div>
+<div class="h-full w-1/6 bg-tertiary"></div>
+<div class="h-full w-1/6 bg-tertiary"></div>
+<div class="h-full w-1/6 bg-tertiary"></div>
+<div class="h-full w-1/6 bg-tertiary"></div>
+<div class="h-full w-1/12 bg-tertiary/30"></div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 mt-4">
+<div class="bg-surface-container-low p-3 border-l-2 border-tertiary">
+<div class="text-[9px] opacity-50 font-label-caps">IDLE_DRAIN</div>
+<div class="font-data-viz text-[14px]">12.4 MP/H</div>
+</div>
+<div class="bg-surface-container-low p-3 border-l-2 border-primary">
+<div class="text-[9px] opacity-50 font-label-caps">RECOVERY</div>
+<div class="font-data-viz text-[14px]">45.0 MP/H</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Center: Portal Visualization -->
+<div class="col-span-12 lg:col-span-8 flex flex-col space-y-gutter">
+<div class="glass-panel flex-1 rounded-3xl relative overflow-hidden flex flex-col items-center justify-center min-h-[500px]">
+<div class="absolute inset-0 z-0 opacity-40">
+</div>
+<!-- Portal Decoration -->
+<div class="relative z-10 w-80 h-80 flex items-center justify-center portal-pulse">
+<!-- Hexagonal Bracket (Inner) -->
+<div class="absolute inset-0 border-2 border-primary/40 rounded-full scale-110 blur-[1px]"></div>
+<div class="absolute inset-0 border-[0.5px] border-secondary/30 rotate-45 rounded-[20%]"></div>
+<!-- Core -->
+<div class="w-64 h-64 rounded-full bg-gradient-to-br from-primary via-background to-secondary p-1 flex items-center justify-center shadow-[0_0_80px_rgba(45,168,224,0.4)]">
+<div class="w-full h-full rounded-full bg-background flex flex-col items-center justify-center overflow-hidden relative">
+<div class="absolute inset-0 opacity-60 bg-cover bg-center" data-alt="A stylized, glowing indigo and cyan void portal representing the MagnopVS Protocol. Ethereal smoke and digital particles rise from the abyss, illuminated by intense neon blue highlights." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC97nTg0n11zbZDlu_Xju5yoWSMydc0A5CUTr78N3tPDkkrnXv_FZQt_Xypaq93XJ6im0votg0IlID0khJsmiC6rEvvB2EKSftVrGRoHcX-cIz5-UB0ETxbl6eZzGi-oHHTm9gX914lIAoPFU9cV4CuyMsjEZAwlnUjeI2XZfMfPPgUeEp9FDgzfB9cLYYmsLmJFetvlWAl7udY2KB5MUUjlLT0fLbD_AGn3x7BMgO3kebOmUDpExPirQ')"></div>
+<div class="relative z-20 text-center">
+<div class="font-label-caps text-label-caps text-primary tracking-widest arise-glow mb-2">SYNC_SOUL</div>
+<div class="w-12 h-0.5 bg-primary mx-auto mb-4"></div>
+<span class="material-symbols-outlined text-6xl text-primary/80 animate-pulse">auto_awesome</span>
+</div>
+</div>
+</div>
+</div>
+<div class="relative z-10 mt-12 text-center max-w-md px-8">
+<div class="inline-block px-4 py-1 rounded bg-primary/10 border border-primary/20 font-label-caps text-[10px] text-primary mb-4">LISTO_PARA_EMANACIÓN: 3_SOMBRAS</div>
+<p class="font-body-sm text-on-surface-variant mb-8">
+                            Converting the <span class="text-secondary">'Morning Routine'</span> chain and <span class="text-tertiary">'Deep Work'</span> session into autonomous shadow entities.
+                        </p>
+<button class="group relative px-12 py-4 overflow-hidden border border-primary/50 rounded-sm hover:scale-105 transition-transform active:scale-95">
+<div class="absolute inset-0 bg-primary opacity-0 group-hover:opacity-20 transition-opacity"></div>
+<span class="relative z-10 font-label-caps text-headline-md tracking-widest text-primary arise-glow">SYNC_SOUL</span>
+</button>
+</div>
+<!-- HUD Bracketing -->
+<div class="absolute top-8 left-8 w-24 h-24 border-l-2 border-t-2 border-primary/30 rounded-tl-xl pointer-events-none"></div>
+<div class="absolute top-8 right-8 w-24 h-24 border-r-2 border-t-2 border-primary/30 rounded-tr-xl pointer-events-none"></div>
+<div class="absolute bottom-8 left-8 w-24 h-24 border-l-2 border-b-2 border-primary/30 rounded-bl-xl pointer-events-none"></div>
+<div class="absolute bottom-8 right-8 w-24 h-24 border-r-2 border-b-2 border-primary/30 rounded-br-xl pointer-events-none"></div>
+</div>
+<!-- Bottom Stats Row -->
+<div class="grid grid-cols-3 gap-gutter">
+<div class="glass-panel p-4 rounded-xl flex items-center space-x-4 border-primary/20">
+<div class="p-2 bg-primary/10 rounded-lg"><span class="material-symbols-outlined text-primary">analytics</span></div>
+<div>
+<div class="text-[9px] opacity-50 font-label-caps">EXTRACTION_RATE</div>
+<div class="font-data-viz text-[16px]">98.2%</div>
+</div>
+</div>
+<div class="glass-panel p-4 rounded-xl flex items-center space-x-4 border-secondary/20">
+<div class="p-2 bg-secondary/10 rounded-lg"><span class="material-symbols-outlined text-secondary">update</span></div>
+<div>
+<div class="text-[9px] opacity-50 font-label-caps">LAST_SYNC</div>
+<div class="font-data-viz text-[16px]">02:14:55</div>
+</div>
+</div>
+<div class="glass-panel p-4 rounded-xl flex items-center space-x-4 border-tertiary/20">
+<div class="p-2 bg-tertiary/10 rounded-lg"><span class="material-symbols-outlined text-tertiary">hub</span></div>
+<div>
+<div class="text-[9px] opacity-50 font-label-caps">ACTIVE_NODES</div>
+<div class="font-data-viz text-[16px]">07/12</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-6 pb-6 pt-2 border-t border-tertiary/30 backdrop-blur-3xl bg-surface-container-lowest/80 rounded-t-xl shadow-[0_-10px_30px_rgba(255,175,212,0.1)]">
+<div class="flex flex-col items-center justify-center text-on-surface-variant/60 p-3 hover:text-tertiary transition-all">
+<span class="material-symbols-outlined">directions_run</span>
+<span class="font-label-caps text-[10px]">DODGE</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-tertiary-container text-on-tertiary-container rounded-xl p-3 shadow-[0_0_20px_rgba(255,175,212,0.4)] active:scale-90 duration-150">
+<span class="material-symbols-outlined">swords</span>
+<span class="font-label-caps text-[10px]">ATTACK</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant/60 p-3 hover:text-tertiary transition-all">
+<span class="material-symbols-outlined">electric_bolt</span>
+<span class="font-label-caps text-[10px]">SKILL</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant/60 p-3 hover:text-tertiary transition-all">
+<span class="material-symbols-outlined">category</span>
+<span class="font-label-caps text-[10px]">ITEMS</span>
+</div>
+</nav>
+<script>
+        // Micro-interactions and atmospheric logic
+        document.addEventListener('mousemove', (e) => {
+            const panels = document.querySelectorAll('.glass-panel');
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+
+            panels.forEach(panel => {
+                const rect = panel.getBoundingClientRect();
+                const dx = mouseX - (rect.left + rect.width / 2);
+                const dy = mouseY - (rect.top + rect.height / 2);
+                const dist = Math.sqrt(dx*dx + dy*dy);
+                
+                if (dist < 400) {
+                    const tiltX = (dy / 400) * 2;
+                    const tiltY = -(dx / 400) * 2;
+                    panel.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+                } else {
+                    panel.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+                }
+            });
+        });
+
+        // Toggle Active State logic
+        const navLinks = document.querySelectorAll('aside nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                navLinks.forEach(l => {
+                    l.classList.remove('border-primary', 'text-primary', 'bg-primary/5');
+                    l.classList.add('border-transparent', 'text-on-surface-variant');
+                });
+                link.classList.remove('border-transparent', 'text-on-surface-variant');
+                link.classList.add('border-primary', 'text-primary', 'bg-primary/5');
+            });
+        });
+    </script>
+</body></html>

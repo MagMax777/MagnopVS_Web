@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Biblioteca Multimedia | El Codex de los Grandes</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Space+Grotesk:wght@400;600;700&amp;family=Hanken+Grotesk:wght@400;700&amp;family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --glow-cyan: #2da8e0;
+            --glow-magenta: #ffafd4;
+        }
+
+        body {
+            background-color: #101417;
+            color: #e0e3e6;
+            font-family: 'Hanken Grotesk', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .cyber-grid {
+            background-image: 
+                linear-gradient(rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(127, 208, 255, 0.2);
+        }
+
+        .text-glow-cyan {
+            text-shadow: 0 0 10px rgba(45, 168, 224, 0.5);
+        }
+
+        .text-glow-magenta {
+            text-shadow: 0 0 10px rgba(255, 175, 212, 0.5);
+        }
+
+        .hexagon-clip {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        .slanted-button {
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+        }
+
+        .neon-pulse {
+            animation: neon-pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes neon-pulse {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 2px var(--glow-cyan)); }
+            50% { opacity: 0.7; filter: drop-shadow(0 0 8px var(--glow-cyan)); }
+        }
+
+        .font-audiowide { font-family: 'Audiowide', cursive; }
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+
+        /* Custom scrollbar for cyber aesthetic */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #0b0f11; }
+        ::-webkit-scrollbar-thumb { background: #2da8e0; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#005144",
+                        "secondary-fixed-dim": "#47ddc1",
+                        "outline-variant": "#3f484e",
+                        "primary-container": "#7fd0ff",
+                        "on-primary-fixed": "#001e2d",
+                        "secondary-container": "#00bba0",
+                        "tertiary-fixed-dim": "#ffafd4",
+                        "on-primary": "#00344a",
+                        "surface-dim": "#101417",
+                        "on-secondary-fixed": "#00201a",
+                        "surface-panel": "rgba(255, 255, 255, 0.03)",
+                        "on-background": "#e0e3e6",
+                        "on-error": "#690005",
+                        "on-surface-variant": "#bfc8cf",
+                        "surface-container": "#1c2023",
+                        "on-tertiary-fixed-variant": "#6e3252",
+                        "on-primary-fixed-variant": "#004c6a",
+                        "on-tertiary": "#531c3b",
+                        "on-primary-container": "#00597b",
+                        "on-error-container": "#ffdad6",
+                        "status-critical": "#93000a",
+                        "surface-tint": "#7fd0ff",
+                        "surface-container-low": "#181c1f",
+                        "primary-fixed-dim": "#7fd0ff",
+                        "grid-line": "rgba(127, 208, 255, 0.05)",
+                        "surface": "#101417",
+                        "surface-bright": "#363a3d",
+                        "inverse-surface": "#e0e3e6",
+                        "tertiary": "#ffd8e7",
+                        "secondary-fixed": "#6af9dc",
+                        "glow-cyan": "#2da8e0",
+                        "tertiary-container": "#ffafd4",
+                        "on-secondary-container": "#004439",
+                        "surface-variant": "#313538",
+                        "tertiary-fixed": "#ffd8e7",
+                        "background-deep": "#0a0b12",
+                        "surface-container-lowest": "#0b0f11",
+                        "error": "#ffb4ab",
+                        "surface-container-high": "#272a2d",
+                        "on-secondary": "#00382e",
+                        "secondary": "#47ddc1",
+                        "outline": "#899299",
+                        "primary": "#c5e7ff",
+                        "on-tertiary-fixed": "#390625",
+                        "surface-container-highest": "#313538",
+                        "inverse-on-surface": "#2d3134",
+                        "on-surface": "#e0e3e6",
+                        "inverse-primary": "#00658b",
+                        "error-container": "#93000a",
+                        "background": "#101417",
+                        "primary-fixed": "#c5e7ff",
+                        "on-tertiary-container": "#7c3e5e"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["JetBrains Mono"],
+                        "micro-tag": ["JetBrains Mono"],
+                        "headline-md": ["Space Grotesk"],
+                        "display-lg": ["Space Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "mono-data": ["JetBrains Mono"],
+                        "display-lg-mobile": ["Space Grotesk"],
+                        "data-point": ["Hanken Grotesk"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="cyber-grid min-h-screen">
+<!-- Atmospheric Background Image -->
+<div class="fixed inset-0 pointer-events-none opacity-20 z-0 overflow-hidden">
+<img class="w-full h-full object-cover mix-blend-overlay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9DOP91cUGQayfununOl5XWEsZal-RoRGlMJbttnSJmIPObE9K7ahOL6_gD4GkbXBNkwb48G52GJJ8sjuj4pmKbRaM_uroXJ0ItgV-oVu3JKiqFulaxbThvF3Kmd6EE5iT0Qnzglx_ZGE7upf-c2TpNR3EoTZijal6REu7NBBD3zfoEP9Yku170_AXvKb2Jc2CEW087gpJPXrfABuhjW0XotfBbhBURzEPFJ1p_zPhfmxFX-MRjkDq5TGKkwSNUc0-iZEvoYnt57o8"/>
+</div>
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-3xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="flex justify-between items-center px-margin-desktop py-4 max-w-7xl mx-auto">
+<h1 class="font-display-lg text-display-lg-mobile tracking-tighter text-primary uppercase">El Codex de los Grandes</h1>
+<div class="hidden md:flex items-center gap-8">
+<nav class="flex gap-6">
+<a class="text-on-surface-variant font-medium hover:text-secondary-fixed hover:bg-surface-panel transition-colors" href="#">Codex</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1" href="#">Archive</a>
+<a class="text-on-surface-variant font-medium hover:text-secondary-fixed hover:bg-surface-panel transition-colors" href="#">Missions</a>
+</nav>
+<div class="flex items-center gap-4 border-l border-primary/20 pl-6">
+<span class="material-symbols-outlined text-primary cursor-pointer">search</span>
+<span class="material-symbols-outlined text-primary cursor-pointer">notifications</span>
+<div class="w-10 h-10 rounded-full border border-primary/50 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A futuristic digital avatar portrait for a high-tech user profile. The person has subtle glowing cybernetic patterns on their skin, illuminated by neon blue and magenta lighting. The background consists of blurred digital data streams and architectural lines, fitting the cyber-alchemical aesthetic of the platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6Zb1ABi-35BAE0entb99LUSrWe5ubISdUTNzr8IGI3LJ3Zn4zO-vJ4ZoGtDHnpuScePNVCdonU0RM39qqmh5InVNP2HWqP_AIcZfoCr67SQiAfx2o2DPgEUEHE6ostIIDq6G5uWZsJghPCveKvGViLexdCKg75dbxwgKrMBjANaa33t0s7gV-2nesn2JXQttQtuVHkuOQS_i8Hy5heMgg2SkOF0xTsq9qaEg7y-y_OcB4aO_SBmzduDh45xS7ELK8c2t9zpRtrlVg"/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-low/90 backdrop-blur-2xl border-r border-primary/10 shadow-2xl hidden md:flex flex-col py-24">
+<div class="px-6 mb-8">
+<div class="font-display-lg text-[24px] text-glow-cyan font-orbitron">LEGACY_PROTOCOL</div>
+<div class="font-micro-tag text-micro-tag text-secondary-fixed">V-6.4 // ACTIVE</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-caps text-label-caps">Codex</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">architecture</span>
+<span class="font-label-caps text-label-caps">Builds</span>
+</a>
+<a class="flex items-center gap-4 bg-primary/10 text-primary border-l-4 border-primary px-6 py-4" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-caps text-label-caps">Archive</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps text-label-caps">Missions</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-label-caps">System</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full py-3 bg-primary text-background-deep font-bold slanted-button hover:bg-secondary transition-all active:scale-95">
+                INITIALIZE_SYNC
+            </button>
+<div class="flex justify-between mt-8 text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary">help_outline</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary">terminal</span>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="md:pl-64 pt-24 pb-12 min-h-screen z-10 relative">
+<div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop space-y-16">
+<!-- Hero Featured Section -->
+<section class="relative group">
+<div class="absolute -inset-1 bg-gradient-to-r from-glow-cyan to-glow-magenta opacity-20 blur group-hover:opacity-30 transition duration-1000 group-hover:duration-200"></div>
+<div class="relative glass-panel rounded-lg overflow-hidden flex flex-col lg:flex-row h-auto lg:h-[450px]">
+<div class="w-full lg:w-2/3 relative h-64 lg:h-full">
+<img class="w-full h-full object-cover" data-alt="A cinematic, ultra-high-definition landscape capturing the essence of Marcus Aurelius's Meditations. The scene depicts a marble Roman bust partially eroded and overgrown with glowing bioluminescent vines, set against a vast, deep purple and cyan cosmic background with drifting stardust. The lighting is dramatic, highlighting the philosophical weight and timelessness of the resource." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsse_QrnFnV5z67YXAGb6nw1H9lgVmANDo_Lbnm5nYIJ3ytFo9u8sNGLyh45P60V7KebvU1iJDE_j3TgnNH1G5MJx7WXXO7Tx8K058i5TMupOziGoQ6soJM-9m3-XGCbRzuzTJU9GAlPrQo5lxW7x3PSWPJcU5hxQG49N0lDWFV8-skXh1hnGlIkdSI-z-zy9v40ElaNySd_hV1ClNxnyqhYJQKnQlrX1IHqaF6UxZRUookuprXkx2-h1fh-H-KxwDthW_DUU5GEC0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+</div>
+<div class="w-full lg:w-1/3 p-8 flex flex-col justify-center space-y-4">
+<div class="inline-block px-3 py-1 border border-primary/40 text-primary font-micro-tag text-[10px] uppercase tracking-[0.3em]">RECURSO DE LA SEMANA</div>
+<h2 class="font-audiowide text-4xl text-glow-cyan leading-tight">Meditaciones</h2>
+<p class="font-orbitron text-on-surface-variant text-sm leading-relaxed">
+                            Accede a la sabiduría atemporal de Marco Aurelio. Un protocolo fundamental para la calibración del espíritu ante el caos del sistema.
+                        </p>
+<div class="flex items-center gap-2 text-secondary font-mono-data text-xs">
+<span class="material-symbols-outlined text-sm">link</span>
+                            Sincronizado con: Marco Aurelio
+                        </div>
+<div class="pt-4">
+<button class="px-8 py-3 bg-glow-cyan text-background font-bold slanted-button hover:shadow-[0_0_20px_rgba(45,168,224,0.6)] transition-all">
+                                ACCEDER RECURSO
+                            </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Filter & Grid Area -->
+<div class="flex flex-col lg:flex-row gap-8">
+<!-- Main Library Grid -->
+<div class="flex-1 space-y-8">
+<!-- High-tech Filters -->
+<div class="flex flex-wrap gap-3 items-center">
+<button class="px-4 py-1.5 border-b-2 border-primary text-primary font-label-caps text-xs">TODOS</button>
+<button class="px-4 py-1.5 text-on-surface-variant font-label-caps text-xs hover:text-secondary-fixed transition-colors">LIBROS</button>
+<button class="px-4 py-1.5 text-on-surface-variant font-label-caps text-xs hover:text-secondary-fixed transition-colors">DOCUMENTALES</button>
+<button class="px-4 py-1.5 text-on-surface-variant font-label-caps text-xs hover:text-secondary-fixed transition-colors">PELÍCULAS</button>
+<button class="px-4 py-1.5 text-on-surface-variant font-label-caps text-xs hover:text-secondary-fixed transition-colors">ARTÍCULOS</button>
+<div class="ml-auto hidden sm:block h-px bg-primary/20 flex-1 mx-4"></div>
+<span class="font-micro-tag text-xs text-outline">ARCHIVE_INDEX: 442</span>
+</div>
+<!-- Multimedia Grid (Bento style cards) -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="glass-panel group relative hover:border-primary transition-all p-4">
+<div class="absolute top-0 right-0 w-8 h-8 border-t border-r border-primary/40 group-hover:border-primary"></div>
+<div class="relative h-48 mb-4 overflow-hidden rounded">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A stylized technical illustration of a Renaissance engineering workshop belonging to Leonardo da Vinci. Glowing blueprints of flying machines and anatomical studies float in the air, rendered in a cyan holographic style against dark mahogany textures. The lighting is warm yet tech-infused, blending historical artistry with futuristic visualization." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3bXysNF1_MgUwUuHTUN_oKw0PiGjRamG0ohXP5lGBQMKQwH7ap6AmEkqPYVzp3NFtOFFza2zzwx5UFmvDJqn0Jy5EqGQ0COmha4kQWC0FGe6_ZlWZIvjdbOUjP8lHY2bEFx5ZQX2gRf2GRNqlLZATpiThPwik5ziOfKJFxZulsVUH9G8yxz7IrAXe8Gu-ksrB1lJTSgTW3vIlw98QQCqT-4Ytln9Ro8zg7R5sjU4UBb6apmZ0mjNcR3-djuDl1tGAe5X_wQvJlo_w"/>
+<div class="absolute bottom-2 left-2 px-2 py-0.5 bg-background/80 backdrop-blur text-[9px] font-mono-data text-glow-magenta border border-magenta/20">DOCUMENTAL</div>
+</div>
+<h3 class="font-audiowide text-lg text-primary mb-1">El Código Da Vinci</h3>
+<div class="font-mono-data text-[10px] text-outline mb-4">Sincronizado con: Leonardo da Vinci</div>
+<button class="w-full py-2 border border-primary/30 text-primary font-bold text-xs slanted-button hover:bg-primary/10 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">bolt</span> ACCEDER
+                            </button>
+</div>
+<!-- Card 2 -->
+<div class="glass-panel group relative hover:border-primary transition-all p-4">
+<div class="absolute top-0 right-0 w-8 h-8 border-t border-r border-primary/40 group-hover:border-primary"></div>
+<div class="relative h-48 mb-4 overflow-hidden rounded">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A dark, moody digital art piece showing a lone samurai figure standing on a futuristic bridge under a neon-lit cybernetic sky. The scene is heavily inspired by Miyamoto Musashi's Book of Five Rings, featuring a floating red sun emblem and shimmering digital cherry blossom petals. The aesthetic is sharp, high-contrast, and deeply mystical." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUxHb0gw-keDm8zVgj_rCriMeshoiLGAN9_ZvmQ8L3t5d-4iYqXcY12rqEgVv8dhpAEOMWhaiUTNkbgYtgXQW8kcjmPl4K3t7BNPaLkHLLTtk7jS75mcpGOra8Ou-r8WprKlXHteEGvcGo8SJym2B5KFFmIQzYEWYnvruo-J4XeuPDqXx1_pZ8mrNvbRf29jW5a9_9tmAnAiksajuu_xPfl6h-xfb057OdlAI30KB-MU-1i9RztRC9qj48rMKFqS56yRT8sB0aDaI_"/>
+<div class="absolute bottom-2 left-2 px-2 py-0.5 bg-background/80 backdrop-blur text-[9px] font-mono-data text-glow-magenta border border-magenta/20">LIBRO</div>
+</div>
+<h3 class="font-audiowide text-lg text-primary mb-1">Go Rin No Sho</h3>
+<div class="font-mono-data text-[10px] text-outline mb-4">Sincronizado con: Miyamoto Musashi</div>
+<button class="w-full py-2 border border-primary/30 text-primary font-bold text-xs slanted-button hover:bg-primary/10 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">bolt</span> ACCEDER
+                            </button>
+</div>
+<!-- Card 3 -->
+<div class="glass-panel group relative hover:border-primary transition-all p-4">
+<div class="absolute top-0 right-0 w-8 h-8 border-t border-r border-primary/40 group-hover:border-primary"></div>
+<div class="relative h-48 mb-4 overflow-hidden rounded">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An abstract visualization of mathematical beauty, representing the concepts of Hypatia of Alexandria. High-precision geometric shapes like astrolabes and celestial spheres are constructed from glowing cyan lines against a deep black void. Particles of light trace planetary orbits, creating a sense of ancient cosmic intelligence and scientific wonder." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVOomqVm8fK8L2gsvRArztdW8G3pAlBiG3cqjvYRn08J_QaRC_9aPubbzDmewudt9ORho0WKiH0CFLKCMPDaPCrvUe3I0--1wC2PgyN7-E5Mqw4KuuD7-feXm4nKiarqKcNKdZwVdu4H9uV_FYZDP85sN0SULxPJgb-3YiM05M1-SOEQHHqmRXJ915CI_gNgvvVu_lMikAE4ydEdBSnwsPeM0a8m-Yu8DvWP6UECbWvltRhR9Iu4zXtlEkkpYC2ekJeBlWf26xmpiD"/>
+<div class="absolute bottom-2 left-2 px-2 py-0.5 bg-background/80 backdrop-blur text-[9px] font-mono-data text-glow-magenta border border-magenta/20">ARTÍCULO TÉCNICO</div>
+</div>
+<h3 class="font-audiowide text-lg text-primary mb-1">Métrica del Cosmos</h3>
+<div class="font-mono-data text-[10px] text-outline mb-4">Sincronizado con: Hypatia</div>
+<button class="w-full py-2 border border-primary/30 text-primary font-bold text-xs slanted-button hover:bg-primary/10 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">bolt</span> ACCEDER
+                            </button>
+</div>
+</div>
+</div>
+<!-- Sync Progress Sidebar Widget -->
+<aside class="w-full lg:w-80 space-y-6">
+<div class="glass-panel p-6 rounded-lg border-l-4 border-glow-magenta">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h4 class="font-audiowide text-primary text-sm uppercase">SYNC_PROGRESS</h4>
+<p class="font-micro-tag text-[9px] text-outline">NEURAL_CALIBRATION_STATUS</p>
+</div>
+<span class="material-symbols-outlined text-secondary-container neon-pulse">wifi_tethering</span>
+</div>
+<div class="space-y-6">
+<!-- Progress 1 -->
+<div class="space-y-2">
+<div class="flex justify-between font-mono-data text-[10px] text-on-surface-variant">
+<span>SABIDURÍA (INT)</span>
+<span>72%</span>
+</div>
+<div class="flex gap-1">
+<div class="h-1.5 flex-1 bg-primary shadow-[0_0_8px_rgba(197,231,255,0.5)]"></div>
+<div class="h-1.5 flex-1 bg-primary shadow-[0_0_8px_rgba(197,231,255,0.5)]"></div>
+<div class="h-1.5 flex-1 bg-primary shadow-[0_0_8px_rgba(197,231,255,0.5)]"></div>
+<div class="h-1.5 flex-1 bg-primary shadow-[0_0_8px_rgba(197,231,255,0.5)]"></div>
+<div class="h-1.5 flex-1 bg-primary shadow-[0_0_8px_rgba(197,231,255,0.5)]"></div>
+<div class="h-1.5 flex-1 bg-primary shadow-[0_0_8px_rgba(197,231,255,0.5)]"></div>
+<div class="h-1.5 flex-1 bg-primary shadow-[0_0_8px_rgba(197,231,255,0.5)]"></div>
+<div class="h-1.5 flex-1 bg-surface-variant"></div>
+<div class="h-1.5 flex-1 bg-surface-variant"></div>
+<div class="h-1.5 flex-1 bg-surface-variant"></div>
+</div>
+</div>
+<!-- Progress 2 -->
+<div class="space-y-2">
+<div class="flex justify-between font-mono-data text-[10px] text-on-surface-variant">
+<span>ESTRATEGIA (DEX)</span>
+<span>40%</span>
+</div>
+<div class="flex gap-1">
+<div class="h-1.5 flex-1 bg-secondary shadow-[0_0_8px_rgba(71,221,193,0.5)]"></div>
+<div class="h-1.5 flex-1 bg-secondary shadow-[0_0_8px_rgba(71,221,193,0.5)]"></div>
+<div class="h-1.5 flex-1 bg-secondary shadow-[0_0_8px_rgba(71,221,193,0.5)]"></div>
+<div class="h-1.5 flex-1 bg-secondary shadow-[0_0_8px_rgba(71,221,193,0.5)]"></div>
+<div class="h-1.5 flex-1 bg-surface-variant"></div>
+<div class="h-1.5 flex-1 bg-surface-variant"></div>
+<div class="h-1.5 flex-1 bg-surface-variant"></div>
+<div class="h-1.5 flex-1 bg-surface-variant"></div>
+<div class="h-1.5 flex-1 bg-surface-variant"></div>
+<div class="h-1.5 flex-1 bg-surface-variant"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-primary/10">
+<p class="font-mono-data text-[11px] text-outline leading-relaxed italic">
+                                "La sincronización multimedia aumenta la eficiencia del Codex en un 12.4% por cada módulo completado."
+                            </p>
+</div>
+</div>
+<div class="glass-panel p-6 space-y-4">
+<h4 class="font-label-caps text-xs text-primary">SYSTEM_LOGS</h4>
+<ul class="space-y-3">
+<li class="flex items-start gap-3">
+<span class="w-1.5 h-1.5 mt-1.5 bg-glow-cyan"></span>
+<div class="font-micro-tag text-[9px]">
+<span class="text-outline">[12:44:02]</span> RECURSO "EL PRÍNCIPE" DESBLOQUEADO
+                                </div>
+</li>
+<li class="flex items-start gap-3">
+<span class="w-1.5 h-1.5 mt-1.5 bg-glow-magenta"></span>
+<div class="font-micro-tag text-[9px]">
+<span class="text-outline">[09:21:55]</span> SYNC EXITOSA: SUN TZU // ART OF WAR
+                                </div>
+</li>
+</ul>
+</div>
+</aside>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="md:pl-64 w-full py-12 bg-surface-container-lowest border-t border-grid-line z-10 relative">
+<div class="max-w-7xl mx-auto px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-panel-gap">
+<div class="font-label-caps text-label-caps tracking-widest text-secondary-fixed">MLH v6.4 // LEGACY_PROTOCOL</div>
+<div class="flex gap-8">
+<a class="font-micro-tag text-micro-tag text-outline hover:text-primary transition-opacity" href="#">Privacy</a>
+<a class="font-micro-tag text-micro-tag text-outline hover:text-primary transition-opacity" href="#">Security</a>
+<a class="font-micro-tag text-micro-tag text-outline hover:text-primary transition-opacity underline" href="#">Terminal</a>
+</div>
+<div class="text-on-surface-variant font-mono-data text-xs opacity-50">© 2024 EL CODEX DE LOS GRANDES</div>
+</div>
+</footer>
+<!-- Mobile Bottom Nav (Suppressed on Desktop) -->
+<nav class="md:hidden fixed bottom-0 w-full h-16 bg-surface-container/90 backdrop-blur-xl border-t border-primary/20 flex justify-around items-center z-50">
+<span class="material-symbols-outlined text-primary">menu_book</span>
+<span class="material-symbols-outlined text-outline">architecture</span>
+<div class="hexagon-clip bg-primary p-3 -mt-10 shadow-[0_0_20px_rgba(45,168,224,0.4)]">
+<span class="material-symbols-outlined text-background-deep font-bold">bolt</span>
+</div>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="material-symbols-outlined text-outline">settings</span>
+</nav>
+<script>
+        // Micro-interaction for resource cards
+        document.querySelectorAll('.glass-panel').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                const icon = card.querySelector('.material-symbols-outlined');
+                if(icon) {
+                    icon.classList.add('animate-pulse');
+                }
+            });
+            card.addEventListener('mouseleave', () => {
+                const icon = card.querySelector('.material-symbols-outlined');
+                if(icon) {
+                    icon.classList.remove('animate-pulse');
+                }
+            });
+        });
+    </script>
+</body></html>

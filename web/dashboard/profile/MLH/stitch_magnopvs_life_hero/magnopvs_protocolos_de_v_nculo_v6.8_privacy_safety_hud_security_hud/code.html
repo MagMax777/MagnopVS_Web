@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS | Privacy &amp; Boundary Layer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed": "#001e2d",
+                    "error": "#ffb4ab",
+                    "on-primary-container": "#003951",
+                    "tertiary-container": "#ff64ba",
+                    "background": "#0f1417",
+                    "inverse-primary": "#00658c",
+                    "secondary-container": "#00bba0",
+                    "primary-container": "#2da8e0",
+                    "primary": "#7fd0ff",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-lowest": "#0a0f12",
+                    "outline": "#88929a",
+                    "on-secondary": "#00382e",
+                    "on-background": "#dfe3e8",
+                    "inverse-on-surface": "#2c3135",
+                    "tertiary-fixed": "#ffd8e7",
+                    "surface-bright": "#353a3e",
+                    "on-tertiary-fixed-variant": "#8b005d",
+                    "surface-container": "#1b2024",
+                    "primary-fixed": "#c5e7ff",
+                    "surface-variant": "#303539",
+                    "on-primary-fixed-variant": "#004c6a",
+                    "surface-container-highest": "#303539",
+                    "surface": "#0f1417",
+                    "outline-variant": "#3e484f",
+                    "on-tertiary": "#620041",
+                    "on-surface-variant": "#bec8d0",
+                    "tertiary-fixed-dim": "#ffafd4",
+                    "on-error": "#690005",
+                    "error-container": "#93000a",
+                    "tertiary": "#ffafd4",
+                    "surface-container-low": "#171c20",
+                    "on-surface": "#dfe3e8",
+                    "primary-fixed-dim": "#7fd0ff",
+                    "surface-dim": "#0f1417",
+                    "on-tertiary-container": "#6a0046",
+                    "secondary-fixed": "#6af9dc",
+                    "on-secondary-fixed-variant": "#005144",
+                    "surface-container-high": "#262b2e",
+                    "inverse-surface": "#dfe3e8",
+                    "on-secondary-fixed": "#00201a",
+                    "secondary": "#48ddc1",
+                    "surface-tint": "#7fd0ff",
+                    "on-tertiary-fixed": "#3d0026",
+                    "on-primary": "#00344a",
+                    "secondary-fixed-dim": "#48ddc1",
+                    "on-secondary-container": "#004439"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "64px",
+                    "hex-grid-size": "120px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Space Mono"],
+                    "headline-md": ["Space Grotesk"],
+                    "display-lg": ["Space Grotesk"],
+                    "body-sm": ["Space Mono"],
+                    "data-viz": ["Space Mono"],
+                    "display-lg-mobile": ["Space Grotesk"],
+                    "label-caps": ["Space Mono"]
+            },
+            "fontSize": {
+                    "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "data-viz": ["18px", {"lineHeight": "1.0", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.15em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        @keyframes pulse-cyan {
+            0%, 100% { box-shadow: 0 0 5px rgba(127, 208, 255, 0.2); }
+            50% { box-shadow: 0 0 15px rgba(127, 208, 255, 0.6); }
+        }
+        .glow-cyan { text-shadow: 0 0 10px rgba(127, 208, 255, 0.8); }
+        .neon-border { border: 1px solid rgba(127, 208, 255, 0.4); box-shadow: inset 0 0 10px rgba(127, 208, 255, 0.1); }
+        .hex-bg {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60 4.02 45V15z' fill-opacity='0.05' fill='%237fd0ff' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        .glass-panel {
+            background: rgba(15, 20, 23, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(223, 227, 232, 0.1);
+        }
+        .scanline-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, transparent 50%, rgba(127, 208, 255, 0.02) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 100;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-lg selection:bg-primary selection:text-on-primary-fixed overflow-x-hidden min-h-screen hex-bg">
+<div class="scanline-overlay"></div>
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full bg-surface-container-lowest/80 backdrop-blur-3xl flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 z-50 border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary glow-cyan uppercase tracking-widest">
+            MagnopVS
+        </div>
+<div class="hidden md:flex gap-8 items-center">
+<span class="text-on-surface-variant font-label-caps hover:text-primary transition-all duration-300 cursor-pointer">Protocol: INTIMACY</span>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95 transition-transform" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95 transition-transform" data-icon="bolt">bolt</span>
+<div class="w-10 h-10 rounded-full border border-primary/40 p-0.5 overflow-hidden">
+<img class="w-full h-full object-cover rounded-full" data-alt="A futuristic cosmic avatar of a digital being with glowing violet neural paths visible through translucent skin, set against a deep matte black void with floating data particles in cyan and magenta. The art style is high-fidelity sci-fi fantasy with heavy glassmorphism influence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-_ejk5IOiSJ7yxJ3ernQDbVDw-_XnAD9fQKa8WHfTI5E33Ul10nIDIzI_guc3zYIEsyRveWgkGlF7AG0iSFSGyEPVE1ITmuwb-01rJFTXDTsvX3Suct2A61oUAKkGBfM-kuvJUBvsUHQ1SqouOpHMG8YtTTp-A7Ec2QiE4Lh5_k32GrIv5VWp0NXHToZ9jgW2NyFOlDYPbAPgXwqnGj2kUKWJS6DIzp8N2V7iEJR9zMPtXdNsZ5p8jQ"/>
+</div>
+</div>
+</div>
+</header>
+<!-- SideNavBar (Desktop Only) -->
+<aside class="hidden md:flex fixed left-0 top-0 h-full w-64 bg-surface-container/40 backdrop-blur-2xl flex-col py-8 z-40 border-r border-secondary/20">
+<div class="px-6 mb-12 mt-16">
+<div class="font-micro-tag text-[10px] text-primary uppercase tracking-[0.3em] mb-1">HERO_SYNC</div>
+<div class="font-label-caps text-on-surface-variant opacity-60">Protocol 7.4-A</div>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center px-6 py-3 text-on-surface-variant opacity-60 hover:bg-white/5 transition-colors font-label-caps group" href="#">
+<span class="material-symbols-outlined mr-4" data-icon="search_check">search_check</span> Discovery
+            </a>
+<a class="flex items-center px-6 py-3 text-on-surface-variant opacity-60 hover:bg-white/5 transition-colors font-label-caps group" href="#">
+<span class="material-symbols-outlined mr-4" data-icon="radar">radar</span> Pairing
+            </a>
+<a class="flex items-center px-6 py-3 text-secondary border-l-2 border-secondary bg-secondary/10 glow-cyan font-label-caps" href="#">
+<span class="material-symbols-outlined mr-4" data-icon="group_work">group_work</span> Clusters
+            </a>
+<a class="flex items-center px-6 py-3 text-on-surface-variant opacity-60 hover:bg-white/5 transition-colors font-label-caps group" href="#">
+<span class="material-symbols-outlined mr-4" data-icon="terminal">terminal</span> Messages
+            </a>
+<a class="flex items-center px-6 py-3 text-on-surface-variant opacity-60 hover:bg-white/5 transition-colors font-label-caps group" href="#">
+<span class="material-symbols-outlined mr-4" data-icon="database">database</span> Archive
+            </a>
+</nav>
+<div class="mt-auto px-6 space-y-4">
+<button class="w-full py-3 neon-border bg-secondary/5 text-secondary font-label-caps tracking-widest hover:bg-secondary hover:text-background transition-all duration-300">
+                INITIATE_SYNC
+            </button>
+<div class="pt-4 border-t border-secondary/10">
+<div class="flex items-center gap-4 text-on-surface-variant opacity-60 py-2 hover:text-primary cursor-pointer">
+<span class="material-symbols-outlined text-[20px]" data-icon="settings">settings</span>
+<span class="text-[10px] uppercase tracking-widest font-label-caps">Settings</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant opacity-60 py-2 hover:text-primary cursor-pointer">
+<span class="material-symbols-outlined text-[20px]" data-icon="sensors">sensors</span>
+<span class="text-[10px] uppercase tracking-widest font-label-caps">Status</span>
+</div>
+</div>
+</div>
+</aside>
+<main class="pt-24 pb-32 md:pb-12 md:pl-64 min-h-screen px-margin-mobile md:px-margin-desktop">
+<!-- Header Section -->
+<div class="mb-12">
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary uppercase tracking-tighter mb-2">Capa de Intimidad &amp; Límites</h1>
+<div class="flex items-center gap-4">
+<span class="px-2 py-1 bg-tertiary/10 text-tertiary text-[10px] font-label-caps border border-tertiary/20">SECURITY_LVL_OMEGA</span>
+<span class="text-on-surface-variant/60 font-body-sm text-[12px]">Encrypted Neural Pathway Active</span>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Neural Shielding (Settings) -->
+<section class="md:col-span-2 glass-panel p-8 relative overflow-hidden group">
+<div class="absolute top-2 right-4 font-data-viz text-[10px] text-on-surface-variant/30">#NS-8842-SHIELD</div>
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="security">security</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Neural Shielding</h2>
+</div>
+<div class="space-y-6">
+<div class="flex items-center justify-between p-4 bg-surface-container-high/50 border-l-4 border-primary/40">
+<div>
+<p class="font-label-caps text-primary text-[10px] mb-1">DATA_OBFUSCATION</p>
+<h3 class="font-headline-md text-[18px]">Hide 'Karmic Debt' Data</h3>
+<p class="font-body-sm text-on-surface-variant text-[12px]">Hidden from external nodes until 90% Sync is achieved.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-high/50 border-l-4 border-secondary/40">
+<div>
+<p class="font-label-caps text-secondary text-[10px] mb-1">WEALTH_MASKING</p>
+<h3 class="font-headline-md text-[18px]">Wealth Engine Veil</h3>
+<p class="font-body-sm text-on-surface-variant text-[12px]">Obscure economic signatures in search results.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4">
+<!-- House Toggles -->
+<div class="p-3 bg-surface-container-lowest border border-white/5 flex flex-col items-center gap-2 hover:border-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-primary/60" data-icon="house">house</span>
+<span class="font-label-caps text-[10px]">House 01</span>
+</div>
+<div class="p-3 bg-surface-container-lowest border border-white/5 flex flex-col items-center gap-2 hover:border-primary transition-colors cursor-pointer opacity-40">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="visibility_off">visibility_off</span>
+<span class="font-label-caps text-[10px]">House 02</span>
+</div>
+<div class="p-3 bg-surface-container-lowest border border-white/5 flex flex-col items-center gap-2 hover:border-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-primary/60" data-icon="castle">castle</span>
+<span class="font-label-caps text-[10px]">House 03</span>
+</div>
+<div class="p-3 bg-surface-container-lowest border border-white/5 flex flex-col items-center gap-2 hover:border-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-primary/60" data-icon="fort">fort</span>
+<span class="font-label-caps text-[10px]">House 04</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Signal Verification -->
+<section class="glass-panel p-8 bg-black/40 border-primary/20 relative">
+<div class="absolute top-2 right-4 font-data-viz text-[10px] text-tertiary/40">TERMINAL_V1.0</div>
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-tertiary" data-icon="terminal">terminal</span>
+<h2 class="font-headline-md text-headline-md">Signal Status</h2>
+</div>
+<div class="space-y-4 font-data-viz text-[14px]">
+<div class="flex justify-between items-center text-secondary border-b border-secondary/20 pb-2">
+<span>SYNC_CONNECTION</span>
+<span class="animate-pulse">ENCRYPTED</span>
+</div>
+<div class="flex justify-between items-center text-error border-b border-error/20 pb-2">
+<span>NEURAL_NOISE</span>
+<span>DETECTION: HIGH</span>
+</div>
+<div class="mt-8">
+<p class="font-label-caps text-[10px] text-on-surface-variant mb-3">ACTIVE_THREAT_FILTER</p>
+<div class="space-y-2">
+<div class="flex items-center gap-2 text-error/80">
+<span class="material-symbols-outlined text-[16px]" data-icon="warning">warning</span>
+<span>Unverified Class Alpha</span>
+</div>
+<div class="flex items-center gap-2 text-error/80">
+<span class="material-symbols-outlined text-[16px]" data-icon="block">block</span>
+<span>Shadow-Banned Nodes</span>
+</div>
+</div>
+</div>
+<div class="mt-8 p-4 bg-tertiary/5 border border-tertiary/20">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-tertiary text-[18px]" data-icon="fingerprint">fingerprint</span>
+<span class="text-tertiary font-bold">DNA_HANDSHAKE</span>
+</div>
+<p class="text-[12px] text-on-surface-variant">Require biometric confirmation for private data exchange.</p>
+</div>
+</div>
+</section>
+<!-- Archetype Filtering -->
+<section class="glass-panel p-8 border-secondary/20">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="filter_alt">filter_alt</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Archetype Filter</h2>
+</div>
+<div class="space-y-6">
+<div class="p-4 bg-surface-container-lowest border border-white/5">
+<p class="font-label-caps text-[10px] text-secondary mb-2">SEARCHING_FOR</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-secondary/10 text-secondary border border-secondary/30 rounded-full text-[12px] font-label-caps">Polymath</span>
+<span class="px-3 py-1 bg-secondary/10 text-secondary border border-secondary/30 rounded-full text-[12px] font-label-caps">Weaver</span>
+<span class="px-3 py-1 bg-white/5 text-on-surface-variant border border-white/10 rounded-full text-[12px] font-label-caps">+ Custom</span>
+</div>
+</div>
+<div>
+<p class="font-label-caps text-[10px] text-on-surface-variant mb-4">MATCH_PRECISION</p>
+<div class="h-2 w-full bg-surface-container-highest rounded-full overflow-hidden flex">
+<div class="h-full bg-secondary w-3/4"></div>
+<div class="h-full bg-secondary/20 w-1/4"></div>
+</div>
+<div class="flex justify-between mt-2 font-data-viz text-[10px] text-on-surface-variant">
+<span>RELAXED</span>
+<span>PRECISION (75%)</span>
+</div>
+</div>
+<div class="space-y-3">
+<p class="font-label-caps text-[10px] text-on-surface-variant">COLLABORATION_BUILD</p>
+<div class="flex items-center gap-3">
+<span class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[16px]" data-icon="architecture">architecture</span>
+</span>
+<span class="text-on-surface-variant text-[14px]">Filter by 'Void-Crafting' skills</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Consent Protocols -->
+<section class="md:col-span-2 glass-panel p-8 border-tertiary/20">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-tertiary text-3xl" data-icon="policy">policy</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Consent Protocols</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="p-6 bg-tertiary/5 border border-tertiary/10 rounded-xl">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-tertiary" data-icon="digital_out-of-home">cloud_download</span>
+<h3 class="font-headline-md text-[20px]">Digital Sync</h3>
+</div>
+<ul class="space-y-4">
+<li class="flex items-center justify-between">
+<span class="text-on-surface-variant font-body-sm text-[14px]">Read neural bio-data</span>
+<span class="material-symbols-outlined text-secondary" data-icon="check_circle">check_circle</span>
+</li>
+<li class="flex items-center justify-between">
+<span class="text-on-surface-variant font-body-sm text-[14px]">Share 13 Houses Chart</span>
+<span class="material-symbols-outlined text-tertiary" data-icon="toggle_off">toggle_off</span>
+</li>
+<li class="flex items-center justify-between">
+<span class="text-on-surface-variant font-body-sm text-[14px]">Async Messaging</span>
+<span class="material-symbols-outlined text-secondary" data-icon="check_circle">check_circle</span>
+</li>
+</ul>
+</div>
+<div class="p-6 bg-primary/5 border border-primary/10 rounded-xl">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary" data-icon="hail">hail</span>
+<h3 class="font-headline-md text-[20px]">Physical Interaction</h3>
+</div>
+<ul class="space-y-4">
+<li class="flex items-center justify-between">
+<span class="text-on-surface-variant font-body-sm text-[14px]">Real-world ping (GPS)</span>
+<span class="material-symbols-outlined text-error" data-icon="cancel">cancel</span>
+</li>
+<li class="flex items-center justify-between">
+<span class="text-on-surface-variant font-body-sm text-[14px]">Touch Proximity Alert</span>
+<span class="material-symbols-outlined text-primary" data-icon="toggle_on">toggle_on</span>
+</li>
+<li class="flex items-center justify-between">
+<span class="text-on-surface-variant font-body-sm text-[14px]">Haptic Boundaries</span>
+<span class="material-symbols-outlined text-primary" data-icon="toggle_on">toggle_on</span>
+</li>
+</ul>
+</div>
+</div>
+<div class="mt-8 flex justify-end gap-4">
+<button class="px-6 py-2 bg-transparent text-on-surface-variant font-label-caps border border-white/10 hover:bg-white/5 transition-all">RESET_DEFAULTS</button>
+<button class="px-8 py-2 bg-tertiary text-on-tertiary-fixed font-label-caps hover:brightness-125 transition-all shadow-[0_0_15px_rgba(255,175,212,0.3)]">COMMIT_PROTOCOLS</button>
+</div>
+</section>
+</div>
+<!-- Decorative Progress Visualizer -->
+<div class="mt-12 glass-panel p-6 border-primary/10">
+<div class="flex items-center justify-between mb-4">
+<span class="font-label-caps text-[10px] text-primary">ENCRYPTION_WAVEFORM</span>
+<span class="font-data-viz text-[10px] text-on-surface-variant">STABLE_SIGNAL</span>
+</div>
+<div class="flex items-end gap-1 h-12">
+<div class="w-1 bg-primary h-4 animate-[pulse_1.5s_infinite]"></div>
+<div class="w-1 bg-primary h-8 animate-[pulse_2s_infinite]"></div>
+<div class="w-1 bg-primary h-6 animate-[pulse_1.2s_infinite]"></div>
+<div class="w-1 bg-primary h-10 animate-[pulse_1.8s_infinite]"></div>
+<div class="w-1 bg-primary h-5 animate-[pulse_2.2s_infinite]"></div>
+<div class="w-1 bg-primary h-12 animate-[pulse_1.4s_infinite]"></div>
+<div class="w-1 bg-primary h-7 animate-[pulse_1.9s_infinite]"></div>
+<div class="w-1 bg-primary h-9 animate-[pulse_1.3s_infinite]"></div>
+<div class="w-1 bg-primary h-4 animate-[pulse_2.5s_infinite]"></div>
+<div class="w-1 bg-primary/40 h-6"></div>
+<div class="w-1 bg-primary/40 h-8"></div>
+<div class="w-1 bg-primary/40 h-5"></div>
+<div class="w-1 bg-primary/40 h-10"></div>
+<div class="w-1 bg-primary/40 h-4"></div>
+<div class="w-1 bg-primary/40 h-6"></div>
+<div class="flex-1 border-b border-primary/20 mb-2 border-dashed"></div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<footer class="md:hidden fixed bottom-0 w-full z-50 bg-surface-container-lowest/60 backdrop-blur-2xl border-t border-primary/20 flex justify-around items-center px-4 py-2 pb-safe shadow-[0_-10px_30px_rgba(45,168,224,0.15)]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="style">style</span>
+<span class="font-label-caps text-[10px] uppercase">Deck</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="wifi_tethering">wifi_tethering</span>
+<span class="font-label-caps text-[10px] uppercase">Pulse</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary glow-cyan scale-110" href="#">
+<span class="material-symbols-outlined" data-icon="videocam">videocam</span>
+<span class="font-label-caps text-[10px] uppercase">Stream</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-caps text-[10px] uppercase">Hero</span>
+</a>
+</footer>
+<script>
+        // Micro-interactions for switches
+        document.querySelectorAll('input[type="checkbox"]').forEach(toggle => {
+            toggle.addEventListener('change', (e) => {
+                const parent = e.target.closest('.flex');
+                if(e.target.checked) {
+                    parent.style.boxShadow = "inset 0 0 10px rgba(127, 208, 255, 0.1)";
+                } else {
+                    parent.style.boxShadow = "none";
+                }
+            });
+        });
+
+        // Terminal text flicker effect
+        const terminalText = document.querySelectorAll('.animate-pulse');
+        setInterval(() => {
+            terminalText.forEach(el => {
+                el.style.opacity = Math.random() > 0.95 ? '0.3' : '1';
+            });
+        }, 100);
+    </script>
+</body></html>

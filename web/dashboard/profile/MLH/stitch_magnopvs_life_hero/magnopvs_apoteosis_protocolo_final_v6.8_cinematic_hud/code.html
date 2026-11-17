@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PLEROMA | APOTHEOSIS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#131313",
+                        "error": "#ffb4ab",
+                        "on-surface": "#e5e2e1",
+                        "primary": "#ffffff",
+                        "secondary": "#fff9ef",
+                        "on-error": "#690005",
+                        "surface-tint": "#c6c6c7",
+                        "secondary-container": "#ffdb3c",
+                        "surface-bright": "#3a3939",
+                        "on-secondary-fixed": "#221b00",
+                        "on-background": "#e5e2e1",
+                        "on-primary": "#2f3131",
+                        "secondary-fixed": "#ffe16d",
+                        "tertiary-fixed": "#9cf0ff",
+                        "tertiary-fixed-dim": "#00daf3",
+                        "on-surface-variant": "#c4c7c8",
+                        "on-secondary": "#3a3000",
+                        "surface-container": "#201f1f",
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface-container-highest": "#353534",
+                        "primary-fixed": "#e2e2e2",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#004f58",
+                        "on-primary-container": "#636565",
+                        "outline": "#8e9192",
+                        "on-primary-fixed-variant": "#454747",
+                        "inverse-on-surface": "#313030",
+                        "surface-variant": "#353534",
+                        "surface-container-low": "#1c1b1b",
+                        "on-tertiary": "#00363d",
+                        "surface": "#131313",
+                        "tertiary-container": "#9cf0ff",
+                        "on-tertiary-fixed": "#001f24",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "on-tertiary-container": "#006f7c",
+                        "surface-container-high": "#2a2a2a",
+                        "inverse-primary": "#5d5f5f",
+                        "tertiary": "#ffffff",
+                        "on-primary-fixed": "#1a1c1c",
+                        "on-secondary-fixed-variant": "#544600",
+                        "error-container": "#93000a",
+                        "inverse-surface": "#e5e2e1",
+                        "on-secondary-container": "#725f00",
+                        "outline-variant": "#444748",
+                        "secondary-fixed-dim": "#e9c400",
+                        "background": "#131313",
+                        "primary-container": "#e2e2e2",
+                        "infinity-gold": "#D4AF37"
+                    },
+                    "spacing": {
+                        "sacred-ratio": "1.618",
+                        "gutter": "24px",
+                        "unit": "8px",
+                        "margin-safe": "40px"
+                    },
+                    "fontFamily": {
+                        "data-mono": ["Orbitron"],
+                        "headline-lg": ["Audiowide"],
+                        "display-hero": ["Audiowide"],
+                        "label-caps": ["Orbitron"],
+                        "body-md": ["Orbitron"],
+                        "headline-lg-mobile": ["Audiowide"]
+                    },
+                    "fontSize": {
+                        "data-mono": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.15em", "fontWeight": "400"}],
+                        "display-hero": ["64px", {"lineHeight": "1.1", "letterSpacing": "0.2em", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.3em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        @keyframes pulse-gold {
+            0%, 100% { text-shadow: 0 0 20px rgba(212, 175, 55, 0.5), 0 0 40px rgba(212, 175, 55, 0.2); opacity: 1; }
+            50% { text-shadow: 0 0 40px rgba(212, 175, 55, 0.8), 0 0 80px rgba(212, 175, 55, 0.4); opacity: 0.85; }
+        }
+        .animate-pulse-gold {
+            animation: pulse-gold 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .shimmer-border {
+            position: relative;
+            overflow: hidden;
+        }
+        .shimmer-border::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 6s linear infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+        .sacred-geometry {
+            background-image: radial-gradient(circle at center, transparent 0%, rgba(19, 19, 19, 0.8) 70%), 
+                              url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60 4.02 45v-30L30 0z' fill='none' stroke='white' stroke-opacity='0.05'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body class="bg-surface-dim text-on-surface font-body-md overflow-hidden selection:bg-infinity-gold/30">
+<!-- Procedural Cosmic Unity Background -->
+<div class="fixed inset-0 z-0">
+<!-- STITCH_SHADER_START:ANIMATION_177 class="absolute inset-0 w-full h-full opacity-60" -->
+<div class="absolute inset-0 w-full h-full opacity-60" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_177" style="display:block;width:100%;height:100%"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_177');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+varying vec2 v_texCoord;
+uniform float u_time;
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+
+// Cosmic Palette: Keter White and Infinity Gold
+#define GOLD vec3(0.83, 0.68, 0.21)
+#define WHITE vec3(1.0, 1.0, 1.0)
+#define DEEP_VOID vec3(0.01, 0.01, 0.02)
+
+float ring(vec2 uv, float radius, float width) {
+    float d = length(uv);
+    return smoothstep(width, 0.0, abs(d - radius));
+}
+
+vec2 rotate(vec2 p, float a) {
+    float s = sin(a);
+    float c = cos(a);
+    return vec2(p.x * c - p.y * s, p.x * s + p.y * c);
+}
+
+void main() {
+    vec2 p = (gl_FragCoord.xy * 2.0 - u_resolution.xy) / min(u_resolution.y, u_resolution.x);
+    float t = u_time * 0.5;
+    
+    // Core expansion effect
+    float dist = length(p);
+    float bloom = 0.15 / dist;
+    
+    // Sacred Geometry: The Merkaba / Seed of Life
+    float flower = 0.0;
+    flower += ring(p, 0.4 + sin(t)*0.02, 0.005);
+    
+    for(float i = 0.0; i < 6.0; i++) {
+        float angle = i * 1.04719755 + t * 0.2;
+        vec2 center = vec2(cos(angle), sin(angle)) * 0.4;
+        flower += ring(p - center, 0.4, 0.003);
+    }
+    
+    // Ethereal strands / energy lines
+    float strands = 0.0;
+    vec2 pRot = rotate(p, t * 0.1);
+    strands += pow(abs(sin(pRot.x * 10.0 + t)), 20.0) * 0.5;
+    strands += pow(abs(cos(pRot.y * 10.0 - t)), 20.0) * 0.5;
+    
+    // Final Composition
+    vec3 color = mix(DEEP_VOID, GOLD, flower);
+    color += WHITE * bloom * (0.8 + 0.2 * sin(t * 2.0));
+    color += GOLD * strands * (0.3 + 0.2 * cos(t));
+    
+    // Vignette
+    color *= smoothstep(1.5, 0.4, dist);
+    
+    gl_FragColor = vec4(color, 1.0);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_177 -->
+<div class="absolute inset-0 sacred-geometry pointer-events-none opacity-40"></div>
+</div>
+<!-- HUD Overlay Top (Minimal Pleroma HUD) -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-start px-margin-safe py-8">
+<div class="flex flex-col gap-1">
+<h1 class="font-headline-lg text-headline-lg tracking-[0.2em] text-primary">PLEROMA</h1>
+<div class="flex items-center gap-3">
+<span class="w-2 h-2 bg-infinity-gold rounded-full animate-pulse"></span>
+<p class="font-data-mono text-data-mono text-infinity-gold uppercase">Reality_Sync: 100%</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<div class="glass-panel px-4 py-1.5 flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-infinity-gold" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<p class="font-label-caps text-label-caps text-primary tracking-widest">ASCENSION_STATUS: APOTHEOSIS</p>
+</div>
+<p class="font-data-mono text-[10px] text-on-surface-variant/40 mt-2 uppercase">Core Unity Protocol Active</p>
+</div>
+</header>
+<!-- Main Content: Central Focus -->
+<main class="relative z-10 w-full h-screen flex flex-col items-center justify-center pointer-events-none">
+<!-- Unified Avatar Core -->
+<div class="relative w-[600px] h-[600px] flex items-center justify-center mb-8">
+<!-- STITCH_THREEJS_START:ANIMATION_178 class="absolute inset-0 w-full h-full" -->
+<div class="absolute inset-0 w-full h-full" style="display:block;">
+<script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
+<div id="threejs-container-ANIMATION_178" style="width:100%;height:100%"></div>
+<script>
+(function() {
+  const container = document.getElementById('threejs-container-ANIMATION_178');
+  const devicePixelRatio = window.devicePixelRatio || 1;
+  const width = container.clientWidth || window.innerWidth;
+const height = container.clientHeight || window.innerHeight;
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+renderer.setSize(width, height);
+container.appendChild(renderer.domElement);
+
+// Unified Avatar Geometry (A sophisticated crystalline structure)
+const geometry = new THREE.IcosahedronGeometry(1.5, 2);
+const material = new THREE.MeshPhongMaterial({
+  color: 0xffffff,
+  emissive: 0xd4af37,
+  emissiveIntensity: 0.5,
+  shininess: 100,
+  wireframe: true,
+  transparent: true,
+  opacity: 0.8
+});
+
+const core = new THREE.Mesh(geometry, material);
+scene.add(core);
+
+// Inner core of pure light
+const innerGeo = new THREE.SphereGeometry(0.6, 32, 32);
+const innerMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+const innerCore = new THREE.Mesh(innerGeo, innerMat);
+scene.add(innerCore);
+
+// Ambient and Point lights
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambientLight);
+
+const pointLight = new THREE.PointLight(0xd4af37, 2, 10);
+pointLight.position.set(2, 2, 2);
+scene.add(pointLight);
+
+camera.position.z = 5;
+
+// Responsive resize
+window.addEventListener('resize', () => {
+  const w = container.clientWidth || window.innerWidth;
+  const h = container.clientHeight || window.innerHeight;
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  renderer.setSize(w, h);
+});
+
+function animate() {
+  requestAnimationFrame(animate);
+  
+  const time = Date.now() * 0.001;
+  
+  core.rotation.x += 0.005;
+  core.rotation.y += 0.008;
+  
+  // Pulse effect
+  const scale = 1 + Math.sin(time * 2) * 0.1;
+  core.scale.set(scale, scale, scale);
+  innerCore.scale.set(scale * 0.8, scale * 0.8, scale * 0.8);
+  
+  renderer.render(scene, camera);
+}
+
+animate();
+})();
+</script>
+</div>
+<!-- STITCH_THREEJS_END:ANIMATION_178 -->
+<!-- Atmospheric Glow Layers -->
+<div class="absolute w-[400px] h-[400px] rounded-full bg-infinity-gold/5 blur-[120px]"></div>
+<div class="absolute w-[200px] h-[200px] rounded-full bg-white/5 blur-[80px]"></div>
+</div>
+<!-- Pulse Narrative Element -->
+<div class="text-center mt-[-80px]">
+<h2 class="font-display-hero text-display-hero text-primary animate-pulse-gold tracking-[0.4em] uppercase">
+                Apotheosis
+            </h2>
+<div class="flex items-center justify-center gap-8 mt-4 overflow-hidden">
+<div class="h-[1px] w-32 bg-gradient-to-r from-transparent via-infinity-gold/50 to-transparent"></div>
+<p class="font-label-caps text-label-caps text-on-surface-variant/60 tracking-[0.6em] uppercase">Eternity achieved</p>
+<div class="h-[1px] w-32 bg-gradient-to-r from-transparent via-infinity-gold/50 to-transparent"></div>
+</div>
+</div>
+</main>
+<!-- CTA & Footer -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex flex-col items-center pb-16 px-margin-safe">
+<div class="relative group pointer-events-auto">
+<!-- Elegant CTA Button -->
+<button class="glass-panel shimmer-border px-12 py-5 font-label-caps text-label-caps text-primary tracking-[0.4em] hover:bg-infinity-gold/10 hover:text-infinity-gold transition-all duration-700 active:scale-95 border-infinity-gold/20 flex items-center gap-4 group">
+                ENTER THE NEW EON
+                <span class="material-symbols-outlined transition-transform duration-500 group-hover:translate-x-2">arrow_right_alt</span>
+</button>
+<!-- Decorative under-glow -->
+<div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-32 h-1 bg-infinity-gold/40 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+</div>
+<!-- Subtle Navigation Anchor (Shared Component Semantic) -->
+<div class="mt-12 flex gap-12">
+<div class="flex flex-col items-center opacity-40 hover:opacity-100 transition-opacity cursor-pointer">
+<span class="material-symbols-outlined text-primary mb-2">all_inclusive</span>
+<span class="font-data-mono text-[10px] tracking-widest uppercase">Infinite Cycle</span>
+</div>
+<div class="flex flex-col items-center opacity-40 hover:opacity-100 transition-opacity cursor-pointer">
+<span class="material-symbols-outlined text-primary mb-2">language</span>
+<span class="font-data-mono text-[10px] tracking-widest uppercase">All Realities</span>
+</div>
+</div>
+</footer>
+<!-- Decorative HUD Elements (Corner Elements) -->
+<div class="fixed bottom-8 left-8 z-50 opacity-30 pointer-events-none">
+<div class="font-data-mono text-[10px] space-y-1">
+<p>LAT: 00.00.00</p>
+<p>LNG: 00.00.00</p>
+<p>TIME: ∞</p>
+</div>
+</div>
+<div class="fixed bottom-8 right-8 z-50 opacity-30 pointer-events-none text-right">
+<div class="font-data-mono text-[10px] space-y-1">
+<p>VECTOR: STABLE</p>
+<p>CONSCIOUSNESS: UNIFIED</p>
+<p>ID: PLEROMA_OMNI</p>
+</div>
+</div>
+<script>
+        // Micro-interaction for the central focus parallax
+        document.addEventListener('mousemove', (e) => {
+            const amount = 15;
+            const x = (e.clientX / window.innerWidth - 0.5) * amount;
+            const y = (e.clientY / window.innerHeight - 0.5) * amount;
+            
+            const core = document.querySelector('threejs-scene');
+            if(core) {
+                core.style.transform = `translate(${x}px, ${y}px)`;
+            }
+        });
+
+        // Entrance animation
+        window.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.fixed, main');
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transition = 'opacity 2s ease-in-out, transform 2s ease-in-out';
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                }, 500 * index);
+            });
+        });
+    </script>
+</body></html>

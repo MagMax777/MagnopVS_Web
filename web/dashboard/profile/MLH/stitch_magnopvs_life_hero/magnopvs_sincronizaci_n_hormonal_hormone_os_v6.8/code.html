@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOPS_VS_v2.4 | Hormonal Synchronization Terminal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&amp;family=Inter:wght@300;400;600&amp;family=Geist:wght@300;500;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --magenta: #fe00fe;
+            --aqua: #00dddd;
+            --obsidian: #0e0e0e;
+        }
+        body {
+            background-color: var(--obsidian);
+            color: #e5e2e2;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+        .hex-grid {
+            background-image: 
+                linear-gradient(30deg, #00ffff05 12%, transparent 12.5%, transparent 87%, #00ffff05 87.5%, #00ffff05),
+                linear-gradient(150deg, #00ffff05 12%, transparent 12.5%, transparent 87%, #00ffff05 87.5%, #00ffff05),
+                linear-gradient(30deg, #00ffff05 12%, transparent 12.5%, transparent 87%, #00ffff05 87.5%, #00ffff05),
+                linear-gradient(150deg, #00ffff05 12%, transparent 12.5%, transparent 87%, #00ffff05 87.5%, #00ffff05),
+                linear-gradient(60deg, #ff00ff05 25%, transparent 25.5%, transparent 75%, #ff00ff05 75%, #ff00ff05),
+                linear-gradient(60deg, #ff00ff05 25%, transparent 25.5%, transparent 75%, #ff00ff05 75%, #ff00ff05);
+            background-size: 80px 140px;
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 221, 221, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-panel::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--aqua), transparent);
+            animation: scanning 8s linear infinite;
+        }
+        @keyframes scanning {
+            0% { top: 0; }
+            50% { top: 100%; }
+            100% { top: 0; }
+        }
+        .bioluminescence-aqua {
+            box-shadow: 0 0 15px rgba(0, 221, 221, 0.2);
+        }
+        .bioluminescence-magenta {
+            box-shadow: 0 0 15px rgba(254, 0, 254, 0.2);
+        }
+        .shutter-blur {
+            filter: blur(8px);
+            transition: filter 0.3s ease;
+            cursor: pointer;
+        }
+        .shutter-blur:active {
+            filter: blur(0);
+        }
+        .hex-clip {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-bright": "#3a3939",
+                        "on-primary-container": "#7b7b81",
+                        "secondary-fixed-dim": "#ffabf3",
+                        "primary-container": "#0d0e13",
+                        "surface-container-highest": "#353435",
+                        "on-primary-fixed": "#1a1b21",
+                        "on-secondary-fixed-variant": "#810081",
+                        "on-primary": "#2f3036",
+                        "on-tertiary-fixed-variant": "#004f4f",
+                        "tertiary-container": "#001111",
+                        "surface-container-low": "#1c1b1c",
+                        "surface-dim": "#141314",
+                        "on-surface-variant": "#c7c6cb",
+                        "on-secondary-container": "#500050",
+                        "on-error": "#690005",
+                        "surface-variant": "#353435",
+                        "error-container": "#93000a",
+                        "tertiary": "#00dddd",
+                        "on-surface": "#e5e2e2",
+                        "on-primary-fixed-variant": "#46464c",
+                        "inverse-primary": "#5e5e64",
+                        "surface-container": "#201f20",
+                        "primary": "#c7c6cd",
+                        "outline": "#919095",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-background": "#e5e2e2",
+                        "error": "#ffb4ab",
+                        "on-tertiary-container": "#008989",
+                        "tertiary-fixed-dim": "#00dddd",
+                        "secondary-container": "#fe00fe",
+                        "on-tertiary": "#003737",
+                        "surface-container-high": "#2a2a2a",
+                        "outline-variant": "#46464b",
+                        "primary-fixed-dim": "#c7c6cd",
+                        "on-error-container": "#ffdad6",
+                        "surface": "#141314",
+                        "secondary-fixed": "#ffd7f5",
+                        "inverse-surface": "#e5e2e2",
+                        "on-secondary": "#5b005b",
+                        "tertiary-fixed": "#00fbfb",
+                        "surface-tint": "#c7c6cd",
+                        "background": "#141314",
+                        "on-tertiary-fixed": "#002020",
+                        "inverse-on-surface": "#313030",
+                        "primary-fixed": "#e3e1e9",
+                        "on-secondary-fixed": "#380038",
+                        "secondary": "#ffabf3"
+                    },
+                    fontFamily: {
+                        "data-label-sm": ["Geist"],
+                        "data-display-xl": ["Geist"],
+                        "body-standard": ["Inter"],
+                        "hud-header-md": ["Space Grotesk"],
+                        "hud-header-lg": ["Space Grotesk"],
+                        "body-caps": ["Inter"]
+                    },
+                    fontSize: {
+                        "data-label-sm": ["12px", {"lineHeight": "1.5", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                        "data-display-xl": ["36px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "800"}],
+                        "body-standard": ["16px", {"lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "hud-header-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "0.03em", "fontWeight": "600"}],
+                        "hud-header-lg": ["42px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "body-caps": ["11px", {"lineHeight": "1.4", "letterSpacing": "0.2em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background">
+<div class="hex-grid"></div>
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(0,221,221,0.1)] flex justify-between items-center px-10 h-20">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-tertiary text-3xl">biotech</span>
+<h1 class="font-hud-header-lg text-hud-header-lg font-bold tracking-tighter text-on-surface dark:text-on-surface">MAGNOPS_VS_v2.4</h1>
+</div>
+<div class="hidden md:flex gap-8">
+<button class="font-hud-header-md text-hud-header-md text-tertiary border-b-2 border-tertiary transition-all duration-300">Hormonal-Lab</button>
+<button class="font-hud-header-md text-hud-header-md text-on-surface-variant hover:text-secondary transition-all duration-300">Bio-Telemetry</button>
+<button class="font-hud-header-md text-hud-header-md text-on-surface-variant hover:text-secondary transition-all duration-300">Cycle-Sync</button>
+</div>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-tertiary cursor-pointer transition-colors">settings_input_component</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-tertiary cursor-pointer transition-colors">satellite_alt</span>
+<div class="w-10 h-10 rounded-full border border-tertiary p-0.5 bioluminescence-aqua">
+<img class="w-full h-full rounded-full object-cover" data-alt="A futuristic medical user avatar with bioluminescent skin patterns and glowing neural link interfaces, set against a dark obsidian background with faint cyan grid lines. The lighting is cold and clinical, emphasizing the advanced bio-tech aesthetic of a high-fidelity diagnostic dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBE23Evj2zvvPWidq0nS3_VgdXMurXO4G8i2SeA8tD88FAU8RQO3k6sm5yWpNXa2RDnP0Iz6qoHVjv9dkYt1XQ_h0gvaAUJ95BNYweVD1OxhIg_1SvdYnVhoJXFFyjnxXkc7jZ9VMG7Fo8pwnQHEAXXo3OP6kgiWEUAYCek-1VeHpoTkbsnMctTx39LqvQPvnQkI5melb7WhUJ0yfEz9Bt1ahY7dbJo_9dV127boF2I10biBm-GEQw2NQ"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-lowest/90 dark:bg-surface-container-lowest/90 backdrop-blur-2xl border-r border-outline-variant/20 shadow-2xl flex flex-col pt-24 pb-8 px-4 hidden lg:flex">
+<div class="mb-10 px-2">
+<div class="flex items-center gap-3 mb-1">
+<span class="material-symbols-outlined text-primary text-2xl">terminal</span>
+<span class="font-hud-header-md text-hud-header-md text-primary">MAGNOPS_OS</span>
+</div>
+<p class="font-data-label-sm text-data-label-sm uppercase tracking-widest text-secondary">BIO-SYNC ACTIVE</p>
+</div>
+<nav class="flex-1 space-y-2">
+<div class="flex items-center gap-3 p-3 font-data-label-sm text-data-label-sm uppercase tracking-widest text-on-surface-variant opacity-60 hover:bg-surface-container-highest hover:text-on-surface transition-all cursor-pointer">
+<span class="material-symbols-outlined">monitor_heart</span>
+<span>Bio-Telemetry</span>
+</div>
+<div class="flex items-center gap-3 p-3 font-data-label-sm text-data-label-sm uppercase tracking-widest text-on-surface-variant opacity-60 hover:bg-surface-container-highest hover:text-on-surface transition-all cursor-pointer">
+<span class="material-symbols-outlined">psychology</span>
+<span>Neural-Link</span>
+</div>
+<div class="flex items-center gap-3 p-3 font-data-label-sm text-data-label-sm uppercase tracking-widest text-secondary-fixed-dim bg-secondary-container/10 border-r-4 border-secondary-container transition-all cursor-pointer">
+<span class="material-symbols-outlined">science</span>
+<span>Hormonal-Lab</span>
+</div>
+<div class="flex items-center gap-3 p-3 font-data-label-sm text-data-label-sm uppercase tracking-widest text-on-surface-variant opacity-60 hover:bg-surface-container-highest hover:text-on-surface transition-all cursor-pointer">
+<span class="material-symbols-outlined">ac_unit</span>
+<span>Cryo-Storage</span>
+</div>
+<div class="flex items-center gap-3 p-3 font-data-label-sm text-data-label-sm uppercase tracking-widest text-on-surface-variant opacity-60 hover:bg-surface-container-highest hover:text-on-surface transition-all cursor-pointer">
+<span class="material-symbols-outlined">query_stats</span>
+<span>System-Logs</span>
+</div>
+</nav>
+<div class="mt-auto space-y-4 pt-4 border-t border-outline-variant/20">
+<button class="w-full py-3 bg-secondary-container text-on-secondary font-bold tracking-widest text-xs bioluminescence-magenta hover:scale-105 transition-transform">SYNC DATA</button>
+<div class="flex justify-around text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:text-tertiary">support_agent</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-tertiary">query_stats</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-0 lg:ml-64 pt-24 pb-12 px-10">
+<!-- 1. Hormonal Telemetry Header -->
+<section class="mb-10">
+<div class="flex items-baseline gap-4 mb-6">
+<span class="font-hud-header-lg text-hud-header-lg text-on-surface">Synchronization Terminal</span>
+<span class="font-data-label-sm text-data-label-sm text-tertiary opacity-80">v6.8_STABLE</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Serum Levels -->
+<div class="glass-panel p-6 rounded-xl bioluminescence-aqua">
+<div class="flex justify-between items-start mb-4">
+<p class="font-data-label-sm text-data-label-sm text-on-surface-variant">SERUM T-LEVEL</p>
+<span class="material-symbols-outlined text-tertiary text-sm">trending_up</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-data-display-xl text-data-display-xl text-on-surface">742</span>
+<span class="font-body-caps text-body-caps text-on-surface-variant">ng/dL</span>
+</div>
+<div class="mt-4 h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-3/4 shadow-[0_0_8px_#00dddd]"></div>
+</div>
+</div>
+<div class="glass-panel p-6 rounded-xl">
+<div class="flex justify-between items-start mb-4">
+<p class="font-data-label-sm text-data-label-sm text-on-surface-variant">ESTRADIOL E2</p>
+<span class="material-symbols-outlined text-secondary text-sm">fiber_manual_record</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-data-display-xl text-data-display-xl text-on-surface">24.1</span>
+<span class="font-body-caps text-body-caps text-on-surface-variant">pg/mL</span>
+</div>
+<div class="mt-4 h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-1/4 shadow-[0_0_8px_#ffabf3]"></div>
+</div>
+</div>
+<!-- Sync Stability -->
+<div class="glass-panel p-6 rounded-xl col-span-1 md:col-span-2 flex flex-col justify-center">
+<p class="font-data-label-sm text-data-label-sm text-on-surface-variant mb-4">PROTOCOL SYNC STABILITY</p>
+<div class="flex items-center gap-8">
+<div class="relative w-20 h-20">
+<svg class="w-full h-full -rotate-90">
+<circle class="text-surface-container-highest" cx="40" cy="40" fill="transparent" r="35" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-tertiary" cx="40" cy="40" fill="transparent" r="35" stroke="currentColor" stroke-dasharray="220" stroke-dashoffset="22" stroke-width="4" style="filter: drop-shadow(0 0 5px var(--aqua));"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center font-data-label-sm text-on-surface">90%</div>
+</div>
+<div class="space-y-1">
+<p class="font-body-standard text-body-standard text-on-surface">Molecular Equilibrium: <span class="text-tertiary font-bold">NOMINAL</span></p>
+<p class="font-body-caps text-body-caps text-on-surface-variant">Last Calibration: 14h 22m ago</p>
+<div class="flex gap-2 mt-2">
+<span class="px-2 py-0.5 rounded bg-tertiary/10 border border-tertiary/30 text-[10px] text-tertiary font-bold tracking-widest">ENZYME_SAFE</span>
+<span class="px-2 py-0.5 rounded bg-secondary/10 border border-secondary/30 text-[10px] text-secondary font-bold tracking-widest">RECEPTOR_VIGILANT</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-10">
+<!-- 2. Clinical Protocol Registry -->
+<section class="xl:col-span-2 space-y-6">
+<div class="flex justify-between items-center px-2">
+<h2 class="font-hud-header-md text-hud-header-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">verified_user</span> Clinical Protocol Registry
+                    </h2>
+<button class="font-body-caps text-body-caps text-tertiary border border-tertiary px-4 py-1 hover:bg-tertiary/10 transition-colors">REQUEST_MODIFICATION</button>
+</div>
+<div class="space-y-4">
+<!-- Medication Card -->
+<div class="glass-panel p-6 rounded-lg flex flex-wrap md:flex-nowrap gap-6 items-center">
+<div class="w-16 h-16 bg-surface-container-high hex-clip flex items-center justify-center border border-secondary/40 bioluminescence-magenta">
+<span class="material-symbols-outlined text-secondary text-3xl">medication</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-1">
+<h3 class="font-hud-header-md text-hud-header-md text-on-surface">Testosterone Cypionate</h3>
+<span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-[10px] font-bold border border-green-500/40">VERIFIED</span>
+</div>
+<p class="font-body-standard text-body-standard text-on-surface-variant">Intramuscular Administration | Weekly Cycle</p>
+</div>
+<div class="text-right">
+<p class="font-data-label-sm text-data-label-sm text-on-surface-variant">DOSAGE</p>
+<p class="font-data-display-xl text-data-display-xl text-tertiary">100<span class="text-lg">mg</span></p>
+</div>
+</div>
+<div class="glass-panel p-6 rounded-lg flex flex-wrap md:flex-nowrap gap-6 items-center opacity-80">
+<div class="w-16 h-16 bg-surface-container-high hex-clip flex items-center justify-center border border-outline/40">
+<span class="material-symbols-outlined text-on-surface-variant text-3xl">pill</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-1">
+<h3 class="font-hud-header-md text-hud-header-md text-on-surface">Anastrozole</h3>
+<span class="px-2 py-0.5 bg-tertiary/20 text-tertiary text-[10px] font-bold border border-tertiary/40">SUPPLEMENTAL</span>
+</div>
+<p class="font-body-standard text-body-standard text-on-surface-variant">Oral Pathway | Bi-Weekly Cycle</p>
+</div>
+<div class="text-right">
+<p class="font-data-label-sm text-data-label-sm text-on-surface-variant">DOSAGE</p>
+<p class="font-data-display-xl text-data-display-xl text-on-surface">0.25<span class="text-lg">mg</span></p>
+</div>
+</div>
+</div>
+<!-- 3. Lab Results Sync -->
+<div class="mt-12">
+<h2 class="font-hud-header-md text-hud-header-md text-on-surface mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary">analytics</span> Lab Results Sync
+                    </h2>
+<div class="glass-panel rounded-xl p-8 h-80 relative">
+<div class="absolute inset-0 flex items-end justify-between px-10 pb-10 opacity-20 pointer-events-none">
+<div class="w-1 h-full bg-outline-variant"></div>
+<div class="w-1 h-2/3 bg-outline-variant"></div>
+<div class="w-1 h-3/4 bg-outline-variant"></div>
+<div class="w-1 h-full bg-outline-variant"></div>
+<div class="w-1 h-4/5 bg-outline-variant"></div>
+</div>
+
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+<p class="font-data-label-sm text-data-label-sm text-tertiary animate-pulse mb-2">ANALYZING TRENDS...</p>
+<p class="font-body-caps text-body-caps text-on-surface-variant">Molecular Convergence: 0.88λ</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. Treatment Timeline -->
+<section class="space-y-6">
+<h2 class="font-hud-header-md text-hud-header-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary">event_repeat</span> Chronological Roadmap
+                </h2>
+<div class="space-y-4">
+<div class="p-6 border-l-4 border-secondary bg-surface-container-low rounded-r-lg relative">
+<p class="font-data-label-sm text-data-label-sm text-secondary uppercase mb-2">Next Administration</p>
+<h4 class="font-hud-header-md text-hud-header-md text-on-surface">T-Cypionate Injection</h4>
+<div class="flex justify-between items-end mt-4">
+<div>
+<p class="font-body-caps text-body-caps text-on-surface-variant">T-MINUS</p>
+<p class="font-data-display-xl text-data-display-xl text-on-surface">14:02:45</p>
+</div>
+<span class="material-symbols-outlined text-secondary text-4xl mb-1">precision_manufacturing</span>
+</div>
+</div>
+<div class="p-6 border-l-4 border-tertiary bg-surface-container-low rounded-r-lg">
+<p class="font-data-label-sm text-data-label-sm text-tertiary uppercase mb-2">Clinical Review</p>
+<h4 class="font-hud-header-md text-hud-header-md text-on-surface">Endocrine Analysis</h4>
+<p class="font-body-standard text-body-standard text-on-surface-variant mt-2">Dr. Valerius Chen | Virtual Node 4</p>
+<div class="mt-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-sm">calendar_month</span>
+<span class="font-body-caps text-body-caps text-on-surface">OCT 24, 2024 @ 14:00</span>
+</div>
+</div>
+<div class="glass-panel p-6 rounded-lg border-dashed border-outline/30">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full border border-tertiary/20 flex items-center justify-center bg-tertiary/5">
+<span class="material-symbols-outlined text-tertiary">bloodtype</span>
+</div>
+<div>
+<h4 class="font-body-standard text-body-standard font-bold text-on-surface">Next Blood Panel</h4>
+<p class="font-body-caps text-body-caps text-on-surface-variant">Required in 12 days</p>
+</div>
+</div>
+<button class="w-full py-2 border border-outline-variant hover:border-tertiary hover:text-tertiary transition-all font-body-caps text-body-caps uppercase tracking-widest">SCHEDULE_PHLEBOTOMY</button>
+</div>
+</div>
+<!-- 5. Inclusivity Focus & Privacy -->
+<div class="glass-panel p-6 rounded-xl mt-12 bg-surface-container-lowest/50">
+<div class="flex items-center gap-2 mb-4 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">lock</span>
+<p class="font-data-label-sm text-data-label-sm">ANATOMICAL_DATA_SHIELD</p>
+</div>
+<div class="space-y-4">
+<div class="group">
+<p class="font-body-caps text-body-caps text-on-surface-variant mb-1">PRIMARY BIOMETRIC ID</p>
+<div class="shutter-blur font-hud-header-md text-hud-header-md text-tertiary tracking-widest bg-surface-container-high px-3 py-1 rounded">
+                                PATIENT_X_9921
+                            </div>
+<p class="text-[10px] text-on-surface-variant italic mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Press and hold to unveil identifier</p>
+</div>
+<div class="pt-4 border-t border-outline-variant/20">
+<p class="font-body-standard text-body-standard text-on-surface-variant italic text-sm">
+                                "Protocol designed for physiological optimization. All terminology adheres to objective anatomical metrics for professional clinical precision."
+                            </p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Contextual FAB -->
+<button class="fixed bottom-10 right-10 w-16 h-16 bg-tertiary text-on-tertiary rounded-full shadow-[0_0_20px_rgba(0,221,221,0.5)] flex items-center justify-center hover:scale-110 transition-transform z-50">
+<span class="material-symbols-outlined text-3xl font-bold" style="font-variation-settings: 'FILL' 1;">add</span>
+</button>
+<script>
+        // Micro-interactions for glass panels
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mousemove', (e) => {
+                const rect = panel.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                panel.style.setProperty('--mouse-x', `${x}px`);
+                panel.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // Simple pulse effect for bio-readout chips via JS if needed, though Tailwind handles most
+        console.log("MAGNOPS_OS Terminal Initialized. Bio-Sync status: NOMINAL.");
+    </script>
+</body></html>

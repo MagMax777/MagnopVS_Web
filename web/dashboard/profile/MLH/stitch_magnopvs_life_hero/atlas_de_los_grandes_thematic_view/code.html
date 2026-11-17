@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Atlas de los Grandes | El Codex de los Grandes</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Hanken+Grotesk:wght@300;400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --primary-glow: rgba(45, 168, 224, 0.3);
+            --neon-cyan: #2da8e0;
+        }
+        body {
+            background-color: #101417;
+            color: #e0e3e6;
+            overflow-x: hidden;
+            font-family: 'Hanken Grotesk', sans-serif;
+        }
+        .cyber-grid {
+            background-image: linear-gradient(to right, rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(197, 231, 255, 0.1);
+        }
+        .text-glow-cyan {
+            text-shadow: 0 0 10px rgba(45, 168, 224, 0.5);
+        }
+        .neon-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 2px var(--neon-cyan)); }
+            50% { opacity: 0.7; filter: drop-shadow(0 0 8px var(--neon-cyan)); }
+        }
+        .slanted-edge {
+            clip-path: polygon(0 0, 95% 0, 100% 20%, 100% 100%, 5% 100%, 0 80%);
+        }
+        .hex-bracket {
+            position: relative;
+        }
+        .hex-bracket::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            width: 12px;
+            height: 12px;
+            border-top: 2px solid var(--neon-cyan);
+            border-left: 2px solid var(--neon-cyan);
+        }
+        .hex-bracket::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            width: 12px;
+            height: 12px;
+            border-bottom: 2px solid var(--neon-cyan);
+            border-right: 2px solid var(--neon-cyan);
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-fixed": "#390625",
+                      "surface-container-high": "#272a2d",
+                      "surface-container": "#1c2023",
+                      "inverse-surface": "#e0e3e6",
+                      "tertiary-fixed": "#ffd8e7",
+                      "grid-line": "rgba(127, 208, 255, 0.05)",
+                      "secondary-fixed-dim": "#47ddc1",
+                      "glow-cyan": "#2da8e0",
+                      "on-primary-container": "#00597b",
+                      "surface-container-highest": "#313538",
+                      "error-container": "#93000a",
+                      "surface-panel": "rgba(255, 255, 255, 0.03)",
+                      "on-primary-fixed-variant": "#004c6a",
+                      "surface-dim": "#101417",
+                      "surface-bright": "#363a3d",
+                      "on-tertiary": "#531c3b",
+                      "surface": "#101417",
+                      "outline": "#899299",
+                      "on-tertiary-fixed-variant": "#6e3252",
+                      "primary-fixed-dim": "#7fd0ff",
+                      "on-secondary-fixed": "#00201a",
+                      "surface-container-low": "#181c1f",
+                      "outline-variant": "#3f484e",
+                      "status-critical": "#93000a",
+                      "background": "#101417",
+                      "secondary": "#47ddc1",
+                      "on-error": "#690005",
+                      "background-deep": "#0a0b12",
+                      "on-tertiary-container": "#7c3e5e",
+                      "primary": "#c5e7ff",
+                      "error": "#ffb4ab",
+                      "surface-variant": "#313538",
+                      "secondary-fixed": "#6af9dc",
+                      "tertiary": "#ffd8e7",
+                      "inverse-primary": "#00658b",
+                      "on-primary": "#00344a",
+                      "surface-tint": "#7fd0ff",
+                      "on-secondary-container": "#004439",
+                      "tertiary-container": "#ffafd4",
+                      "surface-container-lowest": "#0b0f11",
+                      "primary-fixed": "#c5e7ff",
+                      "on-error-container": "#ffdad6",
+                      "on-secondary": "#00382e",
+                      "on-surface-variant": "#bfc8cf",
+                      "on-secondary-fixed-variant": "#005144",
+                      "inverse-on-surface": "#2d3134",
+                      "primary-container": "#7fd0ff",
+                      "secondary-container": "#00bba0",
+                      "on-primary-fixed": "#001e2d",
+                      "on-background": "#e0e3e6",
+                      "tertiary-fixed-dim": "#ffafd4",
+                      "on-surface": "#e0e3e6"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "20px",
+                      "unit": "4px",
+                      "gutter": "16px",
+                      "panel-gap": "12px",
+                      "section-padding": "128px",
+                      "margin-desktop": "40px"
+              },
+              "fontFamily": {
+                      "body-md": ["Hanken Grotesk"],
+                      "display-lg-mobile": ["Space Grotesk"],
+                      "display-lg": ["Space Grotesk"],
+                      "mono-data": ["JetBrains Mono"],
+                      "data-point": ["Hanken Grotesk"],
+                      "headline-md": ["Space Grotesk"],
+                      "label-caps": ["JetBrains Mono"],
+                      "micro-tag": ["JetBrains Mono"]
+              },
+              "fontSize": {
+                      "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                      "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "data-point": ["20px", {"lineHeight": "28px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                      "micro-tag": ["10px", {"letterSpacing": "0.3em", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background min-h-screen selection:bg-primary selection:text-on-primary">
+<div class="fixed inset-0 cyber-grid opacity-20 pointer-events-none z-0"></div>
+
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-low/90 backdrop-blur-2xl border-r border-primary/10 flex flex-col py-8 hidden md:flex">
+<div class="px-6 mb-12">
+<h1 class="font-display-lg text-[24px] text-glow-cyan uppercase tracking-widest mb-1">LEGACY_PROTOCOL</h1>
+<p class="font-micro-tag text-micro-tag text-primary/60">V-6.4 // ACTIVE</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-4 bg-primary/10 text-primary border-l-4 border-primary px-6 py-4 hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+<span class="font-label-caps text-label-caps">Codex</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">architecture</span>
+<span class="font-label-caps text-label-caps">Builds</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-caps text-label-caps">Archive</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps text-label-caps">Missions</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-label-caps">System</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full py-4 mb-8 slanted-edge bg-primary text-on-primary font-label-caps text-label-caps tracking-widest active:scale-95 transition-all">
+                INITIALIZE_SYNC
+            </button>
+<div class="flex flex-col gap-4 border-t border-primary/10 pt-6">
+<a class="flex items-center gap-3 text-on-surface-variant font-micro-tag text-micro-tag hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px]">help_outline</span>
+                    Support
+                </a>
+<a class="flex items-center gap-3 text-on-surface-variant font-micro-tag text-micro-tag hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px]">terminal</span>
+                    Logs
+                </a>
+</div>
+</div>
+</aside>
+<!-- TopNavBar (Mobile Only) -->
+<header class="md:hidden fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-3xl border-b border-primary/20 flex justify-between items-center px-margin-mobile py-4 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<h1 class="font-display-lg text-display-lg-mobile tracking-tighter text-primary uppercase">Atlas</h1>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary">search</span>
+<span class="material-symbols-outlined text-primary">notifications</span>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="md:ml-64 pt-20 md:pt-0 relative z-10">
+<!-- Hero Section -->
+<section class="min-h-[819px] flex flex-col justify-center px-margin-mobile md:px-margin-desktop py-section-padding">
+<div class="max-w-7xl mx-auto w-full">
+<div class="inline-block px-4 py-1 glass-panel border-primary/30 mb-6">
+<span class="font-micro-tag text-micro-tag text-primary neon-pulse uppercase tracking-[0.5em]">Global_Expansion // Activated</span>
+</div>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-white mb-6 uppercase tracking-tighter max-w-4xl">
+                    Atlas de <span class="text-primary text-glow-cyan">los Grandes</span>
+</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mb-12">
+                    Una cartografía multidisciplinaria de la excelencia humana. Desde los catalizadores de la ciencia hasta los creadores del arte, explora los arquetipos que definieron eras y los héroes anónimos que construyen el futuro.
+                </p>
+<div class="flex flex-wrap gap-gutter">
+<button class="px-8 py-4 bg-primary text-on-primary slanted-edge font-label-caps text-label-caps tracking-widest hover:brightness-110 transition-all flex items-center gap-3">
+<span class="material-symbols-outlined">explore</span>
+                        EXPLORAR_CATEGORÍAS
+                    </button>
+<button class="px-8 py-4 border border-primary/30 text-primary slanted-edge font-label-caps text-label-caps tracking-widest hover:bg-primary/10 transition-all">
+                        VIEW_ARCHIVE
+                    </button>
+</div>
+</div>
+</section>
+<!-- Category HUD Navigation -->
+<section class="px-margin-mobile md:px-margin-desktop py-12">
+<div class="max-w-7xl mx-auto">
+<div class="flex items-center gap-4 mb-12 overflow-x-auto no-scrollbar pb-4">
+<button class="flex flex-col items-center gap-4 group min-w-[120px]">
+<div class="w-16 h-16 flex items-center justify-center glass-panel rounded-full border-primary/40 group-hover:bg-primary/20 transition-all text-primary">
+<span class="material-symbols-outlined text-[32px]">biotech</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant group-hover:text-primary transition-colors">CIENCIA</span>
+</button>
+<div class="w-px h-12 bg-primary/10"></div>
+<button class="flex flex-col items-center gap-4 group min-w-[120px]">
+<div class="w-16 h-16 flex items-center justify-center glass-panel rounded-full border-secondary/40 group-hover:bg-secondary/20 transition-all text-secondary">
+<span class="material-symbols-outlined text-[32px]">palette</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant group-hover:text-secondary transition-colors">ARTE</span>
+</button>
+<div class="w-px h-12 bg-primary/10"></div>
+<button class="flex flex-col items-center gap-4 group min-w-[120px]">
+<div class="w-16 h-16 flex items-center justify-center glass-panel rounded-full border-tertiary-container/40 group-hover:bg-tertiary-container/20 transition-all text-tertiary-container">
+<span class="material-symbols-outlined text-[32px]">fitness_center</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant group-hover:text-tertiary-container transition-colors">DEPORTE</span>
+</button>
+<div class="w-px h-12 bg-primary/10"></div>
+<button class="flex flex-col items-center gap-4 group min-w-[120px]">
+<div class="w-16 h-16 flex items-center justify-center glass-panel rounded-full border-primary/40 group-hover:bg-primary/20 transition-all text-primary">
+<span class="material-symbols-outlined text-[32px]">rocket_launch</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant group-hover:text-primary transition-colors">NEGOCIOS</span>
+</button>
+<div class="w-px h-12 bg-primary/10"></div>
+<button class="flex flex-col items-center gap-4 group min-w-[120px]">
+<div class="w-16 h-16 flex items-center justify-center glass-panel rounded-full border-secondary/40 group-hover:bg-secondary/20 transition-all text-secondary">
+<span class="material-symbols-outlined text-[32px]">public</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant group-hover:text-secondary transition-colors">HUMANISMO</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Feature Legends: Cinematic Portrait Grid -->
+<section class="px-margin-mobile md:px-margin-desktop py-24">
+<div class="max-w-7xl mx-auto">
+<div class="flex justify-between items-end mb-16">
+<div>
+<h2 class="font-display-lg text-display-lg-mobile text-white uppercase tracking-tight">LEYENDAS_PRIMARIAS</h2>
+<p class="font-mono-data text-mono-data text-primary">Protocolos de Excelencia Nivel 01</p>
+</div>
+<div class="hidden md:flex gap-4">
+<button class="p-2 border border-primary/20 hover:bg-primary/10 text-primary transition-all">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<button class="p-2 border border-primary/20 hover:bg-primary/10 text-primary transition-all">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+<!-- Marie Curie -->
+<div class="relative group">
+<div class="aspect-[3/4] overflow-hidden slanted-edge hex-bracket bg-surface-container-highest relative">
+<div class="absolute inset-0 bg-gradient-to-t from-background-deep via-transparent to-transparent z-10"></div>
+<div class="absolute top-4 right-4 z-20 flex flex-col items-end gap-2">
+<span class="bg-primary/20 text-primary font-micro-tag text-[8px] px-2 py-1 backdrop-blur-md border border-primary/30">ID: CURIE_01</span>
+<span class="bg-primary/20 text-primary font-micro-tag text-[8px] px-2 py-1 backdrop-blur-md border border-primary/30">CAT: THE_CATALYST</span>
+</div>
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" data-alt="A cinematic, high-fidelity digital portrait of Marie Curie in her laboratory, surrounded by a subtle, glowing cyan radioactive aura. Technical HUD overlays and scientific notations float around her. The lighting is dramatic and moody, reflecting a cyber-alchemical aesthetic with deep blacks and vibrant neon cyan highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvw_w6zuMoZOhYnogD0ULln-Q5TqbgXd7VAHnEznQdEJigULYOgEIN6pGVbx-hPduF3zPBNAf9AJsopezQpJMzWn16-c4muVj8GLPvQVxIT48IGzLVSvUlfkW28PRp93XkkHbVIckRnzAu4d92rbCLxBs6f-qeVpRqcnJzF-CtRSTqLi5WLlVaTiWpqKNgFP4lp5kMRZUVtmbcDRSSuwvfo_3nPM1veMtUxzLyBO1Zxd9o7yG5KHZlO9z_cl_uFEnDRuxD6V4FaIIQ"/>
+</div>
+<div class="mt-6">
+<h3 class="font-headline-md text-headline-md text-white mb-1 group-hover:text-primary transition-colors">Marie Curie</h3>
+<p class="font-label-caps text-label-caps text-primary uppercase tracking-[0.2em] mb-4">The Catalyst</p>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">
+                                Pionera en el campo de la radiactividad y la primera persona en recibir dos premios Nobel en distintas especialidades.
+                            </p>
+</div>
+</div>
+<!-- Leonardo da Vinci -->
+<div class="relative group">
+<div class="aspect-[3/4] overflow-hidden slanted-edge hex-bracket bg-surface-container-highest relative">
+<div class="absolute inset-0 bg-gradient-to-t from-background-deep via-transparent to-transparent z-10"></div>
+<div class="absolute top-4 right-4 z-20 flex flex-col items-end gap-2">
+<span class="bg-secondary/20 text-secondary font-micro-tag text-[8px] px-2 py-1 backdrop-blur-md border border-secondary/30">ID: VINCI_02</span>
+<span class="bg-secondary/20 text-secondary font-micro-tag text-[8px] px-2 py-1 backdrop-blur-md border border-secondary/30">CAT: THE_CREATOR</span>
+</div>
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" data-alt="A masterful digital interpretation of Leonardo da Vinci, blending Renaissance portraiture with futuristic holographic designs. Floating anatomical sketches and flying machine blueprints in glowing green lines surround him. The aesthetic is dark and cinematic, emphasizing technical precision and mystery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAs8pGRMtmHEaTRqnEa5_FbEOJNNjrhLIOU81_yC9ixsNTyG0I918_dwIGRyBQMYAvwi2R2hMsDihCIzCdhPN4RQc16W4tXP2dZxYosLLzPe0VgqfbH40AN4mtPdIOQNLltXZnCzg0C5rPqziTTSj1aslAbgQRfYA3EHa2uqB0FMIcKXI0GxbHqRGUdeMf1oMHE5SMmOIFu76yvIFCZp4RxNqZBDULLT2EJ29Czr7MjxXJqUIJbch15f1lDn6n4xeEInxjlMzKmr1DY"/>
+</div>
+<div class="mt-6">
+<h3 class="font-headline-md text-headline-md text-white mb-1 group-hover:text-secondary transition-colors">Leonardo da Vinci</h3>
+<p class="font-label-caps text-label-caps text-secondary uppercase tracking-[0.2em] mb-4">The Creator</p>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">
+                                El polímata definitivo. Un visionario cuya curiosidad no conocía límites, abarcando desde la anatomía hasta la ingeniería.
+                            </p>
+</div>
+</div>
+<!-- Michael Jordan -->
+<div class="relative group">
+<div class="aspect-[3/4] overflow-hidden slanted-edge hex-bracket bg-surface-container-highest relative">
+<div class="absolute inset-0 bg-gradient-to-t from-background-deep via-transparent to-transparent z-10"></div>
+<div class="absolute top-4 right-4 z-20 flex flex-col items-end gap-2">
+<span class="bg-tertiary-container/20 text-tertiary-container font-micro-tag text-[8px] px-2 py-1 backdrop-blur-md border border-tertiary-container/30">ID: MJ_23</span>
+<span class="bg-tertiary-container/20 text-tertiary-container font-micro-tag text-[8px] px-2 py-1 backdrop-blur-md border border-tertiary-container/30">CAT: THE_ICON</span>
+</div>
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" data-alt="A powerful, cinematic portrait of Michael Jordan in mid-air silhouette, overlaid with golden performance metrics and kinetic energy patterns. The background is a deep space black with electric sparks. The visual style is high-impact, technical brutalism, celebrating athletic perfection." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiPXTgETGV9MEp0gSE0LCDXXHyrYvU1I0G7WmxGNO35xRNyvG8_3sTyA0BHZGo8xeHFtA6EmHic5z4qJ4KBELeVA6Vu_12VwJh6PdYLVQEJJBHVUJetrnacD59l8eahVV1nVyjvdBqg5y9spj09scHQ4XAlsK6kD-rEE0FOKG9ICBG3XzhXjdfglBCjUR97wjfiH8Q_vimqjVG8Kdu4FwZRDMq5p6RLMBrhoVFEseLoK7OpADPxdEOnsV1SaV16l7m9xsGLsIcoXV_"/>
+</div>
+<div class="mt-6">
+<h3 class="font-headline-md text-headline-md text-white mb-1 group-hover:text-tertiary-container transition-colors">Michael Jordan</h3>
+<p class="font-label-caps text-label-caps text-tertiary-container uppercase tracking-[0.2em] mb-4">The Icon</p>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">
+                                Redefinió los límites del rendimiento humano. Una voluntad inquebrantable convertida en dominio absoluto sobre el juego.
+                            </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Underdog Stories: Technical Bento Grid -->
+<section class="px-margin-mobile md:px-margin-desktop py-24 bg-surface-container-lowest relative overflow-hidden">
+<div class="absolute inset-0 cyber-grid opacity-10"></div>
+<div class="max-w-7xl mx-auto relative z-10">
+<div class="mb-16 border-l-4 border-secondary pl-6">
+<h2 class="font-display-lg text-display-lg-mobile text-white uppercase tracking-tighter">Héroes <span class="text-secondary">Menos Conocidos</span></h2>
+<p class="font-mono-data text-mono-data text-on-surface-variant">Archivos Recuperados // Fragmentos de Genialidad Olvidada</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-panel-gap h-auto md:h-[600px]">
+<div class="md:col-span-2 md:row-span-2 glass-panel p-8 border-secondary/20 group hover:border-secondary transition-colors flex flex-col justify-end relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4">
+<span class="material-symbols-outlined text-secondary text-[48px] opacity-20">history_edu</span>
+</div>
+<div class="relative z-10">
+<div class="inline-block px-3 py-1 bg-secondary/10 border border-secondary/30 text-secondary font-micro-tag text-micro-tag mb-4">HISTORIA_PERDIDA</div>
+<h3 class="font-headline-md text-headline-md text-white mb-4">Ada Lovelace</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">
+                                La primera programadora del mundo. Mientras otros veían en la máquina analítica una simple calculadora, ella vio un universo de infinitas posibilidades algorítmicas.
+                            </p>
+<a class="text-secondary font-label-caps text-label-caps tracking-widest flex items-center gap-2 hover:gap-4 transition-all" href="#">
+                                ACCEDER_EXPEDIENTE <span class="material-symbols-outlined">trending_flat</span>
+</a>
+</div>
+</div>
+<div class="md:col-span-2 glass-panel p-6 border-primary/20 hover:border-primary transition-colors flex gap-6">
+<div class="w-24 h-24 slanted-edge bg-primary/20 shrink-0 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait of a lesser-known scientific hero, presented in a minimalist, technical HUD style with subtle neon data streams. Digital enlightened aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8tX8C2hp5q1QU7DZqAtuGx3_JuDi0My5191zendIQGQXBF2iHNl4iI35y_c5rr8SOFyjvYQAxQAtk4FgXydGzGwowgXI6F2Zsd4ejQi9m3xcoO21oPZeN10Cji1QPh3ra6TctfuxJjExg_PfXvMwPfHTTGc5uZb2EYfMnwjJ_L0qC0K7WnyzV4dM_8FqWm4WFvKsS5cej6Dx8LWZdxNGnbLscwI9kj5zKyjSO7A-HW7e7It7b6wd1kes-IXy43yqX41h9YMclpAms"/>
+</div>
+<div>
+<h4 class="font-label-caps text-label-caps text-primary mb-2">Katherine Johnson</h4>
+<p class="font-mono-data text-mono-data text-on-surface-variant text-[12px]">Calculó la trayectoria de los primeros vuelos espaciales. La precisión humana detrás de la conquista del cosmos.</p>
+</div>
+</div>
+<div class="glass-panel p-6 border-tertiary/20 hover:border-tertiary transition-colors">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-tertiary">military_tech</span>
+<span class="font-micro-tag text-micro-tag text-tertiary">RESISTENCIA</span>
+</div>
+<h4 class="font-label-caps text-label-caps text-white mb-2">Hypatia de Alejandría</h4>
+<p class="font-mono-data text-mono-data text-on-surface-variant text-[11px]">Matemática y astrónoma. La luz final de la Biblioteca de Alejandría.</p>
+</div>
+<div class="glass-panel p-6 border-on-surface-variant/20 hover:border-primary transition-colors flex flex-col justify-center items-center gap-4 group">
+<span class="material-symbols-outlined text-primary text-[40px] group-hover:scale-125 transition-transform">add_circle</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant text-center">CONTRIBUIR AL ARCHIVO</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats Block: System Calibration -->
+<section class="px-margin-mobile md:px-margin-desktop py-24">
+<div class="max-w-7xl mx-auto glass-panel p-12 flex flex-wrap justify-around gap-12 border-primary/10">
+<div class="flex flex-col items-center">
+<span class="font-display-lg text-display-lg-mobile text-primary text-glow-cyan">4,281</span>
+<span class="font-micro-tag text-micro-tag text-on-surface-variant uppercase tracking-widest">PERFILES_INDEXADOS</span>
+</div>
+<div class="w-px h-16 bg-primary/20 hidden md:block"></div>
+<div class="flex flex-col items-center">
+<div class="flex gap-1 mb-2">
+<div class="w-4 h-6 bg-primary shadow-[0_0_8px_var(--neon-cyan)]"></div>
+<div class="w-4 h-6 bg-primary shadow-[0_0_8px_var(--neon-cyan)]"></div>
+<div class="w-4 h-6 bg-primary shadow-[0_0_8px_var(--neon-cyan)]"></div>
+<div class="w-4 h-6 bg-primary shadow-[0_0_8px_var(--neon-cyan)]"></div>
+<div class="w-4 h-6 bg-primary shadow-[0_0_8px_var(--neon-cyan)]"></div>
+<div class="w-4 h-6 bg-primary/20"></div>
+<div class="w-4 h-6 bg-primary/20"></div>
+<div class="w-4 h-6 bg-primary/20"></div>
+<div class="w-4 h-6 bg-primary/20"></div>
+<div class="w-4 h-6 bg-primary/20"></div>
+</div>
+<span class="font-micro-tag text-micro-tag text-on-surface-variant uppercase tracking-widest">CALIBRACIÓN_SISTEMA</span>
+</div>
+<div class="w-px h-16 bg-primary/20 hidden md:block"></div>
+<div class="flex flex-col items-center">
+<span class="font-display-lg text-display-lg-mobile text-secondary text-glow-cyan">156</span>
+<span class="font-micro-tag text-micro-tag text-on-surface-variant uppercase tracking-widest">ERAS_DOCUMENTADAS</span>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full py-12 bg-surface-container-lowest border-t border-grid-line">
+<div class="max-w-7xl mx-auto px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-panel-gap">
+<div class="flex flex-col items-center md:items-start">
+<span class="font-label-caps text-label-caps tracking-widest text-secondary-fixed mb-2 uppercase">Atlas de los Grandes</span>
+<p class="font-mono-data text-mono-data text-on-surface-variant/60">MLH v6.4 // LEGACY_PROTOCOL</p>
+</div>
+<div class="flex gap-8">
+<a class="font-micro-tag text-micro-tag text-outline hover:text-primary transition-opacity uppercase" href="#">Privacy</a>
+<a class="font-micro-tag text-micro-tag text-outline hover:text-primary transition-opacity uppercase" href="#">Security</a>
+<a class="font-micro-tag text-micro-tag text-outline hover:text-primary transition-opacity uppercase" href="#">Terminal</a>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary text-[20px] neon-pulse">verified_user</span>
+<span class="font-mono-data text-mono-data text-primary/40 uppercase">Encrypted_Access</span>
+</div>
+</div>
+</footer>
+</main>
+<!-- Mobile Navigation Bar -->
+<nav class="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] glass-panel rounded-full px-6 py-4 flex justify-between items-center z-50 border-primary/20 shadow-2xl">
+<button class="text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+</button>
+<button class="text-on-surface-variant">
+<span class="material-symbols-outlined">architecture</span>
+</button>
+<div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center -mt-12 border-4 border-background shadow-[0_0_15px_rgba(45,168,224,0.5)]">
+<span class="material-symbols-outlined text-on-primary">bolt</span>
+</div>
+<button class="text-on-surface-variant">
+<span class="material-symbols-outlined">inventory_2</span>
+</button>
+<button class="text-on-surface-variant">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</nav>
+<script>
+        // Micro-interactions and parallax effects
+        document.addEventListener('mousemove', (e) => {
+            const panels = document.querySelectorAll('.glass-panel');
+            const x = (window.innerWidth / 2 - e.pageX) / 50;
+            const y = (window.innerHeight / 2 - e.pageY) / 50;
+            
+            panels.forEach(panel => {
+                if(panel.matches(':hover')) {
+                    panel.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+                } else {
+                    panel.style.transform = `translate3d(0, 0, 0)`;
+                }
+            });
+        });
+    </script>
+</body></html>

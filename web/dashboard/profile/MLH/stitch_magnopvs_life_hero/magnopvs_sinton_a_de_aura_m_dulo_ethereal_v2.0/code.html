@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · Sintonía de Aura</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Orbitron:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@700&family=Hanken+Grotesk:wght@400;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&family=JetBrains+Mono:wght@100..900&family=Space+Grotesk:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --celestial-blue: #2da8e0;
+            --aquamarine: #47ddc1;
+            --magenta: #ff00ff;
+            --violet: #8b00ff;
+        }
+
+        body {
+            background-color: #0a0b12;
+            color: #e0e3e6;
+            font-family: 'Orbitron', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .font-display { font-family: 'Audiowide', cursive; }
+        .font-data { font-family: 'JetBrains Mono', monospace; }
+
+        .cyber-grid {
+            background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
+                              linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(127, 208, 255, 0.1);
+        }
+
+        .magenta-glow {
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
+            border-color: var(--magenta);
+        }
+
+        .hexagon-bg {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuARdOo1Ch2-naWgt1-OGcM5MR9JcQXauKeaOWP8ZSNm0Iu5Z1mv08JxIU_B_fbeRYgfXIuMPKVoUS-E7_hwg1Aq5mEyLeNTwjTMEP_UPbCaug1ijvx9r7685tMRvnXg1pmQsA_Y9wMmfFXcJH-ZbRbCStt6gN4uJdETYeMvHifMPs8lAmzB27eNXT4UHlCb2sjxoWq_jiEroPXplIyXPLKNOoajDyT5oR5IGsPF2D7UyJqxqAdD5RM7fMUySIprOw2ZOHMneUJf61MX');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            mix-blend-mode: overlay;
+        }
+
+        .segmented-progress .segment {
+            height: 6px;
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0 2px;
+            transition: all 0.3s ease;
+        }
+
+        .segmented-progress .segment.active {
+            background: var(--magenta);
+            box-shadow: 0 0 10px var(--magenta);
+        }
+
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-ring {
+            border: 4px solid rgba(255, 0, 255, 0.1);
+            border-top: 4px solid var(--magenta);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            animation: spin-slow 1s linear infinite;
+            filter: drop-shadow(0 0 8px var(--magenta));
+        }
+
+        .void-textarea {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(71, 221, 193, 0.2);
+            color: var(--aquamarine);
+            resize: none;
+        }
+
+        .void-textarea:focus {
+            border-color: var(--aquamarine);
+            box-shadow: 0 0 15px rgba(71, 221, 193, 0.1);
+            outline: none;
+        }
+
+        .chakra-bar-bg {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chakra-fill {
+            height: 100%;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Custom scrollbar for cyber aesthetic */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #0a0b12; }
+        ::-webkit-scrollbar-thumb { background: var(--celestial-blue); }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error-container": "#93000a",
+                      "background-deep": "#0a0b12",
+                      "status-critical": "#93000a",
+                      "tertiary-fixed-dim": "#ffafd4",
+                      "on-secondary-container": "#004439",
+                      "on-secondary-fixed-variant": "#005144",
+                      "background": "#101417",
+                      "on-primary-fixed-variant": "#004c6a",
+                      "surface": "#101417",
+                      "surface-container-lowest": "#0b0f11",
+                      "secondary": "#47ddc1",
+                      "error": "#ffb4ab",
+                      "primary-fixed-dim": "#7fd0ff",
+                      "surface-container-highest": "#313538",
+                      "on-tertiary-fixed": "#390625",
+                      "tertiary-container": "#ffafd4",
+                      "surface-container-low": "#181c1f",
+                      "on-tertiary": "#531c3b",
+                      "tertiary": "#ffd8e7",
+                      "surface-variant": "#313538",
+                      "surface-container": "#1c2023",
+                      "on-tertiary-fixed-variant": "#6e3252",
+                      "inverse-on-surface": "#2d3134",
+                      "surface-tint": "#7fd0ff",
+                      "on-primary-container": "#00597b",
+                      "surface-bright": "#363a3d",
+                      "on-tertiary-container": "#7c3e5e",
+                      "primary": "#c5e7ff",
+                      "primary-container": "#7fd0ff",
+                      "secondary-fixed": "#6af9dc",
+                      "on-primary-fixed": "#001e2d",
+                      "surface-dim": "#101417",
+                      "on-error-container": "#ffdad6",
+                      "on-surface-variant": "#bfc8cf",
+                      "outline-variant": "#3f484e",
+                      "on-secondary-fixed": "#00201a",
+                      "grid-line": "rgba(127, 208, 255, 0.05)",
+                      "surface-panel": "rgba(255, 255, 255, 0.03)",
+                      "on-primary": "#00344a",
+                      "on-secondary": "#00382e",
+                      "outline": "#899299",
+                      "inverse-primary": "#00658b",
+                      "glow-cyan": "#2da8e0",
+                      "primary-fixed": "#c5e7ff",
+                      "secondary-container": "#00bba0",
+                      "on-background": "#e0e3e6",
+                      "tertiary-fixed": "#ffd8e7",
+                      "on-surface": "#e0e3e6",
+                      "inverse-surface": "#e0e3e6",
+                      "surface-container-high": "#272a2d",
+                      "on-error": "#690005",
+                      "secondary-fixed-dim": "#47ddc1"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-desktop": "40px",
+                      "unit": "4px",
+                      "panel-gap": "12px",
+                      "margin-mobile": "20px",
+                      "gutter": "16px",
+                      "section-padding": "128px"
+              },
+              "fontFamily": {
+                      "label-caps": ["JetBrains Mono"],
+                      "display-lg-mobile": ["Space Grotesk"],
+                      "body-md": ["Hanken Grotesk"],
+                      "display-lg": ["Space Grotesk"],
+                      "headline-md": ["Space Grotesk"],
+                      "micro-tag": ["JetBrains Mono"],
+                      "data-point": ["Hanken Grotesk"],
+                      "mono-data": ["JetBrains Mono"]
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="flex min-h-screen">
+<!-- Atmospheric Background Layers -->
+<div class="fixed inset-0 z-0">
+<div class="absolute inset-0 cyber-grid"></div>
+<div class="absolute inset-0 hexagon-bg"></div>
+<div class="absolute inset-0 bg-gradient-to-tr from-background-deep via-transparent to-primary/5"></div>
+</div>
+<!-- SIDE NAV BAR (Anchored) -->
+<nav class="hidden lg:flex flex-col fixed left-0 top-0 h-full z-40 bg-surface-container-low/50 backdrop-blur-2xl w-64 border-r border-primary/20 shadow-2xl shadow-primary/5">
+<div class="p-8">
+<h2 class="font-display-lg text-primary text-2xl tracking-tighter">OPERATOR_01</h2>
+<p class="font-label-caps text-outline-variant text-[10px] mt-1">LVL 42 // TITAN</p>
+</div>
+<div class="flex-1 mt-8 space-y-2">
+<a class="flex items-center px-8 py-4 text-outline-variant hover:bg-surface-container-highest/30 transition-all hover:text-on-surface-variant group" href="#">
+<span class="material-symbols-outlined mr-4">grid_view</span>
+<span class="font-label-caps">Dashboard</span>
+</a>
+<a class="flex items-center px-8 py-4 text-primary border-l-2 border-primary bg-primary/5 font-bold shadow-[inset_4px_0_10px_rgba(127,208,255,0.1)] group" href="#">
+<span class="material-symbols-outlined mr-4">account_tree</span>
+<span class="font-label-caps">13 Houses</span>
+</a>
+<a class="flex items-center px-8 py-4 text-outline-variant hover:bg-surface-container-highest/30 transition-all group" href="#">
+<span class="material-symbols-outlined mr-4">military_tech</span>
+<span class="font-label-caps">Missions</span>
+</a>
+<a class="flex items-center px-8 py-4 text-outline-variant hover:bg-surface-container-highest/30 transition-all group" href="#">
+<span class="material-symbols-outlined mr-4">psychology</span>
+<span class="font-label-caps">Attributes</span>
+</a>
+<a class="flex items-center px-8 py-4 text-outline-variant hover:bg-surface-container-highest/30 transition-all group" href="#">
+<span class="material-symbols-outlined mr-4">vitals</span>
+<span class="font-label-caps">Alchemy</span>
+</a>
+</div>
+<div class="p-8">
+<div class="glass-panel p-4 rounded-xl">
+<div class="flex justify-between items-center mb-2">
+<span class="text-[10px] font-label-caps text-primary">SINK_SYNC</span>
+<span class="text-[10px] font-label-caps text-secondary">STABLE</span>
+</div>
+<div class="h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[88%] shadow-[0_0_8px_#48ddc1]"></div>
+</div>
+</div>
+</div>
+</nav>
+<!-- TOP APP BAR (Anchored) -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/30 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="flex items-center gap-4">
+<h1 class="font-display-lg-mobile text-display-lg-mobile text-primary tracking-widest uppercase md:font-display-lg md:text-display-lg">MagnopVS · Life Hero</h1>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-outline hover:text-secondary transition-all scale-95 active:scale-90"><span class="material-symbols-outlined">stars</span></button>
+<button class="text-outline hover:text-secondary transition-all scale-95 active:scale-90"><span class="material-symbols-outlined">bolt</span></button>
+<button class="text-primary drop-shadow-[0_0_8px_#7fd0ff] scale-95 active:scale-90"><span class="material-symbols-outlined">account_circle</span></button>
+</div>
+</header>
+<!-- MAIN CONTENT AREA -->
+<main class="flex-1 lg:ml-64 pt-20 pb-20 md:pb-0 px-6 md:px-12 relative z-10">
+<div class="max-w-5xl mx-auto py-12">
+<!-- Module Title -->
+<div class="mb-12">
+<div class="flex items-center gap-3 mb-2">
+<span class="h-[1px] w-12 bg-secondary/40"></span>
+<span class="text-secondary font-label-caps text-[10px] tracking-widest">SISTEMA ESOTÉRICO_V.4.2</span>
+</div>
+<h2 class="font-display text-4xl md:text-6xl text-white uppercase tracking-tighter">Sintonía de Aura</h2>
+<p class="font-body-md text-outline-variant max-w-xl mt-4">Calibración energética profunda mediante el protocolo de resonancia biocampo MagnopVS.</p>
+</div>
+<!-- QUESTIONNAIRE PHASE: Módulo Ethereal v2.0 -->
+<section class="relative group" id="questionnaire-section">
+<div class="glass-panel p-8 md:p-12 border-primary/20 rounded-none relative overflow-hidden">
+<!-- Corner Brackets -->
+<div class="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-primary/40"></div>
+<div class="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-primary/40"></div>
+<div class="flex justify-between items-end mb-8">
+<div>
+<h3 class="font-display text-xl text-primary">Módulo Ethereal v2.0</h3>
+<p class="font-label-caps text-xs text-outline-variant mt-1">PROTOCOLO DE RESONANCIA ACTIVO</p>
+</div>
+<div class="text-right">
+<span class="font-data text-secondary text-sm">PREGUNTA <span id="current-step">01</span>/07</span>
+</div>
+</div>
+<!-- Progress Indicator -->
+<div class="segmented-progress flex mb-12" id="progress-bar">
+<div class="segment active"></div>
+<div class="segment"></div>
+<div class="segment"></div>
+<div class="segment"></div>
+<div class="segment"></div>
+<div class="segment"></div>
+<div class="segment"></div>
+</div>
+<div class="space-y-8" id="question-container">
+<p class="text-2xl font-display text-white leading-tight" id="question-text">¿Qué frecuencia de color resuena con tu estado de vigilia actual?</p>
+<div class="relative">
+<textarea class="void-textarea w-full h-48 p-6 font-data text-lg" id="answer-box" placeholder="Canaliza tu respuesta aquí..."></textarea>
+<div class="absolute bottom-4 right-4 flex gap-2">
+<span class="text-[10px] font-label-caps text-outline-variant">ENCRIPTACIÓN_VOID_ON</span>
+<span class="material-symbols-outlined text-xs text-secondary">security</span>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex gap-4">
+<button class="px-6 py-3 border border-outline-variant text-outline-variant font-label-caps text-xs hover:bg-white/5 transition-all">ABORTAR</button>
+</div>
+<button class="bg-primary text-background-deep px-10 py-4 font-label-caps font-bold text-sm tracking-widest hover:scale-105 active:scale-95 transition-all flex items-center gap-2" onclick="nextQuestion()">
+                                SIGUIENTE <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- LOADING STATE -->
+<section class="hidden py-24" id="loading-section">
+<div class="flex flex-col items-center justify-center space-y-6">
+<div class="loading-ring"></div>
+<div class="text-center">
+<h3 class="font-display text-xl text-magenta animate-pulse">Sintonizando Biocampo...</h3>
+<p class="font-label-caps text-xs text-outline-variant mt-2">ANALIZANDO FRECUENCIAS DE RESONANCIA</p>
+</div>
+</div>
+</section>
+<!-- RESULTS PHASE: Estado Vibratorio -->
+<section class="hidden grid grid-cols-1 lg:grid-cols-12 gap-gutter" id="results-section">
+<div class="lg:col-span-7 space-y-gutter">
+<!-- Chakra Alignment -->
+<div class="glass-panel p-8">
+<h3 class="font-display text-xl text-primary mb-8 flex items-center gap-3">
+<span class="material-symbols-outlined">analytics</span>
+                            Estado Vibratorio
+                        </h3>
+<div class="space-y-6">
+<!-- Root -->
+<div class="space-y-2">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-[10px] text-outline-variant">CHAKRA RAÍZ</span>
+<span class="font-data text-xs" style="color: #FF0000">82%</span>
+</div>
+<div class="chakra-bar-bg"><div class="chakra-fill" style="width: 82%; background: #FF0000; box-shadow: 0 0 10px #FF0000;"></div></div>
+</div>
+<!-- Sacral -->
+<div class="space-y-2">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-[10px] text-outline-variant">CHAKRA SACRO</span>
+<span class="font-data text-xs" style="color: #FF7F00">65%</span>
+</div>
+<div class="chakra-bar-bg"><div class="chakra-fill" style="width: 65%; background: #FF7F00; box-shadow: 0 0 10px #FF7F00;"></div></div>
+</div>
+<!-- Solar Plexus -->
+<div class="space-y-2">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-[10px] text-outline-variant">PLEXO SOLAR</span>
+<span class="font-data text-xs" style="color: #FFFF00">91%</span>
+</div>
+<div class="chakra-bar-bg"><div class="chakra-fill" style="width: 91%; background: #FFFF00; box-shadow: 0 0 10px #FFFF00;"></div></div>
+</div>
+<!-- Heart -->
+<div class="space-y-2">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-[10px] text-outline-variant">CHAKRA CORAZÓN</span>
+<span class="font-data text-xs" style="color: #00FF00">74%</span>
+</div>
+<div class="chakra-bar-bg"><div class="chakra-fill" style="width: 74%; background: #00FF00; box-shadow: 0 0 10px #00FF00;"></div></div>
+</div>
+<!-- Throat -->
+<div class="space-y-2">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-[10px] text-outline-variant">CHAKRA GARGANTA</span>
+<span class="font-data text-xs" style="color: #0000FF">58%</span>
+</div>
+<div class="chakra-bar-bg"><div class="chakra-fill" style="width: 58%; background: #0000FF; box-shadow: 0 0 10px #0000FF;"></div></div>
+</div>
+<!-- Third Eye -->
+<div class="space-y-2">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-[10px] text-outline-variant">TERCER OJO</span>
+<span class="font-data text-xs" style="color: #4B0082">88%</span>
+</div>
+<div class="chakra-bar-bg"><div class="chakra-fill" style="width: 88%; background: #4B0082; box-shadow: 0 0 10px #4B0082;"></div></div>
+</div>
+<!-- Crown -->
+<div class="space-y-2">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-[10px] text-outline-variant">CHAKRA CORONA</span>
+<span class="font-data text-xs" style="color: #8B00FF">95%</span>
+</div>
+<div class="chakra-bar-bg"><div class="chakra-fill" style="width: 95%; background: #8B00FF; box-shadow: 0 0 10px #8B00FF;"></div></div>
+</div>
+</div>
+</div>
+<!-- El Significado -->
+<div class="border-l-4 border-magenta bg-magenta/5 p-6 backdrop-blur-md">
+<h4 class="font-label-caps text-magenta text-xs mb-3 tracking-widest uppercase">El Significado</h4>
+<p class="italic text-on-background font-body-md leading-relaxed">
+                            "Tu biocampo muestra una predominancia de frecuencias de alta octava en los centros superiores. Esto sugiere una fase de expansión consciente intensa, donde la intuición está sirviendo como puente principal hacia la manifestación física. El desequilibrio en el centro de la garganta indica que tus visiones aún buscan el léxico adecuado para ser compartidas con el plano material."
+                        </p>
+</div>
+</div>
+<div class="lg:col-span-5 flex flex-col items-center justify-start gap-8">
+<button class="w-full bg-transparent border-2 border-aquamarine text-aquamarine py-6 font-display text-lg tracking-widest hover:bg-aquamarine/10 hover:shadow-[0_0_20px_rgba(71,221,193,0.3)] transition-all" id="cta-aura" onclick="revealAura()">
+                        Materializar Foto de Aura
+                    </button>
+<div class="hidden opacity-0 transform translate-y-4 transition-all duration-700 w-full" id="aura-snapshot-container">
+<div class="glass-panel p-4 rounded-xl text-center">
+<h4 class="font-label-caps text-xs text-outline-variant mb-4 uppercase">Instantánea del Alma</h4>
+<div class="relative group">
+<div class="absolute -inset-1 bg-gradient-to-tr from-magenta via-celestial-blue to-violet rounded-xl blur opacity-30 group-hover:opacity-60 transition duration-1000"></div>
+<div class="relative bg-background-deep rounded-lg overflow-hidden aspect-square">
+<img class="w-full h-full object-cover" data-alt="A highly detailed cinematic portrait of a human silhouette surrounded by a swirling, multi-colored ethereal aura of magenta, electric blue, and deep violet light. The energy patterns look like fluid cosmic nebulas within a dark, technical lab environment. High-contrast lighting with neon glows and digital data overlays floating in the foreground. Cyber-glassmorphism aesthetic with sharp focus on the luminous energy fields." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA59piAMX0yQA-CFzJm0erafQaYZnTqMK34hm2cucmuhLUrRg81aTxacdo57FQa734Y5mBPT1pevOmuB19wv7i4NuvMasf-y9c4_xNo_ELt7zgLkKw0Scx2MX1Rag_NVxiPgfhdns1u44ZXcSPOpAMskGuNrIQ7K2SkqY_QJLwK_X_kS3NMv-xZe9mTnFOOPzaidXS7TgS5UIJYYXeWC5CqmYn_CpGzaeCE1Quk1k7Mpeu-f3zPg7GNgOzOqAvYSop1hpgIGbxVE9tN"/>
+</div>
+</div>
+<div class="mt-6 flex justify-between items-center text-[10px] font-data text-outline-variant">
+<span>ID: SM_777_AUR</span>
+<span>TIMESTAMP: 2024.11.08_22:15</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- FOOTER (Anchored) -->
+<footer class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop flex flex-col items-center gap-2 opacity-40 hover:opacity-100 transition-opacity duration-500 py-8 absolute bottom-0 left-0 right-0">
+<p class="font-mono-data text-outline text-xs">MAGNOPVS OS v4.2.0 // SYSTEM_STABLE</p>
+<div class="flex gap-4">
+<a class="text-outline-variant opacity-50 hover:text-primary transition-colors text-xs font-mono-data" href="#">System Reset</a>
+<a class="text-outline-variant opacity-50 hover:text-primary transition-colors text-xs font-mono-data" href="#">Log Export</a>
+<a class="text-outline-variant opacity-50 hover:text-primary transition-colors text-xs font-mono-data" href="#">Protocol-9</a>
+</div>
+</footer>
+<!-- BOTTOM NAV BAR (Mobile Only) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 bg-surface-container/80 backdrop-blur-lg border-t border-primary/20 pb-safe px-4">
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">space_dashboard</span>
+<span class="text-[10px] font-label-caps">Dash</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-110" href="#">
+<span class="material-symbols-outlined">temple_hindu</span>
+<span class="text-[10px] font-label-caps">Houses</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">assignment_late</span>
+<span class="text-[10px] font-label-caps">Missions</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="text-[10px] font-label-caps">Stats</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">autorenew</span>
+<span class="text-[10px] font-label-caps">Cycle</span>
+</a>
+</nav>
+<script>
+        let currentStep = 1;
+        const totalSteps = 7;
+        const questions = [
+            "¿Qué frecuencia de color resuena con tu estado de vigilia actual?",
+            "Describe la textura del silencio en tu último momento de introspección.",
+            "Si tu energía fuera un elemento geométrico, ¿cuántos vértices tendría?",
+            "¿Hacia qué punto cardinal fluye tu intención al despertar?",
+            "¿Qué material cósmico crees que compone el núcleo de tu intuición?",
+            "Nombra el concepto que actualmente bloquea tu flujo ascendente.",
+            "Finaliza la transmisión: ¿Cuál es el propósito final de tu avatar en este ciclo?"
+        ];
+
+        function nextQuestion() {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                
+                // Update text
+                document.getElementById('current-step').innerText = currentStep.toString().padStart(2, '0');
+                document.getElementById('question-text').innerText = questions[currentStep - 1];
+                document.getElementById('answer-box').value = '';
+                
+                // Update progress bar
+                const segments = document.querySelectorAll('#progress-bar .segment');
+                segments[currentStep - 1].classList.add('active');
+            } else {
+                startAnalysis();
+            }
+        }
+
+        function startAnalysis() {
+            document.getElementById('questionnaire-section').classList.add('hidden');
+            document.getElementById('loading-section').classList.remove('hidden');
+            
+            setTimeout(() => {
+                document.getElementById('loading-section').classList.add('hidden');
+                document.getElementById('results-section').classList.remove('hidden');
+            }, 2500);
+        }
+
+        function revealAura() {
+            const container = document.getElementById('aura-snapshot-container');
+            const button = document.getElementById('cta-aura');
+            
+            button.innerText = "SINTONIZADO";
+            button.classList.add('opacity-50', 'pointer-events-none');
+            
+            container.classList.remove('hidden');
+            setTimeout(() => {
+                container.classList.remove('opacity-0', 'translate-y-4');
+            }, 100);
+        }
+    </script>
+</body></html>

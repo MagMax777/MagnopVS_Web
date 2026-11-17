@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · Comunidad Nexus</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Space+Grotesk:wght@700&amp;family=Hanken+Grotesk:wght@400;700&amp;family=Audiowide&amp;family=Orbitron:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "grid-line": "rgba(127, 208, 255, 0.05)",
+                    "surface-dim": "#101417",
+                    "error": "#ffb4ab",
+                    "primary": "#c5e7ff",
+                    "secondary": "#47ddc1",
+                    "on-error": "#690005",
+                    "surface-tint": "#7fd0ff",
+                    "surface-bright": "#363a3d",
+                    "tertiary-fixed-dim": "#ffafd4",
+                    "status-critical": "#93000a",
+                    "on-surface-variant": "#bfc8cf",
+                    "surface-container-highest": "#313538",
+                    "primary-fixed": "#c5e7ff",
+                    "surface-container-low": "#181c1f",
+                    "primary-fixed-dim": "#7fd0ff",
+                    "on-tertiary-container": "#7c3e5e",
+                    "inverse-primary": "#00658b",
+                    "error-container": "#93000a",
+                    "secondary-fixed-dim": "#47ddc1",
+                    "outline-variant": "#3f484e",
+                    "background": "#101417",
+                    "primary-container": "#7fd0ff",
+                    "on-surface": "#e0e3e6",
+                    "secondary-container": "#00bba0",
+                    "on-secondary-fixed": "#00201a",
+                    "on-background": "#e0e3e6",
+                    "on-primary": "#00344a",
+                    "tertiary-fixed": "#ffd8e7",
+                    "secondary-fixed": "#6af9dc",
+                    "background-deep": "#0a0b12",
+                    "surface-container": "#1c2023",
+                    "on-secondary": "#00382e",
+                    "surface-container-lowest": "#0b0f11",
+                    "on-error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#6e3252",
+                    "on-primary-container": "#00597b",
+                    "glow-cyan": "#2da8e0",
+                    "surface-variant": "#313538",
+                    "outline": "#899299",
+                    "on-primary-fixed-variant": "#004c6a",
+                    "inverse-on-surface": "#2d3134",
+                    "on-tertiary": "#531c3b",
+                    "tertiary-container": "#ffafd4",
+                    "surface": "#101417",
+                    "on-tertiary-fixed": "#390625",
+                    "surface-container-high": "#272a2d",
+                    "tertiary": "#ffd8e7",
+                    "on-primary-fixed": "#001e2d",
+                    "on-secondary-fixed-variant": "#005144",
+                    "inverse-surface": "#e0e3e6",
+                    "on-secondary-container": "#004439",
+                    "surface-panel": "rgba(255, 255, 255, 0.03)"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "panel-gap": "12px",
+                    "gutter": "16px",
+                    "margin-desktop": "40px",
+                    "unit": "4px",
+                    "section-padding": "128px",
+                    "margin-mobile": "20px"
+            },
+            "fontFamily": {
+                    "label-caps": ["JetBrains Mono"],
+                    "body-md": ["Hanken Grotesk"],
+                    "data-point": ["Hanken Grotesk"],
+                    "micro-tag": ["JetBrains Mono"],
+                    "display-lg-mobile": ["Space Grotesk"],
+                    "display-lg": ["Space Grotesk"],
+                    "mono-data": ["JetBrains Mono"],
+                    "headline-md": ["Space Grotesk"],
+                    "audiowide": ["Audiowide", "sans-serif"],
+                    "orbitron": ["Orbitron", "sans-serif"]
+            },
+            "fontSize": {
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                    "data-point": ["20px", {"lineHeight": "28px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "micro-tag": ["10px", {"letterSpacing": "0.3em", "fontWeight": "400"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.02em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #101417;
+            background-image: 
+                radial-gradient(circle at 2px 2px, rgba(127, 208, 255, 0.05) 1px, transparent 0);
+            background-size: 32px 32px;
+            color: #e0e3e6;
+            overflow: hidden;
+        }
+
+        .hex-overlay {
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='104' viewBox='0 0 60 104' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 104L0 86.6025V51.9615L30 34.6185L60 51.9615V86.6025L30 104ZM30 69.237L5 83.6603V96.9423L30 111.365L55 96.9423V83.6603L30 69.237ZM0 17.3205V0H5V14.4338L30 28.8675L55 14.4338V0H60V17.3205L30 34.641L0 17.3205Z' fill='%237fd0ff' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(197, 231, 255, 0.1);
+        }
+
+        .neon-glow-primary {
+            box-shadow: 0 0 15px rgba(127, 208, 255, 0.3);
+        }
+
+        .neon-text-secondary {
+            text-shadow: 0 0 8px #47ddc1;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(127, 208, 255, 0.2);
+            border-radius: 10px;
+        }
+
+        @keyframes pulse-cyan {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        .pulse-cyan { animation: pulse-cyan 3s infinite; }
+    </style>
+</head>
+<body class="h-screen flex flex-col font-body-md overflow-hidden">
+<div class="hex-overlay"></div>
+<!-- Top Navigation Anchor -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-desktop h-20 bg-surface/30 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-primary tracking-widest uppercase">MagnopVS · Life Hero</span>
+<div class="h-6 w-[1px] bg-primary/20"></div>
+<span class="font-orbitron text-secondary tracking-widest text-sm neon-text-secondary">COMUNIDAD_NEXUS_V4.2</span>
+</div>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-outline hover:text-primary transition-all duration-300 scale-95 active:scale-90">stars</button>
+<button class="material-symbols-outlined text-outline hover:text-primary transition-all duration-300 scale-95 active:scale-90">bolt</button>
+<div class="flex items-center gap-3 pl-4 border-l border-primary/10">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+<span class="font-label-caps text-on-surface">OPERATOR_01</span>
+</div>
+</div>
+</header>
+<main class="flex-1 flex mt-20 overflow-hidden">
+<!-- 1. LEFT SIDEBAR: Community Avatars (16 units/64px) -->
+<nav class="w-16 flex flex-col items-center py-6 gap-4 bg-surface-container-low/50 backdrop-blur-2xl border-r border-primary/10 z-40">
+<!-- Active Community -->
+<div class="relative group cursor-pointer">
+<div class="absolute -left-1 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-full neon-glow-primary"></div>
+<div class="w-12 h-12 rounded-xl bg-primary/20 border-2 border-primary overflow-hidden transition-all duration-300 group-hover:rounded-xl shadow-[0_0_10px_rgba(127,208,255,0.4)] flex items-center justify-center">
+<span class="font-orbitron font-bold text-primary">AO</span>
+</div>
+<div class="absolute left-16 top-1 px-3 py-1 bg-surface-container-highest border border-primary/20 rounded text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity font-label-caps text-primary">AUREUM_ORDER</div>
+</div>
+<div class="w-8 h-[1px] bg-primary/10 my-1"></div>
+<!-- Other Communities -->
+<div class="relative group cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest border border-primary/10 overflow-hidden transition-all duration-300 group-hover:rounded-xl hover:border-primary/40 flex items-center justify-center">
+<span class="font-orbitron text-on-surface-variant group-hover:text-primary transition-colors">HV</span>
+</div>
+<div class="absolute left-16 top-1 px-3 py-1 bg-surface-container-highest border border-primary/20 rounded text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity font-label-caps text-primary">HEX_VIRTUE</div>
+</div>
+<div class="relative group cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest border border-primary/10 overflow-hidden transition-all duration-300 group-hover:rounded-xl hover:border-primary/40 flex items-center justify-center">
+<span class="font-orbitron text-on-surface-variant group-hover:text-primary transition-colors">NW</span>
+</div>
+<div class="absolute left-16 top-1 px-3 py-1 bg-surface-container-highest border border-primary/20 rounded text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity font-label-caps text-primary">NIGHT_WALKERS</div>
+</div>
+<button class="mt-auto w-12 h-12 rounded-full border border-dashed border-primary/30 flex items-center justify-center text-primary hover:bg-primary/5 hover:border-primary transition-all duration-300">
+<span class="material-symbols-outlined">add</span>
+</button>
+</nav>
+<!-- 2. CENTER SIDEBAR: Channel List (64 units/256px) -->
+<aside class="w-64 flex flex-col glass-panel border-r border-primary/10 z-30">
+<!-- Header -->
+<div class="p-5 border-b border-primary/10 flex flex-col gap-1">
+<h2 class="font-audiowide text-primary tracking-wider flex items-center justify-between">
+                    AUREUM_ORDER
+                    <span class="material-symbols-outlined text-sm">expand_more</span>
+</h2>
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary pulse-cyan"></span>
+<span class="font-orbitron text-[10px] text-on-surface-variant uppercase tracking-widest">1,204 MEMBERS // LVL 42</span>
+</div>
+</div>
+<!-- Channels Scroll Area -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-3 flex flex-col gap-0.5">
+<div class="px-2 py-3 text-xs font-label-caps text-outline uppercase tracking-[0.2em] mb-1">Navigation</div>
+<a class="flex items-center gap-2 px-3 py-2 rounded bg-primary/5 border-l-2 border-primary text-primary group shadow-[inset_4px_0_10px_rgba(127,208,255,0.1)]" href="#">
+<span class="text-primary/60 font-mono">#</span>
+<span class="font-orbitron text-sm">general-sync</span>
+</a>
+<a class="flex items-center gap-2 px-3 py-2 rounded hover:bg-white/5 text-on-surface-variant hover:text-on-surface transition-all group" href="#">
+<span class="text-outline-variant font-mono">#</span>
+<span class="font-orbitron text-sm">strategy-deck</span>
+</a>
+<a class="flex items-center gap-2 px-3 py-2 rounded hover:bg-white/5 text-on-surface-variant hover:text-on-surface transition-all group" href="#">
+<span class="text-outline-variant font-mono">#</span>
+<span class="font-orbitron text-sm">karmic-flow</span>
+</a>
+<a class="flex items-center gap-2 px-3 py-2 rounded hover:bg-white/5 text-on-surface-variant hover:text-on-surface transition-all group" href="#">
+<span class="text-outline-variant font-mono">#</span>
+<span class="font-orbitron text-sm">announcements</span>
+</a>
+<div class="mt-6 px-2 py-3 text-xs font-label-caps text-outline uppercase tracking-[0.2em] mb-1">Direct Signals</div>
+<div class="flex items-center gap-3 px-3 py-2 opacity-50 cursor-not-allowed">
+<div class="w-2 h-2 rounded-full bg-outline"></div>
+<span class="font-orbitron text-sm">HEX_VOID_0</span>
+</div>
+</div>
+<!-- User Profile Widget -->
+<div class="p-4 bg-surface-container-highest/40 backdrop-blur-md border-t border-primary/20 flex flex-col gap-3">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center border border-primary/30">
+<span class="material-symbols-outlined text-primary">person</span>
+</div>
+<div class="absolute -bottom-1 -right-1 w-3 h-3 bg-secondary rounded-full border-2 border-surface-dim"></div>
+</div>
+<div class="flex flex-col">
+<span class="font-audiowide text-sm text-primary tracking-wider">OPERATOR_01</span>
+<span class="font-orbitron text-[10px] text-on-surface-variant uppercase">LVL 42 // TITAN</span>
+</div>
+<button class="ml-auto material-symbols-outlined text-sm text-outline hover:text-primary">settings</button>
+</div>
+<!-- Mini Stats -->
+<div class="grid grid-cols-2 gap-2">
+<div class="bg-surface-container/50 p-2 rounded border border-primary/5 flex flex-col">
+<span class="text-[8px] font-label-caps text-outline uppercase">REP_SCORE</span>
+<span class="font-orbitron text-xs text-secondary">2,450.00</span>
+</div>
+<div class="bg-surface-container/50 p-2 rounded border border-primary/5 flex flex-col">
+<span class="text-[8px] font-label-caps text-outline uppercase">KARMA_VAL</span>
+<span class="font-orbitron text-xs text-tertiary-fixed-dim">+88%</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- 3. MAIN CHAT AREA -->
+<section class="flex-1 flex flex-col bg-surface-dim relative">
+<!-- Chat Header -->
+<header class="h-14 flex items-center justify-between px-6 border-b border-primary/10 glass-panel">
+<div class="flex items-center gap-3">
+<span class="text-primary font-mono text-xl">#</span>
+<h1 class="font-audiowide text-primary tracking-wide">general-sync</h1>
+<div class="w-[1px] h-4 bg-primary/10 mx-2"></div>
+<p class="font-body-md text-xs text-on-surface-variant hidden md:block">Primary communication channel for AUREUM node operations.</p>
+</div>
+<div class="flex items-center gap-5">
+<button class="material-symbols-outlined text-outline hover:text-secondary transition-colors">phone_in_talk</button>
+<button class="material-symbols-outlined text-outline hover:text-secondary transition-colors">videocam</button>
+<button class="material-symbols-outlined text-outline hover:text-secondary transition-colors">group</button>
+<div class="relative">
+<input class="bg-surface-container-low border border-primary/10 rounded-full py-1 px-4 text-xs font-orbitron focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all w-32 focus:w-48" placeholder="Search" type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-1 text-sm text-outline">search</span>
+</div>
+</div>
+</header>
+<!-- Message Stream -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-8">
+<!-- System Message -->
+<div class="flex items-center gap-4 py-2">
+<div class="h-[1px] flex-1 bg-primary/10"></div>
+<span class="font-micro-tag text-outline-variant uppercase">SYNC_POINT: 2023.10.12 // 08:42:00</span>
+<div class="h-[1px] flex-1 bg-primary/10"></div>
+</div>
+<!-- Message Entry -->
+<div class="flex items-start gap-4 group">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high border border-primary/20 flex-shrink-0 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A stylized sci-fi portrait of a futuristic soldier with cybernetic implants and glowing blue eyes, wearing matte black tactical gear against a backdrop of holographic interface lines. The aesthetic is cyber-glassmorphism with deep navy and cyan highlights, reflecting a high-tech atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAixA1RMveM2bE4CJXuKMIG2fSNJPZwm4ZUofeY4YEgV61l-UE-F3kkH0AAYNu1ScvCK9GVTOikkUpO6xcBwItbHmiXH_wrkKAVgf8ZNnnDZES_yc_sRzYyUs-F-xsNU8q4XQSgBrS7wLFTXo1gCfkkQ4QEE_itDacscbzR0TkdioNeoxxTL5-P7D930P6-UMsKdwUFp4xdWcWwIkGE6SE-xvEyYD69hkQ1CeEBNV8lQi2za_nJhQNYOy5T_0IQy0M9rZdgJxKUhulK"/>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="font-audiowide text-secondary text-sm">CYBER_KNIGHT</span>
+<span class="font-micro-tag text-outline-variant">09:12 AM</span>
+<span class="px-1.5 py-0.5 rounded-sm bg-primary/10 border border-primary/20 text-[8px] font-label-caps text-primary uppercase">COMMANDER</span>
+</div>
+<p class="font-body-md text-on-surface max-w-2xl leading-relaxed">The karmic threshold has been reached for sector 7. Initiating protocol 42-B. All operators standby for mission briefing in the strategy deck.</p>
+</div>
+</div>
+<!-- Message Entry -->
+<div class="flex items-start gap-4 group">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high border border-primary/20 flex-shrink-0 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="An ethereal digital artwork of a mystical entity made of golden liquid light and geometric shapes, floating in a dark cosmic void filled with faint hexagonal patterns. The color palette features rich magentas and bright aguamarine accents, creating a sense of digital enlightenment and mystery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM_4G1vXhjgDiXDzzz4E239yMry9-7ASEJx0TEI-yXEjsPdxlJ7YPzLcwoWqCnFsdQEvkAL0BYUHrjM6NCPDnuTeogjgzMHIsfrh-FX2UB0J-PqFLwUSaiGydvSumgRMCcwVHEpdmHhoKKPQ_ieUVJkXyECo5dZZyS0NjpBHiTrLcPsWBAJ9ok5ebkYoxbhERNwXGw5HDu2rG7xvYshe-lUsmvEnpeRGrVLojaSWceJEVut4XomRkyCcFwysBUem8Jr_p9lfMJP2Pv"/>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="font-audiowide text-primary text-sm">VOID_WALKER</span>
+<span class="font-micro-tag text-outline-variant">09:15 AM</span>
+</div>
+<p class="font-body-md text-on-surface max-w-2xl leading-relaxed">Acknowledged. The alchemy cycle is at 88% efficiency. We are ready to execute the transmutation sequence.</p>
+</div>
+</div>
+<!-- Image Card Message -->
+<div class="flex items-start gap-4 group">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high border border-primary/20 flex-shrink-0 flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-outline">robot_2</span>
+</div>
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-2">
+<span class="font-audiowide text-on-surface text-sm">HEX_LOG_BOT</span>
+<span class="font-micro-tag text-outline-variant">09:22 AM</span>
+<span class="px-1.5 py-0.5 rounded-sm bg-outline-variant/20 border border-outline-variant/30 text-[8px] font-label-caps text-outline uppercase">SYSTEM</span>
+</div>
+<div class="glass-panel p-4 rounded-xl max-w-md border border-primary/20 bg-primary/5">
+<p class="font-orbitron text-xs text-primary mb-3">SECTOR_VISUAL_FEED: 07A</p>
+<div class="aspect-video w-full rounded-lg overflow-hidden border border-primary/20 relative group/img">
+<img class="w-full h-full object-cover" data-alt="A cinematic wide shot of a futuristic cyberpunk city with towering hexagonal skyscrapers emitting a soft blue neon glow through dense atmospheric fog. Complex holographic navigation paths are projected in the dark sky, using a color scheme of deep space black, neon cyan, and magenta. The mood is high-tech precision and urban mystery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgbOJmDb9bJRa1dGUsn_Et98qri-G70zUSznj8iPJ-3NNuiSp0nz3zZ4M2C3gPrdAVogD_RbzmDoWYkdI5ZoKZORlQsFkx3cTgZFGORlsEHj1dWbYX7Ir-pEfnJjvo0qfxnH8Ux6DU6xjcEsNrIuF5KpAxYXVpxv7C2PTLQNu8AMf8Cx67E6-1xI8zfn2hAl-eoWBNGjGXRW05_hgUl9NphpLv1rmKrSuhWVKVQaZM-xczTQ3QaTyR-1zMMEhBPWypNjaV_RgOLUvZ"/>
+<div class="absolute inset-0 bg-primary/10 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-4xl">zoom_in</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Interaction Message -->
+<div class="flex items-start gap-4 group">
+<div class="w-10 h-10 rounded-lg bg-primary/20 border border-primary flex-shrink-0 flex items-center justify-center overflow-hidden shadow-[0_0_10px_rgba(127,208,255,0.2)]">
+<span class="material-symbols-outlined text-primary">person</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="font-audiowide text-primary text-sm">OPERATOR_01</span>
+<span class="font-micro-tag text-outline-variant">09:45 AM</span>
+</div>
+<p class="font-body-md text-on-surface max-w-2xl leading-relaxed">Confirming reception. Moving to Strategy Deck now. Ready for TITAN deployment.</p>
+<div class="flex gap-2 mt-2">
+<div class="flex items-center gap-1.5 bg-primary/10 border border-primary/30 rounded-full px-2 py-0.5 cursor-pointer hover:bg-primary/20 transition-all">
+<span class="text-xs">⚡</span>
+<span class="font-orbitron text-[10px] text-primary">12</span>
+</div>
+<div class="flex items-center gap-1.5 bg-secondary/10 border border-secondary/30 rounded-full px-2 py-0.5 cursor-pointer hover:bg-secondary/20 transition-all">
+<span class="text-xs">🔥</span>
+<span class="font-orbitron text-[10px] text-secondary">5</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Chat Input Area -->
+<footer class="p-6">
+<div class="max-w-5xl mx-auto glass-panel p-2 rounded-xl border border-primary/20 flex items-center gap-3">
+<button class="w-10 h-10 rounded-lg flex items-center justify-center text-outline hover:text-primary hover:bg-primary/5 transition-all">
+<span class="material-symbols-outlined">add_circle</span>
+</button>
+<div class="flex-1 relative">
+<input class="w-full bg-transparent border-none focus:ring-0 text-on-surface font-body-md placeholder:text-outline/40 py-2" placeholder="Transmit message to #general-sync..." type="text"/>
+</div>
+<div class="flex items-center gap-1 px-2">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-secondary transition-all">
+<span class="material-symbols-outlined text-xl">mood</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-secondary transition-all">
+<span class="material-symbols-outlined text-xl">gif_box</span>
+</button>
+</div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded font-audiowide text-xs uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-[0_0_15px_rgba(127,208,255,0.3)]">
+                        SEND_DATA
+                    </button>
+</div>
+<div class="mt-2 text-center">
+<p class="font-micro-tag text-outline-variant text-[8px] uppercase tracking-[0.4em]">ENCRYPTED_COMMS_ACTIVE // MAGNOPVS_OS_4.2.0</p>
+</div>
+</footer>
+<!-- Atmospheric Overlay Decor -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-secondary/5 blur-[120px] rounded-full pointer-events-none"></div>
+<div class="absolute bottom-20 left-20 w-48 h-48 bg-primary/5 blur-[100px] rounded-full pointer-events-none"></div>
+</section>
+</main>
+<!-- Side Navigation Anchor (Hidden in Chat Screen) -->
+<div class="hidden lg:flex flex-col fixed left-0 top-0 h-full z-50 pointer-events-none">
+<!-- Structural shell from JSON - Content minimized to prioritize chat focus -->
+</div>
+<!-- Footer Identity -->
+<footer class="w-full max-w-7xl mx-auto px-margin-desktop flex flex-col items-center gap-2 py-4 opacity-40 hover:opacity-100 transition-opacity duration-500 text-outline font-mono-data text-xs z-50">
+<div class="flex items-center gap-6">
+<span class="text-primary">MAGNOPVS OS v4.2.0 // SYSTEM_STABLE</span>
+<div class="flex gap-4">
+<a class="hover:text-primary transition-colors" href="#">System Reset</a>
+<a class="hover:text-primary transition-colors" href="#">Log Export</a>
+<a class="hover:text-primary transition-colors" href="#">Protocol-9</a>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interaction for the chat input
+        const input = document.querySelector('input[type="text"]');
+        const footerPanel = input?.closest('.glass-panel');
+        
+        input?.addEventListener('focus', () => {
+            footerPanel?.classList.add('border-primary', 'shadow-[0_0_20px_rgba(127,208,255,0.1)]');
+        });
+
+        input?.addEventListener('blur', () => {
+            footerPanel?.classList.remove('border-primary', 'shadow-[0_0_20px_rgba(127,208,255,0.1)]');
+        });
+
+        // Simulating the arrival of messages with a subtle flash
+        function simulateSync() {
+            const syncPoint = document.querySelector('.font-micro-tag');
+            if(syncPoint) {
+                syncPoint.classList.add('text-primary');
+                setTimeout(() => syncPoint.classList.remove('text-primary'), 1000);
+            }
+        }
+        setInterval(simulateSync, 10000);
+    </script>
+</body></html>

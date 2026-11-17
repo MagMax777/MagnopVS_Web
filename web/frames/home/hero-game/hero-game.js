@@ -58,17 +58,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         dialogText.textContent="";
 
-        "???",
-
-        "Algo está despertando dentro del Portal..."
-       
-        ()=>{
-
-                GAME.stage=0;
-
-            }
-
-
     let i=0;
 
     function write(){
@@ -136,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     carrot.classList.remove("active");
 
-    say(
+    typeWriter(
         "???",
         "Algo está despertando dentro del Portal..."
     );

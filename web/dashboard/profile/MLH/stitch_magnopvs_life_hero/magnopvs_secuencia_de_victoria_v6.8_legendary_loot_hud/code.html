@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOPVS_LEGION | MISSION_SUCCESS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@300;400;700&amp;family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed": "#00201a",
+                      "grid-line": "rgba(127, 208, 255, 0.05)",
+                      "on-tertiary-fixed-variant": "#6e3252",
+                      "error": "#ffb4ab",
+                      "surface-container": "#1c2023",
+                      "on-tertiary-container": "#7c3e5e",
+                      "surface-dim": "#101417",
+                      "surface-variant": "#313538",
+                      "on-background": "#e0e3e6",
+                      "inverse-primary": "#00658b",
+                      "primary-container": "#7fd0ff",
+                      "on-error-container": "#ffdad6",
+                      "surface-container-low": "#181c1f",
+                      "primary": "#c5e7ff",
+                      "on-primary-container": "#00597b",
+                      "surface-bright": "#363a3d",
+                      "on-error": "#690005",
+                      "on-surface": "#e0e3e6",
+                      "secondary-fixed-dim": "#47ddc1",
+                      "outline": "#899299",
+                      "on-primary-fixed": "#001e2d",
+                      "secondary": "#47ddc1",
+                      "on-secondary-fixed-variant": "#005144",
+                      "secondary-fixed": "#6af9dc",
+                      "on-secondary-container": "#004439",
+                      "surface-panel": "rgba(255, 255, 255, 0.03)",
+                      "background-deep": "#0a0b12",
+                      "on-tertiary-fixed": "#390625",
+                      "on-secondary": "#00382e",
+                      "secondary-container": "#00bba0",
+                      "on-primary": "#00344a",
+                      "tertiary": "#ffd8e7",
+                      "on-tertiary": "#531c3b",
+                      "surface-container-highest": "#313538",
+                      "surface-container-lowest": "#0b0f11",
+                      "background": "#101417",
+                      "primary-fixed-dim": "#7fd0ff",
+                      "tertiary-fixed": "#ffd8e7",
+                      "on-surface-variant": "#bfc8cf",
+                      "tertiary-fixed-dim": "#ffafd4",
+                      "tertiary-container": "#ffafd4",
+                      "glow-cyan": "#2da8e0",
+                      "primary-fixed": "#c5e7ff",
+                      "error-container": "#93000a",
+                      "inverse-surface": "#e0e3e6",
+                      "surface-tint": "#7fd0ff",
+                      "outline-variant": "#3f484e",
+                      "status-critical": "#93000a",
+                      "inverse-on-surface": "#2d3134",
+                      "surface-container-high": "#272a2d",
+                      "on-primary-fixed-variant": "#004c6a",
+                      "surface": "#101417"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "20px",
+                      "margin-desktop": "40px",
+                      "gutter": "16px",
+                      "section-padding": "128px",
+                      "panel-gap": "12px",
+                      "unit": "4px"
+              },
+              "fontFamily": {
+                      "mono-data": ["JetBrains Mono"],
+                      "display-lg": ["Space Grotesk"],
+                      "data-point": ["Hanken Grotesk"],
+                      "display-lg-mobile": ["Space Grotesk"],
+                      "label-caps": ["JetBrains Mono"],
+                      "micro-tag": ["JetBrains Mono"],
+                      "body-md": ["Hanken Grotesk"],
+                      "headline-md": ["Space Grotesk"],
+                      "audiowide": ["Audiowide", "sans-serif"],
+                      "orbitron": ["Orbitron", "sans-serif"]
+              },
+              "fontSize": {
+                      "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "data-point": ["20px", {"lineHeight": "28px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                      "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                      "micro-tag": ["10px", {"letterSpacing": "0.3em", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.02em", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .neon-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 10px #2da8e0); }
+            50% { opacity: 0.7; filter: drop-shadow(0 0 20px #2da8e0); }
+        }
+        .slanted-edge {
+            clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+        }
+        .hex-bg {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDuZq2rwH6VxujYQCI878ZNvmjOvwO6EaZjJUyM0hVXsaux-Z672AlDT6WHsSBm904b6bS3h3v0DjvaDDoZ4KVaXWq2qcOiHgDM19n_cS-I_40TAIiOCdIbAiV3NdIX7fhV6TNeCgAx16fhe_n7vfk7EdZkKjlyY7N-xDKJ9T8SvW-mMti5-nG3WgFzWPyBcrlWlNPRuzzajSG6c60yubMET9s5eG0FElbQGHl38Tmlayp48umybQQRLNR7ANSJ4RdglNE');
+            background-size: cover;
+            background-blend-mode: overlay;
+        }
+        .cyber-grid {
+            background-image: linear-gradient(to right, rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(45, 168, 224, 0.2);
+        }
+        .rarity-legendary {
+            border: 1px solid #ffd8e7;
+            box-shadow: 0 0 30px rgba(255, 175, 212, 0.2);
+        }
+        .corner-bracket::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            width: 15px;
+            height: 15px;
+            border-top: 2px solid #2da8e0;
+            border-left: 2px solid #2da8e0;
+        }
+        .corner-bracket::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            right: -1px;
+            width: 15px;
+            height: 15px;
+            border-bottom: 2px solid #2da8e0;
+            border-right: 2px solid #2da8e0;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-hidden h-screen flex flex-col">
+<!-- Global Background Elements -->
+<div class="fixed inset-0 cyber-grid pointer-events-none z-0"></div>
+<div class="fixed inset-0 hex-bg opacity-30 pointer-events-none z-0"></div>
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop py-unit bg-background/30 backdrop-blur-3xl border-b border-outline-variant/20 shadow-[0_0_15px_rgba(45,168,224,0.1)] h-16">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-headline-md font-bold text-glow-cyan uppercase tracking-widest audiowide">MAGNOPVS_LEGION</span>
+<div class="h-4 w-px bg-outline-variant/40 mx-2"></div>
+<span class="font-mono-data text-micro-tag text-on-surface-variant">VER_6.8_HUD</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary transition-colors duration-300" href="#">TACTICAL_HUD</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-label-caps text-label-caps" href="#">BATTLE_LOG</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary transition-colors duration-300" href="#">ALCHEMICAL_LAB</a>
+</nav>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-glow-cyan cursor-pointer hover:scale-110 transition-transform">security</span>
+<span class="material-symbols-outlined text-glow-cyan cursor-pointer hover:scale-110 transition-transform">emergency_home</span>
+<span class="material-symbols-outlined text-glow-cyan cursor-pointer hover:scale-110 transition-transform">settings</span>
+</div>
+</header>
+<!-- SideNavBar (Hidden on Mobile) -->
+<aside class="fixed left-0 top-0 h-full w-64 z-40 flex flex-col pt-24 pb-8 bg-surface-container/30 border-r border-outline-variant/20 backdrop-blur-2xl hidden md:flex">
+<div class="px-6 mb-8 flex items-center gap-4">
+<div class="w-10 h-10 rounded-full border border-glow-cyan/50 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait of a highly advanced tactical AI entity named SOF.IA. She has glowing neon circuitry patterns across her translucent skin and piercing cyan eyes that radiate intelligence. The background is a dense matrix of alchemical symbols and code flowing in a digital void. Cyber-glassmorphism style with high-end holographic depth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBc8hoIk5qMf4lCtANXZgQu5aXjAojjjMFUclRCtpRt18o-8S8c7FAC4rVuVWJaI0DdZq-JNDCwRTFji9i9m1JqSRs_LUR5CLQJEwuFx_m1tT3kd_O3rK2SGAsgx2gI4DYQ8eD2ViLCf3sO9u6537t7ZOugZ7eog4W0j8gsIz3l27Q2mMoq9Q7BaCLtQIlVdVV81h4kaY-fgkR4TrmXGx6tPPuOs7dqOBzUD6p1Rzn2dBK0BF2RdLT4g"/>
+</div>
+<div>
+<h4 class="font-label-caps text-label-caps text-glow-cyan font-bold">SOF.IA_v2.1</h4>
+<p class="font-micro-tag text-micro-tag text-on-surface-variant">TACTICAL_ADVISOR</p>
+</div>
+</div>
+<div class="flex-1 space-y-2">
+<div class="flex items-center gap-4 px-6 py-3 border-l-2 border-primary text-primary bg-primary/5 cursor-pointer">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps text-label-caps">COCKPIT</span>
+</div>
+<div class="flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/10 transition-all cursor-pointer">
+<span class="material-symbols-outlined">swords</span>
+<span class="font-label-caps text-label-caps">MISSIONS</span>
+</div>
+<div class="flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/10 transition-all cursor-pointer">
+<span class="material-symbols-outlined">backpack</span>
+<span class="font-label-caps text-label-caps">INVENTORY</span>
+</div>
+<div class="flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/10 transition-all cursor-pointer">
+<span class="material-symbols-outlined">experiment</span>
+<span class="font-label-caps text-label-caps">ALCHEMY</span>
+</div>
+<div class="flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/10 transition-all cursor-pointer">
+<span class="material-symbols-outlined">terminal</span>
+<span class="font-label-caps text-label-caps">SYSTEM</span>
+</div>
+</div>
+<div class="px-6 mt-auto">
+<button class="w-full py-3 bg-primary text-on-primary font-label-caps text-label-caps slanted-edge font-bold tracking-widest hover:brightness-110 active:scale-95 transition-all">
+                INITIATE_COMBAT
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="relative flex-1 md:ml-64 mt-16 p-margin-desktop overflow-hidden flex flex-col items-center justify-center">
+<!-- Background Boss Silhouette -->
+<div class="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
+<img class="w-2/3 h-2/3 object-contain filter grayscale invert" data-alt="A massive, abstract, and dissolving cosmic entity representing the Vortex of Procrastination. It is composed of swirling dark smoke, broken clock faces, and fragmented calendar pages. The silhouette is fading into a starry nebula, with edges turning into glowing digital pixels. Dark space black and deep purple color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuASbP6MXkqxYBUpwuK_JYuoH-5_QDEQhSD_bTOw4SV3--dga4fwd_148TvN7E_67bvsMOG0mlr_RPQaDkp3HGpxD-d3pLxUflFK3pl74brHT56Kq-UHMfleFjo1pGsN1Ty-EP6wGdYrEr7fzgPzAChr131MYFUxax3OpqS_ISs7yFpxM-RAgBMxuEkfIuboke7_jTzMHmDbof0AeilXK8etVnJ0kbWej9_mYnUmqHKvZ3zy4Psxbq_gUQ"/>
+</div>
+<!-- Victory Header -->
+<div class="relative z-10 text-center mb-12 animate-in fade-in zoom-in duration-700">
+<h1 class="font-audiowide text-7xl md:text-8xl text-glow-cyan drop-shadow-[0_0_25px_rgba(45,168,224,0.6)] uppercase tracking-tighter">MISIÓN COMPLETADA</h1>
+<p class="font-orbitron text-headline-md text-secondary mt-2 tracking-[0.4em] opacity-80">VICTORY_RECAP</p>
+<div class="flex items-center justify-center gap-4 mt-6">
+<div class="h-[1px] w-32 bg-gradient-to-r from-transparent to-glow-cyan"></div>
+<span class="font-mono-data text-label-caps text-on-surface-variant">EL VÓRTICE DE LA PROCRASTINACIÓN: NEUTRALIZED</span>
+<div class="h-[1px] w-32 bg-gradient-to-l from-transparent to-glow-cyan"></div>
+</div>
+</div>
+<!-- Bento Grid Rewards -->
+<div class="grid grid-cols-12 grid-rows-6 gap-panel-gap w-full max-w-6xl h-full max-h-[600px] relative z-10">
+<!-- Rewards Summary (Top Left) -->
+<div class="col-span-12 md:col-span-4 row-span-2 glass-panel p-6 flex flex-col justify-between corner-bracket">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-4">EXPEDITION_SUMMARY</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<img alt="XP" class="w-8 h-8" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0Phd1OD5hdbDdk138gVwdSGdmI2aQvE4VmPO1v2jK3AAsit1lZ72yHrtJD-4CoEyFcAgjupdYkpK6ZQTXfZqHW70y43MMq1k4iOysfHJ7NqJZkwoVpW-L0qsDmfqcsnV36jVSnXrHKhXRtbeNp1r4NBQfiq8tI_bMMhniPkZm3L36TjnRDPOIJoLb6uzfgg0BVcKljedQPlo71_-2YXaheLw3CxPqSmyfLhXi-kVjs_RtAmpvk4uhiwgpOagzj0aO6ls"/>
+<span class="font-orbitron text-headline-md">+15,000 XP</span>
+</div>
+<div class="text-glow-cyan text-xs font-mono-data">BONUS: +50%</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<img alt="CR" class="w-8 h-8" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNYdWsfqvzbDh2SNhyGwKrcFz49RGS2IclcgPiJhQhk5kPBGT04WcUI9cqiGydS9BLFrhjXs_cJboBZUDbPLaOTjVbwFH9C8TulRkgyajWDHhVE5MKubhT2mgSaslFe9RAZ9IRpNS1UeY5RCl0Fv-nxeMQHhJ8p6Bas-M6T9eO_N7SD-US5bN6C69QgQMIXdYYh7HRU_p8BaE6nxgW7bcMYzDbmDpFEz3If3joy1hjWyfKQHPOjMVIFQJipXy28b21EP0"/>
+<span class="font-orbitron text-headline-md">+2,500 CR</span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<img alt="LP" class="w-8 h-8" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIABYM5qv5GbsA4EWo0c9x5awTENcMRJgZmg0MES0g-FCD9yZuLISrNnLDVnx9Wba2wF4YmOy9IDQGzVW79XY3d37U_zT8MKpTiVOwS_ONrVKocsx44D0hgf-4tbaxNjisKfIG22jRfJernIh54y8YTuyTY8JPcu8QcvBHvctm1SeFWgU8uwzGVQNbVl_l22mtvq5fIWQ7JMcJctVU7SufYYOnlW1e-vWo47RqTgj4vBe5YWJ4E-TuSSyvnVKLxyjOUGE"/>
+<span class="font-orbitron text-headline-md">+500 LP</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Loot Reveal Highlight (Center) -->
+<div class="col-span-12 md:col-span-5 row-span-6 glass-panel rarity-legendary p-8 flex flex-col items-center justify-center relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-b from-tertiary/10 to-transparent pointer-events-none"></div>
+<div class="relative mb-8 transform group-hover:scale-105 transition-transform duration-500">
+<div class="absolute inset-0 bg-tertiary blur-3xl opacity-20 animate-pulse"></div>
+<div class="w-48 h-48 border-2 border-tertiary p-2 rotate-45 relative">
+<div class="w-full h-full border border-tertiary flex items-center justify-center -rotate-45">
+<span class="material-symbols-outlined text-8xl text-tertiary drop-shadow-[0_0_20px_rgba(255,216,231,0.8)] neon-pulse" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+</div>
+</div>
+<div class="text-center">
+<span class="bg-tertiary text-on-tertiary px-4 py-1 font-label-caps text-[10px] rounded-full mb-4 inline-block font-bold">LEGENDARY_DROP</span>
+<h2 class="font-audiowide text-4xl text-tertiary mb-2">CHRONOS_SHARD</h2>
+<p class="font-mono-data text-on-surface-variant text-xs mb-6 max-w-xs mx-auto">A crystallized fragment of absolute focus, capable of bending subjective time-perception within the legion matrix.</p>
+</div>
+<div class="grid grid-cols-2 gap-4 w-full">
+<div class="bg-surface-container-high/50 p-3 rounded-lg border border-outline-variant/30">
+<p class="text-micro-tag font-micro-tag text-on-surface-variant uppercase">Focus_Mod</p>
+<p class="font-orbitron text-primary">+15.0%</p>
+</div>
+<div class="bg-surface-container-high/50 p-3 rounded-lg border border-outline-variant/30">
+<p class="text-micro-tag font-micro-tag text-on-surface-variant uppercase">Sync_Mod</p>
+<p class="font-orbitron text-secondary">+10.0%</p>
+</div>
+</div>
+</div>
+<!-- SOF.IA'S Feedback (Right) -->
+<div class="col-span-12 md:col-span-3 row-span-4 glass-panel flex flex-col p-6 corner-bracket">
+<div class="flex items-center gap-3 mb-6">
+<img alt="SOF.IA" class="w-12 h-12 rounded-full border border-glow-cyan shadow-[0_0_10px_rgba(45,168,224,0.3)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMeDZPPg16EdBPmo46cfyBhqjtWoU15pLyYX8hVz81rvLU7A1RNCOMukvbfAlz47Fr2GYGQtIa5yWRugB_5dhcyhluZAHoafTQ66-KX6sF3AUadfG-RI17D75u3qlmPssSJWGPaA7LZGIjSeXO89amRGpfJ_1aEEpiX8G2pLDDZ8Uu8n9uZgMbqpSwjuBSQ1zlkyLNqdpLOOhrNsSdsywWBd7JjVg4INSvZd-7AZUqSxiAbBOk9zXmMmHNWSxJ24KiQBk"/>
+<div>
+<h4 class="font-label-caps text-[10px] text-glow-cyan">ADVISOR_COMMS</h4>
+<p class="font-mono-data text-xs text-on-surface-variant">ACTIVE_CHANNEL</p>
+</div>
+</div>
+<div class="flex-1">
+<p class="font-body-md text-on-surface leading-relaxed text-sm">
+                        "Exceptional performance, <span class="text-glow-cyan font-bold">Operator_01</span>. Your intention has stabilized the sector. The <span class="text-tertiary">Chronos Shard</span> is now synced to your Arsenal. Integration sequence complete."
+                    </p>
+<div class="mt-8 space-y-2">
+<div class="flex justify-between text-micro-tag text-on-surface-variant">
+<span>SYNC_PROGRESS</span>
+<span>100%</span>
+</div>
+<div class="flex gap-1">
+<div class="h-1.5 flex-1 bg-secondary shadow-[0_0_10px_#47ddc1]"></div>
+<div class="h-1.5 flex-1 bg-secondary shadow-[0_0_10px_#47ddc1]"></div>
+<div class="h-1.5 flex-1 bg-secondary shadow-[0_0_10px_#47ddc1]"></div>
+<div class="h-1.5 flex-1 bg-secondary shadow-[0_0_10px_#47ddc1]"></div>
+<div class="h-1.5 flex-1 bg-secondary shadow-[0_0_10px_#47ddc1]"></div>
+<div class="h-1.5 flex-1 bg-secondary shadow-[0_0_10px_#47ddc1]"></div>
+<div class="h-1.5 flex-1 bg-secondary shadow-[0_0_10px_#47ddc1]"></div>
+<div class="h-1.5 flex-1 bg-secondary shadow-[0_0_10px_#47ddc1]"></div>
+<div class="h-1.5 flex-1 bg-secondary shadow-[0_0_10px_#47ddc1]"></div>
+<div class="h-1.5 flex-1 bg-secondary shadow-[0_0_10px_#47ddc1]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Buttons (Bottom Left) -->
+<div class="col-span-12 md:col-span-4 row-span-2 flex flex-col gap-4">
+<button class="flex-1 bg-glow-cyan text-background font-orbitron font-bold uppercase tracking-wider flex items-center justify-center gap-2 slanted-edge hover:brightness-110 active:scale-95 transition-all">
+<span class="material-symbols-outlined">bolt</span>
+                    EQUIP ITEM
+                </button>
+<button class="flex-1 border border-glow-cyan text-glow-cyan font-orbitron font-bold uppercase tracking-wider flex items-center justify-center gap-2 slanted-edge hover:bg-glow-cyan/10 active:scale-95 transition-all">
+<span class="material-symbols-outlined">undo</span>
+                    RETURN TO COMMAND
+                </button>
+</div>
+<!-- System Logs (Bottom Right) -->
+<div class="col-span-12 md:col-span-3 row-span-2 glass-panel p-4 overflow-hidden">
+<div class="space-y-2 font-mono-data text-[9px] text-on-surface-variant/60">
+<p class="text-glow-cyan">[SYSTEM_LOG]: Battle_Node_09 neutral</p>
+<p>[REWARD_SYNC]: XP_Allocation confirmed</p>
+<p>[KARMIC_BANK]: +2500 CR transferred</p>
+<p class="text-tertiary">[LOOT]: Legendary item ID: CHRONOS_S detected</p>
+<p>[STABILITY]: Real-time sync at 98.4%</p>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-6 pb-6 pt-2 bg-surface-container-lowest/80 border-t border-tertiary/30 backdrop-blur-3xl rounded-t-xl shadow-[0_-10px_30px_rgba(255,175,212,0.1)] md:hidden">
+<div class="flex flex-col items-center justify-center text-on-surface-variant/60 p-3 hover:text-tertiary transition-all">
+<span class="material-symbols-outlined">globe_location_pin</span>
+<span class="font-label-caps text-label-caps">DODGE</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-tertiary-container text-on-tertiary-container rounded-xl p-3 shadow-[0_0_20px_rgba(255,175,212,0.4)] scale-90">
+<span class="material-symbols-outlined">swords</span>
+<span class="font-label-caps text-label-caps">ATTACK</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant/60 p-3 hover:text-tertiary transition-all">
+<span class="material-symbols-outlined">electric_bolt</span>
+<span class="font-label-caps text-label-caps">SKILL</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant/60 p-3 hover:text-tertiary transition-all">
+<span class="material-symbols-outlined">category</span>
+<span class="font-label-caps text-label-caps">ITEMS</span>
+</div>
+</footer>
+<!-- Micro Interactions Script -->
+<script>
+        // Atmospheric floating effect for the loot card
+        const lootCard = document.querySelector('.rarity-legendary');
+        if (lootCard) {
+            document.addEventListener('mousemove', (e) => {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 50;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 50;
+                lootCard.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            });
+        }
+
+        // Sequential reveal animation
+        window.addEventListener('DOMContentLoaded', () => {
+            const panels = document.querySelectorAll('.glass-panel');
+            panels.forEach((panel, index) => {
+                panel.style.opacity = '0';
+                panel.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    panel.style.transition = 'all 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+                    panel.style.opacity = '1';
+                    panel.style.transform = 'translateY(0)';
+                }, 400 + (index * 100));
+            });
+        });
+    </script>
+</body></html>

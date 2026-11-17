@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · Somatic Optimization (v6.8)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..900&family=Space+Grotesk:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 2px #00f0ff); }
+            50% { opacity: 0.7; filter: drop-shadow(0 0 8px #00f0ff); }
+        }
+        .scanline {
+            background: linear-gradient(to bottom, rgba(0, 240, 255, 0.05) 50%, rgba(0, 0, 0, 0) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+        .glass-panel {
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            background: rgba(13, 21, 21, 0.7);
+        }
+        .hud-corner {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-color: #00f0ff;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#00f0ff",
+                        "on-error": "#690005",
+                        "primary": "#dbfcff",
+                        "surface-container-low": "#151d1e",
+                        "on-secondary-fixed-variant": "#5700c9",
+                        "outline-variant": "#3b494b",
+                        "surface-bright": "#333b3b",
+                        "secondary-fixed-dim": "#d1bcff",
+                        "surface-container-lowest": "#080f10",
+                        "tertiary-fixed": "#ffe179",
+                        "outline": "#849495",
+                        "error-container": "#93000a",
+                        "surface-tint": "#00dbe9",
+                        "secondary-fixed": "#e9ddff",
+                        "on-primary-fixed-variant": "#004f54",
+                        "surface": "#0d1515",
+                        "surface-container": "#192122",
+                        "tertiary-fixed-dim": "#eac324",
+                        "on-primary-container": "#006970",
+                        "secondary-container": "#7000ff",
+                        "inverse-surface": "#dce4e5",
+                        "surface-variant": "#2e3637",
+                        "on-secondary-container": "#ddcdff",
+                        "error": "#ffb4ab",
+                        "on-tertiary-fixed": "#231b00",
+                        "secondary": "#d1bcff",
+                        "on-surface": "#dce4e5",
+                        "background": "#0d1515",
+                        "tertiary": "#fff5de",
+                        "on-secondary-fixed": "#23005b",
+                        "on-tertiary-fixed-variant": "#554500",
+                        "on-tertiary": "#3b2f00",
+                        "surface-dim": "#0d1515",
+                        "surface-container-high": "#232b2c",
+                        "on-secondary": "#3c0090",
+                        "on-primary-fixed": "#002022",
+                        "on-tertiary-container": "#715d00",
+                        "primary-fixed-dim": "#00dbe9",
+                        "on-background": "#dce4e5",
+                        "on-error-container": "#ffdad6",
+                        "primary-fixed": "#7df4ff",
+                        "on-surface-variant": "#b9cacb",
+                        "inverse-primary": "#006970"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "gutter": "16px",
+                        "margin-desktop": "48px",
+                        "container-max": "1440px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Space Grotesk"],
+                        "data-mono": ["JetBrains Mono"],
+                        "display-lg": ["Space Grotesk"],
+                        "body-md": ["Space Grotesk"],
+                        "headline-lg": ["Space Grotesk"],
+                        "label-caps": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "data-mono": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+<!-- Background Layer -->
+<div class="fixed inset-0 z-0">
+<div class="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-luminosity" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAkN8ekQPDqhN1HM-4dyiOjjaCb71FOAudPqcM47cM4BwH6B0mqQfxZ_DElVj84-iC55Jl88LLieMSH7vKUgZ5oADtU-4jkEnubAc1UIHBqYVYejoxxta6Mbrw9kWPf_E_dAjWtpTjYSPRvEY1QhTPea-kOw03z77m35ABrOYolcz_JWgx3PCzJ1EIW_BRRYlF_hYSLeNuoXmKfOjwQXluwU-jKb0e_CcymbC9VX-zz70hRESIy6zpV4BfPBzUPsW61JQDNEVLY7Vj3')"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-surface/80 via-surface/60 to-surface"></div>
+<div class="scanline absolute inset-0 opacity-20"></div>
+</div>
+<!-- Navigation Header -->
+<header class="fixed top-0 w-full z-50 bg-surface/20 dark:bg-surface/20 backdrop-blur-xl border-b border-primary-container/20 flex justify-between items-center px-margin-desktop h-16 w-full">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg tracking-tighter text-primary-container dark:text-primary-container">MagnopVS</span>
+<span class="font-label-caps text-label-caps text-outline bg-surface-container px-2 py-1 border border-outline/20">v6.8.44_STABLE</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-primary-container border-b-2 border-primary-container pb-1 font-label-caps text-label-caps transition-all duration-300" href="#">Nutrition</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary-container hover:bg-primary-container/5 transition-all duration-300" href="#">Fitness</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary-container hover:bg-primary-container/5 transition-all duration-300" href="#">Medical</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary-container hover:bg-primary-container/5 transition-all duration-300" href="#">Aesthetic</a>
+</nav>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 border-l border-primary-container/20 pl-6">
+<span class="material-symbols-outlined text-primary-container cursor-pointer">notifications</span>
+<span class="material-symbols-outlined text-primary-container cursor-pointer">settings</span>
+<div class="w-10 h-10 border border-primary-container p-0.5 bg-surface">
+<img class="w-full h-full object-cover" data-alt="A futuristic biometric profile photo of a high-performance individual. The subject's face is partially obscured by tactical holographic data overlays and glowing cyan UI elements. The lighting is low-key with sharp cyan highlights, creating a clinical yet transcendent aesthetic consistent with advanced bio-hacking and somatic optimization themes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7pM6weG9EAhT7icu1yK_6a-bsFZxuzz6UVJyLQwfCsn69vO5O5LG3gVEH1KOUQHiee6G5-t3U2-gnkvEy4ETQ_Y61xeTQCjTnUY8bJwZTG4JCfSbS_cC0bORczNx1m5Czo5BzFL7bKSNoRUKroczHE8k-97NTj32AgBg7nZWeX3WjfxBKUS_Dj00UnjFQ31mQGNGd0eLMQvkPPEvZIEOe5iypwhMnPcj3PHYhf_6BavbZxKzQbKDDdG4mAmKM_VXJ5pgKuIud536J"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Command Interface -->
+<main class="relative z-10 pt-24 pb-20 px-margin-mobile md:px-margin-desktop max-w-[1440px] mx-auto">
+<!-- Global Vitality Matrix -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-8">
+<div class="glass-panel p-4 flex flex-col gap-2 group cursor-pointer hover:border-primary-container/50 transition-colors">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-label-caps text-outline">BIOLOGICAL_INTEGRITY</span>
+<span class="text-primary-container font-data-mono">98.4%</span>
+</div>
+<div class="h-1 bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-primary-container w-[98.4%] group-hover:shadow-[0_0_10px_#00f0ff] transition-all"></div>
+</div>
+<span class="text-[10px] font-data-mono text-outline/60">HEART_RATE_VAR_OPTIMAL // STRESS_INDEX_LOW</span>
+</div>
+<div class="glass-panel p-4 flex flex-col gap-2 group cursor-pointer hover:border-primary-container/50 transition-colors">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-label-caps text-outline">CHEMICAL_BALANCE</span>
+<span class="text-primary-container font-data-mono">S_TR_02</span>
+</div>
+<div class="h-1 bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-primary-container w-[72%] group-hover:shadow-[0_0_10px_#00f0ff] transition-all"></div>
+</div>
+<span class="text-[10px] font-data-mono text-outline/60">ELECTROLYTE_STABLE // HORMONE_FLOW_SYNCED</span>
+</div>
+<div class="glass-panel p-4 flex flex-col gap-2 group cursor-pointer hover:border-primary-container/50 transition-colors">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-label-caps text-outline">VISUAL_COHERENCE</span>
+<span class="text-primary-container font-data-mono">PRIME</span>
+</div>
+<div class="h-1 bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-primary-container w-[91%] group-hover:shadow-[0_0_10px_#00f0ff] transition-all"></div>
+</div>
+<span class="text-[10px] font-data-mono text-outline/60">EPIDERMAL_REFRACT_HIGH // SYMMETRY_MAX</span>
+</div>
+</div>
+<!-- Bento HUD Modules -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- FUEL_PROTOCOL (Nutrition) -->
+<section class="md:col-span-4 glass-panel relative group">
+<div class="absolute top-0 left-0 p-2 font-data-mono text-[10px] text-primary-container/40">SEC_FUEL.01</div>
+<div class="p-6 border-b border-primary-container/20">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary-container">restaurant</span>
+<h2 class="font-headline-lg text-headline-lg uppercase tracking-tight">FUEL_PROTOCOL</h2>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center p-3 bg-surface-container-low border-l-2 border-primary-container">
+<div>
+<p class="font-label-caps text-label-caps text-outline">ACTIVE_DIET</p>
+<p class="font-headline-lg text-headline-lg text-primary-container">Ketogenic Sync</p>
+</div>
+<span class="material-symbols-outlined text-primary-container animate-pulse">settings_heart</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-3 bg-surface-container-lowest">
+<p class="font-label-caps text-[10px] text-outline">HYDRATION</p>
+<p class="font-data-mono text-xl text-on-surface">3.4 <span class="text-sm">L/DAY</span></p>
+</div>
+<div class="p-3 bg-surface-container-lowest">
+<p class="font-label-caps text-[10px] text-outline">KETONE_LVL</p>
+<p class="font-data-mono text-xl text-on-surface">1.8 <span class="text-sm">mMol</span></p>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6">
+<p class="font-label-caps text-label-caps text-outline mb-4">SUPPLEMENT_STACK</p>
+<div class="grid grid-cols-5 gap-2">
+<div class="h-12 border border-primary-container/30 bg-primary-container/5 flex items-center justify-center" title="Omega Sync">Ω</div>
+<div class="h-12 border border-primary-container/30 bg-primary-container/5 flex items-center justify-center" title="Nootropic Core">N</div>
+<div class="h-12 border border-primary-container/30 bg-primary-container/5 flex items-center justify-center" title="Vitamin Matrix">V</div>
+<div class="h-12 border border-primary-container/30 bg-primary-container/5 flex items-center justify-center" title="Magnesium Complex">Mg</div>
+<div class="h-12 border border-primary-container/10 bg-transparent flex items-center justify-center text-outline/30">+</div>
+</div>
+</div>
+</section>
+<!-- KINETIC_ROUTINES (Fitness) -->
+<section class="md:col-span-8 glass-panel relative">
+<div class="absolute top-0 left-0 p-2 font-data-mono text-[10px] text-primary-container/40">SEC_KINETIC.02</div>
+<div class="p-6 flex flex-col md:flex-row gap-8">
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary-container">fitness_center</span>
+<h2 class="font-headline-lg text-headline-lg uppercase tracking-tight">KINETIC_ROUTINES</h2>
+</div>
+<div class="space-y-6">
+<div class="relative pl-6 border-l border-primary-container/30">
+<div class="absolute w-2 h-2 bg-primary-container left-[-4.5px] top-1"></div>
+<p class="font-label-caps text-label-caps text-outline">CURRENT_PHASE</p>
+<h3 class="text-2xl font-bold text-on-surface">Hypertrophy Phase IV</h3>
+<p class="text-sm text-outline mt-1 italic">"Pushing muscular limits through metabolic stress signaling."</p>
+</div>
+<div class="grid grid-cols-3 gap-4">
+<div class="border border-outline/20 p-4">
+<p class="font-label-caps text-[10px] text-outline">EXPENDITURE</p>
+<p class="text-2xl font-data-mono">2,840</p>
+<p class="text-[10px] text-primary-container">KCAL / 24H</p>
+</div>
+<div class="border border-outline/20 p-4">
+<p class="font-label-caps text-[10px] text-outline">LOAD_VOL</p>
+<p class="text-2xl font-data-mono">14.2</p>
+<p class="text-[10px] text-primary-container">TONS / WK</p>
+</div>
+<div class="border border-outline/20 p-4">
+<p class="font-label-caps text-[10px] text-outline">RECOVERY</p>
+<p class="text-2xl font-data-mono">92%</p>
+<p class="text-[10px] text-primary-container">OPTIMIZED</p>
+</div>
+</div>
+</div>
+</div>
+<div class="md:w-64 border-l border-primary-container/10 md:pl-8 flex flex-col justify-between">
+<div>
+<p class="font-label-caps text-label-caps text-outline mb-4">ENERGY_READOUT</p>
+<!-- Simple SVG Heart Rate Visualizer -->
+<div class="h-24 bg-surface-container-lowest relative overflow-hidden flex items-center">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 200 100">
+<path d="M0 50 L20 50 L25 20 L35 80 L40 50 L60 50 L65 10 L75 90 L80 50 L100 50 L105 30 L115 70 L120 50 L140 50 L145 15 L155 85 L160 50 L180 50 L185 40 L195 60 L200 50" fill="none" stroke="#00f0ff" stroke-width="1.5"></path>
+</svg>
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-primary-container/10 to-transparent animate-[pulse_2s_infinite]"></div>
+</div>
+</div>
+<button class="w-full py-4 bg-primary-container text-on-primary-container font-label-caps text-label-caps font-bold hover:brightness-110 active:scale-[0.98] transition-all">
+                            BEGIN_SESSION_014
+                        </button>
+</div>
+</div>
+</section>
+<!-- CLINICAL_COMMAND (Medical) -->
+<section class="md:col-span-7 glass-panel relative overflow-hidden">
+<div class="absolute top-0 left-0 p-2 font-data-mono text-[10px] text-primary-container/40">SEC_CLINICAL.03</div>
+<div class="p-6">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary-container">medical_services</span>
+<h2 class="font-headline-lg text-headline-lg uppercase tracking-tight">CLINICAL_COMMAND</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-4">
+<p class="font-label-caps text-label-caps text-outline flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+                                ACTIVE_PROTOCOL_LOG
+                            </p>
+<div class="space-y-2">
+<div class="flex justify-between items-center p-3 border border-outline/10 bg-surface-container/30">
+<span class="font-data-mono text-sm">Cryotherapy [180s]</span>
+<span class="text-[10px] font-label-caps text-primary-container">08:00 AM</span>
+</div>
+<div class="flex justify-between items-center p-3 border border-outline/10 bg-surface-container/30">
+<span class="font-data-mono text-sm">NAD+ Infusion [250mg]</span>
+<span class="text-[10px] font-label-caps text-primary-container">TUES_BIWEEKLY</span>
+</div>
+<div class="flex justify-between items-center p-3 border border-outline/10 bg-surface-container/30">
+<span class="font-data-mono text-sm">Hyperbaric Oxygen</span>
+<span class="text-[10px] font-label-caps text-outline">SCHEDULED_FRI</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-5 relative border border-primary-container/10">
+<div class="absolute top-0 right-0 p-2">
+<span class="material-symbols-outlined text-primary-container text-sm">security</span>
+</div>
+<p class="font-label-caps text-label-caps text-primary-container mb-2">SOF.IA_TACTICAL_ADVICE</p>
+<div class="font-data-mono text-sm text-on-surface leading-relaxed border-l-2 border-primary-container/40 pl-4 italic">
+                                "Somatic analysis detects marginal oxidative stress in sector D-4. Recommend initiating a 15-minute Red Light Therapy session within the next 2 hours to optimize mitochondrial throughput."
+                            </div>
+<div class="mt-4 flex gap-4">
+<div class="flex flex-col">
+<span class="text-[10px] text-outline font-label-caps">THREAT_LVL</span>
+<span class="text-xs font-bold text-on-surface">NOMINAL</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] text-outline font-label-caps">SYNC_STATUS</span>
+<span class="text-xs font-bold text-primary-container">99.8%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- AESTHETIC_REFINEMENT (Beauty & Image) -->
+<section class="md:col-span-5 glass-panel relative group">
+<div class="absolute top-0 left-0 p-2 font-data-mono text-[10px] text-primary-container/40">SEC_AESTHETIC.04</div>
+<div class="p-6">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary-container">face</span>
+<h2 class="font-headline-lg text-headline-lg uppercase tracking-tight">AESTHETIC_REFINEMENT</h2>
+</div>
+<div class="flex gap-6 items-start">
+<div class="w-32 aspect-[3/4] border border-primary-container/20 relative overflow-hidden">
+<img class="w-full h-full object-cover grayscale brightness-125" data-alt="A macro shot focused on flawless, skin-like textures with geometric light patterns projected onto it. The lighting is clinical, cold blue and bright white, emphasizing micro-details of texture and clarity. A floating holographic grid overlay suggests facial scanning and aesthetic analysis, fitting the theme of high-tech grooming and somatic refinement." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqskx05akbYubGufJcUF196T9GR9cun5hxFU1fw_7iHabvXq1Ps3u1hpkATMh4glgbsd92tgmLxgxZF0m3xdjH99QyzW7oyROJRQZ4OPby3Qnk_OrzNY4Un9Vy8eBwQOVEEc6Rb-dAW06GeqU7GLgxicts4_EIM_yCm8oP3wPYx-fKdGAY64ElUx28Ge38Xed-EZfh7APSrjaxMSUT6SF8kSjvN1ZLYeCRs4LpAEtmOcj2E67rWlhDcjfvj_32-cgLaVNg4WIMDikW"/>
+<div class="absolute inset-0 border border-primary-container/40 scale-90"></div>
+<div class="absolute bottom-0 left-0 w-full bg-primary-container/20 text-[8px] font-data-mono py-0.5 text-center text-primary-container backdrop-blur-sm">CALIBRATION_ACTIVE</div>
+</div>
+<div class="flex-1 space-y-4">
+<div>
+<p class="font-label-caps text-[10px] text-outline">SKIN_HEALTH_INDEX</p>
+<div class="flex items-end gap-2">
+<p class="text-3xl font-data-mono text-primary-container">96</p>
+<p class="text-xs text-outline mb-1">/ 100</p>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex flex-col gap-1">
+<div class="flex justify-between text-[10px] font-label-caps">
+<span>HYDRATION_CORE</span>
+<span class="text-primary-container">88%</span>
+</div>
+<div class="h-1 bg-surface-container-highest">
+<div class="h-full bg-primary-container w-[88%]"></div>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex justify-between text-[10px] font-label-caps">
+<span>ELASTICITY_MOD</span>
+<span class="text-primary-container">94%</span>
+</div>
+<div class="h-1 bg-surface-container-highest">
+<div class="h-full bg-primary-container w-[94%]"></div>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex justify-between text-[10px] font-label-caps">
+<span>PIGMENT_UNIFORMITY</span>
+<span class="text-primary-container">99%</span>
+</div>
+<div class="h-1 bg-surface-container-highest">
+<div class="h-full bg-primary-container w-[99%]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-primary-container/10">
+<p class="font-label-caps text-label-caps text-outline mb-2">GROOMING_STATUS</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-primary-container/10 border border-primary-container/30 text-[10px] font-data-mono text-primary-container">HAIR_CLIP_OPTIMIZED</span>
+<span class="px-2 py-1 bg-primary-container/10 border border-primary-container/30 text-[10px] font-data-mono text-primary-container">DERMA_SYNC_04</span>
+<span class="px-2 py-1 bg-primary-container/10 border border-primary-container/30 text-[10px] font-data-mono text-primary-container">STYLING_LOCKED</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Navigation Shell (Bottom for Mobile) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-4 md:hidden z-50 bg-surface-container-highest/30 backdrop-blur-lg border-t border-primary-container/30">
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-none p-2 shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-transform active:scale-95" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span class="font-label-caps text-[10px]">Optimize</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline p-2 transition-transform active:scale-95" href="#">
+<span class="material-symbols-outlined">format_list_bulleted</span>
+<span class="font-label-caps text-[10px]">Protocol</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline p-2 transition-transform active:scale-95" href="#">
+<span class="material-symbols-outlined">biotech</span>
+<span class="font-label-caps text-[10px]">Clinical</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline p-2 transition-transform active:scale-95" href="#">
+<span class="material-symbols-outlined">visibility</span>
+<span class="font-label-caps text-[10px]">Image</span>
+</a>
+</nav>
+<!-- Side Navigation (Web) -->
+<aside class="hidden md:flex fixed left-0 top-16 h-[calc(100vh-64px)] w-20 flex-col py-8 gap-8 items-center bg-surface-container-low/40 backdrop-blur-2xl border-r border-primary-container/20 z-40 transition-all duration-200 group/sidebar hover:w-64">
+<div class="flex flex-col gap-6 w-full px-4 overflow-hidden">
+<div class="flex items-center gap-4 bg-primary-container/10 text-primary-container border-l-4 border-primary-container p-3 w-full cursor-pointer">
+<span class="material-symbols-outlined">restaurant</span>
+<span class="font-data-mono text-data-mono whitespace-nowrap opacity-0 group-hover/sidebar:opacity-100 transition-opacity">Nutrition</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/10 p-3 w-full cursor-pointer">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="font-data-mono text-data-mono whitespace-nowrap opacity-0 group-hover/sidebar:opacity-100 transition-opacity">Fitness</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/10 p-3 w-full cursor-pointer">
+<span class="material-symbols-outlined">medical_services</span>
+<span class="font-data-mono text-data-mono whitespace-nowrap opacity-0 group-hover/sidebar:opacity-100 transition-opacity">Medical</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/10 p-3 w-full cursor-pointer">
+<span class="material-symbols-outlined">face</span>
+<span class="font-data-mono text-data-mono whitespace-nowrap opacity-0 group-hover/sidebar:opacity-100 transition-opacity">Aesthetic</span>
+</div>
+</div>
+<div class="mt-auto flex flex-col gap-4 w-full px-4 mb-4">
+<div class="flex items-center gap-4 text-on-surface-variant hover:text-error p-3 w-full cursor-pointer">
+<span class="material-symbols-outlined">emergency</span>
+<span class="font-data-mono text-data-mono whitespace-nowrap opacity-0 group-hover/sidebar:opacity-100 transition-opacity">Emergency</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface p-3 w-full cursor-pointer">
+<span class="material-symbols-outlined">folder_special</span>
+<span class="font-data-mono text-data-mono whitespace-nowrap opacity-0 group-hover/sidebar:opacity-100 transition-opacity">Archive</span>
+</div>
+</div>
+</aside>
+<script>
+        // Micro-interactions for HUD elements
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mouseenter', () => {
+                panel.style.boxShadow = '0 0 20px rgba(0, 240, 255, 0.1)';
+            });
+            panel.addEventListener('mouseleave', () => {
+                panel.style.boxShadow = 'none';
+            });
+        });
+
+        // Dynamic coordinate display simulation
+        setInterval(() => {
+            const time = new Date().toLocaleTimeString('en-GB', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            // This could be updated to show live data points in the HUD headers
+        }, 1000);
+    </script>
+</body></html>

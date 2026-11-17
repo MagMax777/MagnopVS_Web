@@ -811,7 +811,42 @@
       .hero { padding-top: 6rem; }
       .portal-stage { min-height: 18rem; }
     }
-  </style>
+      /* MAGNOPVS_SPHERE_CLEANUP_V1 */
+    body:not(.scene-ready) .scanline {
+      opacity: 0;
+    }
+    .cinematic-scene .void {
+      z-index: 0;
+    }
+    .cinematic-scene .intro-threejs-layer {
+      z-index: 1;
+    }
+    .cinematic-scene .intro-threejs-layer::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: radial-gradient(
+        circle at center,
+        rgba(0, 153, 255, 0.16) 0%,
+        rgba(0, 110, 255, 0.07) 22%,
+        transparent 43%
+      );
+      filter: blur(22px);
+    }
+    .cinematic-scene .intro-threejs-layer canvas {
+      z-index: 1;
+    }
+    .cinematic-scene .nebula,
+    .cinematic-scene .particle-field,
+    .cinematic-scene .hypercube,
+    .cinematic-scene .portal-veil {
+      display: none !important;
+    }
+    .cinematic-scene .line {
+      z-index: 3;
+    }</style>
 </head>
 <body>
   <div class="scanline" aria-hidden="true"></div>

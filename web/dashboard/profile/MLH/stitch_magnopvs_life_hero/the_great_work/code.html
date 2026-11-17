@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · Alchemical Cycle</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@300;400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --nigredo: #0a0a0a;
+            --albedo: #f5f5f5;
+            --citrinitas: #2da8e0; /* Blue as requested */
+            --rubedo: #ff4d4d;
+        }
+
+        body {
+            background-color: #0a0f12;
+            color: #dfe3e8;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 50%, rgba(45, 168, 224, 0.05) 0%, transparent 70%);
+        }
+
+        .hex-grid {
+            background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 1L2 7V17L12 23L22 17V7L12 1Z' fill='none' stroke='white' stroke-opacity='0.03' stroke-width='1'/%3E%3C/svg%3E");
+        }
+
+        .clipped-corner {
+            clip-path: polygon(0 0, 90% 0, 100% 10%, 100% 100%, 10% 100%, 0 90%);
+        }
+
+        .spiral-svg {
+            animation: rotate-spiral 60s linear infinite;
+        }
+
+        @keyframes rotate-spiral {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .glow-nigredo { filter: drop-shadow(0 0 10px rgba(0,0,0,0.8)); }
+        .glow-albedo { filter: drop-shadow(0 0 15px rgba(255,255,255,0.4)); }
+        .glow-citrinitas { filter: drop-shadow(0 0 15px rgba(45, 168, 224, 0.6)); }
+        .glow-rubedo { filter: drop-shadow(0 0 15px rgba(255, 77, 77, 0.6)); }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#dfe3e8",
+                        "outline-variant": "#3e484f",
+                        "error": "#ffb4ab",
+                        "background": "#0f1417",
+                        "surface-container-highest": "#303539",
+                        "primary": "#7fd0ff",
+                        "surface-tint": "#7fd0ff",
+                        "tertiary": "#ffafd4",
+                        "surface-container-lowest": "#0a0f12",
+                        "primary-container": "#2da8e0",
+                        "surface-variant": "#303539",
+                        "surface-container": "#1b2024",
+                        "on-tertiary": "#620041",
+                        "surface-container-low": "#171c20",
+                        "outline": "#88929a",
+                        "on-surface-variant": "#bec8d0",
+                        "secondary": "#48ddc1",
+                        "surface": "#0f1417",
+                        "on-surface": "#dfe3e8"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Space Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-md": ["Space Grotesk"],
+                        "data-point": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "mono-data": ["JetBrains Mono"],
+                        "display-lg-mobile": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "data-point": ["20px", {"lineHeight": "28px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "0.05em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="hex-grid min-h-screen pb-24 md:pb-0 md:pl-64 pt-20">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/30 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="font-display-lg-mobile text-display-lg-mobile text-primary tracking-widest uppercase">MagnopVS · Life Hero</div>
+<div class="flex items-center gap-6">
+<button class="text-outline hover:text-secondary transition-all duration-300 scale-95 active:scale-90">
+<span class="material-symbols-outlined">stars</span>
+</button>
+<button class="text-outline hover:text-secondary transition-all duration-300 scale-95 active:scale-90">
+<span class="material-symbols-outlined">bolt</span>
+</button>
+<button class="text-primary drop-shadow-[0_0_8px_#7fd0ff] scale-95 active:scale-90">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+</button>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="hidden lg:flex flex-col fixed left-0 top-0 h-full z-40 bg-surface-container-low/50 backdrop-blur-2xl w-64 border-r border-primary/20 shadow-2xl shadow-primary/5">
+<div class="p-8 border-b border-primary/10">
+<div class="font-label-caps text-label-caps text-primary opacity-60">OPERATOR_01</div>
+<div class="font-display-lg text-primary text-2xl tracking-tighter">LVL 42 // TITAN</div>
+</div>
+<div class="flex-1 py-8">
+<a class="flex items-center gap-4 px-8 py-4 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps text-label-caps uppercase">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 px-8 py-4 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label-caps text-label-caps uppercase">13 Houses</span>
+</a>
+<a class="flex items-center gap-4 px-8 py-4 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps text-label-caps uppercase">Missions</span>
+</a>
+<a class="flex items-center gap-4 px-8 py-4 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps text-label-caps uppercase">Attributes</span>
+</a>
+<a class="flex items-center gap-4 px-8 py-4 text-primary border-l-2 border-primary bg-primary/5 font-bold shadow-[inset_4px_0_10px_rgba(127,208,255,0.1)] translate-x-1" href="#">
+<span class="material-symbols-outlined">vitals</span>
+<span class="font-label-caps text-label-caps uppercase">Alchemy</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="max-w-7xl mx-auto p-margin-mobile md:p-margin-desktop space-y-12">
+<!-- Hero Section: The Spiral -->
+<div class="grid lg:grid-cols-2 gap-12 items-center">
+<div class="relative flex justify-center items-center aspect-square">
+<!-- Spiral Visual Metaphor -->
+<div class="absolute inset-0 flex items-center justify-center opacity-30">
+<svg class="w-full h-full spiral-svg" fill="none" stroke="currentColor" viewbox="0 0 100 100">
+<path class="text-primary" d="M50,50 C50,20 80,20 80,50 C80,70 60,70 60,50 C60,40 70,40 70,50 C70,55 65,55 65,50" stroke-dasharray="1 2" stroke-width="0.5"></path>
+<path class="text-secondary" d="M50,50 C50,10 90,10 90,50 C90,80 50,80 50,50 C50,30 70,30 70,50 C70,60 60,60 60,50" stroke-dasharray="2 1" stroke-width="0.3"></path>
+</svg>
+</div>
+<!-- 4 Stages Circular Selector -->
+<div class="relative w-full h-full flex items-center justify-center">
+<!-- Nigredo (Active Example) -->
+<div class="absolute -top-4 md:-top-8 flex flex-col items-center">
+<div class="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-primary bg-surface-container shadow-[0_0_30px_rgba(127,208,255,0.4)] flex items-center justify-center transition-all">
+<span class="material-symbols-outlined text-4xl text-primary">dark_mode</span>
+</div>
+<span class="mt-4 font-display-lg text-display-lg-mobile md:text-display-lg text-on-background">Nigredo</span>
+</div>
+<!-- Albedo -->
+<div class="absolute right-0 top-1/2 -translate-y-1/2 flex flex-col items-center opacity-50 hover:opacity-100 transition-opacity cursor-pointer">
+<div class="w-20 h-20 rounded-full border-2 border-outline-variant bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl text-outline-variant">brightness_high</span>
+</div>
+<span class="mt-2 font-display-lg text-xl uppercase tracking-widest text-outline">Albedo</span>
+</div>
+<!-- Citrinitas -->
+<div class="absolute bottom-0 left-1/2 -translate-x-1/2 flex flex-col items-center opacity-40 hover:opacity-100 transition-opacity cursor-pointer">
+<div class="w-20 h-20 rounded-full border-2 border-outline-variant bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl text-outline-variant">flare</span>
+</div>
+<span class="mt-2 font-display-lg text-xl uppercase tracking-widest text-outline">Citrinitas</span>
+</div>
+<!-- Rubedo -->
+<div class="absolute left-0 top-1/2 -translate-y-1/2 flex flex-col items-center opacity-40 hover:opacity-100 transition-opacity cursor-pointer">
+<div class="w-20 h-20 rounded-full border-2 border-outline-variant bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl text-outline-variant">diamond</span>
+</div>
+<span class="mt-2 font-display-lg text-xl uppercase tracking-widest text-outline">Rubedo</span>
+</div>
+</div>
+</div>
+<!-- Active State Details Panel -->
+<div class="space-y-8">
+<div class="bg-surface-container/30 backdrop-blur-xl border border-primary/20 p-8 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/50 to-transparent"></div>
+<div class="font-mono-data text-mono-data text-primary opacity-50 mb-4">TRANSFORMATION_LOG // PHASE_01</div>
+<h2 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary drop-shadow-[0_0_10px_rgba(127,208,255,0.4)]">Nigredo</h2>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mt-4 max-w-prose">
+                        The Blackening. A period of decay, dissolution, and confrontation with the shadow self. In this stage, the operator breaks down existing structures to find the "Materia Prima." 
+                        <br/><br/>
+<span class="text-secondary">Current Status:</span> 64% Decapitation of the Ego achieved.
+                    </p>
+</div>
+<!-- Signals of Progression -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="group border border-outline-variant/30 p-4 bg-surface-container-low/40 hover:border-secondary transition-all">
+<div class="flex items-center gap-3">
+<input checked="" class="w-5 h-5 bg-transparent border-primary text-primary focus:ring-0" type="checkbox"/>
+<span class="font-label-caps text-label-caps text-on-background uppercase">Shadow Work</span>
+</div>
+<div class="mt-2 w-full h-1 bg-surface-container-highest">
+<div class="h-full bg-primary w-full shadow-[0_0_8px_rgba(127,208,255,0.6)]"></div>
+</div>
+</div>
+<div class="group border border-outline-variant/30 p-4 bg-surface-container-low/40 hover:border-secondary transition-all">
+<div class="flex items-center gap-3">
+<input checked="" class="w-5 h-5 bg-transparent border-primary text-primary focus:ring-0" type="checkbox"/>
+<span class="font-label-caps text-label-caps text-on-background uppercase">Purification</span>
+</div>
+<div class="mt-2 w-full h-1 bg-surface-container-highest">
+<div class="h-full bg-primary w-2/3 shadow-[0_0_8px_rgba(127,208,255,0.6)]"></div>
+</div>
+</div>
+<div class="group border border-outline-variant/30 p-4 bg-surface-container-low/40 hover:border-secondary transition-all opacity-50">
+<div class="flex items-center gap-3">
+<input class="w-5 h-5 bg-transparent border-outline-variant text-primary focus:ring-0" type="checkbox"/>
+<span class="font-label-caps text-label-caps text-on-background uppercase">Sublimation</span>
+</div>
+<div class="mt-2 w-full h-1 bg-surface-container-highest">
+<div class="h-full bg-primary w-0"></div>
+</div>
+</div>
+<div class="group border border-outline-variant/30 p-4 bg-surface-container-low/40 hover:border-secondary transition-all opacity-50">
+<div class="flex items-center gap-3">
+<input class="w-5 h-5 bg-transparent border-outline-variant text-primary focus:ring-0" type="checkbox"/>
+<span class="font-label-caps text-label-caps text-on-background uppercase">Coagulation</span>
+</div>
+<div class="mt-2 w-full h-1 bg-surface-container-highest">
+<div class="h-full bg-primary w-0"></div>
+</div>
+</div>
+</div>
+<button class="w-full py-4 font-label-caps text-label-caps bg-primary-container text-on-primary-container uppercase tracking-[0.2em] clipped-corner hover:bg-primary transition-all active:scale-95">
+                    Initiate Separation Protocol
+                </button>
+</div>
+</div>
+<!-- Bento Grid: Analytical HUD -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Phase Forecast -->
+<div class="md:col-span-2 bg-surface-container-high/20 backdrop-blur-md border border-outline-variant/20 p-6 relative">
+<div class="absolute top-2 left-2 font-mono-data text-[10px] text-outline uppercase tracking-widest">SYS_LOG // PHASE_FORECAST</div>
+<div class="mt-4 flex justify-between items-end border-b border-outline-variant/10 pb-4">
+<div>
+<div class="font-display-lg text-2xl text-on-background">Albedo Transition</div>
+<div class="font-mono-data text-secondary">ETA: 14 DAYS // 06:12:44</div>
+</div>
+<div class="text-right">
+<div class="font-label-caps text-label-caps text-outline">CONFIDENCE</div>
+<div class="font-data-point text-primary">88.4%</div>
+</div>
+</div>
+<div class="mt-6 flex gap-2 h-12 items-end">
+<!-- Segmented Progress Bar -->
+<div class="flex-1 bg-primary h-full opacity-100"></div>
+<div class="flex-1 bg-primary h-4/5 opacity-80"></div>
+<div class="flex-1 bg-primary h-3/5 opacity-60"></div>
+<div class="flex-1 bg-primary h-2/5 opacity-40"></div>
+<div class="flex-1 bg-primary h-1/5 opacity-20"></div>
+<div class="flex-1 bg-outline-variant h-1 opacity-10"></div>
+<div class="flex-1 bg-outline-variant h-1 opacity-10"></div>
+<div class="flex-1 bg-outline-variant h-1 opacity-10"></div>
+<div class="flex-1 bg-outline-variant h-1 opacity-10"></div>
+<div class="flex-1 bg-outline-variant h-1 opacity-10"></div>
+</div>
+</div>
+<!-- Current Stat -->
+<div class="bg-surface-container-high/20 backdrop-blur-md border border-outline-variant/20 p-6 relative overflow-hidden group">
+<div class="absolute top-2 left-2 font-mono-data text-[10px] text-outline uppercase tracking-widest">CONSCIOUSNESS_COEF</div>
+<div class="mt-8 flex flex-col items-center justify-center">
+<div class="text-6xl font-display-lg text-secondary drop-shadow-[0_0_15px_#48ddc1]">7.2</div>
+<div class="font-label-caps text-label-caps text-outline mt-2">ASCENDING ARC</div>
+</div>
+<!-- Mini visualizer -->
+<div class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-secondary/10 to-transparent"></div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop flex flex-col items-center gap-2 opacity-40 hover:opacity-100 transition-opacity duration-500 py-12">
+<div class="font-display-lg text-primary text-xl">MAGNOPVS</div>
+<div class="font-mono-data text-mono-data text-outline">MAGNOPVS OS v4.2.0 // SYSTEM_STABLE</div>
+<div class="flex gap-4 mt-2">
+<a class="font-mono-data text-mono-data text-outline-variant hover:text-primary transition-colors" href="#">System Reset</a>
+<a class="font-mono-data text-mono-data text-outline-variant hover:text-primary transition-colors" href="#">Log Export</a>
+<a class="font-mono-data text-mono-data text-outline-variant hover:text-primary transition-colors" href="#">Protocol-9</a>
+</div>
+</footer>
+<!-- BottomNavBar (Mobile) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 pb-safe px-4 bg-surface-container/80 backdrop-blur-lg border-t border-primary/20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">space_dashboard</span>
+<span class="font-label-caps text-[10px] uppercase">Dash</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">temple_hindu</span>
+<span class="font-label-caps text-[10px] uppercase">Houses</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">assignment_late</span>
+<span class="font-label-caps text-[10px] uppercase">Missions</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-caps text-[10px] uppercase">Stats</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-110" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">autorenew</span>
+<span class="font-label-caps text-[10px] uppercase">Cycle</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for checkboxes
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                const parent = e.target.closest('.group');
+                if(e.target.checked) {
+                    parent.style.opacity = "1";
+                    parent.querySelector('.h-full').style.width = "100%";
+                } else {
+                    parent.style.opacity = "0.5";
+                    parent.querySelector('.h-full').style.width = "0%";
+                }
+            });
+        });
+    </script>
+</body></html>

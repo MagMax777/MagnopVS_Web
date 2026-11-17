@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOPVS · Protocolo de Entidades</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-container": "#002859",
+                    "on-primary-fixed": "#001b3f",
+                    "surface-container-lowest": "#0e0e0e",
+                    "surface-container-highest": "#353534",
+                    "on-tertiary": "#5b005b",
+                    "secondary": "#5adcb3",
+                    "on-primary": "#002f66",
+                    "surface-bright": "#393939",
+                    "on-tertiary-fixed-variant": "#810081",
+                    "primary-fixed-dim": "#abc7ff",
+                    "surface-dim": "#131313",
+                    "on-error": "#690005",
+                    "on-error-container": "#ffdad6",
+                    "inverse-surface": "#e5e2e1",
+                    "tertiary": "#ffabf3",
+                    "on-tertiary-fixed": "#380038",
+                    "on-secondary-fixed-variant": "#00513d",
+                    "surface-container-high": "#2a2a2a",
+                    "on-secondary": "#003829",
+                    "secondary-fixed-dim": "#5adcb3",
+                    "tertiary-fixed-dim": "#ffabf3",
+                    "error-container": "#93000a",
+                    "primary-fixed": "#d7e2ff",
+                    "secondary-fixed": "#79f9ce",
+                    "on-surface-variant": "#c1c6d7",
+                    "primary-container": "#448fff",
+                    "on-surface": "#e5e2e1",
+                    "background": "#131313",
+                    "secondary-container": "#00a782",
+                    "outline": "#8b91a0",
+                    "outline-variant": "#414754",
+                    "on-background": "#e5e2e1",
+                    "surface-container-low": "#1c1b1b",
+                    "surface": "#131313",
+                    "surface-container": "#201f1f",
+                    "on-secondary-container": "#003326",
+                    "primary": "#abc7ff",
+                    "on-tertiary-container": "#500050",
+                    "error": "#ffb4ab",
+                    "surface-tint": "#abc7ff",
+                    "tertiary-fixed": "#ffd7f5",
+                    "surface-variant": "#353534",
+                    "on-secondary-fixed": "#002117",
+                    "on-primary-fixed-variant": "#004590",
+                    "tertiary-container": "#fe00fe",
+                    "inverse-primary": "#005cbc",
+                    "inverse-on-surface": "#313030"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-desktop": "48px",
+                    "container-max": "1440px",
+                    "margin-mobile": "16px",
+                    "unit": "4px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Audiowide"],
+                    "body-lg": ["Orbitron"],
+                    "label-caps": ["Orbitron"],
+                    "headline-md": ["Audiowide"],
+                    "display-lg": ["Audiowide"],
+                    "data-num": ["Orbitron"],
+                    "body-md": ["Orbitron"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.15em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                    "data-num": ["20px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0a0a0a;
+            color: #e5e2e1;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 50%, rgba(90, 220, 179, 0.05) 0%, transparent 70%);
+        }
+        .glass-card {
+            background: rgba(32, 31, 31, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.03) 3px);
+            pointer-events: none;
+        }
+        .hud-corner {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-color: #5adcb3;
+            border-style: solid;
+        }
+        .scan-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: rgba(90, 220, 179, 0.1);
+            animation: scan 4s linear infinite;
+        }
+        @keyframes scan {
+            0% { top: -2%; }
+            100% { top: 102%; }
+        }
+        .neon-glow-primary { text-shadow: 0 0 10px rgba(171, 199, 255, 0.8); }
+        .neon-glow-secondary { text-shadow: 0 0 10px rgba(90, 220, 179, 0.8); }
+        .neon-glow-tertiary { text-shadow: 0 0 10px rgba(255, 171, 243, 0.8); }
+        
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #131313; }
+        ::-webkit-scrollbar-thumb { background: #5adcb3; border-radius: 2px; }
+
+        .tactical-skew { transform: skewX(-10deg); }
+        .tactical-skew-reverse { transform: skewX(10deg); }
+    </style>
+</head>
+<body class="font-body-md selection:bg-secondary selection:text-on-secondary">
+<!-- TopNavBar Implementation -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop py-4 bg-background/80 backdrop-blur-xl border-b border-outline-variant/15 shadow-[0_0_15px_rgba(171,199,255,0.1)]">
+<div class="font-headline-lg text-headline-lg text-primary tracking-widest uppercase">MAGNOPVS LIFE HERO</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant font-medium hover:text-secondary hover:bg-surface-container-high/30 transition-all duration-300 font-label-caps text-label-caps" href="#">Macro System 6</a>
+<a class="text-on-surface-variant font-medium hover:text-secondary hover:bg-surface-container-high/30 transition-all duration-300 font-label-caps text-label-caps" href="#">Vital Management</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-bold font-label-caps text-label-caps" href="#">Quantvm Matrix</a>
+</div>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">settings</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">notifications</span>
+<div class="w-10 h-10 rounded-full border border-primary/50 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A high-contrast cinematic portrait of a cybernetic human commander with luminous blue ocular implants and matte black tactical armor. The lighting is cold and atmospheric with purple neon highlights reflecting off polished surfaces. Deep obsidian background with subtle data stream overlays." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0fYFJNemzUs49mqiu1o-Gb3PKxUa1SqDbCsAALPrwub9HbM_PZTcqMdQ3esu8JImVjp5vhU6KZ4qhcOLWzNbaokJl155yEwDA9FDYReufy8MZDbBAi0nctObT_PEh-bfpTEVKhggpmeIQJumlfp8YiPO6QKcY6ke7c_AuzGZ3zxhAo4AVg3facv6UQB3glfwPrQ0wUZCeZ72rKyxZuHuDVBcRwQKQJcMx7p59K9RpAEL_k1OnnC5iwQ"/>
+</div>
+</div>
+</nav>
+<!-- SideNavBar Implementation -->
+<aside class="fixed left-0 top-0 h-full z-40 flex flex-col pt-24 pb-8 w-64 bg-surface-container-lowest/90 backdrop-blur-2xl border-r border-outline-variant/10 hidden md:flex">
+<div class="px-6 mb-10">
+<div class="font-headline-md text-headline-md text-secondary mb-1">OPERATOR</div>
+<div class="font-label-caps text-[10px] text-outline tracking-tighter">Rank: Patriarch/Matriarch</div>
+</div>
+<div class="flex flex-col flex-grow">
+<a class="flex items-center gap-4 px-6 py-4 text-outline hover:text-on-surface hover:bg-surface-container-highest/20 transition-all active:translate-x-1" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label-caps text-label-caps">Legacy HUD</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-outline hover:text-on-surface hover:bg-surface-container-highest/20 transition-all active:translate-x-1" href="#">
+<span class="material-symbols-outlined">home_work</span>
+<span class="font-label-caps text-label-caps">Sanctuary</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 bg-primary-container/20 text-primary border-r-4 border-primary transition-all active:translate-x-1" href="#">
+<span class="material-symbols-outlined">pets</span>
+<span class="font-label-caps text-label-caps">Entity Protocol</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-outline hover:text-on-surface hover:bg-surface-container-highest/20 transition-all active:translate-x-1" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-caps text-label-caps">Vault</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-outline hover:text-on-surface hover:bg-surface-container-highest/20 transition-all active:translate-x-1" href="#">
+<span class="material-symbols-outlined">terminal</span>
+<span class="font-label-caps text-label-caps">System Log</span>
+</a>
+</div>
+<div class="px-6 mt-auto">
+<button class="w-full py-3 bg-secondary/10 border border-secondary text-secondary font-label-caps text-[10px] hover:bg-secondary hover:text-on-secondary transition-all mb-8">
+                INITIATE PROTOCOL
+            </button>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-2 text-outline text-[11px] font-label-caps hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-sm">help</span> Support
+                </a>
+<a class="flex items-center gap-2 text-outline text-[11px] font-label-caps hover:text-error transition-colors" href="#">
+<span class="material-symbols-outlined text-sm">logout</span> Log Out
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pt-24 px-margin-desktop min-h-screen pb-24">
+<!-- Header Section -->
+<header class="mb-12 flex flex-col md:flex-row justify-between items-end">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-background uppercase tracking-widest flex items-center gap-4">
+                    Protocolo de Entidades <span class="text-secondary opacity-50 text-sm font-body-md">v6.8</span>
+</h1>
+<p class="font-body-md text-outline mt-2 max-w-xl">Active MAGFAM neural-link established. Monitoring biotic signatures and developmental trajectories for all registered assets.</p>
+</div>
+<div class="text-right mt-4 md:mt-0">
+<div class="font-label-caps text-secondary text-xs mb-1">System Status: NOMINAL</div>
+<div class="font-data-num text-on-surface text-xl">24:15:08 <span class="text-sm opacity-50">UTC</span></div>
+</div>
+</header>
+<!-- Entity Registry: Tactical Carousel -->
+<section class="mb-12">
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-headline-md text-headline-md text-primary flex items-center gap-2">
+<span class="material-symbols-outlined">hub</span> Registry Clusters
+                </h2>
+<div class="flex gap-2">
+<button class="p-2 border border-outline-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="p-2 border border-outline-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Protégé Card (Child) -->
+<div class="glass-card p-6 border-l-4 border-l-primary group cursor-pointer hover:border-l-8 transition-all">
+<div class="scan-line"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="font-label-caps text-primary text-[10px] tracking-widest">TYPE: PROTÉGÉ</div>
+<span class="material-symbols-outlined text-primary text-xl">child_care</span>
+</div>
+<div class="flex gap-4 items-center mb-6">
+<div class="w-16 h-16 rounded-lg overflow-hidden border border-primary/30">
+<img class="w-full h-full object-cover" data-alt="A cinematic portrait of a young child in a futuristic white jumpsuits, looking up with curious eyes. The lighting is soft and ethereal with cool blue and violet highlights. Background features a blurred high-tech nursery with glowing architectural lines and holographic educational toys." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAM9GDpOWE4w4dUVT_4EoQqF0LtWu36E9_uaGasf6WIf208hQZ1IHYyOzQ8TLgpTzKE9IyWzZll6vgFFXEFOHzH06uh6Fwg4SgKc3dBs5y0ZUWcM_HDiNgzgt9Hh76GKL3zqZvW5Az793gG9WYxt9UcgI1dJ3gv63SKT8Q239Y7-UJo3XhocSBgZFmU7CE_tHRua-nCwxNhzAtGA7m3wHstYzJQuamUx1xb2AxRiax320edz6YSNjpwog"/>
+</div>
+<div>
+<div class="font-headline-md text-on-surface group-hover:text-primary transition-colors">Aria Thorne</div>
+<div class="font-label-caps text-[10px] text-outline">ID: MAG-7721-P</div>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between text-[11px] font-label-caps">
+<span class="text-outline">Sync Level</span>
+<span class="text-primary">94%</span>
+</div>
+<div class="h-1 bg-surface-container-highest w-full overflow-hidden">
+<div class="h-full bg-primary w-[94%] shadow-[0_0_10px_rgba(171,199,255,1)]"></div>
+</div>
+</div>
+</div>
+<!-- Companion Card (Pet) -->
+<div class="glass-card p-6 border-l-4 border-l-secondary group cursor-pointer hover:border-l-8 transition-all">
+<div class="scan-line" style="animation-delay: 1s;"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="font-label-caps text-secondary text-[10px] tracking-widest">TYPE: COMPANION</div>
+<span class="material-symbols-outlined text-secondary text-xl">pets</span>
+</div>
+<div class="flex gap-4 items-center mb-6">
+<div class="w-16 h-16 rounded-lg overflow-hidden border border-secondary/30">
+<img class="w-full h-full object-cover" data-alt="A sleek black Doberman dog with a futuristic glowing aquamarine collar, sitting regally in a dimly lit high-tech sanctuary. The environment is noir-style with wet surfaces reflecting neon green and cyan light. Cinematic atmosphere with shallow depth of field." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADl97Ku2dkV2rAOU2xcrH-fYeTabIxH7E3NI8b5ooGPa0Sr-d1yavBBtE5GNLfIENqNa6OcVn2P9AnkFA_9vzYAYaaKE7sSYLHGyBa5yNKyFt3r7URjSLdAgnNqHdedyDqTMhaKsUFYUsEgPKbu5RmpnrEoAJdJ_B860IEN357K37iwC8x9BAa2Rp4pTqE5YMN-_nnbWQY_UasqjmupyeYcmrNM3JVA4OnuHzgwl2yxjYgmS14uAD7ww"/>
+</div>
+<div>
+<div class="font-headline-md text-on-surface group-hover:text-secondary transition-colors">Cyber-Rex</div>
+<div class="font-label-caps text-[10px] text-outline">ID: MAG-0042-C</div>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between text-[11px] font-label-caps">
+<span class="text-outline">Vitality</span>
+<span class="text-secondary">88%</span>
+</div>
+<div class="h-1 bg-surface-container-highest w-full overflow-hidden">
+<div class="h-full bg-secondary w-[88%] shadow-[0_0_10px_rgba(90,220,179,1)]"></div>
+</div>
+</div>
+</div>
+<!-- Bio-Reactor Card (Plant) -->
+<div class="glass-card p-6 border-l-4 border-l-tertiary group cursor-pointer hover:border-l-8 transition-all">
+<div class="scan-line" style="animation-delay: 2s;"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="font-label-caps text-tertiary text-[10px] tracking-widest">TYPE: BIO-REACTOR</div>
+<span class="material-symbols-outlined text-tertiary text-xl">potted_plant</span>
+</div>
+<div class="flex gap-4 items-center mb-6">
+<div class="w-16 h-16 rounded-lg overflow-hidden border border-tertiary/30">
+<img class="w-full h-full object-cover" data-alt="Close up of a vibrant exotic plant with bioluminescent purple veins on its leaves, growing inside a transparent glass cylinder with futuristic monitoring sensors attached. The lighting is moody and dark with magenta glow illuminating the plant's intricate details." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkBol-7HRk4SnMq91wTZpMcfaZ66pKJpTazPM66eoF5l28mPEFEZSJ5AEFj_ODPHP36fa9PvaWhosStSms_u6s-YGRfVr_oWuQZIugO5_s-f5RAHV6AodwG6QFS_4bTyihdM3m5BcTyktM0ad-KpOMRw3zcBnHOlFkfdDK7TXxWxuWuaQhYE76_lTpBmqb4g_4-p_bY9f4VBunrCu8xucFrDv1EzBorf4yEm0n0MiDSx_pG7I4lBMk7A"/>
+</div>
+<div>
+<div class="font-headline-md text-on-surface group-hover:text-tertiary transition-colors">Nova Fern</div>
+<div class="font-label-caps text-[10px] text-outline">ID: MAG-9001-B</div>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between text-[11px] font-label-caps">
+<span class="text-outline">O2 Production</span>
+<span class="text-tertiary">72%</span>
+</div>
+<div class="h-1 bg-surface-container-highest w-full overflow-hidden">
+<div class="h-full bg-tertiary w-[72%] shadow-[0_0_10px_rgba(255,171,243,1)]"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Grid Layout for Detailed Data -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Vitals & Affinity: Real-time Bars (Left/Main Column) -->
+<div class="lg:col-span-7 space-y-8">
+<div class="glass-card p-8">
+<div class="hud-corner top-0 left-0 border-t-2 border-l-2"></div>
+<div class="hud-corner top-0 right-0 border-t-2 border-r-2 opacity-30"></div>
+<div class="hud-corner bottom-0 left-0 border-b-2 border-l-2 opacity-30"></div>
+<div class="hud-corner bottom-0 right-0 border-b-2 border-r-2"></div>
+<h3 class="font-label-caps text-label-caps text-secondary tracking-[0.3em] mb-8">REAL-TIME BIOMETRIC FEED: ARIA</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+<div class="space-y-8">
+<div>
+<div class="flex justify-between font-label-caps text-[10px] mb-2">
+<span class="text-outline">NEURAL ACTIVITY</span>
+<span class="text-on-surface">OPTIMAL</span>
+</div>
+<div class="flex gap-1 h-8">
+<div class="w-full bg-primary/20 relative group">
+<div class="h-full bg-primary/60 w-[85%]"></div>
+<div class="absolute inset-0 flex items-center justify-center font-data-num text-[12px] group-hover:scale-110 transition-transform">85.4 MHz</div>
+</div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-caps text-[10px] mb-2">
+<span class="text-outline">CELLULAR REGEN</span>
+<span class="text-secondary">PEAK</span>
+</div>
+<div class="flex gap-1 h-8">
+<div class="w-full bg-secondary/20 relative group">
+<div class="h-full bg-secondary/60 w-[92%]"></div>
+<div class="absolute inset-0 flex items-center justify-center font-data-num text-[12px] group-hover:scale-110 transition-transform">92.1%</div>
+</div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-caps text-[10px] mb-2">
+<span class="text-outline">HYDRATION INDEX</span>
+<span class="text-error">CRITICAL</span>
+</div>
+<div class="flex gap-1 h-8">
+<div class="w-full bg-error/20 relative group">
+<div class="h-full bg-error/60 w-[34%]"></div>
+<div class="absolute inset-0 flex items-center justify-center font-data-num text-[12px] group-hover:scale-110 transition-transform">34.0%</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-center justify-center bg-surface-container-low p-6 border border-outline-variant/10">
+<div class="relative w-40 h-40 flex items-center justify-center mb-4">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container-highest" cx="80" cy="80" fill="transparent" r="70" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-secondary shadow-[0_0_20px_#5adcb3]" cx="80" cy="80" fill="transparent" r="70" stroke="currentColor" stroke-dasharray="440" stroke-dashoffset="44" stroke-width="8"></circle>
+</svg>
+<div class="absolute flex flex-col items-center">
+<span class="font-display-lg text-headline-lg neon-glow-secondary">90</span>
+<span class="font-label-caps text-[8px] text-outline">AFFINITY</span>
+</div>
+</div>
+<p class="font-label-caps text-[10px] text-center text-outline">Synchronization with Parent Alpha: COMPATIBLE</p>
+</div>
+</div>
+</div>
+<!-- Feeding & Treatment Schedule: Precision Timeline -->
+<div class="glass-card p-8">
+<div class="flex justify-between items-center mb-8">
+<h3 class="font-label-caps text-label-caps text-tertiary tracking-[0.3em]">NUTRIENT &amp; PROTOCOL TIMELINE</h3>
+<span class="material-symbols-outlined text-outline">tune</span>
+</div>
+<div class="relative pl-8 space-y-12 before:content-[''] before:absolute before:left-[11px] before:top-0 before:bottom-0 before:w-[2px] before:bg-gradient-to-b before:from-tertiary before:to-transparent">
+<!-- Timeline Item 1 -->
+<div class="relative">
+<div class="absolute -left-[35px] top-1 w-6 h-6 rounded-full bg-background border-2 border-tertiary flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<div class="font-label-caps text-tertiary text-xs mb-1">08:00 AM - PROTEIN SYNTHESIS</div>
+<div class="font-body-md text-on-surface">Standard Protocol: Nutrition Cluster Alpha</div>
+<div class="mt-2 flex gap-2">
+<span class="px-2 py-0.5 bg-surface-container-high border border-outline-variant text-[10px] font-label-caps text-outline">ARIA</span>
+<span class="px-2 py-0.5 bg-surface-container-high border border-outline-variant text-[10px] font-label-caps text-outline">REX</span>
+</div>
+</div>
+<div class="font-label-caps text-secondary text-[10px] bg-secondary/10 px-2 py-1">COMPLETED</div>
+</div>
+</div>
+<!-- Timeline Item 2 -->
+<div class="relative">
+<div class="absolute -left-[35px] top-1 w-6 h-6 rounded-full bg-background border-2 border-primary flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<div class="font-label-caps text-primary text-xs mb-1">12:30 PM - HYDRATION CYCLE</div>
+<div class="font-body-md text-on-surface">Manual Override Recommended</div>
+<div class="mt-2 flex gap-2">
+<span class="px-2 py-0.5 bg-surface-container-high border border-outline-variant text-[10px] font-label-caps text-outline">NOVA FERN</span>
+</div>
+</div>
+<button class="font-label-caps text-primary text-[10px] border border-primary px-4 py-1 hover:bg-primary hover:text-on-primary transition-all">ACTIVATE</button>
+</div>
+</div>
+<!-- Timeline Item 3 -->
+<div class="relative">
+<div class="absolute -left-[35px] top-1 w-6 h-6 rounded-full bg-background border-2 border-outline flex items-center justify-center opacity-50">
+<div class="w-2 h-2 rounded-full bg-outline"></div>
+</div>
+<div class="flex justify-between items-start opacity-50">
+<div>
+<div class="font-label-caps text-outline text-xs mb-1">06:00 PM - COGNITIVE UPLOAD</div>
+<div class="font-body-md text-on-surface">Educational Module: Ethics-Tech 101</div>
+</div>
+<div class="font-label-caps text-outline text-[10px]">SCHEDULED</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Growth Prediction: 3D-inspired Charts (Right Column) -->
+<div class="lg:col-span-5 space-y-8">
+<div class="glass-card p-8 border-t-2 border-t-primary">
+<h3 class="font-label-caps text-label-caps text-primary tracking-[0.3em] mb-8">EVOLUTION FORECAST (90D)</h3>
+<div class="h-64 relative bg-surface-container-low overflow-hidden border border-outline-variant/10 mb-6 group">
+<!-- Holographic Graph Mockup -->
+<div class="absolute inset-0 flex items-end justify-between px-4 pb-4">
+<div class="w-4 bg-primary/20 h-1/4"></div>
+<div class="w-4 bg-primary/30 h-1/3"></div>
+<div class="w-4 bg-primary/40 h-1/2"></div>
+<div class="w-4 bg-primary/50 h-2/3"></div>
+<div class="w-4 bg-primary/60 h-3/4"></div>
+<div class="w-4 bg-primary/80 h-[90%] shadow-[0_0_15px_rgba(171,199,255,1)]"></div>
+</div>
+<div class="absolute top-8 left-8">
+<div class="font-data-num text-headline-md text-primary neon-glow-primary">A-STAGE IV</div>
+<div class="font-label-caps text-[10px] text-outline">Target Developmental Milestone</div>
+</div>
+<div class="absolute bottom-8 right-8 text-right">
+<div class="font-label-caps text-[10px] text-secondary">Confidence: 98.2%</div>
+</div>
+<!-- Animation layer -->
+
+</div>
+<div class="space-y-4">
+<div class="p-4 bg-surface-container-high/50 border-r-4 border-r-secondary">
+<div class="font-label-caps text-[10px] text-secondary mb-1">COGNITIVE BRANCHING</div>
+<div class="font-body-md text-sm text-on-surface">Predicted transition to Logical Reasoning Layer in 14.5 days.</div>
+</div>
+<div class="p-4 bg-surface-container-high/50 border-r-4 border-r-tertiary">
+<div class="font-label-caps text-[10px] text-tertiary mb-1">PHYSICAL OPTIMIZATION</div>
+<div class="font-body-md text-sm text-on-surface">Bio-mass equilibrium reaching 100% efficiency.</div>
+</div>
+</div>
+</div>
+<!-- Quick Action HUD -->
+<div class="grid grid-cols-2 gap-4">
+<button class="glass-card p-4 hover:bg-secondary/10 transition-all flex flex-col items-center gap-2 group">
+<span class="material-symbols-outlined text-secondary text-3xl group-hover:scale-110 transition-transform">emergency_home</span>
+<span class="font-label-caps text-[10px] text-on-surface">SANCTUARY LOCK</span>
+</button>
+<button class="glass-card p-4 hover:bg-primary/10 transition-all flex flex-col items-center gap-2 group">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:scale-110 transition-transform">medical_services</span>
+<span class="font-label-caps text-[10px] text-on-surface">MED-BAY LINK</span>
+</button>
+<button class="glass-card p-4 hover:bg-tertiary/10 transition-all flex flex-col items-center gap-2 group">
+<span class="material-symbols-outlined text-tertiary text-3xl group-hover:scale-110 transition-transform">restaurant</span>
+<span class="font-label-caps text-[10px] text-on-surface">FEED ALL</span>
+</button>
+<button class="glass-card p-4 hover:bg-outline/10 transition-all flex flex-col items-center gap-2 group">
+<span class="material-symbols-outlined text-outline text-3xl group-hover:scale-110 transition-transform">add_circle</span>
+<span class="font-label-caps text-[10px] text-on-surface">REGISTER NEW</span>
+</button>
+</div>
+<!-- Environment Monitor -->
+<div class="glass-card p-6 bg-gradient-to-br from-background to-surface-container-lowest">
+<h3 class="font-label-caps text-[10px] text-outline mb-4">ENVIRONMENTAL STABILITY</h3>
+<div class="flex justify-between items-center">
+<div class="text-center">
+<div class="font-data-num text-xl text-on-surface">22.4°C</div>
+<div class="font-label-caps text-[8px] text-outline">TEMP</div>
+</div>
+<div class="h-8 w-px bg-outline-variant"></div>
+<div class="text-center">
+<div class="font-data-num text-xl text-on-surface">48%</div>
+<div class="font-label-caps text-[8px] text-outline">HUMIDITY</div>
+</div>
+<div class="h-8 w-px bg-outline-variant"></div>
+<div class="text-center">
+<div class="font-data-num text-xl text-secondary">A+</div>
+<div class="font-label-caps text-[8px] text-outline">AIR QUALITY</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Implementation -->
+<footer class="w-full py-6 px-margin-desktop flex flex-col md:flex-row justify-between items-center bg-black/40 border-t border-outline-variant/5">
+<div class="font-label-caps text-label-caps text-secondary mb-4 md:mb-0">© 2024 MAGNOPVS CORP. NEURAL-LINK ESTABLISHED.</div>
+<div class="flex gap-8">
+<a class="text-outline font-label-caps text-label-caps hover:text-primary transition-opacity" href="#">Privacy Protocol</a>
+<a class="text-outline font-label-caps text-label-caps hover:text-primary transition-opacity" href="#">Terms of Engagement</a>
+<a class="text-outline font-label-caps text-label-caps hover:text-primary transition-opacity" href="#">System Status</a>
+</div>
+</footer>
+<!-- Decorative HUD Elements -->
+<div class="fixed top-24 right-4 pointer-events-none opacity-20 hidden lg:block">
+<div class="font-label-caps text-[8px] text-primary mb-1">LAT: 35.6895° N</div>
+<div class="font-label-caps text-[8px] text-primary">LONG: 139.6917° E</div>
+</div>
+<div class="fixed bottom-24 left-4 pointer-events-none opacity-20 hidden lg:block">
+<div class="flex items-center gap-2 mb-2">
+<div class="w-2 h-2 rounded-full bg-secondary animate-ping"></div>
+<span class="font-label-caps text-[8px] text-secondary">ENCRYPTION ACTIVE</span>
+</div>
+<div class="w-32 h-[1px] bg-secondary/30"></div>
+</div>
+<script>
+        // Micro-interactions and subtle HUD effects
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+                
+                // Add dynamic light reflection effect
+                card.style.backgroundImage = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.05) 0%, transparent 80%)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.backgroundImage = 'none';
+            });
+        });
+
+        // Numeric pulse for vital signs
+        setInterval(() => {
+            const vitals = document.querySelectorAll('.font-data-num');
+            vitals.forEach(vital => {
+                if(Math.random() > 0.7) {
+                    vital.classList.add('opacity-70');
+                    setTimeout(() => vital.classList.remove('opacity-70'), 100);
+                }
+            });
+        }, 3000);
+    </script>
+</body></html>

@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tokyo 3000 // Selector de Archivo Narrativo (Temporadas y Capítulos)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Rajdhani:wght@500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              black: '#050505',
+              obsidian: '#0B0B0D',
+              graphite: '#19191D',
+              border: '#29292E',
+              grey: '#858585',
+              lightgrey: '#A0A0A5',
+              white: '#FFFFFF',
+              silver: '#E6E6E8',
+              crimson: '#C8102E',
+              crimsonDim: '#800A1D'
+            }
+          },
+          fontFamily: {
+            title: ['Audiowide', 'Rajdhani', 'sans-serif'],
+            display: ['Rajdhani', 'Space Grotesk', 'sans-serif'],
+            body: ['Space Grotesk', 'Rajdhani', 'sans-serif'],
+            kanji: ['Noto Sans JP', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom scanline and Manga Noir texture overlay */
+    .scanlines {
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.45) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+      background-size: 100% 3px, 4px 100%;
+      pointer-events: none;
+    }
+    .manga-corner-cut {
+      clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+    }
+    .manga-corner-cut-reverse {
+      clip-path: polygon(14px 0, 100% 0, 100% 100%, 0 100%, 0 14px);
+    }
+    .manga-notch-both {
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
+    }
+    .screentone {
+      background-image: radial-gradient(#29292e 1px, transparent 1px);
+      background-size: 8px 8px;
+    }
+    /* Subtle scrollbar */
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0B0B0D;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #29292E;
+      border-radius: 0px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #C8102E;
+    }
+  </style>
+</head>
+<body class="bg-brand-black text-brand-white min-h-screen font-body antialiased selection:bg-brand-crimson selection:text-white relative overflow-x-hidden">
+
+  <!-- Diegetic CRT Overlay -->
+  <div class="fixed inset-0 scanlines z-40 opacity-70 pointer-events-none"></div>
+
+  <!-- Global Terminal Header -->
+  <header class="border-b border-brand-border bg-brand-obsidian/90 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 lg:px-8 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-3 h-3 bg-brand-crimson animate-pulse"></div>
+        <div>
+          <span class="font-title tracking-widest text-brand-white text-base font-bold">BUTSU NO BAKA</span>
+          <span class="text-xs text-brand-crimson ml-2 font-display font-semibold tracking-wider">// TOKYO 3000</span>
+        </div>
+      </div>
+      
+      <div class="hidden md:flex items-center gap-6 text-xs font-display tracking-widest text-brand-lightgrey">
+        <span>ARCHIVE_PROTOCOL: <strong class="text-brand-white">NARRATIVE_LORE_V1.0</strong></span>
+        <span class="text-brand-border">|</span>
+        <span>INDEX: <strong class="text-brand-crimson">S01-ACTIVE</strong></span>
+        <span class="text-brand-border">|</span>
+        <span class="text-brand-lightgrey flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-crimson"></span>
+          MODO SEINEN NOIR
+        </span>
+      </div>
+
+      <a href="#" class="px-3 py-1.5 bg-brand-graphite hover:bg-brand-crimson border border-brand-border hover:border-brand-crimson text-xs font-display tracking-wider uppercase transition-colors flex items-center gap-2">
+        <span class="material-symbols-outlined text-sm">arrow_back</span>
+        <span>Volver al Portal</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Component Container -->
+  <main class="max-w-7xl mx-auto px-4 lg:px-8 py-8 md:py-12 relative z-10">
+    
+    <!-- Component Master Header -->
+    <section class="border-b border-brand-border pb-8 mb-10">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 text-xs font-display tracking-widest text-brand-crimson uppercase mb-2">
+            <span class="w-2 h-2 bg-brand-crimson inline-block"></span>
+            <span>TOKYO METROPOLITAN ARCHIVE // BNB:T3K</span>
+            <span class="text-brand-grey font-mono">[CANON CONFIRMADO]</span>
+          </div>
+          <h1 class="text-3xl md:text-5xl font-title tracking-wider text-brand-white uppercase font-black">
+            ARCHIVO NARRATIVO
+          </h1>
+          <p class="text-brand-lightgrey font-display text-sm md:text-base mt-2 max-w-2xl">
+            TEMPORADAS // CAPÍTULOS — Selecciona una temporada para explorar su historia. Elige un capítulo para acceder a sus registros narrativos y experiencias en desarrollo.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3 bg-brand-obsidian p-2.5 border border-brand-border text-xs font-display">
+          <div class="px-2 py-1 bg-brand-crimson text-white font-bold tracking-wider">CANON ACTIVO</div>
+          <div class="text-brand-lightgrey">NARRATIVE DATABASE // 3000</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1: SELECCIONAR TEMPORADA -->
+    <section class="mb-14">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2.5">
+          <span class="material-symbols-outlined text-brand-crimson text-lg">folder_open</span>
+          <h2 class="text-lg md:text-xl font-title tracking-wider text-brand-white uppercase">
+            SELECCIONAR TEMPORADA
+          </h2>
+          <span class="text-xs bg-brand-graphite text-brand-lightgrey px-2 py-0.5 border border-brand-border font-display">
+            01 DISPONIBLE
+          </span>
+        </div>
+        <div class="text-xs font-display text-brand-grey uppercase tracking-widest hidden sm:block">
+          // Haz clic para alternar registro de temporada
+        </div>
+      </div>
+
+      <!-- Season Cards Carousel / Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- CARD TEMPORADA 01 (SELECTED & ACTIVE) -->
+        <div id="season-card-s01" class="group relative cursor-pointer manga-corner-cut bg-brand-obsidian border-2 border-brand-crimson transition-all duration-300 shadow-[0_0_25px_rgba(200,16,46,0.25)] flex flex-col">
+          <!-- Active Corner Badge -->
+          <div class="absolute top-0 right-0 z-20 bg-brand-crimson text-white text-[10px] font-display font-bold px-3 py-1 uppercase tracking-widest flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 bg-white rounded-full animate-ping"></span>
+            ACTIVE // EN SELECCIÓN
+          </div>
+
+          <!-- Poster Artwork Frame (3:4 ratio styled) -->
+          <div class="relative w-full aspect-[4/3] md:aspect-[3/4] overflow-hidden bg-brand-black">
+            <img src="https://lh3.googleusercontent.com/aida/AEtjO1UpdiUI2MIqxZ0Gt7-ZnXjuD8UQiIHNX5WHZcPt4ibQCJJLsOZYnXCC48Qy8VnAFZwvh8GTO9n52_ZaGxJnkHujOASW5LT_Q0eT978ITvvuqnp7iMkwS_8IQaWq0J_AR5vhWa-umeonHsqTZ1I0efYHZFTLTnE48nhW1aJN_Wl_Ap_lGVoD2_oWgF-IJXjofPsh7lCYL63ZFcVcktokNJpON1HhQoeRfVaC_mDPp18wL1AWAZ9O5Dlmrn4" alt="Temporada 01: El Bucle de Yūrei - Tokyo 3000" class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-700 opacity-80" />
+            
+            <!-- Manga Noir Tint & Vignette -->
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-obsidian via-brand-obsidian/40 to-transparent"></div>
+            
+            <!-- Kanji Ghost Watermark -->
+            <div class="absolute top-4 left-4 font-kanji text-5xl font-black text-brand-white/10 select-none pointer-events-none">
+              幽霊
+            </div>
+
+            <!-- In-image bottom metadata -->
+            <div class="absolute bottom-3 left-4 right-4 z-10 flex items-end justify-between">
+              <div>
+                <span class="text-xs font-display tracking-widest text-brand-crimson font-bold uppercase block">TEMPORADA 01</span>
+                <span class="text-xl font-title font-bold text-white tracking-wide">EL BUCLE DE YŪREI</span>
+              </div>
+              <span class="text-xs font-mono px-2 py-0.5 bg-brand-black/80 border border-brand-crimson text-brand-crimson font-semibold">
+                S01 // 1 CAP
+              </span>
+            </div>
+          </div>
+
+          <!-- Card Content -->
+          <div class="p-5 flex-1 flex flex-col justify-between bg-brand-obsidian border-t border-brand-border">
+            <p class="text-xs md:text-sm text-brand-lightgrey leading-relaxed mb-4">
+              Una promesa rota en la Era Edo resurge como una maldición cíclica en el año 3000. El choque entre la obsesión de Yūrei y la liberación de Yokoi.
+            </p>
+
+            <div class="space-y-3 pt-3 border-t border-brand-border/60">
+              <div class="flex items-center justify-between text-xs font-display">
+                <span class="text-brand-grey uppercase">Estado de Canon:</span>
+                <span class="text-brand-white font-bold px-2 py-0.5 bg-brand-graphite border border-brand-crimson/50">
+                  IN DEVELOPMENT
+                </span>
+              </div>
+              <div class="flex items-center justify-between text-xs font-display">
+                <span class="text-brand-grey uppercase">Ruta Oficial:</span>
+                <span class="text-brand-crimson font-mono font-semibold">/historia/temporada-1</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom indicator line -->
+          <div class="h-1 w-full bg-brand-crimson"></div>
+        </div>
+
+        <!-- CARD TEMPORADA 02 (ARCHIVADA / PRÓXIMAMENTE - Empty State / Classified) -->
+        <div class="group relative cursor-not-allowed manga-corner-cut bg-brand-obsidian/50 border border-brand-border/60 opacity-60 hover:opacity-80 transition-all duration-300 flex flex-col">
+          <div class="absolute top-0 right-0 z-20 bg-brand-graphite text-brand-grey text-[10px] font-display font-semibold px-2.5 py-1 uppercase tracking-widest">
+            REGISTRO BLOQUEADO
+          </div>
+
+          <div class="relative w-full aspect-[4/3] md:aspect-[3/4] overflow-hidden bg-brand-black flex flex-col items-center justify-center p-6 text-center screentone">
+            <span class="material-symbols-outlined text-4xl text-brand-grey mb-3">lock_clock</span>
+            <span class="font-title text-sm text-brand-white tracking-widest uppercase mb-1">TEMPORADA 02</span>
+            <span class="text-xs text-brand-grey font-display tracking-wider max-w-xs">
+              EXPEDIENTE CLASIFICADO // ARCHIVO METROPOLITANO EN FASE DE TRANSMISIÓN
+            </span>
+          </div>
+
+          <div class="p-5 flex-1 flex flex-col justify-between bg-brand-obsidian/40 border-t border-brand-border">
+            <p class="text-xs text-brand-grey italic mb-4">
+              "No inventar temporadas, títulos ni cantidades de capítulos. Las temporadas futuras solo aparecerán cuando sean incorporadas al catálogo oficial."
+            </p>
+            <div class="pt-3 border-t border-brand-border/40 flex items-center justify-between text-xs font-display text-brand-grey">
+              <span>DISPONIBILIDAD:</span>
+              <span class="text-brand-grey bg-brand-graphite/40 px-2 py-0.5 border border-brand-border/40">SIN ASIGNAR</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD TEMPORADA 03 (VACÍA / REGLA DE INTEGRIDAD) -->
+        <div class="group relative cursor-not-allowed manga-corner-cut bg-brand-obsidian/30 border border-brand-border/40 opacity-40 flex flex-col">
+          <div class="relative w-full aspect-[4/3] md:aspect-[3/4] overflow-hidden bg-brand-black flex flex-col items-center justify-center p-6 text-center">
+            <span class="material-symbols-outlined text-4xl text-brand-grey/60 mb-3">folder_off</span>
+            <span class="font-title text-sm text-brand-grey tracking-widest uppercase mb-1">TEMPORADA 03</span>
+            <span class="text-xs text-brand-grey/80 font-display tracking-wider">
+              ARCHIVO NO REGISTRADO
+            </span>
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between bg-brand-obsidian/20 border-t border-brand-border/40">
+            <p class="text-xs text-brand-grey/70">
+              Espacio modular reservado para futuras expansiones del canon oficial.
+            </p>
+            <div class="pt-3 border-t border-brand-border/20 text-[11px] font-display text-brand-grey/60">
+              ESTADO: NO DISPONIBLE
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 2: SELECTED SEASON FEATURE (SEASON FILE // S01) -->
+    <section class="mb-14 bg-brand-obsidian border border-brand-border p-6 md:p-8 manga-notch-both relative">
+      <div class="absolute -top-3 left-6 bg-brand-black px-3 py-0.5 border border-brand-crimson text-brand-crimson text-xs font-display font-bold tracking-widest uppercase flex items-center gap-1.5">
+        <span class="w-2 h-2 bg-brand-crimson"></span>
+        SEASON FILE // S01
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-2">
+        <!-- Left Season Info (8 cols) -->
+        <div class="lg:col-span-8 space-y-5">
+          <div class="flex flex-wrap items-center gap-3">
+            <h3 class="text-2xl md:text-3xl font-title text-brand-white uppercase font-bold tracking-wider">
+              TEMPORADA 01: EL BUCLE DE YŪREI
+            </h3>
+            <span class="px-2.5 py-1 bg-brand-crimson/10 border border-brand-crimson text-brand-crimson text-xs font-display font-bold uppercase tracking-wider">
+              CANON OFICIAL // BNBT3K
+            </span>
+          </div>
+
+          <p class="text-sm md:text-base text-brand-lightgrey leading-relaxed">
+            Una promesa rota en la Era Edo resurge como una maldición cíclica en el año 3000. El vínculo entre Yūrei y Yokoi se convierte en el centro de una historia sobre amor obsesivo, apego al pasado y libertad emocional.
+          </p>
+
+          <!-- Narrative Themes Tags -->
+          <div>
+            <span class="text-xs font-display uppercase tracking-widest text-brand-grey block mb-2">
+              EJES NARRATIVOS PRINCIPALES:
+            </span>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-2.5 py-1 bg-brand-graphite border border-brand-border text-xs font-display text-brand-white tracking-wider"># APEGO</span>
+              <span class="px-2.5 py-1 bg-brand-graphite border border-brand-border text-xs font-display text-brand-white tracking-wider"># LIBERTAD</span>
+              <span class="px-2.5 py-1 bg-brand-graphite border border-brand-border text-xs font-display text-brand-white tracking-wider"># MEMORIA</span>
+              <span class="px-2.5 py-1 bg-brand-graphite border border-brand-border text-xs font-display text-brand-white tracking-wider"># OBSESIÓN</span>
+              <span class="px-2.5 py-1 bg-brand-graphite border border-brand-border text-xs font-display text-brand-white tracking-wider"># CICLOS DESTRUCTIVOS</span>
+            </div>
+          </div>
+
+          <!-- Quick Metrics Bar -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3 border-t border-brand-border text-xs font-display">
+            <div>
+              <span class="text-brand-grey block">CAPÍTULOS:</span>
+              <span class="text-brand-white font-bold">1 PUBLICADO (PREVIEW)</span>
+            </div>
+            <div>
+              <span class="text-brand-grey block">DESARROLLO:</span>
+              <span class="text-brand-crimson font-bold">EN PRODUCCIÓN</span>
+            </div>
+            <div>
+              <span class="text-brand-grey block">FORMATO:</span>
+              <span class="text-brand-white font-bold">MANGA INTERACTIVO + 2.5D</span>
+            </div>
+            <div>
+              <span class="text-brand-grey block">LENGUAJE:</span>
+              <span class="text-brand-white font-bold">ESPAÑOL (OFICIAL)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Quick Action / Mini Poster (4 cols) -->
+        <div class="lg:col-span-4 flex flex-col justify-center items-stretch gap-4 border-t lg:border-t-0 lg:border-l border-brand-border pt-6 lg:pt-0 lg:pl-8">
+          <div class="text-xs font-display text-brand-grey uppercase tracking-wider">
+            NAVEGACIÓN DIRECTA DE TEMPORADA
+          </div>
+          <a href="#chapter-index-section" class="px-5 py-3.5 bg-brand-crimson hover:bg-brand-crimsonDim text-white font-display font-bold text-sm tracking-widest uppercase transition-all duration-200 manga-corner-cut flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(200,16,46,0.3)]">
+            <span class="material-symbols-outlined text-base">expand_more</span>
+            <span>EXPLORAR CAPÍTULOS DE S01</span>
+          </a>
+          <a href="#" class="px-5 py-2.5 bg-transparent hover:bg-brand-graphite border border-brand-border text-brand-lightgrey hover:text-white font-display text-xs tracking-wider uppercase transition-colors text-center">
+            VER FICHA DE TEMPORADA (/temporada-1)
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: CHAPTER NAVIGATION STRIP (ÍNDICE DE CAPÍTULOS) -->
+    <section id="chapter-index-section" class="mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-brand-border gap-2">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-brand-crimson"></span>
+            <h2 class="text-lg md:text-xl font-title text-brand-white uppercase tracking-wider">
+              ÍNDICE DE CAPÍTULOS // TEMPORADA 01
+            </h2>
+          </div>
+          <p class="text-xs text-brand-lightgrey font-display mt-0.5">
+            Selecciona un registro narrativo para inspeccionar sus datos y modos de juego planificados.
+          </p>
+        </div>
+
+        <!-- Controls: Prev / Next / Index Counter -->
+        <div class="flex items-center gap-2">
+          <button class="px-3 py-1.5 bg-brand-graphite/40 border border-brand-border text-brand-grey cursor-not-allowed text-xs font-display flex items-center gap-1" disabled title="No hay capítulos anteriores">
+            <span class="material-symbols-outlined text-sm">arrow_back_ios</span>
+            <span class="hidden sm:inline">ANTERIOR</span>
+          </button>
+          
+          <span class="px-3 py-1.5 bg-brand-obsidian border border-brand-border text-xs font-mono text-brand-white">
+            01 / 01
+          </span>
+
+          <button class="px-3 py-1.5 bg-brand-graphite/40 border border-brand-border text-brand-grey cursor-not-allowed text-xs font-display flex items-center gap-1" disabled title="No hay más capítulos publicados en esta temporada">
+            <span class="hidden sm:inline">SIGUIENTE</span>
+            <span class="material-symbols-outlined text-sm">arrow_forward_ios</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Chapter Strip Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+        
+        <!-- CHAPTER 01 CARD (ACTIVE / SELECTED) -->
+        <div id="chapter-btn-c01" class="p-4 bg-brand-graphite border-2 border-brand-crimson cursor-pointer transition-all relative manga-corner-cut">
+          <div class="flex items-start justify-between mb-2">
+            <span class="text-sm font-title font-bold text-brand-crimson tracking-wider">CAPÍTULO 01</span>
+            <span class="px-2 py-0.5 bg-brand-crimson text-white text-[10px] font-display font-bold uppercase tracking-wider">
+              ACTIVE // EN FOCO
+            </span>
+          </div>
+          <div class="text-base font-title font-semibold text-white tracking-wide uppercase">
+            EL INICIO DEL BUCLE
+          </div>
+          <div class="text-xs text-brand-lightgrey mt-2 line-clamp-2">
+            Introducción al conflicto de Yūrei y Yokoi, el misterio de la promesa rota y el enlace con Tokyo 3000.
+          </div>
+          
+          <div class="mt-4 pt-3 border-t border-brand-border flex items-center justify-between text-[11px] font-display">
+            <span class="text-brand-grey">DISPONIBILIDAD:</span>
+            <span class="text-brand-crimson font-bold uppercase">PREVIEW / EN DESARROLLO</span>
+          </div>
+        </div>
+
+        <!-- CHAPTER 02 (EMPTY STATE / LOCKED - Rule: Don't invent chapters) -->
+        <div class="p-4 bg-brand-obsidian/40 border border-brand-border/60 opacity-60 cursor-not-allowed flex flex-col justify-between">
+          <div>
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-sm font-title font-bold text-brand-grey tracking-wider">CAPÍTULO 02</span>
+              <span class="px-2 py-0.5 bg-brand-obsidian border border-brand-border text-brand-grey text-[10px] font-display font-semibold uppercase">
+                LOCKED // CLASIFICADO
+              </span>
+            </div>
+            <div class="text-sm font-title font-medium text-brand-grey tracking-wide uppercase">
+              REGISTRO EN PREPARACIÓN
+            </div>
+            <div class="text-xs text-brand-grey mt-2">
+              Este capítulo aún no ha sido redactado ni desclasificado por el archivo metropolitano.
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-brand-border/30 text-[11px] font-display text-brand-grey flex items-center gap-1">
+            <span class="material-symbols-outlined text-xs">lock</span>
+            <span>NO DISPONIBLE</span>
+          </div>
+        </div>
+
+        <!-- CHAPTER 03 (EMPTY STATE / LOCKED) -->
+        <div class="p-4 bg-brand-obsidian/30 border border-brand-border/40 opacity-40 cursor-not-allowed flex flex-col justify-between">
+          <div>
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-sm font-title font-bold text-brand-grey/80 tracking-wider">CAPÍTULO 03</span>
+              <span class="px-2 py-0.5 bg-brand-obsidian border border-brand-border/50 text-brand-grey text-[10px] font-display font-semibold uppercase">
+                SIN EMISIÓN
+              </span>
+            </div>
+            <div class="text-sm font-title font-medium text-brand-grey/80 tracking-wide uppercase">
+              FUTURO REGISTRO
+            </div>
+            <div class="text-xs text-brand-grey/60 mt-2">
+              Sujeto a confirmación oficial del canon.
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-brand-border/20 text-[11px] font-display text-brand-grey/50 flex items-center gap-1">
+            <span class="material-symbols-outlined text-xs">lock</span>
+            <span>BLOQUEADO</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 4: SELECTED CHAPTER DETAILS PANEL (CHAPTER RECORD) -->
+    <section class="bg-brand-obsidian border border-brand-border p-6 md:p-8 relative">
+      <!-- Section Tag -->
+      <div class="flex items-center justify-between pb-4 mb-6 border-b border-brand-border">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 bg-brand-crimson"></span>
+          <span class="text-xs font-display font-bold uppercase tracking-widest text-brand-crimson">
+            CHAPTER RECORD // S01C01
+          </span>
+        </div>
+        <div class="text-xs font-mono text-brand-lightgrey">
+          ROUTE: <span class="text-brand-white">/historia/temporada-1/capitulo-1</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Left: Chapter Artwork in Anime 2.5D with Manga Noir Treatment (5 cols) -->
+        <div class="lg:col-span-5 space-y-3">
+          <div class="relative aspect-[16/10] sm:aspect-square lg:aspect-[4/3] w-full overflow-hidden border border-brand-border bg-brand-black manga-corner-cut group">
+            <img src="https://lh3.googleusercontent.com/aida/AEtjO1UpdiUI2MIqxZ0Gt7-ZnXjuD8UQiIHNX5WHZcPt4ibQCJJLsOZYnXCC48Qy8VnAFZwvh8GTO9n52_ZaGxJnkHujOASW5LT_Q0eT978ITvvuqnp7iMkwS_8IQaWq0J_AR5vhWa-umeonHsqTZ1I0efYHZFTLTnE48nhW1aJN_Wl_Ap_lGVoD2_oWgF-IJXjofPsh7lCYL63ZFcVcktokNJpON1HhQoeRfVaC_mDPp18wL1AWAZ9O5Dlmrn4" alt="Key Art - Capítulo 01: El Inicio del Bucle" class="w-full h-full object-cover grayscale contrast-125 brightness-90 group-hover:scale-105 transition-transform duration-500" />
+            
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-transparent to-black/30"></div>
+            
+            <!-- Red neon scan frame -->
+            <div class="absolute inset-0 border border-brand-crimson/30 pointer-events-none"></div>
+
+            <!-- In-image chapter stamp -->
+            <div class="absolute bottom-3 left-3 bg-brand-black/90 px-3 py-1.5 border-l-2 border-brand-crimson text-xs font-display">
+              <span class="text-brand-crimson font-bold block">KEY ART // CANON ACTIVO</span>
+              <span class="text-white text-[11px]">Tokyo 3000 × Neo-Gothic Night</span>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between text-[11px] font-display text-brand-grey px-1">
+            <span>FORMATO VISUAL: ANIME 2.5D</span>
+            <span>PALETA: MONOCROMO + CARMESÍ</span>
+          </div>
+        </div>
+
+        <!-- Right: Chapter Information & Game Modes (7 cols) -->
+        <div class="lg:col-span-7 flex flex-col justify-between space-y-6">
+          <div>
+            <div class="flex items-center gap-2 text-xs font-display tracking-widest text-brand-crimson font-semibold mb-1 uppercase">
+              TEMPORADA 01 // CAPÍTULO 01
+            </div>
+            <h3 class="text-3xl md:text-4xl font-title text-brand-white uppercase font-bold tracking-wide">
+              EL INICIO DEL BUCLE
+            </h3>
+            
+            <div class="mt-4 p-4 bg-brand-graphite/40 border-l-2 border-brand-crimson text-brand-lightgrey text-sm md:text-base leading-relaxed">
+              "Una introducción al conflicto entre Yūrei y Yokoi, al misterio de una promesa rota y a los acontecimientos que conectan la Era Edo con Tokyo 3000."
+            </div>
+
+            <!-- Detailed Synopsis Block -->
+            <div class="mt-4 text-xs md:text-sm text-brand-lightgrey/90 leading-relaxed space-y-2">
+              <p>
+                Bajo la luna llena de la metrópolis de Neo-Edo, los cables de datos resuenan con frecuencias del pasado. Yokoi se enfrenta a las primeras interferencias espirituales que anuncian el despertar del bando espectral de Yūrei.
+              </p>
+            </div>
+          </div>
+
+          <!-- Planned Game Modes Modules for this Chapter (Transparent status) -->
+          <div>
+            <span class="text-xs font-display uppercase tracking-widest text-brand-grey block mb-2.5">
+              MODOS DE EXPERIENCIA ASOCIADOS // ESTADO DIEGÉTICO:
+            </span>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              
+              <!-- Mode 1: Historia -->
+              <div class="p-3 bg-brand-obsidian border border-brand-border flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between text-[10px] font-display text-brand-grey mb-1">
+                    <span>MODO 01</span>
+                    <span class="text-brand-crimson font-bold">PLANNED</span>
+                  </div>
+                  <div class="text-xs font-title text-white">MODO HISTORIA</div>
+                  <div class="text-[11px] text-brand-grey mt-1">Manga interactivo, elecciones y novela visual.</div>
+                </div>
+              </div>
+
+              <!-- Mode 2: Objetos Ocultos -->
+              <div class="p-3 bg-brand-obsidian border border-brand-border flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between text-[10px] font-display text-brand-grey mb-1">
+                    <span>MODO 02</span>
+                    <span class="text-brand-crimson font-bold">PLANNED</span>
+                  </div>
+                  <div class="text-xs font-title text-white">OBJETOS OCULTOS</div>
+                  <div class="text-[11px] text-brand-grey mt-1">Ecos del pasado: inspección de escenarios y reliquias.</div>
+                </div>
+              </div>
+
+              <!-- Mode 3: VS Battle -->
+              <div class="p-3 bg-brand-obsidian border border-brand-border flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between text-[10px] font-display text-brand-grey mb-1">
+                    <span>MODO 03</span>
+                    <span class="text-brand-crimson font-bold">PLANNED</span>
+                  </div>
+                  <div class="text-xs font-title text-white">VS BATTLE</div>
+                  <div class="text-[11px] text-brand-grey mt-1">Duelo táctico por turnos contra sombras espectrales.</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Actions Bar (Respecting Rule: "Never simulate a successful game launch when no playable game exists") -->
+          <div class="pt-4 border-t border-brand-border flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            
+            <!-- Primary Action -->
+            <button onclick="alert('Abriendo ficha oficial del Capítulo 01 en /historia/temporada-1/capitulo-1 (Estado: Preview de producción)')" class="px-6 py-3.5 bg-brand-crimson hover:bg-brand-crimsonDim text-white font-display font-bold text-sm tracking-widest uppercase transition-all manga-corner-cut flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(200,16,46,0.35)]">
+              <span class="material-symbols-outlined text-base">login</span>
+              <span>ACCEDER AL CAPÍTULO (PREVIEW)</span>
+            </button>
+
+            <!-- Secondary Action -->
+            <button onclick="alert('Información completa del registro S01C01 desplegada en la terminal.')" class="px-5 py-3.5 bg-brand-graphite hover:bg-brand-border text-brand-white font-display text-xs tracking-wider uppercase transition-colors border border-brand-border flex items-center justify-center gap-1.5">
+              <span class="material-symbols-outlined text-sm">info</span>
+              <span>VER INFORMACIÓN COMPLETA</span>
+            </button>
+
+            <!-- Back Action -->
+            <a href="#season-card-s01" class="px-4 py-3.5 text-brand-grey hover:text-white font-display text-xs tracking-wider uppercase transition-colors text-center">
+              VOLVER A TEMPORADAS
+            </a>
+          </div>
+
+          <!-- Integrity Disclosure Note -->
+          <div class="text-[11px] text-brand-grey font-display flex items-center gap-2 bg-brand-black/60 p-2.5 border border-brand-border/40">
+            <span class="material-symbols-outlined text-brand-crimson text-sm">verified_user</span>
+            <span>REGLA CANON: Estado [IN DEVELOPMENT]. El acceso inicia la experiencia en modo vista previa sin fingir sistemas de juego no implementados.</span>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 5: MODULAR EMPTY STATE / FUTURE SEASONS SHOWCASE -->
+    <section class="mt-14 p-6 bg-brand-obsidian/40 border border-dashed border-brand-border manga-corner-cut">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <span class="material-symbols-outlined text-brand-grey text-2xl">dns</span>
+          <div>
+            <h4 class="text-sm font-title uppercase text-brand-white tracking-wider">
+              ARQUITECTURA MODULAR DE ARCHIVO (DATA-DRIVEN)
+            </h4>
+            <p class="text-xs text-brand-grey font-display mt-0.5">
+              Este componente admite inyección reactiva de temporadas futuras (S02, S03...) sin alterar la integridad visual.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 text-xs font-mono text-brand-grey">
+          <span class="w-2 h-2 rounded-full bg-brand-crimson"></span>
+          <span>ESTADO: LISTO PARA INTEGRACIÓN NARRATIVA</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Component Footer Diegetic Readout -->
+  <footer class="border-t border-brand-border bg-brand-black py-6 mt-12 text-center text-xs font-display text-brand-grey">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <span class="text-brand-white font-bold tracking-widest font-title text-xs">BUTSU NO BAKA: TOKYO 3000</span>
+        <span class="text-brand-crimson">// EL PASADO NUNCA MUERE</span>
+      </div>
+      <div>
+        SISTEMA NARRATIVO TRANSCRIPT // SEINEN MANGA NOIR EDITION
+      </div>
+      <div class="text-brand-grey/80">
+        © 3000 BNB PROJECT // TODOS LOS DERECHOS RESERVADOS
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

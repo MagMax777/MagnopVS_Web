@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOPVS // ARCHETYPAL_EXCHANGE</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Hanken+Grotesk:wght@300;400;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Orbitron:wght@400;700&amp;family=Audiowide&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-primary-fixed-variant": "#004c6a",
+                        "surface-container-lowest": "#0b0f11",
+                        "primary": "#c5e7ff",
+                        "inverse-surface": "#e0e3e6",
+                        "on-error": "#690005",
+                        "surface-variant": "#313538",
+                        "surface": "#101417",
+                        "secondary": "#47ddc1",
+                        "primary-fixed-dim": "#7fd0ff",
+                        "primary-fixed": "#c5e7ff",
+                        "glow-cyan": "#2da8e0",
+                        "on-primary-container": "#00597b",
+                        "surface-container-low": "#181c1f",
+                        "surface-container-high": "#272a2d",
+                        "secondary-container": "#00bba0",
+                        "error-container": "#93000a",
+                        "on-secondary-container": "#004439",
+                        "on-tertiary-fixed-variant": "#6e3252",
+                        "on-error-container": "#ffdad6",
+                        "surface-tint": "#7fd0ff",
+                        "on-tertiary-fixed": "#390625",
+                        "on-primary-fixed": "#001e2d",
+                        "tertiary": "#ffd8e7",
+                        "surface-container": "#1c2023",
+                        "surface-container-highest": "#313538",
+                        "tertiary-container": "#ffafd4",
+                        "primary-container": "#7fd0ff",
+                        "on-secondary-fixed-variant": "#005144",
+                        "surface-bright": "#363a3d",
+                        "tertiary-fixed-dim": "#ffafd4",
+                        "tertiary-fixed": "#ffd8e7",
+                        "on-tertiary": "#531c3b",
+                        "on-tertiary-container": "#7c3e5e",
+                        "outline": "#899299",
+                        "secondary-fixed": "#6af9dc",
+                        "on-background": "#e0e3e6",
+                        "on-surface": "#e0e3e6",
+                        "surface-dim": "#101417",
+                        "inverse-primary": "#00658b",
+                        "grid-line": "rgba(127, 208, 255, 0.05)",
+                        "status-critical": "#93000a",
+                        "background": "#101417",
+                        "on-primary": "#00344a",
+                        "outline-variant": "#3f484e",
+                        "on-surface-variant": "#bfc8cf",
+                        "surface-panel": "rgba(255, 255, 255, 0.03)",
+                        "secondary-fixed-dim": "#47ddc1",
+                        "error": "#ffb4ab",
+                        "on-secondary-fixed": "#00201a",
+                        "on-secondary": "#00382e",
+                        "inverse-on-surface": "#2d3134",
+                        "background-deep": "#0a0b12",
+                        "rarity-mythic": "#f5d142",
+                        "rarity-legendary": "#ff00ff",
+                        "rarity-epic": "#a335ee",
+                        "rarity-rare": "#0070dd",
+                        "rarity-common": "#ffffff"
+                    },
+                    borderRadius: { "DEFAULT": "0px", "lg": "0px", "xl": "0px" },
+                    spacing: { "section-padding": "128px", "margin-mobile": "20px", "margin-desktop": "40px", "panel-gap": "12px", "unit": "4px", "gutter": "16px" },
+                    fontFamily: {
+                        "headline-md": ["Audiowide", "sans-serif"],
+                        "data-point": ["Orbitron", "sans-serif"],
+                        "mono-data": ["JetBrains Mono", "monospace"],
+                        "display-lg": ["Audiowide", "sans-serif"],
+                        "micro-tag": ["JetBrains Mono", "monospace"],
+                        "body-md": ["Hanken Grotesk", "sans-serif"],
+                        "label-caps": ["JetBrains Mono", "monospace"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>@keyframes neon-pulse {
+    0%, 100% {
+        filter: drop-shadow(0 0 2px currentColor);
+        opacity: 0.8;
+        } 50% {
+        filter: drop-shadow(0 0 8px currentColor);
+        opacity: 1;
+        }
+    }
+.neon-pulse {
+    animation: neon-pulse 2s infinite ease-in-out
+    }
+.hex-clip {
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)
+    }
+body {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuClCbBPMArazrIfuS4Ml8_o073WkjQPke-JCTFWcZ6H8GtABy2hwgo1AooguUPSGAu7hDz-cV6T22UP2P75oayzXYUTN-oa36jtF1GLPMnr-8C3f6NsZNO4oxJvfq3cojzsDkaYpZ24wtAU0_jVuBbkpkxlbFZun8lyCpwTFWSIxvfibwbXreh1aZnqc8JeBcVzZEP_CduAq1SQRkul6XsUhOGf5wpsjqUL1C8rCQopGpZi36792mD21Q);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #e0e3e6
+    }
+.cyber-grid {
+    background-image: linear-gradient(rgba(127, 208, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px
+    }
+.glass-panel {
+    background: rgba(11, 15, 17, 0.7);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(127, 208, 255, 0.15)
+    }
+.slanted-edge {
+    clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%)
+    }
+.material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24
+    }</style>
+</head>
+<body class="font-body-md text-body-md overflow-hidden h-screen flex flex-col">
+<!-- Cyber Background Overlay -->
+<div class="fixed inset-0 cyber-grid z-[-1] pointer-events-none"></div>
+<div class="fixed inset-0 z-[-2] bg-background-deep/80 pointer-events-none"></div>
+<!-- TopAppBar -->
+<header class="bg-transparent backdrop-blur-xl border-b border-outline-variant/30 flex justify-between items-center px-margin-desktop py-4 w-full sticky top-0 z-50">
+<div class="flex items-center gap-6">
+<h1 class="font-headline-md text-headline-md tracking-widest text-on-background uppercase">TEATRO DEL DESTINO</h1>
+<div class="h-6 w-px bg-outline-variant/30 hidden md:block"></div>
+<div class="hidden md:flex gap-4">
+<span class="font-label-caps text-label-caps text-secondary flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">token</span>
+                    CR: 1,420.50
+                </span>
+<span class="font-label-caps text-label-caps text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">bolt</span>
+                    XP: 85,000
+                </span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative flex items-center bg-surface-container-low px-4 py-2 border border-outline-variant/30 group">
+<input class="bg-transparent border-none focus:ring-0 font-label-caps text-label-caps w-48 text-on-surface-variant placeholder:text-outline" placeholder="BUSCAR BLUEPRINT..." type="text"/>
+<span class="material-symbols-outlined text-outline group-hover:text-tertiary cursor-pointer transition-colors">search</span>
+</div>
+<div class="flex gap-4">
+<button class="text-outline hover:text-tertiary transition-colors duration-300">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+</button>
+<button class="text-outline hover:text-tertiary transition-colors duration-300">
+<span class="material-symbols-outlined">stars</span>
+</button>
+<button class="text-outline hover:text-tertiary transition-colors duration-300">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<div class="w-10 h-10 bg-tertiary/20 border border-tertiary/40 flex items-center justify-center hex-clip">
+<img class="w-full h-full object-cover" data-alt="A portrait of a futuristic seeker archetype, face partially covered by a holographic display mask, illuminated by neon cyan and magenta lights in a dark digital void." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvSN5NreTgy_yxK15AgBSej5uJj3BKEHrcDAeH34K9aydPSgC1yZF2L8ZwsLnJUcE_s_o6E2n0y6XRI0uNpLutD8gsS4Lp5mCwE0e559xril5XXUqIbdBJgRwV6nFl2DZXEFdN5ILu-Fg-O7QmWLJmKcz8tTblSapWMGjNqXwZ3XS5SMlwdBLSpC1-6aN3zOxeOcxh-YQNidPISnjIooUzI9ouGZQ6yQTwrDHMVqZtGpyqGJpLuCjoBQ"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-full py-8 px-4 bg-surface-dim/40 backdrop-blur-2xl border-r border-tertiary/10 w-64 shrink-0">
+<div class="mb-12">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-8 h-8 bg-tertiary/10 border border-tertiary/30 hex-clip flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary text-sm">auto_awesome</span>
+</div>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface">OPUS 01</div>
+<div class="font-micro-tag text-micro-tag text-outline tracking-widest">EL BUSCADOR</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 text-outline hover:text-on-surface hover:bg-surface-variant/20 transition-all duration-500 hover:translate-x-1 group" href="#">
+<span class="material-symbols-outlined">theaters</span>
+<span class="font-label-caps text-label-caps">Chronicles</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-tertiary border-l-2 border-tertiary bg-tertiary/5 transition-all duration-500 translate-x-1" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">edit_note</span>
+<span class="font-label-caps text-label-caps">Scriptorium</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-outline hover:text-on-surface hover:bg-surface-variant/20 transition-all duration-500 hover:translate-x-1 group" href="#">
+<span class="material-symbols-outlined">groups_3</span>
+<span class="font-label-caps text-label-caps">The Council</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-outline hover:text-on-surface hover:bg-surface-variant/20 transition-all duration-500 hover:translate-x-1 group" href="#">
+<span class="material-symbols-outlined">query_stats</span>
+<span class="font-label-caps text-label-caps">Evolution</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-outline hover:text-on-surface hover:bg-surface-variant/20 transition-all duration-500 hover:translate-x-1 group" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="font-label-caps text-label-caps">Archive</span>
+</a>
+</div>
+<div class="mt-auto">
+<button class="w-full bg-tertiary/10 border border-tertiary/40 py-3 font-label-caps text-label-caps text-tertiary hover:bg-tertiary/20 transition-all uppercase slanted-edge">
+                    INITIATE SESSION
+                </button>
+<div class="mt-8 pt-4 border-t border-tertiary/10">
+<a class="flex items-center gap-3 px-4 py-2 text-outline hover:text-tertiary transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+<span class="font-micro-tag text-micro-tag">System Logs</span>
+</a>
+</div>
+</div>
+</nav>
+<!-- Main Canvas -->
+<main class="flex-1 overflow-y-auto p-gutter relative pb-24">
+<div class="max-w-7xl mx-auto">
+<!-- Header Section -->
+<div class="flex justify-between items-end mb-12">
+<div>
+<div class="font-micro-tag text-micro-tag text-tertiary mb-2 uppercase tracking-[0.5em]">Mercado de Arquetipos</div>
+<h2 class="font-headline-md text-headline-md text-on-background uppercase flex items-center gap-4">
+                            INTERCAMBIO ARQUETÍPICO
+                            <span class="text-secondary opacity-50 text-sm font-label-caps">V_2.124</span>
+</h2>
+</div>
+<div class="flex gap-4">
+<div class="glass-panel px-6 py-3 flex items-center gap-4 border-l-4 border-l-secondary">
+<div>
+<div class="font-micro-tag text-micro-tag text-outline">FASE ACTUAL</div>
+<div class="font-label-caps text-label-caps text-secondary">ALBEDO</div>
+</div>
+<span class="material-symbols-outlined text-secondary neon-pulse">brightness_7</span>
+</div>
+</div>
+</div>
+<!-- Bento Grid for Blueprints -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card: Protocolo Kether -->
+<div class="glass-panel group relative overflow-hidden p-6 flex flex-col transition-all hover:border-tertiary/40">
+<div class="absolute top-0 right-0 w-16 h-16 bg-rarity-legendary/10 border-b border-l border-rarity-legendary/30 hex-clip-tr flex items-center justify-center pointer-events-none">
+<span class="material-symbols-outlined text-rarity-legendary text-lg">workspace_premium</span>
+</div>
+<div class="mb-6 flex gap-4">
+<div class="w-20 h-20 bg-surface-container-highest border border-outline-variant/30 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A detailed blueprint visualization of the Vanguard Plate, glowing in intense magenta neon light with schematics and mystical symbols overlayed on a dark carbon fiber texture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC350MPmCrUVGnfkkCxTC5pGCSP4S4tbO_Tf0HHBf4GlzwmUbh_UHCmXi80deNvQC2xUsyB89F-XUFxkBN3py_lxQDln_57UmXIC0u21IcFqsk5iKCMHaQe8_rRXW2AHAqgSRPvuvhdNVM7VepqMf8uUCuiWT3m0pcN48uVlC3C8_ehfN-JLY7rO8F5YKlNQ9gdy1E3AcGW3bW-B8nho6UE7NOOTBzq4EecTkv_uKLL2wEmFCgI1qxojg"/>
+</div>
+<div>
+<h3 class="font-headline-md text-body-md text-on-background uppercase mb-1">Protocolo Kether</h3>
+<span class="font-micro-tag text-micro-tag text-rarity-legendary border border-rarity-legendary/30 px-2 py-0.5 uppercase">Legendario</span>
+</div>
+</div>
+<div class="flex-1 space-y-4">
+<div class="flex justify-between items-center text-outline">
+<span class="font-label-caps text-[10px]">Resultado: Vanguard Plate</span>
+<span class="material-symbols-outlined text-sm">shield</span>
+</div>
+<div class="h-px bg-gradient-to-r from-outline-variant/50 to-transparent"></div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<div class="font-micro-tag text-micro-tag text-outline mb-1">COSTO CR</div>
+<div class="font-data-point text-data-point text-secondary">850.00</div>
+</div>
+<div>
+<div class="font-micro-tag text-micro-tag text-outline mb-1">REQUERIDO</div>
+<div class="font-label-caps text-label-caps text-tertiary">RUBEDO</div>
+</div>
+</div>
+</div>
+<button class="mt-8 w-full border border-outline-variant hover:border-tertiary hover:bg-tertiary/5 py-2 font-label-caps text-label-caps transition-all">SELECCIONAR</button>
+</div>
+<!-- Card: Esencia de Titán -->
+<div class="glass-panel group relative overflow-hidden p-6 flex flex-col transition-all hover:border-primary/40">
+<div class="absolute top-0 right-0 w-16 h-16 bg-rarity-epic/10 border-b border-l border-rarity-epic/30 flex items-center justify-center pointer-events-none">
+<span class="material-symbols-outlined text-rarity-epic text-lg">bolt</span>
+</div>
+<div class="mb-6 flex gap-4">
+<div class="w-20 h-20 bg-surface-container-highest border border-outline-variant/30 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Microscopic view of an alchemical essence pulsing with electric violet energy, contained within a high-tech glass vial that features runic inscriptions." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdt6WWX7Lzv3C3lQKbB_AwDtb9ZUHg1kl4yc6WXAFtS1rER6x0pX6al9QsorZhyi7k4JsvDySz2k2WEn0VWXJVbZ50DWpJuRKB6FnwbxSK3lNCK3OjICu5lADdxo1FJArvCP_9UnLgpzYDVuH4ksRSciyf0HEnMzy2G420ETfuri94ix34va8q0vvH8t-BUe8i4d60lsKNLXADmPL2MGWbP5p5cVlAoIdcLq3Ro4e4xT6pIdJe-Tv1xw"/>
+</div>
+<div>
+<h3 class="font-headline-md text-body-md text-on-background uppercase mb-1">Esencia de Titán</h3>
+<span class="font-micro-tag text-micro-tag text-rarity-epic border border-rarity-epic/30 px-2 py-0.5 uppercase">Épico</span>
+</div>
+</div>
+<div class="flex-1 space-y-4">
+<div class="flex justify-between items-center text-outline">
+<span class="font-label-caps text-[10px]">Resultado: Titan Core</span>
+<span class="material-symbols-outlined text-sm">settings_input_component</span>
+</div>
+<div class="h-px bg-gradient-to-r from-outline-variant/50 to-transparent"></div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<div class="font-micro-tag text-micro-tag text-outline mb-1">COSTO CR</div>
+<div class="font-data-point text-data-point text-secondary">420.00</div>
+</div>
+<div>
+<div class="font-micro-tag text-micro-tag text-outline mb-1">REQUERIDO</div>
+<div class="font-label-caps text-label-caps text-secondary">ALBEDO</div>
+</div>
+</div>
+</div>
+<button class="mt-8 w-full border border-outline-variant hover:border-tertiary hover:bg-tertiary/5 py-2 font-label-caps text-label-caps transition-all">SELECCIONAR</button>
+</div>
+<!-- Card: Filtro de Hiperenfoque -->
+<div class="glass-panel group relative overflow-hidden p-6 flex flex-col transition-all hover:border-secondary/40 border-l-4 border-l-rarity-rare">
+<div class="mb-6 flex gap-4">
+<div class="w-20 h-20 bg-surface-container-highest border border-outline-variant/30 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A stylized glowing digital key reflecting deep blue neon light, showing complex gear mechanisms and ancient clockwork designs in a futuristic interface style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxdM9rY8dPaI5IEcLPl92kmIvfylCRajb5JW60s7Ah-ffXcOEDyF55YkyzimntEyj0dpcEH5PIpQ6GD5g5hGJJvjan7wM2Jn9YtsKnMZ_aZNP7vMnGZQaXetsiShdo_77gwwJpQhkpDzmLRd14dGi8kC9aA3cOvUAOl9OF5SlHiTMZBMPaTmfZsU7CGF5txTxD6FkRQAt0v34wxb_rUhNIPWcaoMNlaCIggwkighRVFVkjde67JgqPdg"/>
+</div>
+<div>
+<h3 class="font-headline-md text-body-md text-on-background uppercase mb-1">Filtro de Hiperenfoque</h3>
+<span class="font-micro-tag text-micro-tag text-rarity-rare border border-rarity-rare/30 px-2 py-0.5 uppercase">Raro</span>
+</div>
+</div>
+<div class="flex-1 space-y-4">
+<div class="flex justify-between items-center text-outline">
+<span class="font-label-caps text-[10px]">Resultado: Chronos Key</span>
+<span class="material-symbols-outlined text-sm">key</span>
+</div>
+<div class="h-px bg-gradient-to-r from-outline-variant/50 to-transparent"></div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<div class="font-micro-tag text-micro-tag text-outline mb-1">COSTO CR</div>
+<div class="font-data-point text-data-point text-secondary">150.00</div>
+</div>
+<div>
+<div class="font-micro-tag text-micro-tag text-outline mb-1">REQUERIDO</div>
+<div class="font-label-caps text-label-caps text-outline">NIGREDO</div>
+</div>
+</div>
+</div>
+<button class="mt-8 w-full border border-outline-variant hover:border-tertiary hover:bg-tertiary/5 py-2 font-label-caps text-label-caps transition-all">SELECCIONAR</button>
+</div>
+</div>
+</div>
+<!-- Side Overlay Details Panel (Visible on selection) -->
+<aside class="fixed top-20 right-gutter bottom-12 w-96 glass-panel border-l-2 border-l-tertiary p-8 flex flex-col z-40 translate-x-0 transition-transform duration-500">
+<div class="flex justify-between items-start mb-8">
+<div class="font-headline-md text-body-md text-tertiary uppercase tracking-wider">Detalles de Receta</div>
+<button class="text-outline hover:text-on-surface">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="bg-surface-container-lowest/50 border border-outline-variant/30 p-4 mb-8">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 bg-secondary/10 flex items-center justify-center rounded-full">
+<span class="material-symbols-outlined text-secondary animate-pulse">psychology</span>
+</div>
+<div>
+<div class="font-label-caps text-[10px] text-secondary">SOF.IA_MARKET_ADVISOR</div>
+<div class="font-micro-tag text-[9px] text-outline">ANÁLISIS TÁCTICO</div>
+</div>
+</div>
+<p class="font-body-md text-xs italic leading-relaxed text-on-surface-variant">
+                        "La integración del 'Protocolo Kether' optimizará tu resonancia de defensa en un 24.5%. Dado tu estado actual de Albedo, esta es la inversión más lógica para tu trayectoria evolutiva inmediata."
+                    </p>
+</div>
+<div class="space-y-6">
+<h4 class="font-label-caps text-xs text-outline uppercase tracking-widest">Chequeo de Requisitos</h4>
+<div class="space-y-3">
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/20">
+<span class="font-body-md text-sm">Resonancia XP</span>
+<span class="font-label-caps text-xs text-secondary flex items-center gap-2">
+                                85k / 50k
+                                <span class="material-symbols-outlined text-[16px]">check_circle</span>
+</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/20">
+<span class="font-body-md text-sm">Balance CR</span>
+<span class="font-label-caps text-xs text-secondary flex items-center gap-2">
+                                1.4k / 0.8k
+                                <span class="material-symbols-outlined text-[16px]">check_circle</span>
+</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/20">
+<span class="font-body-md text-sm">Fase Alquímica</span>
+<span class="font-label-caps text-xs text-status-critical flex items-center gap-2">
+                                ALBEDO / RUBEDO
+                                <span class="material-symbols-outlined text-[16px]">cancel</span>
+</span>
+</div>
+</div>
+</div>
+<div class="mt-auto pt-8">
+<div class="mb-4 flex justify-between items-end">
+<span class="font-micro-tag text-outline">TOTAL COMPRA</span>
+<span class="font-data-point text-headline-md text-secondary">850.00 CR</span>
+</div>
+<button class="w-full bg-secondary text-on-secondary font-headline-md text-body-md py-4 slanted-edge hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed" disabled="">
+                        ADQUIRIR BLUEPRINT
+                    </button>
+<p class="text-center font-micro-tag text-[9px] text-status-critical mt-4 uppercase">FASE INSUFICIENTE PARA EJECUCIÓN</p>
+</div>
+</aside>
+</main>
+</div>
+<!-- Footer Status Bar -->
+<footer class="bg-surface-container-lowest/80 backdrop-blur-md border-t border-outline-variant/20 flex justify-between items-center px-margin-desktop py-2 w-full fixed bottom-0 z-40">
+<div class="flex gap-8 items-center">
+<div class="flex items-center gap-2 font-label-caps text-micro-tag text-tertiary">
+<span class="w-2 h-2 rounded-full bg-secondary neon-pulse"></span>
+                MARKET_STABILITY: OPTIMAL
+            </div>
+<div class="flex items-center gap-2 font-label-caps text-micro-tag text-outline">
+<span class="material-symbols-outlined text-sm">link</span>
+                AETHER_LINK: ESTABLISHED
+            </div>
+</div>
+<div class="flex gap-6 items-center">
+<span class="font-micro-tag text-micro-tag text-outline">VOID STATUS: NOMINAL</span>
+<span class="font-micro-tag text-micro-tag text-outline">ACTIVE SYNCHRO: 98.4%</span>
+<span class="font-label-caps text-micro-tag text-tertiary animate-pulse-slow">© 2124 ARCHIVE OF DESTINY.</span>
+</div>
+</footer>
+<script>
+        // Micro-interaction logic
+        document.querySelectorAll('.glass-panel button').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const ripples = document.createElement('span');
+                ripples.classList.add('ripple');
+                e.currentTarget.appendChild(ripples);
+                setTimeout(() => { ripples.remove(); }, 600);
+            });
+        });
+
+        // Simple terminal log simulator
+        const consoleMsgs = ["Initializing Archetypal Exchange...", "Fetching Blueprint Manifest...", "Syncing with S.O.F.I.A...", "Connection secure."];
+        let idx = 0;
+        setInterval(() => {
+            if (idx < consoleMsgs.length) {
+                console.log(`%c[SYS] ${consoleMsgs[idx]}`, "color: #47ddc1; font-family: 'JetBrains Mono'");
+                idx++;
+            }
+        }, 1500);
+    </script>
+</body></html>

@@ -1,8 +1,8 @@
 import { auth }
-from "../../config/firebase/firebase-config.js";
+from "../../../config/firebase/firebase-config.js";
 
 import { supabase }
-from "../../config/supabase/supabase-config.js";
+from "../../../config/supabase/supabase-config.js";
 
 console.log("Firebase:", auth);
 
@@ -781,83 +781,3 @@ console.log(
 "color:#6CB7FF;font-size:14px;font-weight:bold;"
 
 );
-
-/*=========================================================
-REGISTER EVENT
-=========================================================*/
-
-registerForm.addEventListener("submit", (e) => {
-
-    e.preventDefault();
-
-    document.dispatchEvent(
-        new CustomEvent("magnopvs:register", {
-            detail: {
-                name: registerName.value,
-                username: document.getElementById("register-username").value,
-                email: document.getElementById("register-email").value,
-                password: password.value,
-                newsletter: document.getElementById("accept-news").checked
-            }
-        })
-    );
-
-});
-
-/*=========================================================
-LOGIN EVENT
-=========================================================*/
-
-loginForm.addEventListener("submit", (e) => {
-
-    e.preventDefault();
-
-    document.dispatchEvent(
-        new CustomEvent("magnopvs:login", {
-            detail: {
-                email: document.getElementById("login-email").value,
-                password: document.getElementById("login-password").value
-            }
-        })
-    );
-
-});
-
-/*=========================================================
-GOOGLE
-=========================================================*/
-
-document.getElementById("google-register")
-.addEventListener("click", () => {
-
-    document.dispatchEvent(
-        new CustomEvent("magnopvs:google")
-    );
-
-});
-
-document.getElementById("google-login")
-.addEventListener("click", () => {
-
-    document.dispatchEvent(
-        new CustomEvent("magnopvs:google")
-    );
-
-});
-
-/*=========================================================
-RESET PASSWORD
-=========================================================*/
-
-document.getElementById("send-reset-email")
-.addEventListener("click", () => {
-
-    document.dispatchEvent(
-        new CustomEvent("magnopvs:forgot-password", {
-            detail: {
-                email: document.getElementById("forgot-email").value
-            }
-        })
-    );
-
-});

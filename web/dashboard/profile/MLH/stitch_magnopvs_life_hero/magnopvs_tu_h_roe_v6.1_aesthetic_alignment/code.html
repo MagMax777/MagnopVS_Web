@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@300;400;500;600;700&amp;family=Audiowide&amp;family=Orbitron:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --celestial-blue: #7fd0ff;
+            --aquamarine: #48ddc1;
+            --magenta: #ffafd4;
+            --violet: #bf5af2;
+            --matte-black: #0f1417;
+            --pearl-white: #dfe3e8;
+            --grey: #88929a;
+            
+            --primary-glow: rgba(127, 208, 255, 0.45);
+            --secondary-glow: rgba(72, 221, 193, 0.35);
+            --tertiary-glow: rgba(255, 175, 212, 0.35);
+            --border-cyan: rgba(127, 208, 255, 0.2);
+        }
+        body {
+            background-color: var(--matte-black);
+            background-image: 
+                radial-gradient(circle at 50% -20%, rgba(0, 101, 140, 0.25) 0%, transparent 50%),
+                url('https://lh3.googleusercontent.com/aida-public/AB6AXuClRdyZ18qp1svqtda6urireK7cMnVqiFFYqvB769Xtq7lABIR2fdHVPSbVkc5cDduVPnA7n8V0ijwcunnOdvvzcWRgTeAJKxYa5-zGRtBmt8mwN2xG7gddTRfFsgkCvS6CEXkqYFp8OB6r1wWW_LWycxpzqleu4NCaTVr0txymLund63ewOMxyo7MXU6Dsbe7Xo8tRmRi0r73joz6qLpRnhGQ3j8EckYXriyT2DRxqP9h8992ZzHcCv-cugYS1bHP-8XLtrUZ2kCEs');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            overflow-x: hidden;
+            color: var(--pearl-white);
+            font-family: 'Orbitron', sans-serif;
+        }
+        .hex-clip {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+        .hero-panel {
+            backdrop-filter: blur(40px);
+            border: 1px solid var(--border-cyan);
+            position: relative;
+            background: rgba(15, 20, 23, 0.65);
+            box-shadow: inset 0 0 30px rgba(127, 208, 255, 0.05);
+        }
+        .hero-panel::before {
+            content: "";
+            position: absolute;
+            top: -1px; left: -1px; width: 24px; height: 24px;
+            border-top: 2px solid var(--celestial-blue); border-left: 2px solid var(--celestial-blue);
+        }
+        .hero-panel::after {
+            content: "";
+            position: absolute;
+            bottom: -1px; right: -1px; width: 24px; height: 24px;
+            border-bottom: 2px solid var(--celestial-blue); border-right: 2px solid var(--celestial-blue);
+        }
+        .radar-petal {
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: center;
+        }
+        .radar-petal:hover {
+            filter: drop-shadow(0 0 15px currentColor);
+            opacity: 1 !important;
+            stroke-width: 3px;
+        }
+        .glitch-text {
+            text-shadow: 2px 0 var(--aquamarine), -2px 0 var(--magenta);
+        }
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.2; transform: scale(1); stroke-width: 1px; }
+            50% { opacity: 0.5; transform: scale(1.03); stroke-width: 2px; }
+        }
+        .apotheosis-ring {
+            animation: pulse-slow 10s infinite ease-in-out;
+            stroke-dasharray: 4 8;
+        }
+        .glass-blur-deep {
+            backdrop-filter: blur(64px);
+            background: rgba(27, 32, 36, 0.75);
+            border: 1px solid rgba(127, 208, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+        .glass-blur-deep:hover {
+            background: rgba(48, 53, 57, 0.85);
+            border-color: rgba(127, 208, 255, 0.4);
+            transform: translateY(-2px);
+        }
+        .icon-glow-primary { filter: drop-shadow(0 0 10px var(--celestial-blue)); }
+        .icon-glow-secondary { filter: drop-shadow(0 0 10px var(--aquamarine)); }
+        .icon-glow-tertiary { filter: drop-shadow(0 0 10px var(--magenta)); }
+        .icon-glow-violet { filter: drop-shadow(0 0 10px var(--violet)); }
+        
+        @keyframes rotate-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: rotate-slow 30s linear infinite;
+        }
+        .font-audiowide { font-family: 'Audiowide', cursive; }
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#7fd0ff",
+                        "secondary": "#48ddc1",
+                        "tertiary": "#ffafd4",
+                        "surface": "#0f1417",
+                        "on-surface": "#dfe3e8",
+                        "outline": "#88929a",
+                        "violet-accent": "#bf5af2"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "margin-mobile": "20px",
+                        "margin-desktop": "40px",
+                        "gutter": "16px",
+                        "unit": "4px",
+                        "panel-gap": "12px"
+                    },
+                    fontFamily: {
+                        "display-lg": ["Audiowide"],
+                        "headline-md": ["Audiowide"],
+                        "body-md": ["Orbitron"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen selection:bg-primary selection:text-surface">
+<!-- Top Navigation -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/60 backdrop-blur-3xl border-b border-primary/20">
+<div class="flex items-center gap-4">
+<img alt="MagnopVS" class="h-10 object-contain drop-shadow-[0_0_10px_rgba(127,208,255,0.5)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDleZHpNdJXPLYqi3EtmNvL3QGHbi2sNYME4W2y5JpM2Hb_Z06SeRDT5h1rssrsut1htzc1kFk4icg-KQr-EueVXKOPYfNG7Hy_vCtWOIuzMFH6GWbL6Ev0G3orM2nOkS6uxa7TOQcSMBtdouFLoEmLzQDVASwM5qQHO2yAdJhwfAw-z64McQVqvThBXArILoSl0xS7QakZ3EyoB4xt7GClSBYfx-9HE1_iecEZVGMcCgllB1qyfVvBU4mINCw7CyCneM2NYiRjJunB"/>
+</div>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-secondary hover:drop-shadow-[0_0_8px_#48ddc1] transition-all duration-300 scale-110">bolt</span>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-secondary hover:drop-shadow-[0_0_8px_#48ddc1] transition-all duration-300 scale-110">stars</span>
+<div class="w-10 h-10 rounded-full border-2 border-primary/40 p-0.5 scale-100 hover:scale-110 transition-transform cursor-pointer overflow-hidden shadow-[0_0_15px_rgba(127,208,255,0.3)]">
+<img alt="Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHZs9SjHyiwOFKxRIvvHRkQ96IZ7JiyHQIxEKViaUxnkJB0YHlEdaySmfVb9l6fBooXw8CzpS6qRB8W_vPOslQs9jyQ5842aU7Yb-O6DrXDMpK7ygthu-1_NysxArA6nAIEwMiziDuYi3kDCIY2aaOR_TjsSl11xojd5torsksoDhng3WidXNhqaBUFsCU6ibL5FScZ30Bo3c3PqRpIrSTegKilVikNMm_kcMj_SkLf-dE9QW94z0IFrLIl-yQraaZhP2b15Wni5KY"/>
+</div>
+</div>
+</header>
+<!-- Side Navigation -->
+<nav class="hidden lg:flex flex-col fixed left-0 top-0 h-full z-40 w-64 bg-surface/70 backdrop-blur-3xl border-r border-primary/15 pt-24 px-4">
+<div class="mb-10 px-4 border-l-4 border-primary/40 bg-primary/5 py-3">
+<div class="text-primary text-[9px] tracking-[0.4em] font-bold">OPERATOR_01</div>
+<div class="font-audiowide text-lg text-on-surface mt-1 uppercase">LVL 42 // TITAN</div>
+</div>
+<div class="space-y-3">
+<a class="flex items-center gap-4 p-3 rounded-lg text-outline hover:text-primary hover:bg-primary/5 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:drop-shadow-[0_0_5px_#7fd0ff]">grid_view</span>
+<span class="text-xs font-bold uppercase tracking-widest">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 p-3 rounded-lg text-outline hover:text-primary hover:bg-primary/5 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:drop-shadow-[0_0_5px_#7fd0ff]">account_tree</span>
+<span class="text-xs font-bold uppercase tracking-widest">13 Houses</span>
+</a>
+<a class="flex items-center gap-4 p-3 rounded-lg text-outline hover:text-primary hover:bg-primary/5 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:drop-shadow-[0_0_5px_#7fd0ff]">military_tech</span>
+<span class="text-xs font-bold uppercase tracking-widest">Missions</span>
+</a>
+<a class="flex items-center gap-4 p-3 rounded-lg text-primary border-r-4 border-primary bg-primary/10 shadow-[inset_0_0_15px_rgba(127,208,255,0.1)]" href="#">
+<span class="material-symbols-outlined drop-shadow-[0_0_5px_#7fd0ff]">psychology</span>
+<span class="text-xs font-bold uppercase tracking-widest">Attributes</span>
+</a>
+<a class="flex items-center gap-4 p-3 rounded-lg text-outline hover:text-primary hover:bg-primary/5 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:drop-shadow-[0_0_5px_#7fd0ff]">vitals</span>
+<span class="text-xs font-bold uppercase tracking-widest">Alchemy</span>
+</a>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="pt-28 pb-24 lg:pl-72 lg:pr-margin-desktop px-margin-mobile max-w-[1600px] mx-auto relative">
+<div class="mb-10 flex items-center gap-4 opacity-80">
+<span class="text-[10px] text-primary tracking-[0.5em] font-black uppercase">Capa Actual // Tu Héroe</span>
+<div class="h-px flex-1 bg-gradient-to-r from-primary/50 to-transparent"></div>
+</div>
+<!-- Hero Identity -->
+<div class="flex flex-col lg:flex-row gap-8 mb-12 items-start">
+<div class="flex-1">
+<div class="text-secondary text-[10px] tracking-[0.5em] mb-2 font-black uppercase">Character Profile</div>
+<h1 class="font-audiowide text-5xl text-on-surface glitch-text flex items-center gap-4">
+                Jean, <span class="text-secondary">LVL 8</span>
+</h1>
+<p class="text-outline mt-3 max-w-md text-sm leading-relaxed font-bold">Protocolo de trascendencia activo. Alineación existencial al 88%.</p>
+<!-- Human Spheres -->
+<div class="mt-10 grid grid-cols-2 md:grid-cols-5 gap-4">
+<div class="p-5 glass-blur-deep rounded-xl flex flex-col group cursor-pointer border-t-2 border-primary/30">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary">favorite</span>
+<span class="text-[9px] text-primary font-black tracking-tighter uppercase">Vital</span>
+</div>
+<div class="h-1 w-full bg-surface-variant overflow-hidden rounded-full">
+<div class="h-full bg-primary w-4/5"></div>
+</div>
+</div>
+<div class="p-5 glass-blur-deep rounded-xl flex flex-col group cursor-pointer border-t-2 border-secondary/30">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-secondary">psychology</span>
+<span class="text-[9px] text-secondary font-black tracking-tighter uppercase">Mental</span>
+</div>
+<div class="h-1 w-full bg-surface-variant overflow-hidden rounded-full">
+<div class="h-full bg-secondary w-3/5"></div>
+</div>
+</div>
+<div class="p-5 glass-blur-deep rounded-xl flex flex-col group cursor-pointer border-t-2 border-tertiary/30">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-tertiary">payments</span>
+<span class="text-[9px] text-tertiary font-black tracking-tighter uppercase">Material</span>
+</div>
+<div class="h-1 w-full bg-surface-variant overflow-hidden rounded-full">
+<div class="h-full bg-tertiary w-1/2"></div>
+</div>
+</div>
+<div class="p-5 glass-blur-deep rounded-xl flex flex-col group cursor-pointer border-t-2 border-secondary/30">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-secondary">groups</span>
+<span class="text-[9px] text-secondary font-black tracking-tighter uppercase">Social</span>
+</div>
+<div class="h-1 w-full bg-surface-variant overflow-hidden rounded-full">
+<div class="h-full bg-secondary w-4/5"></div>
+</div>
+</div>
+<div class="p-5 glass-blur-deep rounded-xl flex flex-col group cursor-pointer border-t-2 border-primary/30">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary">auto_awesome</span>
+<span class="text-[9px] text-primary font-black tracking-tighter uppercase">Espíritu</span>
+</div>
+<div class="h-1 w-full bg-surface-variant overflow-hidden rounded-full">
+<div class="h-full bg-primary w-2/3"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Attributes Radar Integration -->
+<div class="flex gap-6 p-8 glass-blur-deep rounded-3xl border border-primary/20 self-center">
+<div class="flex flex-col items-center group">
+<div class="relative w-16 h-16 flex items-center justify-center">
+<div class="absolute inset-0 bg-primary/20 rounded-full blur-md group-hover:bg-primary/40"></div>
+<img alt="Force" class="w-12 h-12 icon-glow-primary transition-transform group-hover:scale-110 z-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCa2dG0YRAL2bj7tjvXlM_F4F9pdrSG3gyigcvLWDeAjBYNe2ATPpTu0jezUbKV9-Z0LkVbbTpHZPEcrnUQqh1S-zLX7kdhy-nZn1CnKHBrXPeuVos1So_RVkZr4JboHcpT3PjKpmIgDbAYxSF-vfIYpmLSCnIA28WbW5sNl71ltyWJ-KMhlPkzcqxbgDwEdTgirnOZyqJ9d1EjePqwxB84_P73xh3uLS6G0Gi7gyyPshwJgS2KVtznJegRhzccFI2kr_i-Ewz8mWo5"/>
+</div>
+<span class="text-[9px] text-primary font-bold mt-2 tracking-widest">FUERZA</span>
+</div>
+<div class="flex flex-col items-center group">
+<div class="relative w-16 h-16 flex items-center justify-center">
+<div class="absolute inset-0 bg-secondary/20 rounded-full blur-md group-hover:bg-secondary/40"></div>
+<img alt="Defense" class="w-12 h-12 icon-glow-secondary transition-transform group-hover:scale-110 z-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVW6s05pROZ-8jRvdyLAK346uFfsI-zy37rDLIiTcU11HjR-COK4Ns1uT1bnL8SKweX99FabkJ_wlHwsOUfM8pfwfYD3c2mH2E78S_5g-iRo68swHwAWzRmuO7xpGVY6FtWY21Pu4fRlQhp_yYRfvmCTMK8x4mDwbca3pGV5PdLiiv8uO9lIt7dg23UP3Kz5ySoTXq41iTFfE4JR5eWziKoAPGccrEPpyS3dGLfeQSIDUvNZqZP2Wb2g2ihXyjCyizxacbgVS9dz1C"/>
+</div>
+<span class="text-[9px] text-secondary font-bold mt-2 tracking-widest">DEFENSA</span>
+</div>
+<div class="flex flex-col items-center group">
+<div class="relative w-16 h-16 flex items-center justify-center">
+<div class="absolute inset-0 bg-tertiary/20 rounded-full blur-md group-hover:bg-tertiary/40"></div>
+<img alt="Agility" class="w-12 h-12 icon-glow-tertiary transition-transform group-hover:scale-110 z-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpPoT1-Qtq40Wwx8cCseh_4rx7wX6b5RO7ZDiJk0fLLJDKN-VOCOkTnD4bdPxQRjrZdtfm7nVbQzwjnl3Qp8b0zZFe_MqHl1eMvx9mWRyXwdgqpULJ5uWuu76SvjF_il1kpRtIrxyIXR5JuSL0754qQUeNuH_RD-UUxtM1sOInyE6zX89i1UYgfF9tZ-dm0v5gqsTccUM6lsm_eARQBMqRfp4cGiUc-c1vRKqPuyoK-Q6FT3fAVF-ODBpdKTwlGyIGv4YUYDNs0zwr"/>
+</div>
+<span class="text-[9px] text-tertiary font-bold mt-2 tracking-widest">AGILIDAD</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
+<!-- Character Compass HUD -->
+<div class="lg:col-span-8 hero-panel p-8 md:p-12 overflow-hidden rounded-3xl min-h-[650px] flex items-center justify-center">
+<div class="absolute top-6 left-8 text-[10px] text-primary/60 font-black tracking-[0.5em] flex items-center gap-2">
+<span class="w-2 h-2 bg-primary animate-pulse rounded-full shadow-[0_0_8px_#7fd0ff]"></span>
+                V6.1 // APOTHEOSIS_SYSTEM_ACTIVE
+            </div>
+<div class="relative w-full max-w-2xl aspect-square flex items-center justify-center">
+<!-- Cosmic Rings -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none" viewbox="0 0 400 400">
+<circle class="apotheosis-ring" cx="200" cy="200" fill="none" r="185" stroke="rgba(127, 208, 255, 0.2)" stroke-width="1.5"></circle>
+<circle class="apotheosis-ring" cx="200" cy="200" fill="none" r="145" stroke="rgba(72, 221, 193, 0.15)" stroke-width="1" style="animation-direction: reverse; animation-duration: 18s;"></circle>
+<circle cx="200" cy="200" fill="none" r="100" stroke="rgba(255, 175, 212, 0.1)" stroke-dasharray="2 12" stroke-width="3"></circle>
+</svg>
+<!-- House Integration -->
+<div class="absolute w-full h-full">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer z-30">
+<img alt="Legacy" class="w-14 h-14 icon-glow-violet group-hover:scale-125 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0afKm6PSiGCogI5xZNC8l8ZmyiZVQHTXiyiJLgVWoGsyc1X70ajbeCCg0FnU-V0PRII8aYyiJSVwKtbWk6bL1Sy5MnA2aoc7HW-yLSLBw8EWtnGiQDVLq27AKgsQXNHOtD-lYagRndKAhdXQKnhPNMm34IU7NeIWG16Bax9bTz1wwwPOZLnVU14GUs4uQ9p1uTS5cmvVloELxmI8uy8npyrZ09qMG1CCv9xs1JM-SGxsDKWk22c3J_561H3yCO-g7HEuCyoZXpEZE"/>
+<span class="text-[8px] text-violet-accent mt-2 font-black tracking-widest">LEGACY</span>
+</div>
+<div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 flex flex-col items-center group cursor-pointer z-30">
+<img alt="Wealth" class="w-14 h-14 icon-glow-secondary group-hover:scale-125 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsOdX8yRlMGia2rZTkCOwXojCeyXE-T5N6p0EdB3hUSK2cQPlqZF2D7yNkC_JwqGM4Rg_fbTQtL9nRxs-y2cku15EB0kGlnJKhddgnI4JSyAjNQ5deNGwUR8gLwLmYx7ErraieeA3l6P9Xq8dj6Z_yPy3_qx9-JRKiuxw9AaDi3a-CiiR8tmG5dbH1Ch-fbz3W_ZN4qRwwkSK8Ib_9AA94IGPJj2bVimlrEIiSGd3x22ysBbnRUilQsK0HZRdFpurAg8xcK1mhvTH6"/>
+<span class="text-[8px] text-secondary mt-2 font-black tracking-widest">WEALTH</span>
+</div>
+</div>
+<!-- Central Profile Portrait -->
+<div class="absolute w-56 h-56 hex-clip bg-surface border-4 border-primary/50 shadow-[0_0_80px_rgba(127,208,255,0.4)] z-20 flex items-center justify-center overflow-hidden group">
+<div class="absolute inset-0 bg-primary/20 backdrop-blur-2xl"></div>
+<img alt="Hero" class="w-full h-full object-cover relative z-10 opacity-90 grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHZs9SjHyiwOFKxRIvvHRkQ96IZ7JiyHQIxEKViaUxnkJB0YHlEdaySmfVb9l6fBooXw8CzpS6qRB8W_vPOslQs9jyQ5842aU7Yb-O6DrXDMpK7ygthu-1_NysxArA6nAIEwMiziDuYi3kDCIY2aaOR_TjsSl11xojd5torsksoDhng3WidXNhqaBUFsCU6ibL5FScZ30Bo3c3PqRpIrSTegKilVikNMm_kcMj_SkLf-dE9QW94z0IFrLIl-yQraaZhP2b15Wni5KY"/>
+<div class="absolute inset-x-0 bottom-0 bg-primary/80 backdrop-blur-lg p-2 text-center z-30 transform translate-y-full group-hover:translate-y-0 transition-all duration-500">
+<span class="text-[9px] text-surface font-black tracking-widest uppercase">SYNERGY_LINK_ESTABLISHED</span>
+</div>
+</div>
+<!-- Radar SVG -->
+<svg class="w-full h-full relative z-10 drop-shadow-[0_0_40px_rgba(127,208,255,0.3)]" id="hero-radar-svg" viewbox="0 0 400 400">
+<g id="hero-petals"></g>
+</svg>
+</div>
+</div>
+<!-- Sidebar Details -->
+<div class="lg:col-span-4 space-y-6">
+<!-- SOF.IA Oracle -->
+<div class="hero-panel p-8 bg-secondary/5 border-secondary/20 rounded-3xl">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-14 h-14 rounded-xl bg-secondary/10 flex items-center justify-center border-2 border-secondary/40 shadow-[0_0_15px_rgba(72,221,193,0.2)]">
+<img alt="Oracle" class="w-10 h-10 icon-glow-secondary" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsOdX8yRlMGia2rZTkCOwXojCeyXE-T5N6p0EdB3hUSK2cQPlqZF2D7yNkC_JwqGM4Rg_fbTQtL9nRxs-y2cku15EB0kGlnJKhddgnI4JSyAjNQ5deNGwUR8gLwLmYx7ErraieeA3l6P9Xq8dj6Z_yPy3_qx9-JRKiuxw9AaDi3a-CiiR8tmG5dbH1Ch-fbz3W_ZN4qRwwkSK8Ib_9AA94IGPJj2bVimlrEIiSGd3x22ysBbnRUilQsK0HZRdFpurAg8xcK1mhvTH6"/>
+</div>
+<div>
+<div class="font-audiowide text-secondary text-xs tracking-widest">SOF.IA // ORACLE</div>
+<div class="text-[10px] text-outline font-black mt-1">SENTIENT_ANALYSIS_V6.1</div>
+</div>
+</div>
+<p class="text-on-surface leading-relaxed text-sm font-medium italic border-l-2 border-secondary/40 pl-4 py-2">
+                    "Jean, tu alineación con la <span class="text-secondary font-black">Casa de la Riqueza</span> es óptima hoy. El radar muestra un excedente en la esfera Vital. El <span class="text-primary font-black">Sendero de la Apoteosis</span> está despejado para la ascensión."
+                </p>
+<div class="mt-8">
+<button class="w-full py-4 bg-secondary/20 border border-secondary/40 text-secondary font-black text-[10px] tracking-[0.3em] uppercase hover:bg-secondary hover:text-surface transition-all active:scale-95 shadow-[0_0_20px_rgba(72,221,193,0.1)]" style="clip-path: polygon(15px 0, 100% 0, calc(100% - 15px) 100%, 0 100%);">
+                        Sincronizar Datos Nucleares
+                    </button>
+</div>
+</div>
+<!-- Rank Badge Status -->
+<div class="hero-panel p-8 bg-primary/5 border-primary/20 rounded-3xl flex flex-col items-center text-center">
+<div class="w-32 h-32 relative flex items-center justify-center mb-6">
+<div class="absolute inset-0 hex-clip bg-primary/10 animate-spin-slow border-2 border-primary/20"></div>
+<img alt="Rank" class="w-20 h-20 object-contain icon-glow-primary relative z-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3X8IUcmSKoJSNXBVgAm_OKXdCNWyg7lcKYPdTXM94aD2zv_SZaXRXOYZel5CwojmRlCsM24mKVfZVJA2G_KAtRj7SvzoFRv9xWprHWkTbtNJ26aV5ohNtTrFn0qk2gtbmuk6MIm4S9s-xEzueDbB4e7Ez52IXbkz4Gf_d_TaL7FtgpFlWnY0zi7OF8dqIwInkWpB669M53VhVFvs7yEbF7LKDldFvDKCJod3WEZkVldrWt6cfChrcEqg3n9UIhqc2xRNZ4V_fpDIt"/>
+</div>
+<div class="font-audiowide text-3xl text-primary tracking-tighter uppercase mb-2">TITAN_GRADE</div>
+<div class="text-[9px] text-outline font-black uppercase tracking-[0.4em]">98th Percentile Global Operator</div>
+</div>
+</div>
+</div>
+<!-- Floating LP Badge -->
+<div class="fixed bottom-24 right-margin-desktop z-50 hidden lg:block">
+<div class="relative group cursor-pointer">
+<div class="absolute inset-0 bg-primary/30 blur-3xl group-hover:bg-primary/50 transition-all rounded-full scale-125"></div>
+<img alt="LP" class="w-24 h-24 relative z-10 transition-all duration-700 group-hover:scale-125 group-hover:rotate-12 drop-shadow-[0_0_30px_rgba(127,208,255,0.8)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtvkfiG2XTuiXyEQOvQiwAgGP8lWFTHwWxlAM3DVUXpCsNUCFq3jzCik12tRvbea1pP_R-LaR3Qgc816Fn5ym6JvqHK74phw5GtYG-iIkZvpAZe4rd4r2CCB63_twcUQb8Gg5Uar-fVtG3lbMuJ6VuG3zaKB0vYPJV-Dk34OcXtiTuIHGQUXpFh5BXmo4M9YLkuzk11nztMXwE7_Jpt83Jg4G_qN_uTIPcLPaQH1ypMQhYJNtVT6gtx9f4qaAcyzo_oCZKWdvu2Rv_"/>
+<div class="absolute -top-3 -right-3 bg-secondary text-surface text-[10px] font-black px-3 py-1 rounded-full z-20 shadow-[0_0_15px_rgba(72,221,193,0.6)] border-2 border-surface">MAX</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation (Mobile) -->
+<footer class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 bg-surface/80 backdrop-blur-3xl border-t border-primary/30 rounded-t-[2.5rem] px-6">
+<a class="flex flex-col items-center text-outline opacity-60 transition-all" href="#">
+<span class="material-symbols-outlined text-2xl">wb_sunny</span>
+<span class="text-[8px] font-black tracking-widest uppercase mt-1">Hoy</span>
+</a>
+<a class="flex flex-col items-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-125" href="#">
+<span class="material-symbols-outlined text-3xl">person</span>
+<span class="text-[8px] font-black tracking-widest uppercase mt-1">Héroe</span>
+</a>
+<a class="flex flex-col items-center text-outline opacity-60 transition-all" href="#">
+<span class="material-symbols-outlined text-2xl">assignment</span>
+<span class="text-[8px] font-black tracking-widest uppercase mt-1">Misiones</span>
+</a>
+<a class="flex flex-col items-center text-outline opacity-60 transition-all" href="#">
+<span class="material-symbols-outlined text-2xl">grid_view</span>
+<span class="text-[8px] font-black tracking-widest uppercase mt-1">Hub</span>
+</a>
+</footer>
+<!-- System Footer -->
+<div class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop flex flex-col items-center gap-4 opacity-40 hover:opacity-100 transition-opacity duration-700 py-16 mb-24 lg:mb-12 border-t border-primary/10 mt-12">
+<img alt="MagnopVS" class="h-6 object-contain opacity-50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDleZHpNdJXPLYqi3EtmNvL3QGHbi2sNYME4W2y5JpM2Hb_Z06SeRDT5h1rssrsut1htzc1kFk4icg-KQr-EueVXKOPYfNG7Hy_vCtWOIuzMFH6GWbL6Ev0G3orM2nOkS6uxa7TOQcSMBtdouFLoEmLzQDVASwM5qQHO2yAdJhwfAw-z64McQVqvThBXArILoSl0xS7QakZ3EyoB4xt7GClSBYfx-9HE1_iecEZVGMcCgllB1qyfVvBU4mINCw7CyCneM2NYiRjJunB"/>
+<div class="text-[9px] text-outline font-black tracking-[0.5em] uppercase">MAGNOPVS OS v6.1.0 // CELESTIAL_PROTOCOL // ULTRA_FIDELITY</div>
+<div class="flex gap-12">
+<a class="text-outline hover:text-primary transition-colors text-[9px] font-black uppercase tracking-[0.4em]" href="#">Protocol_Hoy</a>
+<a class="text-outline hover:text-primary transition-colors text-[9px] font-black uppercase tracking-[0.4em]" href="#">Hero_Layer</a>
+<a class="text-outline hover:text-primary transition-colors text-[9px] font-black uppercase tracking-[0.4em]" href="#">Kernel_Log</a>
+</div>
+</div>
+<script>
+    const petalsContainer = document.getElementById('hero-petals');
+    const heroColors = ['#7fd0ff', '#48ddc1', '#ffafd4', '#bf5af2', '#48ddc1', '#7fd0ff'];
+    
+    if (petalsContainer) {
+        petalsContainer.innerHTML = '';
+        const numPetals = 13;
+        for (let i = 0; i < numPetals; i++) {
+            const angle = (i * 360 / numPetals);
+            const color = heroColors[i % heroColors.length];
+            const height = 120 + (Math.sin(i * 1.8) * 35) + Math.random() * 25;
+            
+            // Orbital data line
+            const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            line.setAttribute("x1", "200");
+            line.setAttribute("y1", "200");
+            line.setAttribute("x2", "200");
+            line.setAttribute("y2", (200 - height - 30).toString());
+            line.setAttribute("transform", `rotate(${angle} 200 200)`);
+            line.setAttribute("stroke", color);
+            line.setAttribute("stroke-width", "0.8");
+            line.setAttribute("stroke-opacity", "0.5");
+            petalsContainer.appendChild(line);
+
+            // Shard petal
+            const petal = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            petal.setAttribute("d", `M200 200 L${200} ${200-height} Q${200+40} ${200-height/1.5} 200 ${200-height/4}`);
+            petal.setAttribute("transform", `rotate(${angle} 200 200)`);
+            petal.setAttribute("class", "radar-petal");
+            petal.setAttribute("fill", color);
+            petal.setAttribute("fill-opacity", "0.1");
+            petal.setAttribute("stroke", color);
+            petal.setAttribute("stroke-opacity", "0.7");
+            petal.setAttribute("stroke-width", "1.5");
+            petal.style.color = color;
+            
+            petalsContainer.appendChild(petal);
+        }
+    }
+</script>
+</body></html>

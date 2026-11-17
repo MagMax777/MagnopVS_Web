@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Laboratorio de Nutrición | MagnopVS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed": "#c5e7ff",
+                    "primary": "#c5e7ff",
+                    "error-container": "#93000a",
+                    "on-primary-fixed-variant": "#004c6a",
+                    "glow-cyan": "#2da8e0",
+                    "surface": "#101417",
+                    "surface-bright": "#363a3d",
+                    "error": "#ffb4ab",
+                    "secondary-fixed-dim": "#47ddc1",
+                    "on-secondary": "#00382e",
+                    "on-tertiary-fixed-variant": "#6e3252",
+                    "outline-variant": "#3f484e",
+                    "on-primary-container": "#00597b",
+                    "background": "#101417",
+                    "surface-panel": "rgba(255, 255, 255, 0.03)",
+                    "on-secondary-fixed": "#00201a",
+                    "on-secondary-container": "#004439",
+                    "tertiary-container": "#ffafd4",
+                    "on-primary-fixed": "#001e2d",
+                    "surface-container-highest": "#313538",
+                    "outline": "#899299",
+                    "tertiary": "#ffd8e7",
+                    "on-surface-variant": "#bfc8cf",
+                    "tertiary-fixed-dim": "#ffafd4",
+                    "surface-container-low": "#181c1f",
+                    "on-tertiary-fixed": "#390625",
+                    "surface-container-high": "#272a2d",
+                    "on-tertiary": "#531c3b",
+                    "surface-container": "#1c2023",
+                    "tertiary-fixed": "#ffd8e7",
+                    "secondary-container": "#00bba0",
+                    "surface-container-lowest": "#0b0f11",
+                    "inverse-surface": "#e0e3e6",
+                    "primary-container": "#7fd0ff",
+                    "background-deep": "#0a0b12",
+                    "surface-dim": "#101417",
+                    "on-error-container": "#ffdad6",
+                    "surface-variant": "#313538",
+                    "secondary": "#47ddc1",
+                    "on-primary": "#00344a",
+                    "primary-fixed-dim": "#7fd0ff",
+                    "on-background": "#e0e3e6",
+                    "inverse-on-surface": "#2d3134",
+                    "on-secondary-fixed-variant": "#005144",
+                    "secondary-fixed": "#6af9dc",
+                    "inverse-primary": "#00658b",
+                    "surface-tint": "#7fd0ff",
+                    "on-error": "#690005",
+                    "grid-line": "rgba(127, 208, 255, 0.05)",
+                    "on-tertiary-container": "#7c3e5e",
+                    "status-critical": "#93000a",
+                    "on-surface": "#e0e3e6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "panel-gap": "12px",
+                    "margin-desktop": "40px",
+                    "unit": "4px",
+                    "gutter": "16px",
+                    "margin-mobile": "20px",
+                    "section-padding": "128px"
+            },
+            "fontFamily": {
+                    "data-point": ["Hanken Grotesk"],
+                    "body-md": ["Hanken Grotesk"],
+                    "mono-data": ["JetBrains Mono"],
+                    "micro-tag": ["JetBrains Mono"],
+                    "display-lg": ["Space Grotesk"],
+                    "label-caps": ["JetBrains Mono"],
+                    "headline-md": ["Space Grotesk"],
+                    "display-lg-mobile": ["Space Grotesk"]
+            },
+            "fontSize": {
+                    "data-point": ["20px", {"lineHeight": "28px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                    "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "micro-tag": ["10px", {"letterSpacing": "0.3em", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "0.05em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0a0b12;
+            color: #e0e3e6;
+            overflow-x: hidden;
+        }
+
+        .cyber-grid {
+            background-image: linear-gradient(var(--tw-colors-grid-line) 1px, transparent 1px),
+                              linear-gradient(90deg, var(--tw-colors-grid-line) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(127, 208, 255, 0.2);
+            position: relative;
+        }
+
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 8px; height: 8px;
+            border-top: 2px solid #7fd0ff;
+            border-left: 2px solid #7fd0ff;
+        }
+
+        .glass-panel::after {
+            content: '';
+            position: absolute;
+            bottom: 0; right: 0;
+            width: 8px; height: 8px;
+            border-bottom: 2px solid #7fd0ff;
+            border-right: 2px solid #7fd0ff;
+        }
+
+        .neon-glow-cyan {
+            box-shadow: 0 0 15px rgba(127, 208, 255, 0.4);
+        }
+
+        .neon-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+
+        .hex-clip {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        .slanted-button {
+            clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+        }
+
+        .segmented-bar-block {
+            width: calc(10% - 2px);
+            height: 8px;
+            background: #1c2023;
+        }
+
+        .segmented-bar-block.active {
+            background: #7fd0ff;
+            box-shadow: 0 0 8px #7fd0ff;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #7fd0ff; border-radius: 10px; }
+    </style>
+</head>
+<body class="font-body-md text-body-md antialiased">
+<!-- Atmospheric Grid -->
+<div class="fixed inset-0 cyber-grid opacity-20 pointer-events-none z-0"></div>
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/20 backdrop-blur-xl border-b border-primary-container/20 flex justify-between items-center px-margin-desktop h-16 w-full">
+<div class="font-display-lg text-display-lg tracking-tighter text-primary-container">MagnopVS</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-primary-container border-b-2 border-primary-container pb-1 font-label-caps text-label-caps transition-all duration-300" href="#">Nutrition</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary-container hover:bg-primary-container/5 transition-all duration-300" href="#">Fitness</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary-container hover:bg-primary-container/5 transition-all duration-300" href="#">Medical</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary-container hover:bg-primary-container/5 transition-all duration-300" href="#">Aesthetic</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-container cursor-pointer">settings</span>
+<span class="material-symbols-outlined text-primary-container cursor-pointer">notifications</span>
+<div class="w-8 h-8 rounded-full border border-primary-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A high-definition macro shot of a cybernetic eye with glowing blue circuits, iris reflecting a digital user interface with health metrics. The lighting is cinematic, featuring neon cyan highlights and deep matte black shadows, evoking a futuristic AAA game character profile style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6fTr0A8Z6BmMvyfsom14_COQ4GRsdBcSwUxMJfDjqMR3ksSmN4kTMvgiWHObePm-YfmPn6WKHHzbAlh42Xz_vzbAzBtNUf0Bn4mYUlTYS0be3Z79vFulqvb0AyyHXGkRPYnhB4YWXb_b4n6Bg9N9howFuZkmb01VpUH3LrgqAXTFai7Fm9pv3Y72pQwhaoYzXdx_wFsmsu_iiZKy94smVXjzkMSC1arQZID9Gb7of9eCOytIgnwfY5Q"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="hidden md:flex fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-low/40 backdrop-blur-2xl border-r border-primary-container/20 flex flex-col py-8 gap-4 pt-20">
+<div class="px-6 mb-8">
+<div class="font-headline-lg text-primary-container">SOR_OS v2.4</div>
+<div class="font-mono-data text-mono-data text-on-surface-variant">Clinical Command Center</div>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-6 py-3 bg-primary-container/10 text-primary-container border-l-4 border-primary-container transition-all duration-200" href="#">
+<span class="material-symbols-outlined">restaurant</span>
+<span class="font-mono-data text-mono-data">Nutrition</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="font-mono-data text-mono-data">Fitness</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">medical_services</span>
+<span class="font-mono-data text-mono-data">Medical</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">face</span>
+<span class="font-mono-data text-mono-data">Aesthetic</span>
+</a>
+</div>
+<div class="mt-auto px-6 space-y-4">
+<button class="w-full py-2 bg-primary-container text-on-primary slanted-button font-label-caps text-label-caps font-bold">
+                Infect System Update
+            </button>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-2 text-status-critical font-mono-data text-xs" href="#">
+<span class="material-symbols-outlined text-sm">emergency</span> Emergency
+                </a>
+<a class="flex items-center gap-2 text-on-surface-variant font-mono-data text-xs" href="#">
+<span class="material-symbols-outlined text-sm">folder_special</span> Archive
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pt-24 pb-32 px-4 md:px-margin-desktop relative z-10">
+<div class="max-w-7xl mx-auto">
+<!-- Header Section -->
+<div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<div class="font-micro-tag text-micro-tag text-primary uppercase mb-2">System_Log: 12:45_GMT</div>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary-container">Laboratorio de Nutrición</h1>
+<p class="font-body-md text-on-surface-variant max-w-lg">Optimización molecular y gestión de combustible biológico para la unidad operativa MagnopVS.</p>
+</div>
+<div class="flex gap-4">
+<div class="glass-panel px-6 py-4 flex items-center gap-4">
+<div class="text-right">
+<div class="font-label-caps text-label-caps text-on-surface-variant">Estado Global</div>
+<div class="font-data-point text-secondary">OPTIMIZADO</div>
+</div>
+<div class="w-10 h-10 flex items-center justify-center bg-secondary/20 rounded-full">
+<span class="material-symbols-outlined text-secondary neon-pulse">bolt</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Primary Stats -->
+<div class="lg:col-span-8 space-y-8">
+<!-- Calorie Counter & Macros Bento -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Module 1: Alchemical Fuel Intake -->
+<div class="glass-panel p-8 flex flex-col items-center justify-center text-center relative overflow-hidden group">
+
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-6 uppercase">Sync de Energía Actual</div>
+<div class="relative w-48 h-48 flex items-center justify-center">
+<!-- SVG Gauge -->
+<svg class="absolute inset-0 w-full h-full -rotate-90">
+<circle class="text-surface-container-highest" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-primary-container drop-shadow-[0_0_8px_rgba(127,208,255,0.8)]" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-dasharray="552.92" stroke-dashoffset="138" stroke-width="8"></circle>
+</svg>
+<div class="text-center z-10">
+<div class="font-display-lg text-headline-md text-primary-container">1.840</div>
+<div class="font-mono-data text-xs text-outline">/ 2.500 kcal</div>
+</div>
+</div>
+<div class="mt-8 grid grid-cols-2 gap-4 w-full">
+<div class="bg-surface-panel p-3 border border-outline-variant/30">
+<div class="font-micro-tag text-micro-tag">QUEMADO</div>
+<div class="font-data-point text-primary text-sm">450 kcal</div>
+</div>
+<div class="bg-surface-panel p-3 border border-outline-variant/30">
+<div class="font-micro-tag text-micro-tag">RESTANTE</div>
+<div class="font-data-point text-primary text-sm">660 kcal</div>
+</div>
+</div>
+</div>
+<!-- Module 2: Macronutrient Transmutation -->
+<div class="glass-panel p-8 space-y-8">
+<div class="font-label-caps text-label-caps text-on-surface-variant uppercase">Transmutación de Macros</div>
+<!-- Carbs -->
+<div class="space-y-2">
+<div class="flex justify-between font-mono-data text-xs">
+<span class="text-primary">CARBOHIDRATOS</span>
+<span>180g / 220g</span>
+</div>
+<div class="flex gap-0.5">
+<div class="segmented-bar-block active"></div>
+<div class="segmented-bar-block active"></div>
+<div class="segmented-bar-block active"></div>
+<div class="segmented-bar-block active"></div>
+<div class="segmented-bar-block active"></div>
+<div class="segmented-bar-block active"></div>
+<div class="segmented-bar-block active"></div>
+<div class="segmented-bar-block active"></div>
+<div class="segmented-bar-block"></div>
+<div class="segmented-bar-block"></div>
+</div>
+</div>
+<!-- Protein -->
+<div class="space-y-2">
+<div class="flex justify-between font-mono-data text-xs">
+<span class="text-tertiary-container">PROTEÍNA</span>
+<span>145g / 180g</span>
+</div>
+<div class="flex gap-0.5">
+<div class="segmented-bar-block active !bg-tertiary-container shadow-[0_0_8px_#ffafd4]"></div>
+<div class="segmented-bar-block active !bg-tertiary-container shadow-[0_0_8px_#ffafd4]"></div>
+<div class="segmented-bar-block active !bg-tertiary-container shadow-[0_0_8px_#ffafd4]"></div>
+<div class="segmented-bar-block active !bg-tertiary-container shadow-[0_0_8px_#ffafd4]"></div>
+<div class="segmented-bar-block active !bg-tertiary-container shadow-[0_0_8px_#ffafd4]"></div>
+<div class="segmented-bar-block active !bg-tertiary-container shadow-[0_0_8px_#ffafd4]"></div>
+<div class="segmented-bar-block active !bg-tertiary-container shadow-[0_0_8px_#ffafd4]"></div>
+<div class="segmented-bar-block active !bg-tertiary-container shadow-[0_0_8px_#ffafd4]"></div>
+<div class="segmented-bar-block"></div>
+<div class="segmented-bar-block"></div>
+</div>
+</div>
+<!-- Fats -->
+<div class="space-y-2">
+<div class="flex justify-between font-mono-data text-xs">
+<span class="text-secondary">GRASAS</span>
+<span>55g / 70g</span>
+</div>
+<div class="flex gap-0.5">
+<div class="segmented-bar-block active !bg-secondary shadow-[0_0_8px_#47ddc1]"></div>
+<div class="segmented-bar-block active !bg-secondary shadow-[0_0_8px_#47ddc1]"></div>
+<div class="segmented-bar-block active !bg-secondary shadow-[0_0_8px_#47ddc1]"></div>
+<div class="segmented-bar-block active !bg-secondary shadow-[0_0_8px_#47ddc1]"></div>
+<div class="segmented-bar-block active !bg-secondary shadow-[0_0_8px_#47ddc1]"></div>
+<div class="segmented-bar-block active !bg-secondary shadow-[0_0_8px_#47ddc1]"></div>
+<div class="segmented-bar-block active !bg-secondary shadow-[0_0_8px_#47ddc1]"></div>
+<div class="segmented-bar-block"></div>
+<div class="segmented-bar-block"></div>
+<div class="segmented-bar-block"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Module 4: Ingredient Analysis Grid (Consumable Relics) -->
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md text-primary-container">Reliquias Consumidas</h2>
+<button class="text-primary hover:underline font-label-caps text-label-caps transition-all">Ver Historial Completo</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Relic 1 -->
+<div class="glass-panel p-4 group hover:bg-white/5 transition-all duration-300">
+<div class="w-full h-32 mb-4 overflow-hidden relative border border-outline-variant/30">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="Cyberpunk gourmet breakfast featuring avocado toast with glowing edible flowers and poached eggs, presented on a dark stone plate in a futuristic high-tech kitchen with neon blue lighting and atmospheric smoke." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmKYc1ttE4CefTpazL392RkIcgYYuSCDWpkVjsH2vtJ1pViu5rt3BwGlb0KaBGzjF-GMEq2bT2APsOuDiiqZ1kKTuUTM1eCCE4lrCEdjAX7a3TGG8FZaGlHKvWShoTNpfxhVnVRjvQ3argEnDrxOXOqQLJY90PCHLJfBpeIdfOv1-pl4zu2dSeAO5Z-wid9Luna8l3NTxqMhYvvmzv7O2wn2rBgUzSvYuBERRbMmIQfVQJHZ9x7cnFtw"/>
+<div class="absolute top-2 right-2 px-2 py-1 bg-surface-container-highest text-primary-container font-mono-data text-[10px]">T1_NUTRITION</div>
+</div>
+<div class="font-mono-data text-sm font-bold text-primary mb-1">PROTOCOLO_DESAYUNO_V3</div>
+<div class="flex justify-between text-xs font-mono-data text-outline">
+<span>HP: +450</span>
+<span>MP: +120</span>
+</div>
+</div>
+<!-- Relic 2 -->
+<div class="glass-panel p-4 group hover:bg-white/5 transition-all duration-300">
+<div class="w-full h-32 mb-4 overflow-hidden relative border border-outline-variant/30">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="A futuristic protein bowl with grilled chicken, quinoa, and vibrant purple vegetables, arranged in a precise geometric pattern, illuminated by neon magenta and cyan backlighting in a clinical laboratory setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5YA0knNU4i3rUgYJmPiizTdveOCZdBloyHjFFaCpAqd2-n89qgcjy66nb2nFZgWKTNbFXr6baLDJRczeed8uPkqhz6PbcDrtVUswXrsyK9UclhOJnuaXnomcezz9KJ3qXiyndquU9vU6nftaicLoAFe14pGSTfyXPwlbsifW5rW3bga5Fzd5fGDYyZocAA9K6AIAZWsnXvNEKw99XH-e2rzzWjHwhfpNJTtyKd14OocoTLteCr0r-6w"/>
+<div class="absolute top-2 right-2 px-2 py-1 bg-surface-container-highest text-primary-container font-mono-data text-[10px]">T2_RECOVERY</div>
+</div>
+<div class="font-mono-data text-sm font-bold text-primary mb-1">ELIXIR_PROTEICO_B12</div>
+<div class="flex justify-between text-xs font-mono-data text-outline">
+<span>HP: +820</span>
+<span>MP: +50</span>
+</div>
+</div>
+<!-- Add Button Card -->
+<div class="glass-panel p-4 flex flex-col items-center justify-center border-dashed border-2 border-outline-variant/30 hover:border-primary/50 cursor-pointer group transition-all">
+<div class="w-12 h-12 rounded-full border border-primary/30 flex items-center justify-center mb-2 group-hover:bg-primary/10">
+<span class="material-symbols-outlined text-primary">add</span>
+</div>
+<div class="font-mono-data text-xs text-on-surface-variant uppercase tracking-widest">Ingresar Nueva Reliquia</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Secondary Modules -->
+<div class="lg:col-span-4 space-y-8">
+<!-- Module 3: Bio-Water Protocol -->
+<div class="glass-panel p-8 flex flex-col items-center">
+<div class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-8">Protocolo Bio-Hídrico</div>
+<div class="relative w-24 h-64 border-x-2 border-b-2 border-primary-container/30 rounded-b-xl overflow-hidden mb-6">
+<!-- Water Fill -->
+<div class="absolute bottom-0 left-0 w-full bg-primary-container/40 neon-glow-cyan transition-all duration-1000" style="height: 65%;">
+<div class="absolute top-0 left-0 w-full h-1 bg-primary shadow-[0_0_15px_#7fd0ff]"></div>
+<div class="absolute top-0 left-0 w-full h-full opacity-20">
+
+</div>
+</div>
+<!-- Markers -->
+<div class="absolute inset-0 flex flex-col justify-between py-4 px-2 pointer-events-none">
+<div class="w-full h-px bg-white/10"></div>
+<div class="w-full h-px bg-white/10"></div>
+<div class="w-full h-px bg-white/10"></div>
+<div class="w-full h-px bg-white/10"></div>
+</div>
+</div>
+<div class="text-center">
+<div class="font-data-point text-primary">2.1L / 3.2L</div>
+<button class="mt-4 px-6 py-2 border border-primary text-primary font-mono-data text-xs slanted-button hover:bg-primary/10 transition-all" onclick="updateWater()">
+                                + 250ml REGISTRO
+                            </button>
+</div>
+</div>
+<!-- Module 5: SOF.IA Dietary Advice -->
+<div class="glass-panel p-6 relative overflow-hidden">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 bg-primary-container/20 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container neon-pulse">psychology</span>
+</div>
+<div>
+<div class="font-label-caps text-label-caps text-primary-container">SOF.IA AI</div>
+<div class="font-micro-tag text-micro-tag text-on-surface-variant">ANALIZANDO_BIO_METRICS</div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="p-4 bg-surface-container-high border-l-4 border-primary">
+<div class="font-mono-data text-xs text-primary mb-1">CONSEJO_ESTRUCTURAL:</div>
+<p class="font-body-md text-xs italic text-on-surface">"Incrementa la ingesta de proteínas en 20g para acelerar la reconstrucción muscular post-sesión de hoy."</p>
+</div>
+<div class="p-4 bg-surface-container-high border-l-4 border-secondary">
+<div class="font-mono-data text-xs text-secondary mb-1">ALERTA_HIDRATACIÓN:</div>
+<p class="font-body-md text-xs italic text-on-surface">"Niveles hídricos por debajo del 70%. Inicie protocolo de absorción inmediata."</p>
+</div>
+</div>
+<button class="w-full mt-6 py-3 border border-outline-variant text-on-surface-variant font-mono-data text-xs hover:border-primary hover:text-primary transition-all">
+                            GENERAR REPORTE COMPLETO
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-4 md:hidden bg-surface-container-highest/30 backdrop-blur-lg border-t border-primary-container/30 z-50 h-20">
+<div class="flex flex-col items-center justify-center text-outline p-2 hover:bg-primary-container/20 transition-all">
+<span class="material-symbols-outlined">bolt</span>
+<span class="font-label-caps text-[10px]">Optimizar</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-none p-3 shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all">
+<span class="material-symbols-outlined">restaurant</span>
+<span class="font-label-caps text-[10px]">Dieta</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline p-2 hover:bg-primary-container/20 transition-all">
+<span class="material-symbols-outlined">biotech</span>
+<span class="font-label-caps text-[10px]">Clinical</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline p-2 hover:bg-primary-container/20 transition-all">
+<span class="material-symbols-outlined">visibility</span>
+<span class="font-label-caps text-[10px]">Image</span>
+</div>
+</nav>
+<!-- Interactive Micro-Interactions Script -->
+<script>
+        function updateWater() {
+            const btn = event.currentTarget;
+            btn.classList.add('scale-95', 'opacity-50');
+            setTimeout(() => {
+                btn.classList.remove('scale-95', 'opacity-50');
+            }, 100);
+            
+            // Interaction visual logic could go here
+        }
+
+        // Mouse move effect for glass panels (parallax highlight)
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+            
+            const panels = document.querySelectorAll('.glass-panel');
+            panels.forEach(panel => {
+                const rect = panel.getBoundingClientRect();
+                const localX = x - rect.left;
+                const localY = y - rect.top;
+                
+                if (localX > 0 && localY > 0 && localX < rect.width && localY < rect.height) {
+                    panel.style.boxShadow = `0 0 20px rgba(127, 208, 255, 0.05)`;
+                } else {
+                    panel.style.boxShadow = 'none';
+                }
+            });
+        });
+    </script>
+</body></html>

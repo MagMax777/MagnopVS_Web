@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · Gamificación Vital v6.8</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Orbitron:wght@400;700&amp;family=Audiowide&amp;family=Hanken+Grotesk:wght@300;400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>:root {
+    --neon-cyan: #7fd0ff;
+    --neon-magenta: #ffafd4;
+    --neon-red: #ffb4ab;
+    --gold: #ffd8e7
+    }
+body {
+    background-color: #0b0f11;
+    overflow-x: hidden;
+    color: #e0e3e6
+    }
+.cyber-grid {
+    background-image: linear-gradient(rgba(127, 208, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px
+    }
+.hexagon-bg {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuDvPU5m_2XcH27_FdAZ1Dyi6Dbvz6F8oY5Aoaq6ET7iKoziWHixzqiw6hDWkwPqe-9PCRvsnuURWldPYAl1uveIh9LwUAk9mK-Ltop4mmn2bPwztBSuvT6DLj6XoItCb7zzH_Q-IMxGn9ttaIbh-teAIFDrEEG45UrR-F2wV12yg6rI9-Ms8hk_AmNSv0_J4t7P8dym4P2L0fk0_8raMNA1ogalDvuMq-xpWSxMtz2Mc28kw8xsQE4pmkKnstY8UCW7cx1x3C9Jj3sI);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    opacity: 0.15;
+    mix-blend-mode: overlay
+    }
+.glass-panel {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(127, 208, 255, 0.1)
+    }
+.status-pulse-red {
+    animation: pulse-red 2s infinite
+    }
+@keyframes pulse-red {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 180, 171, 0.4);
+        } 70% {
+        box-shadow: 0 0 0 10px rgba(255, 180, 171, 0);
+        } 100% {
+        box-shadow: 0 0 0 0 rgba(255, 180, 171, 0);
+        }
+    }
+.slanted-edge {
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)
+    }
+.font-audiowide {
+    font-family: "Audiowide", cursive
+    }
+.font-orbitron {
+    font-family: "Orbitron", sans-serif
+    }
+.material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24
+    }</style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface": "#101417",
+                        "primary": "#c5e7ff",
+                        "secondary": "#47ddc1",
+                        "tertiary": "#ffd8e7",
+                        "outline": "#899299",
+                        "outline-variant": "#3f484e",
+                        "surface-container": "#1c2023",
+                        "surface-container-low": "#181c1f",
+                    },
+                    fontFamily: {
+                        "display-lg": ["Space Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "mono-data": ["JetBrains Mono"],
+                        "body-md": ["Hanken Grotesk"]
+                    },
+                    fontSize: {
+                        "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "0.05em", fontWeight: "700" }],
+                        "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.15em", fontWeight: "500" }],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-body-md antialiased">
+<!-- Atmospheric Layering -->
+<div class="fixed inset-0 cyber-grid pointer-events-none z-0"></div>
+<div class="fixed inset-0 hexagon-bg pointer-events-none z-0" data-alt="A futuristic dark architectural render featuring deep black interlocking hexagonal plates with glowing cyan neon light leaks emanating from the seams. Subtle geometric circuit patterns and micro-dots are etched into the matte surfaces, creating a technical brutalist texture appropriate for a high-tech user interface background."></div>
+<!-- Top AppBar (JSON Anchored) -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 md:px-10 h-20 bg-surface/30 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="flex items-center gap-4">
+<img class="h-10" data-alt="A minimalist tech logo for MagnopVS, featuring stylized cyan and magenta glitch-art typography on a transparent background, conveying a high-tech, cyberpunk aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSKFLnpcuGImx49-RDlKjUhUxNzIOWmHxLzeTfjeacpvCk_HNRDLrLkrdyPXNCD4nYZQ7f4qf2MdNLzizlISQlMnZX46jn2O1wENV9Q_lSUCP_P-jvbNM7xtFQrUhjQNVN5m8RpNqo6JA6nDs1ij44a-YI5k_BV490dlhxkdGJiYFYuH9teAP-pTBx0xo5xAS83OlHxn_6H-Gz3GxFBPBM4i3d4qaQQbZ0YsLHAJ8nb_8Gpk-q29gfMtr1hfqigCnxYlaUlW-MZANl"/>
+<div class="flex flex-col">
+<h1 class="font-audiowide text-primary text-xl tracking-tighter uppercase">GAMIFICACIÓN VITAL</h1>
+<span class="font-orbitron text-[10px] text-outline tracking-[0.3em] uppercase">Gestión de Realidad Aumentada</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex gap-4 font-label-caps text-outline">
+<button class="hover:text-primary transition-all">SYSTEM_LOG</button>
+<button class="text-primary drop-shadow-[0_0_8px_#7fd0ff]">OPERATOR_HUD</button>
+<button class="hover:text-primary transition-all">DECRYPT</button>
+</div>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-primary scale-95 active:scale-90 transition-transform cursor-pointer">bolt</span>
+<span class="material-symbols-outlined text-primary scale-95 active:scale-90 transition-transform cursor-pointer">stars</span>
+<span class="material-symbols-outlined text-primary scale-95 active:scale-90 transition-transform cursor-pointer">account_circle</span>
+</div>
+</div>
+</header>
+<!-- SideNavBar (JSON Anchored) -->
+<aside class="hidden lg:flex flex-col fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-low/50 backdrop-blur-2xl border-r border-primary/20 pt-24 pb-8 px-4">
+<div class="mb-8 px-4">
+<div class="text-primary font-bold text-lg font-orbitron">OPERATOR_01</div>
+<div class="text-outline-variant text-[10px] font-mono-data tracking-widest uppercase">LVL 42 // TITAN</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded text-outline-variant hover:bg-surface-container-highest/30 transition-all font-label-caps" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded text-primary border-l-2 border-primary bg-primary/5 font-bold shadow-[inset_4px_0_10px_rgba(127,208,255,0.1)] font-label-caps" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span>13 Houses</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded text-outline-variant hover:bg-surface-container-highest/30 transition-all font-label-caps" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span>Missions</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded text-outline-variant hover:bg-surface-container-highest/30 transition-all font-label-caps" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span>Attributes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded text-outline-variant hover:bg-surface-container-highest/30 transition-all font-label-caps" href="#">
+<span class="material-symbols-outlined">vitals</span>
+<span>Alchemy</span>
+</a>
+</nav>
+<div class="mt-auto p-4 glass-panel rounded-xl border-secondary/20">
+<div class="flex justify-between items-end mb-2">
+<span class="text-[10px] text-secondary font-mono-data">STAMINA</span>
+<span class="text-xs font-bold text-secondary">84%</span>
+</div>
+<div class="flex gap-1 h-2">
+<div class="flex-1 bg-secondary shadow-[0_0_8px_#48ddc1]"></div>
+<div class="flex-1 bg-secondary shadow-[0_0_8px_#48ddc1]"></div>
+<div class="flex-1 bg-secondary shadow-[0_0_8px_#48ddc1]"></div>
+<div class="flex-1 bg-secondary shadow-[0_0_8px_#48ddc1]"></div>
+<div class="flex-1 bg-surface-container-highest"></div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pt-28 pb-32 lg:pl-72 px-6 max-w-7xl mx-auto relative z-10">
+<!-- Filter Hub -->
+<section class="mb-12">
+<div class="flex flex-wrap gap-4 items-center">
+<div class="text-outline font-label-caps text-[10px] mr-2">PROTOCOL_FILTER:</div>
+<button class="px-6 py-2 bg-primary text-surface font-orbitron font-bold text-xs slanted-edge">TODO</button>
+<button class="px-6 py-2 border border-outline/20 text-outline font-orbitron text-xs slanted-edge hover:border-primary/50 transition-all">CUERPO (Corpus)</button>
+<button class="px-6 py-2 border border-outline/20 text-outline font-orbitron text-xs slanted-edge hover:border-primary/50 transition-all">SOCIAL (Nexus)</button>
+<button class="px-6 py-2 border border-outline/20 text-outline font-orbitron text-xs slanted-edge hover:border-primary/50 transition-all">MENTE (Logos)</button>
+<button class="px-6 py-2 border border-outline/20 text-outline font-orbitron text-xs slanted-edge hover:border-primary/50 transition-all">ALMA (Spiritus)</button>
+</div>
+</section>
+<!-- Bento Mission Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- TIKUN / GRIETA (Spiritus) - Urgent Alert -->
+<div class="md:col-span-12 lg:col-span-8 group">
+<div class="glass-panel p-6 rounded-xl border-l-4 border-l-[#ffb4ab] status-pulse-red relative overflow-hidden h-full flex flex-col md:flex-row gap-6">
+<div class="absolute -right-12 -top-12 w-48 h-48 bg-[#ffb4ab]/5 blur-3xl rounded-full"></div>
+<div class="md:w-1/3 flex flex-col justify-center items-center p-4 border border-red-500/10 bg-red-500/5 rounded">
+<span class="material-symbols-outlined text-red-400 text-6xl mb-2" style="font-variation-settings: 'FILL' 1;">warning</span>
+<div class="font-audiowide text-[#ffb4ab] text-xl">GRIETA V.4</div>
+<div class="font-mono-data text-[10px] text-red-300/60 uppercase tracking-widest">TIKUN STATUS: CRITICAL</div>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-4">
+<h3 class="font-headline-md text-2xl text-on-surface">Reparar fragmentación emocional</h3>
+<span class="bg-red-500/20 text-[#ffb4ab] px-3 py-1 rounded text-[10px] font-bold font-mono-data">SEVERIDAD: ALTA</span>
+</div>
+<p class="text-outline text-sm mb-6 max-w-md">Se ha detectado una anomalía en el sector Spiritus. El protocolo de reconciliación es requerido para restaurar el flujo de energía vital antes del cierre del ciclo.</p>
+</div>
+<div class="space-y-4">
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-gradient-to-r from-red-500 to-red-300 h-full w-[85%] shadow-[0_0_10px_rgba(255,180,171,0.5)]"></div>
+</div>
+<button class="w-full py-4 bg-[#ffb4ab] text-surface font-audiowide tracking-widest hover:brightness-110 transition-all uppercase slanted-edge">REPARAR GRIETA</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Stats Mini-Panel -->
+<div class="md:col-span-12 lg:col-span-4 grid grid-cols-2 gap-4">
+<div class="glass-panel p-4 rounded-xl border-tertiary/20 flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-tertiary text-4xl mb-2">military_tech</span>
+<div class="text-2xl font-audiowide text-tertiary">2,450</div>
+<div class="text-[10px] font-orbitron text-outline uppercase">XP ACUMULADA</div>
+</div>
+<div class="glass-panel p-4 rounded-xl border-secondary/20 flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-secondary text-4xl mb-2">local_fire_department</span>
+<div class="text-2xl font-audiowide text-secondary">12</div>
+<div class="text-[10px] font-orbitron text-outline uppercase">DÍAS RACHA</div>
+</div>
+<div class="glass-panel p-4 rounded-xl col-span-2 border-primary/20">
+<div class="flex justify-between items-center mb-2">
+<span class="text-[10px] font-orbitron text-outline uppercase">Sincronización OS</span>
+<span class="text-xs font-bold text-primary">92%</span>
+</div>
+<div class="flex gap-1 h-3">
+<div class="flex-1 bg-primary"></div>
+<div class="flex-1 bg-primary"></div>
+<div class="flex-1 bg-primary"></div>
+<div class="flex-1 bg-primary"></div>
+<div class="flex-1 bg-primary"></div>
+<div class="flex-1 bg-primary"></div>
+<div class="flex-1 bg-primary"></div>
+<div class="flex-1 bg-primary"></div>
+<div class="flex-1 bg-primary"></div>
+<div class="flex-1 bg-surface-container-highest"></div>
+</div>
+</div>
+</div>
+<!-- SOCIAL MATCH (Nexus) -->
+<div class="md:col-span-6 lg:col-span-5 h-[500px] relative rounded-3xl overflow-hidden glass-panel group">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDgqHy8cPZE8cdhpCrMjouRFdJ2Oc03gHiAnjxNT1kvmtZYCDZl_MptH8tNQRnHvjHrg099lRqQbozVBiIVIxp4c34wy0agqy2sY3QJR3r2nWMDb5gPksMoS20UNoph7VNwwMZjEFe_gN0ghCIMjRuJitnHMJUamVpf08NDaS9cJp_bl0_fuNxiZKoF-agpkj0Nby9gMBU-FtjiedQtbVMuPNdRhd5mS8_Dp8RU7b_KCoV0BRplrEzd4RZxCihsyHpT94wOenPddJjr')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
+<div class="absolute inset-x-0 bottom-0 p-8">
+<div class="flex items-center gap-2 mb-2">
+<span class="px-3 py-1 bg-magenta-500/20 text-[#ffafd4] border border-[#ffafd4]/30 rounded-full text-[10px] font-bold font-mono-data">NEXUS MATCH</span>
+<div class="flex gap-1">
+<div class="w-2 h-2 rounded-full bg-[#ffafd4] animate-ping"></div>
+</div>
+</div>
+<h2 class="font-audiowide text-3xl mb-1 text-white">ELARA_SYNTH</h2>
+<p class="font-mono-data text-[10px] text-[#ffafd4] tracking-[0.2em] mb-4 uppercase">AFINIDAD: 94.2% // TITAN CLASS</p>
+<p class="text-outline text-sm mb-6 line-clamp-3">Especialista en Bio-Hackeo y Alquimia Mental. Buscando operadores para expedición en el Sector 13 este fin de ciclo.</p>
+<div class="flex gap-4">
+<button class="flex-1 h-12 bg-white text-surface font-bold font-orbitron slanted-edge hover:bg-magenta-100 transition-all">MATCH</button>
+<button class="w-12 h-12 glass-panel border-white/20 flex items-center justify-center rounded-xl hover:bg-white/10 transition-all">
+<span class="material-symbols-outlined text-white">close</span>
+</button>
+</div>
+</div>
+<!-- Scanline Effect -->
+<div class="absolute inset-0 pointer-events-none opacity-20 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%]"></div>
+</div>
+<!-- Standard Protocol Cards -->
+<div class="md:col-span-6 lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
+<!-- Task 1: Corpus -->
+<div class="glass-panel p-6 rounded-2xl border-secondary/10 flex flex-col justify-between hover:border-secondary/40 transition-colors">
+<div>
+<div class="flex justify-between items-center mb-6">
+<div class="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center border border-secondary/20">
+<span class="material-symbols-outlined text-secondary">fitness_center</span>
+</div>
+<div class="flex items-center gap-1 text-secondary font-mono-data text-xs">
+<span>5</span>
+<span class="material-symbols-outlined text-sm">local_fire_department</span>
+</div>
+</div>
+<h4 class="font-headline-md text-lg mb-2">Circuito Neural-Corpus</h4>
+<p class="text-outline text-xs mb-4">Activar fibras musculares tipo II. Duración estimada: 45 min.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex-1 py-2 glass-panel border-secondary/30 text-secondary font-orbitron text-[10px] tracking-widest hover:bg-secondary/10 uppercase slanted-edge">MAPA</button>
+<button class="flex-1 py-2 bg-secondary text-surface font-orbitron font-bold text-[10px] tracking-widest hover:brightness-110 uppercase slanted-edge">COMPLETAR</button>
+</div>
+</div>
+<!-- Task 2: Logos -->
+<div class="glass-panel p-6 rounded-2xl border-primary/10 flex flex-col justify-between hover:border-primary/40 transition-colors">
+<div>
+<div class="flex justify-between items-center mb-6">
+<div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center border border-primary/20">
+<span class="material-symbols-outlined text-primary">menu_book</span>
+</div>
+<div class="flex items-center gap-1 text-primary font-mono-data text-xs">
+<span>3</span>
+<span class="material-symbols-outlined text-sm">local_fire_department</span>
+</div>
+</div>
+<h4 class="font-headline-md text-lg mb-2">Ingesta de Datos: Logos</h4>
+<p class="text-outline text-xs mb-4">Sincronizar 20 páginas del grimorio técnico actual.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex-1 py-2 glass-panel border-primary/30 text-primary font-orbitron text-[10px] tracking-widest hover:bg-primary/10 uppercase slanted-edge">MAPA</button>
+<button class="flex-1 py-2 bg-primary text-surface font-orbitron font-bold text-[10px] tracking-widest hover:brightness-110 uppercase slanted-edge">COMPLETAR</button>
+</div>
+</div>
+<!-- Task 3: Spiritus -->
+<div class="glass-panel p-6 rounded-2xl border-tertiary/10 flex flex-col justify-between hover:border-tertiary/40 transition-colors">
+<div>
+<div class="flex justify-between items-center mb-6">
+<div class="w-12 h-12 rounded-lg bg-tertiary/10 flex items-center justify-center border border-tertiary/20">
+<span class="material-symbols-outlined text-tertiary">self_improvement</span>
+</div>
+<div class="flex items-center gap-1 text-tertiary font-mono-data text-xs">
+<span>8</span>
+<span class="material-symbols-outlined text-sm">local_fire_department</span>
+</div>
+</div>
+<h4 class="font-headline-md text-lg mb-2">Silencio del Sistema</h4>
+<p class="text-outline text-xs mb-4">Entrar en estado de baja entropía mental durante 10 min.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex-1 py-2 glass-panel border-tertiary/30 text-tertiary font-orbitron text-[10px] tracking-widest hover:bg-tertiary/10 uppercase slanted-edge">MAPA</button>
+<button class="flex-1 py-2 bg-tertiary text-surface font-orbitron font-bold text-[10px] tracking-widest hover:brightness-110 uppercase slanted-edge">COMPLETAR</button>
+</div>
+</div>
+<!-- Mission Slot Empty -->
+<div class="border-2 border-dashed border-outline-variant/20 rounded-2xl flex flex-col items-center justify-center text-center p-6 hover:bg-surface-container/30 transition-all cursor-pointer group">
+<span class="material-symbols-outlined text-outline-variant text-4xl mb-2 group-hover:text-primary transition-colors">add_circle</span>
+<div class="text-[10px] font-orbitron text-outline-variant uppercase tracking-widest group-hover:text-primary transition-colors">Sincronizar nueva misión</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (JSON Anchored) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 pb-safe px-4 bg-surface-container/80 backdrop-blur-lg border-t border-primary/20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">space_dashboard</span>
+<span class="font-label-caps text-[8px] mt-1">Dash</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-110 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">temple_hindu</span>
+<span class="font-label-caps text-[8px] mt-1">Houses</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">assignment_late</span>
+<span class="font-label-caps text-[8px] mt-1">Missions</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-caps text-[8px] mt-1">Stats</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline-variant opacity-70 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">autorenew</span>
+<span class="font-label-caps text-[8px] mt-1">Cycle</span>
+</a>
+</nav>
+<!-- Footer (JSON Anchored) -->
+<footer class="w-full max-w-7xl mx-auto px-6 lg:pl-72 py-12 flex flex-col items-center gap-2 opacity-40 hover:opacity-100 transition-opacity duration-500 border-t border-outline-variant/10">
+<div class="font-mono-data text-[10px] text-outline tracking-widest">MAGNOPVS OS v4.2.0 // SYSTEM_STABLE</div>
+<div class="flex gap-6 font-mono-data text-[10px]">
+<a class="text-outline-variant hover:text-primary transition-colors" href="#">System Reset</a>
+<a class="text-outline-variant hover:text-primary transition-colors" href="#">Log Export</a>
+<a class="text-outline-variant hover:text-primary transition-colors" href="#">Protocol-9</a>
+</div>
+<div class="mt-4 text-[8px] text-outline-variant/50 uppercase tracking-[0.5em]">REALITY_ENGINE_ACTIVE</div>
+</footer>
+<script>
+        // Micro-interactions and Atmospheric Effects
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            // Subtle parallax for grid/hex background
+            const bg = document.querySelector('.hexagon-bg');
+            if (bg) {
+                bg.style.transform = `translate(${x * 10}px, ${y * 10}px)`;
+            }
+        });
+
+        // Button hover sounds or haptic simulation could be added here
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(btn => {
+            btn.addEventListener('mouseenter', () => {
+                // Potential light-pulse effect on hover
+                btn.style.boxShadow = '0 0 15px rgba(127, 208, 255, 0.2)';
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.boxShadow = '';
+            });
+        });
+    </script>
+</body></html>

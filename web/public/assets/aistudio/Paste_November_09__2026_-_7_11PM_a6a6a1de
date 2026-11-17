@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS // UEL v1.1 - The Awakening of the Prime Seal</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Sora:wght@300;400;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;family=Audiowide&amp;family=Orbitron:wght@500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-variant": "#32353d",
+            "on-tertiary-container": "#b10056",
+            "on-secondary-fixed-variant": "#004b70",
+            "secondary-fixed": "#cae6ff",
+            "surface-container-lowest": "#0b0e15",
+            "error": "#ffb4ab",
+            "on-error": "#690005",
+            "secondary-container": "#00affe",
+            "surface": "#10131a",
+            "on-background": "#e1e2ec",
+            "surface-dim": "#10131a",
+            "surface-tint": "#00daf3",
+            "on-tertiary-fixed": "#3f001a",
+            "surface-container": "#1d1f27",
+            "tertiary-fixed-dim": "#ffb1c4",
+            "on-primary-fixed-variant": "#004f58",
+            "inverse-primary": "#006875",
+            "background": "#10131a",
+            "outline": "#849396",
+            "inverse-surface": "#e1e2ec",
+            "outline-variant": "#3b494c",
+            "on-surface-variant": "#bac9cc",
+            "on-secondary": "#00344f",
+            "surface-container-high": "#272a32",
+            "on-secondary-container": "#003f5f",
+            "on-error-container": "#ffdad6",
+            "on-surface": "#e1e2ec",
+            "on-primary-fixed": "#001f24",
+            "tertiary-container": "#ffc0cf",
+            "primary": "#c3f5ff",
+            "on-primary": "#00363d",
+            "on-primary-container": "#00626e",
+            "surface-bright": "#363941",
+            "primary-container": "#00e5ff",
+            "surface-container-low": "#191b23",
+            "primary-fixed": "#9cf0ff",
+            "tertiary": "#ffe7eb",
+            "secondary-fixed-dim": "#8dcdff",
+            "surface-container-highest": "#32353d",
+            "on-secondary-fixed": "#001e30",
+            "secondary": "#8dcdff",
+            "inverse-on-surface": "#2d3038",
+            "error-container": "#93000a",
+            "on-tertiary": "#65002e",
+            "primary-fixed-dim": "#00daf3",
+            "on-tertiary-fixed-variant": "#8f0044",
+            "tertiary-fixed": "#ffd9e1"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "gutter-mobile": "0.75rem",
+            "space-xl": "2.5rem",
+            "space-lg": "1.5rem",
+            "margin-mobile": "1rem",
+            "space-md": "1rem",
+            "gutter": "1.5rem",
+            "margin": "2.5rem",
+            "space-sm": "0.5rem",
+            "space-xs": "0.25rem"
+          },
+          fontFamily: {
+            "body-md": ["Sora"],
+            "body-sm": ["Sora"],
+            "headline-xl": ["Space Grotesk"],
+            "label-lg": ["JetBrains Mono"],
+            "headline-md": ["Space Grotesk"],
+            "headline-lg": ["Space Grotesk"],
+            "headline-sm": ["Space Grotesk"],
+            "body-lg": ["Sora"],
+            "headline-lg-mobile": ["Space Grotesk"],
+            "label-md": ["JetBrains Mono"],
+            "headline-xl-mobile": ["Space Grotesk"],
+            "label-sm": ["JetBrains Mono"],
+            "audiowide": ["Audiowide", "cursive"],
+            "orbitron": ["Orbitron", "sans-serif"]
+          },
+          fontSize: {
+            "body-md": ["0.875rem", { lineHeight: "1.4rem", letterSpacing: "0.02em", fontWeight: "400" }],
+            "body-sm": ["0.75rem", { lineHeight: "1.2rem", letterSpacing: "0.01em", fontWeight: "400" }],
+            "headline-xl": ["3rem", { lineHeight: "3.5rem", letterSpacing: "0.12em", fontWeight: "700" }],
+            "label-lg": ["0.875rem", { lineHeight: "1.25rem", letterSpacing: "0.15em", fontWeight: "600" }],
+            "headline-md": ["1.375rem", { lineHeight: "1.75rem", letterSpacing: "0.08em", fontWeight: "600" }],
+            "headline-lg": ["2rem", { lineHeight: "2.5rem", letterSpacing: "0.1em", fontWeight: "700" }],
+            "headline-sm": ["1.125rem", { lineHeight: "1.5rem", letterSpacing: "0.06em", fontWeight: "600" }],
+            "body-lg": ["1rem", { lineHeight: "1.6rem", letterSpacing: "0.02em", fontWeight: "400" }],
+            "headline-lg-mobile": ["1.5rem", { lineHeight: "2rem", letterSpacing: "0.06em", fontWeight: "700" }],
+            "label-md": ["0.75rem", { lineHeight: "1rem", letterSpacing: "0.18em", fontWeight: "500" }],
+            "headline-xl-mobile": ["2rem", { lineHeight: "2.5rem", letterSpacing: "0.08em", fontWeight: "700" }],
+            "label-sm": ["0.625rem", { lineHeight: "0.875rem", letterSpacing: "0.2em", fontWeight: "500" }]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    .chamfer-card {
+      clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+    }
+    .chamfer-btn {
+      clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    }
+    .hud-reticle-ring {
+      background: radial-gradient(circle, transparent 65%, rgba(0, 229, 255, 0.12) 66%, rgba(0, 229, 255, 0.25) 70%, transparent 72%);
+    }
+    .neon-pulse-cyan {
+      animation: cyanPulse 2.4s ease-in-out infinite alternate;
+    }
+    @keyframes cyanPulse {
+      0% { opacity: 0.75; filter: drop-shadow(0 0 6px rgba(0, 229, 255, 0.35)); }
+      100% { opacity: 1; filter: drop-shadow(0 0 14px rgba(0, 229, 255, 0.75)); }
+    }
+    .scanline-grid {
+      background-size: 100% 3px;
+      background-image: linear-gradient(0deg, rgba(0, 229, 255, 0.04) 1px, transparent 1px);
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col font-body-md select-none overflow-x-hidden antialiased">
+<!-- TOP NAV BAR (Brand Anchor JSON Execution) -->
+<header class="bg-surface/75 dark:bg-surface/75 backdrop-blur-md text-primary dark:text-primary docked full-width top-0 border-b border-outline-variant/40 dark:border-outline-variant/40 shadow-[0_0_16px_rgba(0,229,255,0.15)] sticky z-50">
+<div class="flex justify-between items-center w-full px-6 lg:px-10 h-16 max-w-full mx-auto">
+<!-- Logo / System ID -->
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 border border-primary-container/80 flex items-center justify-center bg-surface-container-low shadow-[0_0_10px_rgba(0,229,255,0.3)] chamfer-btn">
+<span class="material-symbols-outlined text-primary-container text-xl" data-icon="deployed_code">deployed_code</span>
+</div>
+<div class="flex flex-col">
+<span class="text-headline-md font-headline-md font-bold tracking-widest text-primary dark:text-primary uppercase font-audiowide">MagnopVS</span>
+<span class="text-label-sm font-label-sm text-outline tracking-widest -mt-1 font-orbitron">QUANTVM MATRIX // UEL v1.1</span>
+</div>
+</div>
+<!-- Navigation Links (CONTINUE is active for Episode Player) -->
+<nav class="hidden md:flex items-center gap-6 lg:gap-8">
+<a class="text-label-md font-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors tracking-widest uppercase" href="#">EXPLORE</a>
+<a class="text-label-md font-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors tracking-widest uppercase" href="#">SAGAS</a>
+<!-- ACTIVE NAVIGATION ITEM (Direct Mapping to current runtime episode) -->
+<a class="text-label-md font-label-md text-primary-container dark:text-primary-container border-b-2 border-primary-container pb-1 font-bold shadow-[0_0_8px_rgba(0,229,255,0.4)] tracking-widest uppercase flex items-center gap-1.5" href="#">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-ping"></span>
+          CONTINUE
+        </a>
+<a class="text-label-md font-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors tracking-widest uppercase" href="#">MISSIONS</a>
+<a class="text-label-md font-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors tracking-widest uppercase" href="#">COLLECTION</a>
+<a class="text-label-md font-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors tracking-widest uppercase" href="#">ENDINGS ARCHIVE</a>
+</nav>
+<!-- Trailing Currency, Notification & Operator Avatar -->
+<div class="flex items-center gap-4">
+<!-- Telemetry Currencies -->
+<div class="hidden sm:flex items-center gap-3 bg-surface-container-low/80 border border-outline-variant/60 px-3 py-1 chamfer-btn">
+<div class="flex items-center gap-1 text-primary-container">
+<span class="material-symbols-outlined text-sm" data-icon="toll">toll</span>
+<span class="text-label-sm font-label-sm font-orbitron font-semibold text-primary">2,950</span>
+<span class="text-[9px] text-outline">MP</span>
+</div>
+<div class="w-px h-3 bg-outline-variant"></div>
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-sm" data-icon="monetization_on">monetization_on</span>
+<span class="text-label-sm font-label-sm font-orbitron font-semibold text-on-surface">220</span>
+<span class="text-[9px] text-outline">MC</span>
+</div>
+</div>
+<!-- Trailing Icon Action -->
+<button class="relative p-2 text-on-surface-variant hover:text-primary hover:bg-surface-variant/30 rounded transition-all duration-150">
+<span class="material-symbols-outlined text-xl" data-icon="notifications">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-on-tertiary-container shadow-[0_0_6px_#FF007F]"></span>
+</button>
+<!-- Marketplace CTA -->
+<button class="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 border border-primary-container/60 bg-primary-container/10 text-primary hover:bg-primary-container hover:text-surface-container-lowest text-label-sm font-label-sm uppercase font-orbitron transition-all duration-150 chamfer-btn">
+<span>MARKETPLACE</span>
+</button>
+<!-- Pilot Profile Avatar -->
+<div class="flex items-center gap-2 pl-2 border-l border-outline-variant/50">
+<div class="relative w-8 h-8 rounded border border-primary-container/80 overflow-hidden bg-surface-container-high shadow-[0_0_8px_rgba(0,229,255,0.2)]">
+<div class="w-full h-full bg-surface-container-highest flex items-center justify-center text-primary-container font-orbitron text-xs font-bold">KZ</div>
+<span class="absolute bottom-0 right-0 w-2 h-2 bg-primary-container rounded-full border border-surface"></span>
+</div>
+<div class="hidden xl:flex flex-col text-left">
+<span class="text-label-sm font-label-sm font-orbitron font-bold text-on-surface tracking-wider leading-none">Op. Kaizen</span>
+<span class="text-[9px] font-label-sm text-outline tracking-tight mt-0.5">Rank 15 Elite Pilot</span>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- SUBHEADER / EPISODE RUNTIME BAR -->
+<section class="w-full bg-surface-container-lowest border-b border-outline-variant/30 px-6 lg:px-10 py-2.5 flex flex-wrap items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<span class="px-2 py-0.5 text-label-sm font-label-sm bg-primary-container/15 text-primary-container border border-primary-container/40 uppercase font-orbitron chamfer-btn">SAGA 02</span>
+<span class="text-label-md font-label-md text-on-surface tracking-wider font-semibold font-orbitron">WHITE BROTHERHOOD</span>
+<span class="text-outline text-xs">•</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant font-body-sm">S01:EP01 “The Awakening of the Prime Seal”</span>
+</div>
+<!-- Telemetry Badges -->
+<div class="flex items-center gap-4 text-label-sm font-label-sm font-orbitron">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-primary-container shadow-[0_0_6px_#00e5ff]"></span>
+<span>SOLFEGGIO: <strong class="text-primary font-bold">528 HZ</strong> (99.1% STABLE)</span>
+</div>
+<div class="hidden md:flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-xs text-secondary" data-icon="cyclone">cyclone</span>
+<span>LEY-FLUX: <strong class="text-secondary font-bold">840 THz</strong></span>
+</div>
+<div class="hidden lg:flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-xs text-on-tertiary-container" data-icon="warning">warning</span>
+<span>VOID PARADOX: <strong class="text-tertiary-fixed-dim font-bold">0.0012%</strong></span>
+</div>
+<div class="px-2 py-0.5 bg-surface-container border border-outline-variant/60 text-outline text-[10px] chamfer-btn">
+        CP-06 SAVED
+      </div>
+</div>
+</section>
+<!-- PHASE STEPPER (UEL v1.1 Loop Tracker) -->
+<section class="w-full bg-surface-container-low/70 border-b border-outline-variant/20 px-6 lg:px-10 py-3 overflow-x-auto">
+<div class="max-w-7xl mx-auto flex items-center justify-between min-w-[760px] gap-2">
+<!-- Phase 01 Completed -->
+<div class="flex items-center gap-2 group opacity-85 hover:opacity-100 transition-opacity">
+<div class="w-6 h-6 rounded border border-primary-container bg-primary-container/20 flex items-center justify-center text-primary-container text-xs">
+<span class="material-symbols-outlined text-sm font-bold" data-icon="check">check</span>
+</div>
+<div class="flex flex-col text-left">
+<span class="text-[10px] font-label-sm text-outline tracking-wider">PHASE 01</span>
+<span class="text-label-sm font-label-sm font-orbitron text-on-surface">Intro</span>
+</div>
+</div>
+<div class="h-px flex-1 bg-gradient-to-r from-primary-container to-primary-container/80 mx-2"></div>
+<!-- Phase 02 Completed -->
+<div class="flex items-center gap-2 group opacity-85 hover:opacity-100 transition-opacity">
+<div class="w-6 h-6 rounded border border-primary-container bg-primary-container/20 flex items-center justify-center text-primary-container text-xs">
+<span class="material-symbols-outlined text-sm font-bold" data-icon="check">check</span>
+</div>
+<div class="flex flex-col text-left">
+<span class="text-[10px] font-label-sm text-outline tracking-wider">PHASE 02</span>
+<span class="text-label-sm font-label-sm font-orbitron text-on-surface">Webcomic</span>
+</div>
+</div>
+<div class="h-px flex-1 bg-gradient-to-r from-primary-container/80 to-primary-container/80 mx-2"></div>
+<!-- Phase 03 Completed -->
+<div class="flex items-center gap-2 group opacity-85 hover:opacity-100 transition-opacity">
+<div class="w-6 h-6 rounded border border-primary-container bg-primary-container/20 flex items-center justify-center text-primary-container text-xs">
+<span class="material-symbols-outlined text-sm font-bold" data-icon="check">check</span>
+</div>
+<div class="flex flex-col text-left">
+<span class="text-[10px] font-label-sm text-outline tracking-wider">PHASE 03</span>
+<span class="text-label-sm font-label-sm font-orbitron text-on-surface">Dialogue &amp; RPG</span>
+</div>
+</div>
+<div class="h-px flex-1 bg-gradient-to-r from-primary-container/80 to-primary-container/80 mx-2"></div>
+<!-- Phase 04 Completed -->
+<div class="flex items-center gap-2 group opacity-85 hover:opacity-100 transition-opacity">
+<div class="w-6 h-6 rounded border border-primary-container bg-primary-container/20 flex items-center justify-center text-primary-container text-xs">
+<span class="material-symbols-outlined text-sm font-bold" data-icon="check">check</span>
+</div>
+<div class="flex flex-col text-left">
+<span class="text-[10px] font-label-sm text-outline tracking-wider">PHASE 04</span>
+<span class="text-label-sm font-label-sm font-orbitron text-on-surface">Decrypt</span>
+</div>
+</div>
+<div class="h-px flex-1 bg-gradient-to-r from-primary-container/80 to-primary-container/80 mx-2"></div>
+<!-- Phase 05 Completed -->
+<div class="flex items-center gap-2 group opacity-85 hover:opacity-100 transition-opacity">
+<div class="w-6 h-6 rounded border border-primary-container bg-primary-container/20 flex items-center justify-center text-primary-container text-xs">
+<span class="material-symbols-outlined text-sm font-bold" data-icon="check">check</span>
+</div>
+<div class="flex flex-col text-left">
+<span class="text-[10px] font-label-sm text-outline tracking-wider">PHASE 05</span>
+<span class="text-label-sm font-label-sm font-orbitron text-on-surface">Transition</span>
+</div>
+</div>
+<div class="h-px flex-1 bg-gradient-to-r from-primary-container to-secondary-container mx-2 shadow-[0_0_8px_rgba(0,229,255,0.6)]"></div>
+<!-- Phase 06 CURRENTLY ACTIVE (Branch Point / Bifurcación) -->
+<div class="flex items-center gap-2 px-3 py-1 rounded bg-primary-container/15 border border-primary-container shadow-[0_0_14px_rgba(0,229,255,0.35)]">
+<div class="w-6 h-6 rounded bg-primary-container text-surface-container-lowest flex items-center justify-center text-xs font-bold shadow-[0_0_8px_#00e5ff]">
+<span class="material-symbols-outlined text-sm" data-icon="fork_right">fork_right</span>
+</div>
+<div class="flex flex-col text-left">
+<span class="text-[10px] font-label-sm text-primary-container font-bold tracking-wider animate-pulse">ACTIVE DECISION</span>
+<span class="text-label-sm font-label-sm font-orbitron font-bold text-primary">PHASE 06: BIFURCACIÓN</span>
+</div>
+</div>
+<div class="h-px flex-1 bg-outline-variant/40 mx-2"></div>
+<!-- Phase 07 Pending -->
+<div class="flex items-center gap-2 opacity-40">
+<div class="w-6 h-6 rounded border border-outline-variant flex items-center justify-center text-outline text-xs">
+<span class="font-orbitron">07</span>
+</div>
+<div class="flex flex-col text-left">
+<span class="text-[10px] font-label-sm text-outline tracking-wider">PHASE 07</span>
+<span class="text-label-sm font-label-sm font-orbitron text-outline">Climax Loop</span>
+</div>
+</div>
+</div>
+</section>
+<!-- MAIN COCKPIT / CINEMATIC STAGE & BENTO TACTICAL HUD -->
+<main class="flex-1 w-full px-4 lg:px-10 py-6 max-w-[1760px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- LEFT / CENTER: Interactive Cinematic Stage (8 Columns Desktop) -->
+<section class="lg:col-span-8 flex flex-col gap-4">
+<!-- Viewport Shell (Holographic Level 3 Elevation) -->
+<div class="relative bg-surface-container-lowest border border-outline-variant/60 rounded-lg overflow-hidden shadow-[0_0_24px_rgba(0,176,255,0.2)] chamfer-card">
+<!-- Viewport Header HUD Strip -->
+<div class="absolute top-0 inset-x-0 z-30 flex items-center justify-between px-4 py-2 bg-gradient-to-b from-surface-container-lowest/90 to-transparent">
+<div class="flex items-center gap-2 text-label-sm font-label-sm text-primary-container font-orbitron">
+<span class="w-2 h-2 rounded-full bg-error animate-ping"></span>
+<span class="tracking-widest">LIVE HUD FEED // CAM-01 ORBITAL BRIDGE</span>
+<span class="text-outline text-xs font-mono ml-2">[42.984° N, 71.129° W]</span>
+</div>
+<!-- Camera Angle Cycler -->
+<div class="flex items-center gap-1">
+<button class="px-2 py-0.5 text-xs font-label-sm font-orbitron bg-primary-container text-surface-container-lowest font-bold chamfer-btn">CAM-01</button>
+<button class="px-2 py-0.5 text-xs font-label-sm font-orbitron bg-surface-container/80 text-on-surface-variant hover:text-primary border border-outline-variant/40 chamfer-btn">CAM-02</button>
+<button class="px-2 py-0.5 text-xs font-label-sm font-orbitron bg-surface-container/80 text-on-surface-variant hover:text-primary border border-outline-variant/40 chamfer-btn">CAM-03</button>
+</div>
+</div>
+<!-- Peripheral Targeting Crosshairs & Sacred Geometry Reticles -->
+<div class="absolute inset-0 pointer-events-none z-20 scanline-grid">
+<!-- Top Left Reticle Bracket -->
+<div class="absolute top-8 left-8 w-16 h-16 border-t-2 border-l-2 border-primary-container/80"></div>
+<div class="absolute top-9 left-9 text-[9px] font-label-sm font-orbitron text-primary-container">LEY-NODE SYNC: 99.8%</div>
+<!-- Top Right Telemetry Bracket -->
+<div class="absolute top-8 right-8 w-16 h-16 border-t-2 border-r-2 border-primary-container/80"></div>
+<div class="absolute top-9 right-9 text-right text-[9px] font-label-sm font-orbitron text-primary-container">VESPER // PROTOCOL 9</div>
+<!-- Bottom Left Bracket -->
+<div class="absolute bottom-14 left-8 w-16 h-16 border-b-2 border-l-2 border-primary-container/80"></div>
+<!-- Bottom Right Bracket -->
+<div class="absolute bottom-14 right-8 w-16 h-16 border-b-2 border-r-2 border-primary-container/80"></div>
+<!-- Center Targeting Reticle (Subtle) -->
+<div class="absolute inset-0 m-auto w-48 h-48 hud-reticle-ring rounded-full opacity-40 flex items-center justify-center">
+<div class="w-24 h-24 border border-dashed border-primary-container/40 rounded-full animate-spin" style="animation-duration: 40s;"></div>
+<div class="w-2 h-2 bg-primary-container/60 rounded-full"></div>
+</div>
+</div>
+<!-- Main Cinematic Frame (Atmospheric Image Inspiring the Narrative) -->
+<div class="relative w-full aspect-[16/9] min-h-[380px] sm:min-h-[460px] overflow-hidden bg-surface-container-lowest">
+<img alt="MagnopVS Episode Player Stage" class="w-full h-full object-cover object-center filter contrast-110 brightness-95" data-alt="A grand sci-fi space station bridge interior overlooking planet Earth from orbit through massive curved observation windows. High-tech tactical armor paladins and an archon operator interact around a glowing holographic table displaying planetary maps and luminous sacred geometry golden-cyan wireframe seals. Neon cyan and celestial blue HUD readouts float in deep space contrast." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJxqM9dBfc-NEC8YM3xHXLzVncrdwqMR3fVKh0M95d-70Kicm0D5QmwTiUfSH0a8bOewavz6B6rdKLwqCB15DBRKUoipfNFy1bpomtMfnmq6hTIE3052MKbMVDXpYNkNSahzkv61mbRZLRNics0ALYFJiqwMp3Gq4FCPKcsvO7sfKc0qH_rTMde192D8Nn5hy4Xnv4WuEAzezkdZ_2fK8Fm7U2WNCLDxNLXmzGGEY"/>
+<!-- Vignette Gradient -->
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent"></div>
+<!-- In-Scene Narrative Dialog Cue -->
+<div class="absolute bottom-16 inset-x-8 z-30 bg-surface-container-lowest/85 backdrop-blur-md border-l-4 border-primary-container border-y border-r border-outline-variant/50 p-4 chamfer-card max-w-2xl shadow-[0_0_20px_rgba(0,0,0,0.8)]">
+<div class="flex items-center justify-between mb-1">
+<span class="text-label-sm font-label-sm font-orbitron text-primary-container font-bold tracking-wider">ARCHON METATRON [TRANSMISSION FREQ 528.00]</span>
+<span class="text-[10px] font-label-sm font-orbitron text-secondary bg-secondary-container/20 px-1.5 py-0.5 rounded">HERMETIC CIPHER</span>
+</div>
+<p class="font-body-md text-on-surface text-sm sm:text-base leading-relaxed font-light">
+              “The Prime Seal above the Atlantic Convergence is rupturing. Paladin Vesper, choose now: align the astral compass to siphon the void pulse, or raise the Solar Aegis to anchor our orbital trajectory.”
+            </p>
+</div>
+</div>
+<!-- Media Scrubber & Playback Controls Bar -->
+<div class="relative z-30 px-6 py-3 bg-surface-container-low border-t border-outline-variant/40 flex flex-col gap-2">
+<!-- Scrubber Progress Bar -->
+<div class="relative w-full h-2 bg-surface-container-highest cursor-pointer rounded-full overflow-hidden group">
+<div class="absolute top-0 left-0 bottom-0 w-[46.2%] bg-gradient-to-r from-secondary-container to-primary-container shadow-[0_0_10px_#00e5ff]"></div>
+<div class="absolute top-0 bottom-0 left-[46.2%] w-1.5 bg-primary-container shadow-[0_0_8px_#ffffff] -translate-x-1/2"></div>
+<!-- Decision Point Marker at 46.2% -->
+<div class="absolute top-0 bottom-0 left-[46.2%] w-3 h-3 -mt-0.5 rounded-full bg-on-tertiary-container shadow-[0_0_8px_#ff007f] -translate-x-1/2"></div>
+</div>
+<!-- Time & Tactical Player Controls -->
+<div class="flex items-center justify-between text-on-surface-variant pt-1">
+<div class="flex items-center gap-4">
+<button class="text-primary hover:text-primary-container transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl" data-icon="pause_circle">pause_circle</span>
+</button>
+<button class="hover:text-primary transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-xl" data-icon="replay_10">replay_10</span>
+</button>
+<button class="hover:text-primary transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-xl" data-icon="forward_10">forward_10</span>
+</button>
+<!-- Time readout -->
+<div class="text-label-sm font-label-sm font-orbitron text-on-surface">
+<span class="text-primary-container font-bold">08:42</span> <span class="text-outline">/ 18:42</span>
+</div>
+</div>
+<!-- Audio Track & Display Quality -->
+<div class="flex items-center gap-4 text-xs font-label-sm font-orbitron">
+<div class="flex items-center gap-1.5 bg-surface-container-highest/60 px-2 py-1 rounded text-primary-container border border-outline-variant/40">
+<span class="material-symbols-outlined text-sm" data-icon="graphic_eq">graphic_eq</span>
+<span>SOLFEGGIO 528 Hz ATMOS</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined text-lg" data-icon="subtitles">subtitles</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined text-lg" data-icon="tune">tune</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined text-lg" data-icon="fullscreen">fullscreen</span></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ACTIVE DECISION HUB: PHASE 06 BIFURCACIÓN (Interactive Cards) -->
+<div class="bg-surface-container-low/90 border border-primary-container/60 p-5 rounded-lg shadow-[0_0_20px_rgba(0,229,255,0.18)] chamfer-card">
+<!-- Decision Header -->
+<div class="flex flex-wrap items-center justify-between border-b border-outline-variant/40 pb-3 mb-4 gap-2">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 bg-primary-container rounded-sm shadow-[0_0_8px_#00e5ff] animate-pulse"></span>
+<h2 class="text-headline-sm font-headline-sm font-orbitron font-bold text-primary tracking-wider uppercase">UEL PHASE 06: BIFURCACIÓN ARCHIVAL MATRIX</h2>
+</div>
+<div class="flex items-center gap-2 text-label-sm font-label-sm font-orbitron bg-surface-container px-3 py-1 rounded border border-outline-variant/60">
+<span class="text-outline">DECISION LOCKOUT TIMER:</span>
+<span class="text-primary-container font-bold text-sm">01:48</span>
+</div>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-4">
+          Universal Episode Loop detected a quantum bifurcation point. Selecting a branch recalibrates narrative pathing, unlocks exclusive relics, and dynamically reconfigures Phase 07 climax parameters.
+        </p>
+<!-- Two Divergent Branch Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Branch A (Selected Candidate) -->
+<div class="relative bg-surface-container border-2 border-primary-container p-4 rounded-lg flex flex-col justify-between chamfer-card shadow-[0_0_16px_rgba(0,229,255,0.25)] group cursor-pointer hover:bg-surface-container-high transition-all">
+<div class="absolute -top-3 right-4 px-2 py-0.5 bg-primary-container text-surface-container-lowest text-[10px] font-label-sm font-orbitron font-bold tracking-widest uppercase chamfer-btn">
+              RECOMMENDED RESTRAINT
+            </div>
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="text-label-sm font-label-sm font-orbitron text-primary-container font-semibold tracking-wider">BRANCH A // TRANSMISSION</span>
+<span class="material-symbols-outlined text-primary-container" data-icon="radio_button_checked">radio_button_checked</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm font-orbitron font-bold text-on-surface mb-2">Align Astral Compass</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant leading-relaxed mb-4">
+                Siphon the Ley-Node pulse through Archon Metatron and Scribe Seraph-09. Unveils celestial navigational secrets and stabilizes the orbital harmonics.
+              </p>
+</div>
+<div class="pt-3 border-t border-outline-variant/40 flex items-center justify-between text-label-sm font-label-sm font-orbitron">
+<div class="flex items-center gap-1.5 text-primary">
+<span class="material-symbols-outlined text-sm" data-icon="diamond">diamond</span>
+<span>+450 MP // RELIC #012</span>
+</div>
+<span class="text-secondary text-xs uppercase">METATRON TRUST: +24%</span>
+</div>
+</div>
+<!-- Branch B (Alternative Branch) -->
+<div class="relative bg-surface-container/70 border border-outline-variant/60 hover:border-secondary p-4 rounded-lg flex flex-col justify-between chamfer-card group cursor-pointer hover:bg-surface-container-high transition-all">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="text-label-sm font-label-sm font-orbitron text-outline font-semibold tracking-wider">BRANCH B // FORTRESS</span>
+<span class="material-symbols-outlined text-outline group-hover:text-secondary transition-colors" data-icon="radio_button_unchecked">radio_button_unchecked</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm font-orbitron font-bold text-on-surface-variant group-hover:text-on-surface mb-2">Deploy Solar Aegis</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant leading-relaxed mb-4">
+                Command Paladin Vesper to execute a total planetary kinetic shield lock. Mitigates immediate hull fallout at the cost of severe hyper-harmonic feedback.
+              </p>
+</div>
+<div class="pt-3 border-t border-outline-variant/40 flex items-center justify-between text-label-sm font-label-sm font-orbitron">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="shield">shield</span>
+<span>HIGH KARMA // TACTICAL DEF</span>
+</div>
+<span class="text-outline text-xs uppercase">VESPER STANCE: DEFENSIVE</span>
+</div>
+</div>
+</div>
+<!-- Primary Decision Execution CTA -->
+<div class="mt-5 flex flex-wrap items-center justify-between gap-4">
+<div class="flex items-center gap-2 text-label-sm font-label-sm text-outline">
+<span class="material-symbols-outlined text-primary-container text-base" data-icon="info">info</span>
+<span>Branch choice cannot be undone within the current continuous timeline loop.</span>
+</div>
+<button class="px-6 py-2.5 bg-primary-container hover:bg-primary text-surface-container-lowest font-orbitron font-bold text-label-md tracking-widest uppercase transition-all duration-150 shadow-[0_0_18px_rgba(0,229,255,0.7)] flex items-center gap-2 chamfer-btn">
+<span class="material-symbols-outlined text-lg" data-icon="lock">lock</span>
+<span>LOCK BRANCH DECISION (A)</span>
+</button>
+</div>
+</div>
+</section>
+<!-- RIGHT: Bento Tactical HUD & Telemetry Modules (4 Columns Desktop) -->
+<aside class="lg:col-span-4 flex flex-col gap-5">
+<!-- Operator Vitals & Shield Matrix HUD Module -->
+<div class="bg-surface-container-low/80 border border-outline-variant/50 p-4 rounded-lg chamfer-card shadow-[0_0_16px_rgba(0,176,255,0.1)]">
+<div class="flex items-center justify-between mb-3 border-b border-outline-variant/30 pb-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-sm" data-icon="shield_with_heart">shield_with_heart</span>
+<span class="text-label-sm font-label-sm font-orbitron font-bold text-primary tracking-wider uppercase">OPERATOR SHIELD &amp; VITALS</span>
+</div>
+<span class="text-[10px] font-label-sm font-orbitron text-outline">GRID-74 // ALPHA</span>
+</div>
+<!-- Shields Segmented Bar -->
+<div class="mb-3">
+<div class="flex justify-between text-label-sm font-label-sm font-orbitron mb-1">
+<span class="text-on-surface-variant">CELESTIAL SHIELD:</span>
+<span class="text-primary-container font-bold">92%</span>
+</div>
+<div class="flex gap-1 h-2">
+<div class="flex-1 bg-primary-container shadow-[0_0_6px_#00e5ff] rounded-xs"></div>
+<div class="flex-1 bg-primary-container shadow-[0_0_6px_#00e5ff] rounded-xs"></div>
+<div class="flex-1 bg-primary-container shadow-[0_0_6px_#00e5ff] rounded-xs"></div>
+<div class="flex-1 bg-primary-container shadow-[0_0_6px_#00e5ff] rounded-xs"></div>
+<div class="flex-1 bg-primary-container shadow-[0_0_6px_#00e5ff] rounded-xs"></div>
+<div class="flex-1 bg-primary-container shadow-[0_0_6px_#00e5ff] rounded-xs"></div>
+<div class="flex-1 bg-primary-container shadow-[0_0_6px_#00e5ff] rounded-xs"></div>
+<div class="flex-1 bg-outline-variant/30 rounded-xs"></div>
+</div>
+</div>
+<!-- Hull Integrity Segmented Bar -->
+<div class="mb-3">
+<div class="flex justify-between text-label-sm font-label-sm font-orbitron mb-1">
+<span class="text-on-surface-variant">HULL INTEGRITY:</span>
+<span class="text-error font-bold">88%</span>
+</div>
+<div class="flex gap-1 h-2">
+<div class="flex-1 bg-error shadow-[0_0_6px_#ff007f] rounded-xs"></div>
+<div class="flex-1 bg-error shadow-[0_0_6px_#ff007f] rounded-xs"></div>
+<div class="flex-1 bg-error shadow-[0_0_6px_#ff007f] rounded-xs"></div>
+<div class="flex-1 bg-error shadow-[0_0_6px_#ff007f] rounded-xs"></div>
+<div class="flex-1 bg-error shadow-[0_0_6px_#ff007f] rounded-xs"></div>
+<div class="flex-1 bg-outline-variant/30 rounded-xs"></div>
+</div>
+</div>
+<!-- Void Arcana Bar -->
+<div>
+<div class="flex justify-between text-label-sm font-label-sm font-orbitron mb-1">
+<span class="text-on-surface-variant">VOID ARCANA CAPACITY:</span>
+<span class="text-secondary font-bold">640 / 800 VA</span>
+</div>
+<div class="flex gap-1 h-2">
+<div class="flex-1 bg-secondary shadow-[0_0_6px_#8dcdff] rounded-xs"></div>
+<div class="flex-1 bg-secondary shadow-[0_0_6px_#8dcdff] rounded-xs"></div>
+<div class="flex-1 bg-secondary shadow-[0_0_6px_#8dcdff] rounded-xs"></div>
+<div class="flex-1 bg-outline-variant/30 rounded-xs"></div>
+</div>
+</div>
+</div>
+<!-- Sacred Geometry & Hermetic Astrolabe Sensor -->
+<div class="bg-surface-container-low/80 border border-outline-variant/50 p-4 rounded-lg chamfer-card">
+<div class="flex items-center justify-between mb-3 border-b border-outline-variant/30 pb-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="share">share</span>
+<span class="text-label-sm font-label-sm font-orbitron font-bold text-secondary tracking-wider uppercase">HERMETIC ASTROLABE ARRAY</span>
+</div>
+<span class="text-[10px] font-label-sm text-primary-container">NODE: ATLANTIC-01</span>
+</div>
+<!-- Visual Sensor Display Box -->
+<div class="relative w-full aspect-[4/3] bg-surface-container-lowest border border-outline-variant/40 rounded flex items-center justify-center overflow-hidden mb-3">
+<!-- Background Sacred Geometry SVG Simulation -->
+<div class="absolute inset-0 flex items-center justify-center opacity-30">
+<div class="w-36 h-36 border border-primary-container rounded-full flex items-center justify-center">
+<div class="w-28 h-28 border border-secondary rotate-45 flex items-center justify-center">
+<div class="w-20 h-20 border border-primary-container rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Pulsing Node Markers -->
+<div class="relative z-10 flex flex-col items-center">
+<div class="w-4 h-4 rounded-full bg-primary-container/20 border border-primary-container flex items-center justify-center shadow-[0_0_12px_#00e5ff]">
+<span class="w-1.5 h-1.5 bg-primary-container rounded-full animate-ping"></span>
+</div>
+<span class="mt-2 text-label-sm font-label-sm font-orbitron text-primary-container font-bold">PRIME SEAL ALIGNED</span>
+<span class="text-[10px] font-label-sm text-outline font-mono">OCTAHEDRAL RESONANCE: +1.28 dB</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 text-label-sm font-label-sm font-orbitron">
+<div class="bg-surface-container p-2 rounded border border-outline-variant/30">
+<div class="text-[9px] text-outline">CELESTIAL HARMONICS</div>
+<div class="text-primary font-bold">PHI 1.618</div>
+</div>
+<div class="bg-surface-container p-2 rounded border border-outline-variant/30">
+<div class="text-[9px] text-outline">LEY-STABILITY</div>
+<div class="text-secondary font-bold">OPTIMAL</div>
+</div>
+</div>
+</div>
+<!-- Dialogue History & Hermetic Script Logs -->
+<div class="flex-1 bg-surface-container-low/80 border border-outline-variant/50 p-4 rounded-lg chamfer-card flex flex-col">
+<div class="flex items-center justify-between mb-3 border-b border-outline-variant/30 pb-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline text-sm" data-icon="terminal">terminal</span>
+<span class="text-label-sm font-label-sm font-orbitron font-bold text-on-surface tracking-wider uppercase">ARCHIVAL CHRONO-LOG</span>
+</div>
+<span class="text-[10px] font-label-sm text-outline">AUTO-DECRYPT</span>
+</div>
+<div class="flex-1 flex flex-col gap-2.5 overflow-y-auto max-h-56 pr-1 font-body-sm text-xs">
+<!-- Log 1 -->
+<div class="p-2 rounded bg-surface-container/60 border-l-2 border-outline-variant">
+<div class="text-[10px] font-label-sm font-orbitron text-outline flex justify-between">
+<span>PALADIN VESPER [08:15]</span>
+<span>CHRONO-OK</span>
+</div>
+<p class="text-on-surface-variant mt-0.5">“Sensor telemetry confirms the convergence point is resonating with ancient Solfeggio frequencies.”</p>
+</div>
+<!-- Log 2 -->
+<div class="p-2 rounded bg-surface-container/60 border-l-2 border-primary-container">
+<div class="text-[10px] font-label-sm font-orbitron text-primary-container flex justify-between">
+<span>SCRIBE SERAPH-09 [08:31]</span>
+<span>DECRYPTED</span>
+</div>
+<p class="text-on-surface-variant mt-0.5">“Prime Seal protocol responds exclusively to operators holding rank over the Celestial Axis.”</p>
+</div>
+<!-- Log 3 -->
+<div class="p-2 rounded bg-primary-container/10 border-l-2 border-primary-container">
+<div class="text-[10px] font-label-sm font-orbitron text-primary-container flex justify-between">
+<span>QUANTVM RUNTIME [08:42]</span>
+<span class="text-error font-bold">BIFURCATION</span>
+</div>
+<p class="text-on-surface mt-0.5 font-semibold">“Branch awaiting user authentication. Option A or Option B mandatory for Episode Completion.”</p>
+</div>
+</div>
+<!-- Quick Telemetry Actions -->
+<div class="mt-3 pt-2 border-t border-outline-variant/30 flex items-center justify-between">
+<button class="text-label-sm font-label-sm font-orbitron text-primary hover:text-primary-container flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="history">history</span>
+<span>TIMELINE REWIND</span>
+</button>
+<button class="text-label-sm font-label-sm font-orbitron text-on-surface-variant hover:text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+<span>EXPORT LOG</span>
+</button>
+</div>
+</div>
+</aside>
+</main>
+<!-- FOOTER (Brand Anchor JSON Execution) -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest text-primary dark:text-primary border-t border-outline-variant/40 dark:border-outline-variant/40 flat no shadows mt-auto">
+<div class="w-full py-8 px-6 lg:px-12 flex flex-col md:flex-row justify-between items-center gap-4 max-w-full mx-auto">
+<!-- Footer Brand & Copyright Text -->
+<div class="flex flex-col md:flex-row items-center gap-4 text-center md:text-left">
+<span class="text-headline-sm font-headline-sm text-primary dark:text-primary uppercase tracking-wider font-audiowide">MagnopVS</span>
+<div class="h-4 w-px bg-outline-variant/40 hidden md:block"></div>
+<p class="text-body-sm font-body-sm text-outline dark:text-outline">
+          © 2025 MagnopVS Interactive Entertainment. Universal Episode Loop Runtime v1.1.
+        </p>
+</div>
+<!-- Links defined in Shared Components JSON -->
+<div class="flex flex-wrap items-center justify-center gap-6">
+<a class="text-label-sm font-label-sm text-outline dark:text-outline hover:text-on-surface dark:hover:text-on-surface hover:text-primary-container dark:hover:text-primary-container transition-colors font-orbitron tracking-wider" href="#">TERMINAL DIAGNOSTICS</a>
+<a class="text-label-sm font-label-sm text-outline dark:text-outline hover:text-on-surface dark:hover:text-on-surface hover:text-primary-container dark:hover:text-primary-container transition-colors font-orbitron tracking-wider" href="#">COSMIC PROTOCOLS</a>
+<a class="text-label-sm font-label-sm text-outline dark:text-outline hover:text-on-surface dark:hover:text-on-surface hover:text-primary-container dark:hover:text-primary-container transition-colors font-orbitron tracking-wider" href="#">PRIVACY ARCHIVE</a>
+<a class="text-label-sm font-label-sm text-primary dark:text-primary font-bold hover:text-primary-container dark:hover:text-primary-container transition-colors font-orbitron tracking-wider flex items-center gap-1.5" href="#">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+          UEL RUNTIME STATUS
+        </a>
+<a class="text-label-sm font-label-sm text-outline dark:text-outline hover:text-on-surface dark:hover:text-on-surface hover:text-primary-container dark:hover:text-primary-container transition-colors font-orbitron tracking-wider" href="#">TRANSMISSION SUPPORT</a>
+</div>
+</div>
+</footer>
+</body></html>

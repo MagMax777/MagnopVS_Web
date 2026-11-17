@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOP_VS // DOPAMINE_MANUAL</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Space+Mono:wght@400;700&amp;family=Space+Grotesk:wght@300;400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Using the provided Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-highest": "#34343a",
+                    "tertiary-fixed": "#e9ddff",
+                    "surface-container-low": "#1a1b21",
+                    "background": "#121318",
+                    "tertiary-container": "#e1d2ff",
+                    "surface-variant": "#34343a",
+                    "on-primary-fixed": "#002022",
+                    "on-tertiary": "#3c0090",
+                    "inverse-surface": "#e3e1e9",
+                    "surface-container": "#1e1f25",
+                    "tertiary-fixed-dim": "#d1bcff",
+                    "primary-fixed-dim": "#00dbe9",
+                    "on-surface-variant": "#b9cacb",
+                    "on-surface": "#e3e1e9",
+                    "on-error-container": "#ffdad6",
+                    "primary-fixed": "#7df4ff",
+                    "surface-container-lowest": "#0d0e13",
+                    "on-tertiary-fixed": "#23005b",
+                    "on-secondary-fixed-variant": "#810081",
+                    "tertiary": "#faf3ff",
+                    "error": "#ffb4ab",
+                    "secondary-fixed": "#ffd7f5",
+                    "inverse-on-surface": "#2f3036",
+                    "on-secondary-container": "#500050",
+                    "on-tertiary-container": "#7213ff",
+                    "on-secondary": "#5b005b",
+                    "surface-tint": "#00dbe9",
+                    "primary": "#dbfcff",
+                    "on-secondary-fixed": "#380038",
+                    "surface-container-high": "#292a2f",
+                    "on-background": "#e3e1e9",
+                    "primary-container": "#00f0ff",
+                    "on-primary": "#00363a",
+                    "surface-dim": "#121318",
+                    "error-container": "#93000a",
+                    "outline-variant": "#3b494b",
+                    "outline": "#849495",
+                    "on-primary-fixed-variant": "#004f54",
+                    "surface-bright": "#38393f",
+                    "surface": "#121318",
+                    "secondary-fixed-dim": "#ffabf3",
+                    "on-primary-container": "#006970",
+                    "on-tertiary-fixed-variant": "#5700c9",
+                    "inverse-primary": "#006970",
+                    "secondary-container": "#fe00fe",
+                    "secondary": "#ffabf3",
+                    "on-error": "#690005"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "panel-padding": "20px",
+                    "margin-mobile": "16px",
+                    "gutter": "24px",
+                    "margin-desktop": "64px",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Audiowide"],
+                    "label-caps": ["Space Mono"],
+                    "data-mono": ["Space Mono"],
+                    "body-md": ["Space Grotesk"],
+                    "headline-md": ["Audiowide"],
+                    "body-lg": ["Space Grotesk"],
+                    "display-lg-mobile": ["Audiowide"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.15em", "fontWeight": "700"}],
+                    "data-mono": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #121318;
+            color: #e3e1e9;
+            overflow-x: hidden;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .hex-bg {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBBWUhdUovEHpTen94daCM_fddQTx_mpDpHvxpP1ZXgOvGzdSyCXEsEUEE-lom5LJuE04t7fTF42mo4W9SMfYU40h4ncinqKuqArxsKxV8-64ipOYzTAfnW3pP5uiST0VkKAU1iBYdnJSHClxAmgRgrhGZg8a0jgE0Gd8fKjxJ6LixccrOu15agRxvztapOyC2suijQ2TQmshSlXyxsTy1Yvm_FSvVAbgf1bsyjcKyTl8XJRVg5_cjkAcmuSI7E1MbxK_r4wWNq1J1k');
+            background-size: cover;
+            background-position: center;
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        .glass-panel {
+            background: rgba(219, 252, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(132, 148, 149, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 219, 233, 0.5), transparent);
+            animation: scanline 4s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(500px); }
+        }
+
+        .clipped-corner-primary {
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+            background: #00dbe9;
+            color: #002022;
+            transition: all 0.3s ease;
+        }
+
+        .clipped-corner-primary:hover {
+            box-shadow: 0 0 20px rgba(0, 219, 233, 0.6);
+            transform: scale(1.02);
+        }
+
+        .id-tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            padding: 2px 8px;
+            background: rgba(132, 148, 149, 0.2);
+            border-right: 1px solid rgba(132, 148, 149, 0.5);
+            border-bottom: 1px solid rgba(132, 148, 149, 0.5);
+        }
+
+        .pulse-magenta {
+            animation: pulse-m 2s infinite;
+        }
+
+        @keyframes pulse-m {
+            0% { opacity: 0.4; text-shadow: 0 0 5px #fe00fe; }
+            50% { opacity: 1; text-shadow: 0 0 15px #fe00fe; }
+            100% { opacity: 0.4; text-shadow: 0 0 5px #fe00fe; }
+        }
+
+        .scanline-overlay {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+            position: absolute;
+            inset: 0;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+<div class="hex-bg"></div>
+<div class="scanline-overlay"></div>
+<!-- Top Navigation Anchor -->
+<header class="fixed top-0 w-full z-50 bg-surface/10 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(0,219,233,0.2)]">
+<div class="flex justify-between items-center px-margin-desktop py-4 w-full">
+<div class="flex items-center gap-4">
+<div class="font-display-lg text-headline-md tracking-widest text-primary uppercase">MAGNOP_VS // HYPERFOCUS</div>
+</div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="text-on-surface-variant font-medium hover:text-primary-container transition-colors duration-300" href="#">DASHBOARD</a>
+<a class="text-primary font-bold border-b-2 border-primary" href="#">REWARD_ENGINE</a>
+<a class="text-on-surface-variant font-medium hover:text-primary-container transition-colors duration-300" href="#">PROTOCOLS</a>
+<a class="text-on-surface-variant font-medium hover:text-primary-container transition-colors duration-300" href="#">SYSTEM</a>
+</nav>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-primary">monitoring</span>
+<span class="material-symbols-outlined text-primary">notifications</span>
+<img class="w-10 h-10 rounded-full border border-primary/50 object-cover" data-alt="A high-tech digital avatar profile picture featuring a stylized robotic operator head with glowing cyan visor and circuit patterns on a dark carbon fiber background, cinematic lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrv6lHrMXmie5DVVmGSU80aSPwSH5vpD1C9ncJb14ZMAKnOigeAi5tHq7hGbQCLqUprC4D2FD8rpmh3RAUW77iZ6CUyk1RWAbMvMxcBOvuyhX0l9QXQBm8xoj5iJVAXYMYWiVCaXDPTk1_dMoihPL5tpcTQ4iNXlZlqtup5kQOS5vH7nDK0SubQkwrTU9XI4UAfUSajQ36HAxwMYX17NUlng5gBGcSfegKPpes33P7Zkt2xSl2nV0DudZF5HsOZ21FsSw4CjmoFEnK"/>
+</div>
+</div>
+</header>
+<!-- Side Navigation -->
+<aside class="fixed left-0 top-0 h-full w-64 z-40 bg-surface/5 backdrop-blur-2xl border-r border-outline-variant/20 shadow-[5px_0_15px_rgba(0,0,0,0.5)] hidden md:flex flex-col pt-24 pb-8">
+<div class="px-6 mb-8">
+<div class="font-headline-md text-headline-md text-secondary mb-1">SOF.IA // V.2.1</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant opacity-60">TACTICAL_ADVISOR</div>
+</div>
+<nav class="flex-1 space-y-2 px-2">
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container font-bold border-l-4 border-primary transition-all duration-200" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant/30 hover:text-primary transition-all duration-200 translate-x-1" href="#">
+<span class="material-symbols-outlined">bolt</span>
+<span class="font-label-caps text-label-caps">Initiation</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant/30 hover:text-primary transition-all duration-200" href="#">
+<span class="material-symbols-outlined">sync</span>
+<span class="font-label-caps text-label-caps">Sustainability</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant/30 hover:text-primary transition-all duration-200" href="#">
+<span class="material-symbols-outlined">exit_to_app</span>
+<span class="font-label-caps text-label-caps">Extraction</span>
+</a>
+</nav>
+<div class="mt-auto px-4">
+<button class="w-full clipped-corner-primary py-3 font-label-caps text-label-caps">ENGAGE_COCKPIT</button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pt-24 pb-20 px-margin-mobile md:px-margin-desktop">
+<div class="grid grid-cols-12 gap-gutter">
+<!-- SECTION 1: DOPAMINE RESERVOIR // TELEMETRY -->
+<section class="col-span-12 lg:col-span-8 glass-panel p-panel-padding relative min-h-[400px]">
+<div class="absolute top-0 left-0 id-tag">SECTOR_01 // TYPE: TELEMETRY</div>
+<div class="mt-6 flex flex-col h-full">
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary mb-2">DOPAMINE RESERVOIR</h2>
+<div class="flex gap-4">
+<div class="bg-primary/10 border border-primary/20 px-3 py-1">
+<span class="font-label-caps text-label-caps text-primary">BASELINE: 42%</span>
+</div>
+<div class="bg-secondary/10 border border-secondary/20 px-3 py-1">
+<span class="font-label-caps text-label-caps text-secondary">SPIKE_DETECTED</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1 uppercase">Sensitivity Index</div>
+<div class="font-display-lg text-display-lg text-primary">0.84<span class="text-headline-md font-body-md opacity-50">/1.0</span></div>
+</div>
+</div>
+<!-- Visualization Placeholder -->
+<div class="flex-1 border-b border-l border-outline-variant/30 relative flex items-end">
+<!-- Simulated wave graph -->
+<div class="absolute inset-0 flex items-center justify-center opacity-20">
+
+</div>
+<div class="w-full h-48 flex items-end gap-1 px-4 z-20">
+<!-- Randomized progress blocks for aesthetic -->
+<div class="w-full h-1/4 bg-primary/20 border-t border-primary/60"></div>
+<div class="w-full h-2/4 bg-primary/30 border-t border-primary/60"></div>
+<div class="w-full h-3/4 bg-primary/40 border-t border-primary/60"></div>
+<div class="w-full h-full bg-primary/50 border-t border-primary shadow-[0_0_20px_rgba(0,219,233,0.4)]"></div>
+<div class="w-full h-2/3 bg-primary/30 border-t border-primary/60"></div>
+<div class="w-full h-1/2 bg-primary/20 border-t border-primary/60"></div>
+<div class="w-full h-1/3 bg-primary/20 border-t border-primary/60"></div>
+</div>
+</div>
+<div class="flex justify-between mt-2 font-label-caps text-[10px] text-on-surface-variant/50">
+<span>00:00:00</span>
+<span>06:00:00</span>
+<span>12:00:00</span>
+<span>18:00:00</span>
+<span>CURRENT_TIME</span>
+</div>
+</div>
+</section>
+<!-- SECTION 5: ACTIVE BUFFS & DEBUFFS -->
+<aside class="col-span-12 lg:col-span-4 flex flex-col gap-gutter">
+<div class="glass-panel p-panel-padding relative">
+<div class="absolute top-0 left-0 id-tag">SYSTEM_STATUS // LOG:09</div>
+<h3 class="font-headline-md text-headline-md text-primary mt-6 mb-4">ACTIVE STATES</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-3 bg-primary-container/10 border border-primary/40">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+<div>
+<div class="font-label-caps text-label-caps text-primary">Motivation Peak</div>
+<div class="text-[10px] text-on-surface-variant font-data-mono">T+ 04:22:10 REMAINING</div>
+</div>
+</div>
+<div class="text-primary font-bold">+15% EFF</div>
+</div>
+<div class="flex items-center justify-between p-3 bg-secondary-container/10 border border-secondary/40">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary pulse-magenta">warning</span>
+<div>
+<div class="font-label-caps text-label-caps text-secondary">Reward Crash Risk</div>
+<div class="text-[10px] text-on-surface-variant font-data-mono">HIGH RECEPTOR LOAD</div>
+</div>
+</div>
+<div class="text-secondary font-bold">-08% RES</div>
+</div>
+</div>
+</div>
+<!-- SOF.IA TACTICAL INSIGHT -->
+<div class="glass-panel p-panel-padding relative flex-1">
+<div class="absolute top-0 left-0 id-tag">AI_ADVISORY // SOF.IA</div>
+<div class="mt-6">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-lg border-2 border-secondary p-1">
+<img class="w-full h-full object-cover rounded-sm" data-alt="A futuristic AI interface icon featuring a glowing purple and magenta crystalline geometric core within a dark brushed metal housing, ethereal lighting effects." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOq6C4vUiPU3SFE3dcxP5axhDL3Vo8gAexBCoyf-7OfdrIjpeoCq41x38bMH8Owyxe6wjYJpBKY7l4IryFSLOxWYgHdkDevgMRMMT4nACiIgXluthFRkr8GjyI2aSSJxJs6YHvkKbDT9PywgwKLKWT0X90rT7Hk5-D01WS18Ao541jOYPvOtwltBapxYvy2V0egh95klbtUsANYn_DZ8GAllae6dmhAVHuEh9L5jzRauU8zAJohKEZot1X6o09Tpr8s0GhBRgkGnGr"/>
+</div>
+<div>
+<div class="font-headline-md text-[18px] text-secondary">NEURO-TACTICAL INSIGHT</div>
+<div class="text-[10px] font-label-caps text-on-surface-variant">ANALYSIS_COMPLETE</div>
+</div>
+</div>
+<p class="font-body-md text-on-surface-variant mb-6 border-l-2 border-secondary/40 pl-4 py-2 italic leading-relaxed">
+                            "Operator, current synaptic load indicates a reliance on level-1 cheap rewards. I suggest immediate engagement in a 15-minute 'Deep Flow' initiation protocol to recalibrate baseline sensitivity before extraction."
+                        </p>
+<button class="w-full py-2 bg-secondary/20 border border-secondary/50 text-secondary font-label-caps text-label-caps hover:bg-secondary/40 transition-all uppercase">
+                            Accept_Recalibration
+                        </button>
+</div>
+</div>
+</aside>
+<!-- SECTION 2: REWARD ENGINEERING // PROTOCOLS -->
+<section class="col-span-12 lg:col-span-6 glass-panel p-panel-padding relative">
+<div class="absolute top-0 left-0 id-tag">MODULE_02 // TYPE: PROTOCOLS</div>
+<h3 class="font-headline-md text-headline-md text-primary mt-6 mb-6">REWARD ENGINEERING</h3>
+<div class="space-y-2">
+<!-- Protocol Item -->
+<div class="group flex items-center justify-between p-4 border border-outline-variant/30 hover:border-primary/50 hover:bg-primary/5 transition-all cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="text-primary material-symbols-outlined text-3xl">timer_off</div>
+<div>
+<div class="font-headline-md text-body-lg group-hover:text-primary transition-colors">Dopamine Fasting</div>
+<div class="text-sm text-on-surface-variant opacity-60">Phase 1: Zero Sensory Inputs</div>
+</div>
+</div>
+<div class="text-on-surface-variant material-symbols-outlined">chevron_right</div>
+</div>
+<!-- Protocol Item -->
+<div class="group flex items-center justify-between p-4 border border-outline-variant/30 hover:border-primary/50 hover:bg-primary/5 transition-all cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="text-primary material-symbols-outlined text-3xl">layers</div>
+<div>
+<div class="font-headline-md text-body-lg group-hover:text-primary transition-colors">Micro-Task Stacking</div>
+<div class="text-sm text-on-surface-variant opacity-60">Linear chain rewards for low-effort tasks</div>
+</div>
+</div>
+<div class="text-on-surface-variant material-symbols-outlined">chevron_right</div>
+</div>
+<!-- Protocol Item -->
+<div class="group flex items-center justify-between p-4 border border-outline-variant/30 hover:border-primary/50 hover:bg-primary/5 transition-all cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="text-primary material-symbols-outlined text-3xl">psychology_alt</div>
+<div>
+<div class="font-headline-md text-body-lg group-hover:text-primary transition-colors">Neuro-Priming</div>
+<div class="text-sm text-on-surface-variant opacity-60">Pre-task visualization for dopamine anchoring</div>
+</div>
+</div>
+<div class="text-on-surface-variant material-symbols-outlined">chevron_right</div>
+</div>
+</div>
+</section>
+<!-- SECTION 3: REWARD CIRCUIT ARCHITECTURE -->
+<section class="col-span-12 lg:col-span-6 glass-panel p-panel-padding relative overflow-hidden">
+<div class="absolute top-0 left-0 id-tag">MODULE_03 // TYPE: ARCHITECTURE</div>
+<h3 class="font-headline-md text-headline-md text-primary mt-6 mb-6">CIRCUIT ARCHITECTURE</h3>
+<div class="relative h-64 w-full flex items-center justify-center">
+<!-- SVG Diagram Placeholder -->
+<div class="absolute inset-0 opacity-10">
+
+</div>
+<div class="grid grid-cols-3 gap-8 w-full z-20">
+<div class="flex flex-col items-center gap-2">
+<div class="w-16 h-16 border-2 border-primary/40 rounded-full flex items-center justify-center bg-surface-container">
+<span class="material-symbols-outlined text-primary text-3xl">fitness_center</span>
+</div>
+<div class="font-label-caps text-[10px] text-center">EFFORT_INPUT</div>
+</div>
+<div class="flex items-center justify-center">
+<div class="h-0.5 w-full bg-gradient-to-r from-primary/50 via-secondary/50 to-primary/50 relative">
+<div class="absolute -top-1 left-1/2 -translate-x-1/2 w-3 h-3 bg-primary rotate-45 animate-pulse"></div>
+</div>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-16 h-16 border-2 border-secondary/40 rounded-full flex items-center justify-center bg-surface-container">
+<span class="material-symbols-outlined text-secondary text-3xl">diamond</span>
+</div>
+<div class="font-label-caps text-[10px] text-center">REWARD_SPIKE</div>
+</div>
+</div>
+</div>
+<div class="mt-4 p-4 bg-surface-container-low border-t border-outline-variant/30">
+<div class="flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant">LOOP_STATUS: STABLE</span>
+<div class="flex gap-1">
+<div class="w-2 h-2 bg-primary"></div>
+<div class="w-2 h-2 bg-primary"></div>
+<div class="w-2 h-2 bg-primary/20"></div>
+<div class="w-2 h-2 bg-primary/20"></div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Bottom Navigation Mobile -->
+<nav class="fixed bottom-0 left-0 w-full flex md:hidden justify-around items-center px-4 py-2 bg-surface/80 backdrop-blur-lg border-t border-primary/40 z-50">
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 p-2" href="#">
+<span class="material-symbols-outlined">vital_signs</span>
+<span class="font-label-caps text-[10px] mt-1">Live</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container/20 text-primary rounded-xl p-2 px-4 scale-105 shadow-[0_0_10px_rgba(0,219,233,0.3)]" href="#">
+<span class="material-symbols-outlined">electric_bolt</span>
+<span class="font-label-caps text-[10px] mt-1">Buffs</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 p-2" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-caps text-[10px] mt-1">Exit</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 p-2" href="#">
+<span class="material-symbols-outlined">terminal</span>
+<span class="font-label-caps text-[10px] mt-1">Sys</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions for glass panels
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mousemove', (e) => {
+                const rect = panel.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                panel.style.setProperty('--mouse-x', `${x}px`);
+                panel.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // Simple flicker effect for the HUD feeling
+        setInterval(() => {
+            const elements = document.querySelectorAll('.text-primary, .text-secondary');
+            const target = elements[Math.floor(Math.random() * elements.length)];
+            target.style.opacity = '0.7';
+            setTimeout(() => {
+                target.style.opacity = '1';
+            }, 50);
+        }, 3000);
+    </script>
+</body></html>

@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOP-VS | Node Activation</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Hanken+Grotesk:wght@400;600&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Space+Grotesk:wght@600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide:wght@100..900&amp;family=Hanken+Grotesk:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;family=Space+Grotesk:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#6e3252",
+                        "primary": "#c5e7ff",
+                        "on-surface-variant": "#bfc8cf",
+                        "on-error": "#690005",
+                        "inverse-surface": "#e0e3e6",
+                        "secondary": "#47ddc1",
+                        "secondary-fixed-dim": "#47ddc1",
+                        "background": "#101417",
+                        "outline": "#899299",
+                        "primary-container": "#7fd0ff",
+                        "status-critical": "#93000a",
+                        "on-background": "#e0e3e6",
+                        "primary-fixed": "#c5e7ff",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed": "#ffd8e7",
+                        "grid-line": "rgba(127, 208, 255, 0.05)",
+                        "on-primary-fixed": "#001e2d",
+                        "surface-container": "#1c2023",
+                        "surface-container-low": "#181c1f",
+                        "surface": "#101417",
+                        "on-tertiary": "#531c3b",
+                        "on-secondary-fixed-variant": "#005144",
+                        "on-primary-fixed-variant": "#004c6a",
+                        "error": "#ffb4ab",
+                        "glow-cyan": "#2da8e0",
+                        "background-deep": "#0a0b12",
+                        "on-surface": "#e0e3e6",
+                        "on-primary-container": "#00597b",
+                        "primary-fixed-dim": "#7fd0ff",
+                        "inverse-on-surface": "#2d3134",
+                        "error-container": "#93000a",
+                        "surface-container-high": "#272a2d",
+                        "tertiary-fixed-dim": "#ffafd4",
+                        "on-secondary": "#00382e",
+                        "on-secondary-fixed": "#00201a",
+                        "surface-tint": "#7fd0ff",
+                        "surface-dim": "#101417",
+                        "tertiary": "#ffd8e7",
+                        "on-primary": "#00344a",
+                        "surface-container-lowest": "#0b0f11",
+                        "surface-bright": "#363a3d",
+                        "surface-panel": "rgba(255, 255, 255, 0.03)",
+                        "on-secondary-container": "#004439",
+                        "surface-container-highest": "#313538",
+                        "on-tertiary-fixed": "#390625",
+                        "inverse-primary": "#00658b",
+                        "tertiary-container": "#ffafd4",
+                        "on-tertiary-container": "#7c3e5e",
+                        "surface-variant": "#313538",
+                        "secondary-fixed": "#6af9dc",
+                        "secondary-container": "#00bba0",
+                        "outline-variant": "#3f484e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "section-padding": "128px",
+                        "margin-mobile": "20px",
+                        "margin-desktop": "40px",
+                        "panel-gap": "12px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "display-lg-mobile": ["Audiowide"],
+                        "mono-data": ["JetBrains Mono"],
+                        "micro-tag": ["JetBrains Mono"],
+                        "display-lg": ["Audiowide"],
+                        "body-md": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-md": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "micro-tag": ["10px", {"letterSpacing": "0.3em", "fontWeight": "500"}],
+                        "display-lg": ["72px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.02em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0a0b12;
+            overflow: hidden;
+            cursor: crosshair;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hex-grid {
+            background-image: 
+                linear-gradient(30deg, #1c2023 12%, transparent 12.5%, transparent 87%, #1c2023 87.5%, #1c2023),
+                linear-gradient(150deg, #1c2023 12%, transparent 12.5%, transparent 87%, #1c2023 87.5%, #1c2023),
+                linear-gradient(30deg, #1c2023 12%, transparent 12.5%, transparent 87%, #1c2023 87.5%, #1c2023),
+                linear-gradient(150deg, #1c2023 12%, transparent 12.5%, transparent 87%, #1c2023 87.5%, #1c2023),
+                linear-gradient(60deg, #1c2023 25%, transparent 25.5%, transparent 75%, #1c2023 75%, #1c2023),
+                linear-gradient(60deg, #1c2023 25%, transparent 25.5%, transparent 75%, #1c2023 75%, #1c2023);
+            background-size: 80px 140px;
+            background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+            opacity: 0.15;
+        }
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to bottom, rgba(71, 221, 193, 0) 0%, rgba(71, 221, 193, 0.5) 50%, rgba(71, 221, 193, 0) 100%);
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: scanning 8s linear infinite;
+            z-index: 10;
+            pointer-events: none;
+        }
+        @keyframes scanning {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+        .particle {
+            position: absolute;
+            background: #47ddc1;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 5;
+        }
+        .cyan-glow-text {
+            text-shadow: 0 0 15px rgba(71, 221, 193, 0.7);
+        }
+        .magenta-glow-text {
+            text-shadow: 0 0 15px rgba(255, 175, 212, 0.7);
+        }
+        .bracket-top-left { border-top: 2px solid #47ddc1; border-left: 2px solid #47ddc1; width: 20px; height: 20px; position: absolute; top: -5px; left: -5px; }
+        .bracket-bottom-right { border-bottom: 2px solid #47ddc1; border-right: 2px solid #47ddc1; width: 20px; height: 20px; position: absolute; bottom: -5px; right: -5px; }
+        
+        .shimmer-bg {
+            background: linear-gradient(90deg, transparent, rgba(127, 208, 255, 0.1), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+    </style>
+</head>
+<body class="bg-background-deep text-on-background selection:bg-secondary selection:text-on-secondary">
+<!-- HUD Background -->
+<div class="fixed inset-0 pointer-events-none z-0">
+<div class="hex-grid absolute inset-0"></div>
+<div class="scanline"></div>
+<div class="absolute inset-0 bg-radial-gradient from-transparent to-black/60"></div>
+</div>
+<!-- Particles Container -->
+<div class="fixed inset-0 pointer-events-none z-20" id="particle-container"></div>
+<!-- Header (TopNavBar Anchor) -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop h-16 bg-surface-container/30 backdrop-blur-3xl border-b border-outline-variant/20 shadow-glow-cyan">
+<div class="flex items-center gap-8">
+<span class="font-display-lg-mobile text-display-lg-mobile tracking-tighter text-secondary drop-shadow-[0_0_15px_rgba(71,221,193,0.5)]">MAGNOP-VS</span>
+<div class="hidden md:flex gap-6">
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary transition-all" href="#">TACTICAL</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary transition-all" href="#">SKILLS</a>
+<a class="text-secondary border-b-2 border-secondary pb-1 font-label-caps text-label-caps" href="#">ARSENAL</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary transition-all" href="#">COSMOS</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex flex-col items-end">
+<span class="font-mono-data text-mono-data text-secondary">LEVEL 84</span>
+<span class="font-micro-tag text-micro-tag text-on-surface-variant uppercase tracking-widest">+XP GAIN ACTIVE</span>
+</div>
+<div class="flex gap-3">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all">settings</button>
+<div class="w-10 h-10 rounded-full border border-secondary/30 bg-surface-container-highest flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A stylized portrait of a high-tech female pilot with glowing cybernetic implants across her temple. She is wearing a sleek carbon-fiber flight suit with cyan neon light accents. The background is a blurred cockpit filled with holographic displays and tactical data readouts. The overall style is sharp, futuristic, and highly detailed digital art." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOkxK83FY_YwOWtNcKMJzwSQOoMZ_eBCXQ9EcwkST1xX1RcbB-1oh4iT5Mfkuwj1Hh_QH4CGj7s8IO4ShkutZMSic0FfKYM579ZGDQUowby7_cr0CsCfChUHT1H7_P17Hhk0EMFVEvcdsrdOEw5wRU_Dg-kyZWdBHYgOLlyovMeQTDo5vcgijXGuBjJ_v_fZ40n50NnFgyTBL6IKhW_igfY0OMsV-KPrjeq2GHhfpVawyzq2E_h1nfdA"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- Side Navigation (SideNavBar Anchor) -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 z-40 bg-surface-container-low/20 backdrop-blur-2xl border-r border-outline-variant/20 hidden lg:flex flex-col pt-8 pb-4">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+<div>
+<div class="text-primary font-display-lg-mobile text-xl leading-none">HERO_DETAIL</div>
+<div class="text-on-surface-variant font-label-caps text-[10px]">Vanguard Class v4.2</div>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="text-on-surface-variant px-6 py-3 flex items-center gap-3 font-label-caps text-label-caps tracking-widest hover:bg-white/5 hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined">fitness_center</span> Somatic
+            </a>
+<a class="text-on-surface-variant px-6 py-3 flex items-center gap-3 font-label-caps text-label-caps tracking-widest hover:bg-white/5 hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined">psychology</span> Cognitive
+            </a>
+<a class="text-on-surface-variant px-6 py-3 flex items-center gap-3 font-label-caps text-label-caps tracking-widest hover:bg-white/5 hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined">auto_awesome</span> Ethereal
+            </a>
+<a class="bg-secondary/10 text-secondary border-l-4 border-secondary px-6 py-3 flex items-center gap-3 font-label-caps text-label-caps tracking-widest" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">biotech</span> Alchemical
+            </a>
+<a class="text-on-surface-variant px-6 py-3 flex items-center gap-3 font-label-caps text-label-caps tracking-widest hover:bg-white/5 hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined">military_tech</span> Mastery
+            </a>
+</nav>
+<div class="px-6 mt-auto space-y-4">
+<button class="w-full py-2 bg-on-tertiary-fixed-variant text-tertiary font-label-caps text-label-caps hover:bg-tertiary-container hover:text-on-tertiary-container transition-all">RESET TREE</button>
+<div class="pt-4 border-t border-outline-variant/10 flex justify-between">
+<button class="flex items-center gap-1 text-on-surface-variant font-label-caps text-[10px]"><span class="material-symbols-outlined text-sm">terminal</span> TERMINAL</button>
+<button class="flex items-center gap-1 text-on-surface-variant font-label-caps text-[10px]"><span class="material-symbols-outlined text-sm">help_outline</span> HELP</button>
+</div>
+</div>
+</aside>
+<!-- MAIN STAGE: Node Activation Sequence -->
+<main class="ml-0 lg:ml-64 pt-16 h-screen flex flex-col items-center justify-center relative overflow-hidden">
+<!-- Background WebGL Alchemical Energy -->
+<div class="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
+<div class="w-[800px] h-[800px] opacity-40 mix-blend-screen">
+<!-- STITCH_SHADER_START:ANIMATION_345 class="w-full h-full" -->
+<div class="w-full h-full" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_345" style="display:block;width:100%;height:100%"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_345');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+uniform float u_time;
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+varying vec2 v_texCoord;
+
+void main() {
+    vec2 uv = v_texCoord - 0.5;
+    uv.x *= u_resolution.x / u_resolution.y;
+    
+    float dist = length(uv);
+    float angle = atan(uv.y, uv.x);
+    
+    // Core pulse
+    float core = smoothstep(0.15, 0.05, dist);
+    
+    // Alchemical resonance rings
+    float rings = 0.0;
+    for(float i = 1.0; i < 4.0; i++) {
+        float r = 0.15 + i * 0.08 + sin(u_time * 2.0 + i) * 0.02;
+        rings += smoothstep(0.01, 0.0, abs(dist - r)) * (1.0 / i);
+    }
+    
+    // Glowing rays
+    float rays = pow(abs(sin(angle * 8.0 + u_time)), 10.0) * smoothstep(0.4, 0.1, dist);
+    
+    // Color palette based on MagnopVS Cyan/Magenta
+    vec3 color_cyan = vec3(0.0, 0.94, 1.0);
+    vec3 color_magenta = vec3(0.95, 0.0, 1.0);
+    vec3 final_color = mix(color_cyan, color_magenta, sin(u_time * 0.5) * 0.5 + 0.5);
+    
+    float alpha = core + rings * 0.8 + rays * 0.5;
+    gl_FragColor = vec4(final_color * alpha, alpha * 0.8);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_345 -->
+</div>
+</div>
+<!-- Central Node Content -->
+<div class="relative z-30 flex flex-col items-center">
+<!-- Rank Up Text (Animated) -->
+<div class="animate-bounce mb-4">
+<span class="font-display-lg text-secondary cyan-glow-text tracking-widest">RANK UP</span>
+</div>
+<!-- Central Node Icon Container -->
+<div class="relative w-48 h-48 flex items-center justify-center">
+<div class="absolute inset-0 bg-secondary/10 rounded-full blur-3xl animate-pulse"></div>
+<div class="relative z-10 w-32 h-32 bg-surface-container-highest/80 backdrop-blur-xl border border-secondary flex items-center justify-center transform rotate-45 shadow-[0_0_50px_rgba(71,221,193,0.3)]">
+<div class="transform -rotate-45 flex flex-col items-center">
+<span class="material-symbols-outlined text-6xl text-secondary cyan-glow-text" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div class="bracket-top-left"></div>
+<div class="bracket-bottom-right"></div>
+</div>
+<!-- Orbiting Data Rings -->
+<div class="absolute w-64 h-64 border border-outline-variant/30 rounded-full animate-[spin_10s_linear_infinite]">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-secondary rounded-full shadow-glow-cyan"></div>
+</div>
+<div class="absolute w-56 h-56 border border-primary/20 rounded-full animate-[spin_6s_linear_infinite_reverse]">
+<div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-2 h-2 bg-primary rounded-full shadow-glow-cyan"></div>
+</div>
+</div>
+<!-- Node Identity -->
+<div class="mt-12 text-center">
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface uppercase tracking-tight mb-2">CORE_RESONANCE</h1>
+<div class="font-display-lg-mobile text-secondary tracking-widest uppercase text-xl opacity-80 mb-8">NODE_MASTERED</div>
+</div>
+<!-- Stats Summary (Asymmetric Grid) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter px-margin-mobile md:px-0 w-full max-w-4xl">
+<!-- Stat Card 1 -->
+<div class="bg-surface-panel backdrop-blur-2xl border border-outline-variant/20 p-6 relative group hover:border-secondary transition-all">
+<div class="bracket-top-left opacity-30"></div>
+<div class="font-label-caps text-on-surface-variant text-xs mb-1">SYNAPTIC_BANDWIDTH</div>
+<div class="flex items-end gap-2">
+<span class="font-mono-data text-2xl text-on-surface">1,440 MHz</span>
+<span class="font-mono-data text-sm text-secondary mb-1">+120</span>
+</div>
+<div class="mt-4 h-1 w-full bg-surface-container-highest overflow-hidden">
+<div class="h-full w-3/4 bg-secondary shimmer-bg"></div>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-surface-panel backdrop-blur-2xl border border-outline-variant/20 p-6 relative group hover:border-tertiary transition-all">
+<div class="bracket-top-left opacity-30"></div>
+<div class="font-label-caps text-on-surface-variant text-xs mb-1">ALCHEMICAL_RESERVE</div>
+<div class="flex items-end gap-2">
+<span class="font-mono-data text-2xl text-on-surface">8,200 mU</span>
+<span class="font-mono-data text-sm text-tertiary mb-1">+450</span>
+</div>
+<div class="mt-4 h-1 w-full bg-surface-container-highest overflow-hidden">
+<div class="h-full w-1/2 bg-tertiary shimmer-bg"></div>
+</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="bg-surface-panel backdrop-blur-2xl border border-outline-variant/20 p-6 relative group hover:border-primary transition-all">
+<div class="bracket-top-left opacity-30"></div>
+<div class="font-label-caps text-on-surface-variant text-xs mb-1">COGNITIVE_OVERCLOCK</div>
+<div class="flex items-end gap-2">
+<span class="font-mono-data text-2xl text-on-surface">v1.8.4</span>
+<span class="font-mono-data text-sm text-primary mb-1">ACTIVE</span>
+</div>
+<div class="mt-4 h-1 w-full bg-surface-container-highest overflow-hidden">
+<div class="h-full w-full bg-primary shimmer-bg"></div>
+</div>
+</div>
+</div>
+<!-- CTA -->
+<div class="mt-12 flex flex-col md:flex-row gap-6">
+<button class="px-10 py-4 bg-secondary text-on-secondary font-label-caps text-label-caps tracking-widest clip-path-slanted-edges hover:brightness-110 active:scale-95 transition-all shadow-[0_0_20px_rgba(71,221,193,0.4)]">CONTINUE ASCENSION</button>
+<button class="px-10 py-4 border border-secondary text-secondary font-label-caps text-label-caps tracking-widest hover:bg-secondary/10 transition-all">VIEW TECH TREE</button>
+</div>
+</div>
+<!-- Floating Data Panels (Asymmetric Overlay) -->
+<div class="hidden xl:block absolute top-1/4 right-12 w-64 space-y-6">
+<div class="bg-surface-container-low/40 p-4 border-l-2 border-secondary backdrop-blur-md">
+<div class="font-micro-tag text-on-surface-variant mb-2">SYSTEM_LOG [0x42]</div>
+<div class="font-mono-data text-[10px] text-on-surface/60 space-y-1">
+<p>&gt; initializing resonance...</p>
+<p>&gt; syncing alchemical core...</p>
+<p>&gt; bandwidth expanded.</p>
+<p class="text-secondary">&gt; SUCCESS: LEVEL 85 PENDING.</p>
+</div>
+</div>
+</div>
+<div class="hidden xl:block absolute bottom-1/4 left-72 w-64">
+<div class="bg-surface-container-low/40 p-4 border-r-2 border-tertiary backdrop-blur-md">
+<div class="font-micro-tag text-on-surface-variant mb-2">PASSIVE_BUFFS</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<span class="font-mono-data text-[11px]">ETHEREAL_SIGHT</span>
+<span class="text-tertiary material-symbols-outlined text-sm">check_circle</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-mono-data text-[11px]">FLUID_SOMATICS</span>
+<span class="text-tertiary material-symbols-outlined text-sm">check_circle</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Mobile Navigation -->
+<div class="md:hidden fixed bottom-0 w-full h-16 bg-surface-container/80 backdrop-blur-3xl border-t-2 border-tertiary z-50 flex items-center justify-around px-4">
+<div class="flex flex-col items-center text-on-surface-variant">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="font-label-caps text-[8px]">SOMATIC</span>
+</div>
+<div class="flex flex-col items-center text-on-surface-variant">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps text-[8px]">COGNITIVE</span>
+</div>
+<div class="w-14 h-14 -mt-10 bg-secondary rounded-xl flex items-center justify-center text-on-secondary shadow-glow-cyan">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">biotech</span>
+</div>
+<div class="flex flex-col items-center text-on-surface-variant">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-label-caps text-[8px]">ETHEREAL</span>
+</div>
+<div class="flex flex-col items-center text-on-surface-variant">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps text-[8px]">MASTERY</span>
+</div>
+</div>
+<script>
+        // Particle Burst Effect
+        const particleContainer = document.getElementById('particle-container');
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            // Random sizes
+            const size = Math.random() * 4 + 1;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            
+            // Initial position (center)
+            particle.style.left = `${centerX}px`;
+            particle.style.top = `${centerY}px`;
+            
+            // Random direction and speed
+            const angle = Math.random() * Math.PI * 2;
+            const velocity = Math.random() * 8 + 4;
+            const vx = Math.cos(angle) * velocity;
+            const vy = Math.sin(angle) * velocity;
+            
+            // Life time
+            const life = Math.random() * 1000 + 500;
+            let currentLife = 0;
+
+            particleContainer.appendChild(particle);
+
+            const animate = () => {
+                currentLife += 16;
+                const progress = currentLife / life;
+                
+                const posX = centerX + vx * (currentLife / 10);
+                const posY = centerY + vy * (currentLife / 10);
+                
+                particle.style.left = `${posX}px`;
+                particle.style.top = `${posY}px`;
+                particle.style.opacity = 1 - progress;
+                particle.style.transform = `scale(${1 - progress})`;
+
+                if (currentLife < life) {
+                    requestAnimationFrame(animate);
+                } else {
+                    particle.remove();
+                }
+            };
+
+            requestAnimationFrame(animate);
+        }
+
+        // Burst on load
+        window.onload = () => {
+            for (let i = 0; i < 60; i++) {
+                setTimeout(createParticle, i * 5);
+            }
+            
+            // Continuous subtle ambient particles
+            setInterval(() => {
+                if(Math.random() > 0.8) createParticle();
+            }, 100);
+        };
+
+        // Micro-interaction on buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => {
+                btn.classList.add('scale-95', 'opacity-80');
+            });
+            btn.addEventListener('mouseup', () => {
+                btn.classList.remove('scale-95', 'opacity-80');
+            });
+        });
+    </script>
+<style>
+        .clip-path-slanted-edges {
+            clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .shadow-glow-cyan {
+            box-shadow: 0 0 20px rgba(71, 221, 193, 0.2);
+        }
+    </style>
+</body></html>

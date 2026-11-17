@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CRONOS // Ficha de Gestión de Bloque 120 MIN</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=JetBrains+Mono:wght@300;400;600;700;800&amp;family=Orbitron:wght@400;600;700;900&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Custom Configuration -->
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            cosmic: {
+              void: '#06070a',
+              dark: '#0a0d14',
+              panel: '#0f1422',
+              surface: '#151c2e',
+              border: '#1a2744',
+              borderCyan: '#00f0ff33',
+              borderMagenta: '#ff007f33'
+            },
+            neon: {
+              cyan: '#00f0ff',
+              mint: '#48ddc1',
+              magenta: '#ff007f',
+              purple: '#8b24fc',
+              gold: '#ffd000'
+            }
+          },
+          fontFamily: {
+            audiowide: ['Audiowide', 'cursive', 'sans-serif'],
+            orbitron: ['Orbitron', 'sans-serif'],
+            space: ['"Space Grotesk"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          boxShadow: {
+            'neon-cyan': '0 0 20px -2px rgba(0, 240, 255, 0.45)',
+            'neon-magenta': '0 0 20px -2px rgba(255, 0, 127, 0.45)',
+            'neon-mint': '0 0 20px -2px rgba(72, 221, 193, 0.45)',
+            'neon-purple': '0 0 25px -3px rgba(139, 36, 252, 0.4)'
+          }
+        }
+      }
+    }
+  </script>
+<!-- BEGIN: Custom Visual & HUD Styles -->
+<style data-purpose="hud-background">
+    body {
+      background-color: #06070a;
+      background-image: 
+        radial-gradient(circle at 50% 15%, rgba(112, 0, 255, 0.15) 0%, transparent 60%),
+        radial-gradient(circle at 10% 85%, rgba(0, 240, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 85%, rgba(255, 0, 127, 0.08) 0%, transparent 40%),
+        linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+    }
+  </style>
+<style data-purpose="hud-effects">
+    .corner-bracket {
+      position: relative;
+    }
+    .corner-bracket::before, .corner-bracket::after {
+      content: '';
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      pointer-events: none;
+    }
+    .corner-bracket::before {
+      top: -1px;
+      left: -1px;
+      border-top: 2px solid #00f0ff;
+      border-left: 2px solid #00f0ff;
+    }
+    .corner-bracket::after {
+      bottom: -1px;
+      right: -1px;
+      border-bottom: 2px solid #00f0ff;
+      border-right: 2px solid #00f0ff;
+    }
+    .corner-bracket-magenta::before {
+      border-top-color: #ff007f;
+      border-left-color: #ff007f;
+    }
+    .corner-bracket-magenta::after {
+      border-bottom-color: #ff007f;
+      border-right-color: #ff007f;
+    }
+    
+    /* Cyber Pulse animation */
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.9; transform: scale(1); }
+      50% { opacity: 0.55; transform: scale(1.02); }
+    }
+    .pulse-glow {
+      animation: pulseGlow 4s infinite ease-in-out;
+    }
+
+    /* Heartbeat animation for biometrics */
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      14% { transform: scale(1.18); filter: drop-shadow(0 0 10px #ff007f); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.1); filter: drop-shadow(0 0 6px #ff007f); }
+      70% { transform: scale(1); }
+    }
+    .heartbeat-live {
+      animation: heartbeat 0.85s infinite ease-in-out;
+    }
+
+    /* Range slider customizations */
+    input[type=range] {
+      -webkit-appearance: none;
+      background: #151c2e;
+      border-radius: 9999px;
+      height: 6px;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #00f0ff;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00f0ff;
+      border: 2px solid #ffffff;
+    }
+  </style>
+<!-- END: Custom Visual & HUD Styles -->
+</head>
+<body class="text-slate-200 font-orbitron antialiased selection:bg-neon-cyan selection:text-black min-h-screen py-6 px-3 sm:px-6 lg:px-8">
+<!-- BEGIN: Main Interface Wrapper -->
+<main class="max-w-[1600px] mx-auto space-y-6">
+<!-- BEGIN: Main Header HUD -->
+<header class="relative p-6 sm:p-8 rounded-xl bg-cosmic-panel/90 border border-neon-cyan/40 shadow-neon-cyan corner-bracket backdrop-blur-md overflow-hidden" data-purpose="hud-header">
+<!-- Ambient Backlight -->
+<div class="absolute -right-20 -top-20 w-80 h-80 bg-neon-purple/20 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -left-20 -bottom-20 w-80 h-80 bg-neon-cyan/15 rounded-full blur-3xl pointer-events-none"></div>
+<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 relative z-10">
+<!-- Title & Subtitle -->
+<div>
+<div class="flex items-center gap-3 mb-2">
+<span class="inline-flex items-center justify-center px-2.5 py-1 text-xs font-mono font-bold tracking-widest text-black bg-neon-cyan rounded shadow-neon-cyan">
+              SYS::CRONOS_v4.2
+            </span>
+<span class="text-neon-mint text-xs font-mono tracking-wider flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-neon-mint animate-ping"></span> ESTADO: OPERATIVO ENLACE ACTIVO
+            </span>
+</div>
+<h1 class="text-2xl sm:text-4xl xl:text-5xl font-black font-audiowide tracking-wider text-white uppercase drop-shadow-[0_0_15px_rgba(0,240,255,0.6)]">
+            CRONOS <span class="text-neon-cyan">·</span> FICHA DE GESTIÓN DE BLOQUE
+          </h1>
+<p class="text-sm sm:text-base font-orbitron tracking-widest text-neon-mint font-semibold mt-1">
+            UN BLOQUE = 120 MINUTOS EXACTOS <span class="text-slate-500 font-mono">|</span> 4 RONDAS <span class="text-slate-500 font-mono">|</span> 3 PAUSAS <span class="text-slate-500 font-mono">|</span> 1 CIERRE
+          </p>
+</div>
+<!-- Tactical Fields Bar -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-cosmic-void/80 p-4 rounded-lg border border-neon-cyan/30 font-mono">
+<div class="space-y-1">
+<label class="text-[10px] text-neon-cyan uppercase tracking-widest font-semibold block">FECHA</label>
+<input class="w-full bg-cosmic-surface/90 border border-slate-700 text-xs text-white rounded px-2.5 py-1.5 focus:border-neon-cyan focus:ring-1 focus:ring-neon-cyan focus:outline-none" id="block-date" type="date" value="2026-07-09"/>
+</div>
+<div class="space-y-1">
+<label class="text-[10px] text-neon-mint uppercase tracking-widest font-semibold block">HORA INICIO</label>
+<input class="w-full bg-cosmic-surface/90 border border-slate-700 text-xs text-white rounded px-2.5 py-1.5 focus:border-neon-mint focus:ring-1 focus:ring-neon-mint focus:outline-none" id="block-start-time" type="time" value="14:00"/>
+</div>
+<div class="space-y-1">
+<label class="text-[10px] text-neon-magenta uppercase tracking-widest font-semibold block">HORA CIERRE</label>
+<input class="w-full bg-cosmic-surface/90 border border-slate-700 text-xs text-white rounded px-2.5 py-1.5 focus:border-neon-magenta focus:ring-1 focus:ring-neon-magenta focus:outline-none" id="block-end-time" type="time" value="16:00"/>
+</div>
+<div class="space-y-1">
+<label class="text-[10px] text-neon-purple uppercase tracking-widest font-semibold block">ID BLOQUE</label>
+<input class="w-full bg-cosmic-surface/90 border border-slate-700 text-xs text-neon-cyan font-bold rounded px-2.5 py-1.5 focus:border-neon-cyan focus:ring-1 focus:ring-neon-cyan focus:outline-none" id="block-id" type="text" value="#CRONOS-0142"/>
+</div>
+</div>
+</div>
+</header>
+<!-- END: Main Header HUD -->
+<!-- BEGIN: Grid Top Tier (Section I & Section II) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- BEGIN: Section I - ORBE (Activation & Baremación) -->
+<section class="lg:col-span-6 bg-cosmic-panel/85 p-6 rounded-xl border border-neon-cyan/30 corner-bracket flex flex-col justify-between" data-purpose="section-orbe">
+<div>
+<!-- Section Heading -->
+<div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-800">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 bg-neon-cyan rounded-sm shadow-[0_0_8px_#00f0ff]"></span>
+<h2 class="text-lg font-audiowide text-white tracking-wider">
+                SECCIÓN I: ORBE <span class="text-neon-cyan text-sm">//</span> ACTIVACIÓN DE MISIÓN
+              </h2>
+</div>
+<span class="text-xs font-mono text-neon-cyan/80 px-2 py-0.5 border border-neon-cyan/40 rounded">MÉTODO ORBE</span>
+</div>
+<!-- Question: What is happening? -->
+<div class="space-y-2 mb-5">
+<label class="text-xs tracking-wider text-slate-300 font-semibold block flex items-center gap-1.5">
+<span class="text-neon-cyan font-mono">1. OBSERVAR:</span> ¿Qué ocurre en el tablero? Necesidad / Bloqueo / Oportunidad
+            </label>
+<textarea class="w-full bg-cosmic-surface/90 border border-slate-700 rounded-lg p-3 text-sm text-slate-100 placeholder-slate-500 focus:border-neon-cyan focus:ring-1 focus:ring-neon-cyan focus:outline-none resize-none font-mono" placeholder="Definir cuello de botella, misión crítica pendiente o brecha en los sistemas..." rows="2">Pérdida de sincronía en el renderizado de HUD. Bloqueo crítico de latencia en telemetría en tiempo real: optimizar pipeline y estabilizar conexión a 60 FPS.</textarea>
+</div>
+<!-- Life Area Routing -->
+<div class="space-y-2 mb-5">
+<span class="text-xs tracking-wider text-slate-300 font-semibold block flex items-center gap-1.5">
+<span class="text-neon-mint font-mono">2. RUTEAR:</span> Área de Vida
+            </span>
+<div class="flex flex-wrap gap-2 text-xs" id="life-areas-container">
+<button class="px-3 py-1.5 rounded bg-cosmic-surface border border-slate-700 hover:border-neon-cyan text-slate-300 transition-all font-mono" type="button">YO</button>
+<button class="px-3 py-1.5 rounded bg-cosmic-surface border border-slate-700 hover:border-neon-cyan text-slate-300 transition-all font-mono" type="button">PAREJA</button>
+<button class="px-3 py-1.5 rounded bg-cosmic-surface border border-slate-700 hover:border-neon-cyan text-slate-300 transition-all font-mono" type="button">CASA Y FAMILIA</button>
+<button class="px-3 py-1.5 rounded bg-cosmic-surface border border-slate-700 hover:border-neon-cyan text-slate-300 transition-all font-mono" type="button">ESTUDIO</button>
+<button class="px-3 py-1.5 rounded bg-neon-cyan/20 border-2 border-neon-cyan text-neon-cyan font-bold shadow-neon-cyan transition-all font-mono" type="button">TRABAJO [ACTIVO]</button>
+<button class="px-3 py-1.5 rounded bg-cosmic-surface border border-slate-700 hover:border-neon-cyan text-slate-300 transition-all font-mono" type="button">RELACIONES</button>
+<button class="px-3 py-1.5 rounded bg-cosmic-surface border border-slate-700 hover:border-neon-cyan text-slate-300 transition-all font-mono" type="button">ESPIRITUALIDAD</button>
+</div>
+</div>
+<!-- Baremación Sliders & Calculation -->
+<div class="space-y-3 p-4 rounded-lg bg-cosmic-void/80 border border-slate-800">
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold tracking-wider text-slate-300 font-mono">3. BAREMAR // VARIABLES DE CÁLCULO</span>
+<span class="text-[10px] text-neon-purple font-mono">ALGORITMO DE PRIORIZACIÓN</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
+<!-- Slider: Importancia -->
+<div class="space-y-1">
+<div class="flex justify-between text-slate-400">
+<span>Importancia (1 - 5)</span>
+<span class="text-neon-cyan font-bold" id="val-importancia">5 / 5</span>
+</div>
+<input class="w-full accent-neon-cyan" id="slider-importancia" max="5" min="1" oninput="calculateValue()" type="range" value="5"/>
+</div>
+<!-- Slider: Urgencia -->
+<div class="space-y-1">
+<div class="flex justify-between text-slate-400">
+<span>Urgencia (1 - 5)</span>
+<span class="text-neon-cyan font-bold" id="val-urgencia">4 / 5</span>
+</div>
+<input class="w-full accent-neon-cyan" id="slider-urgencia" max="5" min="1" oninput="calculateValue()" type="range" value="4"/>
+</div>
+<!-- Slider: Impacto -->
+<div class="space-y-1">
+<div class="flex justify-between text-slate-400">
+<span>Impacto (1 - 5)</span>
+<span class="text-neon-cyan font-bold" id="val-impacto">5 / 5</span>
+</div>
+<input class="w-full accent-neon-cyan" id="slider-impacto" max="5" min="1" oninput="calculateValue()" type="range" value="5"/>
+</div>
+<!-- Slider: Dependencia -->
+<div class="space-y-1">
+<div class="flex justify-between text-slate-400">
+<span>Dependencia (0 - 3)</span>
+<span class="text-neon-cyan font-bold" id="val-dependencia">2 / 3</span>
+</div>
+<input class="w-full accent-neon-cyan" id="slider-dependencia" max="3" min="0" oninput="calculateValue()" type="range" value="2"/>
+</div>
+<!-- Slider: Coste -->
+<div class="space-y-1 md:col-span-2">
+<div class="flex justify-between text-slate-400">
+<span>Coste / Resistencia (1 - 5)</span>
+<span class="text-neon-magenta font-bold" id="val-coste">2 / 5</span>
+</div>
+<input class="w-full accent-neon-magenta" id="slider-coste" max="5" min="1" oninput="calculateValue()" type="range" value="2"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Live Score Display Output -->
+<div class="mt-4 p-3 rounded-lg bg-neon-cyan/10 border border-neon-cyan/50 flex flex-col sm:flex-row items-center justify-between gap-3">
+<div class="text-[11px] font-mono text-slate-300">
+<span class="text-neon-cyan font-bold">FÓRMULA:</span> (2 × Imp) + Urg + Impac + Dep - Coste
+          </div>
+<div class="flex items-center gap-3">
+<div class="text-xs text-slate-400 font-mono">VALOR TOTAL:</div>
+<div class="px-3 py-1 bg-cosmic-void text-neon-cyan font-mono font-black text-base rounded border border-neon-cyan shadow-neon-cyan" id="valor-total-display">
+              19 PTS // CRÍTICA ALTA
+            </div>
+</div>
+</div>
+</section>
+<!-- END: Section I - ORBE -->
+<!-- BEGIN: Section II - ENCUADRE (Scope & Definition) -->
+<section class="lg:col-span-6 bg-cosmic-panel/85 p-6 rounded-xl border border-neon-mint/30 corner-bracket flex flex-col justify-between" data-purpose="section-encuadre">
+<div>
+<!-- Section Heading -->
+<div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-800">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 bg-neon-mint rounded-sm shadow-[0_0_8px_#48ddc1]"></span>
+<h2 class="text-lg font-audiowide text-white tracking-wider">
+                SECCIÓN II: ENCUADRE <span class="text-neon-mint text-sm">//</span> MISIÓN CONCRETA
+              </h2>
+</div>
+<span class="text-xs font-mono text-neon-mint/80 px-2 py-0.5 border border-neon-mint/40 rounded">120 MINUTOS</span>
+</div>
+<!-- Tipo de Bloque Selector -->
+<div class="space-y-2 mb-4">
+<span class="text-xs tracking-wider text-slate-300 font-semibold block font-mono">TIPO DE BLOQUE:</span>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono" id="block-types-container">
+<button class="py-1.5 px-2 rounded bg-neon-mint/20 border-2 border-neon-mint text-neon-mint font-bold shadow-neon-mint" type="button">PRODUCCIÓN</button>
+<button class="py-1.5 px-2 rounded bg-cosmic-surface border border-slate-700 hover:border-neon-mint text-slate-300" type="button">DESARROLLO</button>
+<button class="py-1.5 px-2 rounded bg-cosmic-surface border border-slate-700 hover:border-neon-mint text-slate-300" type="button">MANTENIMIENTO</button>
+<button class="py-1.5 px-2 rounded bg-cosmic-surface border border-slate-700 hover:border-neon-mint text-slate-300" type="button">RESOLUCIÓN</button>
+<button class="py-1.5 px-2 rounded bg-cosmic-surface border border-slate-700 hover:border-neon-mint text-slate-300" type="button">VÍNCULO</button>
+<button class="py-1.5 px-2 rounded bg-cosmic-surface border border-slate-700 hover:border-neon-mint text-slate-300" type="button">RECUPERACIÓN</button>
+<button class="py-1.5 px-2 rounded bg-cosmic-surface border border-slate-700 hover:border-neon-mint text-slate-300" type="button">PLANIFICACIÓN</button>
+<button class="py-1.5 px-2 rounded bg-cosmic-surface border border-slate-700 hover:border-neon-mint text-slate-300" type="button">INTEGRACIÓN</button>
+</div>
+</div>
+<!-- Capacidad Disponible -->
+<div class="flex items-center gap-3 mb-5 p-2.5 rounded bg-cosmic-void/60 border border-slate-800 text-xs font-mono">
+<span class="text-slate-400">CAPACIDAD DISPONIBLE:</span>
+<label class="flex items-center gap-1.5 cursor-pointer text-slate-400 hover:text-white">
+<input class="text-neon-cyan focus:ring-0 bg-cosmic-surface border-slate-700" name="capacidad" type="radio"/> BAJA
+            </label>
+<label class="flex items-center gap-1.5 cursor-pointer text-slate-400 hover:text-white">
+<input class="text-neon-cyan focus:ring-0 bg-cosmic-surface border-slate-700" name="capacidad" type="radio"/> NORMAL
+            </label>
+<label class="flex items-center gap-1.5 cursor-pointer text-neon-mint font-bold">
+<input checked="" class="text-neon-mint focus:ring-0 bg-cosmic-surface border-neon-mint" name="capacidad" type="radio"/> ALTA [MAX FOCUS]
+            </label>
+</div>
+<!-- Structured Fields: Objetivo, Acción, Resultado, Done, Próxima Acción -->
+<div class="space-y-3 font-mono text-xs">
+<div>
+<label class="text-neon-mint font-semibold block mb-1">OBJETIVO: <span class="text-slate-400 font-normal">¿Qué debe cambiar al terminar los 120 minutos?</span></label>
+<input class="w-full bg-cosmic-surface/90 border border-slate-700 rounded px-3 py-1.5 text-slate-100 focus:border-neon-mint focus:outline-none" type="text" value="Implementar motor de render en canvas holográfico optimizado y telemetría de 4 rondas."/>
+</div>
+<div>
+<label class="text-neon-cyan font-semibold block mb-1">ACCIÓN: <span class="text-slate-400 font-normal">¿Qué voy a hacer concretamente?</span></label>
+<input class="w-full bg-cosmic-surface/90 border border-slate-700 rounded px-3 py-1.5 text-slate-100 focus:border-neon-cyan focus:outline-none" type="text" value="Refactorizar hooks de tiempo, conectar SVG interactivo y calibrar matriz de cálculo."/>
+</div>
+<div>
+<label class="text-white font-semibold block mb-1">RESULTADO: <span class="text-slate-400 font-normal">¿Qué producto, cambio o evidencia debe existir?</span></label>
+<input class="w-full bg-cosmic-surface/90 border border-slate-700 rounded px-3 py-1.5 text-slate-100 focus:border-white focus:outline-none" type="text" value="Código probado y verificado, HUD reactivo y registro de sesión guardado sin errores."/>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<div>
+<label class="text-neon-gold font-semibold block mb-1">DONE: <span class="text-slate-400 font-normal">Criterio fin</span></label>
+<input class="w-full bg-cosmic-surface/90 border border-slate-700 rounded px-3 py-1.5 text-slate-100 focus:border-neon-gold focus:outline-none" type="text" value="4 rondas ejecutadas y tests en verde."/>
+</div>
+<div>
+<label class="text-neon-magenta font-semibold block mb-1">PRÓXIMA ACCIÓN: <span class="text-slate-400 font-normal">Continuidad</span></label>
+<input class="w-full bg-cosmic-surface/90 border border-slate-700 rounded px-3 py-1.5 text-slate-100 focus:border-neon-magenta focus:outline-none" type="text" value="Desplegar artefacto en branch main."/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Section II - ENCUADRE -->
+</div>
+<!-- END: Grid Top Tier -->
+<!-- BEGIN: Central Temporal Engine (Section III: Cosmic Chronometer) -->
+<section class="relative bg-cosmic-panel/95 rounded-2xl border-2 border-neon-cyan/40 p-6 sm:p-8 shadow-[0_0_35px_rgba(0,240,255,0.15)] corner-bracket" data-purpose="temporal-dial-engine">
+<!-- Top Dial Banner -->
+<div class="text-center max-w-2xl mx-auto mb-8">
+<span class="inline-block px-4 py-1 text-xs font-mono font-bold tracking-widest text-black bg-neon-cyan rounded-full mb-2">
+          SECUENCIA CRONOS EXACTA // 120 MINUTOS
+        </span>
+<h2 class="text-xl sm:text-3xl font-black font-audiowide tracking-widest text-white uppercase">
+          25 + 5 + 25 + 5 + 25 + 5 + 25 + 5 = 120 MIN
+        </h2>
+<p class="text-xs text-neon-mint font-mono mt-1">
+          REGLA AXIOMÁTICA: El bloque comienza directamente con RONDA I. Sin fases previas de dilación.
+        </p>
+</div>
+<!-- Holographic Avatar & Interactive Dial Core with Integrated Biometrics & Expanded Audio Synthesizer -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+<!-- Interactive Timer Controls, Web Audio Binaural Engine & Real-time Bio-Feedback Panel -->
+<div class="lg:col-span-3 space-y-4 font-mono order-2 lg:order-1">
+<!-- Timer Card -->
+<div class="p-4 rounded-xl bg-cosmic-void/90 border border-slate-800 space-y-3">
+<div class="flex items-center justify-between">
+<span class="text-xs text-neon-cyan block font-semibold">ESTADO DEL TIMER</span>
+<span class="text-[10px] text-neon-mint font-bold px-1.5 py-0.5 rounded bg-neon-mint/10 border border-neon-mint/30" id="timer-status-badge">ACTIVO</span>
+</div>
+<div class="text-4xl sm:text-5xl font-mono font-black text-white tracking-widest text-center py-2 bg-cosmic-surface/60 rounded border border-neon-cyan/40 shadow-neon-cyan transition-all" id="digital-timer">
+              23:45
+            </div>
+<div class="flex items-center justify-between text-xs text-slate-400">
+<span>FASE: <strong class="text-neon-cyan" id="current-phase-label">RONDA I (ENTRAR)</strong></span>
+<span id="current-phase-count">1 / 4 RONDAS</span>
+</div>
+<div class="grid grid-cols-2 gap-2 pt-2">
+<button class="py-2 text-xs font-bold font-orbitron bg-neon-cyan text-black rounded hover:bg-white transition-all shadow-neon-cyan" id="btn-toggle-timer" onclick="toggleTimer()" type="button">
+                PAUSAR
+              </button>
+<button class="py-2 text-xs font-bold font-orbitron bg-cosmic-surface border border-neon-mint text-neon-mint rounded hover:bg-neon-mint hover:text-black transition-all" id="btn-next-phase" onclick="advancePhase()" type="button">
+                SIGUIENTE &gt;&gt;
+              </button>
+</div>
+</div>
+<!-- Web Audio API Synthesizer & Binaural Beats Generator -->
+<div class="p-3.5 rounded-xl bg-cosmic-void/90 border border-neon-cyan/40 space-y-3 shadow-[0_0_15px_rgba(0,240,255,0.12)]">
+<!-- Top Controls & Master Toggles -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-neon-cyan animate-pulse"></span>
+<span class="text-xs font-bold text-white tracking-wider">SINTETIZADOR BINAURAL</span>
+</div>
+<div class="flex items-center gap-1.5">
+<button class="px-2 py-0.5 rounded text-[10px] font-bold border transition-all text-neon-mint border-neon-mint bg-neon-mint/10" id="btn-binaural-toggle" onclick="toggleBinauralEngine()" title="Activar/Silenciar Onda Binaural de Fondo" type="button">
+<span class="w-1.5 h-1.5 inline-block rounded-full bg-neon-mint mr-1 animate-pulse" id="binaural-dot"></span><span id="binaural-state-text">ON</span>
+</button>
+<button class="px-1.5 py-0.5 rounded text-[9px] font-bold border text-slate-400 border-slate-700 hover:border-slate-500 bg-cosmic-surface transition-all" id="btn-audio-toggle" onclick="toggleAudioEngine()" title="Efectos de clic y campana sónica" type="button">
+<span id="audio-state-text">SFX: ON</span>
+</button>
+</div>
+</div>
+<!-- Auto-Modulation Indicator -->
+<div class="p-1.5 rounded bg-cosmic-surface/60 border border-slate-800 flex items-center justify-between text-[10px]">
+<span class="text-slate-400 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-neon-gold"></span> AUTO-MODULACIÓN CRONOS:
+              </span>
+<span class="text-neon-cyan font-bold" id="auto-mod-label">ACTIVA [SINCRONIZADA]</span>
+</div>
+<!-- Binaural Frequency Presets Grid -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between text-[10px] text-slate-400">
+<span>PRESETS BIOACÚSTICOS:</span>
+<span class="text-neon-cyan font-bold" id="carrier-telemetry">L:200Hz | R:240Hz (Δ40Hz)</span>
+</div>
+<div class="grid grid-cols-2 gap-1.5 text-[10px]">
+<!-- Preset 1: 40Hz Gamma -->
+<button class="p-1.5 rounded border text-left transition-all bg-neon-cyan/20 border-neon-cyan text-neon-cyan shadow-[0_0_8px_rgba(0,240,255,0.4)]" id="btn-preset-gamma" onclick="selectBinauralPreset('gamma')" type="button">
+<div class="font-bold flex items-center justify-between">
+<span>40Hz GAMMA</span>
+<span class="text-[8px] px-1 rounded bg-neon-cyan/30 text-white">FOCUS</span>
+</div>
+<div class="text-[9px] text-slate-300 opacity-90 truncate">Hiperfoco Cuántico</div>
+</button>
+<!-- Preset 2: 10Hz Alpha -->
+<button class="p-1.5 rounded border text-left transition-all bg-cosmic-surface border-slate-700 hover:border-neon-mint text-slate-300" id="btn-preset-alpha" onclick="selectBinauralPreset('alpha')" type="button">
+<div class="font-bold flex items-center justify-between">
+<span>10Hz ALPHA</span>
+<span class="text-[8px] px-1 rounded bg-slate-800 text-slate-400">FLUJO</span>
+</div>
+<div class="text-[9px] text-slate-400 truncate">Coherencia &amp; Flow</div>
+</button>
+<!-- Preset 3: 4Hz Theta -->
+<button class="p-1.5 rounded border text-left transition-all bg-cosmic-surface border-slate-700 hover:border-neon-purple text-slate-300" id="btn-preset-theta" onclick="selectBinauralPreset('theta')" type="button">
+<div class="font-bold flex items-center justify-between">
+<span>4Hz THETA</span>
+<span class="text-[8px] px-1 rounded bg-slate-800 text-slate-400">PAUSA</span>
+</div>
+<div class="text-[9px] text-slate-400 truncate">Descanso Profundo</div>
+</button>
+<!-- Preset 4: 528Hz Solfeggio -->
+<button class="p-1.5 rounded border text-left transition-all bg-cosmic-surface border-slate-700 hover:border-neon-gold text-slate-300" id="btn-preset-solfeggio" onclick="selectBinauralPreset('solfeggio')" type="button">
+<div class="font-bold flex items-center justify-between">
+<span>528Hz SOLFEGGIO</span>
+<span class="text-[8px] px-1 rounded bg-slate-800 text-slate-400">TRANS</span>
+</div>
+<div class="text-[9px] text-slate-400 truncate">Transmutación ADN</div>
+</button>
+</div>
+</div>
+<!-- Real-time Binaural Waveform Visualizer -->
+<div class="space-y-1">
+<div class="flex items-center justify-between text-[10px]">
+<span class="text-slate-400">ESPECTRO BINAURAL (ESTÉREO):</span>
+<span class="text-neon-mint font-bold" id="binaural-spec-label">40Hz ESTABLE</span>
+</div>
+<div class="w-full h-9 bg-cosmic-dark rounded border border-neon-cyan/30 overflow-hidden relative">
+<canvas class="w-full h-full block" height="36" id="binaural-canvas" width="220"></canvas>
+<div class="absolute inset-0 bg-gradient-to-r from-neon-cyan/5 via-transparent to-neon-magenta/5 pointer-events-none"></div>
+</div>
+</div>
+<!-- Master Binaural Volume Slider -->
+<div class="space-y-1 pt-0.5">
+<div class="flex items-center justify-between text-[10px]">
+<span class="text-slate-400">VOLUMEN BINAURAL MASTER:</span>
+<span class="text-neon-cyan font-bold" id="binaural-vol-display">18%</span>
+</div>
+<input class="w-full accent-neon-cyan cursor-pointer" id="slider-binaural-vol" max="50" min="0" oninput="setBinauralVolume(this.value)" type="range" value="18"/>
+</div>
+<!-- Sonic Pulse Test & Solfeggio bell quick test -->
+<div class="flex items-center justify-between gap-2 pt-1 border-t border-slate-800/80">
+<span class="text-[10px] text-slate-400">PULSO SÓNICO TEST:</span>
+<button class="px-2 py-0.5 bg-cosmic-surface border border-neon-cyan/40 hover:border-neon-cyan text-neon-cyan rounded text-[10px] font-mono tracking-wider transition-all" onclick="playTestTone()" type="button">
+▶ 880Hz / 528Hz
+</button>
+</div>
+</div>
+<!-- Real-time Bio-Feedback Telemetry Card -->
+<div class="p-3.5 rounded-xl bg-cosmic-void/90 border border-neon-magenta/30 space-y-3 font-mono text-xs">
+<div class="flex items-center justify-between border-b border-slate-800 pb-2">
+<span class="text-neon-magenta font-bold flex items-center gap-1.5">
+<span class="heartbeat-live inline-block text-xs">♥</span> TELEMETRÍA BIO-FEEDBACK
+</span>
+<span class="text-[10px] text-slate-400">EN VIVO</span>
+</div>
+<!-- Dynamic BPM Monitor -->
+<div class="flex items-center justify-between">
+<div class="text-[11px] text-slate-400">Ritmo Cardíaco:</div>
+<div class="flex items-center gap-2">
+<span class="text-white font-black text-sm tracking-wide" id="bio-bpm">72</span>
+<span class="text-[10px] text-neon-mint font-bold">BPM</span>
+<span class="w-2 h-2 rounded-full bg-neon-magenta heartbeat-live inline-block"></span>
+</div>
+</div>
+<!-- HRV & Coherence Real-time ECG Waveform -->
+<div class="space-y-1">
+<div class="flex items-center justify-between text-[11px]">
+<span class="text-slate-400">Coherencia / HRV:</span>
+<span class="text-neon-cyan font-bold" id="bio-hrv">64 ms [ÓPTIMA]</span>
+</div>
+<div class="w-full h-8 bg-cosmic-dark rounded border border-slate-800 overflow-hidden relative">
+<svg class="w-full h-full" id="svg-ecg" preserveaspectratio="none" viewbox="0 0 200 40">
+<path d="M 0 20 L 30 20 L 40 8 L 46 32 L 52 5 L 58 20 L 90 20 L 98 12 L 104 28 L 110 18 L 140 20 L 150 10 L 156 30 L 162 20 L 200 20" fill="none" id="ecg-path" stroke="#00f0ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-neon-cyan/5 to-transparent pointer-events-none"></div>
+</div>
+</div>
+<!-- Quantum Flow Index & Brainwave State -->
+<div class="space-y-1 pt-1">
+<div class="flex items-center justify-between text-[11px]">
+<span class="text-slate-400">Estado de Flujo (Alpha/Theta):</span>
+<span class="text-neon-gold font-bold" id="bio-flow">FLOW 92%</span>
+</div>
+<div class="w-full bg-cosmic-surface rounded-full h-2 overflow-hidden border border-slate-700">
+<div class="bg-gradient-to-r from-neon-cyan via-neon-mint to-neon-gold h-full rounded-full transition-all duration-700" id="bio-flow-bar" style="width: 92%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Central Cosmic Graphic (Avatar & Sacred Geometry) -->
+<div class="lg:col-span-6 flex flex-col items-center justify-center order-1 lg:order-2">
+<div class="relative w-72 h-72 sm:w-96 sm:h-96 flex items-center justify-center">
+<!-- Outer Orbit Rings -->
+<div class="absolute inset-0 rounded-full border-2 border-dashed border-neon-cyan/30 animate-[spin_60s_linear_infinite]"></div>
+<div class="absolute inset-4 rounded-full border border-neon-purple/40 animate-[spin_40s_linear_infinite_reverse]"></div>
+<div class="absolute inset-8 rounded-full border-2 border-neon-mint/20"></div>
+<!-- SVG Geometric Mandala & Humanoid Silhouette -->
+<svg class="w-full h-full p-2 relative z-10" fill="none" id="avatar-mandala-svg" viewbox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<!-- Glowing Gradients -->
+<radialgradient cx="50%" cy="50%" id="avatarGlow" r="50%">
+<stop offset="0%" stop-color="#00f0ff" stop-opacity="0.8"></stop>
+<stop offset="60%" stop-color="#8b24fc" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="#06070a" stop-opacity="0"></stop>
+</radialgradient>
+<lineargradient id="cyberCyan" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#00f0ff"></stop>
+<stop offset="100%" stop-color="#48ddc1"></stop>
+</lineargradient>
+</defs>
+<!-- Concentric Rings & Hour Marks -->
+<circle cx="200" cy="200" opacity="0.6" r="180" stroke="#00f0ff" stroke-dasharray="8 6" stroke-width="1.5"></circle>
+<circle cx="200" cy="200" opacity="0.4" r="150" stroke="#ff007f" stroke-width="1"></circle>
+<circle cx="200" cy="200" opacity="0.5" r="120" stroke="#8b24fc" stroke-width="2"></circle>
+<!-- Sacred Geometry Hexagram & Quadrants -->
+<polygon fill="none" opacity="0.35" points="200,60 321,270 79,270" stroke="#00f0ff" stroke-width="1"></polygon>
+<polygon fill="none" opacity="0.35" points="200,340 79,130 321,130" stroke="#48ddc1" stroke-width="1"></polygon>
+<!-- Segment Markers (25m Rondas / 5m Pausas) with Dynamic Active State -->
+<!-- Ronda 1: Top-Right -->
+<path class="filter drop-shadow-[0_0_8px_#00f0ff] transition-all duration-300" d="M 200 20 A 180 180 0 0 1 355 110" id="dial-arc-r1" stroke="#00f0ff" stroke-linecap="round" stroke-width="7"></path>
+<!-- Ronda 2: Bottom-Right -->
+<path class="transition-all duration-300" d="M 375 160 A 180 180 0 0 1 290 350" id="dial-arc-r2" opacity="0.6" stroke="#48ddc1" stroke-linecap="round" stroke-width="6"></path>
+<!-- Ronda 3: Bottom-Left -->
+<path class="transition-all duration-300" d="M 230 375 A 180 180 0 0 1 45 290" id="dial-arc-r3" opacity="0.6" stroke="#ff007f" stroke-linecap="round" stroke-width="6"></path>
+<!-- Ronda 4: Top-Left -->
+<path class="transition-all duration-300" d="M 25 230 A 180 180 0 0 1 150 30" id="dial-arc-r4" opacity="0.6" stroke="#8b24fc" stroke-linecap="round" stroke-width="6"></path>
+<!-- Central Avatar Aura (Synchronized bio-glow) -->
+<circle class="pulse-glow" cx="200" cy="200" fill="url(#avatarGlow)" id="avatar-core-aura" r="85"></circle>
+<!-- Stylized Cyber Humanoid Silhouette -->
+<g id="avatar-humanoid-group" transform="translate(145, 110) scale(0.55)">
+<!-- Head -->
+<circle cx="100" cy="45" fill="#ffffff" filter="drop-shadow(0 0 10px #00f0ff)" r="22"></circle>
+<ellipse cx="100" cy="45" fill="#00f0ff" rx="14" ry="18"></ellipse>
+<!-- Torso & Core -->
+<path d="M80 75 L120 75 L112 145 L88 145 Z" fill="#ffffff" opacity="0.9"></path>
+<polygon fill="#00f0ff" points="100,85 112,110 88,110"></polygon>
+<!-- Core Diamond Light / Heart pulse -->
+<polygon class="heartbeat-live" fill="#ff007f" id="avatar-heart-diamond" points="100,100 106,112 100,124 94,112"></polygon>
+<!-- Arms / Aura Rays -->
+<path d="M78 78 L45 130 L55 175" stroke="#00f0ff" stroke-linecap="round" stroke-width="8"></path>
+<path d="M122 78 L155 130 L145 175" stroke="#00f0ff" stroke-linecap="round" stroke-width="8"></path>
+<!-- Legs / Stance -->
+<path d="M90 145 L75 225 L65 290" stroke="#48ddc1" stroke-linecap="round" stroke-width="10"></path>
+<path d="M110 145 L125 225 L135 290" stroke="#48ddc1" stroke-linecap="round" stroke-width="10"></path>
+</g>
+<!-- Central Telemetry Text -->
+<text fill="#00f0ff" font-family="Orbitron" font-size="11" font-weight="bold" letter-spacing="2" text-anchor="middle" x="200" y="325">
+                1 BLOQUE = 120 MINUTOS
+              </text>
+</svg>
+<!-- Hologram Badges Around Dial -->
+<div class="absolute -top-2 bg-cosmic-void/90 border border-neon-cyan text-neon-cyan px-2.5 py-1 rounded text-[11px] font-mono shadow-neon-cyan transition-all" id="badge-r1">
+              R-I: 25M
+            </div>
+<div class="absolute -right-3 bg-cosmic-void/90 border border-neon-mint text-neon-mint px-2.5 py-1 rounded text-[11px] font-mono shadow-neon-mint transition-all" id="badge-r2">
+              R-II: 25M
+            </div>
+<div class="absolute -bottom-2 bg-cosmic-void/90 border border-neon-magenta text-neon-magenta px-2.5 py-1 rounded text-[11px] font-mono shadow-neon-magenta transition-all" id="badge-r3">
+              R-III: 25M
+            </div>
+<div class="absolute -left-3 bg-cosmic-void/90 border border-neon-purple text-neon-purple px-2.5 py-1 rounded text-[11px] font-mono shadow-neon-purple transition-all" id="badge-r4">
+              R-IV: 25M
+            </div>
+</div>
+</div>
+<!-- Telemetry & Axiom Breakdown List -->
+<div class="lg:col-span-3 space-y-2.5 font-mono text-xs order-3">
+<div class="p-2.5 rounded bg-cosmic-surface/60 border-l-4 border-neon-cyan flex items-center justify-between transition-all" id="phase-item-0">
+<div>
+<div class="font-bold text-white flex items-center gap-1.5">⚡ RONDA I <span class="text-neon-cyan">(25 MIN)</span></div>
+<div class="text-[11px] text-slate-400">ENTRAR // Contexto y primer avance</div>
+</div>
+<span class="text-neon-cyan font-bold text-[10px]" id="phase-status-0">EN CURSO</span>
+</div>
+<div class="p-2 rounded bg-cosmic-void/50 border-l-2 border-slate-700 flex items-center justify-between text-slate-400 transition-all" id="phase-item-1">
+<div>◇ PAUSA I (5 MIN) - RECUPERAR</div>
+<span class="text-[10px]" id="phase-status-1">PENDIENTE</span>
+</div>
+<div class="p-2.5 rounded bg-cosmic-surface/60 border-l-4 border-slate-700 flex items-center justify-between transition-all" id="phase-item-2">
+<div>
+<div class="font-bold text-slate-300 flex items-center gap-1.5">⚡ RONDA II <span class="text-neon-mint">(25 MIN)</span></div>
+<div class="text-[11px] text-slate-400">CONSTRUIR // Núcleo de la misión</div>
+</div>
+<span class="text-slate-500 font-bold text-[10px]" id="phase-status-2">COLA</span>
+</div>
+<div class="p-2 rounded bg-cosmic-void/50 border-l-2 border-slate-700 flex items-center justify-between text-slate-400 transition-all" id="phase-item-3">
+<div>◇ PAUSA II (5 MIN) - RECUPERAR</div>
+<span class="text-[10px]" id="phase-status-3">PENDIENTE</span>
+</div>
+<div class="p-2.5 rounded bg-cosmic-surface/60 border-l-4 border-slate-700 flex items-center justify-between transition-all" id="phase-item-4">
+<div>
+<div class="font-bold text-slate-300 flex items-center gap-1.5">⚡ RONDA III <span class="text-neon-magenta">(25 MIN)</span></div>
+<div class="text-[11px] text-slate-400">RESOLVER // Obstáculos críticos</div>
+</div>
+<span class="text-slate-500 font-bold text-[10px]" id="phase-status-4">COLA</span>
+</div>
+<div class="p-2 rounded bg-cosmic-void/50 border-l-2 border-slate-700 flex items-center justify-between text-slate-400 transition-all" id="phase-item-5">
+<div>◇ PAUSA III (5 MIN) - RECUPERAR</div>
+<span class="text-[10px]" id="phase-status-5">PENDIENTE</span>
+</div>
+<div class="p-2.5 rounded bg-cosmic-surface/60 border-l-4 border-slate-700 flex items-center justify-between transition-all" id="phase-item-6">
+<div>
+<div class="font-bold text-slate-300 flex items-center gap-1.5">⚡ RONDA IV <span class="text-neon-purple">(25 MIN)</span></div>
+<div class="text-[11px] text-slate-400">TERMINAR // Pulir y criterio DONE</div>
+</div>
+<span class="text-slate-500 font-bold text-[10px]" id="phase-status-6">COLA</span>
+</div>
+<div class="p-2 rounded bg-cosmic-void/80 border-l-2 border-slate-700 flex items-center justify-between text-slate-400 transition-all" id="phase-item-7">
+<div class="font-bold">◇ CIERRE (5 MIN) - REGISTRAR</div>
+<span class="text-[10px]" id="phase-status-7">SELLO FINAL</span>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Central Temporal Engine -->
+<!-- BEGIN: Grid Execution Detail & Registration (Section IV & Section V) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- BEGIN: Section IV - Detalle de Rondas Interactivas -->
+<section class="lg:col-span-7 bg-cosmic-panel/85 p-6 rounded-xl border border-neon-cyan/30 corner-bracket space-y-4" data-purpose="section-rounds-detail">
+<div class="flex items-center justify-between pb-3 border-b border-slate-800">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 bg-neon-cyan rounded-sm shadow-[0_0_8px_#00f0ff]"></span>
+<h2 class="text-lg font-audiowide text-white tracking-wider">
+              SECCIÓN IV: RONDAS <span class="text-neon-cyan text-sm">//</span> DETALLE DE EJECUCIÓN
+            </h2>
+</div>
+<span class="text-xs font-mono text-slate-400">TELEMETRÍA DE CAMPO</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- RONDA I Card -->
+<div class="p-4 rounded-lg bg-cosmic-surface/70 border border-neon-cyan/40 space-y-3 font-mono text-xs">
+<div class="flex items-center justify-between text-neon-cyan font-bold">
+<span>⚡ RONDA I · ENTRAR</span>
+<span class="px-2 py-0.5 rounded bg-neon-cyan/20 text-[10px]">25 MIN</span>
+</div>
+<div>
+<label class="text-slate-400 text-[11px] block">Microobjetivo:</label>
+<input class="w-full bg-cosmic-void border border-slate-700 rounded p-1.5 text-white focus:border-neon-cyan focus:outline-none" type="text" value="Montar estructura modular de la ficha y validar fórmulas."/>
+</div>
+<div>
+<label class="text-slate-400 text-[11px] block">Avance Obtenido:</label>
+<input class="w-full bg-cosmic-void border border-slate-700 rounded p-1.5 text-white focus:border-neon-cyan focus:outline-none" type="text" value="Estructura terminada con sliders sincronizados al 100%."/>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="text-slate-400 text-[11px]">Estado:</span>
+<div class="flex gap-2">
+<label class="flex items-center gap-1 text-neon-mint cursor-pointer"><input checked="" class="text-neon-mint" name="r1-status" type="radio"/> COMPLETADO</label>
+<label class="flex items-center gap-1 text-slate-500 cursor-pointer"><input class="text-neon-magenta" name="r1-status" type="radio"/> BLOQUEO</label>
+</div>
+</div>
+</div>
+<!-- RONDA II Card -->
+<div class="p-4 rounded-lg bg-cosmic-surface/70 border border-neon-mint/40 space-y-3 font-mono text-xs">
+<div class="flex items-center justify-between text-neon-mint font-bold">
+<span>⚡ RONDA II · CONSTRUIR</span>
+<span class="px-2 py-0.5 rounded bg-neon-mint/20 text-[10px]">25 MIN</span>
+</div>
+<div>
+<label class="text-slate-400 text-[11px] block">Microobjetivo:</label>
+<input class="w-full bg-cosmic-void border border-slate-700 rounded p-1.5 text-white focus:border-neon-mint focus:outline-none" type="text" value="Diseñar dial gráfico SVG concéntrico y cronómetro interactivo."/>
+</div>
+<div>
+<label class="text-slate-400 text-[11px] block">Avance Obtenido:</label>
+<input class="w-full bg-cosmic-void border border-slate-700 rounded p-1.5 text-white focus:border-neon-mint focus:outline-none" type="text" value="SVG de geometría sagrada y avatar renderizado con éxito."/>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="text-slate-400 text-[11px]">Estado:</span>
+<div class="flex gap-2">
+<label class="flex items-center gap-1 text-neon-cyan cursor-pointer"><input checked="" class="text-neon-cyan" name="r2-status" type="radio"/> EN CURSO</label>
+<label class="flex items-center gap-1 text-slate-500 cursor-pointer"><input class="text-neon-magenta" name="r2-status" type="radio"/> BLOQUEO</label>
+</div>
+</div>
+</div>
+<!-- RONDA III Card -->
+<div class="p-4 rounded-lg bg-cosmic-surface/70 border border-neon-magenta/40 space-y-3 font-mono text-xs">
+<div class="flex items-center justify-between text-neon-magenta font-bold">
+<span>⚡ RONDA III · RESOLVER</span>
+<span class="px-2 py-0.5 rounded bg-neon-magenta/20 text-[10px]">25 MIN</span>
+</div>
+<div>
+<label class="text-slate-400 text-[11px] block">Problema / Obstáculo:</label>
+<input class="w-full bg-cosmic-void border border-slate-700 rounded p-1.5 text-white focus:border-neon-magenta focus:outline-none" type="text" value="Ajustar responsividad móvil en rejillas complejas de telemetría."/>
+</div>
+<div>
+<label class="text-slate-400 text-[11px] block">Resolución Planeada:</label>
+<input class="w-full bg-cosmic-void border border-slate-700 rounded p-1.5 text-white focus:border-neon-magenta focus:outline-none" type="text" value="Modo columna flex y reducción de paddings en breakpoints sm."/>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="text-slate-400 text-[11px]">Estado:</span>
+<div class="flex gap-2">
+<label class="flex items-center gap-1 text-slate-400 cursor-pointer"><input checked="" class="text-slate-400" name="r3-status" type="radio"/> EN COLA</label>
+</div>
+</div>
+</div>
+<!-- RONDA IV Card -->
+<div class="p-4 rounded-lg bg-cosmic-surface/70 border border-neon-purple/40 space-y-3 font-mono text-xs">
+<div class="flex items-center justify-between text-neon-purple font-bold">
+<span>⚡ RONDA IV · TERMINAR</span>
+<span class="px-2 py-0.5 rounded bg-neon-purple/20 text-[10px]">25 MIN</span>
+</div>
+<div>
+<label class="text-slate-400 text-[11px] block">Microobjetivo / Test:</label>
+<input class="w-full bg-cosmic-void border border-slate-700 rounded p-1.5 text-white focus:border-neon-purple focus:outline-none" type="text" value="Validar contraste neón, tipografías y pruebas de estrés visual."/>
+</div>
+<div>
+<label class="text-slate-400 text-[11px] block">Criterio DONE Verificado:</label>
+<input class="w-full bg-cosmic-void border border-slate-700 rounded p-1.5 text-white focus:border-neon-purple focus:outline-none" type="text" value="Auditoría visual aprobada y telemetría exacta de 120 min."/>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="text-slate-400 text-[11px]">Estado:</span>
+<div class="flex gap-2">
+<label class="flex items-center gap-1 text-slate-400 cursor-pointer"><input checked="" class="text-slate-400" name="r4-status" type="radio"/> EN COLA</label>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Section IV - Detalle de Rondas -->
+<!-- BEGIN: Section V & VI - Cierre, Continuidad y Sello Summary -->
+<section class="lg:col-span-5 bg-cosmic-panel/85 p-6 rounded-xl border border-neon-purple/40 corner-bracket-magenta corner-bracket space-y-5 flex flex-col justify-between" data-purpose="section-close-and-summary">
+<div>
+<!-- Heading -->
+<div class="flex items-center justify-between pb-3 border-b border-slate-800">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 bg-neon-magenta rounded-sm shadow-[0_0_8px_#ff007f]"></span>
+<h2 class="text-lg font-audiowide text-white tracking-wider">
+                SECCIÓN V &amp; VI <span class="text-neon-magenta text-sm">//</span> CIERRE Y SELLO
+              </h2>
+</div>
+<span class="text-xs font-mono text-neon-magenta">AUDITORÍA</span>
+</div>
+<!-- Section V: Questions & Verification -->
+<div class="space-y-3 font-mono text-xs pt-1">
+<div class="flex items-center justify-between p-2 rounded bg-cosmic-void/80 border border-slate-800">
+<span class="text-slate-300">¿Se alcanzó el objetivo?</span>
+<div class="flex gap-2">
+<label class="flex items-center gap-1 text-neon-mint cursor-pointer"><input checked="" class="text-neon-mint" name="obj-close" type="radio"/> SÍ</label>
+<label class="flex items-center gap-1 text-slate-400 cursor-pointer"><input class="text-slate-400" name="obj-close" type="radio"/> PARCIAL</label>
+<label class="flex items-center gap-1 text-slate-400 cursor-pointer"><input class="text-neon-magenta" name="obj-close" type="radio"/> NO</label>
+</div>
+</div>
+<div class="flex items-center justify-between p-2 rounded bg-cosmic-void/80 border border-slate-800">
+<span class="text-slate-300">¿Se alcanzó el criterio DONE?</span>
+<div class="flex gap-3">
+<label class="flex items-center gap-1 text-neon-cyan cursor-pointer"><input checked="" class="text-neon-cyan" name="done-close" type="radio"/> SÍ</label>
+<label class="flex items-center gap-1 text-slate-400 cursor-pointer"><input class="text-neon-magenta" name="done-close" type="radio"/> NO</label>
+</div>
+</div>
+<div>
+<label class="text-slate-400 text-[11px] block mb-1">Estado de la Misión:</label>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5 text-[11px]">
+<button class="py-1 px-2 rounded bg-neon-mint/20 border border-neon-mint text-neon-mint font-bold" type="button">COMPLETADA</button>
+<button class="py-1 px-2 rounded bg-cosmic-surface border border-slate-700 text-slate-400" type="button">CONTINÚA</button>
+<button class="py-1 px-2 rounded bg-cosmic-surface border border-slate-700 text-slate-400" type="button">BLOQUEADA</button>
+<button class="py-1 px-2 rounded bg-cosmic-surface border border-slate-700 text-slate-400" type="button">CANCELADA</button>
+<button class="py-1 px-2 rounded bg-cosmic-surface border border-slate-700 text-slate-400 col-span-2" type="button">REQUIERE OTRO BLOQUE</button>
+</div>
+</div>
+</div>
+<!-- Section VI: Continuity -->
+<div class="mt-4 p-3 rounded-lg bg-cosmic-void/60 border border-slate-800 font-mono text-xs space-y-2">
+<label class="text-neon-cyan font-semibold block">VI: PRÓXIMA ACCIÓN // CONTINUIDAD</label>
+<input class="w-full bg-cosmic-surface border border-slate-700 rounded p-1.5 text-white focus:border-neon-cyan focus:outline-none" type="text" value="Conectar API de persistencia en Supabase y activar modo offline sync."/>
+<div class="flex items-center justify-between pt-1 text-[11px] text-slate-400">
+<span>¿Requiere otro Bloque Cronos?</span>
+<span class="text-neon-mint font-bold">SÍ [1 BLOQUE ESTIMADO]</span>
+</div>
+</div>
+</div>
+<!-- Block Seal Badge (SUMMARY) -->
+<div class="mt-4 p-4 rounded-xl bg-gradient-to-br from-neon-purple/20 via-cosmic-void to-neon-cyan/20 border-2 border-neon-cyan/50 shadow-neon-cyan font-mono relative overflow-hidden">
+<div class="flex items-center justify-between pb-2 border-b border-neon-cyan/30 text-xs">
+<span class="font-bold text-white tracking-widest flex items-center gap-1.5">
+              ✦ SELLO DEL BLOQUE CRONOS
+            </span>
+<span class="text-neon-cyan font-bold">VERIFICADO</span>
+</div>
+<div class="grid grid-cols-2 gap-2 text-xs pt-3">
+<div><span class="text-slate-400">ID:</span> <strong class="text-white">#CRONOS-0142</strong></div>
+<div><span class="text-slate-400">120 MIN:</span> <strong class="text-neon-mint">COMPLETOS</strong></div>
+<div><span class="text-slate-400">INICIO:</span> <strong class="text-white">14:00</strong></div>
+<div><span class="text-slate-400">CIERRE:</span> <strong class="text-white">16:00</strong></div>
+</div>
+<div class="mt-3 pt-2 border-t border-slate-800 flex items-center justify-between text-xs">
+<span class="text-slate-300 font-semibold">RECOMPENSA DE PODER:</span>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded bg-neon-cyan/20 border border-neon-cyan text-neon-cyan font-bold">+250 XP</span>
+<span class="px-2 py-0.5 rounded bg-neon-gold/20 border border-neon-gold text-neon-gold font-bold">+80 MC</span>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Section V & VI -->
+</div>
+<!-- END: Grid Execution Detail & Registration -->
+<!-- BEGIN: Cosmic Axiom Footer -->
+<footer class="pt-6 pb-4 border-t border-neon-cyan/20 text-center space-y-3" data-purpose="hud-axiom-footer">
+<div class="text-xs sm:text-sm font-audiowide tracking-[0.25em] text-neon-cyan drop-shadow-[0_0_8px_#00f0ff]">
+        OMNIA ✦ FLUX ✦ ORBE ✦ CRONOS ✦ AVATAR ✦ ATANOR
+      </div>
+<div class="text-xs sm:text-base font-orbitron font-bold tracking-[0.2em] text-neon-mint">
+        ELIGE ✦ EJECUTA ✦ REGISTRA ✦ EVOLUCIONA
+      </div>
+<div class="text-[11px] sm:text-xs font-mono text-slate-400 tracking-wider">
+        EL TIEMPO ES RECURSO <span class="text-neon-magenta">•</span> EL BLOQUE ES UNIDAD <span class="text-neon-magenta">•</span> LA ACCIÓN ES PROGRESO
+      </div>
+<div class="text-[10px] font-mono text-slate-400 pt-2">
+        MAGNOPVS LIFE HERO SYSTEM © 2026 // COSMIC HUD ENGINE // ALL COGNITIVE RIGHTS RESERVED
+      </div>
+</footer>
+<!-- END: Cosmic Axiom Footer -->
+</main>
+<!-- END: Main Interface Wrapper -->
+<!-- BEGIN: Interactive Calculator & Web Audio Real-time Telemetry Engine -->
+<script data-purpose="cronos-interactivity">
+    // --- Live Value Matrix Calculator ---
+    function calculateValue() {
+      const imp = parseInt(document.getElementById('slider-importancia').value, 10);
+      const urg = parseInt(document.getElementById('slider-urgencia').value, 10);
+      const impac = parseInt(document.getElementById('slider-impacto').value, 10);
+      const dep = parseInt(document.getElementById('slider-dependencia').value, 10);
+      const cost = parseInt(document.getElementById('slider-coste').value, 10);
+
+      document.getElementById('val-importancia').textContent = imp + ' / 5';
+      document.getElementById('val-urgencia').textContent = urg + ' / 5';
+      document.getElementById('val-impacto').textContent = impac + ' / 5';
+      document.getElementById('val-dependencia').textContent = dep + ' / 3';
+      document.getElementById('val-coste').textContent = cost + ' / 5';
+
+      // Formula: (2 * Importancia) + Urgencia + Impacto + Dependencia - Coste
+      const total = (2 * imp) + urg + impac + dep - cost;
+
+      let label = 'MEDIA';
+      if (total >= 18) {
+        label = 'CRÍTICA ALTA';
+      } else if (total >= 14) {
+        label = 'PRIORIDAD ALTA';
+      } else if (total >= 10) {
+        label = 'ESTÁNDAR';
+      } else {
+        label = 'BAJA RESISTENCIA';
+      }
+
+      document.getElementById('valor-total-display').textContent = total + ' PTS // ' + label;
+    }
+
+    // --- High-Fidelity Web Audio API Synthesizer & Continuous Binaural Engine ---
+    let audioCtx = null;
+    let sfxEnabled = true;
+
+    // Binaural Synthesis Variables
+    let binauralEnabled = true;
+    let binauralVolume = 0.18;
+    let oscLeft = null;
+    let oscRight = null;
+    let binauralGain = null;
+    let currentPresetKey = 'gamma';
+    let autoModulationActive = true;
+
+    const BINAURAL_PRESETS = {
+      gamma: {
+        name: '40Hz GAMMA',
+        subname: 'Hiperfoco / Cognición Cuántica',
+        delta: 40,
+        carrierLeft: 200,
+        carrierRight: 240,
+        color: '#00f0ff',
+        btnId: 'btn-preset-gamma'
+      },
+      alpha: {
+        name: '10Hz ALPHA',
+        subname: 'Flujo / Coherencia',
+        delta: 10,
+        carrierLeft: 210,
+        carrierRight: 220,
+        color: '#48ddc1',
+        btnId: 'btn-preset-alpha'
+      },
+      theta: {
+        name: '4Hz THETA',
+        subname: 'Descanso Profundo en Pausa',
+        delta: 4,
+        carrierLeft: 198,
+        carrierRight: 202,
+        color: '#8b24fc',
+        btnId: 'btn-preset-theta'
+      },
+      solfeggio: {
+        name: '528Hz SOLFEGGIO',
+        subname: 'Transmutación & Armonía',
+        delta: 8,
+        carrierLeft: 524,
+        carrierRight: 532,
+        color: '#ffd000',
+        btnId: 'btn-preset-solfeggio'
+      }
+    };
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtx = new AudioContextClass();
+        }
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    // Continuous Binaural Beats Audio Nodes Initialization
+    function setupBinauralNodes() {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+
+      if (oscLeft) {
+        try { oscLeft.stop(); oscLeft.disconnect(); } catch (e) {}
+      }
+      if (oscRight) {
+        try { oscRight.stop(); oscRight.disconnect(); } catch (e) {}
+      }
+
+      const preset = BINAURAL_PRESETS[currentPresetKey];
+
+      // Master Gain for Binaural Carrier
+      binauralGain = ctx.createGain();
+      binauralGain.gain.setValueAtTime(binauralEnabled ? binauralVolume : 0, ctx.currentTime);
+
+      // Stereo Merger or Panner setup
+      const merger = ctx.createChannelMerger(2);
+
+      // Left Oscillator (Carrier L)
+      oscLeft = ctx.createOscillator();
+      oscLeft.type = 'sine';
+      oscLeft.frequency.setValueAtTime(preset.carrierLeft, ctx.currentTime);
+
+      // Right Oscillator (Carrier R)
+      oscRight = ctx.createOscillator();
+      oscRight.type = 'sine';
+      oscRight.frequency.setValueAtTime(preset.carrierRight, ctx.currentTime);
+
+      // Connect Left -> channel 0, Right -> channel 1
+      oscLeft.connect(merger, 0, 0);
+      oscRight.connect(merger, 0, 1);
+
+      merger.connect(binauralGain);
+      binauralGain.connect(ctx.destination);
+
+      oscLeft.start();
+      oscRight.start();
+    }
+
+    function updateBinauralFrequencies() {
+      if (!oscLeft || !oscRight || !audioCtx) return;
+      const preset = BINAURAL_PRESETS[currentPresetKey];
+      const now = audioCtx.currentTime;
+      // Smooth frequency transition ramp (0.4s glide)
+      oscLeft.frequency.setTargetAtTime(preset.carrierLeft, now, 0.2);
+      oscRight.frequency.setTargetAtTime(preset.carrierRight, now, 0.2);
+    }
+
+    function setBinauralVolume(valPercent) {
+      const vol = valPercent / 100;
+      binauralVolume = vol;
+      document.getElementById('binaural-vol-display').textContent = valPercent + '%';
+
+      if (binauralGain && audioCtx) {
+        binauralGain.gain.setTargetAtTime(binauralEnabled ? binauralVolume : 0, audioCtx.currentTime, 0.05);
+      }
+    }
+
+    function toggleBinauralEngine() {
+      getAudioContext();
+      binauralEnabled = !binauralEnabled;
+
+      const btn = document.getElementById('btn-binaural-toggle');
+      const dot = document.getElementById('binaural-dot');
+      const txt = document.getElementById('binaural-state-text');
+
+      if (!oscLeft) {
+        setupBinauralNodes();
+      }
+
+      if (binauralEnabled) {
+        btn.className = 'px-2 py-0.5 rounded text-[10px] font-bold border transition-all text-neon-mint border-neon-mint bg-neon-mint/10';
+        dot.className = 'w-1.5 h-1.5 inline-block rounded-full bg-neon-mint mr-1 animate-pulse';
+        txt.textContent = 'ON';
+        if (binauralGain && audioCtx) {
+          binauralGain.gain.setTargetAtTime(binauralVolume, audioCtx.currentTime, 0.1);
+        }
+      } else {
+        btn.className = 'px-2 py-0.5 rounded text-[10px] font-bold border transition-all text-slate-500 border-slate-700 bg-cosmic-surface';
+        dot.className = 'w-1.5 h-1.5 inline-block rounded-full bg-slate-500 mr-1';
+        txt.textContent = 'MUTE';
+        if (binauralGain && audioCtx) {
+          binauralGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.1);
+        }
+      }
+    }
+
+    function selectBinauralPreset(key, isAutomated = false) {
+      if (!BINAURAL_PRESETS[key]) return;
+      currentPresetKey = key;
+      const preset = BINAURAL_PRESETS[key];
+
+      getAudioContext();
+      if (!oscLeft) {
+        setupBinauralNodes();
+      } else {
+        updateBinauralFrequencies();
+      }
+
+      // Update UI Telemetry & Labels
+      const carrierLabel = document.getElementById('carrier-telemetry');
+      if (carrierLabel) {
+        carrierLabel.textContent = `L:${preset.carrierLeft}Hz | R:${preset.carrierRight}Hz (Δ${preset.delta}Hz)`;
+      }
+
+      const specLabel = document.getElementById('binaural-spec-label');
+      if (specLabel) {
+        specLabel.textContent = `${preset.delta}Hz [${preset.name.split(' ')[1]}]`;
+        specLabel.style.color = preset.color;
+      }
+
+      // Update Preset Button Visuals
+      Object.keys(BINAURAL_PRESETS).forEach(pKey => {
+        const btn = document.getElementById(BINAURAL_PRESETS[pKey].btnId);
+        if (!btn) return;
+        if (pKey === key) {
+          btn.className = 'p-1.5 rounded border text-left transition-all bg-neon-cyan/20 border-neon-cyan text-neon-cyan shadow-[0_0_8px_rgba(0,240,255,0.4)]';
+        } else {
+          btn.className = 'p-1.5 rounded border text-left transition-all bg-cosmic-surface border-slate-700 hover:border-neon-mint text-slate-300';
+        }
+      });
+
+      if (!isAutomated) {
+        playSubtleTick();
+      }
+    }
+
+    // Toggle Sound Effects (clicks, pings, bell)
+    function toggleAudioEngine() {
+      sfxEnabled = !sfxEnabled;
+      const txt = document.getElementById('audio-state-text');
+      if (sfxEnabled) {
+        txt.textContent = 'SFX: ON';
+        playTachyonTone();
+      } else {
+        txt.textContent = 'SFX: OFF';
+      }
+    }
+
+    // Tachyon Activation Pulse (880Hz -> 1320Hz arpeggiated ping)
+    function playTachyonTone() {
+      if (!sfxEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+        
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, now);
+        osc.frequency.exponentialRampToValueAtTime(1320, now + 0.12);
+
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.35);
+      } catch (e) {
+        console.warn('Audio play error', e);
+      }
+    }
+
+    // Subtle Bio-acoustic Tick (concentration focus tick)
+    function playSubtleTick() {
+      if (!sfxEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(1760, now);
+
+        gain.gain.setValueAtTime(0.03, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.05);
+      } catch (e) {}
+    }
+
+    // Solfeggio 528Hz Harmonic Cosmic Transition Bell
+    function playCosmicBell() {
+      if (!sfxEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+
+        const freqs = [528, 1056];
+        freqs.forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now);
+
+          const initialVol = idx === 0 ? 0.22 : 0.08;
+          gain.gain.setValueAtTime(initialVol, now);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.8);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+
+          osc.start(now);
+          osc.stop(now + 1.8);
+        });
+      } catch (e) {
+        console.warn('Audio bell error', e);
+      }
+    }
+
+    function playTestTone() {
+      getAudioContext();
+      playTachyonTone();
+      setTimeout(playCosmicBell, 380);
+    }
+
+    // --- Interactive Tactical Timer Engine ---
+    const phases = [
+      { name: 'RONDA I (ENTRAR)', duration: 25 * 60, roundNum: '1 / 4 RONDAS', isBreak: false, binauralPreset: 'gamma', arcId: 'dial-arc-r1', badgeId: 'badge-r1' },
+      { name: 'PAUSA I (RECUPERAR)', duration: 5 * 60, roundNum: 'PAUSA I', isBreak: true, binauralPreset: 'alpha', arcId: null, badgeId: null },
+      { name: 'RONDA II (CONSTRUIR)', duration: 25 * 60, roundNum: '2 / 4 RONDAS', isBreak: false, binauralPreset: 'gamma', arcId: 'dial-arc-r2', badgeId: 'badge-r2' },
+      { name: 'PAUSA II (RECUPERAR)', duration: 5 * 60, roundNum: 'PAUSA II', isBreak: true, binauralPreset: 'theta', arcId: null, badgeId: null },
+      { name: 'RONDA III (RESOLVER)', duration: 25 * 60, roundNum: '3 / 4 RONDAS', isBreak: false, binauralPreset: 'gamma', arcId: 'dial-arc-r3', badgeId: 'badge-r3' },
+      { name: 'PAUSA III (RECUPERAR)', duration: 5 * 60, roundNum: 'PAUSA III', isBreak: true, binauralPreset: 'theta', arcId: null, badgeId: null },
+      { name: 'RONDA IV (TERMINAR)', duration: 25 * 60, roundNum: '4 / 4 RONDAS', isBreak: false, binauralPreset: 'gamma', arcId: 'dial-arc-r4', badgeId: 'badge-r4' },
+      { name: 'CIERRE (REGISTRAR)', duration: 5 * 60, roundNum: 'SELLO CIERRE', isBreak: true, binauralPreset: 'solfeggio', arcId: null, badgeId: null }
+    ];
+    let currentPhaseIndex = 0;
+    let timerSeconds = 23 * 60 + 45; // default initial synced to source display
+    let timerRunning = true; // Auto-active like HUD operational
+    let timerInterval = null;
+
+    function formatTime(totalSec) {
+      const m = Math.floor(totalSec / 60);
+      const s = totalSec % 60;
+      return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+    }
+
+    function updatePhaseDisplay() {
+      const current = phases[currentPhaseIndex];
+      document.getElementById('current-phase-label').textContent = current.name;
+      document.getElementById('current-phase-count').textContent = current.roundNum;
+      document.getElementById('digital-timer').textContent = formatTime(timerSeconds);
+
+      // Auto-modulate Binaural preset to current Cronos phase
+      if (autoModulationActive && current.binauralPreset) {
+        selectBinauralPreset(current.binauralPreset, true);
+        const autoLabel = document.getElementById('auto-mod-label');
+        if (autoLabel) {
+          autoLabel.textContent = `AUTO: ${current.binauralPreset.toUpperCase()} (${current.isBreak ? 'PAUSA' : 'FOCO'})`;
+        }
+      }
+
+      // Update telemetry list items highlighting
+      for (let i = 0; i < phases.length; i++) {
+        const itemEl = document.getElementById(`phase-item-${i}`);
+        const statusEl = document.getElementById(`phase-status-${i}`);
+        if (!itemEl || !statusEl) continue;
+
+        if (i < currentPhaseIndex) {
+          statusEl.textContent = 'COMPLETO';
+          statusEl.className = 'text-neon-mint font-bold text-[10px]';
+          itemEl.classList.add('opacity-70');
+        } else if (i === currentPhaseIndex) {
+          statusEl.textContent = 'EN CURSO';
+          statusEl.className = 'text-neon-cyan font-bold text-[10px] animate-pulse';
+          itemEl.classList.remove('opacity-70');
+          itemEl.classList.add('border-neon-cyan', 'bg-cosmic-surface/90');
+        } else {
+          statusEl.textContent = i % 2 === 0 ? 'COLA' : 'PENDIENTE';
+          statusEl.className = 'text-slate-500 font-bold text-[10px]';
+          itemEl.classList.remove('border-neon-cyan', 'bg-cosmic-surface/90', 'opacity-70');
+        }
+      }
+
+      // Update dial arcs visual intensity
+      ['dial-arc-r1', 'dial-arc-r2', 'dial-arc-r3', 'dial-arc-r4'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.setAttribute('opacity', '0.4');
+          el.setAttribute('stroke-width', '5');
+          el.classList.remove('filter', 'drop-shadow-[0_0_12px_#00f0ff]');
+        }
+      });
+
+      if (current.arcId) {
+        const activeArc = document.getElementById(current.arcId);
+        if (activeArc) {
+          activeArc.setAttribute('opacity', '1');
+          activeArc.setAttribute('stroke-width', '8');
+          activeArc.classList.add('filter', 'drop-shadow-[0_0_12px_#00f0ff]');
+        }
+      }
+    }
+
+    function startTimerLoop() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (timerSeconds > 0) {
+          timerSeconds--;
+          document.getElementById('digital-timer').textContent = formatTime(timerSeconds);
+
+          // Subtle bio-acoustic tick on 10-second multiples
+          if (timerSeconds % 10 === 0) {
+            playSubtleTick();
+          }
+        } else {
+          // Phase finished: trigger Solfeggio 528Hz bell and advance
+          playCosmicBell();
+          advancePhase();
+        }
+      }, 1000);
+    }
+
+    function toggleTimer() {
+      const btn = document.getElementById('btn-toggle-timer');
+      const badge = document.getElementById('timer-status-badge');
+      getAudioContext();
+
+      if (timerRunning) {
+        clearInterval(timerInterval);
+        timerRunning = false;
+        btn.textContent = 'REANUDAR';
+        btn.classList.remove('bg-neon-magenta', 'text-white');
+        btn.classList.add('bg-neon-cyan', 'text-black');
+        if (badge) {
+          badge.textContent = 'PAUSA';
+          badge.className = 'text-[10px] text-neon-magenta font-bold px-1.5 py-0.5 rounded bg-neon-magenta/10 border border-neon-magenta/30';
+        }
+      } else {
+        timerRunning = true;
+        btn.textContent = 'PAUSAR';
+        btn.classList.remove('bg-neon-cyan', 'text-black');
+        btn.classList.add('bg-neon-magenta', 'text-white');
+        if (badge) {
+          badge.textContent = 'ACTIVO';
+          badge.className = 'text-[10px] text-neon-mint font-bold px-1.5 py-0.5 rounded bg-neon-mint/10 border border-neon-mint/30';
+        }
+        playTachyonTone();
+        startTimerLoop();
+      }
+    }
+
+    function advancePhase() {
+      getAudioContext();
+      currentPhaseIndex = (currentPhaseIndex + 1) % phases.length;
+      timerSeconds = phases[currentPhaseIndex].duration;
+      playTachyonTone();
+      updatePhaseDisplay();
+    }
+
+    // --- Real-time Binaural Canvas Spectrogram / Waveform Visualizer ---
+    let animFrameId = null;
+    let waveOffset = 0;
+
+    function renderBinauralVisualizer() {
+      const canvas = document.getElementById('binaural-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Background subtle grid
+      ctx.strokeStyle = 'rgba(0, 240, 255, 0.08)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, h / 2);
+      ctx.lineTo(w, h / 2);
+      ctx.stroke();
+
+      const preset = BINAURAL_PRESETS[currentPresetKey] || BINAURAL_PRESETS.gamma;
+      const delta = preset.delta;
+      const active = binauralEnabled;
+
+      // Stereo interference / beat packet simulation
+      waveOffset += active ? 0.08 : 0.01;
+
+      // Draw Left Carrier (Cyan)
+      ctx.beginPath();
+      ctx.strokeStyle = active ? 'rgba(0, 240, 255, 0.7)' : 'rgba(100, 116, 139, 0.3)';
+      ctx.lineWidth = 1.2;
+      for (let x = 0; x < w; x++) {
+        const beatMod = Math.sin((x * 0.04 * (delta / 10)) + waveOffset * 0.5);
+        const carrier = Math.sin(x * 0.2 + waveOffset * 2);
+        const amp = active ? (h * 0.38) * (binauralVolume * 2 + 0.3) : 3;
+        const y = h / 2 + carrier * beatMod * amp;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // Draw Right Carrier / Difference envelope (Magenta/Mint)
+      ctx.beginPath();
+      ctx.strokeStyle = active ? (preset.color || '#ff007f') : 'rgba(100, 116, 139, 0.2)';
+      ctx.lineWidth = 1.4;
+      for (let x = 0; x < w; x++) {
+        const beatMod = Math.cos((x * 0.04 * (delta / 10)) + waveOffset * 0.5);
+        const amp = active ? (h * 0.32) * (binauralVolume * 2 + 0.3) : 2;
+        const y = h / 2 + beatMod * amp;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      animFrameId = requestAnimationFrame(renderBinauralVisualizer);
+    }
+
+    // --- Real-time Bio-Feedback Simulation & Haptic Heartbeat Engine ---
+    let baseBpm = 72;
+    let flowIndex = 92;
+
+    function updateBiometrics() {
+      // Gentle biological oscillation (BPM 68 - 75)
+      const deltaBpm = Math.floor(Math.random() * 3) - 1;
+      baseBpm = Math.min(75, Math.max(68, baseBpm + deltaBpm));
+      const bpmEl = document.getElementById('bio-bpm');
+      if (bpmEl) bpmEl.textContent = baseBpm;
+
+      // HRV ms calculation correlated to coherence
+      const hrvVal = Math.round(58 + (75 - baseBpm) * 1.5 + (Math.random() * 3));
+      const hrvEl = document.getElementById('bio-hrv');
+      if (hrvEl) hrvEl.textContent = `${hrvVal} ms [ÓPTIMA]`;
+
+      // Flow index slight flux 91% - 94%
+      if (Math.random() > 0.6) {
+        flowIndex = Math.min(95, Math.max(90, flowIndex + (Math.random() > 0.5 ? 1 : -1)));
+        const flowEl = document.getElementById('bio-flow');
+        const flowBar = document.getElementById('bio-flow-bar');
+        if (flowEl) flowEl.textContent = `FLOW ${flowIndex}%`;
+        if (flowBar) flowBar.style.width = `${flowIndex}%`;
+      }
+
+      // ECG SVG path slight breathing distortion
+      const ecg = document.getElementById('ecg-path');
+      if (ecg) {
+        const peakY = Math.round(4 + Math.random() * 6);
+        const lowY = Math.round(30 + Math.random() * 5);
+        ecg.setAttribute('d', `M 0 20 L 30 20 L 40 ${peakY + 3} L 46 ${lowY} L 52 ${peakY} L 58 20 L 90 20 L 98 12 L 104 28 L 110 18 L 140 20 L 150 ${peakY + 5} L 156 ${lowY - 2} L 162 20 L 200 20`);
+      }
+
+      // Heartbeat pulse sync timing
+      const durationSeconds = (60 / baseBpm).toFixed(2);
+      const heartEl = document.getElementById('avatar-heart-diamond');
+      if (heartEl) {
+        heartEl.style.animationDuration = `${durationSeconds}s`;
+      }
+    }
+
+    // Initialize values, timer and visualizer on DOM load
+    document.addEventListener('DOMContentLoaded', () => {
+      calculateValue();
+      updatePhaseDisplay();
+      startTimerLoop();
+      renderBinauralVisualizer();
+      setInterval(updateBiometrics, 2000);
+
+      // Lazy start audio context on first user interaction anywhere
+      const unlockAudio = () => {
+        getAudioContext();
+        if (binauralEnabled && !oscLeft) {
+          setupBinauralNodes();
+        }
+        window.removeEventListener('pointerdown', unlockAudio);
+        window.removeEventListener('keydown', unlockAudio);
+      };
+      window.addEventListener('pointerdown', unlockAudio);
+      window.addEventListener('keydown', unlockAudio);
+    });
+  </script>
+<!-- END: Interactive Calculator & Web Audio Real-time Telemetry Engine -->
+</body></html>

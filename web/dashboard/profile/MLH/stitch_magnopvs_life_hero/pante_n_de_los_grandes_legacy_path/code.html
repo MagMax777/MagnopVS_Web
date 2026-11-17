@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Panteón de los Grandes — Rutas de Aprendizaje</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-tertiary-fixed": "#390625",
+                "surface-container-high": "#272a2d",
+                "surface-container": "#1c2023",
+                "inverse-surface": "#e0e3e6",
+                "tertiary-fixed": "#ffd8e7",
+                "grid-line": "rgba(127, 208, 255, 0.05)",
+                "secondary-fixed-dim": "#47ddc1",
+                "glow-cyan": "#2da8e0",
+                "on-primary-container": "#00597b",
+                "surface-container-highest": "#313538",
+                "error-container": "#93000a",
+                "surface-panel": "rgba(255, 255, 255, 0.03)",
+                "on-primary-fixed-variant": "#004c6a",
+                "surface-dim": "#101417",
+                "surface-bright": "#363a3d",
+                "on-tertiary": "#531c3b",
+                "surface": "#101417",
+                "outline": "#899299",
+                "on-tertiary-fixed-variant": "#6e3252",
+                "primary-fixed-dim": "#7fd0ff",
+                "on-secondary-fixed": "#00201a",
+                "surface-container-low": "#181c1f",
+                "outline-variant": "#3f484e",
+                "status-critical": "#93000a",
+                "background": "#101417",
+                "secondary": "#47ddc1",
+                "on-error": "#690005",
+                "background-deep": "#0a0b12",
+                "on-tertiary-container": "#7c3e5e",
+                "primary": "#c5e7ff",
+                "error": "#ffb4ab",
+                "surface-variant": "#313538",
+                "secondary-fixed": "#6af9dc",
+                "tertiary": "#ffd8e7",
+                "inverse-primary": "#00658b",
+                "on-primary": "#00344a",
+                "surface-tint": "#7fd0ff",
+                "on-secondary-container": "#004439",
+                "tertiary-container": "#ffafd4",
+                "surface-container-lowest": "#0b0f11",
+                "primary-fixed": "#c5e7ff",
+                "on-error-container": "#ffdad6",
+                "on-secondary": "#00382e",
+                "on-surface-variant": "#bfc8cf",
+                "on-secondary-fixed-variant": "#005144",
+                "inverse-on-surface": "#2d3134",
+                "primary-container": "#7fd0ff",
+                "secondary-container": "#00bba0",
+                "on-primary-fixed": "#001e2d",
+                "on-background": "#e0e3e6",
+                "tertiary-fixed-dim": "#ffafd4",
+                "on-surface": "#e0e3e6"
+            },
+            "fontFamily": {
+                "body-md": ["Hanken Grotesk"],
+                "display-lg": ["Space Grotesk"],
+                "display-lg-mobile": ["Space Grotesk"],
+                "mono-data": ["JetBrains Mono"],
+                "data-point": ["Hanken Grotesk"],
+                "headline-md": ["Space Grotesk"],
+                "label-caps": ["JetBrains Mono"],
+                "micro-tag": ["JetBrains Mono"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-color: #101417;
+            color: #e0e3e6;
+            overflow-x: hidden;
+        }
+
+        .cyber-grid {
+            background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
+                              linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(197, 231, 255, 0.2);
+        }
+
+        .corner-bracket::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            width: 12px;
+            height: 12px;
+            border-top: 2px solid #c5e7ff;
+            border-left: 2px solid #c5e7ff;
+        }
+
+        .corner-bracket::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            right: -1px;
+            width: 12px;
+            height: 12px;
+            border-bottom: 2px solid #c5e7ff;
+            border-right: 2px solid #c5e7ff;
+        }
+
+        .neon-pulse {
+            animation: pulse-glow 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { filter: drop-shadow(0 0 2px #2da8e0); opacity: 0.8; }
+            50% { filter: drop-shadow(0 0 10px #2da8e0); opacity: 1; }
+        }
+
+        .hex-clip {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        .slanted-edge {
+            clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
+        }
+
+        .progress-block {
+            height: 8px;
+            flex: 1;
+            background: rgba(197, 231, 255, 0.1);
+        }
+        .progress-block.active {
+            background: #2da8e0;
+            box-shadow: 0 0 8px #2da8e0;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md selection:bg-primary/30">
+<!-- Global Background Elements -->
+<div class="fixed inset-0 cyber-grid pointer-events-none opacity-40"></div>
+<div class="fixed inset-0 pointer-events-none overflow-hidden">
+
+</div>
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-3xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="flex justify-between items-center px-margin-desktop py-4 max-w-7xl mx-auto w-full">
+<div class="flex items-center gap-6">
+<h1 class="font-display-lg text-[24px] md:text-display-lg-mobile tracking-tighter text-primary uppercase font-bold">
+                    El Codex de los Grandes
+                </h1>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-caps text-label-caps" href="#">CODEX</a>
+<a class="text-on-surface-variant font-medium hover:text-secondary-fixed transition-colors font-label-caps text-label-caps" href="#">BUILDS</a>
+<a class="text-on-surface-variant font-medium hover:text-secondary-fixed transition-colors font-label-caps text-label-caps" href="#">MISIONES</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary hover:bg-surface-panel p-2 transition-colors">search</button>
+<button class="material-symbols-outlined text-primary hover:bg-surface-panel p-2 transition-colors">notifications</button>
+<div class="w-10 h-10 border border-primary/40 p-0.5">
+<img class="w-full h-full object-cover" data-alt="A professional user profile avatar in a futuristic sci-fi setting, rendered with holographic interface overlays. The person is framed by soft cyan and deep navy neon lights, echoing the technical alchemical aesthetic of the platform. Behind them is a subtle digital grid pattern on a dark glass background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfadsGG5KTTInE3XHZ19aJ5bpE2yQsg3_K5AEmqFFgcjQyTCLMcjX7HGbY9xgj_rA7mf_Eou10TFp6hy0YJpkO06xf23Qo6xfBKW136lVEsSBx79JJJ_AEd4wk7r6j80cM_40zOcETADW3T1IES0PsYWGdiI--NIU2jftWaa-2eB3OCN-rD_cyNvgdRjkfEoSc1H-OWnDNBAPW7i2PhZ9x9aPFmozqTrIIoc9QPIfZGHz8usL08jPPMhMgXizW6aJbpAAXNWENwNAP"/>
+</div>
+</div>
+</div>
+</header>
+<!-- SideNavBar (Desktop) -->
+<aside class="hidden md:flex fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-low/90 backdrop-blur-2xl border-r border-primary/10 shadow-2xl flex-col py-24">
+<div class="px-6 mb-12">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-secondary-fixed text-[32px] neon-pulse" style="font-variation-settings: 'FILL' 1;">terminal</span>
+<span class="font-label-caps text-label-caps text-primary tracking-widest">LEGACY_PROTOCOL</span>
+</div>
+<p class="font-micro-tag text-micro-tag text-on-surface-variant opacity-60 uppercase tracking-[0.3em]">V-6.4 // ACTIVE</p>
+</div>
+<div class="flex flex-col flex-1">
+<a class="flex items-center gap-4 bg-primary/10 text-primary border-l-4 border-primary px-6 py-4 transition-all" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-caps text-label-caps">Codex</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">architecture</span>
+<span class="font-label-caps text-label-caps">Builds</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-caps text-label-caps">Archive</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps text-label-caps">Missions</span>
+</a>
+</div>
+<div class="mt-auto px-6 pb-8 space-y-4">
+<button class="w-full bg-primary py-3 text-on-primary font-bold tracking-widest uppercase text-label-caps slanted-edge active:scale-95 duration-150">
+                INITIALIZE_SYNC
+            </button>
+<div class="flex flex-col gap-2 pt-4">
+<a class="flex items-center gap-2 text-on-surface-variant hover:text-primary font-micro-tag text-micro-tag uppercase" href="#">
+<span class="material-symbols-outlined text-[14px]">help_outline</span> SUPPORT
+                </a>
+<a class="flex items-center gap-2 text-on-surface-variant hover:text-primary font-micro-tag text-micro-tag uppercase" href="#">
+<span class="material-symbols-outlined text-[14px]">terminal</span> LOGS
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="md:ml-64 pt-24 min-h-screen px-margin-mobile md:px-margin-desktop">
+<div class="max-w-7xl mx-auto py-12">
+<!-- Page Title Section -->
+<div class="mb-16">
+<div class="inline-flex items-center gap-3 px-3 py-1 border border-primary/30 bg-primary/5 mb-4">
+<span class="w-2 h-2 bg-secondary shadow-[0_0_8px_#47ddc1] animate-pulse"></span>
+<span class="font-micro-tag text-micro-tag text-primary uppercase tracking-[0.4em]">Protocolo_Panteon_V2</span>
+</div>
+<h2 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary uppercase tracking-tighter leading-none mb-4">
+                    Panteón de los Grandes <span class="text-on-surface-variant/40">—</span> <span class="text-secondary">Rutas de Aprendizaje</span>
+</h2>
+<div class="flex gap-4">
+<div class="h-[1px] flex-1 bg-gradient-to-r from-primary/50 to-transparent"></div>
+</div>
+</div>
+<!-- Split Screen Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+<!-- Left Side: The Legend Card -->
+<section class="space-y-8">
+<div class="glass-panel corner-bracket relative p-8 group">
+<div class="flex flex-col md:flex-row gap-8 items-center md:items-start">
+<!-- Character Image Container -->
+<div class="relative">
+<div class="w-48 h-48 hex-clip border-2 border-primary/30 overflow-hidden relative group-hover:border-secondary transition-colors">
+<img class="w-full h-full object-cover" data-alt="A powerful, cinematic portrait of Martin Luther King Jr. envisioned in a futuristic cyber-alchemical aesthetic. He is illuminated by ethereal cosmic elements, swirling particles of cyan and white light. The portrait maintains his historical dignity but integrates him into a digital universe, with subtle tech patterns across the background and a luminous glow around his silhouette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCacxEgEeV04Nc1Z3ni1M7R6Z9_AqEedNQUcqSWGZEA-kr2W6pNrlFhuhvAqx8Vjm0HySYRyxhswevnAlqv25xBS0_Jm9EODpgvQp4QNCXY9A6kDLqS_BYDoDeuoI-VA4HI2qhWsVnJL3QvBcxrIKMURUrIPCbmP7WmOgjnyYHnG8QOukijAd4XebBYpcRUANc8BfmNbGZ9U6R2OxzqlQlILMOpTiyeJhLy4HIddAUAMA__N3FOKEBNcvi2ZnqNwoLO5szr6Z0ThW_T"/>
+</div>
+<div class="absolute -bottom-2 -right-2 bg-secondary text-on-secondary px-3 py-1 font-mono-data text-mono-data font-bold tracking-tighter">
+                                    NIVEL 95
+                                </div>
+</div>
+<!-- Legend Details -->
+<div class="flex-1 text-center md:text-left">
+<h3 class="font-headline-md text-headline-md text-primary mb-2 uppercase tracking-wide">Martin Luther King Jr.</h3>
+<p class="font-body-md text-on-surface-variant mb-6 italic opacity-80">
+                                    "La oscuridad no puede expulsar a la oscuridad; sólo la luz puede hacer eso."
+                                </p>
+<!-- Skills Grid -->
+<div class="grid grid-cols-2 gap-y-6 gap-x-8">
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Oratoria</span>
+<div class="flex gap-0.5">
+<span class="material-symbols-outlined text-[16px] text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<div class="flex gap-1">
+<div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Liderazgo</span>
+<div class="flex gap-0.5">
+<span class="material-symbols-outlined text-[16px] text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<div class="flex gap-1">
+<div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Empatía</span>
+<div class="flex gap-0.5">
+<span class="material-symbols-outlined text-[16px] text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<div class="flex gap-1">
+<div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Visión</span>
+<div class="flex gap-0.5">
+<span class="material-symbols-outlined text-[16px] text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<div class="flex gap-1">
+<div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div><div class="progress-block active"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Character Build Status -->
+<div class="glass-panel p-6 border-l-4 border-secondary">
+<div class="flex justify-between items-end">
+<div>
+<h4 class="font-label-caps text-label-caps text-secondary mb-1">BUILD_INFO</h4>
+<p class="font-mono-data text-mono-data uppercase text-primary">Arquitecto de la Justicia Social</p>
+</div>
+<div class="text-right">
+<p class="font-micro-tag text-micro-tag opacity-60">STAMINA_REGEN</p>
+<p class="font-data-point text-data-point text-primary">MAX</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Side: The Learning Path -->
+<section class="space-y-6">
+<div class="flex items-center gap-4 mb-2">
+<div class="w-12 h-12 flex items-center justify-center glass-panel rounded-full text-secondary">
+<span class="material-symbols-outlined">route</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-primary uppercase">Ruta del Orador</h3>
+<p class="font-label-caps text-label-caps text-on-surface-variant opacity-60 uppercase tracking-widest">Ruta de Martin // SECUENCIA_ACTIVA</p>
+</div>
+</div>
+<!-- Learning Path Steps -->
+<div class="relative py-4 pl-12 space-y-12">
+<!-- Progress Line -->
+<div class="absolute left-[23px] top-8 bottom-8 w-[2px] bg-gradient-to-b from-secondary via-secondary/40 to-primary/10"></div>
+<!-- Step 1 -->
+<div class="relative">
+<div class="absolute -left-[11px] top-2 w-6 h-6 rounded-full bg-secondary shadow-[0_0_12px_#47ddc1] z-10 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary text-[14px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<div class="glass-panel p-6 hover:bg-primary/5 transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<span class="font-micro-tag text-micro-tag text-secondary uppercase tracking-[0.3em]">FASE_01 // COMPLETADO</span>
+<span class="font-mono-data text-mono-data text-secondary-fixed-dim">XP +250</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-primary mb-2">Lectura de 'I Have a Dream'</h4>
+<p class="font-body-md text-on-surface-variant">Análisis profundo de la estructura retórica y el uso de metáforas en el discurso histórico.</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="relative">
+<div class="absolute -left-[11px] top-2 w-6 h-6 rounded-full bg-surface-container border-2 border-secondary shadow-[0_0_12px_rgba(71,221,193,0.3)] z-10 flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-secondary animate-ping"></div>
+</div>
+<div class="glass-panel p-6 border-l-4 border-secondary hover:bg-primary/5 transition-colors cursor-pointer">
+<div class="flex justify-between items-start mb-2">
+<span class="font-micro-tag text-micro-tag text-primary uppercase tracking-[0.3em]">FASE_02 // EN_PROGRESO</span>
+<span class="font-mono-data text-mono-data text-primary">XP +500</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-primary mb-2">Reto: Escucha Activa</h4>
+<p class="font-body-md text-on-surface-variant mb-4">Ejercita la habilidad de recibir información sin prejuicios. Graba 3 conversaciones enfocándote en la comprensión profunda.</p>
+<button class="w-full py-2 bg-secondary/20 border border-secondary text-secondary font-label-caps text-label-caps uppercase hover:bg-secondary hover:text-on-secondary transition-all slanted-edge">
+                                    ABRIR_TERMINAL_RETO
+                                </button>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="relative opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all group">
+<div class="absolute -left-[11px] top-2 w-6 h-6 rounded-full bg-surface-container border-2 border-outline z-10"></div>
+<div class="glass-panel p-6 border border-outline/20">
+<div class="flex justify-between items-start mb-2">
+<span class="font-micro-tag text-micro-tag text-on-surface-variant uppercase tracking-[0.3em]">FASE_03 // BLOQUEADO</span>
+<span class="material-symbols-outlined text-outline text-[18px]">lock</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-on-surface-variant mb-2">Misión MLH: El Puente</h4>
+<p class="font-body-md text-on-surface-variant">Habla con alguien con quien tengas una diferencia fundamental. Aplica la técnica de la No-Violencia en el diálogo.</p>
+</div>
+</div>
+</div>
+<!-- Stats / Mini Bento -->
+<div class="grid grid-cols-2 gap-4 mt-8">
+<div class="glass-panel p-4 flex flex-col items-center justify-center text-center">
+<span class="font-micro-tag text-micro-tag text-on-surface-variant mb-1 uppercase">Sincronización</span>
+<span class="font-data-point text-data-point text-secondary">64%</span>
+</div>
+<div class="glass-panel p-4 flex flex-col items-center justify-center text-center">
+<span class="font-micro-tag text-micro-tag text-on-surface-variant mb-1 uppercase">Prestigio</span>
+<span class="font-data-point text-data-point text-primary">GOLD_II</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Bottom Floating Scene (Atmospheric) -->
+<div class="mt-24 w-full h-64 relative overflow-hidden glass-panel border-none">
+
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent pointer-events-none"></div>
+<div class="absolute bottom-8 left-8 right-8 flex justify-between items-end">
+<div>
+<h5 class="font-label-caps text-label-caps text-primary mb-2">VISUALIZADOR_ESTELAR_RUTA</h5>
+<p class="font-body-md text-on-surface-variant max-w-md opacity-70">
+                            La Ruta del Legado no es un camino lineal, sino una expansión de tu propia consciencia digital hacia la excelencia histórica.
+                        </p>
+</div>
+<div class="text-right">
+<span class="font-micro-tag text-micro-tag text-secondary uppercase tracking-[0.4em]">SISTEMA_STABLE</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 mt-24 bg-surface-container-lowest border-t border-grid-line">
+<div class="max-w-7xl mx-auto px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-panel-gap">
+<div class="flex flex-col items-center md:items-start gap-2">
+<span class="font-label-caps text-label-caps tracking-widest text-primary uppercase">Panteón de los Grandes</span>
+<span class="font-micro-tag text-micro-tag text-outline">MLH v6.4 // LEGACY_PROTOCOL</span>
+</div>
+<div class="flex gap-8">
+<a class="font-mono-data text-mono-data text-outline hover:text-primary transition-opacity" href="#">Privacy</a>
+<a class="font-mono-data text-mono-data text-outline hover:text-primary transition-opacity" href="#">Security</a>
+<a class="font-mono-data text-mono-data text-outline hover:text-primary transition-opacity" href="#">Terminal</a>
+</div>
+<div class="font-micro-tag text-micro-tag text-on-surface-variant opacity-40 uppercase">
+                © 2024 El Codex de los Grandes. Todos los derechos reservados.
+            </div>
+</div>
+</footer>
+<!-- Mobile Navigation -->
+<div class="md:hidden fixed bottom-6 left-6 right-6 z-50 glass-panel rounded-full px-6 py-3 flex justify-around items-center shadow-2xl border-primary/20">
+<a class="material-symbols-outlined text-primary" href="#" style="font-variation-settings: 'FILL' 1;">menu_book</a>
+<a class="material-symbols-outlined text-on-surface-variant" href="#">architecture</a>
+<div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center -translate-y-6 shadow-[0_0_20px_rgba(197,231,255,0.4)]">
+<span class="material-symbols-outlined text-on-primary">add</span>
+</div>
+<a class="material-symbols-outlined text-on-surface-variant" href="#">military_tech</a>
+<a class="material-symbols-outlined text-on-surface-variant" href="#">settings</a>
+</div>
+<script>
+        // Micro-interactions and glow effects
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mousemove', (e) => {
+                const rect = panel.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                panel.style.setProperty('--mouse-x', `${x}px`);
+                panel.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body></html>

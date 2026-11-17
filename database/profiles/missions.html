@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mission Command HUD (v6.8) | MAGNOPVS_SYSTEMS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@300;400;700&amp;family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#101417",
+                        "surface": "#101417",
+                        "on-secondary-fixed-variant": "#005144",
+                        "on-error-container": "#ffdad6",
+                        "grid-line": "rgba(127, 208, 255, 0.05)",
+                        "surface-container-lowest": "#0b0f11",
+                        "tertiary-fixed-dim": "#ffafd4",
+                        "surface-container-highest": "#313538",
+                        "on-tertiary-fixed-variant": "#6e3252",
+                        "background": "#101417",
+                        "on-secondary-container": "#004439",
+                        "on-surface-variant": "#bfc8cf",
+                        "surface-container": "#1c2023",
+                        "inverse-surface": "#e0e3e6",
+                        "on-secondary": "#00382e",
+                        "background-deep": "#0a0b12",
+                        "status-critical": "#93000a",
+                        "on-tertiary-fixed": "#390625",
+                        "secondary-fixed-dim": "#47ddc1",
+                        "on-secondary-fixed": "#00201a",
+                        "on-surface": "#e0e3e6",
+                        "surface-tint": "#7fd0ff",
+                        "tertiary-fixed": "#ffd8e7",
+                        "inverse-on-surface": "#2d3134",
+                        "surface-bright": "#363a3d",
+                        "tertiary-container": "#ffafd4",
+                        "on-background": "#e0e3e6",
+                        "secondary": "#47ddc1",
+                        "primary": "#c5e7ff",
+                        "glow-cyan": "#2da8e0",
+                        "surface-container-high": "#272a2d",
+                        "surface-container-low": "#181c1f",
+                        "on-primary-fixed": "#001e2d",
+                        "surface-panel": "rgba(255, 255, 255, 0.03)",
+                        "secondary-fixed": "#6af9dc",
+                        "primary-fixed-dim": "#7fd0ff",
+                        "surface-variant": "#313538",
+                        "on-primary": "#00344a",
+                        "on-tertiary-container": "#7c3e5e",
+                        "inverse-primary": "#00658b",
+                        "tertiary": "#ffd8e7",
+                        "error": "#ffb4ab",
+                        "primary-container": "#7fd0ff",
+                        "secondary-container": "#00bba0",
+                        "on-error": "#690005",
+                        "outline-variant": "#3f484e",
+                        "on-primary-fixed-variant": "#004c6a",
+                        "on-tertiary": "#531c3b",
+                        "error-container": "#93000a",
+                        "on-primary-container": "#00597b",
+                        "primary-fixed": "#c5e7ff",
+                        "outline": "#899299"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "panel-gap": "12px",
+                        "section-padding": "128px",
+                        "gutter": "16px",
+                        "margin-desktop": "40px",
+                        "unit": "4px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "micro-tag": ["JetBrains Mono"],
+                        "display-lg": ["Space Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "display-lg-mobile": ["Space Grotesk"],
+                        "headline-md": ["Space Grotesk"],
+                        "data-point": ["Hanken Grotesk"],
+                        "mono-data": ["JetBrains Mono"],
+                        "audiowide": ["Audiowide"],
+                        "orbitron": ["Orbitron"]
+                    },
+                    "fontSize": {
+                        "micro-tag": ["10px", {"letterSpacing": "0.3em", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                        "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "data-point": ["20px", {"lineHeight": "28px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        @keyframes neon-pulse {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 5px rgba(127, 208, 255, 0.8)); }
+            50% { opacity: 0.7; filter: drop-shadow(0 0 12px rgba(127, 208, 255, 0.4)); }
+        }
+        .neon-pulse { animation: neon-pulse 2s infinite ease-in-out; }
+        
+        .cyber-grid {
+            background-image: linear-gradient(to right, rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .hex-bg {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDmlz_bJfB44sYQyn4aB6bxXdFZ0z1efNDt7iHS4t_GHcXP_FOm1AZ7NTaN1GNHHq9sx4QqUFfB7mWDBWArPkD8YWKolgdXAzTDj9j4Yi-gfNvsMovys-X_fsSTgW8BhyAoKIV6Y0hEac1Pc0zJFGuhTeNs2sNEPIh5Q4kfvt4vUZeVcQJafws9DEyL2cxWyP2c5C7RQ5TgHbbU3k2dpr6iJVeqAGX76D-0k-RWaWls6bUAUz0H1FpoLAdLWgKFJXJrB48n5Oy25oQ3');
+            background-attachment: fixed;
+            background-size: cover;
+            background-blend-mode: overlay;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(127, 208, 255, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-panel:hover {
+            border-color: rgba(127, 208, 255, 0.5);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(45,168,224,0.1);
+        }
+
+        .slanted-btn {
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+        }
+
+        .segmented-progress div {
+            width: 8px;
+            height: 12px;
+            background: rgba(127, 208, 255, 0.1);
+            margin-right: 2px;
+        }
+        .segmented-progress div.active {
+            background: #7fd0ff;
+            box-shadow: 0 0 8px #7fd0ff;
+        }
+
+        .corner-bracket::before, .corner-bracket::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-color: #7fd0ff;
+        }
+        .corner-bracket-tl::before { top: 0; left: 0; border-top: 2px solid; border-left: 2px solid; }
+        .corner-bracket-br::after { bottom: 0; right: 0; border-bottom: 2px solid; border-right: 2px solid; }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #7fd0ff; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-surface-dim text-on-surface font-body-md selection:bg-primary selection:text-on-primary">
+<!-- Background Layer -->
+<div class="fixed inset-0 hex-bg opacity-40 pointer-events-none z-[-2]"></div>
+<div class="fixed inset-0 cyber-grid pointer-events-none z-[-1]"></div>
+<!-- TopNavBar (Shared Component Identity) -->
+<header class="w-full h-16 top-0 sticky z-50 bg-surface-dim/80 backdrop-blur-24px border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)] flex justify-between items-center px-margin-desktop">
+<div class="flex items-center gap-8">
+<span class="font-display-lg text-headline-md text-primary tracking-widest font-audiowide uppercase">MAGNOPVS_SYSTEMS</span>
+<nav class="hidden md:flex gap-6">
+<a class="font-label-caps text-label-caps text-primary border-b-2 border-primary pb-1" href="#">TELEMETRY</a>
+<a class="font-label-caps text-label-caps text-outline hover:text-secondary transition-colors" href="#">COGNITION</a>
+<a class="font-label-caps text-label-caps text-outline hover:text-secondary transition-colors" href="#">NETWORK</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden lg:flex flex-col items-end">
+<span class="font-mono-data text-micro-tag text-primary/60">SYSTEM_CLOCK</span>
+<span class="font-orbitron text-primary text-sm font-bold tracking-tighter" id="digital-clock">04:22:15:98</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-95 duration-200">settings</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-95 duration-200">notifications</span>
+<div class="w-8 h-8 rounded-full border border-primary/40 bg-surface-container flex items-center justify-center">
+<img class="w-full h-full rounded-full object-cover" data-alt="A futuristic circular avatar icon of a cybernetic interface, glowing with cyan and magenta accents against a deep dark matte background. The image is minimalist and high-tech, fitting the cyber-alchemical aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOWCIUU0YWx7hIKmJGFgs6DStvjdxbLlXDNPpckiDUmvQTyTNjW2TcsBFEjn2fkgKjSV42mWf7wBZ1L11h6c_VjNiN4BZcdXocf2YAbTKuoSwwVjlsV2pck1cgN28VAMXNDHWDF9taqNacgvAUG9vexosrUjoFUvrhQyuJrgIyASwO0QqpYbn1q6W-jIExpT-mUChLniwwny_hGeRyyZjOJaCoh4ftY8PblBDNGG3HVqe-7Txs245ztnDbIEvzorVODgIgT5MwcyJp"/>
+</div>
+</div>
+</div>
+</header>
+<div class="flex min-h-screen">
+<!-- SideNavBar (Shared Component Identity) -->
+<aside class="w-64 h-[calc(100vh-64px)] fixed left-0 flex flex-col py-8 gap-panel-gap bg-surface-container/60 backdrop-blur-24px border-r border-secondary/20 shadow-[inset_-10px_0_20px_rgba(71,221,193,0.05)] z-40">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-12 h-12 glass-panel flex items-center justify-center rounded-lg border-secondary/40">
+<span class="material-symbols-outlined text-secondary text-2xl">verified_user</span>
+</div>
+<div>
+<h3 class="font-audiowide text-sm text-primary tracking-wider">OPERATOR_01</h3>
+<p class="font-micro-tag text-[8px] text-secondary">STATUS: ENLIGHTENED</p>
+</div>
+</div>
+<div class="h-[1px] w-full bg-gradient-to-r from-secondary/40 to-transparent"></div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-4 px-6 py-3 font-label-caps text-label-caps text-secondary border-l-2 border-secondary bg-secondary/5 shadow-[inset_4px_0_10px_rgba(71,221,193,0.1)] transition-all duration-300" href="#">
+<span class="material-symbols-outlined">radar</span>
+<span>TODAY</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 font-label-caps text-label-caps text-outline opacity-60 hover:opacity-100 hover:bg-surface-variant/30 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">shield</span>
+<span>HERO</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 font-label-caps text-label-caps text-outline opacity-60 hover:opacity-100 hover:bg-surface-variant/30 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">settings_input_component</span>
+<span>SYSTEM</span>
+</a>
+</nav>
+<div class="mt-auto px-6">
+<button class="w-full bg-secondary text-surface-dim font-audiowide py-3 slanted-btn hover:brightness-110 transition-all active:scale-95">
+                    DEPLOY MISSION
+                </button>
+</div>
+<footer class="mt-8 flex flex-col gap-2">
+<a class="flex items-center gap-4 px-6 py-2 font-label-caps text-label-caps text-outline opacity-60 hover:opacity-100 transition-all" href="#">
+<span class="material-symbols-outlined text-sm">terminal</span>
+<span>LOGS</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-2 font-label-caps text-label-caps text-outline opacity-60 hover:opacity-100 transition-all" href="#">
+<span class="material-symbols-outlined text-sm">help_outline</span>
+<span>HELP</span>
+</a>
+</footer>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 ml-64 p-margin-desktop overflow-y-auto">
+<!-- 1. Active Mission Header (Cinematic Banner) -->
+<section class="mb-12 relative overflow-hidden rounded-xl h-64 border border-primary/30 group">
+<div class="absolute inset-0 bg-cover bg-center scale-105 group-hover:scale-110 transition-transform duration-1000" data-alt="A cinematic banner representing a high-stakes sci-fi mission. Dark shadows of a futuristic city silhouette are integrated with glowing holographic nodes and data streams. The lighting is dominated by deep space blacks and vibrant cyan neon highlights, creating an atmospheric AAA gaming mission hub aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA7z2C1bd7GeOL0btr7y-LJSJbzP61dSrPl6bMsNDbe8PcUW9oOonUBxmsl0izUWKDpkjRbR1jepBCvp6kEPrS2AltEDBeE5-zZUyVUEBtBsX6hTwu8Vgci-BdrKNpbyvGQmulxocN_I3mfRAMDSTgjUmcuxZL24702Hn-7D-25fejASYPqsFa2wk5D12bS2VqmJSXZuLclJ-_oCRQVrMlOdNMpMW4neOBxD5YHWW9dWlClQ8-R9swIYS6-k5uySJtxHqticPBKR8AR')"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-surface-dim via-surface-dim/60 to-transparent"></div>
+<div class="relative h-full flex flex-col justify-end p-8 gap-4">
+<div class="flex items-center gap-3">
+<span class="font-micro-tag bg-primary/20 text-primary px-2 py-1 border border-primary/40">ACTIVE_SEQUENCE</span>
+<span class="font-mono-data text-primary/80">ID: SHADOW_INT_001</span>
+</div>
+<h1 class="font-audiowide text-4xl text-primary tracking-widest uppercase">Protocol: Shadow Integration</h1>
+<div class="max-w-md">
+<div class="flex justify-between items-end mb-2">
+<span class="font-label-caps text-secondary">PHASE PROGRESS: 64%</span>
+<span class="font-orbitron text-sm text-primary neon-pulse">T-MINUS 04:12:01</span>
+</div>
+<div class="segmented-progress flex">
+<div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div>
+<div class="active"></div><div class="active"></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. Mission Grid (Bento Layout) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Daily Missions (Glass Panels) -->
+<div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="glass-panel p-6 relative corner-bracket corner-bracket-tl">
+<div class="flex justify-between mb-4">
+<span class="font-micro-tag text-secondary uppercase">Daily_Cycle</span>
+<span class="material-symbols-outlined text-secondary neon-pulse">sync</span>
+</div>
+<h4 class="font-audiowide text-lg mb-2">Water Synchronization</h4>
+<p class="text-on-surface-variant text-sm mb-6">Optimize bio-hydration levels for cognitive peak performance.</p>
+<div class="flex items-center justify-between">
+<div class="flex gap-2">
+<img class="w-6 h-6 grayscale hover:grayscale-0 transition-all cursor-help" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQYoVrsWUmcxFV-xcuHI8UlFnrcTEGYIaliK3zmrxOeiNAOnFAeyd2_Kyrm5GP83iN02nnY_VA8-hmAnt5sbac5wEvNXvZ4dq8mx_6G33UyCdctLZC2Q50YXwoFNNRA9koXl_lhvB-xMecPURg6GZLmyWVGxokuINgOExcdV4DMFZ1S3uyrxOek5SV5N-57MlEaJB0NshZt-AbSdzMl9fpQPIDg1cBlDVgymBsyNs_oOTg6U20goPrepspaJKekzv9EvbfJyHrT10z" title="50 XP Reward"/>
+<img class="w-6 h-6 grayscale hover:grayscale-0 transition-all cursor-help" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxX5wNyzTqblPE0abj4GOjpm2xoiyhA2ADo_-GMRtYDdfkLBpq5xI_2AVuWbN-_o3-jno0r803RnLQgr5wnZ3qafSVjjfbLneilrqJMKdR2NXry83XAZ3oe8IcMLpAzDArerDTak964QyjnvBMLhXOz9rtNrttwXo-wFg7f5BsVZU1h4IsWcuGlaEOkzwg3MQz7IqCJ2K1P636l9DVtwDSIqADDGRE7Uw2CciVcKFZs6jzMb3dV48cidpYZKfx7PE3iN6yzA-CDbYi" title="10 MagnoCoins"/>
+</div>
+<button class="text-primary font-label-caps text-xs border border-primary/40 px-3 py-1 hover:bg-primary/10 transition-colors uppercase">Execute</button>
+</div>
+</div>
+<div class="glass-panel p-6 relative corner-bracket corner-bracket-tl">
+<div class="flex justify-between mb-4">
+<span class="font-micro-tag text-secondary uppercase">Mental_Reboot</span>
+<span class="material-symbols-outlined text-secondary">self_improvement</span>
+</div>
+<h4 class="font-audiowide text-lg mb-2">Mental Reboot</h4>
+<p class="text-on-surface-variant text-sm mb-6">Clear the cache of unnecessary emotional processes.</p>
+<div class="flex items-center justify-between">
+<div class="flex gap-2">
+<img class="w-6 h-6 grayscale hover:grayscale-0 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQYoVrsWUmcxFV-xcuHI8UlFnrcTEGYIaliK3zmrxOeiNAOnFAeyd2_Kyrm5GP83iN02nnY_VA8-hmAnt5sbac5wEvNXvZ4dq8mx_6G33UyCdctLZC2Q50YXwoFNNRA9koXl_lhvB-xMecPURg6GZLmyWVGxokuINgOExcdV4DMFZ1S3uyrxOek5SV5N-57MlEaJB0NshZt-AbSdzMl9fpQPIDg1cBlDVgymBsyNs_oOTg6U20goPrepspaJKekzv9EvbfJyHrT10z" title="XP"/>
+<img class="w-6 h-6 grayscale hover:grayscale-0 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5sVshp_yw3x9K96U-RH8swulQsGBqlr7VMzCRwGDg2MVOIraaTduJKDA5c43-YyokyWO8V3Fxl9ZXnUFM3qSg-nyPVP_qsMU_H48U_m2Z4YeTBwGdTTUAV4znYc394zCQbn_gUdooOSHy9I5nApMuyG5PPSTZKR0tcw_Vak5XUWkFpa6B5vWFOKBE-8eKPlRoB2WJVKclYvN5BBIFu9P6YQR4UaCsgf40aZKPVORftzZlKbqp0Nig-sUreTMeLgHSSHfMEN6PmS32" title="LP"/>
+</div>
+<button class="text-primary font-label-caps text-xs border border-primary/40 px-3 py-1 hover:bg-primary/10 transition-colors uppercase">Execute</button>
+</div>
+</div>
+<!-- Secondary Mission -->
+<div class="md:col-span-2 glass-panel p-6 border-l-4 border-l-glow-cyan">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 bg-surface-container-high rounded-full flex items-center justify-center border border-primary/20">
+<span class="material-symbols-outlined text-primary text-3xl">psychology</span>
+</div>
+<div class="flex-1">
+<span class="font-micro-tag text-primary">SECONDARY_SKILL_UP</span>
+<h4 class="font-audiowide text-xl mb-1">Alchemy of Focus</h4>
+<p class="text-on-surface-variant text-sm">Deep work session: Zero notification environmental lock-down.</p>
+</div>
+<div class="text-right">
+<span class="font-orbitron text-primary text-xl font-bold">+250 XP</span>
+<div class="flex justify-end gap-1 mt-1">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<div class="w-2 h-2 rounded-full bg-outline/20"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- SOF.IA Tactical Advisor Widget -->
+<div class="lg:col-span-4 flex flex-col gap-gutter">
+<div class="glass-panel p-6 flex-1 border border-secondary/20 relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-32 h-32 bg-secondary/10 rounded-full blur-3xl"></div>
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-full bg-gradient-to-tr from-secondary to-primary p-[1px]">
+<div class="w-full h-full bg-surface-dim rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-sm" style="font-variation-settings: 'FILL' 1;">chevron_forward</span>
+</div>
+</div>
+<div>
+<h4 class="font-audiowide text-xs text-secondary tracking-widest uppercase">SOF.IA ADVISOR</h4>
+<div class="flex gap-1">
+<span class="w-1 h-1 bg-secondary animate-pulse"></span>
+<span class="w-1 h-1 bg-secondary animate-pulse delay-75"></span>
+<span class="w-1 h-1 bg-secondary animate-pulse delay-150"></span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low p-4 rounded-lg border border-secondary/10">
+<p class="font-mono-data text-xs leading-relaxed text-secondary/90 italic">
+                                "High entropy detected in Sector 4. Global synchronization at 42%. Recommend prioritizing the <span class="text-primary font-bold">Digital Detox</span> daily mission to restore neural clarity."
+                            </p>
+</div>
+<div class="mt-6 flex flex-col gap-2">
+<div class="flex justify-between text-[10px] font-micro-tag text-outline uppercase">
+<span>Threat_Level</span>
+<span>Low</span>
+</div>
+<div class="h-1 bg-surface-variant w-full rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-1/4"></div>
+</div>
+</div>
+</div>
+<!-- Small Reward Deck Mini -->
+<div class="glass-panel p-4 flex justify-between items-center bg-surface-container/40">
+<div class="text-center group">
+<img alt="XP" class="w-10 h-10 mx-auto mb-1 group-hover:scale-110 transition-transform" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQYoVrsWUmcxFV-xcuHI8UlFnrcTEGYIaliK3zmrxOeiNAOnFAeyd2_Kyrm5GP83iN02nnY_VA8-hmAnt5sbac5wEvNXvZ4dq8mx_6G33UyCdctLZC2Q50YXwoFNNRA9koXl_lhvB-xMecPURg6GZLmyWVGxokuINgOExcdV4DMFZ1S3uyrxOek5SV5N-57MlEaJB0NshZt-AbSdzMl9fpQPIDg1cBlDVgymBsyNs_oOTg6U20goPrepspaJKekzv9EvbfJyHrT10z"/>
+<p class="font-orbitron text-xs font-bold text-primary">12.4K</p>
+</div>
+<div class="text-center group">
+<img alt="LP" class="w-10 h-10 mx-auto mb-1 group-hover:scale-110 transition-transform" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5sVshp_yw3x9K96U-RH8swulQsGBqlr7VMzCRwGDg2MVOIraaTduJKDA5c43-YyokyWO8V3Fxl9ZXnUFM3qSg-nyPVP_qsMU_H48U_m2Z4YeTBwGdTTUAV4znYc394zCQbn_gUdooOSHy9I5nApMuyG5PPSTZKR0tcw_Vak5XUWkFpa6B5vWFOKBE-8eKPlRoB2WJVKclYvN5BBIFu9P6YQR4UaCsgf40aZKPVORftzZlKbqp0Nig-sUreTMeLgHSSHfMEN6PmS32"/>
+<p class="font-orbitron text-xs font-bold text-secondary">850</p>
+</div>
+<div class="text-center group">
+<img alt="MC" class="w-10 h-10 mx-auto mb-1 group-hover:scale-110 transition-transform" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxX5wNyzTqblPE0abj4GOjpm2xoiyhA2ADo_-GMRtYDdfkLBpq5xI_2AVuWbN-_o3-jno0r803RnLQgr5wnZ3qafSVjjfbLneilrqJMKdR2NXry83XAZ3oe8IcMLpAzDArerDTak964QyjnvBMLhXOz9rtNrttwXo-wFg7f5BsVZU1h4IsWcuGlaEOkzwg3MQz7IqCJ2K1P636l9DVtwDSIqADDGRE7Uw2CciVcKFZs6jzMb3dV48cidpYZKfx7PE3iN6yzA-CDbYi"/>
+<p class="font-orbitron text-xs font-bold text-tertiary-container">2.1M</p>
+</div>
+</div>
+</div>
+<!-- Epic Campaigns & Boss Battles -->
+<div class="lg:col-span-6 glass-panel p-6 group corner-bracket corner-bracket-br">
+<div class="flex justify-between items-start mb-6">
+<div>
+<span class="font-micro-tag text-tertiary-container">LONG_TERM_ARC</span>
+<h3 class="font-audiowide text-2xl uppercase text-tertiary-container">The Great Work</h3>
+</div>
+<div class="w-12 h-12 glass-panel flex items-center justify-center rounded-lg border-tertiary-container/40">
+<span class="material-symbols-outlined text-tertiary-container">auto_awesome</span>
+</div>
+</div>
+<div class="relative h-40 w-full mb-4 overflow-hidden rounded-lg">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="An ethereal and grand digital landscape representing an ultimate achievement or 'Great Work.' Cosmic nebulae in magenta and deep purple mix with structural geometric architecture of a futuristic citadel. The lighting is mystical and vast, with a sense of immense progression and enlightenment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAazOAanx1oQDRATGgucJRDC4-Szbm1SDYQkXL6OAAV6Q2NXs7nOonr78bhvlTdyZvlnfNe2OuwSZjZGCAxuVdOpcmCgNCYM2XmiLHw5qBlPASyj6k1LFq1SjkMKnZrI0DRTSND8xqm_VeSeY7LtTCuU17bTHxq2LYfizv9XxesBhprxEY1gk610tnaTeiTMqJOI7uLjvScAVjKA7r_vbkjdbkmVn6XviifNRF_3Jmok5H87-cIgwOPwfsjCUXADD6bhcgRNiTjSsxn"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4">
+<div class="flex justify-between text-[10px] font-orbitron text-white mb-1">
+<span>EVOLUTION STATUS</span>
+<span>32%</span>
+</div>
+<div class="w-full h-1 bg-white/20 rounded-full">
+<div class="w-1/3 h-full bg-tertiary-container shadow-[0_0_8px_#ffafd4]"></div>
+</div>
+</div>
+</div>
+<p class="text-sm text-on-surface-variant mb-6">Transmute your base biological drives into high-frequency creative output through consistent discipline.</p>
+<button class="w-full py-2 border border-tertiary-container/30 text-tertiary-container font-label-caps hover:bg-tertiary-container/10 transition-all">VIEW CAMPAIGN MAP</button>
+</div>
+<div class="lg:col-span-6 glass-panel p-6 border-status-critical/40 group relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2">
+<span class="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-red-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span>
+</div>
+<div class="flex items-center gap-4 mb-6">
+<span class="material-symbols-outlined text-error text-4xl" style="font-variation-settings: 'FILL' 1;">skull</span>
+<div>
+<span class="font-micro-tag text-error">EXISTENTIAL_THREAT</span>
+<h3 class="font-audiowide text-2xl uppercase text-error">Procrastination Demon</h3>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="p-3 bg-error-container/20 border border-error/20 rounded">
+<span class="block text-[8px] font-micro-tag text-error/60 uppercase">Power_Level</span>
+<span class="font-orbitron font-bold text-error">8.5k</span>
+</div>
+<div class="p-3 bg-error-container/20 border border-error/20 rounded">
+<span class="block text-[8px] font-micro-tag text-error/60 uppercase">Aggression</span>
+<span class="font-orbitron font-bold text-error">CRITICAL</span>
+</div>
+</div>
+<p class="text-sm text-on-surface-variant mb-6">The ancient entity feeding on your unmanifested potential. Defeat through 'Extreme Focus' strikes.</p>
+<div class="flex gap-2">
+<button class="flex-1 bg-error text-on-error font-audiowide py-2 slanted-btn hover:brightness-110 active:scale-95">ENGAGE</button>
+<button class="flex-1 border border-outline/30 text-outline font-audiowide py-2 slanted-btn hover:bg-outline/10 transition-all">ANALYZE</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Decorative HUD Overlay Elements -->
+<div class="fixed top-20 right-4 pointer-events-none flex flex-col gap-2 z-50">
+<div class="w-24 h-[1px] bg-primary/20"></div>
+<div class="flex flex-col items-end opacity-40">
+<span class="text-[8px] font-micro-tag text-primary">GPS_SIGNAL: LOCKED</span>
+<span class="text-[8px] font-micro-tag text-primary">NEURAL_LINK: STABLE</span>
+<span class="text-[8px] font-micro-tag text-primary">ENTROPY: DECREASING</span>
+</div>
+</div>
+<script>
+        // Micro-interaction: Digital Clock Logic
+        function updateClock() {
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0');
+            const s = String(now.getSeconds()).padStart(2, '0');
+            const ms = String(Math.floor(Math.random() * 99)).padStart(2, '0');
+            document.getElementById('digital-clock').textContent = `${h}:${m}:${s}:${ms}`;
+        }
+        setInterval(updateClock, 80);
+
+        // Simple hover audio cue simulation
+        document.querySelectorAll('button, a, .glass-panel').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                // Potential placeholder for sound effects
+            });
+        });
+    </script>
+</body></html>

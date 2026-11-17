@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WHITE BROTHERHOOD // BATTLE ARENA: HYBRID BOARD COMBAT</title>
+<!-- Material Symbols & Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=Inter:wght@300;400;500;600;700&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with Forms & Container Queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary-container": "#e5e2da",
+            "surface-container": "#201f1f",
+            "surface-container-low": "#1c1b1b",
+            "tertiary-fixed-dim": "#ebc300",
+            "inverse-primary": "#5f5f58",
+            "surface-bright": "#3a3939",
+            "secondary-fixed-dim": "#ecc246",
+            "on-tertiary-fixed": "#231b00",
+            "on-error": "#690005",
+            "on-surface": "#e5e2e1",
+            "background": "#131313",
+            "on-error-container": "#ffdad6",
+            "primary": "#ffffff",
+            "on-tertiary-fixed-variant": "#554500",
+            "on-tertiary": "#3b2f00",
+            "secondary": "#ecc246",
+            "on-primary": "#31312b",
+            "secondary-fixed": "#ffe08e",
+            "surface-container-high": "#2a2a2a",
+            "surface-container-highest": "#353534",
+            "surface-container-lowest": "#0e0e0e",
+            "on-secondary-fixed": "#241a00",
+            "on-background": "#e5e2e1",
+            "on-primary-fixed": "#1c1c17",
+            "surface": "#131313",
+            "primary-fixed": "#e5e2da",
+            "on-primary-container": "#65645e",
+            "tertiary-fixed": "#ffe177",
+            "tertiary": "#ffffff",
+            "error": "#ffb4ab",
+            "on-primary-fixed-variant": "#474741",
+            "surface-tint": "#c9c6be",
+            "primary-fixed-dim": "#c9c6be",
+            "secondary-container": "#b18c09",
+            "outline": "#929188",
+            "error-container": "#93000a",
+            "on-tertiary-container": "#786200",
+            "on-surface-variant": "#c9c6bd",
+            "tertiary-container": "#ffe177",
+            "inverse-surface": "#e5e2e1",
+            "on-secondary": "#3d2e00",
+            "surface-dim": "#131313",
+            "on-secondary-container": "#352800",
+            "surface-variant": "#353534",
+            "inverse-on-surface": "#313030",
+            "on-secondary-fixed-variant": "#584400",
+            "outline-variant": "#474740",
+            /* Aesthetic extensions */
+            "imperial-gold": "#C9A227",
+            "royal-gold": "#ECC246",
+            "sacred-ivory": "#F4F1E8",
+            "void-obsidian": "#080808",
+            "panel-surface": "#111111",
+            "sinarchy-red": "#B91C1C",
+            "astral-cyan": "#00E5FF",
+            "surveillance-warning": "#FFD400"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-xs": "0.25rem",
+            "margin-mobile": "1rem",
+            "gutter": "1.5rem",
+            "space-md": "1rem",
+            "space-lg": "1.5rem",
+            "space-sm": "0.5rem",
+            "space-xl": "2.5rem",
+            "margin": "3rem",
+            "gutter-mobile": "0.75rem"
+          },
+          "fontFamily": {
+            "body-sm": ["Inter", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "headline-lg": ["Bodoni Moda", "serif"],
+            "label-md": ["Space Mono", "monospace"],
+            "headline-sm": ["Bodoni Moda", "serif"],
+            "title-md": ["Space Mono", "monospace"],
+            "body-lg": ["Inter", "sans-serif"],
+            "display-lg-mobile": ["Bodoni Moda", "serif"],
+            "label-lg": ["Space Mono", "monospace"],
+            "headline-lg-mobile": ["Bodoni Moda", "serif"],
+            "label-sm": ["Space Mono", "monospace"],
+            "display-lg": ["Bodoni Moda", "serif"],
+            "headline-md": ["Bodoni Moda", "serif"]
+          },
+          "fontSize": {
+            "body-sm": ["13px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "body-md": ["15px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "0.06em", "fontWeight": "600" }],
+            "label-md": ["11px", { "lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "500" }],
+            "headline-sm": ["22px", { "lineHeight": "28px", "letterSpacing": "0.03em", "fontWeight": "500" }],
+            "title-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0.12em", "fontWeight": "700" }],
+            "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+            "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.1em", "fontWeight": "700" }],
+            "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "label-sm": ["9px", { "lineHeight": "12px", "letterSpacing": "0.2em", "fontWeight": "400" }],
+            "display-lg": ["56px", { "lineHeight": "64px", "letterSpacing": "0.08em", "fontWeight": "700" }],
+            "headline-md": ["30px", { "lineHeight": "38px", "letterSpacing": "0.04em", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    /* Custom scanlines & tactical grid styles */
+    .scanlines {
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+      background-size: 100% 3px, 6px 100%;
+    }
+    
+    .iso-board {
+      transform: rotateX(48deg) rotateZ(-38deg) scale(0.92);
+      transform-style: preserve-3d;
+      transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    
+    .flat-board {
+      transform: rotateX(0deg) rotateZ(0deg) scale(0.96);
+      transform-style: flat;
+      transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    
+    .gold-foil-border {
+      box-shadow: 0 0 0 1px rgba(201, 162, 39, 0.35), inset 0 0 0 1px rgba(201, 162, 39, 0.2);
+    }
+    
+    .gold-glow {
+      box-shadow: 0 0 16px rgba(201, 162, 39, 0.45);
+    }
+    
+    .cyan-glow {
+      box-shadow: 0 0 14px rgba(0, 229, 255, 0.5);
+    }
+
+    .red-glow {
+      box-shadow: 0 0 16px rgba(185, 28, 28, 0.6);
+    }
+
+    /* Reticle snap animation */
+    @keyframes pulse-reticle {
+      0%, 100% { opacity: 0.85; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(1.04); }
+    }
+    .reticle-ping {
+      animation: pulse-reticle 2.4s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body-md select-none overflow-x-hidden min-h-screen relative antialiased flex flex-col justify-between">
+<!-- Scanline subtle tactical overlay -->
+<div class="fixed inset-0 pointer-events-none z-50 scanlines opacity-40"></div>
+<!-- ========================================== -->
+<!-- 1. TOP BAR (Command Deck & Telemetry JSON) -->
+<!-- ========================================== -->
+<header class="flex flex-col w-full px-space-md lg:px-margin border-b border-imperial-gold/30 bg-panel-surface z-40 relative">
+<!-- Upper Telemetry Stream -->
+<div class="flex flex-wrap items-center justify-between py-1 border-b border-outline-variant/30 text-label-sm font-label-sm tracking-widest text-outline">
+<div class="flex items-center gap-4">
+<span class="flex items-center gap-1.5 text-royal-gold">
+<span class="inline-block w-2 h-2 bg-royal-gold rounded-none animate-ping"></span>
+          CYCLE 884.15 // TURN 07 - SOVEREIGN INITIATIVE
+        </span>
+<span class="hidden md:inline-block text-outline">|</span>
+<span class="hidden md:inline-block">SYS_CLK: 104.992 MS</span>
+<span class="hidden md:inline-block text-outline">|</span>
+<span class="text-astral-cyan">ENCRYPTION: SHA-4096-ASTRALIS</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-surveillance-warning">DISRUPTION FIELD: 0.04%</span>
+<span>SECURITY: LEVEL-VIII SANCTUM</span>
+</div>
+</div>
+<!-- Main Navigation & Command Banner -->
+<div class="flex flex-col lg:flex-row items-center justify-between py-space-sm gap-4">
+<!-- Title & Emblem -->
+<div class="flex items-center gap-3 w-full lg:w-auto justify-between lg:justify-start">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 border border-imperial-gold bg-void-obsidian flex items-center justify-center relative">
+<span class="material-symbols-outlined text-royal-gold text-xl" data-icon="shield">shield</span>
+<div class="absolute -top-1 -right-1 w-1.5 h-1.5 bg-imperial-gold"></div>
+<div class="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-imperial-gold"></div>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm text-sacred-ivory tracking-wider block leading-tight">WHITE BROTHERHOOD</span>
+<span class="font-label-sm text-label-sm text-royal-gold tracking-widest block uppercase">ORBITAL COMMAND // HYBRID BATTLE ARENA</span>
+</div>
+</div>
+<!-- Mobile Quick Status Badge -->
+<span class="lg:hidden text-label-sm font-label-sm px-2 py-0.5 border border-sinarchy-red text-sinarchy-red">
+          SINARCHY THREAT 45.8%
+        </span>
+</div>
+<!-- JSON Nav Cluster -->
+<nav class="hidden xl:flex items-center gap-2">
+<a class="bg-sacred-ivory text-void-obsidian font-label-md text-label-md uppercase px-space-sm py-space-xs border border-imperial-gold" href="#">1. HOMUNCULUS</a>
+<a class="text-on-surface-variant font-label-md text-label-md uppercase px-space-sm py-space-xs border border-outline-variant/30 hover:text-sacred-ivory" href="#">4. CITY DOMINIO</a>
+<a class="text-on-surface-variant font-label-md text-label-md uppercase px-space-sm py-space-xs border border-outline-variant/30 hover:text-sacred-ivory" href="#">6. CIVILIZATION</a>
+<a class="text-on-surface-variant font-label-md text-label-md uppercase px-space-sm py-space-xs border border-outline-variant/30 hover:text-sacred-ivory" href="#">8. COSMOS</a>
+</nav>
+<!-- Live Player Resources Telemetry Module -->
+<div class="flex items-center gap-3 lg:gap-4 overflow-x-auto w-full lg:w-auto pb-1 lg:pb-0 justify-between lg:justify-end">
+<!-- Resource: Materia -->
+<div class="border border-imperial-gold/30 bg-void-obsidian px-2.5 py-1 min-w-[76px]">
+<span class="text-label-sm font-label-sm text-outline block">MATERIA</span>
+<span class="font-title-md text-title-md text-sacred-ivory font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-royal-gold text-sm" data-icon="token">token</span> 24.8K
+          </span>
+</div>
+<!-- Resource: Éter -->
+<div class="border border-astral-cyan/40 bg-void-obsidian px-2.5 py-1 min-w-[76px]">
+<span class="text-label-sm font-label-sm text-outline block">ÉTER</span>
+<span class="font-title-md text-title-md text-astral-cyan font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-astral-cyan text-sm" data-icon="cyclone">cyclone</span> 18.2K
+          </span>
+</div>
+<!-- Resource: Agency -->
+<div class="border border-imperial-gold/30 bg-void-obsidian px-2.5 py-1 min-w-[76px]">
+<span class="text-label-sm font-label-sm text-outline block">AGENCY</span>
+<span class="font-title-md text-title-md text-sacred-ivory font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-royal-gold text-sm" data-icon="electric_bolt">electric_bolt</span> 94<span class="text-outline text-xs">/100</span>
+</span>
+</div>
+<!-- Resource: Resonance -->
+<div class="border border-imperial-gold/30 bg-void-obsidian px-2.5 py-1 min-w-[84px]">
+<span class="text-label-sm font-label-sm text-outline block">RESONANCE</span>
+<span class="font-title-md text-title-md text-surveillance-warning font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-surveillance-warning text-sm" data-icon="graphic_eq">graphic_eq</span> 432 Hz
+          </span>
+</div>
+<!-- Territory Ratio Mini Bar -->
+<div class="hidden md:flex flex-col border border-imperial-gold/30 bg-void-obsidian p-1.5 w-44">
+<div class="flex justify-between text-label-sm font-label-sm mb-1">
+<span class="text-sacred-ivory">PANARCHY 54%</span>
+<span class="text-sinarchy-red">SINARCHY 46%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest flex">
+<div class="bg-royal-gold h-full" style="width: 54.2%;"></div>
+<div class="bg-sinarchy-red h-full" style="width: 45.8%;"></div>
+</div>
+</div>
+<!-- Trailing JSON Action buttons -->
+<div class="flex items-center gap-1.5">
+<button class="bg-sacred-ivory hover:border-imperial-gold hover:text-royal-gold text-void-obsidian font-label-md text-label-md uppercase px-3 py-1.5 border border-imperial-gold font-bold transition-none">
+            DECREE [SOVEREIGN]
+          </button>
+<button class="hidden sm:flex border border-sinarchy-red text-sinarchy-red hover:bg-sinarchy-red/10 font-label-md text-label-md uppercase px-2.5 py-1.5 transition-none items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="radar">radar</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- ========================================== -->
+<!-- 2. MAIN SECTION: 3-COLUMN TACTICAL HUD     -->
+<!-- ========================================== -->
+<main class="flex-1 w-full px-2 sm:px-4 lg:px-space-md xl:px-8 py-3 grid grid-cols-1 lg:grid-cols-12 gap-4 relative">
+<!-- ========================================== -->
+<!-- LEFT PANEL: UNIT DOSSIER & COMBAT STANCE   -->
+<!-- ========================================== -->
+<aside class="lg:col-span-3 flex flex-col gap-3 order-2 lg:order-1">
+<!-- Unit Primary Dossier Card -->
+<div class="border border-imperial-gold/40 bg-panel-surface p-space-md relative flex flex-col justify-between">
+<!-- Gold corner markers -->
+<div class="absolute -top-1 -left-1 w-2 h-2 bg-imperial-gold"></div>
+<div class="absolute -top-1 -right-1 w-2 h-2 bg-imperial-gold"></div>
+<div class="absolute -bottom-1 -left-1 w-2 h-2 bg-imperial-gold"></div>
+<div class="absolute -bottom-1 -right-1 w-2 h-2 bg-imperial-gold"></div>
+<div>
+<!-- Header Bar -->
+<div class="flex items-center justify-between border-b border-imperial-gold/30 pb-2 mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-royal-gold" data-icon="fingerprint">fingerprint</span>
+<span class="font-label-sm text-label-sm text-royal-gold tracking-widest">TACTICAL CIPHER // DOSSIER</span>
+</div>
+<span class="font-label-sm text-label-sm bg-sacred-ivory/10 text-sacred-ivory px-1.5 py-0.5 border border-imperial-gold/40">TIER-IV</span>
+</div>
+<!-- Unit Name & Subtype -->
+<div class="mb-3">
+<span class="text-label-sm font-label-sm text-outline block mb-0.5">ACTIVE SOVEREIGN PIECE</span>
+<h2 class="font-headline-sm text-headline-sm text-sacred-ivory font-bold leading-tight">HOMUNCULUS Ω-09</h2>
+<span class="font-label-md text-label-md text-astral-cyan uppercase tracking-wider block">ARQUETIPO: BRUJO DE LA RED</span>
+</div>
+<!-- Unit Avatar / Biomechanical Occult Silhouette -->
+<div class="relative w-full h-44 bg-void-obsidian border border-outline-variant/40 mb-3 overflow-hidden flex items-center justify-center group">
+<img class="w-full h-full object-cover opacity-85 group-hover:scale-105 transition-transform duration-700" data-alt="A dark luxury biomechanical occult homunculus portrait featuring glowing golden sacred geometry lines and porcelain ivory cybernetic features, set inside an obsidian subterranean command chamber with subtle cyan and gold volumetric rim lighting, AAA fantasy gothic sci-fi style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFxi5xJvZBWiR1vwyUDvgNykx-7lOdlseOxMugx6HQHyha99Unvd8DB1NoGGED70pBAEGAb1q8r4Yoch6c52V2H8kVkAg2r8aSPRNkcopJJAv4eiMzOswCrsVhJCF1RTqiGqOMeiE9JzrWusb-CTMVFBVRtOtKKIu8aosuY92oVLcj0IzT8CbN6ipMP2g4rM33UPI8MnlhvShJbUcHjF1znfIabkFzlGnqIY9rfIz9lPrBP9wrO2gcCA"/>
+<!-- Reticle and sacred geometry framing -->
+<div class="absolute inset-0 pointer-events-none border border-imperial-gold/20 m-1 flex flex-col justify-between p-2">
+<div class="flex justify-between text-label-sm font-label-sm text-royal-gold">
+<span>RITUAL_LOC: D4</span>
+<span>GRID: BIALEK-9</span>
+</div>
+<div class="self-center w-16 h-16 border border-royal-gold/30 rounded-full flex items-center justify-center reticle-ping">
+<span class="material-symbols-outlined text-royal-gold text-2xl" data-icon="filter_vintage">filter_vintage</span>
+</div>
+<div class="flex justify-between text-label-sm font-label-sm text-astral-cyan">
+<span>SEAL: ACTIVE</span>
+<span>STANCE: ATTACK</span>
+</div>
+</div>
+</div>
+<!-- Live Combat Attributes Grid -->
+<div class="space-y-2 mb-3">
+<!-- HP / Vital Energy -->
+<div>
+<div class="flex justify-between text-label-sm font-label-sm mb-1">
+<span class="text-sacred-ivory font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs text-royal-gold" data-icon="favorite">favorite</span> VITAL ENERGY (HP)
+                </span>
+<span class="text-royal-gold font-bold">78 / 100</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest border border-outline-variant/40">
+<div class="bg-royal-gold h-full" style="width: 78%;"></div>
+</div>
+</div>
+<!-- Resonance Arcana Pool -->
+<div>
+<div class="flex justify-between text-label-sm font-label-sm mb-1">
+<span class="text-astral-cyan font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs text-astral-cyan" data-icon="auto_awesome">auto_awesome</span> RESONANCE AMPLITUDE
+                </span>
+<span class="text-astral-cyan font-bold">29 / 100</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest border border-outline-variant/40">
+<div class="bg-astral-cyan h-full" style="width: 29%;"></div>
+</div>
+</div>
+<!-- Tactical Stat Matrix -->
+<div class="grid grid-cols-2 gap-2 pt-1 font-label-sm text-label-sm">
+<div class="border border-outline-variant/30 bg-surface-container-lowest p-1.5 flex justify-between">
+<span class="text-outline">STRENGTH:</span>
+<span class="text-sacred-ivory font-bold">84</span>
+</div>
+<div class="border border-outline-variant/30 bg-surface-container-lowest p-1.5 flex justify-between">
+<span class="text-outline">AGILITY:</span>
+<span class="text-sacred-ivory font-bold">62</span>
+</div>
+<div class="border border-outline-variant/30 bg-surface-container-lowest p-1.5 flex justify-between">
+<span class="text-outline">DEFENSE:</span>
+<span class="text-sacred-ivory font-bold">75</span>
+</div>
+<div class="border border-outline-variant/30 bg-surface-container-lowest p-1.5 flex justify-between">
+<span class="text-outline">WEAPON PWR:</span>
+<span class="text-royal-gold font-bold">91</span>
+</div>
+</div>
+</div>
+<!-- Movement Range & Combat Readiness -->
+<div class="flex items-center justify-between border-t border-b border-imperial-gold/30 py-2 mb-3 font-label-sm text-label-sm">
+<span class="text-outline">GRID MOBILITY:</span>
+<span class="text-sacred-ivory font-bold bg-surface-container-high px-2 py-0.5 border border-imperial-gold/40">3 TILES // RADIAL</span>
+</div>
+<!-- Unit Engrams & Spells -->
+<div>
+<span class="text-label-sm font-label-sm text-outline block mb-1.5">SANCTIONED ENGRAMS [ACTIVE]:</span>
+<div class="grid grid-cols-2 gap-1.5 font-label-sm text-label-sm">
+<button class="border border-imperial-gold/30 hover:border-royal-gold bg-void-obsidian text-sacred-ivory p-1.5 text-left flex items-center gap-1 group">
+<span class="material-symbols-outlined text-xs text-royal-gold group-hover:text-astral-cyan" data-icon="swords">swords</span>
+<span class="truncate">1. Éter Slash</span>
+</button>
+<button class="border border-imperial-gold/30 hover:border-royal-gold bg-void-obsidian text-sacred-ivory p-1.5 text-left flex items-center gap-1 group">
+<span class="material-symbols-outlined text-xs text-royal-gold group-hover:text-astral-cyan" data-icon="shield">shield</span>
+<span class="truncate">2. Somatic Shield</span>
+</button>
+<button class="border border-imperial-gold/30 hover:border-royal-gold bg-void-obsidian text-sacred-ivory p-1.5 text-left flex items-center gap-1 group">
+<span class="material-symbols-outlined text-xs text-royal-gold group-hover:text-astral-cyan" data-icon="speed">speed</span>
+<span class="truncate">3. 432Hz Overclock</span>
+</button>
+<button class="border border-imperial-gold/30 hover:border-royal-gold bg-void-obsidian text-sacred-ivory p-1.5 text-left flex items-center gap-1 group">
+<span class="material-symbols-outlined text-xs text-royal-gold group-hover:text-astral-cyan" data-icon="all_inclusive">all_inclusive</span>
+<span class="truncate">4. Void Step</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Fast Stance Trigger -->
+<div class="mt-4 pt-2 border-t border-outline-variant/30 flex justify-between items-center">
+<span class="text-label-sm font-label-sm text-royal-gold flex items-center gap-1">
+<span class="w-1.5 h-1.5 bg-royal-gold"></span> DIVINE_ACCORD
+          </span>
+<button class="font-label-sm text-label-sm uppercase px-2 py-1 bg-surface-container-high hover:bg-surface-bright text-sacred-ivory border border-outline-variant/40" id="stance-toggle-btn">
+            SWITCH STANCE
+          </button>
+</div>
+</div>
+<!-- Faction Side-Deck Summary Card -->
+<div class="border border-outline-variant/30 bg-panel-surface p-3 font-label-sm text-label-sm">
+<div class="flex justify-between items-center mb-1">
+<span class="text-outline uppercase">ALLIED RESERVE PIECES:</span>
+<span class="text-royal-gold font-bold">4 READY</span>
+</div>
+<div class="flex gap-2">
+<div class="w-8 h-8 border border-imperial-gold/40 bg-void-obsidian flex items-center justify-center text-sacred-ivory font-bold" title="Acolyte III">Ω-1</div>
+<div class="w-8 h-8 border border-imperial-gold/40 bg-void-obsidian flex items-center justify-center text-sacred-ivory font-bold" title="Cipher Node">Ω-2</div>
+<div class="w-8 h-8 border border-astral-cyan/40 bg-void-obsidian flex items-center justify-center text-astral-cyan font-bold" title="Seraph Pawn">Σ-7</div>
+<div class="w-8 h-8 border border-dashed border-outline/40 bg-surface-container-lowest flex items-center justify-center text-outline">+</div>
+</div>
+</div>
+</aside>
+<!-- ========================================== -->
+<!-- CENTER PANEL: THE 8x8 TACTICAL WAR GRID    -->
+<!-- ========================================== -->
+<section class="lg:col-span-6 flex flex-col items-center justify-start order-1 lg:order-2 gap-3 relative">
+<!-- Tactical Grid Controls & Mode HUD -->
+<div class="w-full flex flex-wrap items-center justify-between bg-panel-surface border border-imperial-gold/30 px-3 py-2 gap-2">
+<div class="flex items-center gap-3">
+<span class="text-label-sm font-label-sm text-royal-gold flex items-center gap-1 font-bold">
+<span class="material-symbols-outlined text-sm" data-icon="grid_4x4">grid_4x4</span>
+            SANCTUM SECTOR 8x8
+          </span>
+<span class="text-outline text-label-sm hidden sm:inline">|</span>
+<span class="font-label-sm text-label-sm text-sacred-ivory bg-void-obsidian px-2 py-0.5 border border-outline-variant/40" id="active-tile-readout">
+            HOVER: TILE D5 (HOSTILE)
+          </span>
+</div>
+<!-- View Controls Toggles -->
+<div class="flex items-center gap-1.5">
+<button class="font-label-sm text-label-sm px-2.5 py-1 bg-void-obsidian border border-imperial-gold/40 text-sacred-ivory hover:text-royal-gold flex items-center gap-1" id="toggle-camera-btn">
+<span class="material-symbols-outlined text-xs" data-icon="videocam">videocam</span>
+<span id="camera-label">PERSPECTIVE: ISO</span>
+</button>
+<button class="font-label-sm text-label-sm px-2 py-1 bg-void-obsidian border border-outline-variant/40 text-on-surface-variant hover:text-sacred-ivory flex items-center gap-1" id="toggle-range-btn">
+<span class="material-symbols-outlined text-xs" data-icon="radar">radar</span> RANGE: ON
+          </button>
+<button class="font-label-sm text-label-sm px-2 py-1 bg-sinarchy-red/20 border border-sinarchy-red text-sinarchy-red hover:bg-sinarchy-red hover:text-void-obsidian flex items-center gap-1 font-bold" id="trigger-collision-direct">
+<span class="material-symbols-outlined text-xs" data-icon="bolt">bolt</span> ENGAGE D5
+          </button>
+</div>
+</div>
+<!-- Board Outer Chamber Area -->
+<div class="w-full bg-void-obsidian border border-imperial-gold/40 p-4 lg:p-8 flex flex-col items-center justify-center relative overflow-hidden min-h-[520px]">
+<!-- Sacred Geometry Floor Watermark -->
+<div class="absolute inset-0 pointer-events-none flex items-center justify-center opacity-10">
+<div class="w-[480px] h-[480px] border-2 border-imperial-gold rounded-full flex items-center justify-center">
+<div class="w-[360px] h-[360px] border border-sacred-ivory rotate-45 flex items-center justify-center">
+<div class="w-[240px] h-[240px] border border-astral-cyan rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Interactive 8x8 Chessboard Container -->
+<div class="perspective-[1200px] w-full flex items-center justify-center py-4">
+<div class="iso-board relative bg-[#0b0c10] p-3 border-2 border-imperial-gold shadow-2xl transition-all duration-500" id="chessboard-container">
+<!-- Corner Pillars -->
+<div class="absolute -top-3 -left-3 w-4 h-4 bg-imperial-gold border border-sacred-ivory"></div>
+<div class="absolute -top-3 -right-3 w-4 h-4 bg-imperial-gold border border-sacred-ivory"></div>
+<div class="absolute -bottom-3 -left-3 w-4 h-4 bg-imperial-gold border border-sacred-ivory"></div>
+<div class="absolute -bottom-3 -right-3 w-4 h-4 bg-imperial-gold border border-sacred-ivory"></div>
+<!-- Board Grid Structure (8x8 = 64 tiles) -->
+<div class="grid grid-cols-8 grid-rows-8 gap-[2px] w-[340px] h-[340px] sm:w-[420px] sm:h-[420px] bg-[#161616]" id="board-grid">
+<!-- Dynamically generated or statically injected tiles -->
+</div>
+</div>
+</div>
+<!-- Tile Legend Floating Pill -->
+<div class="w-full mt-4 flex flex-wrap items-center justify-center gap-3 text-label-sm font-label-sm bg-panel-surface/90 border border-outline-variant/30 py-1.5 px-3 z-10">
+<span class="flex items-center gap-1.5 text-royal-gold">
+<span class="w-2.5 h-2.5 bg-royal-gold/30 border border-royal-gold inline-block"></span>
+            RITUAL (+RESONANCE)
+          </span>
+<span class="flex items-center gap-1.5 text-astral-cyan">
+<span class="w-2.5 h-2.5 bg-astral-cyan/30 border border-astral-cyan inline-block"></span>
+            ENERGY (+ÉTER)
+          </span>
+<span class="flex items-center gap-1.5 text-outline">
+<span class="w-2.5 h-2.5 bg-void-obsidian border border-outline inline-block"></span>
+            VOID (STEALTH)
+          </span>
+<span class="flex items-center gap-1.5 text-sacred-ivory">
+<span class="w-2.5 h-2.5 bg-surface-container-high border border-sacred-ivory inline-block"></span>
+            FORTRESS (+DEF)
+          </span>
+<span class="flex items-center gap-1.5 text-surveillance-warning">
+<span class="w-2.5 h-2.5 bg-surveillance-warning/20 border border-surveillance-warning inline-block animate-pulse"></span>
+            PORTAL VORTEX
+          </span>
+</div>
+<!-- Quick Interaction Helper Prompt -->
+<div class="mt-2 text-center text-label-sm font-label-sm text-outline">
+          SELECT VALID HIGHLIGHTED TILE TO GLIDE // CLICK <span class="text-sinarchy-red font-bold">SECTOR D5</span> TO INITIATE RITUAL COLLISION
+        </div>
+</div>
+<!-- Tactical Move Sequence Bar -->
+<div class="w-full bg-panel-surface border border-imperial-gold/30 p-2.5 flex items-center justify-between font-label-sm text-label-sm">
+<div class="flex items-center gap-2">
+<span class="text-royal-gold font-bold">COMMAND QUEUE:</span>
+<span class="text-sacred-ivory bg-void-obsidian px-2 py-0.5 border border-outline-variant/40">1. ADVANCE (D4 → D5)</span>
+<span class="text-outline hidden sm:inline">→ 2. ENGAGE BROTHERHOOD</span>
+</div>
+<button class="text-outline hover:text-sacred-ivory underline uppercase" id="reset-board-btn">RE-SYNCHRONIZE GRID</button>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- RIGHT PANEL: ENCOUNTER ENGINE & LIVE LOG   -->
+<!-- ========================================== -->
+<aside class="lg:col-span-3 flex flex-col gap-3 order-3">
+<!-- Collision Monitor & Target Intel Card -->
+<div class="border border-sinarchy-red/40 bg-panel-surface p-space-md relative">
+<!-- Sinarchy red corner marker -->
+<div class="absolute -top-1 -right-1 w-2 h-2 bg-sinarchy-red"></div>
+<div class="absolute -bottom-1 -left-1 w-2 h-2 bg-sinarchy-red"></div>
+<div class="flex items-center justify-between border-b border-sinarchy-red/30 pb-2 mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sinarchy-red" data-icon="warning">warning</span>
+<span class="font-label-sm text-label-sm text-sinarchy-red tracking-widest font-bold">THREAT COLLISION MONITOR</span>
+</div>
+<span class="font-label-sm text-label-sm text-surveillance-warning bg-surveillance-warning/10 px-1.5 py-0.5 border border-surveillance-warning/40 animate-pulse">LOCK ACTIVE</span>
+</div>
+<!-- Target Identification -->
+<div class="mb-3">
+<span class="text-label-sm font-label-sm text-outline block">TARGET DESIGNATION:</span>
+<h3 class="font-headline-sm text-headline-sm text-sinarchy-red font-bold leading-tight">SINARCHY ENFORCER</h3>
+<span class="font-label-md text-label-md text-sacred-ivory uppercase tracking-wider block">CLEARANCE: CITADEL INQUISITION</span>
+</div>
+<!-- Enemy Mini Silhouette -->
+<div class="relative w-full h-28 bg-void-obsidian border border-sinarchy-red/30 mb-3 overflow-hidden flex items-center justify-center">
+<img class="w-full h-full object-cover opacity-80" data-alt="A sinister cyber-gothic White Brotherhood Sinarchy enforcer sentinel clad in jet black obsidian armor with glowing ceremonial red runes, wielding a ceremonial tactical halberd in a high-tech surveillance ritual vault, cinematic dark atmospheric lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpRsUIbO6aTM5BDJ-CGGMGFnyNeZH--aVXUwwEtKG_mOWKfuy78U9ad7QfDAjvFNtx5Elff88exUQPcNIxsq0Ud3xb-w8LG4nAoTLv21773z-42_S8wOb1mwTOqu39Yklb8wdeOvI1h5m9pNgWASqg1VZ-Ab1jbSwin8DOjYx5A_DJOaaptVx-iJ13T-ke1h9ZIS6fTk4rmaofS5M-KQsg5U6tT3yG5GEJUrM-j58bPr2aJ7AnO56Q6g"/>
+<div class="absolute inset-0 bg-gradient-to-t from-void-obsidian via-transparent to-transparent"></div>
+<div class="absolute bottom-1 right-2 text-label-sm font-label-sm text-sinarchy-red font-bold">SECTOR D5 COORDS</div>
+</div>
+<!-- Objective & Consequences Preview -->
+<div class="space-y-2 mb-3 font-label-sm text-label-sm">
+<div class="bg-surface-container-lowest border-l-2 border-royal-gold p-2">
+<span class="text-royal-gold font-bold block mb-0.5">CURRENT OBJECTIVE:</span>
+<span class="text-sacred-ivory">NEUTRALIZE BROTHERHOOD AGENT ON SECTOR D5 TO BREACH CITADEL WARD 3.</span>
+</div>
+<div class="bg-surface-container-lowest border-l-2 border-astral-cyan p-2">
+<span class="text-astral-cyan font-bold block mb-0.5">FACTION REPUTATION IMPACT:</span>
+<span class="text-on-surface">PANARCHY LIBERATION <span class="text-royal-gold font-bold">[+12% ON VICTORY]</span></span>
+</div>
+<div class="bg-surface-container-lowest border-l-2 border-outline p-2">
+<span class="text-outline font-bold block mb-0.5">PERSISTENT CONSEQUENCE:</span>
+<span class="text-on-surface-variant">Unlocks Forbidden Codex: <span class="text-sacred-ivory italic">"Silent Inquisition Protocol 884"</span>.</span>
+</div>
+</div>
+<!-- Trigger Modal CTA -->
+<button class="w-full py-2 bg-sinarchy-red hover:bg-sinarchy-red/90 text-sacred-ivory font-label-md text-label-md font-bold uppercase tracking-widest border border-imperial-gold/60 shadow-lg flex items-center justify-center gap-2 transition-none" id="open-encounter-modal-btn">
+<span class="material-symbols-outlined text-sm" data-icon="swords">swords</span>
+          INITIATE COMBAT ENCOUNTER
+        </button>
+</div>
+<!-- Live Diegetic Battle Telemetry Stream Log -->
+<div class="border border-imperial-gold/30 bg-panel-surface p-space-md flex-1 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between border-b border-outline-variant/30 pb-2 mb-2">
+<span class="font-label-sm text-label-sm text-royal-gold font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="terminal">terminal</span>
+              LIVE TACTICAL STREAM
+            </span>
+<span class="text-label-sm font-label-sm text-outline">AUTOSYNC 60Hz</span>
+</div>
+<div class="space-y-1.5 font-label-sm text-label-sm text-outline max-h-56 overflow-y-auto pr-1" id="battle-log-feed">
+<div class="border-b border-outline-variant/10 pb-1">
+<span class="text-royal-gold">[CYCLE 884.14]</span> Homunculus Ω-09 manifested at Sector D4.
+            </div>
+<div class="border-b border-outline-variant/10 pb-1">
+<span class="text-astral-cyan">[CYCLE 884.15]</span> Resonance harmonic tuned to 432.08 Hz.
+            </div>
+<div class="border-b border-outline-variant/10 pb-1">
+<span class="text-sinarchy-red">[CYCLE 884.15]</span> WARNING: Brotherhood Enforcer shifted stance to HERESY_LOCK at D5.
+            </div>
+<div class="border-b border-outline-variant/10 pb-1">
+<span class="text-sacred-ivory">[CYCLE 884.15]</span> Move vector computed: Radial movement within 3 tiles valid.
+            </div>
+<div class="text-surveillance-warning">
+              [LIVE] Awaiting Sovereign command: Execute collision protocol at D5.
+            </div>
+</div>
+</div>
+<!-- Clearance Badge -->
+<div class="mt-3 pt-2 border-t border-outline-variant/30 flex items-center justify-between text-label-sm font-label-sm">
+<span class="text-outline">CLEARANCE:</span>
+<span class="text-royal-gold font-bold">ORDO ASTRALIS // TIER-IV</span>
+</div>
+</div>
+</aside>
+</main>
+<!-- ========================================== -->
+<!-- 3. FULL SCREEN COMBAT ENCOUNTER OVERLAY    -->
+<!-- ========================================== -->
+<div class="fixed inset-0 bg-void-obsidian/95 z-50 backdrop-blur-md hidden flex-col justify-between p-3 sm:p-6 lg:p-10 overflow-y-auto" id="combat-encounter-overlay">
+<!-- Modal Top Header -->
+<div class="w-full flex flex-col sm:flex-row items-center justify-between border-b-2 border-imperial-gold pb-3 gap-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-sinarchy-red flex items-center justify-center text-void-obsidian font-bold text-xl">
+<span class="material-symbols-outlined" data-icon="swords">swords</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-surveillance-warning tracking-widest block font-bold animate-pulse">CRITICAL CONFRONTATION DETECTED</span>
+<h1 class="font-headline-sm text-headline-sm text-sacred-ivory font-bold uppercase tracking-wider">RITUAL COLLISION // TILE D5</h1>
+</div>
+</div>
+<!-- Confrontation Mode Selector Tabs -->
+<div class="flex items-center gap-2 bg-panel-surface p-1 border border-imperial-gold/40">
+<button class="font-label-md text-label-md px-3 py-1.5 bg-sacred-ivory text-void-obsidian font-bold uppercase border border-imperial-gold transition-none flex items-center gap-1.5" id="tab-melee-btn">
+<span class="material-symbols-outlined text-sm" data-icon="sports_martial_arts">sports_martial_arts</span>
+          [⚔ BODY COMBAT // MELEE]
+        </button>
+<button class="font-label-md text-label-md px-3 py-1.5 bg-void-obsidian text-on-surface-variant hover:text-sacred-ivory font-bold uppercase border border-outline-variant/40 transition-none flex items-center gap-1.5" id="tab-card-btn">
+<span class="material-symbols-outlined text-sm" data-icon="style">style</span>
+          [♠ ARCANE DUEL // CARDS]
+        </button>
+</div>
+<!-- Dismiss Button -->
+<button class="text-outline hover:text-sinarchy-red font-label-md text-label-md uppercase px-3 py-1 border border-outline-variant/40 flex items-center gap-1" id="close-modal-btn">
+<span class="material-symbols-outlined text-sm" data-icon="close">close</span> DISENGAGE [ESC]
+      </button>
+</div>
+<!-- Comparative Combatants Dossier Bar -->
+<div class="w-full grid grid-cols-1 md:grid-cols-12 gap-4 py-4 my-2 border-b border-imperial-gold/30 bg-panel-surface/60 px-4">
+<!-- Player Unit Overview -->
+<div class="md:col-span-5 flex items-center gap-4">
+<div class="w-16 h-16 border-2 border-imperial-gold bg-void-obsidian shrink-0 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close up face of an ivory porcelain cybernetic warrior with glowing gold ocular reticles and solemn expression, hyper realistic dark fantasy gothic science fiction." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZjptD6YzNqDS-jbaRXl8032afSGpt8fhtbf36rGshxte5wVWjnXAYaKIizWHjK-wTybaimXXdIz8yvd7P96j8nY7IiAiqCBBbB3dqEMtGxJPvjNGTYepaKI6nUdPXUrMAPBoor6T3f2D0xn-pfPU0taYAl-x83ebZLqvmMsSe1V6Wr7iCH61Oo0_I0DSaLmTKENgR2sIvK7U0Nznq3ccN_JMpRYtjwhSvKWQNkRnVwO2goTQZvYxq7A"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-astral-cyan">PANARCHY CHAMPION</span>
+<span class="font-label-sm text-label-sm text-royal-gold font-bold">POWER: 894</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-sacred-ivory font-bold">HOMUNCULUS Ω-09</h3>
+<!-- HP Bar -->
+<div class="w-full h-2.5 bg-surface-container-highest border border-outline-variant/40 mt-1">
+<div class="bg-royal-gold h-full" id="modal-player-hp" style="width: 78%;"></div>
+</div>
+<div class="flex justify-between text-label-sm font-label-sm text-outline mt-0.5">
+<span>HP: 78/100</span>
+<span>ÉTER: 82%</span>
+</div>
+</div>
+</div>
+<!-- VS Center Emblem -->
+<div class="md:col-span-2 flex flex-col items-center justify-center">
+<span class="text-label-sm font-label-sm text-outline tracking-widest">RESOLUTION RATIO</span>
+<span class="font-display-lg text-headline-md text-imperial-gold font-bold">VS</span>
+<span class="text-label-sm font-label-sm text-surveillance-warning">ODDS: 52% FAVOR</span>
+</div>
+<!-- Enemy Unit Overview -->
+<div class="md:col-span-5 flex items-center gap-4 flex-row-reverse text-right">
+<div class="w-16 h-16 border-2 border-sinarchy-red bg-void-obsidian shrink-0 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close up face of a sinister dark obsidian armored assassin with a glowing red visor and gold ritual spikes, White Brotherhood enforcer, gothic sci-fi." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOunFLDhkS_94ASfNI2Kkf_avPzwfnWapR_ZBGryz2t5BZmRbwVSdb7HrvFrEvfy-bHkJCdyarVk0V9glwKOGTF5MFl6ROJkp3do5OxWPqPfKCu_FqxOFO9U1j3nofDLNhaJSTquICtjYt7h_O9xV2L23IdTqhVpjfNYZ66r6DVGZ3Kn6C8B2glimb8k84NrkQsfVsQ6SfnQ_reVBUxr6-ARKZAC7DSimpd0elqn7_310Bg1jCq4oaWw"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-center flex-row-reverse">
+<span class="font-label-sm text-label-sm text-sinarchy-red">BROTHERHOOD ENFORCER</span>
+<span class="font-label-sm text-label-sm text-sinarchy-red font-bold">POWER: 860</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-sacred-ivory font-bold">SINARCHY AGENT</h3>
+<!-- HP Bar -->
+<div class="w-full h-2.5 bg-surface-container-highest border border-outline-variant/40 mt-1">
+<div class="bg-sinarchy-red h-full" id="modal-enemy-hp" style="width: 85%;"></div>
+</div>
+<div class="flex justify-between text-label-sm font-label-sm text-outline mt-0.5 flex-row-reverse">
+<span>HP: 85/100</span>
+<span>SHIELD: ACTIVE</span>
+</div>
+</div>
+</div>
+</div>
+<!-- ============================================== -->
+<!-- SUBVIEW A: MELEE BODY COMBAT ARENA SIMULATOR   -->
+<!-- ============================================== -->
+<div class="flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-4 py-2" id="view-melee-arena">
+<!-- 3D Arena Visual Viewport -->
+<div class="lg:col-span-8 bg-void-obsidian border-2 border-imperial-gold/40 relative min-h-[300px] flex flex-col justify-between p-4 overflow-hidden">
+<img class="absolute inset-0 w-full h-full object-cover opacity-60" data-alt="A grand gothic subterranean obsidian battle colosseum with high vaulted arches, glowing gold ritual circles etched into the black stone arena floor, dramatic side lighting casting long shadows as two biomechanical combatants duel, AAA action game screenshot." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDB1ox5rKLBkC7puUGfFfv69KdrxGr8LW3kPkk03jMNkJgYSzy9MLPiPctPy0Bs7KA8X6BBaZswCP84kRU-aAWQGQx1BDNkbLDt96kKPWkFS-64IdQuMLMsLdMmByU9dlrQb1OpPca-8stjXeAUmFnkKqx738XGOIr3hKNogChL5IowYG4na1QC0bigGje6DFh9MAi8I-y1LRZ3uxH4Wqoq0RI42JV_B98cZAC5xbfKR0NhvRZU3-vvVQ"/>
+<div class="relative z-10 flex justify-between items-start font-label-sm text-label-sm">
+<span class="bg-void-obsidian/90 px-2 py-1 border border-imperial-gold/40 text-royal-gold">CAMERA: TACTICAL KINETIC RIG</span>
+<span class="bg-void-obsidian/90 px-2 py-1 border border-sinarchy-red/40 text-sinarchy-red">TARGET POISE: 64%</span>
+</div>
+<!-- Center Combat clash reticle -->
+<div class="relative z-10 self-center text-center">
+<div class="w-20 h-20 border border-royal-gold/60 rounded-full mx-auto flex items-center justify-center reticle-ping mb-2">
+<span class="material-symbols-outlined text-sacred-ivory text-3xl" data-icon="sports_martial_arts">sports_martial_arts</span>
+</div>
+<span class="font-label-md text-label-md bg-void-obsidian/90 px-3 py-1 border border-imperial-gold text-sacred-ivory font-bold uppercase" id="melee-action-status">
+            AWAITING COMBAT INPUT...
+          </span>
+</div>
+<!-- In-arena Realtime Combat Input Controls -->
+<div class="relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-2 pt-4">
+<button class="bg-surface-container-high hover:bg-sacred-ivory hover:text-void-obsidian text-sacred-ivory p-2 border border-outline-variant/60 font-label-sm text-label-sm uppercase font-bold flex flex-col items-center" onclick="simulateMeleeAction('LIGHT ATTACK', 14, 0)">
+<span class="material-symbols-outlined text-sm mb-1" data-icon="bolt">bolt</span>
+            LIGHT SLASH [J]
+          </button>
+<button class="bg-surface-container-high hover:bg-royal-gold hover:text-void-obsidian text-sacred-ivory p-2 border border-imperial-gold/60 font-label-sm text-label-sm uppercase font-bold flex flex-col items-center" onclick="simulateMeleeAction('HEAVY PUNCTURE', 28, 4)">
+<span class="material-symbols-outlined text-sm mb-1" data-icon="hardware">hardware</span>
+            HEAVY CRUSH [K]
+          </button>
+<button class="bg-surface-container-high hover:bg-astral-cyan hover:text-void-obsidian text-sacred-ivory p-2 border border-astral-cyan/60 font-label-sm text-label-sm uppercase font-bold flex flex-col items-center" onclick="simulateMeleeAction('SOMATIC PARRY', 0, 0, true)">
+<span class="material-symbols-outlined text-sm mb-1" data-icon="shield">shield</span>
+            PERFECT PARRY [L]
+          </button>
+<button class="bg-imperial-gold text-void-obsidian hover:bg-sacred-ivory p-2 border border-imperial-gold font-label-sm text-label-sm uppercase font-bold flex flex-col items-center shadow-lg" onclick="simulateMeleeAction('432Hz OVERDRIVE ULTIMATE', 45, 0)">
+<span class="material-symbols-outlined text-sm mb-1" data-icon="electric_bolt">electric_bolt</span>
+            OVERDRIVE [SPACE]
+          </button>
+</div>
+</div>
+<!-- Melee Combat Telemetry Log -->
+<div class="lg:col-span-4 bg-panel-surface border border-imperial-gold/30 p-3 flex flex-col justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-royal-gold block mb-2 font-bold uppercase">PHYSICAL ENGAGEMENT CHRONICLE</span>
+<div class="space-y-1.5 font-label-sm text-label-sm text-outline max-h-64 overflow-y-auto pr-1" id="melee-log">
+<div class="text-sacred-ivory">&gt; Kinetic duel initiated at close quarters.</div>
+<div class="text-sinarchy-red">&gt; Brotherhood Enforcer primes Obsidian Spear.</div>
+<div class="text-astral-cyan">&gt; Homunculus Ω-09 activates Somatic weave shield.</div>
+</div>
+</div>
+<div class="border-t border-outline-variant/30 pt-2 text-label-sm font-label-sm text-outline flex justify-between">
+<span>COMBO MULTIPLIER:</span>
+<span class="text-royal-gold font-bold" id="combo-counter">2.4x ACTIVE</span>
+</div>
+</div>
+</div>
+<!-- ============================================== -->
+<!-- SUBVIEW B: ARCANE DUEL // CARD TABLE SIMULATOR -->
+<!-- ============================================== -->
+<div class="hidden flex-1 w-full flex-col justify-between py-2 gap-3" id="view-card-arena">
+<!-- Arcana Table Status & Enemy Intent -->
+<div class="flex flex-wrap items-center justify-between bg-panel-surface border border-imperial-gold/30 p-2.5">
+<div class="flex items-center gap-4">
+<span class="font-label-sm text-label-sm text-astral-cyan font-bold">ARCANE MANA CRYSTALS:</span>
+<div class="flex gap-1.5" id="mana-crystals">
+<span class="w-3.5 h-3.5 bg-astral-cyan border border-sacred-ivory inline-block"></span>
+<span class="w-3.5 h-3.5 bg-astral-cyan border border-sacred-ivory inline-block"></span>
+<span class="w-3.5 h-3.5 bg-astral-cyan border border-sacred-ivory inline-block"></span>
+<span class="w-3.5 h-3.5 bg-astral-cyan border border-sacred-ivory inline-block"></span>
+<span class="w-3.5 h-3.5 bg-surface-container-highest border border-outline inline-block"></span>
+</div>
+<span class="font-label-sm text-label-sm text-sacred-ivory">4 / 5 ÉTER</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-sinarchy-red font-bold">ENEMY TAROT INTENT:</span>
+<span class="font-label-sm text-label-sm bg-sinarchy-red/20 text-sinarchy-red border border-sinarchy-red px-2 py-0.5">
+            CAST: INQUISITION BRAND (-18 HP)
+          </span>
+</div>
+</div>
+<!-- 5 Interactive Tarot/Arcana Cards in Hand -->
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 my-auto py-2">
+<!-- Card 1: Éter Blade -->
+<div class="group cursor-pointer bg-void-obsidian border border-imperial-gold hover:border-sacred-ivory hover:-translate-y-2 transition-transform duration-150 p-2.5 flex flex-col justify-between min-h-[190px] relative" onclick="playCard('ÉTER BLADE', 16, 'Deals 16 Arcane Damage', 1)">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm bg-imperial-gold text-void-obsidian px-1.5 font-bold">1 ÉTER</span>
+<span class="text-label-sm font-label-sm text-royal-gold">ATTACK</span>
+</div>
+<div class="w-full h-16 bg-surface-container-lowest border border-outline-variant/30 my-2 overflow-hidden flex items-center justify-center">
+<span class="material-symbols-outlined text-royal-gold text-3xl group-hover:scale-125 transition-transform" data-icon="swords">swords</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-sm text-sacred-ivory font-bold">ÉTER BLADE</h4>
+<p class="text-label-sm font-label-sm text-outline mt-0.5">Strike enforcer for 16 pure kinetic damage.</p>
+</div>
+</div>
+<!-- Card 2: Somatic Bulwark -->
+<div class="group cursor-pointer bg-void-obsidian border border-astral-cyan hover:border-sacred-ivory hover:-translate-y-2 transition-transform duration-150 p-2.5 flex flex-col justify-between min-h-[190px] relative" onclick="playCard('SOMATIC BULWARK', 0, 'Grants +20 Arcane Shield', 1)">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm bg-astral-cyan text-void-obsidian px-1.5 font-bold">1 ÉTER</span>
+<span class="text-label-sm font-label-sm text-astral-cyan">DEFENSE</span>
+</div>
+<div class="w-full h-16 bg-surface-container-lowest border border-outline-variant/30 my-2 overflow-hidden flex items-center justify-center">
+<span class="material-symbols-outlined text-astral-cyan text-3xl group-hover:scale-125 transition-transform" data-icon="shield">shield</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-sm text-sacred-ivory font-bold">SOMATIC BULWARK</h4>
+<p class="text-label-sm font-label-sm text-outline mt-0.5">Deploy biomechanical barrier absorbing 20 dmg.</p>
+</div>
+</div>
+<!-- Card 3: 432Hz Overclock -->
+<div class="group cursor-pointer bg-void-obsidian border border-surveillance-warning hover:border-sacred-ivory hover:-translate-y-2 transition-transform duration-150 p-2.5 flex flex-col justify-between min-h-[190px] relative" onclick="playCard('432Hz OVERCLOCK', 0, 'Draw 2 Cards &amp; Gain 2 Agency', 2)">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm bg-surveillance-warning text-void-obsidian px-1.5 font-bold">2 ÉTER</span>
+<span class="text-label-sm font-label-sm text-surveillance-warning">ABILITY</span>
+</div>
+<div class="w-full h-16 bg-surface-container-lowest border border-outline-variant/30 my-2 overflow-hidden flex items-center justify-center">
+<span class="material-symbols-outlined text-surveillance-warning text-3xl group-hover:scale-125 transition-transform" data-icon="graphic_eq">graphic_eq</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-sm text-sacred-ivory font-bold">432Hz OVERCLOCK</h4>
+<p class="text-label-sm font-label-sm text-outline mt-0.5">Tune harmonics. Draw 2 cards and restore +2 Agency.</p>
+</div>
+</div>
+<!-- Card 4: Seraphic Severance -->
+<div class="group cursor-pointer bg-void-obsidian border border-imperial-gold hover:border-sacred-ivory hover:-translate-y-2 transition-transform duration-150 p-2.5 flex flex-col justify-between min-h-[190px] relative" onclick="playCard('SERAPHIC SEVERANCE', 32, 'Inflicts 32 Radiant Damage', 3)">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm bg-royal-gold text-void-obsidian px-1.5 font-bold">3 ÉTER</span>
+<span class="text-label-sm font-label-sm text-royal-gold">RITUAL</span>
+</div>
+<div class="w-full h-16 bg-surface-container-lowest border border-outline-variant/30 my-2 overflow-hidden flex items-center justify-center">
+<span class="material-symbols-outlined text-royal-gold text-3xl group-hover:scale-125 transition-transform" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-sm text-sacred-ivory font-bold">SERAPHIC SEVER</h4>
+<p class="text-label-sm font-label-sm text-outline mt-0.5">Call astral judgment for 32 piercing holy damage.</p>
+</div>
+</div>
+<!-- Card 5: Void Dissolution -->
+<div class="group cursor-pointer bg-void-obsidian border border-outline hover:border-sacred-ivory hover:-translate-y-2 transition-transform duration-150 p-2.5 flex flex-col justify-between min-h-[190px] relative" onclick="playCard('VOID DISSOLUTION', 12, 'Reduces Enemy Agency &amp; Stuns', 2)">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm bg-outline text-void-obsidian px-1.5 font-bold">2 ÉTER</span>
+<span class="text-label-sm font-label-sm text-outline">HEX</span>
+</div>
+<div class="w-full h-16 bg-surface-container-lowest border border-outline-variant/30 my-2 overflow-hidden flex items-center justify-center">
+<span class="material-symbols-outlined text-sacred-ivory text-3xl group-hover:scale-125 transition-transform" data-icon="all_inclusive">all_inclusive</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-sm text-sacred-ivory font-bold">VOID DISSOLVE</h4>
+<p class="text-label-sm font-label-sm text-outline mt-0.5">Disrupt enforcer synaptic grid, delaying next strike.</p>
+</div>
+</div>
+</div>
+<!-- Card Table Status Log -->
+<div class="bg-panel-surface border border-outline-variant/40 p-2 text-center text-label-sm font-label-sm text-royal-gold" id="card-log-banner">
+        SELECT AN ARCANA CARD ABOVE TO CHANNEL ÉTER AGAINST THE ENFORCER
+      </div>
+</div>
+<!-- Modal Footer Actions Bar -->
+<div class="w-full flex flex-col sm:flex-row items-center justify-between border-t border-imperial-gold/30 pt-3 gap-3">
+<div class="flex items-center gap-3 text-label-sm font-label-sm text-outline">
+<span>ENCOUNTER SECTOR: D5</span>
+<span>|</span>
+<span class="text-astral-cyan">PANARCHIA GAIN RATIO: 1.18x</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="bg-surface-container-high hover:bg-surface-bright text-sacred-ivory font-label-md text-label-md uppercase px-4 py-2 border border-outline-variant/60" id="resolve-sim-btn">
+          RESOLVE SIMULATION [AUTO]
+        </button>
+<button class="bg-sacred-ivory hover:bg-royal-gold text-void-obsidian font-label-md text-label-md uppercase px-6 py-2 border border-imperial-gold font-bold" id="execute-battle-btn">
+          EXECUTE BATTLE [DECLARE VICTORY]
+        </button>
+</div>
+</div>
+</div>
+<!-- ========================================== -->
+<!-- 4. BOTTOM COMMAND DOCK & DIEGETIC FOOTER   -->
+<!-- ========================================== -->
+<footer class="w-full border-t border-imperial-gold/30 bg-void-obsidian z-40 relative">
+<!-- Command Action Buttons Row -->
+<div class="flex flex-wrap items-center justify-between px-space-md lg:px-margin py-2 border-b border-outline-variant/20 gap-2">
+<div class="flex items-center gap-2 overflow-x-auto">
+<button class="bg-royal-gold hover:bg-sacred-ivory text-void-obsidian font-label-md text-label-md font-bold uppercase px-4 py-1.5 border border-imperial-gold flex items-center gap-1.5 transition-none shadow-md" id="end-turn-btn">
+<span class="material-symbols-outlined text-sm" data-icon="hourglass_top">hourglass_top</span>
+          END TURN // PASAR TURNO
+        </button>
+<button class="bg-surface-container hover:bg-surface-bright text-sacred-ivory font-label-md text-label-md uppercase px-3 py-1.5 border border-outline-variant/40 flex items-center gap-1 transition-none">
+<span class="material-symbols-outlined text-xs" data-icon="backpack">backpack</span>
+          INVENTARIO
+        </button>
+<button class="bg-surface-container hover:bg-surface-bright text-sacred-ivory font-label-md text-label-md uppercase px-3 py-1.5 border border-outline-variant/40 flex items-center gap-1 transition-none">
+<span class="material-symbols-outlined text-xs" data-icon="auto_stories">auto_stories</span>
+          CÓDICE UMBRAL
+        </button>
+<button class="bg-surface-container hover:bg-surface-bright text-sacred-ivory font-label-md text-label-md uppercase px-3 py-1.5 border border-outline-variant/40 flex items-center gap-1 transition-none">
+<span class="material-symbols-outlined text-xs" data-icon="map">map</span>
+          CARTOGRAFÍA DE GUERRA
+        </button>
+</div>
+<div class="flex items-center gap-3">
+<button class="text-outline hover:text-sacred-ivory font-label-md text-label-md uppercase px-2 py-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="settings">settings</span>
+          AJUSTES
+        </button>
+<span class="text-label-sm font-label-sm text-surveillance-warning tracking-widest hidden sm:inline">
+          PROTOCOL: OMEGA-SEVEN
+        </span>
+</div>
+</div>
+<!-- JSON Diegetic Telemetry Metadata Row -->
+<div class="flex flex-col md:flex-row justify-between items-center px-space-md lg:px-margin py-1.5 text-label-sm font-label-sm text-outline tracking-widest">
+<div>
+<span>AETERNITAS CYCLE 884.12 // QUANTUM ENCRYPTION: SHA-4096-ASTRALIS // PANARCHY 54.2% : SINARCHY 45.8%</span>
+</div>
+<div class="flex items-center gap-4 mt-1 md:mt-0">
+<span class="hover:text-royal-gold cursor-pointer">COSMIC TIME: CYCLE 884</span>
+<span class="hover:text-royal-gold cursor-pointer">PANARCHIA RATIO: 1.18</span>
+<span class="text-surveillance-warning">QUANTUM LOCK: ACTIVE</span>
+</div>
+</div>
+</footer>
+<!-- ========================================== -->
+<!-- 5. WORKING INTERACTIVE AAA GAME ENGINE JS  -->
+<!-- ========================================== -->
+<script>
+    // Board State Model
+    const boardSize = 8;
+    const files = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+    const ranks = ['8', '7', '6', '5', '4', '3', '2', '1'];
+
+    // Piece positions
+    let playerPos = 'D4'; // Player start tile
+    let enemyPos = 'D5';  // Hostile collision tile
+    let alliedPawns = ['C3', 'E3', 'D2'];
+
+    // Special Tiles Configuration
+    const specialTiles = {
+      'C5': { type: 'ritual', label: 'RITUAL', icon: 'auto_awesome', color: 'text-royal-gold' },
+      'E4': { type: 'energy', label: 'ÉTER', icon: 'cyclone', color: 'text-astral-cyan' },
+      'B4': { type: 'void', label: 'VOID', icon: 'blur_on', color: 'text-outline' },
+      'F6': { type: 'fortress', label: 'FORTRESS', icon: 'fort', color: 'text-sacred-ivory' },
+      'G2': { type: 'portal', label: 'PORTAL', icon: 'all_inclusive', color: 'text-surveillance-warning' },
+      'D5': { type: 'hostile', label: 'TARGET', icon: 'warning', color: 'text-sinarchy-red' }
+    };
+
+    let isIsometric = true;
+    let showRange = true;
+    let turnCount = 7;
+    let enemyHP = 85;
+    let playerHP = 78;
+
+    // Build 8x8 Chessboard Tiles
+    function buildBoard() {
+      const grid = document.getElementById('board-grid');
+      grid.innerHTML = '';
+
+      for (let r = 0; r < boardSize; r++) {
+        for (let f = 0; f < boardSize; f++) {
+          const tileCoord = `${files[f]}${ranks[r]}`;
+          const isLight = (r + f) % 2 === 0;
+
+          const tile = document.createElement('div');
+          tile.id = `tile-${tileCoord}`;
+          tile.dataset.coord = tileCoord;
+          tile.className = `relative flex items-center justify-center cursor-pointer transition-colors duration-100 ${
+            isLight ? 'bg-[#1b1c20]' : 'bg-[#0f1013]'
+          } border border-outline-variant/10 hover:border-imperial-gold`;
+
+          // Coordinate label stamp
+          const coordStamp = document.createElement('span');
+          coordStamp.className = 'absolute top-0.5 left-0.5 text-[8px] font-label-sm text-outline/40 pointer-events-none select-none';
+          coordStamp.innerText = tileCoord;
+          tile.appendChild(coordStamp);
+
+          // Check if special tile
+          if (specialTiles[tileCoord]) {
+            const spec = specialTiles[tileCoord];
+            const rune = document.createElement('div');
+            rune.className = `absolute pointer-events-none flex flex-col items-center justify-center opacity-80 ${spec.color}`;
+            rune.innerHTML = `<span class="material-symbols-outlined text-[14px]">${spec.icon}</span>`;
+            tile.appendChild(rune);
+          }
+
+          // Tile hover telemetry update
+          tile.addEventListener('mouseenter', () => {
+            const readout = document.getElementById('active-tile-readout');
+            let info = `SECTOR ${tileCoord}`;
+            if (tileCoord === playerPos) info += ` // HOMUNCULUS Ω-09`;
+            else if (tileCoord === enemyPos) info += ` // BROTHERHOOD ENFORCER [COLLISION]`;
+            else if (specialTiles[tileCoord]) info += ` // ${specialTiles[tileCoord].label} TILE`;
+            readout.innerText = `FOCUS: ${info}`;
+          });
+
+          // Tile Click Interaction
+          tile.addEventListener('click', () => handleTileClick(tileCoord));
+
+          grid.appendChild(tile);
+        }
+      }
+
+      renderPieces();
+    }
+
+    // Determine movement distance (Chebyshev distance)
+    function getDistance(c1, c2) {
+      const f1 = files.indexOf(c1[0]);
+      const r1 = ranks.indexOf(c1[1]);
+      const f2 = files.indexOf(c2[0]);
+      const r2 = ranks.indexOf(c2[1]);
+      return Math.max(Math.abs(f1 - f2), Math.abs(r1 - r2));
+    }
+
+    // Render pieces and range aura
+    function renderPieces() {
+      // Clear previous piece markers
+      document.querySelectorAll('.piece-marker').forEach(el => el.remove());
+      document.querySelectorAll('.range-highlight').forEach(el => el.classList.remove('range-highlight', 'border-astral-cyan/80', 'bg-astral-cyan/10'));
+      document.querySelectorAll('.collision-highlight').forEach(el => el.classList.remove('collision-highlight', 'border-sinarchy-red', 'bg-sinarchy-red/20', 'red-glow'));
+
+      // Highlight valid range for player (up to 3 tiles)
+      if (showRange) {
+        for (let r = 0; r < boardSize; r++) {
+          for (let f = 0; f < boardSize; f++) {
+            const coord = `${files[f]}${ranks[r]}`;
+            const dist = getDistance(playerPos, coord);
+            const tileEl = document.getElementById(`tile-${coord}`);
+            if (tileEl && dist <= 3 && coord !== playerPos) {
+              if (coord === enemyPos) {
+                // Collision range tile
+                tileEl.classList.add('collision-highlight', 'border-sinarchy-red', 'bg-sinarchy-red/20', 'red-glow');
+              } else {
+                tileEl.classList.add('range-highlight', 'border-astral-cyan/80', 'bg-astral-cyan/10');
+              }
+            }
+          }
+        }
+      }
+
+      // Render Player Piece
+      const playerTile = document.getElementById(`tile-${playerPos}`);
+      if (playerTile) {
+        const playerGlyph = document.createElement('div');
+        playerGlyph.className = 'piece-marker w-7 h-7 sm:w-8 sm:h-8 bg-sacred-ivory text-void-obsidian border-2 border-imperial-gold flex items-center justify-center font-bold text-xs shadow-lg z-20 gold-glow';
+        playerGlyph.title = 'HOMUNCULUS Ω-09';
+        playerGlyph.innerHTML = `<span class="material-symbols-outlined text-sm font-bold text-void-obsidian">swords</span>`;
+        playerTile.appendChild(playerGlyph);
+      }
+
+      // Render Enemy Piece
+      const enemyTile = document.getElementById(`tile-${enemyPos}`);
+      if (enemyTile) {
+        const enemyGlyph = document.createElement('div');
+        enemyGlyph.className = 'piece-marker w-7 h-7 sm:w-8 sm:h-8 bg-sinarchy-red text-sacred-ivory border-2 border-sacred-ivory flex items-center justify-center font-bold text-xs shadow-lg z-20 red-glow animate-pulse';
+        enemyGlyph.title = 'BROTHERHOOD ENFORCER';
+        enemyGlyph.innerHTML = `<span class="material-symbols-outlined text-sm">shield</span>`;
+        enemyTile.appendChild(enemyGlyph);
+      }
+
+      // Render Allied Tokens
+      alliedPawns.forEach(pCoord => {
+        const pawnTile = document.getElementById(`tile-${pCoord}`);
+        if (pawnTile) {
+          const pawn = document.createElement('div');
+          pawn.className = 'piece-marker w-4 h-4 bg-void-obsidian border border-imperial-gold text-sacred-ivory flex items-center justify-center text-[9px] z-10';
+          pawn.innerText = 'Ω';
+          pawnTile.appendChild(pawn);
+        }
+      });
+    }
+
+    // Board click router
+    function handleTileClick(coord) {
+      if (coord === enemyPos) {
+        // Trigger Encounter Modal Directly!
+        triggerCombatEncounter();
+        return;
+      }
+
+      const dist = getDistance(playerPos, coord);
+      if (dist <= 3) {
+        // Valid Move
+        const oldPos = playerPos;
+        playerPos = coord;
+        logEvent(`Homunculus Ω-09 glided: ${oldPos} &rarr; ${coord}.`);
+        renderPieces();
+
+        // Check if lands on collision proximity
+        if (getDistance(playerPos, enemyPos) <= 1) {
+          logEvent(`<span class="text-sinarchy-red">ATTENTION: Melee proximity engaged at Sector ${enemyPos}!</span>`);
+        }
+      } else {
+        logEvent(`<span class="text-surveillance-warning">INVALID MOVE: Sector ${coord} exceeds 3-tile radial mobility limit.</span>`);
+      }
+    }
+
+    // Log Stream appender
+    function logEvent(msg) {
+      const feed = document.getElementById('battle-log-feed');
+      const item = document.createElement('div');
+      item.className = 'border-b border-outline-variant/10 pb-1';
+      item.innerHTML = `<span class="text-royal-gold">[TURN ${turnCount}]</span> ${msg}`;
+      feed.insertBefore(item, feed.firstChild);
+    }
+
+    // Toggle Camera Angle (Perspective vs Tactical Flat)
+    const toggleCamBtn = document.getElementById('toggle-camera-btn');
+    const boardContainer = document.getElementById('chessboard-container');
+    const cameraLabel = document.getElementById('camera-label');
+
+    toggleCamBtn.addEventListener('click', () => {
+      isIsometric = !isIsometric;
+      if (isIsometric) {
+        boardContainer.classList.remove('flat-board');
+        boardContainer.classList.add('iso-board');
+        cameraLabel.innerText = 'PERSPECTIVE: ISO';
+      } else {
+        boardContainer.classList.remove('iso-board');
+        boardContainer.classList.add('flat-board');
+        cameraLabel.innerText = 'PERSPECTIVE: 2D FLAT';
+      }
+    });
+
+    // Toggle Range visualizer
+    const toggleRangeBtn = document.getElementById('toggle-range-btn');
+    toggleRangeBtn.addEventListener('click', () => {
+      showRange = !showRange;
+      toggleRangeBtn.innerHTML = `<span class="material-symbols-outlined text-xs">radar</span> RANGE: ${showRange ? 'ON' : 'OFF'}`;
+      renderPieces();
+    });
+
+    // Trigger Combat Encounter Modal
+    function triggerCombatEncounter() {
+      const modal = document.getElementById('combat-encounter-overlay');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      logEvent(`<span class="text-sinarchy-red font-bold">RITUAL COLLISION COMMENCED AT SECTOR ${enemyPos}.</span>`);
+    }
+
+    // Event hooks for opening modal
+    document.getElementById('open-encounter-modal-btn').addEventListener('click', triggerCombatEncounter);
+    document.getElementById('trigger-collision-direct').addEventListener('click', triggerCombatEncounter);
+
+    // Close Modal
+    document.getElementById('close-modal-btn').addEventListener('click', () => {
+      const modal = document.getElementById('combat-encounter-overlay');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    });
+
+    // Subview Tab Switches in Modal
+    const tabMelee = document.getElementById('tab-melee-btn');
+    const tabCard = document.getElementById('tab-card-btn');
+    const viewMelee = document.getElementById('view-melee-arena');
+    const viewCard = document.getElementById('view-card-arena');
+
+    tabMelee.addEventListener('click', () => {
+      tabMelee.className = 'font-label-md text-label-md px-3 py-1.5 bg-sacred-ivory text-void-obsidian font-bold uppercase border border-imperial-gold transition-none flex items-center gap-1.5';
+      tabCard.className = 'font-label-md text-label-md px-3 py-1.5 bg-void-obsidian text-on-surface-variant hover:text-sacred-ivory font-bold uppercase border border-outline-variant/40 transition-none flex items-center gap-1.5';
+      viewMelee.classList.remove('hidden');
+      viewCard.classList.add('hidden');
+    });
+
+    tabCard.addEventListener('click', () => {
+      tabCard.className = 'font-label-md text-label-md px-3 py-1.5 bg-sacred-ivory text-void-obsidian font-bold uppercase border border-imperial-gold transition-none flex items-center gap-1.5';
+      tabMelee.className = 'font-label-md text-label-md px-3 py-1.5 bg-void-obsidian text-on-surface-variant hover:text-sacred-ivory font-bold uppercase border border-outline-variant/40 transition-none flex items-center gap-1.5';
+      viewCard.classList.remove('hidden');
+      viewMelee.classList.add('hidden');
+    });
+
+    // Melee Simulator Actions
+    function simulateMeleeAction(actionName, dmg, playerLoss = 0, isParry = false) {
+      const status = document.getElementById('melee-action-status');
+      const log = document.getElementById('melee-log');
+      
+      status.innerText = `EXECUTED: ${actionName}!`;
+      enemyHP = Math.max(0, enemyHP - dmg);
+      playerHP = Math.max(0, playerHP - playerLoss);
+
+      // Update UI Bars
+      document.getElementById('modal-enemy-hp').style.width = `${enemyHP}%`;
+      document.getElementById('modal-player-hp').style.width = `${playerHP}%`;
+
+      const line = document.createElement('div');
+      if (isParry) {
+        line.className = 'text-astral-cyan font-bold';
+        line.innerHTML = `> PERFECT PARRY! Negated incoming strike, posture breached!`;
+      } else {
+        line.className = 'text-royal-gold';
+        line.innerHTML = `> ${actionName} landed: Dealt ${dmg} damage to Enforcer.`;
+      }
+      log.insertBefore(line, log.firstChild);
+
+      if (enemyHP <= 0) {
+        status.innerText = `TARGET NEUTRALIZED! VICTORY CERTAINTY.`;
+      }
+    }
+
+    // Card Duel Simulator Actions
+    function playCard(cardName, dmg, effectDesc, manaCost) {
+      const banner = document.getElementById('card-log-banner');
+      banner.innerHTML = `<span class="text-astral-cyan font-bold">${cardName}</span> cast! ${effectDesc}.`;
+
+      enemyHP = Math.max(0, enemyHP - dmg);
+      document.getElementById('modal-enemy-hp').style.width = `${enemyHP}%`;
+
+      logEvent(`Arcana Duel: Card [${cardName}] deployed for ${manaCost} Éter.`);
+    }
+
+    // Execute Battle (Victory)
+    document.getElementById('execute-battle-btn').addEventListener('click', () => {
+      alert("VICTORY DECREED! CITADEL WARD 3 BREACHED.\n\nPanarchy liberation increased by +12%.\nCodex Entry Unlocked: 'Silent Inquisition Protocol 884'.");
+      document.getElementById('close-modal-btn').click();
+      logEvent(`<span class="text-royal-gold font-bold">SOVEREIGN VICTORY: Sector D5 purged of White Brotherhood presence.</span>`);
+    });
+
+    // Resolve Simulation (Auto)
+    document.getElementById('resolve-sim-btn').addEventListener('click', () => {
+      enemyHP = 0;
+      document.getElementById('modal-enemy-hp').style.width = `0%`;
+      document.getElementById('melee-action-status').innerText = 'SIMULATION COMPLETE: 100% FATALITY REACHED.';
+    });
+
+    // End Turn action
+    document.getElementById('end-turn-btn').addEventListener('click', () => {
+      turnCount++;
+      logEvent(`Turn ended. Initiating Cycle 884.${turnCount}. Awaiting sovereign orders.`);
+    });
+
+    // Reset Board to initial configuration
+    document.getElementById('reset-board-btn').addEventListener('click', () => {
+      playerPos = 'D4';
+      enemyPos = 'D5';
+      renderPieces();
+      logEvent(`Grid telemetry reset to primary coordinates.`);
+    });
+
+    // Stance toggle button
+    document.getElementById('stance-toggle-btn').addEventListener('click', () => {
+      alert("STANCE ALTERED: Shifted from 'ATTACK // RESONANCE BURST' to 'SANCTUARY // AEGIS BULWARK' (+15 DEF).");
+      logEvent(`Homunculus Ω-09 shifted stance to SANCTUARY BULWARK.`);
+    });
+
+    // Initialize board on load
+    window.addEventListener('DOMContentLoaded', buildBoard);
+  </script>
+</body></html>

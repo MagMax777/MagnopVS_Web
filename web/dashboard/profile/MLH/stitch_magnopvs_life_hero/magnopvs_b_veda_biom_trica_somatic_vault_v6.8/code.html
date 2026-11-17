@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · Bóveda Biométrica (Somatic Vault v6.8)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Anybody:ital,wght@0,100..900;1,100..900&amp;family=JetBrains+Mono:wght@100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#e2e2e8",
+                        "on-secondary": "#223600",
+                        "secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#5700c9",
+                        "secondary-container": "#abf900",
+                        "primary-fixed-dim": "#00dbe9",
+                        "secondary-fixed": "#abf900",
+                        "surface-bright": "#37393e",
+                        "primary": "#dbfcff",
+                        "secondary-fixed-dim": "#95da00",
+                        "surface-tint": "#00dbe9",
+                        "on-tertiary-fixed": "#23005b",
+                        "inverse-primary": "#006970",
+                        "error": "#ffb4ab",
+                        "inverse-on-surface": "#2f3035",
+                        "primary-container": "#00f0ff",
+                        "on-tertiary-container": "#7213ff",
+                        "on-secondary-container": "#4a6f00",
+                        "on-secondary-fixed-variant": "#334f00",
+                        "outline-variant": "#3b494b",
+                        "on-primary-fixed-variant": "#004f54",
+                        "on-primary-container": "#006970",
+                        "tertiary": "#faf3ff",
+                        "on-error": "#690005",
+                        "error-container": "#93000a",
+                        "inverse-surface": "#e2e2e8",
+                        "outline": "#849495",
+                        "surface": "#111318",
+                        "surface-container-high": "#282a2e",
+                        "on-surface-variant": "#b9cacb",
+                        "surface-container-low": "#1a1c20",
+                        "on-surface": "#e2e2e8",
+                        "on-secondary-fixed": "#121f00",
+                        "surface-variant": "#333539",
+                        "on-primary": "#00363a",
+                        "surface-dim": "#111318",
+                        "on-tertiary": "#3c0090",
+                        "tertiary-fixed-dim": "#d1bcff",
+                        "tertiary-container": "#e1d2ff",
+                        "surface-container-lowest": "#0c0e12",
+                        "on-primary-fixed": "#002022",
+                        "on-error-container": "#ffdad6",
+                        "background": "#111318",
+                        "surface-container-highest": "#333539",
+                        "primary-fixed": "#7df4ff",
+                        "tertiary-fixed": "#e9ddff",
+                        "surface-container": "#1e2024"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "gutter": "16px",
+                        "panel-gap": "24px",
+                        "unit": "4px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Space Grotesk"],
+                        "display-xl": ["Anybody"],
+                        "headline-lg": ["Anybody"],
+                        "headline-lg-mobile": ["Anybody"],
+                        "label-sm": ["Space Grotesk"],
+                        "data-point": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display-xl": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.2em", "fontWeight": "600"}],
+                        "data-point": ["20px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #111318;
+            color: #e2e2e8;
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(26, 28, 32, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(132, 148, 149, 0.2);
+        }
+        .neon-border-sync {
+            border: 1px solid #00dbe9;
+            box-shadow: 0 0 10px rgba(0, 219, 233, 0.2);
+        }
+        .neon-border-lime {
+            border: 1px solid #abf900;
+            box-shadow: 0 0 10px rgba(171, 249, 0, 0.2);
+        }
+        .cosmic-particle {
+            position: fixed;
+            width: 2px;
+            height: 2px;
+            background: #ffffff;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+        .house-wheel-container {
+            mask-image: radial-gradient(circle, black 50%, transparent 100%);
+        }
+        .segmented-progress div {
+            height: 8px;
+            width: 12px;
+            background: #3b494b;
+            margin-right: 2px;
+        }
+        .segmented-progress .active {
+            background: #abf900;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+        .animate-sync-pulse {
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- Cosmic Particles Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'cosmic-particle';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.top = Math.random() * 100 + 'vh';
+                particle.style.animation = `pulse-glow ${Math.random() * 5 + 2}s infinite linear`;
+                document.body.appendChild(particle);
+            }
+        });
+    </script>
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/60 backdrop-blur-xl border-b border-primary-container/20">
+<div class="flex items-center gap-4">
+<span class="font-display-xl text-data-point tracking-tighter text-primary-fixed-dim">MagnopVS</span>
+<span class="hidden md:block font-headline-lg text-headline-lg opacity-40">| Somatic Vault v6.8</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex gap-8">
+<a class="text-primary-fixed-dim border-b-2 border-primary-fixed-dim font-label-sm text-label-sm py-2" href="#">VAULT</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-sm text-label-sm py-2" href="#">MISSIONS</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-sm text-label-sm py-2" href="#">NEURAL-LINK</a>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-fixed-dim cursor-pointer active:scale-95 transition-transform" data-icon="search">search</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer active:scale-95 transition-transform" data-icon="account_circle">account_circle</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer active:scale-95 transition-transform" data-icon="settings">settings</span>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="hidden md:flex fixed left-0 top-0 h-screen w-64 z-40 flex-col pt-24 pb-8 bg-surface-container-low/40 backdrop-blur-2xl border-r border-outline-variant/30">
+<div class="px-6 mb-12">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 rounded-full border border-secondary-fixed/50 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A high-fidelity biometric scan avatar profile picture for a cybernetic athlete, featuring glowing cyan neural lines and a minimalist tech interface. The lighting is dark and cinematic with neon lime accents, creating a professional bio-hacker aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCn--27Vcocg8ABMd8YuD6F7pIMjyY1WDnOUMwGuqeqvllucqUqGLoSv9PQDFXMvhOFq4rceniDWjgeO1StakeWIfII57nsH853fqPqWpGk6Jq_ruNLO61uZJt5MGO29-xLZLr2cvMjCIbHxLcg8p2hGWRMPqyrpi_9qxGeHPR57UWgq6LJHR79Vr1tIix2-BH5rdiihRKad5REUD2runHIr6eIVbYdTWjzRAGfCciihrNZqr4uFON5tA"/>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-secondary-fixed uppercase tracking-widest">OPERATOR STATUS</p>
+<p class="text-[10px] text-on-surface-variant opacity-70">Peak Sync: 98%</p>
+</div>
+</div>
+<button class="w-full py-2 bg-secondary-fixed/10 border border-secondary-fixed/30 text-secondary-fixed font-label-sm text-label-sm tracking-widest hover:bg-secondary-fixed/20 transition-all">CALIBRATE</button>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-4 text-on-surface-variant py-4 px-6 opacity-70 hover:bg-surface-bright/20 hover:text-secondary-fixed-dim transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="accessibility_new">accessibility_new</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest">Anatomy</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant py-4 px-6 opacity-70 hover:bg-surface-bright/20 hover:text-secondary-fixed-dim transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="fitness_center">fitness_center</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest">Workouts</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant py-4 px-6 opacity-70 hover:bg-surface-bright/20 hover:text-secondary-fixed-dim transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest">Telemetry</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant py-4 px-6 opacity-70 hover:bg-surface-bright/20 hover:text-secondary-fixed-dim transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest">SOF.IA</span>
+</a>
+<a class="flex items-center gap-4 text-secondary-fixed border-l-4 border-secondary-fixed bg-secondary-fixed/10 py-4 px-6 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="database" style="font-variation-settings: 'FILL' 1;">database</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest">Bio-Vault</span>
+</a>
+</nav>
+<div class="mt-auto px-6">
+<a class="flex items-center gap-4 text-on-surface-variant py-4 px-0 opacity-70 hover:text-error transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest">Log Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="pt-24 pb-12 md:pl-64 px-margin-mobile md:px-margin-desktop min-h-screen">
+<div class="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-panel-gap">
+<!-- Left Column: Bio-Heatmap & Anatomy -->
+<div class="md:col-span-8 flex flex-col gap-panel-gap">
+<!-- HUD Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h1 class="font-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary tracking-tight">SOMATIC SYNCHRONIZATION</h1>
+<p class="font-data-point text-label-sm text-on-surface-variant opacity-60">REF: SYSTEM_LOG_ID_7782_VAULT</p>
+</div>
+<div class="glass-panel p-4 flex gap-8 items-center rounded-xl neon-border-sync animate-sync-pulse">
+<div class="text-center">
+<p class="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">STAMINA</p>
+<p class="font-data-point text-primary-fixed-dim text-xl">84%</p>
+</div>
+<div class="text-center">
+<p class="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">STRENGTH</p>
+<p class="font-data-point text-secondary-fixed text-xl">92%</p>
+</div>
+<div class="text-center">
+<p class="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">MOBILITY</p>
+<p class="font-data-point text-tertiary-fixed-dim text-xl">71%</p>
+</div>
+</div>
+</div>
+<!-- Bento Grid Content -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-panel-gap">
+<!-- Recovery Heatmap Card -->
+<div class="glass-panel rounded-xl p-6 flex flex-col gap-6 min-h-[400px]">
+<div class="flex justify-between items-start">
+<h3 class="font-label-sm text-label-sm uppercase tracking-widest text-primary-fixed-dim">Muscular Recovery State</h3>
+<span class="material-symbols-outlined text-primary-fixed-dim" data-icon="grid_view">grid_view</span>
+</div>
+<div class="flex-1 flex items-center justify-center relative overflow-hidden bg-surface-container-lowest/50 rounded-lg">
+<!-- Background HUD Grid -->
+<div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle, #00dbe9 1px, transparent 1px); background-size: 20px 20px;"></div>
+<img class="relative z-10 w-4/5 h-auto opacity-90 mix-blend-screen" data-alt="A sophisticated 3D wireframe heatmap of a human body showing different muscle groups in varying colors from cool cyan (rested) to glowing orange (fatigued). The aesthetic is high-tech medical HUD, futuristic, and cinematic with high-contrast lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDT2sfn-OmVNyh1eXlAv6CJ7_qsf9vFNj3DFrMgjlmRN4W2cG4v-ps600oFqbupM2aybXsLjg1gtwJcsLScKQsvb3f03hVtXnHnyzY05Jg5uFeX8nO_SbyGJ3dfTvi0QBHSkmWUFdnnBecNgmPn6-o9vsAvsT7CtZhU3p42wGKpGOHicHa5p_tMRWcpCloy0J2pNzMEPqOmMoPC97GasdR9ZbvrG65o5cFinsKqLM7IxoiybJ_PcPCLwQ"/>
+<!-- Floating Data Points -->
+<div class="absolute top-10 left-10 p-2 glass-panel rounded border border-secondary-fixed/30">
+<p class="text-[10px] font-data-point text-secondary-fixed">QUAD_L: 94%</p>
+</div>
+<div class="absolute bottom-10 right-10 p-2 glass-panel rounded border border-error/30">
+<p class="text-[10px] font-data-point text-error">KNEE_R: 12%</p>
+</div>
+</div>
+</div>
+<!-- 13 Houses Wheel Section -->
+<div class="glass-panel rounded-xl p-6 flex flex-col gap-6">
+<div class="flex justify-between items-start">
+<h3 class="font-label-sm text-label-sm uppercase tracking-widest text-secondary-fixed">The 13 Houses Wheel</h3>
+<span class="material-symbols-outlined text-secondary-fixed" data-icon="radio_button_checked">radio_button_checked</span>
+</div>
+<div class="flex-1 flex items-center justify-center house-wheel-container p-4">
+<img alt="13 Houses Wheel" class="max-h-[300px] object-contain transform hover:scale-110 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlEkZpaOoBJTHrBk_jZndASfniSpjIlAxSI6fdOphmiEhN-A_NMI3VDF1i45Pg6Hcjfx0sXR35C7KoESoZQe6tRfBpHoc8P46BFZfFzNygjc5VRP_zlvJ3-4qqi2qGvXkKVOtRGmFy31m7ZNSisbp0-zK58UbebvHB8W3Lpybad5QcN3N6JaC5g_6UgGcVaob1rEECeIrqkRRncbrasS1HrOy5UppVDiluSlfSWff1-eVkb7tsFjF0ZbaSyxeW6vBDLpo"/>
+</div>
+<div class="text-center">
+<p class="font-body-md text-on-surface-variant text-sm opacity-80 italic">"Somatic Focus: Alignment centered on the 4th House of Vitality."</p>
+</div>
+</div>
+</div>
+<!-- Long-Term Trends Chart -->
+<div class="glass-panel rounded-xl p-6">
+<div class="flex justify-between items-center mb-8">
+<h3 class="font-label-sm text-label-sm uppercase tracking-widest text-primary">Biometric Trajectory (90 Days)</h3>
+<div class="flex gap-4">
+<span class="text-[10px] flex items-center gap-1"><div class="w-2 h-2 bg-primary-fixed-dim"></div> STAMINA</span>
+<span class="text-[10px] flex items-center gap-1"><div class="w-2 h-2 bg-secondary-fixed"></div> STRENGTH</span>
+</div>
+</div>
+<div class="h-48 w-full flex items-end gap-2 px-2">
+<!-- Simulated Chart Segments -->
+<div class="flex-1 bg-primary-container/10 h-[40%] rounded-t transition-all hover:h-[45%] cursor-pointer"></div>
+<div class="flex-1 bg-primary-container/20 h-[55%] rounded-t"></div>
+<div class="flex-1 bg-primary-container/30 h-[65%] rounded-t"></div>
+<div class="flex-1 bg-primary-container/10 h-[50%] rounded-t"></div>
+<div class="flex-1 bg-secondary-container/20 h-[80%] rounded-t border-t-2 border-secondary-fixed"></div>
+<div class="flex-1 bg-primary-container/40 h-[75%] rounded-t"></div>
+<div class="flex-1 bg-primary-container/10 h-[60%] rounded-t"></div>
+<div class="flex-1 bg-secondary-container/30 h-[85%] rounded-t border-t-2 border-secondary-fixed"></div>
+<div class="flex-1 bg-primary-container/20 h-[70%] rounded-t"></div>
+<div class="flex-1 bg-primary-container/50 h-[90%] rounded-t border-t-2 border-primary-fixed-dim"></div>
+</div>
+</div>
+</div>
+<!-- Right Column: SOF.IA & Karmic Recovery -->
+<div class="md:col-span-4 flex flex-col gap-panel-gap">
+<!-- SOF.IA Advisor Section -->
+<div class="glass-panel rounded-xl p-6 border-l-4 border-primary-fixed-dim">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 glass-panel rounded-full flex items-center justify-center neon-border-sync">
+<span class="material-symbols-outlined text-primary-fixed-dim" data-icon="smart_toy">smart_toy</span>
+</div>
+<div>
+<h3 class="font-label-sm text-label-sm uppercase tracking-widest text-primary-fixed-dim">SOF.IA Advice</h3>
+<p class="text-[10px] text-on-surface-variant font-data-point">RECOVERY_BOT_V4</p>
+</div>
+</div>
+<div class="bg-surface-container-highest/30 p-4 rounded-lg">
+<p class="font-body-md text-on-background text-sm leading-relaxed">
+<span class="text-secondary-fixed font-bold">CRITICAL:</span> "Knees require 24h rest before next Force mission. Biometric feedback indicates structural fatigue in the patellar tendon. Delaying leg-day synchronization is advised."
+                        </p>
+</div>
+</div>
+<!-- Karmic Recovery Cards -->
+<div class="flex flex-col gap-4">
+<h3 class="font-label-sm text-label-sm uppercase tracking-widest text-secondary-fixed mb-2">Karmic Recovery Protocols</h3>
+<!-- Protocol 1 -->
+<div class="glass-panel rounded-xl p-4 flex gap-4 items-center hover:bg-surface-bright/20 transition-all cursor-pointer group">
+<div class="w-14 h-14 rounded overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" data-alt="A high-tech yoga practitioner in a minimalist dark studio, surrounded by holographic geometry and soft cyan energy fields. The lighting is ethereal and meditative, emphasizing a cosmic and physiological connection." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAII9p1pFsX2hiUPN4EUfyYQ1YzmEeSZkLtnhJ9yH1Qp5ZUR-OMG6_VR9ZKq-wz-FNA8oaKYhAUbUWvEOTG9IaxEeD_EJiuZPjueVqkKyyWetbB9W1NG3bDAf7zFTL7P5xKVTwQf-bqIPbRA4eVPVlZlwmm7yn9NNfYfyxK9qe47GFw0CKvvlWomDVmjnPqTbUaA3YAKWLOqdxhu6QjUR5cxymcTY0vBTzz_QpjDli4zguRLQsYz6StQQ"/>
+</div>
+<div class="flex-1">
+<p class="font-label-sm text-[10px] text-secondary-fixed-dim uppercase tracking-widest">Active Alignment</p>
+<h4 class="font-label-sm text-sm text-on-surface">Vinyasa Sync v2.0</h4>
+<div class="flex mt-2 segmented-progress">
+<div class="active"></div><div class="active"></div><div class="active"></div><div></div><div></div>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant opacity-40" data-icon="play_circle">play_circle</span>
+</div>
+<!-- Protocol 2 -->
+<div class="glass-panel rounded-xl p-4 flex gap-4 items-center hover:bg-surface-bright/20 transition-all cursor-pointer group">
+<div class="w-14 h-14 rounded overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" data-alt="A visualization of deep meditation with a human silhouette surrounded by a rotating mandala of technical data points and cosmic particle effects in neon lime and deep navy colors. High-fidelity glassmorphism style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdwBHGt0MFYuyPuAFuuMunDQ7Zcy-b50OrSW_yVGLBT6oO9llyvAERSKqHG8bZSO9E-f8B8mdgEElR7IXvkbG2ySPl_fnHbnXBd3PpdldhsncSJvAGCsktvagI_kcktMxHLRA7LlgeYIa3fFnEa4y9tsM_hrXz8B_GnFIdKyWUoWyI2k-0MMcocU6BT4BGhV4Nfc20PlZidYTmtLtbgMIfjx70vyKG7bPMZgNb4-4g0i3WiVBnkYu66A"/>
+</div>
+<div class="flex-1">
+<p class="font-label-sm text-[10px] text-tertiary-fixed-dim uppercase tracking-widest">Neural Defrag</p>
+<h4 class="font-label-sm text-sm text-on-surface">Deep Void Meditation</h4>
+<div class="flex mt-2 segmented-progress">
+<div class="active"></div><div class="active"></div><div class="active"></div><div class="active"></div><div></div>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant opacity-40" data-icon="play_circle">play_circle</span>
+</div>
+<!-- Protocol 3 -->
+<div class="glass-panel rounded-xl p-4 flex gap-4 items-center hover:bg-surface-bright/20 transition-all cursor-pointer group">
+<div class="w-14 h-14 rounded overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" data-alt="A person floating in a zero-gravity sensory deprivation tank, with water illuminated by internal neon cyan lights. The atmosphere is extremely peaceful and futuristic, with blurred technical overlays in the foreground." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS7W-vZj_JUJvMHTpqU9wxOcaKKbiRNZryW-EeLtrMCL1TgdObfL06x7nGobpxIp2pZ-un3dUyjIBY9fEJOhoG2_CBH-Z7ZXsIXvjDho9WsHVooQEToreV1_LOl4CRRVj1twwD8OuJinJnMymRnnl4zErKsVLX086BdJBog4hw0859FjW_LwVkg2ci3nCR927ZjQb_RelwxYLBk8RdYS3lqRn_BnHGIMAnOyCD40Yn6pT3keUsdHg8uA"/>
+</div>
+<div class="flex-1">
+<p class="font-label-sm text-[10px] text-primary-fixed-dim uppercase tracking-widest">Cellular Reset</p>
+<h4 class="font-label-sm text-sm text-on-surface">Hyperbaric Sync</h4>
+<div class="flex mt-2 segmented-progress">
+<div class="active"></div><div></div><div></div><div></div><div></div>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant opacity-40" data-icon="play_circle">play_circle</span>
+</div>
+</div>
+<!-- Real-time Sync Button -->
+<button class="mt-4 w-full h-24 rounded-full relative overflow-hidden group flex items-center justify-center border-2 border-primary-fixed-dim/30 hover:border-primary-fixed-dim transition-all">
+<div class="absolute inset-0 bg-primary-fixed-dim/5 group-hover:bg-primary-fixed-dim/10 transition-colors"></div>
+<div class="absolute inset-0 flex items-center justify-center opacity-20 group-hover:opacity-40">
+<div class="w-32 h-32 border border-dashed border-primary-fixed-dim rounded-full animate-[spin_10s_linear_infinite]"></div>
+</div>
+<div class="flex flex-col items-center z-10">
+<span class="material-symbols-outlined text-primary-fixed-dim text-3xl" data-icon="rebase_edit">rebase_edit</span>
+<span class="font-label-sm text-[10px] tracking-widest text-primary-fixed-dim mt-1">INITIATE GLOBAL SYNC</span>
+</div>
+</button>
+</div>
+</div>
+</main>
+<!-- Mobile Bottom NavBar -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface/80 backdrop-blur-xl border-t border-outline-variant/20 h-16 flex justify-around items-center z-50">
+<button class="flex flex-col items-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="accessibility_new">accessibility_new</span>
+<span class="text-[8px] uppercase">Body</span>
+</button>
+<button class="flex flex-col items-center text-secondary-fixed">
+<span class="material-symbols-outlined" data-icon="database" style="font-variation-settings: 'FILL' 1;">database</span>
+<span class="text-[8px] uppercase">Vault</span>
+</button>
+<button class="flex flex-col items-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+<span class="text-[8px] uppercase">SOF.IA</span>
+</button>
+<button class="flex flex-col items-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+<span class="text-[8px] uppercase">Stats</span>
+</button>
+</nav>
+<!-- Micro-interaction Script -->
+<script>
+        // Simple hover effect for data panels
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mousemove', (e) => {
+                const rect = panel.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                panel.style.setProperty('--mouse-x', `${x}px`);
+                panel.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body></html>

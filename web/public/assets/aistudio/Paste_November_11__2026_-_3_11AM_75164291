@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · Cronos: Ficha Maestra de Gestión de Bloque (120 Minutos Exactos v6.8)</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&amp;family=Orbitron:wght@400;500;600;700;800;900&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-primary-container": "#006970",
+            "tertiary-fixed": "#ffd7f5",
+            "tertiary-container": "#ffc9f4",
+            "surface": "#070b10",
+            "on-tertiary": "#5b005b",
+            "error-container": "#93000a",
+            "on-secondary-fixed": "#00201a",
+            "on-secondary": "#00382e",
+            "on-surface-variant": "#b9cacb",
+            "primary-container": "#00f0ff",
+            "secondary-container": "#00bba0",
+            "secondary-fixed": "#48ddc1",
+            "on-tertiary-fixed": "#380038",
+            "on-secondary-container": "#004439",
+            "secondary": "#48ddc1",
+            "surface-bright": "#38393f",
+            "tertiary": "#fff3f9",
+            "on-error-container": "#ffdad6",
+            "on-tertiary-fixed-variant": "#810081",
+            "primary-fixed-dim": "#00dbe9",
+            "primary": "#dbfcff",
+            "surface-container-high": "#1b212c",
+            "on-primary-fixed-variant": "#004f54",
+            "surface-container-low": "#101620",
+            "on-error": "#690005",
+            "inverse-surface": "#e3e1e9",
+            "background": "#070b10",
+            "tertiary-fixed-dim": "#ffabf3",
+            "surface-container-lowest": "#05080c",
+            "surface-container-highest": "#242d3a",
+            "surface-tint": "#00f0ff",
+            "primary-fixed": "#7df4ff",
+            "outline": "#687c88",
+            "on-surface": "#e3e1e9",
+            "inverse-on-surface": "#2f3036",
+            "outline-variant": "#2b3846",
+            "surface-variant": "#1a222f",
+            "on-primary-fixed": "#002022",
+            "on-primary": "#00363a",
+            "secondary-fixed-dim": "#48ddc1",
+            "on-tertiary-container": "#a900a9",
+            "inverse-primary": "#006970",
+            "on-secondary-fixed-variant": "#005144",
+            "error": "#ff5c77",
+            "surface-container": "#121a24",
+            "on-background": "#e3e1e9",
+            "surface-dim": "#070b10",
+            "neon-gold": "#ffd15c",
+            "neon-magenta": "#ff00ff"
+          },
+          borderRadius: {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          spacing: {
+            "margin-mobile": "1rem",
+            "space-sm": "0.5rem",
+            "gutter": "1.25rem",
+            "space-xl": "2.5rem",
+            "margin": "2rem",
+            "gutter-mobile": "0.75rem",
+            "space-xs": "0.25rem",
+            "space-md": "1rem",
+            "space-lg": "1.5rem"
+          },
+          fontFamily: {
+            "headline-md": ["Space Grotesk", "sans-serif"],
+            "display-lg-mobile": ["Space Grotesk", "sans-serif"],
+            "telemetry-code": ["JetBrains Mono", "monospace"],
+            "body-sm": ["Space Grotesk", "sans-serif"],
+            "label-md": ["JetBrains Mono", "monospace"],
+            "headline-xl-mobile": ["Space Grotesk", "sans-serif"],
+            "display-lg": ["Space Grotesk", "sans-serif"],
+            "body-md": ["Space Grotesk", "sans-serif"],
+            "label-lg": ["JetBrains Mono", "monospace"],
+            "headline-xl": ["Space Grotesk", "sans-serif"],
+            "body-lg": ["Space Grotesk", "sans-serif"],
+            "audiowide": ["Audiowide", "cursive"],
+            "orbitron": ["Orbitron", "sans-serif"]
+          }
+        }
+      }
+    }
+</script>
+<style>
+    /* Technical Hexagonal & Deep Space Void Backgrounds */
+    .bg-grid-cyber {
+      background-color: #070b10;
+      background-image: 
+        radial-gradient(circle at 50% 8%, rgba(0, 240, 255, 0.12) 0%, transparent 55%),
+        radial-gradient(circle at 85% 60%, rgba(255, 0, 255, 0.05) 0%, transparent 45%),
+        linear-gradient(rgba(0, 240, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.035) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+    }
+    .panel-frame {
+      position: relative;
+      background: rgba(9, 14, 21, 0.92);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(43, 56, 70, 0.7);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.75);
+    }
+    .panel-frame::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: -1px; width: 10px; height: 10px;
+      border-top: 2px solid #00f0ff;
+      border-left: 2px solid #00f0ff;
+      pointer-events: none;
+    }
+    .panel-frame::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; right: -1px; width: 10px; height: 10px;
+      border-bottom: 2px solid #ff00ff;
+      border-right: 2px solid #ff00ff;
+      pointer-events: none;
+    }
+    .dial-spin {
+      animation: rotateDial 90s linear infinite;
+    }
+    .dial-counter {
+      animation: rotateCounter 60s linear infinite;
+    }
+    @keyframes rotateDial {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes rotateCounter {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+    /* Custom Range Sliders */
+    input[type=range] {
+      accent-color: #00f0ff;
+    }
+</style>
+</head>
+<body class="bg-background text-on-surface bg-grid-cyber min-h-screen selection:bg-primary-container selection:text-surface-container-lowest font-body-md overflow-x-hidden">
+<!-- ================= TOP NAVIGATION BAR (HUD TACTICAL) ================= -->
+<header class="flex justify-between items-center w-full px-space-md h-14 border-b border-outline-variant/40 sticky top-0 z-50 bg-[#070b10]/90 backdrop-blur-md shadow-[0_4px_24px_rgba(0,0,0,0.8)]">
+<!-- Brand & Search cluster -->
+<div class="flex items-center space-x-6">
+<div class="flex items-center space-x-3">
+<span class="w-2.5 h-2.5 bg-primary-container shadow-[0_0_10px_#00f0ff] animate-pulse"></span>
+<span class="font-audiowide text-base lg:text-lg tracking-wider text-primary uppercase">MagnopVS Life Hero</span>
+</div>
+<!-- Search on Left -->
+<div class="relative hidden lg:flex items-center">
+<span class="material-symbols-outlined text-outline absolute left-2.5 text-[18px]">search</span>
+<input class="bg-surface-container-low border border-outline-variant/60 text-telemetry-code font-telemetry-code rounded pl-8 pr-3 py-1 w-64 text-on-surface focus:outline-none focus:border-primary-container placeholder:text-outline/60 text-xs" placeholder="QUERY SYSTEM / CRONOS v6.8..." type="text"/>
+</div>
+</div>
+<!-- Center Navigation Links -->
+<nav class="hidden md:flex items-center space-x-8">
+<a class="text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg transition-all duration-150" href="#">Solaris Core</a>
+<a class="text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg transition-all duration-150" href="#">Orbit Vanguard</a>
+<a class="text-primary border-b-2 border-primary-container font-semibold font-label-lg text-label-lg py-3 flex items-center gap-1.5" href="#">
+<span>Nexus Prime</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-ping"></span>
+</a>
+</nav>
+<!-- Trailing Actions Cluster -->
+<div class="flex items-center space-x-3">
+<button class="hidden sm:inline-flex items-center space-x-1.5 px-3 py-1.5 rounded border border-tertiary-fixed-dim/40 bg-surface-container-high/60 text-tertiary-fixed text-label-md font-label-md hover:bg-tertiary-fixed-dim/20 transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-[15px] text-tertiary-fixed-dim">smart_toy</span>
+<span>Butler Automation</span>
+</button>
+<button class="hidden xl:inline-flex items-center space-x-1.5 px-3 py-1.5 rounded border border-secondary/40 bg-surface-container-high/60 text-secondary text-label-md font-label-md hover:bg-secondary/20 transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-[15px] text-secondary">bolt</span>
+<span>Power-Ups</span>
+</button>
+<div class="flex items-center space-x-1 pl-2 border-l border-outline-variant/40">
+<button class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-surface-container-high rounded transition-all" title="Group">
+<span class="material-symbols-outlined text-[20px]">group</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-surface-container-high rounded transition-all" title="Tune">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-surface-container-high rounded transition-all relative" title="Notifications">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="w-2 h-2 bg-primary-container rounded-full absolute top-1 right-1 shadow-[0_0_6px_#00f0ff]"></span>
+</button>
+</div>
+<!-- Avatar Profile -->
+<div class="flex items-center space-x-2 pl-2">
+<div class="w-8 h-8 rounded border border-primary-container/70 bg-surface-container-high overflow-hidden flex items-center justify-center p-0.5 shadow-[0_0_8px_rgba(0,240,255,0.4)]">
+<img alt="Commander Avatar" class="w-full h-full object-cover rounded" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC84Gra3lMbvBduLZxG1VZRCSSpM1vpE89Hwg1_LmJR3LD1n4WRboYzdVXEDjD8dTmnrnyWHWCFVundq4hZD9lWSk-u3kOXlFW1v4x4ZVoUs7825Q7kyQ3s8GzPWHIszPEXw2WxPW1RrznlNOxA5Mav5NAgtK2yniOf1xIdFLH8E99KjQl0iwKxDCyp8oHNj--GXPrV5AM_myRvfiD67Cs4ttDNgFbk-AhfWc2mfZwN"/>
+</div>
+</div>
+</div>
+</header>
+<!-- ================= MAIN LAYOUT WITH SIDEBAR ================= -->
+<div class="flex min-h-[calc(100vh-3.5rem)] relative">
+<!-- ================= SIDEBAR ================= -->
+<aside class="flex flex-col justify-between h-screen w-64 fixed left-0 top-0 z-40 border-r border-outline-variant/40 pt-14 bg-[#05080c]/95 backdrop-blur-lg shadow-[4px_0_24px_rgba(0,0,0,0.6)] hidden md:flex">
+<!-- Clan Header -->
+<div class="px-space-md py-4 border-b border-outline-variant/30">
+<div class="flex items-center space-x-3 mb-3">
+<div class="w-9 h-9 rounded border border-secondary/60 bg-surface-container-high flex items-center justify-center shadow-[0_0_10px_rgba(72,221,193,0.3)]">
+<span class="material-symbols-outlined text-secondary text-[22px]">shield_with_heart</span>
+</div>
+<div>
+<h4 class="font-audiowide text-xs text-primary font-bold tracking-wider leading-none">Sector 07 Clan</h4>
+<span class="font-telemetry-code text-[10px] text-secondary tracking-widest block mt-1">PROTOCOL v6.8 ACTIVE</span>
+</div>
+</div>
+<button class="w-full py-2 px-3 rounded bg-primary-container text-surface-container-lowest font-orbitron font-bold text-xs tracking-wider hover:bg-primary-fixed shadow-[0_0_12px_rgba(0,240,255,0.4)] transition-all flex items-center justify-center space-x-2">
+<span class="material-symbols-outlined text-[17px]">rocket_launch</span>
+<span>Initiate Hyper-Quest</span>
+</button>
+</div>
+<!-- Navigation List -->
+<nav class="flex-1 py-3 px-2 space-y-1 overflow-y-auto">
+<a class="flex items-center space-x-3 text-on-surface-variant px-space-md py-2 hover:text-on-surface hover:bg-surface-container/50 transition-colors rounded" href="#">
+<span class="material-symbols-outlined text-[18px]">space_dashboard</span>
+<span class="font-telemetry-code text-xs">Workspace Boards</span>
+</a>
+<a class="flex items-center space-x-3 text-on-surface-variant px-space-md py-2 hover:text-on-surface hover:bg-surface-container/50 transition-colors rounded" href="#">
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="font-telemetry-code text-xs">Starred Cosmic Quests</span>
+</a>
+<!-- Active Temporal Timeline -->
+<a class="flex items-center space-x-3 bg-primary-container/15 text-primary border-l-2 border-primary-container px-space-md py-2 font-medium" href="#">
+<span class="material-symbols-outlined text-[18px] text-primary-container">calendar_month</span>
+<span class="font-orbitron text-xs font-bold text-primary">Temporal Timeline</span>
+</a>
+<a class="flex items-center space-x-3 text-on-surface-variant px-space-md py-2 hover:text-on-surface hover:bg-surface-container/50 transition-colors rounded" href="#">
+<span class="material-symbols-outlined text-[18px]">category</span>
+<span class="font-telemetry-code text-xs">Archetype Templates</span>
+</a>
+<a class="flex items-center space-x-3 text-on-surface-variant px-space-md py-2 hover:text-on-surface hover:bg-surface-container/50 transition-colors rounded" href="#">
+<span class="material-symbols-outlined text-[18px]">smart_toy</span>
+<span class="font-telemetry-code text-xs">Butler Protocols</span>
+</a>
+</nav>
+<div class="px-2 py-3 border-t border-outline-variant/30 space-y-1">
+<a class="flex items-center space-x-3 text-on-surface-variant px-space-md py-1.5 hover:text-on-surface hover:bg-surface-container/50 rounded" href="#">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+<span class="font-telemetry-code text-[11px]">Telemetry Matrix</span>
+</a>
+<a class="flex items-center space-x-3 text-on-surface-variant px-space-md py-1.5 hover:text-on-surface hover:bg-surface-container/50 rounded" href="#">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+<span class="font-telemetry-code text-[11px]">Command Config</span>
+</a>
+</div>
+</aside>
+<!-- ================= MAIN CORE CANVAS / CRONOS ENGINE v6.8 ================= -->
+<main class="flex-1 md:pl-64 w-full flex flex-col justify-between">
+<div class="max-w-[1540px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-7">
+<!-- ================= 1. CABECERA CYBER-HUD TÁCTICA ================= -->
+<section class="panel-frame p-5 lg:p-6 rounded">
+<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 pb-5 border-b border-outline-variant/40">
+<div>
+<div class="flex items-center space-x-2 text-secondary text-telemetry-code uppercase tracking-wider mb-1.5 text-xs">
+<span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
+<span class="font-bold">MAGNOPVS LIFE HERO // CRONOS ENGINE v6.8</span>
+<span class="text-outline-variant">|</span>
+<span class="text-primary-container font-semibold">QUANTUM CHRONO-DRIVE LOCKED</span>
+</div>
+<h1 class="font-audiowide text-2xl sm:text-3xl lg:text-4xl text-primary tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary-container to-secondary">
+              CRONOS · FICHA DE GESTIÓN DE BLOQUE
+            </h1>
+<p class="font-orbitron text-sm sm:text-base text-secondary-fixed tracking-widest mt-1.5 font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-secondary-fixed">hourglass_bottom</span>
+              UN BLOQUE = 120 MINUTOS EXACTOS
+            </p>
+</div>
+<!-- Monitor de Crono-Motor Activo -->
+<div class="flex flex-wrap sm:flex-nowrap items-center gap-4 bg-surface-container-lowest/90 border border-primary-container/50 px-4 py-3 rounded shadow-[0_0_20px_rgba(0,240,255,0.2)]">
+<div>
+<span class="block text-[10px] font-telemetry-code text-outline uppercase tracking-widest font-semibold">ESTADO CRONO-MOTOR</span>
+<span class="font-orbitron text-base sm:text-lg font-bold text-primary-container flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[19px] animate-spin" style="animation-duration: 4s;">rotate_right</span>
+                EN EJECUCIÓN
+              </span>
+</div>
+<div class="h-10 w-px bg-outline-variant/50 hidden sm:block"></div>
+<div>
+<span class="block text-[10px] font-telemetry-code text-outline uppercase tracking-widest font-semibold">TIEMPO RESTANTE</span>
+<span class="font-orbitron text-xl sm:text-2xl font-black text-secondary tracking-wider" id="countdown-val">01:54:05</span>
+</div>
+<div class="flex items-center space-x-1.5 pl-2 border-l border-outline-variant/40">
+<button class="p-2 rounded bg-surface-container-high border border-outline-variant/60 hover:border-primary-container text-on-surface hover:text-primary transition-all text-xs flex items-center" id="btn-toggle-pause" title="Pausar / Reanudar Crono">
+<span class="material-symbols-outlined text-[18px]">pause</span>
+</button>
+<button class="p-2 rounded bg-surface-container-high border border-outline-variant/60 hover:border-secondary text-on-surface hover:text-secondary transition-all text-xs flex items-center" id="btn-fast-forward" title="Avance Rápido (Skip 5m)">
+<span class="material-symbols-outlined text-[18px]">fast_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Grid de Metadatos Interactivos -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 mt-5">
+<div class="bg-surface-container-lowest/90 border border-outline-variant/50 rounded p-2.5 flex flex-col justify-center">
+<label class="text-[10px] font-telemetry-code text-outline uppercase tracking-wider mb-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-primary-container">calendar_today</span>
+              FECHA DEL CICLO
+            </label>
+<input class="bg-transparent border-0 p-0 text-xs sm:text-sm font-telemetry-code text-primary-fixed focus:ring-0 font-bold" type="text" value="2025-05-18 // SOL-98"/>
+</div>
+<div class="bg-surface-container-lowest/90 border border-outline-variant/50 rounded p-2.5 flex flex-col justify-center">
+<label class="text-[10px] font-telemetry-code text-outline uppercase tracking-wider mb-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-secondary">schedule</span>
+              HORA DE INICIO [T-ZERO]
+            </label>
+<input class="bg-transparent border-0 p-0 text-xs sm:text-sm font-telemetry-code text-secondary focus:ring-0 font-bold" type="text" value="14:00:00 UTC"/>
+</div>
+<div class="bg-surface-container-lowest/90 border border-outline-variant/50 rounded p-2.5 flex flex-col justify-center">
+<label class="text-[10px] font-telemetry-code text-outline uppercase tracking-wider mb-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-tertiary-fixed-dim">flag</span>
+              HORA DE CIERRE [FINAL TARGET]
+            </label>
+<input class="bg-transparent border-0 p-0 text-xs sm:text-sm font-telemetry-code text-tertiary-fixed-dim focus:ring-0 font-bold" type="text" value="16:00:00 UTC"/>
+</div>
+<div class="bg-surface-container-lowest/90 border border-primary-container/60 rounded p-2.5 flex flex-col justify-center bg-primary-container/5 shadow-[0_0_12px_rgba(0,240,255,0.1)]">
+<label class="text-[10px] font-telemetry-code text-primary-container uppercase tracking-wider mb-1 flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-[12px] text-primary-container">qr_code_2</span>
+              ID / Nº DE BLOQUE
+            </label>
+<input class="bg-transparent border-0 p-0 text-sm font-orbitron font-bold text-primary-container focus:ring-0 tracking-wider" type="text" value="#CRONOS-0142"/>
+</div>
+</div>
+</section>
+<!-- Bento Grid: SECCIÓN I (ORBE) & SECCIÓN II (ENCUADRE) -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+<!-- ================= 2. SECCIÓN I · ORBE [ACTIVACIÓN DE LA MISIÓN] ================= -->
+<section class="xl:col-span-6 panel-frame p-5 rounded flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/40 mb-4">
+<div class="flex items-center space-x-2">
+<span class="w-2.5 h-2.5 bg-primary-container"></span>
+<h2 class="font-audiowide text-primary text-base sm:text-lg tracking-wider">SECCIÓN I · ORBE</h2>
+<span class="text-xs font-telemetry-code text-secondary tracking-widest">[ACTIVACIÓN DE LA MISIÓN]</span>
+</div>
+<span class="font-telemetry-code text-[10px] text-outline px-2 py-0.5 border border-outline-variant rounded">FASE 01/07</span>
+</div>
+<!-- 1. OBSERVAR: ¿QUÉ OCURRE EN EL TABLERO? -->
+<div class="mb-5">
+<div class="flex items-center justify-between mb-1.5">
+<label class="font-orbitron text-xs text-primary-container tracking-wider font-semibold">1. OBSERVAR: ¿QUÉ OCURRE EN EL TABLERO?</label>
+<span class="text-[10px] font-telemetry-code text-outline">Necesidad / Bloqueo / Oportunidad</span>
+</div>
+<textarea class="w-full bg-surface-container-lowest border border-primary-container/40 rounded text-telemetry-code text-xs sm:text-body-sm text-on-surface p-2.5 focus:border-primary-container focus:ring-1 focus:ring-primary-container leading-relaxed shadow-[inset_0_0_8px_rgba(0,240,255,0.06)]" placeholder="Diagnóstico de situación..." rows="2">Se requiere unificar el módulo de persistencia temporal del HUD y estabilizar el handshake entre el kernel Cronos y los orbes de telemetría sin latencia residual.</textarea>
+</div>
+<!-- 2. RUTEAR: Selector interactivo Áreas de Vida (7 Nodos Canónicos) -->
+<div class="mb-5">
+<div class="flex items-center justify-between mb-2">
+<label class="font-orbitron text-xs text-primary-container tracking-wider font-semibold">2. RUTEAR: ÁREA DE VIDA PRINCIPAL</label>
+<span class="font-telemetry-code text-[10px] text-secondary">7 NODOS CANÓNICOS</span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-1.5" id="life-areas-grid">
+<button class="life-area-btn py-1.5 px-1 text-center rounded border border-outline-variant/50 bg-surface-container-low text-on-surface-variant font-orbitron text-[10px] hover:border-primary-container transition-all" data-area="YO" type="button">
+                  YO
+                </button>
+<button class="life-area-btn py-1.5 px-1 text-center rounded border border-outline-variant/50 bg-surface-container-low text-on-surface-variant font-orbitron text-[10px] hover:border-primary-container transition-all" data-area="PAREJA" type="button">
+                  PAREJA
+                </button>
+<button class="life-area-btn py-1.5 px-1 text-center rounded border border-outline-variant/50 bg-surface-container-low text-on-surface-variant font-orbitron text-[10px] hover:border-primary-container transition-all" data-area="CASA Y FAMILIA" type="button">
+                  CASA / FAMILIA
+                </button>
+<button class="life-area-btn py-1.5 px-1 text-center rounded border border-outline-variant/50 bg-surface-container-low text-on-surface-variant font-orbitron text-[10px] hover:border-primary-container transition-all" data-area="ESTUDIO" type="button">
+                  ESTUDIO
+                </button>
+<!-- TRABAJO (Activo) -->
+<button class="life-area-btn py-1.5 px-1 text-center rounded border border-primary-container bg-primary-container/20 text-primary-container font-orbitron text-[10px] font-bold shadow-[0_0_10px_rgba(0,240,255,0.35)]" data-area="TRABAJO" type="button">
+                  TRABAJO ✦
+                </button>
+<button class="life-area-btn py-1.5 px-1 text-center rounded border border-outline-variant/50 bg-surface-container-low text-on-surface-variant font-orbitron text-[10px] hover:border-primary-container transition-all" data-area="RELACIONES SOCIALES" type="button">
+                  SOCIALES
+                </button>
+<button class="life-area-btn py-1.5 px-1 text-center rounded border border-outline-variant/50 bg-surface-container-low text-on-surface-variant font-orbitron text-[10px] hover:border-primary-container transition-all" data-area="ESPIRITUALIDAD" type="button">
+                  ESPÍRITU
+                </button>
+</div>
+</div>
+<!-- 3. BAREMAR: Matriz de cuantificación con variables interactivas -->
+<div>
+<div class="flex items-center justify-between mb-2">
+<label class="font-orbitron text-xs text-primary-container tracking-wider font-semibold">3. BAREMAR: MATRIZ DE CUANTIFICACIÓN</label>
+<span class="font-telemetry-code text-[11px] text-tertiary-fixed-dim">FÓRMULA CANÓNICA ACTIVA</span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center mb-3">
+<div class="bg-surface-container-lowest/90 border border-outline-variant/50 p-2 rounded">
+<span class="block text-[10px] font-telemetry-code text-outline mb-1">IMPORTANCIA (x2)</span>
+<div class="font-orbitron text-sm font-bold text-primary flex items-center justify-center gap-1">
+<span id="val-imp">5</span> <span class="text-xs text-outline font-normal">/ 5</span>
+</div>
+<input class="w-full mt-1.5 h-1 bg-surface-container-high rounded cursor-pointer" id="slider-imp" max="5" min="1" step="1" type="range" value="5"/>
+</div>
+<div class="bg-surface-container-lowest/90 border border-outline-variant/50 p-2 rounded">
+<span class="block text-[10px] font-telemetry-code text-outline mb-1">URGENCIA</span>
+<div class="font-orbitron text-sm font-bold text-secondary flex items-center justify-center gap-1">
+<span id="val-urg">4</span> <span class="text-xs text-outline font-normal">/ 5</span>
+</div>
+<input class="w-full mt-1.5 h-1 bg-surface-container-high rounded cursor-pointer" id="slider-urg" max="5" min="1" step="1" type="range" value="4"/>
+</div>
+<div class="bg-surface-container-lowest/90 border border-outline-variant/50 p-2 rounded">
+<span class="block text-[10px] font-telemetry-code text-outline mb-1">IMPACTO</span>
+<div class="font-orbitron text-sm font-bold text-primary flex items-center justify-center gap-1">
+<span id="val-impac">5</span> <span class="text-xs text-outline font-normal">/ 5</span>
+</div>
+<input class="w-full mt-1.5 h-1 bg-surface-container-high rounded cursor-pointer" id="slider-impac" max="5" min="1" step="1" type="range" value="5"/>
+</div>
+<div class="bg-surface-container-lowest/90 border border-outline-variant/50 p-2 rounded">
+<span class="block text-[10px] font-telemetry-code text-outline mb-1">DEPENDENCIA</span>
+<div class="font-orbitron text-sm font-bold text-secondary flex items-center justify-center gap-1">
+<span id="val-dep">2</span> <span class="text-xs text-outline font-normal">/ 3</span>
+</div>
+<input class="w-full mt-1.5 h-1 bg-surface-container-high rounded cursor-pointer" id="slider-dep" max="3" min="0" step="1" type="range" value="2"/>
+</div>
+<div class="bg-surface-container-lowest/90 border border-outline-variant/50 p-2 rounded col-span-2 sm:col-span-1">
+<span class="block text-[10px] font-telemetry-code text-outline mb-1">COSTE (-)</span>
+<div class="font-orbitron text-sm font-bold text-error flex items-center justify-center gap-1">
+<span id="val-cost">2</span> <span class="text-xs text-outline font-normal">/ 5</span>
+</div>
+<input class="w-full mt-1.5 h-1 bg-surface-container-high rounded cursor-pointer" id="slider-cost" max="5" min="0" step="1" type="range" value="2"/>
+</div>
+</div>
+<!-- Fórmula en vivo y Badge de Valor Total -->
+<div class="p-3 bg-surface-container-lowest border border-outline-variant/50 rounded flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-[0_0_12px_rgba(0,0,0,0.5)]">
+<div class="text-telemetry-code text-xs text-outline">
+                  FÓRMULA: <span id="formula-txt">VALOR = (2 × 5) + 4 + 5 + 2 − 2 = <strong class="text-primary-container font-bold">19</strong></span>
+</div>
+<div class="inline-flex items-center space-x-2 bg-primary-container/15 border border-primary-container/70 px-3 py-1.5 rounded shadow-[0_0_10px_rgba(0,240,255,0.25)]">
+<span class="text-[10px] font-telemetry-code text-primary-container uppercase tracking-wider font-semibold">VALOR TOTAL:</span>
+<span class="font-orbitron font-extrabold text-primary text-xs sm:text-sm tracking-wider" id="score-badge">19 PTS // CRÍTICA ALTA</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= 3. SECCIÓN II · ENCUADRE [CONVERTIR LA NECESIDAD EN MISIÓN] ================= -->
+<section class="xl:col-span-6 panel-frame p-5 rounded flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/40 mb-4">
+<div class="flex items-center space-x-2">
+<span class="w-2.5 h-2.5 bg-secondary"></span>
+<h2 class="font-audiowide text-secondary text-base sm:text-lg tracking-wider">SECCIÓN II · ENCUADRE</h2>
+<span class="text-xs font-telemetry-code text-on-surface-variant tracking-widest">[CONVERTIR EN MISIÓN]</span>
+</div>
+<span class="font-telemetry-code text-[10px] text-outline px-2 py-0.5 border border-outline-variant rounded">FASE 02/07</span>
+</div>
+<!-- Tipo de Bloque y Capacidad Disponible -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+<!-- Tipo de bloque (8 Tipos Canónicos) -->
+<div>
+<label class="block font-orbitron text-[11px] text-primary-container uppercase tracking-wider mb-1.5 font-semibold">TIPO DE BLOQUE</label>
+<div class="grid grid-cols-2 gap-1.5" id="block-types-grid">
+<button class="block-type-btn py-1 px-2 text-left rounded border border-primary-container bg-primary-container/20 text-primary-container font-orbitron text-[10px] font-bold shadow-[0_0_8px_rgba(0,240,255,0.3)]" type="button">
+                    ✦ PRODUCCIÓN
+                  </button>
+<button class="block-type-btn py-1 px-2 text-left rounded border border-outline-variant/40 bg-surface-container-low text-on-surface-variant font-orbitron text-[10px] hover:border-primary-container" type="button">
+                    DESARROLLO
+                  </button>
+<button class="block-type-btn py-1 px-2 text-left rounded border border-outline-variant/40 bg-surface-container-low text-on-surface-variant font-orbitron text-[10px] hover:border-primary-container" type="button">
+                    MANTENIMIENTO
+                  </button>
+<button class="block-type-btn py-1 px-2 text-left rounded border border-outline-variant/40 bg-surface-container-low text-on-surface-variant font-orbitron text-[10px] hover:border-primary-container" type="button">
+                    RESOLUCIÓN
+                  </button>
+<button class="block-type-btn py-1 px-2 text-left rounded border border-outline-variant/40 bg-surface-container-low text-on-surface-variant font-orbitron text-[10px] hover:border-primary-container" type="button">
+                    VÍNCULO
+                  </button>
+<button class="block-type-btn py-1 px-2 text-left rounded border border-outline-variant/40 bg-surface-container-low text-on-surface-variant font-orbitron text-[10px] hover:border-primary-container" type="button">
+                    RECUPERACIÓN
+                  </button>
+<button class="block-type-btn py-1 px-2 text-left rounded border border-outline-variant/40 bg-surface-container-low text-on-surface-variant font-orbitron text-[10px] hover:border-primary-container" type="button">
+                    PLANIFICACIÓN
+                  </button>
+<button class="block-type-btn py-1 px-2 text-left rounded border border-outline-variant/40 bg-surface-container-low text-on-surface-variant font-orbitron text-[10px] hover:border-primary-container" type="button">
+                    INTEGRACIÓN
+                  </button>
+</div>
+</div>
+<!-- Capacidad Disponible -->
+<div>
+<label class="block font-orbitron text-[11px] text-secondary uppercase tracking-wider mb-1.5 font-semibold">CAPACIDAD DISPONIBLE</label>
+<div class="space-y-1.5">
+<button class="cap-btn w-full py-1 px-2.5 flex items-center justify-between rounded border border-outline-variant/40 bg-surface-container-low text-on-surface-variant font-orbitron text-[10px] hover:border-secondary" type="button">
+<span>BAJA</span>
+<span class="text-[9px] font-telemetry-code text-outline">Rutinas &amp; Recuperación</span>
+</button>
+<button class="cap-btn w-full py-1 px-2.5 flex items-center justify-between rounded border border-outline-variant/40 bg-surface-container-low text-on-surface-variant font-orbitron text-[10px] hover:border-secondary" type="button">
+<span>NORMAL</span>
+<span class="text-[9px] font-telemetry-code text-outline">Construcción estándar</span>
+</button>
+<!-- ALTA + MAX FOCUS (Seleccionada) -->
+<button class="cap-btn w-full py-1.5 px-2.5 flex items-center justify-between rounded border border-secondary bg-secondary/20 text-secondary font-orbitron text-[10px] font-bold shadow-[0_0_10px_rgba(72,221,193,0.3)]" type="button">
+<span>ALTA + MAX FOCUS ✦</span>
+<span class="text-[9px] font-telemetry-code text-secondary font-bold">Arquitectura &amp; No-interrupción</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Inputs Técnicos de Misión Operativa -->
+<div class="space-y-2">
+<div>
+<span class="block text-[10px] font-orbitron text-primary-fixed uppercase tracking-wider font-semibold">OBJETIVO: ¿Qué debe cambiar al terminar los 120 minutos?</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/50 rounded text-telemetry-code text-xs text-on-surface px-2.5 py-1 focus:border-primary-container focus:ring-0" type="text" value="Consolidar el bus cronológico de 120 minutos con sincronización de rondas y validación de microobjetivos."/>
+</div>
+<div>
+<span class="block text-[10px] font-orbitron text-primary-fixed uppercase tracking-wider font-semibold">ACCIÓN: ¿Qué voy a hacer concretamente?</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/50 rounded text-telemetry-code text-xs text-on-surface px-2.5 py-1 focus:border-primary-container focus:ring-0" type="text" value="Codificar el layout SVG del dial concéntrico, mapear los inputs de telemetría y renderizar la secuencia de ejecución."/>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+<div>
+<span class="block text-[10px] font-orbitron text-primary-fixed uppercase tracking-wider font-semibold">RESULTADO: ¿Qué producto o evidencia debe existir?</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/50 rounded text-telemetry-code text-xs text-on-surface px-2 py-1 focus:border-primary-container focus:ring-0" type="text" value="Ficha HUD funcional con interactividad en vivo y cronómetro."/>
+</div>
+<div>
+<span class="block text-[10px] font-orbitron text-primary-fixed uppercase tracking-wider font-semibold">DONE DEFINITION: ¿Cómo sé que está terminada?</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/50 rounded text-telemetry-code text-xs text-on-surface px-2 py-1 focus:border-primary-container focus:ring-0" type="text" value="Todos los 4 microobjetivos verificados y sello de auditoría listo."/>
+</div>
+</div>
+<div>
+<span class="block text-[10px] font-orbitron text-primary-fixed uppercase tracking-wider font-semibold">PRÓXIMA ACCIÓN PREVIA: ¿Qué queda listo para continuar después?</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/50 rounded text-telemetry-code text-xs text-on-surface px-2.5 py-1 focus:border-primary-container focus:ring-0" type="text" value="Dataset listo para exportar a Postgres y replicar el bloque en modo Offline."/>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- ================= 4. SECCIÓN III · CRONOS [EL BLOQUE TEMPORAL 120 MINUTOS] ================= -->
+<section class="panel-frame p-6 rounded">
+<!-- Encabezado con Ecuación Axiomática y Regla Inflexible -->
+<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between pb-4 border-b border-outline-variant/40 gap-4 mb-6">
+<div>
+<div class="flex items-center space-x-2">
+<span class="w-2.5 h-2.5 bg-primary-container"></span>
+<h2 class="font-audiowide text-lg sm:text-xl text-primary tracking-wide">SECCIÓN III · CRONOS</h2>
+<span class="font-orbitron text-xs sm:text-sm text-primary-container tracking-widest">[EL BLOQUE TEMPORAL]</span>
+</div>
+<div class="font-orbitron text-sm sm:text-base font-bold text-secondary-fixed mt-1 tracking-wider">
+              25 + 5 + 25 + 5 + 25 + 5 + 25 + 5 = 120 MINUTOS
+            </div>
+</div>
+<!-- Axiom Note Banner -->
+<div class="bg-primary-container/10 border-l-4 border-primary-container p-3 rounded-r max-w-xl">
+<span class="block text-[10px] font-telemetry-code text-primary-container uppercase font-bold tracking-widest">REGLA AXIOMÁTICA INFLEXIBLE:</span>
+<p class="font-body-sm text-on-surface text-xs leading-relaxed">
+              "El Bloque comienza directamente con RONDA I. No existe una fase de preparación interna. La preparación ocurre antes de encender el crono-motor."
+            </p>
+</div>
+</div>
+<!-- Concentric Dial SVG + Timeline Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+<!-- Dial Holográfico Concéntrico Central SVG -->
+<div class="lg:col-span-5 flex flex-col items-center justify-center p-4 bg-surface-container-lowest/90 border border-outline-variant/50 rounded relative overflow-hidden">
+<div class="text-[10px] font-telemetry-code text-outline tracking-wider uppercase mb-2 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-xs text-primary-container">cyclone</span>
+              DIAL HOLOGRÁFICO CONCÉNTRICO // BLOQUE 120M
+            </div>
+<div class="relative w-64 h-64 sm:w-72 sm:h-72 flex items-center justify-center">
+<!-- Cyan/Magenta Glow Backdrop -->
+<div class="absolute inset-0 rounded-full bg-primary-container/10 blur-xl"></div>
+<div class="absolute inset-4 rounded-full bg-neon-magenta/5 blur-lg"></div>
+<!-- Rotating SVG Dial Structure (Merkaba + Concentric Circles) -->
+<svg class="w-full h-full dial-spin drop-shadow-[0_0_16px_rgba(0,240,255,0.45)]" viewbox="0 0 300 300">
+<!-- Outer Track -->
+<circle cx="150" cy="150" fill="none" r="140" stroke="rgba(43,56,70,0.7)" stroke-dasharray="4 6" stroke-width="2"></circle>
+<!-- 4 Macro Órbitas de 25m -->
+<!-- Ronda I: 0 to 75 deg (Cyan #00f0ff) -->
+<path d="M 150 10 A 140 140 0 0 1 270 70" fill="none" stroke="#00f0ff" stroke-linecap="round" stroke-width="7"></path>
+<!-- Ronda II: 90 to 165 deg (Aquamarine #48ddc1) -->
+<path d="M 285 160 A 140 140 0 0 1 200 275" fill="none" stroke="#48ddc1" stroke-linecap="round" stroke-width="7"></path>
+<!-- Ronda III: 180 to 255 deg (Neon Magenta #ff00ff) -->
+<path d="M 140 290 A 140 140 0 0 1 30 220" fill="none" stroke="#ff00ff" stroke-linecap="round" stroke-width="7"></path>
+<!-- Ronda IV: 270 to 345 deg (Cyan Light #00dbe9) -->
+<path d="M 15 140 A 140 140 0 0 1 110 20" fill="none" stroke="#00dbe9" stroke-linecap="round" stroke-width="7"></path>
+<!-- 3 Pausas de 5m (Gold / Amber nodes) + Cierre 5m -->
+<circle cx="278" cy="115" fill="#ffd15c" r="5.5"></circle>
+<circle cx="165" cy="288" fill="#ffd15c" r="5.5"></circle>
+<circle cx="18" cy="180" fill="#ffd15c" r="5.5"></circle>
+<!-- Cierre 5m (Magenta) -->
+<circle cx="130" cy="12" fill="#ff00ff" r="6.5"></circle>
+<!-- Merkaba Sagrado / Geometría Sagrada (Dos triángulos equiláteros invertidos) -->
+<polygon fill="none" points="150,42 243,204 57,204" stroke="rgba(0,240,255,0.35)" stroke-width="1.5"></polygon>
+<polygon fill="none" points="150,258 57,96 243,96" stroke="rgba(72,221,193,0.35)" stroke-width="1.5"></polygon>
+<!-- Concentric Rings -->
+<circle cx="150" cy="150" fill="none" r="105" stroke="rgba(255,209,92,0.25)" stroke-dasharray="2 4" stroke-width="1"></circle>
+<circle cx="150" cy="150" fill="none" r="75" stroke="rgba(0,240,255,0.4)" stroke-width="1.5"></circle>
+<circle cx="150" cy="150" fill="rgba(5,8,12,0.92)" r="64" stroke="#00f0ff" stroke-width="2"></circle>
+</svg>
+<!-- Central Avatar Core Silueta (Avatar 120m Exact) -->
+<div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+<span class="material-symbols-outlined text-primary-container text-4xl animate-pulse">accessibility_new</span>
+<span class="font-orbitron font-extrabold text-[11px] text-primary tracking-widest mt-0.5">AVATAR</span>
+<span class="font-telemetry-code text-[9px] text-secondary font-bold">120 MIN EXACT</span>
+</div>
+</div>
+<!-- Quadrant Labels -->
+<div class="mt-3 grid grid-cols-4 gap-1 w-full text-[9px] sm:text-[10px] font-telemetry-code text-center text-outline">
+<span class="text-primary-container font-semibold">R-I: 25M ENTRAR</span>
+<span class="text-secondary font-semibold">R-II: 25M CONSTRUIR</span>
+<span class="text-neon-magenta font-semibold">R-III: 25M RESOLVER</span>
+<span class="text-primary-fixed font-semibold">R-IV: 25M TERMINAR</span>
+</div>
+</div>
+<!-- Tabla Cronológica de las 8 Unidades Temporales + Control de Temporizador -->
+<div class="lg:col-span-7 space-y-2">
+<div class="flex items-center justify-between pb-2 border-b border-outline-variant/40 text-xs font-telemetry-code text-outline">
+<span>SECUENCIA DE LAS 8 UNIDADES TEMPORALES</span>
+<span class="text-secondary font-bold flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+                TEMPORIZADOR ACTIVO: <span id="r1-timer-txt">23:45 / 25:00</span>
+</span>
+</div>
+<!-- 8 Unidades Canónicas -->
+<div class="space-y-1.5 font-telemetry-code text-xs">
+<!-- UNIDAD 1: RONDA I (ACTIVA) -->
+<div class="p-2.5 rounded bg-primary-container/15 border border-primary-container flex items-center justify-between shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+<div class="flex items-center space-x-3">
+<span class="text-primary-container font-bold text-xs sm:text-sm">⚡ RONDA I</span>
+<span class="px-2 py-0.5 rounded bg-primary-container text-surface-container-lowest font-bold text-[10px]">25 MIN</span>
+<span class="text-primary font-semibold hidden sm:inline">ENTRAR</span>
+</div>
+<div class="flex items-center space-x-2">
+<input class="bg-transparent border-0 text-right text-xs text-on-surface focus:ring-0 w-44 sm:w-60" type="text" value="Generar foco inmersivo, primer despliegue"/>
+<span class="text-[10px] text-primary-container uppercase px-1.5 py-0.5 border border-primary-container rounded animate-pulse font-bold">EN CURSO</span>
+</div>
+</div>
+<!-- UNIDAD 2: PAUSA I -->
+<div class="p-2 rounded bg-surface-container-lowest border border-outline-variant/40 flex items-center justify-between">
+<div class="flex items-center space-x-3 text-outline">
+<span class="text-neon-gold font-medium">◇ PAUSA I</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-[10px] text-neon-gold">5 MIN</span>
+<span class="text-on-surface-variant">RECUPERAR</span>
+</div>
+<input class="bg-transparent border-0 text-right text-xs text-outline focus:ring-0 w-48 sm:w-64" type="text" value="Hidratación + Respiro visual + Postura"/>
+</div>
+<!-- UNIDAD 3: RONDA II -->
+<div class="p-2 rounded bg-surface-container-lowest border border-outline-variant/40 flex items-center justify-between">
+<div class="flex items-center space-x-3 text-outline">
+<span class="text-secondary font-medium">⚡ RONDA II</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-[10px]">25 MIN</span>
+<span class="text-on-surface-variant">CONSTRUIR</span>
+</div>
+<input class="bg-transparent border-0 text-right text-xs text-outline focus:ring-0 w-48 sm:w-64" type="text" value="Desarrollo del núcleo duro sin desvíos"/>
+</div>
+<!-- UNIDAD 4: PAUSA II -->
+<div class="p-2 rounded bg-surface-container-lowest border border-outline-variant/40 flex items-center justify-between">
+<div class="flex items-center space-x-3 text-outline">
+<span class="text-neon-gold font-medium">◇ PAUSA II</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-[10px] text-neon-gold">5 MIN</span>
+<span class="text-on-surface-variant">RECUPERAR</span>
+</div>
+<input class="bg-transparent border-0 text-right text-xs text-outline focus:ring-0 w-48 sm:w-64" type="text" value="Desconexión cognitiva leve"/>
+</div>
+<!-- UNIDAD 5: RONDA III -->
+<div class="p-2 rounded bg-surface-container-lowest border border-outline-variant/40 flex items-center justify-between">
+<div class="flex items-center space-x-3 text-outline">
+<span class="text-neon-magenta font-medium">⚡ RONDA III</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-[10px]">25 MIN</span>
+<span class="text-on-surface-variant">RESOLVER</span>
+</div>
+<input class="bg-transparent border-0 text-right text-xs text-outline focus:ring-0 w-48 sm:w-64" type="text" value="Destrabar fricciones, testing de aristas"/>
+</div>
+<!-- UNIDAD 6: PAUSA III -->
+<div class="p-2 rounded bg-surface-container-lowest border border-outline-variant/40 flex items-center justify-between">
+<div class="flex items-center space-x-3 text-outline">
+<span class="text-neon-gold font-medium">◇ PAUSA III</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-[10px] text-neon-gold">5 MIN</span>
+<span class="text-on-surface-variant">RECUPERAR</span>
+</div>
+<input class="bg-transparent border-0 text-right text-xs text-outline focus:ring-0 w-48 sm:w-64" type="text" value="Cierre de pestañas parásitas"/>
+</div>
+<!-- UNIDAD 7: RONDA IV -->
+<div class="p-2 rounded bg-surface-container-lowest border border-outline-variant/40 flex items-center justify-between">
+<div class="flex items-center space-x-3 text-outline">
+<span class="text-primary-fixed font-medium">⚡ RONDA IV</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-[10px]">25 MIN</span>
+<span class="text-on-surface-variant">TERMINAR</span>
+</div>
+<input class="bg-transparent border-0 text-right text-xs text-outline focus:ring-0 w-48 sm:w-64" type="text" value="Pulir, empaquetar, verificar DONE"/>
+</div>
+<!-- UNIDAD 8: CIERRE -->
+<div class="p-2 rounded bg-neon-magenta/10 border border-neon-magenta/40 flex items-center justify-between">
+<div class="flex items-center space-x-3 text-tertiary-fixed">
+<span class="text-neon-magenta font-bold">◇ CIERRE</span>
+<span class="px-1.5 py-0.5 rounded bg-neon-magenta/30 text-white font-bold text-[10px]">5 MIN</span>
+<span class="text-primary font-semibold">REGISTRAR</span>
+</div>
+<span class="text-[10px] text-tertiary-fixed font-bold">Auditoría Atanor + Sello Inmutable</span>
+</div>
+</div>
+<!-- Panel de Control del Temporizador Interactivo -->
+<div class="pt-3 flex flex-wrap items-center justify-between gap-3 border-t border-outline-variant/30 mt-3">
+<div class="flex items-center space-x-2">
+<span class="text-[10px] font-telemetry-code text-outline uppercase">MODO RONDAS:</span>
+<span class="text-xs font-orbitron text-primary-container font-bold">AUTOMÁTICO SECUENCIAL</span>
+</div>
+<div class="flex items-center space-x-2.5">
+<button class="px-3 py-1.5 rounded border border-outline-variant/60 bg-surface-container-high hover:bg-surface-bright text-on-surface text-label-md font-label-md flex items-center space-x-1.5 transition-all" id="btn-pause-unit">
+<span class="material-symbols-outlined text-[16px]">pause</span>
+<span>PAUSAR CRONO</span>
+</button>
+<button class="px-3 py-1.5 rounded bg-primary-container text-surface-container-lowest hover:bg-primary-fixed text-label-md font-label-md font-bold flex items-center space-x-1.5 shadow-[0_0_12px_rgba(0,240,255,0.4)] transition-all" id="btn-advance-unit">
+<span class="material-symbols-outlined text-[16px]">skip_next</span>
+<span>AVANZAR A PAUSA I</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= 5. SECCIÓN IV · RONDAS [DETALLE DE EJECUCIÓN 4x25 MIN] ================= -->
+<section class="panel-frame p-6 rounded">
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/40 mb-5">
+<div class="flex items-center space-x-2">
+<span class="w-2.5 h-2.5 bg-secondary"></span>
+<h2 class="font-audiowide text-base sm:text-lg text-primary tracking-wide">SECCIÓN IV · RONDAS</h2>
+<span class="font-orbitron text-xs text-secondary tracking-widest">[DETALLE DE EJECUCIÓN 4x25 MIN]</span>
+</div>
+<span class="font-telemetry-code text-[11px] text-outline">DESGLOSE DE OBJETIVOS OPERATIVOS</span>
+</div>
+<!-- Grid de 4 Columnas Canónicas -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- RONDA I · ENTRAR (25 MIN) -->
+<div class="bg-surface-container-lowest/90 border border-primary-container/70 p-4 rounded flex flex-col justify-between shadow-[0_0_15px_rgba(0,240,255,0.15)] relative">
+<div class="space-y-3">
+<div class="flex items-center justify-between border-b border-outline-variant/40 pb-2">
+<span class="font-orbitron text-xs font-bold text-primary-container">RONDA I · ENTRAR</span>
+<span class="font-telemetry-code text-[10px] text-outline font-semibold">25 MIN</span>
+</div>
+<div>
+<label class="block text-[10px] font-telemetry-code text-outline uppercase mb-1">Microobjetivo:</label>
+<input class="w-full bg-surface-container-low border border-outline-variant/50 rounded text-xs p-2 text-on-surface focus:border-primary-container" type="text" value="Crear el esqueleto táctico e iniciar el script de renderizado."/>
+</div>
+<div>
+<label class="block text-[10px] font-telemetry-code text-outline uppercase mb-1">Avance obtenido:</label>
+<textarea class="w-full bg-surface-container-low border border-outline-variant/50 rounded text-xs p-2 text-on-surface focus:border-primary-container" rows="2">Estructura base montada, tokens Tailwind validados.</textarea>
+</div>
+</div>
+<div class="mt-4 pt-2.5 border-t border-outline-variant/30 flex items-center justify-between">
+<span class="text-[10px] font-telemetry-code text-outline">ESTADO:</span>
+<div class="flex items-center space-x-1">
+<button class="text-[9px] font-telemetry-code px-2 py-0.5 rounded bg-primary-container text-surface-container-lowest font-bold shadow-[0_0_8px_rgba(0,240,255,0.4)]" type="button">EN CURSO</button>
+<button class="text-[9px] font-telemetry-code px-1.5 py-0.5 rounded bg-surface-container-high text-outline hover:text-secondary" type="button">COMPLETADO</button>
+<button class="text-[9px] font-telemetry-code px-1.5 py-0.5 rounded bg-surface-container-high text-outline hover:text-error" type="button">BLOQUEADO</button>
+</div>
+</div>
+</div>
+<!-- RONDA II · CONSTRUIR (25 MIN) -->
+<div class="bg-surface-container-lowest/90 border border-outline-variant/50 p-4 rounded flex flex-col justify-between">
+<div class="space-y-3">
+<div class="flex items-center justify-between border-b border-outline-variant/40 pb-2">
+<span class="font-orbitron text-xs font-bold text-secondary">RONDA II · CONSTRUIR</span>
+<span class="font-telemetry-code text-[10px] text-outline font-semibold">25 MIN</span>
+</div>
+<div>
+<label class="block text-[10px] font-telemetry-code text-outline uppercase mb-1">Microobjetivo:</label>
+<input class="w-full bg-surface-container-low border border-outline-variant/50 rounded text-xs p-2 text-on-surface focus:border-secondary" type="text" value="Integrar el dial holográfico concéntrico y la matriz de cálculo."/>
+</div>
+<div>
+<label class="block text-[10px] font-telemetry-code text-outline uppercase mb-1">Avance obtenido:</label>
+<textarea class="w-full bg-surface-container-low border border-outline-variant/50 rounded text-xs p-2 text-on-surface focus:border-secondary" placeholder="Pendiente de inicio..." rows="2">Pendiente de activación en secuencia cronológica.</textarea>
+</div>
+</div>
+<div class="mt-4 pt-2.5 border-t border-outline-variant/30 flex items-center justify-between">
+<span class="text-[10px] font-telemetry-code text-outline">ESTADO:</span>
+<div class="flex items-center space-x-1">
+<button class="text-[9px] font-telemetry-code px-1.5 py-0.5 rounded bg-surface-container-high text-outline hover:text-primary" type="button">EN CURSO</button>
+<button class="text-[9px] font-telemetry-code px-1.5 py-0.5 rounded bg-surface-container-high text-outline hover:text-secondary" type="button">COMPLETADO</button>
+<button class="text-[9px] font-telemetry-code px-1.5 py-0.5 rounded bg-surface-container-high text-outline hover:text-error" type="button">BLOQUEADO</button>
+</div>
+</div>
+</div>
+<!-- RONDA III · RESOLVER (25 MIN) -->
+<div class="bg-surface-container-lowest/90 border border-outline-variant/50 p-4 rounded flex flex-col justify-between">
+<div class="space-y-3">
+<div class="flex items-center justify-between border-b border-outline-variant/40 pb-2">
+<span class="font-orbitron text-xs font-bold text-neon-magenta">RONDA III · RESOLVER</span>
+<span class="font-telemetry-code text-[10px] text-outline font-semibold">25 MIN</span>
+</div>
+<div>
+<label class="block text-[10px] font-telemetry-code text-outline uppercase mb-1">Problema / Fricción / Obstáculo:</label>
+<input class="w-full bg-surface-container-low border border-outline-variant/50 rounded text-xs p-2 text-on-surface focus:border-neon-magenta" type="text" value="Alinear ratios de aspecto en pantallas ultramóviles."/>
+</div>
+<div>
+<label class="block text-[10px] font-telemetry-code text-outline uppercase mb-1">Resolución aplicada:</label>
+<textarea class="w-full bg-surface-container-low border border-outline-variant/50 rounded text-xs p-2 text-on-surface focus:border-neon-magenta" placeholder="Registro de desbloqueo..." rows="2">Aplicar viewport locked containers y scroll lateral táctico.</textarea>
+</div>
+</div>
+<div class="mt-4 pt-2.5 border-t border-outline-variant/30 flex items-center justify-between">
+<span class="text-[10px] font-telemetry-code text-outline">ESTADO:</span>
+<div class="flex items-center space-x-1">
+<button class="text-[9px] font-telemetry-code px-1.5 py-0.5 rounded bg-surface-container-high text-outline hover:text-primary" type="button">EN CURSO</button>
+<button class="text-[9px] font-telemetry-code px-1.5 py-0.5 rounded bg-surface-container-high text-outline hover:text-secondary" type="button">COMPLETADO</button>
+<button class="text-[9px] font-telemetry-code px-1.5 py-0.5 rounded bg-surface-container-high text-outline hover:text-error" type="button">BLOQUEADO</button>
+</div>
+</div>
+</div>
+<!-- RONDA IV · TERMINAR (25 MIN) -->
+<div class="bg-surface-container-lowest/90 border border-outline-variant/50 p-4 rounded flex flex-col justify-between">
+<div class="space-y-3">
+<div class="flex items-center justify-between border-b border-outline-variant/40 pb-2">
+<span class="font-orbitron text-xs font-bold text-primary-fixed">RONDA IV · TERMINAR</span>
+<span class="font-telemetry-code text-[10px] text-outline font-semibold">25 MIN</span>
+</div>
+<div>
+<label class="block text-[10px] font-telemetry-code text-outline uppercase mb-1">Microobjetivo / Auditoría visual:</label>
+<input class="w-full bg-surface-container-low border border-outline-variant/50 rounded text-xs p-2 text-on-surface focus:border-primary-fixed" type="text" value="Auditoría visual final, sello Atanor y cierre de ficha."/>
+</div>
+<div>
+<label class="block text-[10px] font-telemetry-code text-outline uppercase mb-1">DONE alcanzado:</label>
+<div class="flex items-center space-x-4 pt-1">
+<label class="flex items-center space-x-1.5 text-xs text-primary font-bold cursor-pointer">
+<input class="text-primary-container focus:ring-0" name="done_r4" type="radio"/> <span>SÍ</span>
+</label>
+<label class="flex items-center space-x-1.5 text-xs text-secondary cursor-pointer">
+<input checked="" class="text-secondary focus:ring-0" name="done_r4" type="radio"/> <span>PARCIAL</span>
+</label>
+<label class="flex items-center space-x-1.5 text-xs text-outline cursor-pointer">
+<input class="text-error focus:ring-0" name="done_r4" type="radio"/> <span>NO</span>
+</label>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-2.5 border-t border-outline-variant/30 flex items-center justify-between">
+<span class="text-[10px] font-telemetry-code text-outline">ESTADO:</span>
+<span class="text-[10px] font-telemetry-code text-primary-fixed font-bold px-2 py-0.5 rounded bg-surface-container-high border border-outline-variant/40">PROGRAMADO</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Grid: SECCIONES V & VI: CIERRE Y PRÓXIMA ACCIÓN -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- ================= 6. SECCIÓN V · CIERRE [REGISTRAR EL RESULTADO] ================= -->
+<section class="lg:col-span-7 panel-frame p-5 rounded flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/40 mb-4">
+<div class="flex items-center space-x-2">
+<span class="w-2.5 h-2.5 bg-tertiary-fixed-dim"></span>
+<h2 class="font-audiowide text-base sm:text-lg text-primary tracking-wider">SECCIÓN V · CIERRE</h2>
+<span class="text-xs font-telemetry-code text-tertiary-fixed-dim tracking-widest">[REGISTRAR EL RESULTADO]</span>
+</div>
+<span class="font-telemetry-code text-[10px] text-outline">5 MINUTOS DE CIERRE</span>
+</div>
+<!-- Evaluación de Éxito Radios -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-4">
+<div class="bg-surface-container-lowest p-3 rounded border border-outline-variant/40">
+<span class="block text-[11px] font-orbitron text-outline uppercase mb-2 font-semibold">¿SE ALCANZÓ EL OBJETIVO?</span>
+<div class="flex items-center space-x-4">
+<label class="flex items-center space-x-1.5 text-xs text-primary font-bold cursor-pointer">
+<input checked="" class="text-primary-container focus:ring-0" name="goal_check" type="radio"/> <span>SÍ</span>
+</label>
+<label class="flex items-center space-x-1.5 text-xs text-secondary cursor-pointer">
+<input class="text-secondary focus:ring-0" name="goal_check" type="radio"/> <span>PARCIAL</span>
+</label>
+<label class="flex items-center space-x-1.5 text-xs text-outline cursor-pointer">
+<input class="text-error focus:ring-0" name="goal_check" type="radio"/> <span>NO</span>
+</label>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-3 rounded border border-outline-variant/40">
+<span class="block text-[11px] font-orbitron text-outline uppercase mb-2 font-semibold">¿SE ALCANZÓ DONE?</span>
+<div class="flex items-center space-x-4">
+<label class="flex items-center space-x-1.5 text-xs text-primary font-bold cursor-pointer">
+<input checked="" class="text-primary-container focus:ring-0" name="done_check" type="radio"/> <span>SÍ</span>
+</label>
+<label class="flex items-center space-x-1.5 text-xs text-outline cursor-pointer">
+<input class="text-error focus:ring-0" name="done_check" type="radio"/> <span>NO</span>
+</label>
+</div>
+</div>
+</div>
+<!-- Evidencia / Entregable / Cambio producido -->
+<div class="mb-4">
+<label class="block text-[10px] font-telemetry-code text-outline uppercase mb-1">EVIDENCIA / ENTREGABLE / CAMBIO PRODUCIDO:</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/50 rounded text-telemetry-code text-xs p-2 text-on-surface focus:border-secondary" type="text" value="Archivo HTML maestro auto-contenido con especificación exacta del motor Cronos v6.8 y layout HUD 100% operativo."/>
+</div>
+<!-- Estado Global de la Misión (Selector Canónico) -->
+<div>
+<label class="block text-[10px] font-telemetry-code text-outline uppercase mb-1.5">ESTADO GLOBAL DE LA MISIÓN:</label>
+<div class="flex flex-wrap gap-1.5">
+<button class="mission-st-btn px-2.5 py-1 rounded bg-secondary/20 border border-secondary text-secondary font-orbitron text-[10px] font-bold shadow-[0_0_8px_rgba(72,221,193,0.3)]" type="button">
+                  ✓ COMPLETADA
+                </button>
+<button class="mission-st-btn px-2.5 py-1 rounded bg-surface-container-low border border-outline-variant/40 text-on-surface-variant font-orbitron text-[10px] hover:border-primary-container" type="button">
+                  CONTINÚA
+                </button>
+<button class="mission-st-btn px-2.5 py-1 rounded bg-surface-container-low border border-outline-variant/40 text-on-surface-variant font-orbitron text-[10px] hover:border-primary-container" type="button">
+                  BLOQUEADA
+                </button>
+<button class="mission-st-btn px-2.5 py-1 rounded bg-surface-container-low border border-outline-variant/40 text-on-surface-variant font-orbitron text-[10px] hover:border-primary-container" type="button">
+                  CANCELADA
+                </button>
+<button class="mission-st-btn px-2.5 py-1 rounded bg-surface-container-low border border-outline-variant/40 text-on-surface-variant font-orbitron text-[10px] hover:border-primary-container" type="button">
+                  REQUIERE OTRO BLOQUE
+                </button>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= 7. SECCIÓN VI · PRÓXIMA ACCIÓN [CONTINUIDAD] ================= -->
+<section class="lg:col-span-5 panel-frame p-5 rounded flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/40 mb-4">
+<div class="flex items-center space-x-2">
+<span class="w-2.5 h-2.5 bg-primary-container"></span>
+<h2 class="font-audiowide text-base sm:text-lg text-primary tracking-wider">SECCIÓN VI · CONTINUIDAD</h2>
+</div>
+<span class="text-xs font-telemetry-code text-primary-container">[PRÓXIMA ACCIÓN]</span>
+</div>
+<div class="space-y-4">
+<div>
+<label class="block text-[11px] font-orbitron text-primary-fixed uppercase tracking-wider mb-1 font-semibold">LA SIGUIENTE ACCIÓN CONCRETA ES:</label>
+<textarea class="w-full bg-surface-container-lowest border border-outline-variant/50 rounded text-telemetry-code text-xs p-2.5 text-on-surface focus:border-primary-container leading-relaxed" rows="3">Conectar los triggers de persistencia localStorage con telemetría de eventos y lanzar pruebas del Bloque #CRONOS-0143 en modo nocturno.</textarea>
+</div>
+<div class="p-3 bg-surface-container-lowest border border-outline-variant/40 rounded flex items-center justify-between">
+<div>
+<span class="block text-[11px] font-orbitron text-outline uppercase font-semibold">¿REQUIERE OTRO BLOQUE CRONOS?</span>
+<div class="flex items-center space-x-3 mt-1 text-xs">
+<label class="flex items-center space-x-1.5 text-primary font-bold cursor-pointer">
+<input checked="" class="text-primary-container focus:ring-0" name="req_next" type="radio"/> <span>SÍ</span>
+</label>
+<label class="flex items-center space-x-1.5 text-outline cursor-pointer">
+<input class="text-outline focus:ring-0" name="req_next" type="radio"/> <span>NO</span>
+</label>
+</div>
+</div>
+<div class="text-right">
+<span class="block text-[10px] font-telemetry-code text-outline uppercase font-semibold">Nº BLOQUES ESTIMADOS:</span>
+<input class="w-14 bg-surface-container-low border border-primary-container/50 rounded text-center text-xs font-orbitron text-primary-container py-1 mt-0.5 font-bold" type="number" value="1"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Fast Trigger to Queue Next Block -->
+<button class="w-full mt-4 py-2.5 rounded bg-surface-container-high hover:bg-surface-bright border border-primary-container/40 hover:border-primary-container text-primary font-orbitron text-xs font-bold flex items-center justify-center space-x-2 transition-all shadow-[0_0_10px_rgba(0,240,255,0.2)]" id="btn-enqueue-block">
+<span class="material-symbols-outlined text-[17px] text-primary-container">queue_play_next</span>
+<span>ENCOLAR SIGUIENTE BLOQUE (CRONOS-0143)</span>
+</button>
+</section>
+</div>
+<!-- ================= 8. SECCIÓN VII · REGISTRO ATANOR & SELLO DEL BLOQUE ================= -->
+<section class="panel-frame p-6 rounded border-2 border-primary-container/40 bg-surface-container-lowest/95 shadow-[0_0_35px_rgba(0,240,255,0.12)]">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- REGISTRO ATANOR (Metamorfosis & Recompensas RPG) -->
+<div class="lg:col-span-7 space-y-4">
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/40">
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-neon-magenta text-xl">auto_fix_high</span>
+<h3 class="font-audiowide text-base text-tertiary-fixed tracking-wide">REGISTRO ATANOR · METAMORFOSIS RPG</h3>
+</div>
+<span class="px-2.5 py-1 rounded bg-neon-magenta/20 border border-neon-magenta/50 text-tertiary-fixed font-telemetry-code text-[11px] font-bold shadow-[0_0_8px_rgba(255,0,255,0.3)]">
+                +250 XP // +80 MC
+              </span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-telemetry-code">
+<div class="bg-surface-container-low p-2.5 rounded border border-outline-variant/40">
+<span class="text-[10px] text-outline block mb-1 font-semibold uppercase">PROGRESO DEL ATANOR</span>
+<div class="w-full bg-surface-container-highest h-2 rounded overflow-hidden mb-1">
+<div class="bg-gradient-to-r from-primary-container via-secondary to-neon-magenta h-full w-[95%] shadow-[0_0_8px_#00f0ff]"></div>
+</div>
+<span class="text-secondary font-bold text-[11px]">95% SINERGIZADO // NIVEL 42</span>
+</div>
+<div class="bg-surface-container-low p-2.5 rounded border border-outline-variant/40 flex flex-col justify-center">
+<span class="text-[10px] text-outline block mb-1 font-semibold uppercase">ESTADO DEL SISTEMA</span>
+<span class="text-primary font-bold flex items-center gap-1.5 text-xs">
+<span class="material-symbols-outlined text-sm text-primary-container">arrow_upward</span>
+                  ↑ EVOLUCIONÓ // RITMO PERFECTO
+                </span>
+</div>
+</div>
+<div>
+<label class="block text-[10px] font-telemetry-code text-outline uppercase mb-1 font-semibold">LECCIÓN OBTENIDA EN ESTOS 120 MINUTOS:</label>
+<input class="w-full bg-surface-container-low border border-outline-variant/50 rounded text-xs p-2 text-on-surface focus:border-secondary" type="text" value="La pureza de la secuencia 25+5 elimina toda fatiga decisional si no se interrumpe la Ronda I con preparación tardía."/>
+</div>
+</div>
+<!-- SUMMARY: SELLO DEL BLOQUE (Caja de Auditoría Criptográfica Verificada) -->
+<div class="lg:col-span-5 bg-surface-container-low/95 border border-secondary/60 p-4 rounded flex flex-col justify-between shadow-[0_0_20px_rgba(72,221,193,0.2)]">
+<div>
+<div class="flex items-center justify-between border-b border-outline-variant/40 pb-2 mb-3">
+<span class="font-audiowide text-xs text-secondary tracking-widest flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-secondary">verified</span>
+                  SUMMARY: SELLO DEL BLOQUE
+                </span>
+<span class="text-[10px] font-telemetry-code text-secondary font-bold">HASH: 0x8F92..BC14</span>
+</div>
+<div class="space-y-1.5 text-xs font-telemetry-code">
+<div class="flex justify-between border-b border-outline-variant/30 py-0.5">
+<span class="text-outline">CRONOS ID:</span>
+<span class="text-primary font-bold">#CRONOS-0142</span>
+</div>
+<div class="flex justify-between border-b border-outline-variant/30 py-0.5">
+<span class="text-outline">HORAS (T-ZERO // CIERRE):</span>
+<span class="text-on-surface font-semibold">14:00 - 16:00 UTC</span>
+</div>
+<div class="flex justify-between border-b border-outline-variant/30 py-0.5">
+<span class="text-outline">120 MINUTOS:</span>
+<span class="text-secondary font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs text-secondary">check_circle</span>
+                    COMPLETOS &amp; AUDITADOS
+                  </span>
+</div>
+<div class="py-1">
+<span class="text-outline block text-[10px]">RESULTADO VERIFICADO:</span>
+<span class="text-primary-fixed text-[11px] block truncate">Sistema de navegación y HUD persistente operativo.</span>
+</div>
+<div class="py-0.5">
+<span class="text-outline block text-[10px]">PRÓXIMA ACCIÓN CONECTADA:</span>
+<span class="text-secondary text-[11px] block truncate">Conectar persistencia de datos en Supabase.</span>
+</div>
+</div>
+</div>
+<!-- Botón de acción táctil: Sellar Bloque -->
+<div class="mt-4 pt-3 border-t border-outline-variant/40 flex items-center justify-between">
+<span class="text-[9px] font-telemetry-code text-outline uppercase font-semibold">FIRMA CRIPTOGRÁFICA OK</span>
+<button class="px-4 py-1.5 bg-secondary text-surface-container-lowest font-orbitron text-xs font-bold rounded hover:bg-secondary-fixed transition-all shadow-[0_0_12px_rgba(72,221,193,0.45)] active:scale-95 flex items-center gap-1.5" id="btn-seal-block">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+<span>SELLAR BLOQUE</span>
+</button>
+</div>
+</div>
+</div>
+<!-- ================= 9. PIE CANÓNICO ================= -->
+<div class="mt-6 pt-5 border-t border-outline-variant/40 text-center space-y-2">
+<div class="font-audiowide text-sm sm:text-base text-primary-container tracking-widest flex items-center justify-center flex-wrap gap-2">
+<span>OMNIA</span>
+<span class="text-secondary">✦</span>
+<span>FLUX</span>
+<span class="text-secondary">✦</span>
+<span>ORBE</span>
+<span class="text-secondary">✦</span>
+<span>CRONOS</span>
+<span class="text-secondary">✦</span>
+<span>AVATAR</span>
+<span class="text-secondary">✦</span>
+<span>ATANOR</span>
+</div>
+<div class="font-orbitron font-bold text-xs sm:text-sm text-secondary tracking-widest">
+            ELIGE ✦ EJECUTA ✦ REGISTRA ✦ EVOLUCIONA
+          </div>
+<p class="font-telemetry-code text-[11px] text-outline uppercase tracking-wider">
+            "EL TIEMPO ES RECURSO • EL BLOQUE ES UNIDAD • LA ACCIÓN ES PROGRESO"
+          </p>
+</div>
+</section>
+</div>
+<!-- ================= FOOTER COMPONENT ================= -->
+<footer class="flex flex-wrap justify-between items-center w-full px-space-md py-3 text-telemetry-code text-xs border-t border-outline-variant/30 bg-[#05080c] z-30 mt-10">
+<div class="text-primary uppercase flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-container shadow-[0_0_6px_#00f0ff]"></span>
+        MAGNOPVS LIFE HERO // SYSTEM CORE v6.8.0-RELEASE // COSMIC HUD STATUS: OPTIMAL [LATENCY: 14MS]
+      </div>
+<div class="flex items-center space-x-6 text-[11px] mt-2 sm:mt-0">
+<a class="text-outline hover:text-primary-fixed hover:underline transition-colors" href="#">Telemetry Log</a>
+<a class="text-outline hover:text-primary-fixed hover:underline transition-colors" href="#">Quantum Nodes</a>
+<a class="text-outline hover:text-primary-fixed hover:underline transition-colors" href="#">Security Protocol</a>
+<a class="text-outline hover:text-primary-fixed hover:underline transition-colors" href="#">EULA Void</a>
+</div>
+</footer>
+</main>
+</div>
+<!-- ================= INTERACTIVE HUD SCRIPTS ================= -->
+<script>
+  (function initCronosHud() {
+    // 1. Cronómetro Vivo (120m Countdown)
+    let totalSeconds = 6845; // 01:54:05
+    let isRunning = true;
+    const countdownEl = document.getElementById('countdown-val');
+    const pauseBtn = document.getElementById('btn-toggle-pause');
+    const skipBtn = document.getElementById('btn-fast-forward');
+
+    function formatTime(sec) {
+      const hrs = Math.floor(sec / 3600);
+      const mins = Math.floor((sec % 3600) / 60);
+      const s = sec % 60;
+      return String(hrs).padStart(2, '0') + ':' + 
+             String(mins).padStart(2, '0') + ':' + 
+             String(s).padStart(2, '0');
+    }
+
+    setInterval(() => {
+      if (isRunning && totalSeconds > 0) {
+        totalSeconds--;
+        if (countdownEl) countdownEl.textContent = formatTime(totalSeconds);
+      }
+    }, 1000);
+
+    if (pauseBtn) {
+      pauseBtn.addEventListener('click', () => {
+        isRunning = !isRunning;
+        pauseBtn.innerHTML = isRunning 
+          ? '<span class="material-symbols-outlined text-[18px]">pause</span>' 
+          : '<span class="material-symbols-outlined text-[18px] text-primary-container">play_arrow</span>';
+      });
+    }
+
+    if (skipBtn) {
+      skipBtn.addEventListener('click', () => {
+        totalSeconds = Math.max(0, totalSeconds - 300); // Salto de 5m
+        if (countdownEl) countdownEl.textContent = formatTime(totalSeconds);
+      });
+    }
+
+    // 2. Baremar: Matriz de cuantificación interactiva
+    const sImp = document.getElementById('slider-imp');
+    const sUrg = document.getElementById('slider-urg');
+    const sImpac = document.getElementById('slider-impac');
+    const sDep = document.getElementById('slider-dep');
+    const sCost = document.getElementById('slider-cost');
+
+    const vImp = document.getElementById('val-imp');
+    const vUrg = document.getElementById('val-urg');
+    const vImpac = document.getElementById('val-impac');
+    const vDep = document.getElementById('val-dep');
+    const vCost = document.getElementById('val-cost');
+
+    const formulaTxt = document.getElementById('formula-txt');
+    const scoreBadge = document.getElementById('score-badge');
+
+    function updateBaremar() {
+      if (!sImp) return;
+      const imp = parseInt(sImp.value, 10);
+      const urg = parseInt(sUrg.value, 10);
+      const impac = parseInt(sImpac.value, 10);
+      const dep = parseInt(sDep.value, 10);
+      const cost = parseInt(sCost.value, 10);
+
+      if (vImp) vImp.textContent = imp;
+      if (vUrg) vUrg.textContent = urg;
+      if (vImpac) vImpac.textContent = impac;
+      if (vDep) vDep.textContent = dep;
+      if (vCost) vCost.textContent = cost;
+
+      const total = (2 * imp) + urg + impac + dep - cost;
+      
+      let tag = "CRÍTICA ALTA";
+      if (total < 10) tag = "BAJA PRIORIDAD";
+      else if (total < 16) tag = "ESTÁNDAR";
+
+      if (formulaTxt) {
+        formulaTxt.innerHTML = `VALOR = (2 × ${imp}) + ${urg} + ${impac} + ${dep} − ${cost} = <strong class="text-primary-container font-bold">${total}</strong>`;
+      }
+      if (scoreBadge) {
+        scoreBadge.textContent = `${total} PTS // ${tag}`;
+      }
+    }
+
+    [sImp, sUrg, sImpac, sDep, sCost].forEach(sl => {
+      if (sl) sl.addEventListener('input', updateBaremar);
+    });
+
+    // 3. Selectores de Área de Vida
+    document.querySelectorAll('.life-area-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.life-area-btn').forEach(b => {
+          b.className = "life-area-btn py-1.5 px-1 text-center rounded border border-outline-variant/50 bg-surface-container-low text-on-surface-variant font-orbitron text-[10px] hover:border-primary-container transition-all";
+          b.textContent = b.getAttribute('data-area');
+        });
+        this.className = "life-area-btn py-1.5 px-1 text-center rounded border border-primary-container bg-primary-container/20 text-primary-container font-orbitron text-[10px] font-bold shadow-[0_0_10px_rgba(0,240,255,0.35)]";
+        this.textContent = this.getAttribute('data-area') + ' ✦';
+      });
+    });
+
+    // 4. Selector de Tipo de Bloque
+    document.querySelectorAll('.block-type-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.block-type-btn').forEach(b => {
+          b.className = "block-type-btn py-1 px-2 text-left rounded border border-outline-variant/40 bg-surface-container-low text-on-surface-variant font-orbitron text-[10px] hover:border-primary-container";
+          b.textContent = b.textContent.replace('✦ ', '');
+        });
+        this.className = "block-type-btn py-1 px-2 text-left rounded border border-primary-container bg-primary-container/20 text-primary-container font-orbitron text-[10px] font-bold shadow-[0_0_8px_rgba(0,240,255,0.3)]";
+        if (!this.textContent.includes('✦')) {
+          this.textContent = '✦ ' + this.textContent.trim();
+        }
+      });
+    });
+
+    // 5. Selector de Capacidad Disponible
+    document.querySelectorAll('.cap-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.cap-btn').forEach(b => {
+          b.className = "cap-btn w-full py-1 px-2.5 flex items-center justify-between rounded border border-outline-variant/40 bg-surface-container-low text-on-surface-variant font-orbitron text-[10px] hover:border-secondary";
+        });
+        this.className = "cap-btn w-full py-1.5 px-2.5 flex items-center justify-between rounded border border-secondary bg-secondary/20 text-secondary font-orbitron text-[10px] font-bold shadow-[0_0_10px_rgba(72,221,193,0.3)]";
+      });
+    });
+
+    // 6. Botón Sellar Bloque Feedback
+    const sealBtn = document.getElementById('btn-seal-block');
+    if (sealBtn) {
+      sealBtn.addEventListener('click', () => {
+        sealBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">check_circle</span> <span>BLOQUE SELLADO</span>';
+        sealBtn.classList.remove('bg-secondary');
+        sealBtn.classList.add('bg-primary-container', 'text-surface-container-lowest');
+      });
+    }
+
+    // 7. Botón Encolar Siguiente Bloque
+    const enqueueBtn = document.getElementById('btn-enqueue-block');
+    if (enqueueBtn) {
+      enqueueBtn.addEventListener('click', () => {
+        enqueueBtn.innerHTML = '<span class="material-symbols-outlined text-[17px] text-secondary">done_all</span> <span>CRONOS-0143 ENCOLADO CON ÉXITO</span>';
+      });
+    }
+  })();
+</script>
+</body></html>

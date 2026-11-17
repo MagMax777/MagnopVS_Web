@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · Cónclaves Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary-fixed-dim": "#47ddc1",
+                        "surface-container-high": "#272a2d",
+                        "surface-container": "#1c2023",
+                        "on-tertiary": "#531c3b",
+                        "on-surface-variant": "#bfc8cf",
+                        "status-critical": "#93000a",
+                        "tertiary-fixed": "#ffd8e7",
+                        "surface-panel": "rgba(255, 255, 255, 0.03)",
+                        "surface-tint": "#7fd0ff",
+                        "surface-container-highest": "#313538",
+                        "on-background": "#e0e3e6",
+                        "background": "#101417",
+                        "on-secondary-fixed": "#00201a",
+                        "secondary": "#47ddc1",
+                        "background-deep": "#0a0b12",
+                        "surface-container-low": "#181c1f",
+                        "tertiary-container": "#ffafd4",
+                        "inverse-primary": "#00658b",
+                        "primary": "#c5e7ff",
+                        "on-secondary-container": "#004439",
+                        "tertiary": "#ffd8e7",
+                        "inverse-on-surface": "#2d3134",
+                        "secondary-container": "#00bba0",
+                        "on-error": "#690005",
+                        "grid-line": "rgba(127, 208, 255, 0.05)",
+                        "on-tertiary-container": "#7c3e5e",
+                        "on-secondary-fixed-variant": "#005144",
+                        "on-primary": "#00344a",
+                        "on-primary-container": "#00597b",
+                        "surface-container-lowest": "#0b0f11",
+                        "on-surface": "#e0e3e6",
+                        "on-secondary": "#00382e",
+                        "inverse-surface": "#e0e3e6",
+                        "on-tertiary-fixed": "#390625",
+                        "primary-container": "#7fd0ff",
+                        "on-tertiary-fixed-variant": "#6e3252",
+                        "on-primary-fixed": "#001e2d",
+                        "secondary-fixed": "#6af9dc",
+                        "primary-fixed-dim": "#7fd0ff",
+                        "primary-fixed": "#c5e7ff",
+                        "surface-dim": "#101417",
+                        "surface": "#101417",
+                        "surface-bright": "#363a3d",
+                        "error": "#ffb4ab",
+                        "glow-cyan": "#2da8e0",
+                        "outline": "#899299",
+                        "error-container": "#93000a",
+                        "outline-variant": "#3f484e",
+                        "surface-variant": "#313538",
+                        "tertiary-fixed-dim": "#ffafd4",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#004c6a",
+                        "neon-magenta": "#ff00ff",
+                        "neon-gold": "#ffd700"
+                    },
+                    fontFamily: {
+                        "audiowide": ["Audiowide", "cursive"],
+                        "orbitron": ["Orbitron", "sans-serif"],
+                        "display-lg": ["Space Grotesk", "sans-serif"],
+                        "label-caps": ["JetBrains Mono", "monospace"],
+                        "mono-data": ["JetBrains Mono", "monospace"]
+                    },
+                    fontSize: {
+                        "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "0.05em", fontWeight: "700" }],
+                        "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.15em", fontWeight: "500" }],
+                        "mono-data": ["14px", { lineHeight: "20px", fontWeight: "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #0a0b12;
+            color: #e0e3e6;
+            font-family: 'Orbitron', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .cyber-grid {
+            background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
+                              linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(127, 208, 255, 0.2);
+            position: relative;
+        }
+
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 4px;
+            border-top: 2px solid #7fd0ff; border-left: 2px solid #7fd0ff;
+        }
+
+        .glass-panel::after {
+            content: '';
+            position: absolute;
+            bottom: 0; right: 0; width: 4px; height: 4px;
+            border-bottom: 2px solid #7fd0ff; border-right: 2px solid #7fd0ff;
+        }
+
+        .tab-active {
+            color: #c5e7ff;
+            border-bottom: 2px solid #ff00ff;
+            text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+        }
+
+        .hexagon-mask {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        .btn-cyber-primary {
+            background: #c5e7ff;
+            color: #00344a;
+            clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+            transition: all 0.3s ease;
+        }
+
+        .btn-cyber-primary:hover {
+            box-shadow: 0 0 15px rgba(127, 208, 255, 0.6);
+            transform: scale(1.05);
+        }
+
+        @keyframes pulse-cyan {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; text-shadow: 0 0 15px #7fd0ff; }
+        }
+
+        .neon-pulse {
+            animation: pulse-cyan 3s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen relative selection:bg-primary/30">
+<!-- Global Background Elements -->
+<div class="fixed inset-0 z-0">
+<div class="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-overlay" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCGTGA9cpYnYV-m6bQY-JVJb8p21VSZcXXLEG7e3Mlf8xilAwanXDS-zeaAwibNetMqC-xS_yY7TJmfmSEM4PAvPoXo2Yyqt7nXRQYMos9y2_dvKk89t5oLdfCgaLoe1Z1OPjaAkrMxFGFaETIEsLj6-6F5VDXe9G3q9wsw6TTwi4tmNlkRIQTJP9MhGbwqZ2uFXGix5TGg4XLO0UlbpvzmDlW35ids6xzW0tBuxFf9coEy_Iq_zIGR51wdIcq5VEY-vXZVhhYIwcxo')"></div>
+<div class="absolute inset-0 cyber-grid opacity-20"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background-deep via-transparent to-background-deep"></div>
+</div>
+<!-- Layout Shell -->
+<div class="relative z-10 flex min-h-screen">
+<!-- Sidebar Navigation (Mandatory Command) -->
+<aside class="hidden lg:flex flex-col fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-low/50 backdrop-blur-2xl border-r border-primary/20">
+<div class="p-8">
+<h2 class="font-audiowide text-primary tracking-widest text-xl mb-1">OPERATOR_01</h2>
+<p class="font-mono-data text-outline-variant text-[10px]">LVL 42 // TITAN</p>
+</div>
+<nav class="flex-1 px-4 py-8 space-y-4">
+<a class="flex items-center gap-4 px-4 py-3 text-outline-variant hover:bg-surface-container-highest/30 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps uppercase">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-primary border-l-2 border-primary bg-primary/5 font-bold shadow-[inset_4px_0_10px_rgba(127,208,255,0.1)]" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label-caps uppercase">13 Houses</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-outline-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps uppercase">Missions</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-outline-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps uppercase">Attributes</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-outline-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">vitals</span>
+<span class="font-label-caps uppercase">Alchemy</span>
+</a>
+</nav>
+<div class="p-8 border-t border-primary/10">
+<p class="font-mono-data text-[10px] text-outline-variant/40">SYSTEM_STABLE v4.2.0</p>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 lg:ml-64 p-margin-mobile md:p-margin-desktop pb-32">
+<!-- Header Section -->
+<header class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="font-audiowide text-4xl md:text-6xl text-neon-magenta tracking-tighter uppercase mb-2 drop-shadow-[0_0_12px_rgba(255,0,255,0.4)]">
+                        CÓNCLAVES
+                    </h1>
+<p class="font-orbitron text-primary/60 text-lg uppercase tracking-[0.2em] flex items-center gap-3">
+<span class="w-12 h-[1px] bg-primary/40"></span>
+                        Sindicatos de Almas
+                    </p>
+</div>
+<div class="flex gap-2">
+<button class="glass-panel px-6 py-2 font-label-caps text-primary uppercase text-[10px] hover:border-primary transition-colors">
+<span class="flex items-center gap-2"><span class="material-symbols-outlined text-sm">history</span> Registros</span>
+</button>
+<button class="glass-panel px-6 py-2 font-label-caps text-primary uppercase text-[10px] hover:border-primary transition-colors">
+<span class="flex items-center gap-2"><span class="material-symbols-outlined text-sm">settings_input_component</span> Protocolo</span>
+</button>
+</div>
+</header>
+<!-- Navigation Tabs -->
+<div class="flex gap-8 mb-12 border-b border-outline-variant/30 overflow-x-auto whitespace-nowrap scrollbar-hide">
+<button class="tab-active py-4 font-label-caps text-sm uppercase tracking-widest transition-all" id="tab-explorar" onclick="switchTab('explorar')">Explorar</button>
+<button class="py-4 font-label-caps text-sm uppercase tracking-widest text-outline-variant hover:text-on-surface transition-all" id="tab-mi-conclave" onclick="switchTab('mi-conclave')">Mi Cónclave</button>
+<button class="py-4 font-label-caps text-sm uppercase tracking-widest text-outline-variant hover:text-on-surface transition-all" id="tab-red" onclick="switchTab('red')">Red (Orgs)</button>
+</div>
+<!-- View: Explorar (Global Rank) -->
+<section class="view-content space-y-6" id="view-explorar">
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-gutter">
+<!-- Conclave Card 1 -->
+<div class="glass-panel p-6 group hover:border-primary/60 transition-all duration-300">
+<div class="flex items-start justify-between mb-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 hexagon-mask bg-surface-container-highest flex items-center justify-center border border-primary/20">
+<span class="material-symbols-outlined text-neon-gold" style="font-variation-settings: 'FILL' 1;">castle</span>
+</div>
+<div>
+<h3 class="font-audiowide text-lg text-primary">AUREUM_ORDER</h3>
+<p class="font-mono-data text-[10px] text-outline-variant uppercase">Rank #01 · High Council</p>
+</div>
+</div>
+<span class="font-audiowide text-2xl text-neon-gold/40">01</span>
+</div>
+<div class="space-y-4 mb-6">
+<div class="flex justify-between text-[11px] font-orbitron uppercase">
+<span class="text-outline">Poder del Egrégor</span>
+<span class="text-neon-gold">98.2%</span>
+</div>
+<div class="h-1 bg-surface-container-highest rounded-full overflow-hidden flex gap-1">
+<div class="h-full bg-neon-gold w-full shadow-[0_0_10px_#ffd700]"></div>
+</div>
+<div class="flex justify-between font-mono-data text-[11px]">
+<span class="text-outline">Miembros: 1,240</span>
+<span class="text-outline">Sector: CITADEL</span>
+</div>
+</div>
+<button class="w-full btn-cyber-primary py-2 font-audiowide uppercase text-sm">Unirse</button>
+</div>
+<!-- Conclave Card 2 -->
+<div class="glass-panel p-6 group hover:border-primary/60 transition-all duration-300">
+<div class="flex items-start justify-between mb-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 hexagon-mask bg-surface-container-highest flex items-center justify-center border border-primary/20">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">hive</span>
+</div>
+<div>
+<h3 class="font-audiowide text-lg text-primary">HEX_VIRTUE</h3>
+<p class="font-mono-data text-[10px] text-outline-variant uppercase">Rank #05 · Alchemists</p>
+</div>
+</div>
+<span class="font-audiowide text-2xl text-outline/20">05</span>
+</div>
+<div class="space-y-4 mb-6">
+<div class="flex justify-between text-[11px] font-orbitron uppercase">
+<span class="text-outline">Sincronía Astral</span>
+<span class="text-secondary">74.5%</span>
+</div>
+<div class="h-1 bg-surface-container-highest rounded-full overflow-hidden flex gap-1">
+<div class="h-full bg-secondary w-3/4 shadow-[0_0_10px_#47ddc1]"></div>
+<div class="h-full bg-outline-variant w-1/4"></div>
+</div>
+<div class="flex justify-between font-mono-data text-[11px]">
+<span class="text-outline">Miembros: 890</span>
+<span class="text-outline">Sector: VOID</span>
+</div>
+</div>
+<button class="w-full btn-cyber-primary py-2 font-audiowide uppercase text-sm">Unirse</button>
+</div>
+<!-- Conclave Card 3 -->
+<div class="glass-panel p-6 group hover:border-primary/60 transition-all duration-300">
+<div class="flex items-start justify-between mb-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 hexagon-mask bg-surface-container-highest flex items-center justify-center border border-primary/20">
+<span class="material-symbols-outlined text-neon-magenta" style="font-variation-settings: 'FILL' 1;">skull</span>
+</div>
+<div>
+<h3 class="font-audiowide text-lg text-primary">NIGHT_WALKERS</h3>
+<p class="font-mono-data text-[10px] text-outline-variant uppercase">Rank #12 · Shadows</p>
+</div>
+</div>
+<span class="font-audiowide text-2xl text-outline/20">12</span>
+</div>
+<div class="space-y-4 mb-6">
+<div class="flex justify-between text-[11px] font-orbitron uppercase">
+<span class="text-outline">Sigilo Cuántico</span>
+<span class="text-neon-magenta">52.1%</span>
+</div>
+<div class="h-1 bg-surface-container-highest rounded-full overflow-hidden flex gap-1">
+<div class="h-full bg-neon-magenta w-1/2 shadow-[0_0_10px_#ff00ff]"></div>
+<div class="h-full bg-outline-variant w-1/2"></div>
+</div>
+<div class="flex justify-between font-mono-data text-[11px]">
+<span class="text-outline">Miembros: 412</span>
+<span class="text-outline">Sector: SLUMS</span>
+</div>
+</div>
+<button class="w-full btn-cyber-primary py-2 font-audiowide uppercase text-sm">Unirse</button>
+</div>
+</div>
+</section>
+<!-- View: Mi Cónclave (Clan Details) -->
+<section class="view-content hidden space-y-8" id="view-mi-conclave">
+<!-- Cinematic Banner -->
+<div class="relative h-64 md:h-80 w-full glass-panel overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center opacity-30 blur-[2px]" data-alt="A cinematic low-angle shot of a futuristic cyberpunk temple interior with glowing cyan pillars and dark metallic walls. In the center, a large holographic logo of a lion's head pulses with golden light. The atmosphere is thick with digital haze and floating data particles, creating a sense of sacred technological power. Soft blue and gold lighting illuminates the scene, giving it a majestic and highly advanced aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAEIfiVeJ8f6E1e_YqtWYd62cnH25s_7RK-EyAusDWQT8XjUknB1v760hKDEpUAU7U57r8t-67jsaUmgWMH5HHXqE13_IF4m3pANISZ5xpJytJY1Zhaou9w4VT4euule5-jQgu7i8NU11GRat6ZFHdwLDx2egwzhZgw33GTe94FRGRlbtaGYakxcXrHp1fMPyJKV33mFNHVvR2HDia_QBFhvKFNjv8gfQ30-TAwfLEERQmrMn-0M6J1IcoK5djoeoqyLK9bPACFzr5D')"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-background-deep to-transparent"></div>
+<div class="relative h-full flex flex-col justify-center p-12">
+<div class="flex items-center gap-6 mb-4">
+<div class="w-20 h-20 hexagon-mask bg-neon-gold p-[2px]">
+<div class="w-full h-full bg-background-deep hexagon-mask flex items-center justify-center">
+<span class="material-symbols-outlined text-neon-gold text-4xl" style="font-variation-settings: 'FILL' 1;">shield</span>
+</div>
+</div>
+<div>
+<h2 class="font-audiowide text-3xl md:text-5xl text-primary uppercase">TITÁN_SQUAD</h2>
+<p class="font-orbitron text-neon-magenta text-sm tracking-[0.3em] italic uppercase">"La Fuerza es el Código"</p>
+</div>
+</div>
+<div class="flex flex-wrap gap-8">
+<div class="flex flex-col">
+<span class="font-label-caps text-[10px] text-outline-variant">TESORERÍA</span>
+<span class="font-audiowide text-2xl text-neon-gold">1,420,500 MC</span>
+</div>
+<div class="flex flex-col border-l border-primary/20 pl-8">
+<span class="font-label-caps text-[10px] text-outline-variant">RANGO_GLOBAL</span>
+<span class="font-audiowide text-2xl text-primary">#42</span>
+</div>
+<div class="flex flex-col border-l border-primary/20 pl-8">
+<span class="font-label-caps text-[10px] text-outline-variant">PODER_TOTAL</span>
+<span class="font-audiowide text-2xl text-secondary">LVL 850</span>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Actions -->
+<div class="glass-panel p-8">
+<h3 class="font-audiowide text-primary uppercase mb-6 flex items-center gap-3">
+<span class="material-symbols-outlined">bolt</span> Operaciones
+                        </h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<button class="flex flex-col items-center justify-center gap-3 p-6 glass-panel hover:bg-primary/10 transition-all group">
+<span class="material-symbols-outlined text-neon-gold text-3xl group-hover:scale-110 transition-transform">payments</span>
+<span class="font-label-caps text-xs">Donar MC</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-3 p-6 glass-panel hover:bg-neon-magenta/10 transition-all group">
+<span class="material-symbols-outlined text-neon-magenta text-3xl group-hover:scale-110 transition-transform">swords</span>
+<span class="font-label-caps text-xs">Duelo Clan</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-3 p-6 glass-panel hover:bg-secondary/10 transition-all group">
+<span class="material-symbols-outlined text-secondary text-3xl group-hover:scale-110 transition-transform">group_add</span>
+<span class="font-label-caps text-xs">Reclutar</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-3 p-6 glass-panel hover:bg-primary/10 transition-all group">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:scale-110 transition-transform">forum</span>
+<span class="font-label-caps text-xs">Canal Vox</span>
+</button>
+</div>
+</div>
+<!-- Recent Logs -->
+<div class="glass-panel p-8">
+<h3 class="font-audiowide text-primary uppercase mb-6 flex items-center gap-3">
+<span class="material-symbols-outlined">terminal</span> Bitácora_Sindicato
+                        </h3>
+<div class="space-y-4">
+<div class="flex items-start gap-4 font-mono-data text-[12px] opacity-70">
+<span class="text-neon-magenta shrink-0">[14:20]</span>
+<span><span class="text-primary">@ZET_01</span> donó 50,000 MC al fondo común.</span>
+</div>
+<div class="flex items-start gap-4 font-mono-data text-[12px] opacity-70">
+<span class="text-neon-magenta shrink-0">[11:05]</span>
+<span>Expansión de <span class="text-secondary">Egrégor</span> completada al nivel 4.</span>
+</div>
+<div class="flex items-start gap-4 font-mono-data text-[12px] opacity-70">
+<span class="text-neon-magenta shrink-0">[09:50]</span>
+<span>Alerta: <span class="text-status-critical">@HYDRA_CONCLAVE</span> ha declarado duelo.</span>
+</div>
+<div class="flex items-start gap-4 font-mono-data text-[12px] opacity-70">
+<span class="text-neon-magenta shrink-0">[00:12]</span>
+<span>Protocolo de defensa activado por <span class="text-primary">@SYSTEM_BOT</span>.</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- View: Red (Organizations) -->
+<section class="view-content hidden space-y-8" id="view-red">
+<!-- Egregor System Card -->
+<div class="glass-panel p-12 border-secondary/30 relative overflow-hidden">
+<div class="absolute -right-20 -top-20 w-64 h-64 bg-secondary/10 rounded-full blur-[80px]"></div>
+<div class="flex flex-col md:flex-row gap-12 items-center">
+<div class="w-48 h-48 relative flex items-center justify-center">
+
+<div class="w-32 h-32 hexagon-mask bg-surface-container-highest border border-secondary/40 flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-secondary text-5xl neon-pulse" style="font-variation-settings: 'FILL' 1;">hub</span>
+</div>
+</div>
+<div class="flex-1 space-y-6">
+<div>
+<h2 class="font-audiowide text-3xl text-secondary mb-2">SISTEMA_EGREGOR</h2>
+<p class="font-orbitron text-outline-variant text-sm uppercase tracking-widest">Gestión de Entidades Autogestionadas</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-surface-container-low p-4 border border-outline-variant/20">
+<p class="font-mono-data text-[10px] text-outline mb-1 uppercase">Entidades</p>
+<p class="font-audiowide text-xl">03</p>
+</div>
+<div class="bg-surface-container-low p-4 border border-outline-variant/20">
+<p class="font-mono-data text-[10px] text-outline mb-1 uppercase">Flujo_Energía</p>
+<p class="font-audiowide text-xl text-secondary">+12.5%</p>
+</div>
+<div class="bg-surface-container-low p-4 border border-outline-variant/20">
+<p class="font-mono-data text-[10px] text-outline mb-1 uppercase">Sincronía</p>
+<p class="font-audiowide text-xl">HIGH</p>
+</div>
+<div class="bg-surface-container-low p-4 border border-outline-variant/20">
+<p class="font-mono-data text-[10px] text-outline mb-1 uppercase">Uptime</p>
+<p class="font-audiowide text-xl">99.9%</p>
+</div>
+</div>
+<button class="btn-cyber-primary px-8 py-3 font-audiowide uppercase text-xs">Desplegar Nueva Entidad</button>
+</div>
+</div>
+</div>
+<h3 class="font-audiowide text-primary uppercase text-xl flex items-center gap-3">
+<span class="material-symbols-outlined">share_reviews</span> Afiliaciones Activas
+                </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="glass-panel p-6 flex gap-6 items-center">
+<img class="w-16 h-16 object-cover border border-primary/20" data-alt="A stylized minimalist corporate logo for a space mining corporation. The icon shows a white stylized drill bit intersecting a blue circle on a dark grey background. The style is clean, technical, and high-contrast, fitting a sci-fi corporate branding aesthetic with neon blue highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdtuLDJsSGCoKDHPPrR1Pp6BVtGTVqNRen6DtKP2bWS3mNIYQ9q-ncVe-lyKxLVw3SWX_wLNnV6Co8gdUiOkGmnzHK9M8IQyQRIzNA_CzakUs92Cemz-5UJa6kGCZfFmcPtZkTS_l9PBPjmquhJUmHIllqze0kRhByjzCccUWNSsUikZK_ExVrClHrZ8l9w_vWurfouETYpwOLmixZ7ikCfTX0KxLB2HQlu8ZBFTV7KAaPG_BzAgEIiq1slnywq_Mwlzncz_oe_yeA"/>
+<div class="flex-1">
+<h4 class="font-audiowide text-primary text-sm uppercase">NEO_MINING_CORP</h4>
+<p class="font-mono-data text-[11px] text-outline">Rol: Contratista Externo</p>
+</div>
+<span class="material-symbols-outlined text-secondary">verified</span>
+</div>
+<div class="glass-panel p-6 flex gap-6 items-center">
+<img class="w-16 h-16 object-cover border border-primary/20" data-alt="A tech-noir style logo for a biotechnology firm, featuring a stylized DNA helix intertwined with a digital circuit board pattern. The colors are emerald green and deep charcoal. The design is sleek, modern, and slightly mysterious, looking like a holographic badge in a futuristic setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEMk8IAVdQm2EZ9stNJtrkykfX1bBS4u9V1h3F7dXm4CoqlSWw0jbDCSW76LoQ201yJIrjpgTVy6R8meddOfB3TYDJrJX87rWXVnXF_-1pNC7Yr85FEaCvLs8Gzbr9V4pQFOBdamD6jjRg5gly940wB4n5iSax1ZLnDsrDwalGUwiAOWFc_RvZTjZle3JrYlDBSA71nFAoqQjP0zCc5Qx5m8M5qlMABWHW1SZ20yT7omXf1sbpmFAABHVPR219ZLSXDbuYdG9dspnY"/>
+<div class="flex-1">
+<h4 class="font-audiowide text-primary text-sm uppercase">BIO_GENESIS_LABS</h4>
+<p class="font-mono-data text-[11px] text-outline">Rol: Accionista Minoritario</p>
+</div>
+<span class="material-symbols-outlined text-secondary">verified</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Fixed Footer Actions -->
+<footer class="fixed bottom-0 left-0 lg:left-64 right-0 p-8 z-50 flex justify-center bg-gradient-to-t from-background-deep to-transparent pointer-events-none">
+<button class="pointer-events-auto btn-cyber-primary px-12 py-4 font-audiowide uppercase flex items-center gap-4 group">
+<span class="material-symbols-outlined group-hover:-translate-x-2 transition-transform">arrow_back</span>
+                Volver al Hub
+            </button>
+</footer>
+</div>
+<!-- Mobile Bottom Nav (Mandatory Command) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 pb-safe px-4 bg-surface-container/80 backdrop-blur-lg border-t border-primary/20">
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">space_dashboard</span>
+<span class="text-[9px] font-label-caps uppercase">Dash</span>
+</button>
+<button class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-110">
+<span class="material-symbols-outlined">temple_hindu</span>
+<span class="text-[9px] font-label-caps uppercase">Houses</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">assignment_late</span>
+<span class="text-[9px] font-label-caps uppercase">Missions</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="text-[9px] font-label-caps uppercase">Stats</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">autorenew</span>
+<span class="text-[9px] font-label-caps uppercase">Cycle</span>
+</button>
+</nav>
+<script>
+        function switchTab(tabId) {
+            // Hide all views
+            document.querySelectorAll('.view-content').forEach(view => {
+                view.classList.add('hidden');
+            });
+            
+            // Remove active classes from all tabs
+            document.querySelectorAll('[id^="tab-"]').forEach(tab => {
+                tab.classList.remove('tab-active');
+                tab.classList.add('text-outline-variant');
+            });
+
+            // Show selected view
+            document.getElementById(`view-${tabId}`).classList.remove('hidden');
+            
+            // Activate selected tab
+            const activeTab = document.getElementById(`tab-${tabId}`);
+            activeTab.classList.add('tab-active');
+            activeTab.classList.remove('text-outline-variant');
+        }
+
+        // Pulse effect for interactive elements
+        document.querySelectorAll('.btn-cyber-primary').forEach(btn => {
+            btn.addEventListener('mousedown', () => {
+                btn.style.transform = 'scale(0.95)';
+            });
+            btn.addEventListener('mouseup', () => {
+                btn.style.transform = 'scale(1.05)';
+            });
+        });
+    </script>
+</body></html>

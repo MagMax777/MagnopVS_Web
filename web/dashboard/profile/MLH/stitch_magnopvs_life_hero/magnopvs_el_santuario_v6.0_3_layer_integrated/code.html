@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;600;700&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-container": "#004439",
+                        "inverse-surface": "#dfe3e8",
+                        "on-primary-container": "#003951",
+                        "on-tertiary-container": "#6a0046",
+                        "on-surface-variant": "#bec8d0",
+                        "inverse-primary": "#00658c",
+                        "tertiary-container": "#ff64ba",
+                        "surface-container-high": "#262b2e",
+                        "surface-tint": "#7fd0ff",
+                        "on-primary-fixed-variant": "#004c6a",
+                        "on-secondary-fixed-variant": "#005144",
+                        "surface-dim": "#0f1417",
+                        "secondary-container": "#00bba0",
+                        "primary-fixed": "#c5e7ff",
+                        "on-primary-fixed": "#001e2d",
+                        "outline-variant": "#3e484f",
+                        "surface-variant": "#303539",
+                        "surface-bright": "#353a3e",
+                        "on-tertiary-fixed": "#3d0026",
+                        "error-container": "#93000a",
+                        "on-secondary-fixed": "#00201a",
+                        "background": "#050505",
+                        "surface-container-lowest": "#0a0f12",
+                        "primary": "#7fd0ff",
+                        "surface-container-highest": "#303539",
+                        "on-secondary": "#00382e",
+                        "secondary-fixed": "#6af9dc",
+                        "secondary-fixed-dim": "#48ddc1",
+                        "inverse-on-surface": "#2c3135",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#8b005d",
+                        "surface-container": "#1b2024",
+                        "on-primary": "#00344a",
+                        "on-error": "#690005",
+                        "on-background": "#dfe3e8",
+                        "error": "#ffb4ab",
+                        "surface": "#0f1417",
+                        "tertiary": "#ffafd4",
+                        "on-tertiary": "#620041",
+                        "on-surface": "#dfe3e8",
+                        "tertiary-fixed": "#ffd8e7",
+                        "secondary": "#48ddc1",
+                        "primary-container": "#2da8e0",
+                        "outline": "#88929a",
+                        "primary-fixed-dim": "#7fd0ff",
+                        "tertiary-fixed-dim": "#ffafd4",
+                        "surface-container-low": "#171c20"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "margin-desktop": "40px",
+                        "gutter": "16px",
+                        "unit": "4px",
+                        "panel-gap": "12px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Audiowide", "cursive"],
+                        "label-caps": ["Orbitron", "sans-serif"],
+                        "headline-md": ["Audiowide", "cursive"],
+                        "data-point": ["Orbitron", "sans-serif"],
+                        "body-md": ["Space Grotesk", "sans-serif"],
+                        "mono-data": ["JetBrains Mono", "monospace"],
+                        "display-lg-mobile": ["Audiowide", "cursive"]
+                    },
+                    "fontSize": {
+                        "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "data-point": ["20px", {"lineHeight": "28px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .hud-card { transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .corner-bracket { position: relative; }
+        .corner-bracket::before { content: ''; position: absolute; top: -2px; left: -2px; width: 12px; height: 12px; border-top: 2px solid var(--tw-primary); border-left: 2px solid var(--tw-primary); opacity: 0.5; }
+        .corner-bracket::after { content: ''; position: absolute; bottom: -2px; right: -2px; width: 12px; height: 12px; border-bottom: 2px solid var(--tw-primary); border-right: 2px solid var(--tw-primary); opacity: 0.5; }
+        .tab-active { color: #7fd0ff; border-bottom: 2px solid #7fd0ff; background: rgba(127, 208, 255, 0.05); }
+        .layer-content { display: none; }
+        .layer-content.active { display: block; animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .hex-clip { clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); }
+        .sofia-glow { filter: drop-shadow(0 0 15px rgba(127, 208, 255, 0.4)); }
+        .message-bubble { position: relative; border-radius: 1rem; border-bottom-left-radius: 0; }
+        .message-bubble::after { content: ''; position: absolute; bottom: 0; left: -10px; width: 20px; height: 20px; background: inherit; clip-path: polygon(100% 0, 100% 100%, 0 100%); }
+        .neon-glow-primary { box-shadow: 0 0 15px rgba(127, 208, 255, 0.4); }
+        .glass-panel { backdrop-filter: blur(24px); background-color: rgba(15, 20, 23, 0.4); border: 1px solid rgba(127, 208, 255, 0.15); }
+    </style>
+</head>
+<body class="selection:bg-primary selection:text-black min-h-screen text-on-surface bg-fixed bg-center bg-cover overflow-x-hidden" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAERQmvNlf28tkFQBr9EN7vri_vTsnC8Vi5R7VZ68EG9ZIqkpaiIEuImPo2NOwAYW1AbN2rDmx44W6kcTunGxa_o08mqJcdeErwQr3CIuq1gTnGunit_GEKo38zOs2zbKSxeJhkM6qMzAXKbhpx1soFghVrcgFrR_ZKHLBUQk5Aw7IMxNDtBk2MIDjAxcbMD7eji0M2LxCdxyr8FPH7czI9oxd4PEk1DPT6amXkWjvmclpgRzra5X0ZAEvhX-f53Wg7u60fgi0nbhtK');">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 h-20 bg-surface/30 backdrop-blur-[24px] border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="max-w-[1600px] mx-auto h-full flex justify-between items-center px-margin-mobile md:px-margin-desktop">
+<div class="flex items-center gap-6">
+<h1 class="font-display-lg text-primary tracking-widest uppercase text-2xl md:text-3xl">MLH Portal</h1>
+</div>
+<nav class="hidden lg:flex h-full items-center gap-2">
+<button class="h-full px-6 font-label-caps text-xs tracking-widest transition-all duration-300 hover:text-secondary hover:drop-shadow-[0_0_8px_#48ddc1] tab-active" id="tab-hoy" onclick="switchLayer('hoy')">HOY</button>
+<button class="h-full px-6 font-label-caps text-xs tracking-widest transition-all duration-300 hover:text-secondary hover:drop-shadow-[0_0_8px_#48ddc1] text-outline" id="tab-heroe" onclick="switchLayer('heroe')">HÉROE</button>
+<button class="h-full px-6 font-label-caps text-xs tracking-widest transition-all duration-300 hover:text-secondary hover:drop-shadow-[0_0_8px_#48ddc1] text-outline" id="tab-sistema" onclick="switchLayer('sistema')">SISTEMA</button>
+</nav>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 scale-95 active:scale-90 transition-transform cursor-pointer">
+<span class="material-symbols-outlined text-primary drop-shadow-[0_0_8px_#7fd0ff]">bolt</span>
+<span class="material-symbols-outlined text-outline hover:text-secondary transition-all">stars</span>
+<span class="material-symbols-outlined text-outline hover:text-secondary transition-all">account_circle</span>
+</div>
+</div>
+</div>
+</header>
+<!-- SideNavBar (Desktop) -->
+<aside class="hidden lg:flex flex-col fixed left-0 top-0 h-full w-64 z-40 pt-20 bg-surface-container-low/50 backdrop-blur-xl border-r border-primary/20 shadow-2xl shadow-primary/5">
+<div class="p-8">
+<div class="font-display-lg text-primary text-xl mb-1">OPERATOR_01</div>
+<div class="font-label-caps text-[10px] text-on-surface-variant/60">LVL 42 // TITAN</div>
+</div>
+<nav class="flex-1 space-y-1">
+<button class="w-full flex items-center gap-4 px-8 py-4 text-primary border-l-2 border-primary bg-primary/5 font-bold shadow-[inset_4px_0_10px_rgba(127,208,255,0.1)] translate-x-1 duration-200">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps text-xs tracking-widest">Dashboard</span>
+</button>
+<button class="w-full flex items-center gap-4 px-8 py-4 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label-caps text-xs tracking-widest">13 Houses</span>
+</button>
+<button class="w-full flex items-center gap-4 px-8 py-4 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps text-xs tracking-widest">Missions</span>
+</button>
+<button class="w-full flex items-center gap-4 px-8 py-4 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps text-xs tracking-widest">Attributes</span>
+</button>
+<button class="w-full flex items-center gap-4 px-8 py-4 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all">
+<span class="material-symbols-outlined">vitals</span>
+<span class="font-label-caps text-xs tracking-widest">Alchemy</span>
+</button>
+</nav>
+</aside>
+<main class="pt-24 pb-24 lg:pl-64">
+<div class="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-desktop">
+<!-- Capa 1: HOY -->
+<div class="layer-content active space-y-12" id="layer-hoy">
+<!-- Sof.IA Welcome Section -->
+<div class="flex flex-col md:flex-row items-center gap-8 glass-panel p-8 rounded-xl">
+<div class="relative group">
+<div class="absolute -inset-1 bg-gradient-to-r from-primary to-tertiary-container rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+<img alt="Sof.IA" class="relative w-32 h-32 md:w-48 md:h-48 rounded-full object-cover sofia-glow border-2 border-primary/40 p-1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrdzd8jCCZgXdpj5iffm3GxwEeEcnUEGS16dhVOMl41nrZF72yEMCmJl0KWjBFKkpCdtwbZMIBoJP0ylPu7uCC24xwQ7h3VIIJiQJF1aEBEOu8eOikPtaaNLk-d2-WGX6VCowJGQKB_uXw4WR1L-HRcNyIUBtlfPgqtrF716mQp4rliZXFPcu9Icih7jOhChgqp59Ze60RVg33nydehzrO117dr6wa5CrUK9CJqSpfmiDqfyGH95Fn4GGFzp8u7vy3egLtCrbOG5Xw"/>
+</div>
+<div class="flex-1 space-y-4">
+<div class="inline-block bg-primary/10 border border-primary/20 px-4 py-1 rounded-full">
+<span class="font-label-caps text-[10px] text-primary tracking-widest">IA GUÍA: SOF.IA</span>
+</div>
+<div class="message-bubble bg-surface-container-high/40 p-6 border border-primary/20 max-w-2xl">
+<p class="font-body-md text-xl text-on-surface leading-relaxed">
+                                Jean, hoy detecté una oportunidad para fortalecer tu cuerpo. ¿Comenzamos?
+                            </p>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<img alt="LP" class="w-8 h-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIaTFUa4wt0IPBrQH1kHW158W0Vjq8wOMlp1Kt611h0BOR0pDdkz_AHFjaKn13sF8lzTw3UdAZ8z3kdhuikLf4Gfw4-bUSDxsOw7KfVSptSGY0qoMkdgXxCHc7XEzXrtZHWpHteo9dRI-rKSU3P28sdLLeUaJYEqeFpEqh9iRLH4A2fR3MfrTTmu-QiLrzCwZA6ML1RB0TaeehqQHcui2jdGSeAN8-rLnuAdxdw_OuCR5N51Faz85JAeETONKaxHV39JxfPUrPTYLj"/>
+<span class="font-label-caps text-xs text-on-surface-variant">LVL 01</span>
+</div>
+<div class="h-4 w-px bg-outline-variant/30"></div>
+<div class="flex items-center gap-2">
+<img alt="XP" class="w-8 h-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1WHladgCnkDD_6XUwTUDEUY61ryyhWM4RjM7f2sTvW6fuQpOMMs_-ZJfmdRJv5k7VMeH3kgkPPGj7q65m28YgUQ3yGEC9k2SmSrwaVfvZXv2oBV84NBtEDM2VKJGv3mjzrlWwf4X9m76U_SIS0wxD8Rt8LX1W72vuhKC3pLqMlqNJDbu4qqvsVD-hE4off2NBazDv9rw2Qn9xAuw7cFKxP9GtgOcUqCHKim-7idb21B5a6WC69dtpz9Y6XOa5nYGFvScE0Wq4oVQp"/>
+<span class="font-label-caps text-xs text-on-surface-variant">1,240 XP</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Epic Mission -->
+<div class="space-y-6">
+<div class="flex items-center justify-between pl-2 border-l-2 border-primary">
+<h3 class="font-headline-md text-sm text-primary tracking-[0.3em]">MISIÓN PRINCIPAL</h3>
+<span class="font-mono-data text-[10px] text-on-surface-variant/40">REF: 2142-DAILY-01</span>
+</div>
+<div class="hud-card group relative p-10 glass-panel border-primary/30 corner-bracket overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-8xl text-primary">fitness_center</span>
+</div>
+<div class="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex items-center gap-8 w-full">
+<img alt="MC" class="w-20 h-20 object-contain drop-shadow-[0_0_15px_rgba(255,215,0,0.3)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwIurU9OFX2IMOYMKeAJxj7S0E4jNGp5zP6YG3JZ7rPXQopujBhW-C0jEZ94T9isXg6dqK61XmDPXwzr6rJ6k9qbX0Pi2UpuRJ07LLbhfYTQeN4MY6_GNoCMYn2g34D1sgJojP0b6m2xl2VMStl3jzHl7fRzPjYrD-Sfoyz-fdbbAlBKYmhw6bV99_razp3YD-U-1SyNmGPKieQ-DOCEboNzM4bdtFc1Mk5qKPOTndpgFfYAJRNPYraArrca0krF-HqxrgnG0XwPsB"/>
+<div class="text-left">
+<h4 class="font-display-lg text-3xl md:text-4xl text-on-surface mb-2">Entrena 30 minutos</h4>
+<p class="font-body-md text-on-surface-variant text-lg">Fortalece tu templo físico para las batallas venideras.</p>
+</div>
+</div>
+<button class="w-full md:w-auto px-12 py-5 bg-primary text-black font-label-caps text-sm tracking-widest hover:bg-white transition-all neon-glow-primary hover:scale-105 active:scale-90">COMENZAR</button>
+</div>
+</div>
+</div>
+<!-- Secondary Missions -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="hud-card p-6 glass-panel border border-outline-variant/20 hover:border-secondary/40 transition-colors">
+<div class="flex items-center gap-4 mb-4">
+<img alt="Vitality" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2n9cIYe1O2FQw5B2Ixn7bHpyEvZuPugJ8v4iWRCOf99rsitp8deHO4sQhjX2Xyw_hGWRliSLMBwuB1kOJW6zqIem2RLbghiXOv7X7kALmi7qIUGyPxIcADGVPlgFe8PLdPfMVDGOHxADpZL010Wx5Sz9vtvYckAQyGiCbMMCYxcSGQTalCLxr7HcCtEUjtD8Mn8hLHpdg4JGRyCZ6-4_S9fOwP57OpYIcDv4WNEki_EF_SbTEldsh3LIsu33JKaJfQyzyzOfkcDND"/>
+<span class="font-label-caps text-[11px] text-secondary tracking-wider">SECUNDARIA</span>
+</div>
+<h5 class="font-headline-md text-lg mb-1">Comer saludable</h5>
+<p class="text-xs text-on-surface-variant font-body-md">Nutre tu sistema con pureza.</p>
+</div>
+<div class="hud-card p-6 glass-panel border border-outline-variant/20 hover:border-primary/40 transition-colors">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20">
+<span class="material-symbols-outlined text-primary">water_drop</span>
+</div>
+<span class="font-label-caps text-[11px] text-primary tracking-wider">HIDRATACIÓN</span>
+</div>
+<h5 class="font-headline-md text-lg mb-1">Nivel Óptimo</h5>
+<p class="text-xs text-on-surface-variant font-body-md">Sincroniza tus niveles de agua.</p>
+</div>
+<div class="hud-card p-6 glass-panel border border-outline-variant/20 hover:border-tertiary-container/40 transition-colors">
+<div class="flex items-center gap-4 mb-4">
+<img alt="Energy" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJQK__rsdxHO4l9Sq0C8RyLl4YmTjk9VsCx7yhfvgj_PiICbkjWws0PJjbSiabhBccnaK2Eagn6U5UYBe1BuoBzmFJJ_fFK76kzQ_IFxLxCOP-o4VHckm2-6UJNCnCp7TGsnJJnTm06AHzwd7b4SO6Gr-EgA8_cAYcgdz-Q_h9fRtalBIYP--dp3aYtL_cZLRbRrAkxB1xS-DihpiY1vLreY11B41rr5EdTSPOkzowgVQsyI0hyOnJdO2gHxJYgEm16zk70tK5lwSW"/>
+<span class="font-label-caps text-[11px] text-tertiary-container tracking-wider">SECUNDARIA</span>
+</div>
+<h5 class="font-headline-md text-lg mb-1">Lectura</h5>
+<p class="text-xs text-on-surface-variant font-body-md">Expande tu biblioteca neural.</p>
+</div>
+</div>
+</div>
+<!-- Capa 2: TU HÉROE -->
+<div class="layer-content space-y-12" id="layer-heroe">
+<div class="relative py-12 flex flex-col items-center justify-center min-h-[600px]">
+<div class="relative z-20 w-48 h-48 md:w-64 md:h-64 mb-12">
+<div class="absolute inset-0 bg-primary/10 rounded-full animate-pulse border border-primary/20"></div>
+<div class="absolute inset-4 border-2 border-dashed border-primary/30 rounded-full animate-[spin_20s_linear_infinite]"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-40 h-40 md:w-52 md:h-52 hex-clip bg-gradient-to-b from-primary/20 to-surface-container-highest flex items-center justify-center overflow-hidden border border-primary/40">
+<img alt="Hero" class="w-full h-full object-cover scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCN6me4jX7VPf6-r4-q1qtcFx3Z0yu1RQC6I-sMtesFBAWFTq2vxP2IpGlpAQxA7dUWbewZTgkW5NoQqNFpAUzt30NonUnBxX6yV9rZcCATTVIHOCcEcLJakazFuPweNnDJLw8ySUq1lZYJ9huAWzGt7IghzvmE5TzIgd6c3ZQTCRFB7vTKIFFpUmpDGkLZZ5ey6MTmNfjce3koHaJrJw8WUTfhmXtt_vLmGQIxKekfaT_5mXlXNJGi8G6D7nqxapYnwCISC0on6gT"/>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-5 gap-8 w-full max-w-5xl z-30">
+<div class="flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-16 h-16 rounded-full bg-surface-container-high/40 border border-primary/30 flex items-center justify-center group-hover:scale-110 transition-transform p-3">
+<img alt="Vitalidad" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2n9cIYe1O2FQw5B2Ixn7bHpyEvZuPugJ8v4iWRCOf99rsitp8deHO4sQhjX2Xyw_hGWRliSLMBwuB1kOJW6zqIem2RLbghiXOv7X7kALmi7qIUGyPxIcADGVPlgFe8PLdPfMVDGOHxADpZL010Wx5Sz9vtvYckAQyGiCbMMCYxcSGQTalCLxr7HcCtEUjtD8Mn8hLHpdg4JGRyCZ6-4_S9fOwP57OpYIcDv4WNEki_EF_SbTEldsh3LIsu33JKaJfQyzyzOfkcDND"/>
+</div>
+<span class="font-label-caps text-[10px] text-on-surface-variant">VITALIDAD</span>
+</div>
+<div class="flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-16 h-16 rounded-full bg-surface-container-high/40 border border-secondary/30 flex items-center justify-center group-hover:scale-110 transition-transform p-3">
+<img alt="Energía" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJQK__rsdxHO4l9Sq0C8RyLl4YmTjk9VsCx7yhfvgj_PiICbkjWws0PJjbSiabhBccnaK2Eagn6U5UYBe1BuoBzmFJJ_fFK76kzQ_IFxLxCOP-o4VHckm2-6UJNCnCp7TGsnJJnTm06AHzwd7b4SO6Gr-EgA8_cAYcgdz-Q_h9fRtalBIYP--dp3aYtL_cZLRbRrAkxB1xS-DihpiY1vLreY11B41rr5EdTSPOkzowgVQsyI0hyOnJdO2gHxJYgEm16zk70tK5lwSW"/>
+</div>
+<span class="font-label-caps text-[10px] text-on-surface-variant">MENTAL</span>
+</div>
+<div class="flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-16 h-16 rounded-full bg-surface-container-high/40 border border-tertiary-container/30 flex items-center justify-center group-hover:scale-110 transition-transform p-3">
+<span class="material-symbols-outlined text-tertiary-container text-2xl">account_balance</span>
+</div>
+<span class="font-label-caps text-[10px] text-on-surface-variant">MATERIAL</span>
+</div>
+<div class="flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-16 h-16 rounded-full bg-surface-container-high/40 border border-primary/30 flex items-center justify-center group-hover:scale-110 transition-transform p-3">
+<span class="material-symbols-outlined text-primary text-2xl">groups</span>
+</div>
+<span class="font-label-caps text-[10px] text-on-surface-variant">SOCIAL</span>
+</div>
+<div class="flex flex-col items-center gap-2 group cursor-pointer col-span-2 md:col-span-1">
+<div class="w-16 h-16 rounded-full bg-surface-container-high/40 border border-white/30 flex items-center justify-center group-hover:scale-110 transition-transform p-3">
+<span class="material-symbols-outlined text-white text-2xl">auto_awesome</span>
+</div>
+<span class="font-label-caps text-[10px] text-on-surface-variant">ESPÍRITU</span>
+</div>
+</div>
+</div>
+<div class="hud-card p-10 glass-panel border-primary/30 corner-bracket text-center mx-auto max-w-3xl">
+<div class="font-label-caps text-[10px] text-primary/60 mb-2">BRÚJULA DE LA VERDAD</div>
+<h2 class="font-display-lg text-2xl mb-6">EL PROPÓSITO</h2>
+<p class="font-body-md italic text-xl text-on-surface leading-relaxed mb-6">
+                        "Forjar una realidad donde el bienestar neural y la soberanía material converjan en el Avatar Supremo."
+                    </p>
+<div class="font-label-caps text-xs text-secondary">ESTADO: BUSCANDO SENTIDO</div>
+</div>
+</div>
+<!-- Capa 3: SISTEMA -->
+<div class="layer-content" id="layer-sistema">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<section class="lg:col-span-12 space-y-gutter">
+<div class="hud-card p-10 glass-panel border-outline-variant/20 corner-bracket min-h-[400px] flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-7xl text-primary/20 mb-6">settings_suggest</span>
+<h3 class="font-display-lg text-2xl text-on-surface mb-2 tracking-widest uppercase">Núcleo del Sistema</h3>
+<p class="font-body-md text-on-surface-variant max-w-md">Calibrando protocolos de realidad y sincronización de red.</p>
+<div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-3xl">
+<div class="p-6 glass-panel border border-outline-variant/10 rounded text-center space-y-3">
+<div class="font-label-caps text-[9px] text-on-surface-variant">ESTADO RED</div>
+<div class="text-secondary font-data-point text-sm tracking-widest">CONECTADA</div>
+</div>
+<div class="p-6 glass-panel border border-outline-variant/10 rounded text-center space-y-3">
+<div class="font-label-caps text-[9px] text-on-surface-variant">LATENCIA</div>
+<div class="text-primary font-data-point text-sm tracking-widest">12 MS</div>
+</div>
+<div class="p-6 glass-panel border border-outline-variant/10 rounded text-center space-y-3">
+<div class="font-label-caps text-[9px] text-on-surface-variant">CARGA IA</div>
+<div class="text-tertiary-container font-data-point text-sm tracking-widest">4.2%</div>
+</div>
+<div class="p-6 glass-panel border border-outline-variant/10 rounded text-center space-y-3">
+<div class="font-label-caps text-[9px] text-on-surface-variant">NIVEL SYNC</div>
+<div class="text-white font-data-point text-sm tracking-widest">ÓPTIMO</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 bg-surface-container/80 backdrop-blur-lg border-t border-primary/20 pb-safe px-4 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+<button class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-110 active:scale-90 transition-all" onclick="switchLayer('hoy')">
+<span class="material-symbols-outlined">wb_sunny</span>
+<span class="font-label-caps text-[9px] mt-1">Hoy</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70 hover:opacity-100 active:scale-90 transition-all" onclick="switchLayer('heroe')">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-caps text-[9px] mt-1">Héroe</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70 hover:opacity-100 active:scale-90 transition-all" onclick="switchLayer('sistema')">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-[9px] mt-1">Sistema</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70 hover:opacity-100 active:scale-90 transition-all">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-label-caps text-[9px] mt-1">Misiones</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline-variant opacity-70 hover:opacity-100 active:scale-90 transition-all">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps text-[9px] mt-1">Hub</span>
+</button>
+</nav>
+<!-- Footer -->
+<footer class="fixed bottom-0 left-0 w-full bg-surface-container-lowest/40 backdrop-blur-md border-t border-outline-variant/10 py-3 z-30 hidden lg:block">
+<div class="max-w-[1600px] mx-auto flex justify-between items-center px-margin-desktop opacity-40">
+<div class="flex gap-8">
+<span class="font-label-caps text-[8px] uppercase tracking-[0.2em]">RED: <span class="text-secondary">ESTABLE</span></span>
+<span class="font-label-caps text-[8px] uppercase tracking-[0.2em]">PROTOCOL: AVATAR_v4.2</span>
+</div>
+<p class="font-label-caps text-[8px] uppercase tracking-[0.2em]">© 2142 MLH ADVENTURE // NARRATIVA VIVA</p>
+</div>
+</footer>
+<script>
+        function switchLayer(layerId) {
+            document.querySelectorAll('.layer-content').forEach(layer => {
+                layer.classList.remove('active');
+            });
+            document.getElementById('layer-' + layerId).classList.add('active');
+
+            // Desktop Nav
+            document.querySelectorAll('nav button').forEach(btn => {
+                btn.classList.remove('tab-active', 'text-primary');
+                btn.classList.add('text-outline');
+                if(btn.id === 'tab-' + layerId) {
+                    btn.classList.add('tab-active', 'text-primary');
+                    btn.classList.remove('text-outline');
+                }
+            });
+
+            // Mobile Nav
+            const mobileBtns = document.querySelectorAll('nav.lg\\:hidden button');
+            mobileBtns.forEach(btn => {
+                btn.classList.remove('text-primary', 'drop-shadow-[0_0_10px_#7fd0ff]', 'scale-110', 'opacity-100');
+                btn.classList.add('text-outline-variant', 'opacity-70');
+            });
+            
+            const activeMobileBtn = Array.from(mobileBtns).find(btn => btn.innerText.toLowerCase().includes(layerId === 'sistema' ? 'sistema' : layerId === 'heroe' ? 'héroe' : 'hoy'));
+            if(activeMobileBtn) {
+                activeMobileBtn.classList.add('text-primary', 'drop-shadow-[0_0_10px_#7fd0ff]', 'scale-110', 'opacity-100');
+                activeMobileBtn.classList.remove('text-outline-variant', 'opacity-70');
+            }
+        }
+
+        const hudCards = document.querySelectorAll('.hud-card');
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 2;
+            const y = (e.clientY / window.innerHeight - 0.5) * 2;
+            
+            hudCards.forEach(card => {
+                card.style.transform = `perspective(1000px) rotateX(${-y * 0.2}deg) rotateY(${x * 0.2}deg)`;
+            });
+        });
+    </script>
+</body></html>

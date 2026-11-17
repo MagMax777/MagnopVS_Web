@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOPVS OS - Symbolic Combat HUD</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&amp;family=Audiowide&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --primary-glow: rgba(71, 214, 255, 0.6);
+            --secondary-glow: rgba(209, 188, 255, 0.4);
+            --error-glow: rgba(255, 180, 171, 0.5);
+        }
+
+        body {
+            background-color: #0e1417;
+            color: #dde3e7;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .hex-bg {
+            background-image: radial-gradient(circle at 2px 2px, rgba(71, 214, 255, 0.05) 1px, transparent 0);
+            background-size: 32px 32px;
+        }
+
+        .glass-panel {
+            backdrop-filter: blur(12px);
+            background: rgba(22, 29, 31, 0.7);
+            border: 1px solid rgba(133, 147, 153, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .neon-border-primary {
+            border: 1px solid #47d6ff;
+            box-shadow: 0 0 10px var(--primary-glow), inset 0 0 5px var(--primary-glow);
+        }
+
+        .neon-text-primary {
+            text-shadow: 0 0 8px var(--primary-glow);
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
+
+        .animate-pulse-glow {
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(71, 214, 255, 0.1);
+            position: absolute;
+            animation: scan 8s linear infinite;
+            z-index: 10;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        .chamfer-btn {
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+            transition: all 0.3s ease;
+        }
+
+        .chamfer-btn:hover {
+            background-color: #dde3e7;
+            color: #0e1417;
+            transform: translateY(-2px);
+        }
+
+        .stat-bar-fill {
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-fixed": "#b6ebff",
+                      "secondary-fixed-dim": "#d1bcff",
+                      "on-primary": "#003543",
+                      "on-primary-fixed": "#001f28",
+                      "secondary-fixed": "#e9ddff",
+                      "surface": "#0e1417",
+                      "on-tertiary": "#5e0053",
+                      "on-primary-fixed-variant": "#004e60",
+                      "error": "#ffb4ab",
+                      "primary-fixed-dim": "#47d6ff",
+                      "surface-container-low": "#161d1f",
+                      "error-container": "#93000a",
+                      "tertiary-fixed-dim": "#fface8",
+                      "secondary": "#d1bcff",
+                      "on-tertiary-fixed-variant": "#840076",
+                      "on-tertiary-fixed": "#3a0033",
+                      "on-secondary-container": "#ddcdff",
+                      "inverse-on-surface": "#2b3134",
+                      "surface-container-lowest": "#090f12",
+                      "background": "#0e1417",
+                      "on-secondary": "#3c0090",
+                      "surface-variant": "#2f3639",
+                      "outline": "#859399",
+                      "tertiary-container": "#ffa3e7",
+                      "on-background": "#dde3e7",
+                      "surface-container-highest": "#2f3639",
+                      "on-tertiary-container": "#920083",
+                      "secondary-container": "#7000ff",
+                      "on-secondary-fixed-variant": "#5700c9",
+                      "on-surface": "#dde3e7",
+                      "tertiary-fixed": "#ffd7f0",
+                      "on-error": "#690005",
+                      "surface-dim": "#0e1417",
+                      "outline-variant": "#3c494e",
+                      "on-surface-variant": "#bbc9cf",
+                      "surface-tint": "#47d6ff",
+                      "surface-container": "#1a2123",
+                      "primary-container": "#00d2ff",
+                      "primary": "#a5e7ff",
+                      "on-primary-container": "#00566a",
+                      "tertiary": "#ffcfee",
+                      "surface-bright": "#333a3d",
+                      "on-secondary-fixed": "#23005b",
+                      "surface-container-high": "#242b2e",
+                      "inverse-primary": "#00677f",
+                      "inverse-surface": "#dde3e7",
+                      "on-error-container": "#ffdad6"
+              },
+              "fontFamily": {
+                      "label-caps": ["Orbitron"],
+                      "headline-lg": ["Audiowide"],
+                      "display-xl": ["Audiowide"],
+                      "body-md": ["Orbitron"],
+                      "headline-lg-mobile": ["Audiowide"],
+                      "data-header": ["Orbitron"]
+              },
+              "fontSize": {
+                      "label-caps": ["10px", {"lineHeight": "1", "letterSpacing": "0.2em", "fontWeight": "900"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                      "display-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                      "body-md": ["14px", {"lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                      "data-header": ["18px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="hex-bg selection:bg-primary selection:text-on-primary">
+<!-- Top App Bar (Shared Component Reference) -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(71,214,255,0.2)] flex justify-between items-center px-8 h-16">
+<div class="flex items-center gap-4">
+<span class="font-headline-lg text-primary tracking-widest uppercase">MISSION CONTROL v2.4</span>
+<div class="h-4 w-px bg-outline-variant/50"></div>
+<span class="font-label-caps text-on-surface-variant">LOC: SYMBOLIC_VOID_04</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 px-3 py-1 bg-primary-container/10 border border-primary/20 rounded-full">
+<span class="material-symbols-outlined text-[16px] text-primary">sensors</span>
+<span class="font-label-caps text-primary">SYNC: 98.4%</span>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-all duration-300 active:scale-95">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-all duration-300 active:scale-95">settings</span>
+<span class="material-symbols-outlined text-error cursor-pointer hover:opacity-80 transition-all duration-300 active:scale-95">power_settings_new</span>
+</div>
+</div>
+</header>
+<!-- Side Nav Bar (Shared Component Reference) -->
+<nav class="fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-low/90 backdrop-blur-md border-r border-outline-variant/20 shadow-2xl shadow-primary/5 flex flex-col py-24 gap-4 hidden md:flex">
+<div class="px-6 mb-8">
+<div class="font-display-xl text-primary leading-none mb-1">MAGNOPVS</div>
+<div class="font-label-caps text-on-surface-variant text-[8px]">VITAL SIGNS: OPTIMAL</div>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:bg-surface-variant/30 hover:translate-x-1 transition-all duration-200 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">terminal</span>
+<span class="font-label-caps">Command</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 bg-primary-container/20 text-primary border-l-4 border-primary transition-all duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-caps">Character</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:bg-surface-variant/30 hover:translate-x-1 transition-all duration-200 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">account_tree</span>
+<span class="font-label-caps">Abilities</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:bg-surface-variant/30 hover:translate-x-1 transition-all duration-200 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">inventory_2</span>
+<span class="font-label-caps">Vault</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:bg-surface-variant/30 hover:translate-x-1 transition-all duration-200 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">analytics</span>
+<span class="font-label-caps">Logs</span>
+</a>
+</div>
+<div class="mt-auto px-6">
+<button class="w-full py-3 bg-primary text-on-primary font-label-caps tracking-widest rounded-sm hover:brightness-110 active:scale-95 transition-all">SYNC DATA</button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="pl-0 md:pl-64 pt-16 h-screen flex flex-col relative">
+<div class="scanline"></div>
+<!-- HUD Overlay Content -->
+<div class="flex-1 p-8 flex flex-col gap-6 overflow-hidden">
+<!-- Top HUD: Boss Health & Info -->
+<div class="w-full flex flex-col items-center gap-4">
+<div class="w-full max-w-4xl glass-panel p-4 flex flex-col items-center relative overflow-hidden">
+<div class="absolute inset-0 bg-error/5 animate-pulse"></div>
+<div class="flex justify-between w-full mb-2">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-error animate-spin" style="animation-duration: 4s">skull</span>
+<div>
+<h2 class="font-headline-lg text-primary text-xl uppercase tracking-tighter">PROCRASTINATION PHANTOM</h2>
+<p class="font-label-caps text-[10px] text-error">ENTITY TYPE: COGNITIVE DEFECT</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-caps text-on-surface-variant">RESOLVE</p>
+<p class="font-display-xl text-2xl text-error">64,200 / 100,000</p>
+</div>
+</div>
+<!-- Health Bar -->
+<div class="w-full h-4 bg-surface-container-highest border border-outline-variant/30 relative rounded-full overflow-hidden">
+<div class="absolute h-full bg-gradient-to-r from-error/80 to-error w-[64%] stat-bar-fill shadow-[0_0_15px_rgba(255,180,171,0.5)]"></div>
+<div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
+</div>
+<!-- Boss Debuffs -->
+<div class="flex gap-4 mt-3">
+<div class="flex items-center gap-2 bg-surface/50 border border-primary/30 px-3 py-1 rounded-md">
+<span class="material-symbols-outlined text-primary text-sm">visibility</span>
+<span class="font-label-caps text-[9px] text-primary">MENTAL FOG -20% CLARITY</span>
+</div>
+<div class="flex items-center gap-2 bg-surface/50 border border-secondary/30 px-3 py-1 rounded-md">
+<span class="material-symbols-outlined text-secondary text-sm">hourglass_empty</span>
+<span class="font-label-caps text-[9px] text-secondary">TIME DILATION -15% SPD</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Middle Section: Combat Zone & Logs -->
+<div class="flex-1 grid grid-cols-12 gap-6 overflow-hidden">
+<!-- Left: Active Buffs & Tactical Guidance -->
+<div class="col-span-3 flex flex-col gap-6">
+<!-- SOF.IA Guidance -->
+<div class="glass-panel p-4 flex-1 border-l-4 border-primary">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary animate-pulse">smart_toy</span>
+<h3 class="font-label-caps text-primary text-xs">SOF.IA TACTICAL</h3>
+</div>
+<div class="font-body-md text-on-surface-variant text-xs space-y-4">
+<p class="italic">"The Phantom thrives on ambiguous goals. Narrow your focus to immediate sensory input to destabilize its core."</p>
+<div class="p-3 bg-primary-container/10 rounded border border-primary/20">
+<span class="font-label-caps text-primary block mb-1">STRATEGY:</span>
+                                Use <span class="text-on-surface font-bold underline">Focused Strike</span> now while Clarity is suppressed.
+                            </div>
+</div>
+</div>
+<!-- Active Relics/Buffs -->
+<div class="glass-panel p-4 h-48">
+<h3 class="font-label-caps text-on-surface-variant text-[10px] mb-4">EQUIPPED RELICS</h3>
+<div class="grid grid-cols-3 gap-2">
+<div class="aspect-square bg-surface-variant border border-outline-variant flex items-center justify-center group cursor-help">
+<span class="material-symbols-outlined text-secondary transition-transform group-hover:scale-125">auto_fix_high</span>
+</div>
+<div class="aspect-square bg-surface-variant border border-outline-variant flex items-center justify-center group cursor-help">
+<span class="material-symbols-outlined text-primary transition-transform group-hover:scale-125">chevron_left</span>
+</div>
+<div class="aspect-square bg-surface-variant border border-outline-variant flex items-center justify-center group cursor-help opacity-40">
+<span class="material-symbols-outlined">lock</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Center: Combat Zone -->
+<div class="col-span-6 relative flex items-center justify-center group">
+<!-- Visualization of Boss -->
+<div class="absolute inset-0 z-0 opacity-40 mix-blend-screen pointer-events-none">
+
+</div>
+<div class="relative z-10 w-full h-full flex items-center justify-center">
+<img class="max-h-[80%] drop-shadow-[0_0_50px_rgba(71,214,255,0.3)] animate-pulse-glow" data-alt="A cinematic, high-fidelity digital art representation of the 'Procrastination Phantom', a ghostly, ethereal being composed of shifting smoke, clock faces, and tangled wires. The creature looms in a dark, cosmic void with neon cyan glowing highlights. Its form is amorphous, surrounded by swirling energy particles that suggest a digital battlefield. The aesthetic is AAA-gaming level, merging sci-fi tech with abstract psychological horror." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKmxBpcQbE0ADjRKL4Ki7V5fxL_UXSQuNAlI7sRZt4U25FsZZammPJUBaQoL8bJXSbN5nMqyCJ3zhldjGd-DYuxtzCQPcyu0EI-TbOhakLILg_RRqxwh6-NtGdJtqSD6u_vLpNY5413b5pG9_Ep2yoPETHXj95T-x1sxPEAYGFW6eFhpcXe4b0D2rGxp6hF7qvdHhHPlKl2rII6PAZsU6aHJUzoaBBQi0LGZnGXAg6OmkoQN4PkmvfWA"/>
+<!-- Symbolic Damage Numbers Overlay -->
+<div class="absolute top-1/4 left-1/4 animate-bounce">
+<span class="font-headline-lg text-primary text-2xl neon-text-primary">-1,402 CRIT</span>
+</div>
+</div>
+<!-- Peripheral Grid Effects -->
+<div class="absolute inset-0 border border-primary/20 pointer-events-none rounded-lg overflow-hidden">
+<div class="absolute top-0 left-0 w-24 h-24 border-t-2 border-l-2 border-primary"></div>
+<div class="absolute top-0 right-0 w-24 h-24 border-t-2 border-r-2 border-primary"></div>
+<div class="absolute bottom-0 left-0 w-24 h-24 border-b-2 border-l-2 border-primary"></div>
+<div class="absolute bottom-0 right-0 w-24 h-24 border-b-2 border-r-2 border-primary"></div>
+</div>
+</div>
+<!-- Right: Combat Log -->
+<div class="col-span-3 glass-panel overflow-hidden flex flex-col">
+<div class="p-3 bg-surface-container-high border-b border-outline-variant/30 flex justify-between items-center">
+<h3 class="font-label-caps text-on-surface-variant text-xs">ACTION LOG</h3>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">history</span>
+</div>
+<div class="flex-1 p-4 font-body-md text-[11px] overflow-y-auto space-y-3 custom-scrollbar">
+<div class="flex gap-2">
+<span class="text-on-surface-variant">[09:42:01]</span>
+<span class="text-primary">HERO: Casts 'Focused Strike'</span>
+</div>
+<div class="flex gap-2">
+<span class="text-on-surface-variant">[09:42:02]</span>
+<span class="text-error">PHANTOM: Evades. Real-world distraction detected.</span>
+</div>
+<div class="flex gap-2">
+<span class="text-on-surface-variant">[09:42:05]</span>
+<span class="text-secondary">SYSTEM: Sync pulse stabilizing.</span>
+</div>
+<div class="flex gap-2">
+<span class="text-on-surface-variant">[09:42:12]</span>
+<span class="text-primary">HERO: Synchronized 'Deep Breath' tech.</span>
+</div>
+<div class="flex gap-2 border-l-2 border-primary pl-2 bg-primary/5">
+<span class="text-primary font-bold">EVENT: SYMBOLIC CRITICAL HIT!</span>
+</div>
+<div class="flex gap-2">
+<span class="text-on-surface-variant">[09:42:15]</span>
+<span class="text-on-surface">PHANTOM health reduced by 4,200 units.</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom HUD: Player Stats & Actions -->
+<div class="h-48 grid grid-cols-12 gap-6 items-end">
+<!-- Player Stats -->
+<div class="col-span-4 flex flex-col gap-4 mb-2">
+<!-- HP -->
+<div class="space-y-1">
+<div class="flex justify-between font-label-caps text-[10px]">
+<span class="text-on-surface-variant">VITALITY (HP)</span>
+<span class="text-primary">8,240 / 10,000</span>
+</div>
+<div class="h-2 bg-surface-variant border border-outline-variant/20 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[82%] stat-bar-fill shadow-[0_0_8px_rgba(71,214,255,0.4)]"></div>
+</div>
+</div>
+<!-- MP -->
+<div class="space-y-1">
+<div class="flex justify-between font-label-caps text-[10px]">
+<span class="text-on-surface-variant">FOCUS (MP)</span>
+<span class="text-secondary">412 / 500</span>
+</div>
+<div class="h-2 bg-surface-variant border border-outline-variant/20 rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[70%] stat-bar-fill shadow-[0_0_8px_rgba(209,188,255,0.4)]"></div>
+</div>
+</div>
+<!-- LP -->
+<div class="space-y-1">
+<div class="flex justify-between font-label-caps text-[10px]">
+<span class="text-on-surface-variant">LUCIDITY (LP)</span>
+<span class="text-tertiary">1,200 / 2,500</span>
+</div>
+<div class="h-2 bg-surface-variant border border-outline-variant/20 rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[48%] stat-bar-fill shadow-[0_0_8px_rgba(255,207,238,0.4)]"></div>
+</div>
+</div>
+</div>
+<!-- Action Commands -->
+<div class="col-span-8 flex gap-3 justify-end pb-2">
+<button class="chamfer-btn h-20 px-8 bg-surface-container-highest border border-primary/40 text-primary flex flex-col items-center justify-center group">
+<span class="material-symbols-outlined text-3xl mb-1 group-hover:scale-110 transition-transform">psychology</span>
+<span class="font-label-caps text-[11px] font-black">FOCUSED STRIKE</span>
+</button>
+<button class="chamfer-btn h-20 px-8 bg-surface-container-highest border border-secondary/40 text-secondary flex flex-col items-center justify-center group">
+<span class="material-symbols-outlined text-3xl mb-1 group-hover:scale-110 transition-transform">fitness_center</span>
+<span class="font-label-caps text-[11px] font-black">SOMATIC SURGE</span>
+</button>
+<button class="chamfer-btn h-20 px-8 bg-surface-container-highest border border-tertiary/40 text-tertiary flex flex-col items-center justify-center group">
+<span class="material-symbols-outlined text-3xl mb-1 group-hover:scale-110 transition-transform">flare</span>
+<span class="font-label-caps text-[11px] font-black">SOUL SYNCHRONY</span>
+</button>
+<button class="chamfer-btn h-20 px-8 bg-surface-container-highest border border-outline/40 text-on-surface-variant flex flex-col items-center justify-center group hover:bg-error hover:text-on-error transition-colors">
+<span class="material-symbols-outlined text-3xl mb-1">logout</span>
+<span class="font-label-caps text-[11px] font-black">TACTICAL RETREAT</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Footer Status Bar -->
+<footer class="h-10 bg-surface-container-lowest border-t border-outline-variant/20 px-8 flex items-center justify-between font-label-caps text-[9px] text-on-surface-variant/70">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span>VIBRATIONAL SYNC: OPTIMAL</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<span>AETHER LINK: ESTABLISHED</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span>LATENCY: 12ms</span>
+<span class="text-primary">MAGNOPVS ENGINE v6.8.4-BETA</span>
+</div>
+</footer>
+</main>
+<!-- Bottom Nav Bar (Mobile Only - Suppressed for Combat Focus but keeping structural reference) -->
+<div class="md:hidden fixed bottom-0 w-full z-50 h-20 rounded-t-xl border-t border-primary/40 bg-gradient-to-t from-surface-container-highest to-surface-container shadow-[0_-4px_20px_rgba(71,214,255,0.15)] flex justify-around items-center px-4">
+<div class="flex flex-col items-center text-primary drop-shadow-glow">
+<span class="material-symbols-outlined">task_alt</span>
+<span class="font-label-caps text-[10px]">Dailies</span>
+</div>
+<div class="flex flex-col items-center text-on-surface-variant opacity-60">
+<span class="material-symbols-outlined">workspace_premium</span>
+<span class="font-label-caps text-[10px]">Quests</span>
+</div>
+<div class="flex flex-col items-center text-on-surface-variant opacity-60">
+<span class="material-symbols-outlined">package_2</span>
+<span class="font-label-caps text-[10px]">Inventory</span>
+</div>
+<div class="flex flex-col items-center text-on-surface-variant opacity-60">
+<span class="material-symbols-outlined">memory</span>
+<span class="font-label-caps text-[10px]">Systems</span>
+</div>
+</div>
+<script>
+        // Micro-interactions for button clicks and data updates
+        document.querySelectorAll('.chamfer-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Flash effect
+                const originalBg = this.style.backgroundColor;
+                this.style.backgroundColor = 'white';
+                setTimeout(() => {
+                    this.style.backgroundColor = originalBg;
+                }, 50);
+
+                // Add to log
+                const log = document.querySelector('.custom-scrollbar');
+                const actionName = this.querySelector('span:last-child').innerText;
+                const newEntry = document.createElement('div');
+                newEntry.className = 'flex gap-2 animate-pulse';
+                newEntry.innerHTML = `<span class="text-on-surface-variant">[${new Date().toLocaleTimeString().split(' ')[0]}]</span><span class="text-primary">HERO: Used ${actionName}</span>`;
+                log.prepend(newEntry);
+            });
+        });
+
+        // Atmospheric background pulse sync
+        setInterval(() => {
+            const syncVal = (98 + Math.random() * 1.5).toFixed(1);
+            document.querySelector('.font-label-caps.text-primary').innerText = `SYNC: ${syncVal}%`;
+        }, 3000);
+    </script>
+</body></html>

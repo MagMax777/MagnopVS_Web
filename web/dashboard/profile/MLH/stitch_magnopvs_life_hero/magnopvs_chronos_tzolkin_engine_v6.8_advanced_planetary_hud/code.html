@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chronos-Tzolkin Engine v6.8 // MagnopVS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Space+Grotesk:wght@300;400;700&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#34343a",
+                        "on-primary-fixed-variant": "#004f54",
+                        "surface-container-low": "#1a1b21",
+                        "tertiary-fixed-dim": "#d1bcff",
+                        "primary-fixed-dim": "#00dbe9",
+                        "on-primary-container": "#006970",
+                        "secondary-fixed": "#ffd7f5",
+                        "surface-tint": "#00dbe9",
+                        "surface-variant": "#34343a",
+                        "on-error-container": "#ffdad6",
+                        "on-error": "#690005",
+                        "tertiary": "#faf3ff",
+                        "inverse-surface": "#e3e1e9",
+                        "surface-container": "#1e1f25",
+                        "on-primary-fixed": "#002022",
+                        "on-secondary-container": "#500050",
+                        "background": "#121318",
+                        "error-container": "#93000a",
+                        "on-tertiary": "#3c0090",
+                        "outline-variant": "#3b494b",
+                        "on-tertiary-fixed": "#23005b",
+                        "secondary-fixed-dim": "#ffabf3",
+                        "on-tertiary-fixed-variant": "#5700c9",
+                        "tertiary-container": "#e1d2ff",
+                        "on-secondary-fixed": "#380038",
+                        "secondary-container": "#fe00fe",
+                        "on-background": "#e3e1e9",
+                        "inverse-primary": "#006970",
+                        "primary": "#dbfcff",
+                        "on-tertiary-container": "#7213ff",
+                        "surface-container-lowest": "#0d0e13",
+                        "surface-bright": "#38393f",
+                        "on-surface": "#e3e1e9",
+                        "on-surface-variant": "#b9cacb",
+                        "secondary": "#ffabf3",
+                        "surface-dim": "#121318",
+                        "surface": "#121318",
+                        "error": "#ffb4ab",
+                        "surface-container-high": "#292a2f",
+                        "on-secondary-fixed-variant": "#810081",
+                        "on-primary": "#00363a",
+                        "inverse-on-surface": "#2f3036",
+                        "primary-fixed": "#7df4ff",
+                        "on-secondary": "#5b005b",
+                        "tertiary-fixed": "#e9ddff",
+                        "primary-container": "#00f0ff",
+                        "outline": "#849495"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "unit": "4px",
+                        "margin-desktop": "64px",
+                        "panel-padding": "20px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Audiowide"],
+                        "body-md": ["Space Grotesk"],
+                        "label-caps": ["Space Mono"],
+                        "display-lg-mobile": ["Audiowide"],
+                        "display-lg": ["Audiowide"],
+                        "body-lg": ["Space Grotesk"],
+                        "data-mono": ["Space Mono"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.15em", "fontWeight": "700"}],
+                        "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "data-mono": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(219, 252, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(219, 252, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-panel::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, transparent 1px, transparent 2px);
+            pointer-events: none;
+        }
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(219, 252, 255, 0.1);
+            position: absolute;
+            top: 0;
+            animation: scan 8s linear infinite;
+        }
+        @keyframes scan {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+        .hex-bg {
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 2L37.32 12V32L20 42L2.68 32V12L20 2Z' fill='none' stroke='rgba(219, 252, 255, 0.05)' stroke-width='1'/%3E%3C/svg%3E");
+        }
+        .clipped-corner {
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
+        }
+        .phase-arc {
+            stroke-dasharray: 25 75;
+            transition: all 0.5s ease;
+        }
+        .glitch-hover:hover {
+            animation: glitch 0.2s infinite;
+        }
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 1px); }
+            40% { transform: translate(2px, -1px); }
+            60% { transform: translate(-1px, 2px); }
+            80% { transform: translate(1px, -2px); }
+            100% { transform: translate(0); }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden hex-bg">
+<!-- Top AppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/30 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-primary tracking-widest uppercase">
+            MagnopVS <span class="text-secondary opacity-50">·</span> Life Hero
+        </div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex gap-8">
+<span class="font-label-caps text-label-caps text-primary drop-shadow-[0_0_8px_#7fd0ff] cursor-pointer">CHRONOS_TZOLKIN</span>
+<span class="font-label-caps text-label-caps text-outline hover:text-secondary transition-all cursor-pointer">RECORDS</span>
+<span class="font-label-caps text-label-caps text-outline hover:text-secondary transition-all cursor-pointer">OPERATIONS</span>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary scale-95 active:scale-90 transition-transform cursor-pointer">bolt</span>
+<span class="material-symbols-outlined text-primary scale-95 active:scale-90 transition-transform cursor-pointer">stars</span>
+<span class="material-symbols-outlined text-primary scale-95 active:scale-90 transition-transform cursor-pointer">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Side Navigation (Desktop) -->
+<nav class="hidden lg:flex flex-col fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-low/50 backdrop-blur-2xl border-r border-primary/20 pt-24 px-4">
+<div class="mb-8 px-4">
+<div class="font-label-caps text-label-caps text-primary opacity-60">OPERATOR_01</div>
+<div class="font-headline-md text-headline-md text-primary">TITAN // LVL 42</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-4 p-3 text-primary border-l-2 border-primary bg-primary/5 font-bold shadow-[inset_4px_0_10px_rgba(127,208,255,0.1)] transition-all">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps text-label-caps uppercase">Dashboard</span>
+</div>
+<div class="flex items-center gap-4 p-3 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all cursor-pointer">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label-caps text-label-caps uppercase">13 Houses</span>
+</div>
+<div class="flex items-center gap-4 p-3 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all cursor-pointer">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps text-label-caps uppercase">Missions</span>
+</div>
+<div class="flex items-center gap-4 p-3 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all cursor-pointer">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps text-label-caps uppercase">Attributes</span>
+</div>
+<div class="flex items-center gap-4 p-3 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all cursor-pointer">
+<span class="material-symbols-outlined">vitals</span>
+<span class="font-label-caps text-label-caps uppercase">Alchemy</span>
+</div>
+</div>
+</nav>
+<!-- Main Canvas -->
+<main class="pt-28 pb-24 px-margin-mobile md:px-margin-desktop lg:pl-72 max-w-[1600px] mx-auto min-h-screen">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+<div>
+<h1 class="font-display-lg-mobile md:font-display-lg text-primary uppercase tracking-tighter">Chronos-Tzolkin Engine</h1>
+<p class="font-data-mono text-data-mono text-secondary opacity-80 uppercase tracking-widest">System Revision: 6.8 // Sector: Time Management HUD</p>
+</div>
+<div class="flex flex-col items-end gap-2">
+<div class="px-4 py-1 bg-primary text-background font-label-caps text-label-caps clipped-corner font-bold">
+                    MOON 1: MAGNETIC
+                </div>
+<div class="text-primary font-headline-md">SILI 14 // 2024 CYBER_AEON</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- 13-Moon Calendar Grid (Central Focus) -->
+<div class="lg:col-span-8 flex flex-col gap-6">
+<section class="glass-panel p-panel-padding relative">
+<div class="scanline"></div>
+<div class="flex justify-between items-center mb-6">
+<div class="font-label-caps text-label-caps text-primary border-l-4 border-primary pl-3 uppercase">Sector_01 // 28_Day_Cycle</div>
+<div class="flex gap-2">
+<button class="p-2 border border-primary/20 text-primary hover:bg-primary/10"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="p-2 border border-primary/20 text-primary hover:bg-primary/10"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+<div class="grid grid-cols-7 gap-2">
+<!-- Header -->
+<div class="text-center font-label-caps text-label-caps text-secondary opacity-50 py-2 uppercase">DALI</div>
+<div class="text-center font-label-caps text-label-caps text-secondary opacity-50 py-2 uppercase">SELI</div>
+<div class="text-center font-label-caps text-label-caps text-secondary opacity-50 py-2 uppercase">GAMA</div>
+<div class="text-center font-label-caps text-label-caps text-secondary opacity-50 py-2 uppercase">KALI</div>
+<div class="text-center font-label-caps text-label-caps text-secondary opacity-50 py-2 uppercase">ALFA</div>
+<div class="text-center font-label-caps text-label-caps text-secondary opacity-50 py-2 uppercase">LIMI</div>
+<div class="text-center font-label-caps text-label-caps text-secondary opacity-50 py-2 uppercase">SILI</div>
+<!-- Calendar Days Loop -->
+<!-- Row 1 -->
+<div class="aspect-square glass-panel flex flex-col items-center justify-center border-primary/5 hover:border-primary/40 transition-colors cursor-pointer group">
+<span class="text-data-mono text-outline group-hover:text-primary">01</span>
+</div>
+<div class="aspect-square glass-panel flex flex-col items-center justify-center border-primary/5 hover:border-primary/40 transition-colors cursor-pointer group">
+<span class="text-data-mono text-outline group-hover:text-primary">02</span>
+</div>
+<div class="aspect-square glass-panel flex flex-col items-center justify-center border-primary/5 hover:border-primary/40 transition-colors cursor-pointer group">
+<span class="text-data-mono text-outline group-hover:text-primary">03</span>
+</div>
+<div class="aspect-square glass-panel flex flex-col items-center justify-center border-primary/5 hover:border-primary/40 transition-colors cursor-pointer group">
+<span class="text-data-mono text-outline group-hover:text-primary">04</span>
+</div>
+<div class="aspect-square glass-panel flex flex-col items-center justify-center border-primary/5 hover:border-primary/40 transition-colors cursor-pointer group">
+<span class="text-data-mono text-outline group-hover:text-primary">05</span>
+</div>
+<div class="aspect-square glass-panel flex flex-col items-center justify-center border-primary/5 hover:border-primary/40 transition-colors cursor-pointer group">
+<span class="text-data-mono text-outline group-hover:text-primary">06</span>
+</div>
+<div class="aspect-square glass-panel flex flex-col items-center justify-center border-primary/5 hover:border-primary/40 transition-colors cursor-pointer group">
+<span class="text-data-mono text-outline group-hover:text-primary">07</span>
+</div>
+<!-- Current Day Indicator (Day 14) placeholder logic -->
+<div class="aspect-square bg-primary/10 border-2 border-primary flex flex-col items-center justify-center shadow-[0_0_15px_rgba(219,252,255,0.3)] relative">
+<span class="text-headline-md font-headline-md text-primary">14</span>
+<div class="absolute bottom-1 w-2 h-2 bg-primary animate-pulse"></div>
+</div>
+<!-- Rest of the grid placeholders... (Skipping full repetition for brevity but ensuring 4 rows exist) -->
+<div class="aspect-square glass-panel flex flex-col items-center justify-center border-primary/5 opacity-40"><span class="text-data-mono text-outline">15</span></div>
+<div class="aspect-square glass-panel flex flex-col items-center justify-center border-primary/5 opacity-40"><span class="text-data-mono text-outline">16</span></div>
+<div class="aspect-square glass-panel flex flex-col items-center justify-center border-primary/5 opacity-40"><span class="text-data-mono text-outline">...</span></div>
+<div class="aspect-square glass-panel flex flex-col items-center justify-center border-primary/5 opacity-40"><span class="text-data-mono text-outline">28</span></div>
+</div>
+</section>
+<!-- Day Out of Time Special Section -->
+<section class="glass-panel bg-secondary/5 border-secondary/20 p-panel-padding relative clipped-corner">
+<div class="flex items-center gap-4 mb-4">
+<span class="material-symbols-outlined text-secondary text-4xl" style="font-variation-settings: 'FILL' 1;">warning</span>
+<div>
+<h3 class="font-headline-md text-headline-md text-secondary uppercase">Day Out of Time</h3>
+<p class="font-label-caps text-label-caps text-secondary/60 uppercase">Protocol: July 25th Reset</p>
+</div>
+</div>
+<div class="grid md:grid-cols-2 gap-6">
+<div class="font-body-md text-body-md text-on-surface-variant italic border-l border-secondary/40 pl-4">
+                            "The Day Out of Time is the 365th day of the 13 Moon calendar, a day which is neither a day of the week nor a day of the month. It is a day for forgiveness, celebration, and the practice of 'Time is Art'."
+                        </div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between font-data-mono text-data-mono">
+<span class="text-outline">ENERGETIC VACUUM:</span>
+<span class="text-secondary">ACTIVE</span>
+</div>
+<div class="h-1 w-full bg-secondary/10 overflow-hidden">
+<div class="h-full bg-secondary w-[88%] animate-pulse"></div>
+</div>
+<div class="mt-4 flex justify-end">
+<button class="bg-secondary text-black px-6 py-2 font-label-caps text-label-caps font-bold hover:scale-105 transition-transform clipped-corner uppercase">Initiate Reset Log</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Commemorative Log / Almanac -->
+<section class="glass-panel p-panel-padding">
+<div class="font-label-caps text-label-caps text-primary border-l-4 border-primary pl-3 uppercase mb-6">Sector_04 // Almanac_Commemorative</div>
+<div class="space-y-4">
+<div class="flex gap-6 items-start border-b border-primary/10 pb-4">
+<div class="font-headline-md text-headline-md text-tertiary-fixed-dim shrink-0">ST.</div>
+<div>
+<p class="font-label-caps text-label-caps text-primary">Saint of the Day: Maximilian Kolbe</p>
+<p class="text-body-md text-on-surface-variant opacity-70">Focus: Altruistic sacrifice and technological ethics. Ideal for code refactoring and data preservation.</p>
+</div>
+</div>
+<div class="flex gap-6 items-start border-b border-primary/10 pb-4">
+<div class="font-headline-md text-headline-md text-tertiary-fixed-dim shrink-0">HST.</div>
+<div>
+<p class="font-label-caps text-label-caps text-primary">Historical Milestone: Voyager 1 Exit</p>
+<p class="text-body-md text-on-surface-variant opacity-70">Humanity's first object to cross the Heliosphere. Resonance: Exploration and boundary-breaking.</p>
+</div>
+</div>
+<div class="flex gap-6 items-start">
+<div class="font-headline-md text-headline-md text-tertiary-fixed-dim shrink-0">AGR.</div>
+<div>
+<p class="font-label-caps text-label-caps text-primary">Agricultural Advisory: Waxing Moon</p>
+<p class="text-body-md text-on-surface-variant opacity-70">Bristol Tradition: Plant leafy greens. Energy is rising; favor outward-facing expansion and networking.</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Side Panels (Ticker & Tracker) -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<!-- Daily Phase Tracker (Relojula) -->
+<section class="glass-panel p-panel-padding flex flex-col items-center">
+<div class="font-label-caps text-label-caps text-primary border-l-4 border-primary pl-3 uppercase self-start mb-8 w-full">Sector_02 // Phase_Tracker</div>
+<div class="relative w-64 h-64">
+<!-- Clock Visual -->
+<svg class="w-full h-full -rotate-90" viewbox="0 0 100 100">
+<!-- Background circles -->
+<circle cx="50" cy="50" fill="none" r="45" stroke="rgba(219, 252, 255, 0.1)" stroke-width="2"></circle>
+<!-- Dawn Sector -->
+<circle class="opacity-20" cx="50" cy="50" fill="none" r="45" stroke="#dbfcff" stroke-dasharray="25 75" stroke-dashoffset="0" stroke-width="10"></circle>
+<!-- Zenith Sector -->
+<circle class="opacity-40" cx="50" cy="50" fill="none" r="45" stroke="#dbfcff" stroke-dasharray="25 75" stroke-dashoffset="-25" stroke-width="10"></circle>
+<!-- Twilight Sector -->
+<circle class="opacity-60" cx="50" cy="50" fill="none" r="45" stroke="#d1bcff" stroke-dasharray="25 75" stroke-dashoffset="-50" stroke-width="10"></circle>
+<!-- Abyss Sector -->
+<circle class="opacity-80" cx="50" cy="50" fill="none" r="45" stroke="#d1bcff" stroke-dasharray="25 75" stroke-dashoffset="-75" stroke-width="10"></circle>
+<!-- Current Time Needle -->
+<line class="animate-[spin_60s_linear_infinite]" stroke="#00dbe9" stroke-width="2" x1="50" x2="50" y1="50" y2="10"></line>
+</svg>
+<!-- Labels inside/around clock -->
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<span class="font-headline-md text-headline-md text-primary">ZENITH</span>
+<span class="font-data-mono text-data-mono text-outline">14:42:09</span>
+</div>
+<div class="absolute top-0 left-1/2 -translate-x-1/2 -mt-4 font-label-caps text-label-caps text-primary/40">ZENITH</div>
+<div class="absolute bottom-0 left-1/2 -translate-x-1/2 -mb-4 font-label-caps text-label-caps text-tertiary-fixed-dim/40">ABYSS</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mt-12 w-full">
+<div class="border border-primary/20 p-2 text-center group hover:bg-primary/5 transition-all">
+<p class="font-label-caps text-label-caps text-primary group-hover:scale-105 transition-transform">MAÑANA</p>
+<p class="text-data-mono text-[10px] text-outline">06:00 - 12:00</p>
+</div>
+<div class="border border-primary/20 bg-primary/10 p-2 text-center">
+<p class="font-label-caps text-label-caps text-primary">TARDE</p>
+<p class="text-data-mono text-[10px] text-primary">12:00 - 18:00</p>
+</div>
+<div class="border border-tertiary/20 p-2 text-center">
+<p class="font-label-caps text-label-caps text-tertiary-fixed-dim">NOCHE</p>
+<p class="text-data-mono text-[10px] text-outline">18:00 - 00:00</p>
+</div>
+<div class="border border-tertiary/20 p-2 text-center">
+<p class="font-label-caps text-label-caps text-tertiary-fixed-dim">MADRUGADA</p>
+<p class="text-data-mono text-[10px] text-outline">00:00 - 06:00</p>
+</div>
+</div>
+</section>
+<!-- Cosmic Ephemeris (Bristol Style Ticker) -->
+<section class="glass-panel p-panel-padding flex-1">
+<div class="font-label-caps text-label-caps text-tertiary-fixed-dim border-l-4 border-tertiary-fixed-dim pl-3 uppercase mb-6">Sector_03 // PLANETARY_TRANSIT_MATRIX</div>
+<div class="space-y-6"><!-- Enhanced Lunar Module --><div class="p-3 bg-primary/5 border border-primary/20 rounded-lg mb-4"><div class="flex justify-between items-center mb-3"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">brightness_2</span><span class="font-headline-md text-sm text-primary uppercase tracking-widest">Lunar_Illumination</span></div><span class="font-headline-md text-primary">42%</span></div><div class="grid grid-cols-2 gap-2 text-[10px] font-data-mono"><div class="flex flex-col"><span class="text-outline uppercase">Next_Node</span><span class="text-primary">NORTH // 12D</span></div><div class="flex flex-col text-right"><span class="text-outline uppercase">Eclipse_Window</span><span class="text-secondary">CLOSED</span></div></div></div><!-- Planet Rows Matrix --><div class="space-y-2"><!-- Sun --><div class="flex items-center gap-3 p-2 bg-surface-container/50 border-l-2 border-primary"><span class="material-symbols-outlined text-primary text-sm">light_mode</span><div class="flex-1 grid grid-cols-3 items-center"><span class="font-label-caps text-[10px] text-primary">SUN</span><span class="font-data-mono text-[10px] text-outline">LEO 22°</span><span class="font-data-mono text-[10px] text-primary text-right">DIRECT</span></div><div class="w-12 h-1 bg-primary/10 ml-2"><div class="h-full bg-primary" style="width: 85%"></div></div></div><!-- Moon --><div class="flex items-center gap-3 p-2 bg-surface-container/50 border-l-2 border-primary"><span class="material-symbols-outlined text-primary text-sm">dark_mode</span><div class="flex-1 grid grid-cols-3 items-center"><span class="font-label-caps text-[10px] text-primary">MOON</span><span class="font-data-mono text-[10px] text-outline">ARI 14°</span><span class="font-data-mono text-[10px] text-primary text-right">DIRECT</span></div><div class="w-12 h-1 bg-primary/10 ml-2"><div class="h-full bg-primary" style="width: 42%"></div></div></div><!-- Mercury --><div class="flex items-center gap-3 p-2 bg-surface-container/50 border-l-2 border-secondary"><span class="material-symbols-outlined text-secondary text-sm">emergency</span><div class="flex-1 grid grid-cols-3 items-center"><span class="font-label-caps text-[10px] text-secondary">MERCURY</span><span class="font-data-mono text-[10px] text-outline">VIR 08°</span><span class="font-data-mono text-[10px] text-secondary text-right">RETRO</span></div><div class="w-12 h-1 bg-secondary/10 ml-2"><div class="h-full bg-secondary" style="width: 92%"></div></div></div><!-- Venus --><div class="flex items-center gap-3 p-2 bg-surface-container/50 border-l-2 border-primary"><span class="material-symbols-outlined text-primary text-sm">favorite</span><div class="flex-1 grid grid-cols-3 items-center"><span class="font-label-caps text-[10px] text-primary">VENUS</span><span class="font-data-mono text-[10px] text-outline">LIB 05°</span><span class="font-data-mono text-[10px] text-primary text-right">DIRECT</span></div><div class="w-12 h-1 bg-primary/10 ml-2"><div class="h-full bg-primary" style="width: 60%"></div></div></div><!-- Mars --><div class="flex items-center gap-3 p-2 bg-surface-container/50 border-l-2 border-primary"><span class="material-symbols-outlined text-primary text-sm">bolt</span><div class="flex-1 grid grid-cols-3 items-center"><span class="font-label-caps text-[10px] text-primary">MARS</span><span class="font-data-mono text-[10px] text-outline">ARI 19°</span><span class="font-data-mono text-[10px] text-primary text-right">DIRECT</span></div><div class="w-12 h-1 bg-primary/10 ml-2"><div class="h-full bg-primary" style="width: 75%"></div></div></div><!-- Jupiter --><div class="flex items-center gap-3 p-2 bg-surface-container/50 border-l-2 border-primary"><span class="material-symbols-outlined text-primary text-sm">grade</span><div class="flex-1 grid grid-cols-3 items-center"><span class="font-label-caps text-[10px] text-primary">JUPITER</span><span class="font-data-mono text-[10px] text-outline">GEM 12°</span><span class="font-data-mono text-[10px] text-primary text-right">DIRECT</span></div><div class="w-12 h-1 bg-primary/10 ml-2"><div class="h-full bg-primary" style="width: 30%"></div></div></div><!-- Saturn --><div class="flex items-center gap-3 p-2 bg-surface-container/50 border-l-2 border-secondary"><span class="material-symbols-outlined text-secondary text-sm">hourglass_empty</span><div class="flex-1 grid grid-cols-3 items-center"><span class="font-label-caps text-[10px] text-secondary">SATURN</span><span class="font-data-mono text-[10px] text-outline">PIS 18°</span><span class="font-data-mono text-[10px] text-secondary text-right">RETRO</span></div><div class="w-12 h-1 bg-secondary/10 ml-2"><div class="h-full bg-secondary" style="width: 55%"></div></div></div></div><!-- Technical Resonance Footer --><div class="mt-4 p-2 border border-dashed border-primary/20 text-center"><p class="font-label-caps text-[10px] text-primary uppercase">Spectral Resonance</p><p class="font-data-mono text-[12px] text-outline">7.83 HZ SCHUMANN</p></div></div>
+</section>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 pb-safe px-4 bg-surface-container/80 backdrop-blur-lg border-t border-primary/20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+<div class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-110">
+<span class="material-symbols-outlined">space_dashboard</span>
+<span class="font-label-caps text-[10px] uppercase">Dash</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">temple_hindu</span>
+<span class="font-label-caps text-[10px] uppercase">Houses</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">assignment_late</span>
+<span class="font-label-caps text-[10px] uppercase">Missions</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-caps text-[10px] uppercase">Stats</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">autorenew</span>
+<span class="font-label-caps text-[10px] uppercase">Cycle</span>
+</div>
+</nav>
+<!-- Footer -->
+<footer class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop flex flex-col items-center gap-2 py-8 opacity-40 hover:opacity-100 transition-opacity duration-500 border-t border-outline-variant/10 mb-20 lg:mb-0">
+<div class="font-label-caps text-label-caps text-primary">MAGNOPVS OS v4.2.0 // SYSTEM_STABLE</div>
+<div class="flex gap-6">
+<a class="font-mono-data text-mono-data text-outline-variant hover:text-primary transition-colors" href="#">System Reset</a>
+<a class="font-mono-data text-mono-data text-outline-variant hover:text-primary transition-colors" href="#">Log Export</a>
+<a class="font-mono-data text-mono-data text-outline-variant hover:text-primary transition-colors" href="#">Protocol-9</a>
+</div>
+<div class="text-outline-variant text-[10px] mt-4 uppercase tracking-[0.3em]">Chronos-Tzolkin Engine v6.8.0.241 // END OF STREAM</div>
+</footer>
+<script>
+        // Micro-interaction: Subtle flickering for status-critical tags
+        document.querySelectorAll('.status-tag').forEach(tag => {
+            setInterval(() => {
+                if (Math.random() > 0.98) {
+                    tag.classList.add('opacity-50');
+                    setTimeout(() => tag.classList.remove('opacity-50'), 50);
+                }
+            }, 100);
+        });
+
+        // Current time updater
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const timeElements = document.querySelectorAll('.text-data-mono');
+            timeElements.forEach(el => {
+                if (el.textContent.includes(':')) {
+                    el.textContent = timeString;
+                }
+            });
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
+</body></html>

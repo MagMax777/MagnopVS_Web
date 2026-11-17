@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SOMNOS-OS // RECOVERY-01</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Audiowide&amp;family=Orbitron:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-container": "#ddcdff",
+                        "secondary-fixed": "#e9ddff",
+                        "secondary": "#d1bcff",
+                        "on-primary": "#00363a",
+                        "on-tertiary-container": "#715d00",
+                        "surface-container-highest": "#2e3637",
+                        "outline": "#849495",
+                        "on-error": "#690005",
+                        "surface-container-low": "#151d1e",
+                        "on-primary-fixed-variant": "#004f54",
+                        "surface-dim": "#0d1515",
+                        "primary": "#dbfcff",
+                        "surface-variant": "#2e3637",
+                        "surface-tint": "#00dbe9",
+                        "secondary-fixed-dim": "#d1bcff",
+                        "inverse-surface": "#dce4e5",
+                        "surface-bright": "#333b3b",
+                        "tertiary": "#fff5de",
+                        "tertiary-fixed": "#ffe179",
+                        "inverse-primary": "#006970",
+                        "error": "#ffb4ab",
+                        "on-tertiary-fixed-variant": "#554500",
+                        "inverse-on-surface": "#2a3233",
+                        "error-container": "#93000a",
+                        "surface": "#0d1515",
+                        "on-primary-fixed": "#002022",
+                        "on-secondary-fixed-variant": "#5700c9",
+                        "tertiary-container": "#fed639",
+                        "primary-fixed": "#7df4ff",
+                        "on-background": "#dce4e5",
+                        "on-secondary": "#3c0090",
+                        "surface-container": "#192122",
+                        "primary-fixed-dim": "#00dbe9",
+                        "on-tertiary": "#3b2f00",
+                        "surface-container-lowest": "#080f10",
+                        "surface-container-high": "#232b2c",
+                        "on-surface": "#dce4e5",
+                        "background": "#0d1515",
+                        "primary-container": "#00f0ff",
+                        "secondary-container": "#7000ff",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed": "#23005b",
+                        "on-tertiary-fixed": "#231b00",
+                        "on-surface-variant": "#b9cacb",
+                        "tertiary-fixed-dim": "#eac324",
+                        "outline-variant": "#3b494b",
+                        "on-primary-container": "#006970"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "48px",
+                        "unit": "4px",
+                        "gutter": "16px",
+                        "margin-mobile": "16px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Audiowide", "sans-serif"],
+                        "body-md": ["Space Grotesk", "sans-serif"],
+                        "label-caps": ["JetBrains Mono", "monospace"],
+                        "data-mono": ["Orbitron", "monospace"],
+                        "headline-lg-mobile": ["Audiowide", "sans-serif"],
+                        "display-lg": ["Audiowide", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                        "data-mono": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #080f10;
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBF92gAotPA3A-v_Brbdmxnw6Atcjd2HiV7VBUGORsDn-B8-Vq9fUY9o5Vdx2m45syTqZA_dkKndJkLkP61sAa-OVLhMUXu1xfiP3ntSfN4r-OjzYyPhmhiFrhYvvjw20OrS5L4Mae2w_HFs535xlYFsMCk13f2T5TNOAmTd5ekFqXqNy2VwY4KyXhNT6xs4-v7UgP06TxSEyXqZIodlg01c9XkJ3BwQI81h0xeuVprpjadMHdRWgc3CG6fogyiIJDR9_EFmMS5mBGM');
+            background-attachment: fixed;
+            background-size: cover;
+            color: #dce4e5;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(13, 21, 21, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 219, 233, 0.2);
+            position: relative;
+        }
+
+        .glass-panel::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 219, 233, 0.4), transparent);
+        }
+
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 10;
+            background: linear-gradient(0deg, rgba(0, 219, 233, 0) 0%, rgba(0, 219, 233, 0.05) 50%, rgba(0, 219, 233, 0) 100%);
+            opacity: 0.1;
+            position: absolute;
+            bottom: 100%;
+            animation: scanline 8s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { bottom: 100%; }
+            100% { bottom: -100px; }
+        }
+
+        .data-glow {
+            text-shadow: 0 0 10px rgba(0, 219, 233, 0.6);
+        }
+
+        .wave-container {
+            height: 200px;
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+        }
+
+        .wave-bar {
+            background: linear-gradient(to top, #7000ff, #00dbe9);
+            width: 4px;
+            transition: height 0.5s ease;
+        }
+
+        .corner-tag {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgba(0, 219, 233, 0.1);
+            padding: 2px 6px;
+            font-family: 'JetBrains Mono';
+            font-size: 8px;
+            border-right: 1px solid rgba(0, 219, 233, 0.3);
+            border-bottom: 1px solid rgba(0, 219, 233, 0.3);
+            color: #00dbe9;
+        }
+    </style>
+</head>
+<body class="font-body-md">
+<div class="scanline"></div>
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface/20 backdrop-blur-xl border-b border-primary/20 flex justify-between items-center px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="flex items-center gap-6">
+<img alt="MagnopVS Logo" class="h-10 w-auto filter drop-shadow-[0_0_8px_rgba(0,219,233,0.6)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4WreVlxitpy7GHy6OrFFR2n1BbtQWeju5lU6qO1n33i0T5q0yN0tR03NeqhDXzsL7gVeqCVHeDSNa4GUoqwputboFIbLTyLcn3-LMwIaANHuGlZChC9ALGp1unnl66zmT-0E-EpsXpNWqS9SLe3ePjInHnGTmOEY0C_8-fZyMFQDcAB0-O1RC1FDaf-E_K_qrsY3G1c5eL6AuK6xNdAd7Bbrtm2GgyQVY41vpiQn7bCzjOtBFAzaM4whX_mxBmQSD-hLuagPD0GDz"/>
+<h1 class="font-display-lg text-[24px] tracking-tighter text-surface-tint drop-shadow-[0_0_8px_rgba(0,219,233,0.6)]">
+                SOMNOS-OS // COMMAND-01
+            </h1>
+</div>
+<nav class="hidden md:flex gap-8">
+<a class="text-primary border-b-2 border-primary-container pb-1 font-label-caps text-label-caps" href="#">Telemetry</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary-fixed hover:bg-surface-bright/30 transition-all" href="#">Optimization</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary-fixed hover:bg-surface-bright/30 transition-all" href="#">Calibration</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary-fixed hover:bg-surface-bright/30 transition-all" href="#">Logs</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">settings</span>
+<span class="material-symbols-outlined text-primary cursor-pointer animate-pulse">notifications_active</span>
+<div class="w-10 h-10 border border-primary/40 p-1">
+<div class="w-full h-full bg-cover bg-center" data-alt="A futuristic biometric avatar of a high-performance operator, featuring glowing facial patterns and neural interface ports, rendered in a sleek 3D style with violet and cyan lighting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC280Ti0FXnOTD1FXe3UTUgXQttSmjfq22uRzMzpeLlj1J49MHOAeB66AtYD2MdNZGmI375maZfDAGKHsVGV_bEOjv0PMDi_RoZ_sgzZGeIsnnjtXjwp0etzKx7Ju1vpkAfcVsbfNfY_AVnIx9mkYvM3koUzbHyEfHEY32GWkH7L6OGxCLqzfIxO0jVuPFlZ1EZcl8U4JzwjhXWidupntIIbvh03tSiOB3nTfNa7x9XBtB4nSehLgPFMPf_GF9-vsafnPBSJwpuBJ7Q')"></div>
+</div>
+</div>
+</header>
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-full z-40 flex flex-col pt-24 w-16 md:w-64 bg-surface-dim/40 backdrop-blur-md border-r border-outline-variant/20 transition-all duration-300">
+<div class="px-4 mb-10 hidden md:block">
+<p class="font-label-caps text-label-caps text-primary-fixed">OPERATOR_01</p>
+<p class="font-label-caps text-[10px] text-surface-tint/60">VITALITY_OPTIMAL</p>
+</div>
+<nav class="flex flex-col flex-grow">
+<div class="text-primary-container bg-primary/10 border-l-4 border-primary-container p-4 flex items-center gap-4 cursor-pointer">
+<span class="material-symbols-outlined">psychology</span>
+<span class="hidden md:block font-label-caps text-label-caps">Neural</span>
+</div>
+<div class="text-on-surface-variant p-4 flex items-center gap-4 cursor-pointer hover:bg-surface-container-highest/50 hover:text-primary transition-all">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="hidden md:block font-label-caps text-label-caps">Somatic</span>
+</div>
+<div class="text-on-surface-variant p-4 flex items-center gap-4 cursor-pointer hover:bg-surface-container-highest/50 hover:text-primary transition-all">
+<span class="material-symbols-outlined">biotech</span>
+<span class="hidden md:block font-label-caps text-label-caps">Metabolic</span>
+</div>
+<div class="text-on-surface-variant p-4 flex items-center gap-4 cursor-pointer hover:bg-surface-container-highest/50 hover:text-primary transition-all">
+<span class="material-symbols-outlined">monitor_heart</span>
+<span class="hidden md:block font-label-caps text-label-caps">Vitals</span>
+</div>
+</nav>
+<div class="p-4 mt-auto">
+<button class="w-full py-3 bg-secondary-container text-on-secondary-container font-label-caps text-[10px] tracking-widest hidden md:block hover:brightness-125 transition-all">
+                SYNC VESSEL
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-16 md:ml-64 pt-28 pb-20 px-margin-mobile md:px-margin-desktop min-h-screen">
+<div class="max-w-container-max mx-auto space-y-gutter">
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Sleep Architecture Map (Hero Section) -->
+<section class="lg:col-span-8 glass-panel p-8 relative overflow-hidden">
+<div class="corner-tag">NODE_ARC_01</div>
+<div class="flex justify-between items-start mb-8">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary uppercase">Sleep Architecture Map</h2>
+<p class="font-label-caps text-[10px] text-on-surface-variant">DATA CYCLE: 2024-05-12 / 2024-05-13</p>
+</div>
+<div class="flex gap-4">
+<div class="text-right">
+<p class="font-label-caps text-[10px] text-on-surface-variant">TOTAL RECOVERY</p>
+<p class="font-data-mono text-xl text-primary data-glow">07:42:15</p>
+</div>
+<div class="text-right">
+<p class="font-label-caps text-[10px] text-on-surface-variant">EFFICIENCY</p>
+<p class="font-data-mono text-xl text-surface-tint data-glow">94.2%</p>
+</div>
+</div>
+</div>
+<div class="h-64 flex items-end justify-between px-2 gap-1" id="sleep-graph">
+<!-- Bars dynamically sized for variety -->
+<div class="flex-grow bg-primary/20 h-1/4 border-t border-primary/40 relative group">
+<span class="absolute -top-6 left-0 font-label-caps text-[8px] opacity-0 group-hover:opacity-100 transition-opacity">LIGHT</span>
+</div>
+<div class="flex-grow bg-secondary-container/30 h-3/4 border-t border-secondary/40 relative group"></div>
+<div class="flex-grow bg-surface-tint/30 h-1/2 border-t border-surface-tint/50 relative group"></div>
+<div class="flex-grow bg-error-container/30 h-1/6 border-t border-error/50 relative group"></div>
+<div class="flex-grow bg-secondary-container/30 h-4/5 border-t border-secondary/40 relative group">
+<span class="absolute -top-6 left-0 font-label-caps text-[8px] opacity-0 group-hover:opacity-100 transition-opacity">DEEP</span>
+</div>
+<div class="flex-grow bg-primary/20 h-1/3 border-t border-primary/40 relative group"></div>
+<div class="flex-grow bg-surface-tint/30 h-3/5 border-t border-surface-tint/50 relative group">
+<span class="absolute -top-6 left-0 font-label-caps text-[8px] opacity-0 group-hover:opacity-100 transition-opacity">REM</span>
+</div>
+<div class="flex-grow bg-primary/20 h-1/2 border-t border-primary/40 relative group"></div>
+</div>
+<div class="mt-6 flex justify-around font-label-caps text-[10px] text-on-surface-variant border-t border-outline-variant/20 pt-4">
+<span class="flex items-center gap-2"><div class="w-2 h-2 bg-error"></div> AWAKE</span>
+<span class="flex items-center gap-2"><div class="w-2 h-2 bg-primary"></div> LIGHT</span>
+<span class="flex items-center gap-2"><div class="w-2 h-2 bg-surface-tint"></div> REM</span>
+<span class="flex items-center gap-2"><div class="w-2 h-2 bg-secondary-container"></div> DEEP</span>
+</div>
+</section>
+<!-- Circadian Alignment -->
+<section class="lg:col-span-4 glass-panel p-6 relative">
+<div class="corner-tag">NODE_LUNAR_02</div>
+<h3 class="font-headline-lg text-[20px] text-secondary mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined">nights_stay</span>
+                        CIRCADIAN ALIGNMENT
+                    </h3>
+<div class="relative w-48 h-48 mx-auto flex items-center justify-center">
+<div class="absolute inset-0 border-2 border-dashed border-outline-variant/30 rounded-full"></div>
+<div class="absolute inset-0 border-4 border-secondary-container rounded-full clip-path-polygon-[0%_0%,100%_0%,100%_50%,0%_50%] rotate-45"></div>
+<div class="z-10 text-center">
+<p class="font-data-mono text-3xl text-secondary data-glow">22:45</p>
+<p class="font-label-caps text-[10px] text-on-surface-variant">OPTIMAL ONSET</p>
+</div>
+<div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-primary-fixed rounded-full shadow-[0_0_15px_#00dbe9]"></div>
+</div>
+<div class="mt-8 space-y-4">
+<div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
+<span class="font-label-caps text-[10px]">SOLAR STATE</span>
+<span class="font-data-mono text-[12px] text-primary">DUSK PHASE</span>
+</div>
+<div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
+<span class="font-label-caps text-[10px]">MELATONIN PEAK</span>
+<span class="font-data-mono text-[12px] text-primary">IN 02:15:00</span>
+</div>
+</div>
+</section>
+<!-- Recovery Telemetry Row -->
+<div class="lg:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="glass-panel p-4 flex items-center justify-between">
+<div>
+<p class="font-label-caps text-[10px] text-on-surface-variant">HRV (VARIABILITY)</p>
+<h4 class="font-data-mono text-2xl text-primary data-glow">84 ms</h4>
+</div>
+<div class="text-right">
+<span class="text-surface-tint font-label-caps text-[10px] bg-surface-tint/10 px-2 py-1">+12%</span>
+</div>
+</div>
+<div class="glass-panel p-4 flex items-center justify-between">
+<div>
+<p class="font-label-caps text-[10px] text-on-surface-variant">RESPIRATORY RATE</p>
+<h4 class="font-data-mono text-2xl text-primary data-glow">14.2 rpm</h4>
+</div>
+<div class="text-right">
+<span class="text-on-surface-variant font-label-caps text-[10px] bg-surface-bright/20 px-2 py-1">STABLE</span>
+</div>
+</div>
+<div class="glass-panel p-4 flex items-center justify-between">
+<div>
+<p class="font-label-caps text-[10px] text-on-surface-variant">MOVEMENT SCORE</p>
+<h4 class="font-data-mono text-2xl text-error data-glow">LOW</h4>
+</div>
+<div class="text-right">
+<span class="text-error font-label-caps text-[10px] bg-error/10 px-2 py-1">RESTLESS</span>
+</div>
+</div>
+</div>
+<!-- Neuro-Chemical Balance & Sanctuary -->
+<section class="lg:col-span-4 glass-panel p-6">
+<h3 class="font-headline-lg text-[20px] text-tertiary mb-6">NEURO-CHEMICALS</h3>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between font-label-caps text-[10px] mb-2">
+<span>MELATONIN LEVEL</span>
+<span class="text-primary">85%</span>
+</div>
+<div class="h-1 bg-surface-variant w-full">
+<div class="h-full bg-primary" style="width: 85%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-caps text-[10px] mb-2">
+<span>CORTISOL SUPPRESSION</span>
+<span class="text-secondary">ACTIVE</span>
+</div>
+<div class="h-1 bg-surface-variant w-full">
+<div class="h-full bg-secondary" style="width: 92%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-caps text-[10px] mb-2">
+<span>DOPAMINE CLEARANCE</span>
+<span class="text-surface-tint">OPTIMAL</span>
+</div>
+<div class="h-1 bg-surface-variant w-full">
+<div class="h-full bg-surface-tint" style="width: 70%"></div>
+</div>
+</div>
+</div>
+</section>
+<section class="lg:col-span-4 glass-panel p-6">
+<h3 class="font-headline-lg text-[20px] text-primary mb-6">THE SANCTUARY</h3>
+<div class="grid grid-cols-2 gap-4">
+<div class="border border-primary/20 p-3 bg-primary/5">
+<p class="font-label-caps text-[10px] text-on-surface-variant">ROOM TEMP</p>
+<p class="font-data-mono text-xl text-primary">18.5°C</p>
+</div>
+<div class="border border-primary/20 p-3 bg-primary/5">
+<p class="font-label-caps text-[10px] text-on-surface-variant">HUMIDITY</p>
+<p class="font-data-mono text-xl text-primary">48%</p>
+</div>
+<div class="border border-primary/20 p-3 bg-primary/5">
+<p class="font-label-caps text-[10px] text-on-surface-variant">CO2 LEVELS</p>
+<p class="font-data-mono text-xl text-surface-tint">410 ppm</p>
+</div>
+<div class="border border-primary/20 p-3 bg-primary/5">
+<p class="font-label-caps text-[10px] text-on-surface-variant">LUX INTENSITY</p>
+<p class="font-data-mono text-xl text-error">0.2 lx</p>
+</div>
+</div>
+</section>
+<!-- AI Advice -->
+<section class="lg:col-span-4 glass-panel p-6 bg-secondary-container/5">
+<h3 class="font-headline-lg text-[20px] text-secondary flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined">auto_awesome</span>
+                        SOF.IA ADVICE
+                    </h3>
+<div class="space-y-4 font-body-md text-sm text-on-surface-variant">
+<div class="border-l-2 border-secondary pl-3 py-1">
+<p class="font-label-caps text-[10px] text-secondary mb-1">STRATEGIC WAKE</p>
+<p>Current sleep inertia levels predicted to be high. Set wake window to <span class="text-primary font-bold">06:45 - 07:00</span> for optimal REM completion.</p>
+</div>
+<div class="border-l-2 border-surface-tint pl-3 py-1">
+<p class="font-label-caps text-[10px] text-surface-tint mb-1">ENVIRONMENT ADJUSTMENT</p>
+<p>CO2 levels slightly rising. Initiating brief air exchange via ventilation system sector-04.</p>
+</div>
+</div>
+</section>
+<!-- Active Protocols (Bento Bottom) -->
+<section class="lg:col-span-12 glass-panel p-6">
+<h3 class="font-headline-lg text-[24px] text-primary mb-6">ACTIVE PROTOCOLS</h3>
+<div class="flex flex-wrap gap-4">
+<div class="px-6 py-4 bg-primary/10 border border-primary/40 flex items-center gap-4 cursor-pointer hover:bg-primary/20 transition-all">
+<span class="material-symbols-outlined text-primary">visibility_off</span>
+<div>
+<p class="font-label-caps text-[12px] text-primary">Blue Light Blockers</p>
+<p class="text-[10px] text-on-surface-variant">ENGAGED - 100%</p>
+</div>
+</div>
+<div class="px-6 py-4 bg-secondary-container/10 border border-secondary/40 flex items-center gap-4 cursor-pointer hover:bg-secondary-container/20 transition-all">
+<span class="material-symbols-outlined text-secondary">sync</span>
+<div>
+<p class="font-label-caps text-[12px] text-secondary">Magnesium Sync</p>
+<p class="text-[10px] text-on-surface-variant">ABSORPTION 82%</p>
+</div>
+</div>
+<div class="px-6 py-4 bg-surface-tint/10 border border-surface-tint/40 flex items-center gap-4 cursor-pointer hover:bg-surface-tint/20 transition-all">
+<span class="material-symbols-outlined text-surface-tint">air</span>
+<div>
+<p class="font-label-caps text-[12px] text-surface-tint">Deep Breathing Session</p>
+<p class="text-[10px] text-on-surface-variant">PENDING - 22:30</p>
+</div>
+</div>
+<div class="px-6 py-4 bg-surface-variant/20 border border-outline/30 flex items-center gap-4 cursor-pointer hover:bg-surface-variant/40 transition-all">
+<span class="material-symbols-outlined text-on-surface-variant">graphic_eq</span>
+<div>
+<p class="font-label-caps text-[12px] text-on-surface-variant">White Noise Frequency</p>
+<p class="text-[10px] text-on-surface-variant">432Hz HARMONIC</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mobile only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-2xl flex justify-around items-center px-4 pb-safe border-t border-primary/30">
+<div class="flex flex-col items-center justify-center bg-primary-container/20 text-primary-container rounded-none p-2 border-t-2 border-primary-container">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps text-[10px]">Command</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-label-caps text-[10px]">Health</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2">
+<span class="material-symbols-outlined">visibility</span>
+<span class="font-label-caps text-[10px]">Bio-Scan</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2">
+<span class="material-symbols-outlined">settings_input_component</span>
+<span class="font-label-caps text-[10px]">Calibrate</span>
+</div>
+</nav>
+<script>
+        // Atmospheric Micro-interaction: Periodic pulses on telemetry data
+        setInterval(() => {
+            const hrvData = document.querySelector('h4.text-primary');
+            if (hrvData) {
+                hrvData.classList.add('scale-105');
+                setTimeout(() => hrvData.classList.remove('scale-105'), 200);
+            }
+        }, 5000);
+
+        // Randomize wave bars for the sleep architecture map to simulate real-time data
+        const graphContainer = document.getElementById('sleep-graph');
+        const bars = graphContainer.children;
+        Array.from(bars).forEach(bar => {
+            const randomDelay = Math.random() * 2000;
+            setTimeout(() => {
+                bar.style.opacity = "0.8";
+            }, randomDelay);
+        });
+    </script>
+</body></html>

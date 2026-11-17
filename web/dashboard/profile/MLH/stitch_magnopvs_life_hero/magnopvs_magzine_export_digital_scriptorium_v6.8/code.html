@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOPVS | MagZine Export</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;500;700;900&amp;family=JetBrains+Mono:wght@400;500&amp;family=Space+Grotesk:wght@300;700&amp;family=Hanken+Grotesk:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --glow-cyan: #2da8e0;
+            --glow-violet: #8b5cf6;
+        }
+        body {
+            background-color: #101417;
+            color: #e0e3e6;
+            font-family: 'Orbitron', sans-serif;
+            overflow-x: hidden;
+        }
+        .font-headline-sm { font-family: 'Space Grotesk', sans-serif; }
+        .font-label-caps { font-family: 'JetBrains Mono', sans-serif; }
+        .font-mono-data { font-family: 'JetBrains Mono', sans-serif; }
+        .font-audiowide { font-family: 'Audiowide', cursive; }
+        
+        .cyber-grid {
+            background-image: 
+                linear-gradient(to right, rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(197, 231, 255, 0.1);
+        }
+
+        .neon-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 5px var(--glow-cyan)); }
+            50% { opacity: 0.7; filter: drop-shadow(0 0 2px var(--glow-cyan)); }
+        }
+
+        .slant-btn {
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+            transition: all 0.3s ease;
+        }
+
+        .slant-btn:hover {
+            transform: scale(1.05);
+            background: #7fd0ff;
+            color: #001e2d;
+        }
+
+        .magazine-spread {
+            perspective: 2000px;
+        }
+
+        .page-fold {
+            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+        ::-webkit-scrollbar-thumb { background: #3f484e; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: #7fd0ff; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface": "#101417",
+                        "primary": "#c5e7ff",
+                        "primary-container": "#7fd0ff",
+                        "on-surface": "#e0e3e6",
+                        "on-surface-variant": "#bfc8cf",
+                        "outline-variant": "#3f484e",
+                        "glow-cyan": "#2da8e0"
+                    },
+                    spacing: {
+                        "margin-mobile": "20px",
+                        "margin-desktop": "40px",
+                        "section-padding": "128px",
+                        "panel-gap": "12px"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface selection:bg-primary-container selection:text-black">
+<!-- Background Layer -->
+<div class="fixed inset-0 cyber-grid pointer-events-none opacity-40"></div>
+<div class="fixed inset-0 bg-gradient-to-tr from-surface via-transparent to-primary/5 pointer-events-none"></div>
+<!-- Top Navigation Anchor -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20 shadow-[0_0_15px_rgba(0,240,255,0.1)] flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16">
+<div class="flex items-center gap-6">
+<img alt="MAGNOPVS" class="h-8 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZPoiYDGVnuGIRTpKDeAOaOCshULH-3tkn4ApS3MFKrXyK1EX--c4k_z1EMTGV_0_jxNmfb2EF8bFiaOV2icK0pB8h8WgaF12xDB-RURQMY_lv6mSuavcH2pzPZzpTmd81ai-zWzvv0GFjHihrnIVU2shs3RiJtPrZksaGVBWUvpmfisx_AoUK5UWH_EX-SmimTreU0mCtJJ9clA6y96mB_J0X3CXSCYH2WJCvm4zo52Mfq3ihWF9_ADUy2zZztS_AqEE"/>
+<nav class="hidden md:flex gap-8 items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors cursor-pointer">TELEMETRY</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors cursor-pointer">LOGS</span>
+<span class="font-label-caps text-label-caps text-primary border-b-2 border-primary-container pb-1 cursor-pointer">SOF.IA</span>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-container cursor-pointer hover:scale-110 transition-transform">settings</span>
+<span class="material-symbols-outlined text-primary-container cursor-pointer hover:scale-110 transition-transform">notifications</span>
+<div class="w-8 h-8 rounded-full border border-primary/30 bg-surface-container overflow-hidden">
+<div class="w-full h-full bg-gradient-to-br from-primary to-glow-cyan/20"></div>
+</div>
+</div>
+</header>
+<!-- Side Navigation -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-20 md:w-64 z-40 bg-surface-container/60 backdrop-blur-2xl border-r border-outline-variant/20 flex flex-col py-panel-gap">
+<div class="px-6 py-4 border-b border-outline-variant/10 hidden md:block">
+<h2 class="text-primary font-headline-sm text-headline-sm">MAGZINE_BUILDER</h2>
+<p class="text-on-surface-variant text-[10px] font-mono-data tracking-widest opacity-60">VER. 6.8 COSMIC_HUD</p>
+</div>
+<div class="flex-1 px-4 space-y-2 mt-4">
+<div class="group cursor-pointer flex items-center gap-4 p-3 rounded bg-primary-container/10 text-primary-container border-l-4 border-primary shadow-[0_0_10px_rgba(0,240,255,0.2)]">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-label-caps text-label-caps hidden md:inline">EDITORIAL</span>
+</div>
+<div class="group cursor-pointer flex items-center gap-4 p-3 rounded text-on-surface-variant hover:bg-surface-variant/30 hover:text-primary/70 transition-all">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps text-label-caps hidden md:inline">CURATION</span>
+</div>
+<div class="group cursor-pointer flex items-center gap-4 p-3 rounded text-on-surface-variant hover:bg-surface-variant/30 hover:text-primary/70 transition-all">
+<span class="material-symbols-outlined">vital_signs</span>
+<span class="font-label-caps text-label-caps hidden md:inline">HEALTH_SYNC</span>
+</div>
+<div class="group cursor-pointer flex items-center gap-4 p-3 rounded text-on-surface-variant hover:bg-surface-variant/30 hover:text-primary/70 transition-all">
+<span class="material-symbols-outlined">memory</span>
+<span class="font-label-caps text-label-caps hidden md:inline">RECALL</span>
+</div>
+</div>
+<div class="mt-auto px-4 pb-6 border-t border-outline-variant/10 pt-4">
+<div class="bg-primary hover:bg-primary-container text-black font-audiowide text-[10px] py-3 text-center cursor-pointer slant-btn uppercase tracking-widest">
+                Initiate_REM
+            </div>
+</div>
+</aside>
+<!-- Main Workspace -->
+<main class="ml-20 md:ml-64 pt-24 pb-12 px-6 md:px-12 min-h-screen">
+<div class="max-w-7xl mx-auto grid grid-cols-12 gap-8">
+<!-- 1. Editorial Grid (Main Content) -->
+<section class="col-span-12 lg:col-span-8">
+<div class="flex justify-between items-end mb-8">
+<div>
+<h1 class="font-audiowide text-4xl text-primary tracking-tighter mb-2">EDITORIAL_GRID</h1>
+<p class="font-mono-data text-xs text-on-surface-variant">ACTIVE_SESSION: Q_INQUIRY_304 // SPREAD_012</p>
+</div>
+<div class="flex gap-4">
+<button class="bg-surface-variant/30 border border-primary/20 px-4 py-1 text-[10px] font-label-caps text-primary hover:bg-primary/10 transition-colors">PREV_PAGE</button>
+<button class="bg-surface-variant/30 border border-primary/20 px-4 py-1 text-[10px] font-label-caps text-primary hover:bg-primary/10 transition-colors">NEXT_PAGE</button>
+</div>
+</div>
+<!-- Spread Preview -->
+<div class="magazine-spread glass-panel p-8 rounded-lg relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-glow-cyan via-glow-violet to-glow-cyan"></div>
+<div class="grid grid-cols-2 gap-4 h-[600px]">
+<!-- Left Page -->
+<div class="relative bg-surface-container border border-outline-variant/30 p-8 flex flex-col page-fold overflow-hidden">
+<div class="absolute top-4 left-4 font-mono-data text-[8px] text-primary/40">PAGE // 14</div>
+<div class="mb-6">
+<h3 class="font-audiowide text-3xl text-glow-cyan mb-4 leading-tight">QUANTUM_LITANY: THE VOID SPEAKS</h3>
+<div class="flex gap-2">
+<span class="text-[8px] font-mono-data bg-primary/10 text-primary px-2 py-0.5 border border-primary/30">VERIFIED_SOFIA</span>
+<span class="text-[8px] font-mono-data bg-white/5 text-on-surface-variant px-2 py-0.5 border border-white/10">PROTO_09</span>
+</div>
+</div>
+<div class="flex-1 relative mb-6">
+<img class="w-full h-full object-cover border border-primary/20 grayscale hover:grayscale-0 transition-all duration-700" data-alt="A cinematic, high-contrast digital art piece depicting a person drifting in a vast, dark cosmic ocean of flowing liquid data lines. Bioluminescent cyan and violet ripples pulse through the void. The style is Cyber-Alchemical, merging sacred geometry with advanced fractal engineering. High-resolution sci-fi aesthetic with heavy atmospheric depth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOnhmiC2eqtlGq83YuC6cBQwNnLkgMXksuDrjGoVL1a97zJ4fmiubZW1Vw84SzmSqhhx1OroQje5FW8-PtixQhY3PE3iaDpSd_ktxs6pWFAJ_szXSLonHJ0IKlrQDserRAGVK79rm4lNoHjmrIk_V0Ik5cslH3dzOrYNZRzvPVfhXEhs0jAuY2SzafPr3R7rcue5VQIGN0PqVi3MyvMArTv-aGVPXgaQPyeGxIsgFEYnm8WF3VNqN9Dg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-60"></div>
+</div>
+<p class="font-orbitron text-xs text-on-surface-variant leading-relaxed">
+                                The inquiry begins at the horizon of event-driven consciousness. When the neural architecture syncs with the Astral Void, the somatic feedback loop stabilizes at 94.2% lucidity. Data is not just information; it is the alchemical fire that purifies the digital spirit.
+                            </p>
+</div>
+<!-- Right Page -->
+<div class="relative bg-surface-container border border-outline-variant/30 p-8 flex flex-col overflow-hidden">
+<div class="absolute top-4 right-4 font-mono-data text-[8px] text-primary/40">PAGE // 15</div>
+<div class="grid grid-cols-2 gap-4 h-1/2 mb-6">
+<div class="bg-black/40 border border-glow-violet/20 p-4 relative overflow-hidden">
+<div class="font-mono-data text-[9px] text-glow-violet mb-2">NEURAL_SCAN_001</div>
+<div class="space-y-1">
+<div class="h-1 bg-glow-violet/50 w-full"></div>
+<div class="h-1 bg-glow-violet/50 w-3/4"></div>
+<div class="h-1 bg-glow-violet/20 w-1/2"></div>
+<div class="h-1 bg-glow-violet/50 w-full"></div>
+</div>
+
+</div>
+<div class="bg-black/40 border border-glow-cyan/20 p-4">
+<div class="font-mono-data text-[9px] text-glow-cyan mb-2">KNOWLEDGE_SYNC</div>
+<div class="text-[10px] text-on-surface-variant leading-tight">
+                                        Collective Intelligence metrics indicate a 12% rise in esoteric data mining.
+                                    </div>
+</div>
+</div>
+<div class="flex-1 bg-surface-variant/20 p-6 border-dashed border border-outline-variant/40 flex items-center justify-center group/drop">
+<div class="text-center group-hover/drop:scale-110 transition-transform">
+<span class="material-symbols-outlined text-4xl text-primary/20 mb-2">add_circle</span>
+<p class="font-label-caps text-[10px] text-on-surface-variant opacity-40">DRAG INSIGHT HERE</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Export Terminal -->
+<div class="mt-12 flex flex-wrap gap-4 items-center">
+<div class="font-mono-data text-[10px] text-on-surface-variant tracking-widest mr-4">EXPORT_SEQUENCE:</div>
+<button class="bg-primary text-black font-audiowide px-6 py-3 text-xs slant-btn uppercase">Publish to Nexus</button>
+<button class="border border-primary/40 text-primary font-audiowide px-6 py-3 text-xs slant-btn uppercase bg-primary/5 hover:bg-primary/20">Download Encrypted PDF</button>
+<button class="border border-glow-violet/40 text-glow-violet font-audiowide px-6 py-3 text-xs slant-btn uppercase bg-glow-violet/5 hover:bg-glow-violet/20">Sync to Neural Archive</button>
+</div>
+</section>
+<!-- Right Sidebar: Curation & Style -->
+<aside class="col-span-12 lg:col-span-4 space-y-8">
+<!-- 2. Curation Panel -->
+<div class="glass-panel p-6 rounded-lg relative">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary neon-pulse">psychology</span>
+<h2 class="font-audiowide text-lg text-primary">CURATION_PANEL</h2>
+</div>
+<div class="space-y-4 max-h-[400px] overflow-y-auto pr-2">
+<!-- Insight Card -->
+<div class="bg-surface-variant/20 border border-outline-variant/30 p-4 hover:border-primary/50 transition-all cursor-move group">
+<div class="flex justify-between items-start mb-2">
+<span class="text-[9px] font-mono-data text-glow-cyan bg-glow-cyan/10 px-2 py-0.5">TOP_RATED</span>
+<span class="material-symbols-outlined text-xs text-on-surface-variant opacity-40">drag_indicator</span>
+</div>
+<h4 class="font-audiowide text-xs text-on-surface mb-2">The Architecture of Sleep</h4>
+<p class="text-[10px] text-on-surface-variant leading-relaxed mb-3">Community solution #084: Lucid dreaming triggers for MagOS synchronization.</p>
+<div class="flex justify-between items-center">
+<span class="text-[9px] font-mono-data text-primary/60">BY: USER_EXO_7</span>
+<span class="text-[9px] font-mono-data text-on-surface-variant">LUCIDITY: 98%</span>
+</div>
+</div>
+<!-- SOF.IA Insight -->
+<div class="bg-surface-variant/20 border border-glow-violet/30 p-4 hover:border-glow-violet/50 transition-all cursor-move group">
+<div class="flex justify-between items-start mb-2">
+<span class="text-[9px] font-mono-data text-glow-violet bg-glow-violet/10 px-2 py-0.5">SOF.IA_VERIFIED</span>
+<span class="material-symbols-outlined text-xs text-on-surface-variant opacity-40">drag_indicator</span>
+</div>
+<h4 class="font-audiowide text-xs text-on-surface mb-2">Fractal Geometry in Neural Paths</h4>
+<p class="text-[10px] text-on-surface-variant leading-relaxed mb-3">Artificial intelligence breakdown of visual data structures in the ASTRAL_RECALL module.</p>
+<div class="flex justify-between items-center">
+<span class="text-[9px] font-mono-data text-glow-violet">AUTONOMOUS_GEN</span>
+<span class="text-[9px] font-mono-data text-on-surface-variant">CONFIDENCE: 99.9%</span>
+</div>
+</div>
+<!-- Insight Card 2 -->
+<div class="bg-surface-variant/20 border border-outline-variant/30 p-4 hover:border-primary/50 transition-all cursor-move group">
+<div class="flex justify-between items-start mb-2">
+<span class="text-[9px] font-mono-data text-glow-cyan bg-glow-cyan/10 px-2 py-0.5">COMMUNITY_SYNC</span>
+<span class="material-symbols-outlined text-xs text-on-surface-variant opacity-40">drag_indicator</span>
+</div>
+<h4 class="font-audiowide text-xs text-on-surface mb-2">Telemetric Poetry</h4>
+<p class="text-[10px] text-on-surface-variant leading-relaxed mb-3">Extracting lyrical meaning from raw system logs during deep-state meditation.</p>
+<div class="flex justify-between items-center">
+<span class="text-[9px] font-mono-data text-primary/60">BY: NEON_MYSTIC</span>
+<span class="text-[9px] font-mono-data text-on-surface-variant">RESONANCE: 0.88</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 3. Style Presets -->
+<div class="glass-panel p-6 rounded-lg">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-glow-violet">palette</span>
+<h2 class="font-audiowide text-lg text-primary">AESTHETIC_PROTOCOLS</h2>
+</div>
+<div class="grid grid-cols-1 gap-3">
+<label class="group flex items-center justify-between p-3 border border-primary/50 bg-primary/10 rounded cursor-pointer transition-all">
+<div class="flex items-center gap-3">
+<div class="w-4 h-4 border border-primary flex items-center justify-center">
+<div class="w-2 h-2 bg-primary"></div>
+</div>
+<div>
+<p class="font-audiowide text-xs text-primary">FUTURIST</p>
+<p class="text-[8px] font-mono-data text-on-surface-variant">CYAN / NEON / SHARP</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-sm text-primary">check_circle</span>
+</label>
+<label class="group flex items-center justify-between p-3 border border-outline-variant/30 hover:border-glow-violet/50 rounded cursor-pointer transition-all">
+<div class="flex items-center gap-3">
+<div class="w-4 h-4 border border-outline-variant"></div>
+<div>
+<p class="font-audiowide text-xs text-on-surface">ESOTERIC</p>
+<p class="text-[8px] font-mono-data text-on-surface-variant">VIOLET / GLOW / FRACTAL</p>
+</div>
+</div>
+</label>
+<label class="group flex items-center justify-between p-3 border border-outline-variant/30 hover:border-on-surface/50 rounded cursor-pointer transition-all">
+<div class="flex items-center gap-3">
+<div class="w-4 h-4 border border-outline-variant"></div>
+<div>
+<p class="font-audiowide text-xs text-on-surface">ARCHIVIST</p>
+<p class="text-[8px] font-mono-data text-on-surface-variant">MONO / DATA / RAW</p>
+</div>
+</div>
+</label>
+</div>
+<div class="mt-6 pt-6 border-t border-outline-variant/20">
+<div class="flex justify-between items-center mb-4">
+<span class="text-[10px] font-label-caps text-on-surface-variant">GLOW_INTENSITY</span>
+<span class="text-[10px] font-mono-data text-primary">75%</span>
+</div>
+<div class="w-full h-1 bg-surface-variant/50 relative">
+<div class="absolute left-0 top-0 h-full bg-primary" style="width: 75%;"></div>
+<div class="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-primary rounded-full shadow-[0_0_8px_rgba(45,168,224,0.6)]" style="left: 75%;"></div>
+</div>
+</div>
+</div>
+<!-- System_Log Widget -->
+<div class="bg-black/40 border border-outline-variant/20 p-4 font-mono-data">
+<div class="flex items-center gap-2 mb-2">
+<div class="w-1 h-1 bg-primary neon-pulse"></div>
+<span class="text-[10px] text-primary">SYSTEM_LOG_OUTPUT</span>
+</div>
+<div class="text-[9px] text-on-surface-variant space-y-1 opacity-60">
+<p>[14:22:01] MagZine protocol initialized...</p>
+<p>[14:22:05] Curation assets cached.</p>
+<p>[14:22:12] User preference: FUTURIST applied.</p>
+<p class="animate-pulse">_ Waiting for neural confirmation...</p>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Footer Identity -->
+<footer class="ml-20 md:ml-64 px-12 py-8 border-t border-outline-variant/10 flex flex-col md:flex-row justify-between items-center gap-6 opacity-60">
+<div class="flex items-center gap-4">
+<span class="font-audiowide text-xs tracking-widest text-primary">MAGNOPVS_OS_v6.8</span>
+<div class="h-4 w-px bg-outline-variant/40"></div>
+<span class="font-mono-data text-[10px] text-on-surface-variant">EST_2026 // DIGITAL_SCRIPTORIUN</span>
+</div>
+<div class="flex gap-8">
+<span class="font-label-caps text-[10px] hover:text-primary cursor-pointer transition-colors">PRIVACY_ENCRYPTION</span>
+<span class="font-label-caps text-[10px] hover:text-primary cursor-pointer transition-colors">NEXUS_GUIDELINES</span>
+<span class="font-label-caps text-[10px] hover:text-primary cursor-pointer transition-colors">HELP_CENTRE</span>
+</div>
+</footer>
+<!-- Interactive Layer: Hover FX -->
+<script>
+        // Simple drag-over visual feedback mock
+        const dropZone = document.querySelector('.group/drop');
+        dropZone.addEventListener('dragenter', () => {
+            dropZone.classList.add('bg-primary/20', 'border-primary');
+        });
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('bg-primary/20', 'border-primary');
+        });
+
+        // Toggle Preset styling (Visual only)
+        const presets = document.querySelectorAll('label[class*="group"]');
+        presets.forEach(preset => {
+            preset.addEventListener('click', () => {
+                presets.forEach(p => p.classList.remove('border-primary/50', 'bg-primary/10'));
+                preset.classList.add('border-primary/50', 'bg-primary/10');
+            });
+        });
+    </script>
+</body></html>

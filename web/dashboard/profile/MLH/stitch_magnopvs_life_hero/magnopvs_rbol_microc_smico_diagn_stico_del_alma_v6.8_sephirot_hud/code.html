@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOPVS | MICROCOSMIC TREE</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&amp;family=JetBrains+Mono:wght@400;700&amp;family=Space+Grotesk:wght@300;400;700&amp;family=Geist:wght@300;400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --neon-cyan: #00f0ff;
+            --neon-magenta: #ff00ff;
+            --neon-violet: #8a2be2;
+        }
+
+        body {
+            background-color: #0d0e13;
+            color: #e3e1e9;
+            overflow-x: hidden;
+            font-family: 'Geist', sans-serif;
+        }
+
+        .hex-grid {
+            background-image: 
+                linear-gradient(to right, rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 90%);
+        }
+
+        .glass-panel {
+            background: rgba(26, 0, 51, 0.4);
+            backdrop-filter: blur(20px);
+            border-left: 2px solid rgba(0, 240, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-panel::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        .node-glow {
+            filter: drop-shadow(0 0 8px currentColor);
+        }
+
+        .path-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: dash 5s linear infinite;
+        }
+
+        @keyframes dash {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .lucid-button {
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 240, 255, 0.2);
+            position: absolute;
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: -5%; }
+            100% { top: 105%; }
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-container": "#00f0ff",
+                        "on-surface-variant": "#b9cacb",
+                        "background": "#0d0e13",
+                        "surface": "#121318",
+                        "primary": "#dbfcff",
+                        "surface-container": "#1e1f25",
+                        "outline-variant": "#3b494b",
+                    },
+                    fontFamily: {
+                        "headline-sm": ["Orbitron"],
+                        "display-lg": ["Orbitron"],
+                        "mono-data": ["JetBrains Mono"],
+                        "label-caps": ["Space Grotesk"]
+                    },
+                    spacing: {
+                        "unit": "4px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "64px",
+                        "panel-gap": "12px"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface">
+<!-- Top Navigation Bar (JSON Anchor) -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20 shadow-[0_0_15px_rgba(0,240,255,0.1)] flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16">
+<div class="font-display-lg text-[24px] md:text-display-lg text-primary tracking-widest">MAGNOPVS</div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="text-primary border-b-2 border-primary-container pb-1 font-label-caps text-[12px] tracking-[0.2em] cursor-pointer" href="#">TELEMETRY</a>
+<a class="text-on-surface-variant font-label-caps text-[12px] tracking-[0.2em] hover:text-primary-fixed-dim transition-colors duration-300 cursor-pointer" href="#">LOGS</a>
+<a class="text-on-surface-variant font-label-caps text-[12px] tracking-[0.2em] hover:text-primary-fixed-dim transition-colors duration-300 cursor-pointer" href="#">SOF.IA</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95">settings</span>
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95">notifications</span>
+</div>
+</header>
+<!-- Side Navigation Bar (JSON Anchor) -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-20 md:w-64 z-40 bg-surface-container/60 backdrop-blur-2xl border-r border-outline-variant/20 flex flex-col py-panel-gap">
+<div class="px-6 py-4 mb-8 hidden md:block">
+<div class="text-primary font-headline-sm text-headline-sm mb-1">ONEIRONAUT_01</div>
+<div class="text-on-surface-variant font-mono-data text-[10px] tracking-widest opacity-60">LUCIDITY_94%</div>
+</div>
+<nav class="flex flex-col gap-2 px-2">
+<div class="group cursor-pointer flex items-center gap-4 p-3 bg-primary-container/10 text-primary-container border-l-4 border-primary shadow-[0_0_10px_rgba(0,240,255,0.2)]">
+<span class="material-symbols-outlined">psychology</span>
+<span class="hidden md:block font-label-caps">NEURAL</span>
+</div>
+<div class="group cursor-pointer flex items-center gap-4 p-3 text-on-surface-variant hover:text-primary/70 hover:bg-surface-variant/30 transition-all duration-200">
+<span class="material-symbols-outlined">vital_signs</span>
+<span class="hidden md:block font-label-caps">SOMATIC</span>
+</div>
+<div class="group cursor-pointer flex items-center gap-4 p-3 text-on-surface-variant hover:text-primary/70 hover:bg-surface-variant/30 transition-all duration-200">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="hidden md:block font-label-caps">ASTRAL</span>
+</div>
+<div class="group cursor-pointer flex items-center gap-4 p-3 text-on-surface-variant hover:text-primary/70 hover:bg-surface-variant/30 transition-all duration-200">
+<span class="material-symbols-outlined">memory</span>
+<span class="hidden md:block font-label-caps">RECALL</span>
+</div>
+<div class="group cursor-pointer flex items-center gap-4 p-3 text-on-surface-variant hover:text-primary/70 hover:bg-surface-variant/30 transition-all duration-200">
+<span class="material-symbols-outlined">cloud_off</span>
+<span class="hidden md:block font-label-caps">VOID</span>
+</div>
+</nav>
+<div class="mt-auto px-4 pb-8 space-y-6">
+<button class="w-full bg-primary-container text-black font-label-caps py-4 lucid-button font-bold text-[12px] hover:bg-white hover:shadow-[0_0_20px_#00f0ff] transition-all">
+                INITIATE_REM
+            </button>
+<div class="flex justify-around pt-4 border-t border-outline-variant/20">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer">inventory_2</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer">sync_alt</span>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-20 md:ml-64 mt-16 p-4 md:p-8 min-h-screen relative overflow-hidden">
+<div class="hex-grid absolute inset-0 z-0"></div>
+<div class="scanline z-10"></div>
+<div class="relative z-20 grid grid-cols-12 gap-6 h-full">
+<!-- Left Side: Telemetry -->
+<div class="col-span-12 lg:col-span-3 flex flex-col gap-6">
+<!-- Soul Coherence Index -->
+<div class="glass-panel p-6">
+<div class="flex justify-between items-center mb-4">
+<span class="font-label-caps text-primary text-[10px] tracking-widest">COHERENCE_INDEX</span>
+<span class="material-symbols-outlined text-primary-container text-sm">filter_center_focus</span>
+</div>
+<div class="relative flex justify-center py-4">
+<svg class="w-32 h-32 transform -rotate-90">
+<circle class="text-outline-variant/30" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-width="2"></circle>
+<circle class="text-primary-container node-glow" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-dasharray="364.4" stroke-dashoffset="40" stroke-width="4" style="stroke-linecap: round; transition: stroke-dashoffset 1s ease-in-out;"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-display-lg text-2xl text-primary">89%</span>
+<span class="font-mono-data text-[8px] text-on-surface-variant">ALIGNMENT</span>
+</div>
+</div>
+<div class="mt-4 flex justify-between font-mono-data text-[10px]">
+<span class="text-on-surface-variant">STABILITY</span>
+<span class="text-primary-container">OPTIMAL</span>
+</div>
+</div>
+<!-- Shadow Density Monitor -->
+<div class="glass-panel p-6 flex-grow">
+<div class="font-label-caps text-primary text-[10px] tracking-widest mb-6">SHADOW_DENSITY_MONITOR</div>
+<div class="space-y-4">
+<div class="space-y-2">
+<div class="flex justify-between font-mono-data text-[10px]">
+<span>THAUMIEL</span>
+<span class="text-red-500">12%</span>
+</div>
+<div class="h-1 bg-surface-variant relative">
+<div class="absolute inset-y-0 left-0 bg-red-500 shadow-[0_0_8px_#ef4444]" style="width: 12%"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between font-mono-data text-[10px]">
+<span>GHAGIEL</span>
+<span class="text-red-400">28%</span>
+</div>
+<div class="h-1 bg-surface-variant relative">
+<div class="absolute inset-y-0 left-0 bg-red-400 shadow-[0_0_8px_#f87171]" style="width: 28%"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between font-mono-data text-[10px]">
+<span>GOLACHAB</span>
+<span class="text-primary-container">64%</span>
+</div>
+<div class="h-1 bg-surface-variant relative">
+<div class="absolute inset-y-0 left-0 bg-primary-container shadow-[0_0_8px_#00f0ff]" style="width: 64%"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between font-mono-data text-[10px]">
+<span>GAMALIEL</span>
+<span>04%</span>
+</div>
+<div class="h-1 bg-surface-variant relative">
+<div class="absolute inset-y-0 left-0 bg-on-surface-variant" style="width: 4%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Center: The Microcosmic Tree -->
+<div class="col-span-12 lg:col-span-6 glass-panel relative min-h-[600px] flex items-center justify-center">
+<div class="absolute top-4 left-4 font-label-caps text-primary text-[12px] border-l-2 border-primary-container pl-3">
+                    INTERIOR_MAP // TREE_OF_LIFE.SYS
+                </div>
+<!-- Tree Diagram (SVG Overlay) -->
+<svg class="w-full h-full max-w-lg absolute pointer-events-none" viewbox="0 0 400 600">
+<defs>
+<lineargradient id="pathGrad" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:var(--neon-cyan);stop-opacity:0.6"></stop>
+<stop offset="100%" style="stop-color:var(--neon-violet);stop-opacity:0.2"></stop>
+</lineargradient>
+</defs>
+<!-- Connection Lines (Kirch) -->
+<g class="stroke-[1] stroke-primary-container/30 fill-none">
+<line class="path-line" x1="200" x2="100" y1="80" y2="150"></line>
+<line class="path-line" x1="200" x2="300" y1="80" y2="150"></line>
+<line class="path-line" x1="100" x2="300" y1="150" y2="150"></line>
+<line class="path-line" x1="100" x2="100" y1="150" y2="280"></line>
+<line class="path-line" x1="300" x2="300" y1="150" y2="280"></line>
+<line class="path-line" x1="100" x2="300" y1="150" y2="280"></line>
+<line class="path-line" x1="300" x2="100" y1="150" y2="280"></line>
+<line stroke-dasharray="5 5" x1="200" x2="200" y1="80" y2="215"></line> <!-- Da'at Path -->
+</g>
+</svg>
+<div class="relative w-full h-full flex flex-col items-center py-12 gap-12">
+<!-- KETHER -->
+<div class="relative group cursor-pointer">
+<div class="w-14 h-14 rounded-full border-2 border-primary-container bg-surface-container flex items-center justify-center text-primary-container node-glow hover:scale-110 transition-transform">
+<span class="font-headline-sm text-xs">K</span>
+</div>
+<div class="absolute -right-24 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-black/80 p-2 border border-primary-container/20 whitespace-nowrap">
+<div class="font-label-caps text-[10px] text-primary">KETHER (CROWN)</div>
+<div class="font-mono-data text-[8px] text-on-surface-variant">BALANCE: 100%</div>
+</div>
+</div>
+<div class="flex justify-between w-full max-w-[280px]">
+<!-- CHOKMAH -->
+<div class="relative group cursor-pointer">
+<div class="w-14 h-14 rounded-full border-2 border-primary bg-surface-container flex items-center justify-center text-primary node-glow hover:scale-110 transition-transform">
+<span class="font-headline-sm text-xs">CH</span>
+</div>
+<div class="absolute -left-32 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-black/80 p-2 border border-primary/20 whitespace-nowrap text-right">
+<div class="font-label-caps text-[10px] text-primary">CHOKMAH (WISDOM)</div>
+<div class="font-mono-data text-[8px] text-on-surface-variant">BALANCE: 74%</div>
+</div>
+</div>
+<!-- BINAH -->
+<div class="relative group cursor-pointer">
+<div class="w-14 h-14 rounded-full border-2 border-violet-400 bg-surface-container flex items-center justify-center text-violet-400 node-glow hover:scale-110 transition-transform">
+<span class="font-headline-sm text-xs">B</span>
+</div>
+<div class="absolute -right-32 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-black/80 p-2 border border-violet-400/20 whitespace-nowrap">
+<div class="font-label-caps text-[10px] text-violet-400">BINAH (UNDERSTAND)</div>
+<div class="font-mono-data text-[8px] text-on-surface-variant">BALANCE: 62%</div>
+</div>
+</div>
+</div>
+<!-- DA'AT (Non-Sephirah) -->
+<div class="w-10 h-10 rounded-full border border-dashed border-outline-variant flex items-center justify-center text-outline-variant opacity-40">
+<span class="font-mono-data text-[8px]">VOID</span>
+</div>
+<div class="flex justify-between w-full max-w-[320px]">
+<!-- CHESED -->
+<div class="relative group cursor-pointer">
+<div class="w-14 h-14 rounded-full border-2 border-blue-400 bg-surface-container flex items-center justify-center text-blue-400 node-glow hover:scale-110 transition-transform">
+<span class="font-headline-sm text-xs">CS</span>
+</div>
+</div>
+<!-- GEVURAH -->
+<div class="relative group cursor-pointer">
+<div class="w-14 h-14 rounded-full border-2 border-red-500 bg-surface-container flex items-center justify-center text-red-500 node-glow animate-pulse">
+<span class="font-headline-sm text-xs">G</span>
+</div>
+<div class="absolute -right-32 top-1/2 -translate-y-1/2 bg-red-900/40 p-2 border border-red-500/20 whitespace-nowrap">
+<div class="font-label-caps text-[10px] text-red-400">CRITICAL IMBALANCE</div>
+<div class="font-mono-data text-[8px] text-white">QLIPHOTH DETECTED</div>
+</div>
+</div>
+</div>
+<!-- TIPHARETH -->
+<div class="relative group cursor-pointer">
+<div class="w-16 h-16 rounded-full border-2 border-yellow-400 bg-surface-container flex items-center justify-center text-yellow-400 node-glow hover:scale-110 transition-transform">
+<span class="font-headline-sm text-sm">T</span>
+</div>
+</div>
+</div>
+<div class="absolute bottom-4 right-4 flex gap-2">
+<div class="px-2 py-1 bg-primary-container/20 border border-primary-container/40 text-[8px] font-mono-data text-primary-container">OS_KERNEL: V.9.4.0</div>
+<div class="px-2 py-1 bg-red-500/20 border border-red-500/40 text-[8px] font-mono-data text-red-400">PHASE_SYNC: ERR</div>
+</div>
+</div>
+<!-- Right Side: Analysis & AI -->
+<div class="col-span-12 lg:col-span-3 flex flex-col gap-6">
+<!-- Path Synchronization -->
+<div class="glass-panel p-6">
+<div class="font-label-caps text-primary text-[10px] tracking-widest mb-4">PATH_SYNCHRONIZATION</div>
+<div class="space-y-3">
+<div class="flex items-center gap-3 p-2 bg-surface-container-high/50 border-l-2 border-primary-container">
+<span class="material-symbols-outlined text-sm text-primary-container">link</span>
+<div class="flex-grow">
+<div class="font-mono-data text-[10px]">KETHER ↔ CHOKMAH</div>
+<div class="w-full h-0.5 bg-surface-variant mt-1">
+<div class="h-full bg-primary-container w-[88%]"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-3 p-2 bg-surface-container-high/50 border-l-2 border-violet-400">
+<span class="material-symbols-outlined text-sm text-violet-400">bolt</span>
+<div class="flex-grow">
+<div class="font-mono-data text-[10px]">CHOKMAH ↔ TIPHARETH</div>
+<div class="w-full h-0.5 bg-surface-variant mt-1">
+<div class="h-full bg-violet-400 w-[42%]"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-3 p-2 bg-red-500/10 border-l-2 border-red-500 animate-pulse">
+<span class="material-symbols-outlined text-sm text-red-500">warning</span>
+<div class="flex-grow">
+<div class="font-mono-data text-[10px]">GEVURAH ↔ TIPHARETH</div>
+<div class="w-full h-0.5 bg-surface-variant mt-1">
+<div class="h-full bg-red-500 w-[15%]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- SOF.IA Advice -->
+<div class="glass-panel p-6 flex-grow border-l-2 border-magenta-500" style="border-image: linear-gradient(to bottom, #00f0ff, #ff00ff) 1;">
+<div class="flex items-center gap-2 mb-4">
+<div class="w-2 h-2 rounded-full bg-primary-container animate-ping"></div>
+<span class="font-label-caps text-primary text-[10px] tracking-widest">SOF.IA METAPHYSICAL_DIAGNOSTICS</span>
+</div>
+<div class="font-body-md text-on-surface-variant leading-relaxed text-[13px] italic mb-4">
+                        "Oneironaut, the spectral analysis indicates a significant gravitational pull from the Ghevurah qliphothic shell. Your interior severity is overriding mercy channels."
+                    </div>
+<div class="bg-primary-container/10 p-3 border border-primary-container/30 mb-4">
+<div class="font-mono-data text-[10px] text-primary-container mb-1">SUGGESTED_SYMBOLIC_ACT:</div>
+<div class="text-[11px] text-primary">Perform a Mercy-based meditation (Chesed) to redistribute psychic tension. Initiate Transmutation immediately.</div>
+</div>
+<button class="w-full py-4 bg-primary-container text-black font-headline-sm text-xs lucid-button flex items-center justify-center gap-2 hover:bg-white transition-all shadow-[0_0_15px_rgba(0,240,255,0.4)]">
+<span class="material-symbols-outlined text-sm">auto_fix</span>
+                        INITIATE TRANSMUTATION
+                    </button>
+</div>
+<!-- Quick Reality Check Chips -->
+<div class="flex flex-wrap gap-2">
+<div class="px-3 py-1 rounded-full border border-outline-variant/30 font-mono-data text-[8px] hover:border-primary-container cursor-pointer transition-colors">IS THIS A DREAM?</div>
+<div class="px-3 py-1 rounded-full border border-outline-variant/30 font-mono-data text-[8px] hover:border-primary-container cursor-pointer transition-colors">CHECK_BIO_SIGNATURE</div>
+<div class="px-3 py-1 rounded-full border border-outline-variant/30 font-mono-data text-[8px] hover:border-primary-container cursor-pointer transition-colors">STABILIZE_AURA</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer HUD Status -->
+<footer class="fixed bottom-0 left-0 right-0 h-8 bg-surface-container-highest/40 backdrop-blur-md border-t border-outline-variant/20 flex items-center px-6 justify-between z-50">
+<div class="flex gap-6 items-center">
+<div class="flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-primary-container shadow-[0_0_5px_#00f0ff]"></div>
+<span class="font-mono-data text-[8px] text-on-surface-variant">LUCID_THREAD_ACTIVE</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-violet-400"></div>
+<span class="font-mono-data text-[8px] text-on-surface-variant">SYNC_RATE: 44.2ms</span>
+</div>
+</div>
+<div class="font-mono-data text-[8px] text-primary/40">
+            © MAGNOPVS_CORP // 2024.X // NO_RIGHTS_RESERVED_IN_DREAMS
+        </div>
+</footer>
+<script>
+        // Micro-interactions for the "Tree"
+        document.querySelectorAll('.node-glow').forEach(node => {
+            node.addEventListener('mouseenter', () => {
+                // Potential for adding audio cues or extra particle effects
+                console.log('Inspecting Soul Node...');
+            });
+        });
+
+        // Simulating some UI data fluctuations
+        setInterval(() => {
+            const bars = document.querySelectorAll('.h-1 div');
+            bars.forEach(bar => {
+                const currentWidth = parseFloat(bar.style.width);
+                const jitter = (Math.random() - 0.5) * 2;
+                bar.style.width = Math.max(0, Math.min(100, currentWidth + jitter)) + '%';
+            });
+        }, 2000);
+    </script>
+</body></html>

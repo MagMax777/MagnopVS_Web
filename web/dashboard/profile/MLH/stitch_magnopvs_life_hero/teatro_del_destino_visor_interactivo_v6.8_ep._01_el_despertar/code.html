@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TEATRO DEL DESTINO | Episode Player</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&amp;family=Audiowide&amp;family=Space+Mono&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-error": "#690005",
+                "outline": "#988e90",
+                "tertiary-container": "#000000",
+                "on-primary-fixed-variant": "#474747",
+                "tertiary": "#00dce5",
+                "surface-container-lowest": "#0e0e0e",
+                "surface-dim": "#131313",
+                "surface-tint": "#c6c6c6",
+                "on-primary-fixed": "#1b1b1b",
+                "on-primary": "#303030",
+                "primary-fixed": "#e2e2e2",
+                "surface": "#131313",
+                "primary": "#c6c6c6",
+                "on-secondary-container": "#adb4ce",
+                "secondary-fixed-dim": "#bec6e0",
+                "on-tertiary": "#003739",
+                "secondary": "#bec6e0",
+                "on-tertiary-container": "#008288",
+                "on-background": "#e2e2e2",
+                "on-tertiary-fixed": "#002021",
+                "outline-variant": "#4c4546",
+                "tertiary-fixed": "#63f7ff",
+                "on-secondary": "#283044",
+                "on-primary-container": "#757575",
+                "background": "#131313",
+                "surface-variant": "#353535",
+                "on-tertiary-fixed-variant": "#004f53",
+                "secondary-container": "#3f465c",
+                "primary-fixed-dim": "#c6c6c6",
+                "inverse-on-surface": "#303030",
+                "error": "#ffb4ab",
+                "inverse-primary": "#5e5e5e",
+                "tertiary-fixed-dim": "#00dce5",
+                "surface-container": "#1f1f1f",
+                "on-error-container": "#ffdad6",
+                "on-secondary-fixed": "#131b2e",
+                "surface-container-highest": "#353535",
+                "on-surface-variant": "#cfc4c5",
+                "inverse-surface": "#e2e2e2",
+                "surface-container-high": "#2a2a2a",
+                "surface-bright": "#393939",
+                "on-secondary-fixed-variant": "#3f465c",
+                "on-surface": "#e2e2e2",
+                "primary-container": "#000000",
+                "error-container": "#93000a",
+                "surface-container-low": "#1b1b1b",
+                "secondary-fixed": "#dae2fd"
+            },
+            "fontFamily": {
+                "headline-lg": ["Audiowide"],
+                "data-mono": ["Space Mono"],
+                "title-md": ["Orbitron"],
+                "body-lg": ["Orbitron"],
+                "label-caps": ["Orbitron"],
+                "display-xl": ["Audiowide"]
+            },
+            "spacing": {
+                "unit": "4px",
+                "container-max": "1440px",
+                "margin-mobile": "20px",
+                "gutter": "24px",
+                "margin-desktop": "64px"
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(19, 19, 19, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 220, 229, 0.1);
+        }
+        .cinematic-letterbox {
+            background: linear-gradient(to bottom, black 0%, transparent 15%, transparent 85%, black 100%);
+        }
+        .choice-button {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .choice-button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }
+        .choice-button:hover::before {
+            transform: translateX(100%);
+        }
+        .pulse-arcane {
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.4; filter: drop-shadow(0 0 2px #00dce5); }
+            50% { opacity: 1; filter: drop-shadow(0 0 12px #00dce5); }
+        }
+        .glitch-hover:hover {
+            animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite;
+        }
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background overflow-hidden h-screen font-body-lg">
+<!-- Top Navigation (From Shared Components) -->
+<header class="bg-transparent backdrop-blur-xl text-primary font-title-md text-title-md flex justify-between items-center px-margin-desktop py-4 w-full sticky top-0 z-50 border-b border-outline-variant/30">
+<div class="font-headline-lg text-headline-lg tracking-widest text-on-background uppercase">
+            TEATRO DEL DESTINO
+        </div>
+<div class="flex items-center space-x-8">
+<nav class="hidden md:flex space-x-6 text-on-surface-variant font-label-caps">
+<a class="text-tertiary font-bold transition-colors duration-300" href="#">Chronicles</a>
+<a class="hover:text-tertiary transition-colors duration-300" href="#">Scriptorium</a>
+<a class="hover:text-tertiary transition-colors duration-300" href="#">The Council</a>
+</nav>
+<div class="flex items-center space-x-4">
+<span class="material-symbols-outlined hover:text-tertiary cursor-pointer transition-colors" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="material-symbols-outlined hover:text-tertiary cursor-pointer transition-colors" data-icon="stars">stars</span>
+<span class="material-symbols-outlined hover:text-tertiary cursor-pointer transition-colors" data-icon="settings">settings</span>
+<div class="w-8 h-8 rounded-full border border-tertiary/30 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A cinematic character portrait of a mysterious tech-noir seeker with glowing neural implants and a deep hood, rendered in high-fidelity 3D with dramatic cyan and violet lighting against a dark, atmospheric background. The style is reminiscent of high-end narrative sci-fi games." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKPcsBhB8eLyss3FRLJB-48zos5HFEZejowlmrUxT-o6c20jMsGszG_lG1hA2sZi_zSy3secywUmAkAnUGDe4gZ5si3aFKOTt_KH7vFT8tYjtEagiNV5axLnylS95c0sE5hMKwVIB3Fpm2YACX4LARpqee3SinwMUlEyh3cnZEh0hQMr8WEFQbJJ5M5xkXmNHM1nEYa2vwax8X1sCAL8tfRBstQGSzPhC-nV5WOg03f3Srp7gX4FJ520814suhNgEfpl-rP2QkC9O4"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Cinematic Canvas -->
+<main class="relative w-full h-[calc(100vh-72px)] flex flex-col justify-center items-center overflow-hidden">
+<!-- Volumetric Background Shader Placeholder -->
+
+<!-- Cinematic Scene Container -->
+<div class="relative w-full h-full flex flex-col overflow-hidden bg-black">
+<!-- Background Image: Astronaut in Alien Forest -->
+<div class="absolute inset-0 z-0 scale-105" data-alt="An cinematic, ultra-wide wide-screen shot of a lone astronaut in a pristine white suit standing in a bioluminescent alien forest. Towering crystalline trees glow with ethereal cyan light, casting long shadows across a mossy floor filled with floating neon spores. The lighting is volumetric and atmospheric, with deep shadows and soft, divine albedo highlights that create an immersive sense of awe and discovery." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCbL6VC2AbaR008KY84d0UY9RCue3b6kwC_mge5tskEoLzriXocU1BGn142WJFf62xVCegSq0zcHeKTVDp88b_QTSZ5fM626Y54rFVLVLP0Ub-39MIPbwNS20R5XNC7pHZSizKUM_3nrKIneMmMkJtdPGfyzjFuuFLGTG2ftsz7BUcfQIHdIRPDDqdNYhwQ-LIyX2J2FN7H22sGKpG7cC80MbmrYz-kw7iSU7dKPiDB-nkLc6y7Jvz81aVaxHv5yxUzycpNsOUdRS9N')"></div>
+<!-- Cinematic Letterbox & Vignette -->
+<div class="absolute inset-0 z-10 cinematic-letterbox pointer-events-none"></div>
+<div class="absolute inset-0 z-10 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)] pointer-events-none"></div>
+<!-- UI Overlay: HUD Elements -->
+<div class="absolute inset-0 z-20 p-margin-desktop flex flex-col justify-between pointer-events-none">
+<!-- Upper HUD: Stats & Monitoring -->
+<div class="flex justify-between items-start w-full">
+<!-- Karma/Dharma Meter -->
+<div class="glass-panel p-4 flex flex-col space-y-4 pointer-events-auto border-l-4 border-l-tertiary">
+<div class="flex items-center space-x-3">
+<span class="font-data-mono text-data-mono text-tertiary uppercase tracking-tighter">Sync State: Synchronized</span>
+<div class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between font-label-caps text-[10px] text-outline">
+<span>Karma</span>
+<span class="text-on-surface">42%</span>
+</div>
+<div class="w-48 h-1 bg-surface-variant overflow-hidden">
+<div class="h-full bg-tertiary w-[42%] shadow-[0_0_8px_#00dce5]"></div>
+</div>
+<div class="flex justify-between font-label-caps text-[10px] text-outline">
+<span>Dharma</span>
+<span class="text-on-surface">88%</span>
+</div>
+<div class="w-48 h-1 bg-surface-variant overflow-hidden">
+<div class="h-full bg-[#FFD700] w-[88%] shadow-[0_0_8px_#FFD700]"></div>
+</div>
+</div>
+</div>
+<!-- Sof.IA Monitoring -->
+<div class="flex flex-col items-end space-y-2 pointer-events-auto group cursor-pointer">
+<div class="flex items-center space-x-3 bg-surface-dim/40 backdrop-blur-md px-4 py-2 border border-tertiary/20 rounded-lg">
+<div class="flex flex-col items-end">
+<span class="font-label-caps text-[10px] text-tertiary">ENTITY MONITOR</span>
+<span class="font-data-mono text-[11px] text-outline">Sof.IA Active</span>
+</div>
+<div class="relative w-10 h-10 flex items-center justify-center">
+<div class="absolute inset-0 border-2 border-tertiary/20 rounded-full animate-[spin_10s_linear_infinite]"></div>
+<div class="absolute inset-2 border border-tertiary/40 rounded-full animate-[spin_5s_linear_infinite_reverse]"></div>
+<span class="material-symbols-outlined text-tertiary pulse-arcane" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+</div>
+<span class="text-[10px] font-data-mono text-outline opacity-0 group-hover:opacity-100 transition-opacity">ACCESSING COUNCIL LOGS...</span>
+</div>
+</div>
+<!-- Center Text: Narrative Context -->
+<div class="flex flex-col items-center text-center max-w-2xl mx-auto space-y-4">
+<span class="font-label-caps text-label-caps text-tertiary tracking-[0.4em] uppercase">EPISODE 04: THE ECHOING VOID</span>
+<h2 class="font-display-xl text-headline-lg md:text-[48px] text-on-surface leading-tight">The Guardian of Light awaits your verdict.</h2>
+</div>
+<!-- Lower HUD: Choices (Bandersnatch Style) -->
+<div class="flex flex-col items-center space-y-12 pointer-events-auto">
+<!-- Progress Bar for Choice -->
+<div class="w-full max-w-3xl h-[2px] bg-outline-variant/30 relative">
+<div class="absolute left-0 top-0 h-full bg-tertiary w-3/4 transition-all duration-[10000ms] linear" id="choice-timer"></div>
+</div>
+<div class="flex flex-col md:flex-row gap-6 w-full max-w-4xl">
+<!-- Option 1: Shadow (Violet) -->
+<button class="choice-button flex-1 group flex flex-col items-center justify-center p-8 border border-[#9d4edd]/30 bg-[#9d4edd]/5 backdrop-blur-xl hover:bg-[#9d4edd]/20 hover:border-[#9d4edd] transition-all">
+<span class="font-label-caps text-[11px] text-[#9d4edd] tracking-widest mb-2 opacity-60">EMBRACE NIHILISM</span>
+<span class="font-title-md text-title-md text-on-surface uppercase group-hover:scale-105 transition-transform">Enfrentar la Sombra</span>
+<div class="mt-4 flex items-center space-x-2 text-[#9d4edd]">
+<span class="material-symbols-outlined text-sm" data-icon="brightness_3">brightness_3</span>
+<span class="font-data-mono text-[10px]">+ Karma Decay</span>
+</div>
+</button>
+<!-- Option 2: Light (Gold) -->
+<button class="choice-button flex-1 group flex flex-col items-center justify-center p-8 border border-[#ffd700]/30 bg-[#ffd700]/5 backdrop-blur-xl hover:bg-[#ffd700]/20 hover:border-[#ffd700] transition-all">
+<span class="font-label-caps text-[11px] text-[#ffd700] tracking-widest mb-2 opacity-60">SEEK ASCENSION</span>
+<span class="font-title-md text-title-md text-on-surface uppercase group-hover:scale-105 transition-transform">Aceptar la Luz</span>
+<div class="mt-4 flex items-center space-x-2 text-[#ffd700]">
+<span class="material-symbols-outlined text-sm" data-icon="wb_sunny">wb_sunny</span>
+<span class="font-data-mono text-[10px]">+ Dharma Rising</span>
+</div>
+</button>
+</div>
+<!-- Footer Data Readout -->
+<div class="flex justify-between w-full font-data-mono text-[10px] text-outline/50 uppercase tracking-[0.2em]">
+<span>Latency: 14ms</span>
+<span>Fragment 11.092.X</span>
+<span>User ID: SEEKER_01</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Global Footer (From Shared Components) -->
+<footer class="bg-surface-container-lowest/80 backdrop-blur-md text-tertiary font-data-mono text-data-mono flex justify-between items-center px-margin-desktop py-2 w-full fixed bottom-0 z-40 border-t border-outline-variant/20 animate-pulse-slow">
+<div class="font-label-caps text-label-caps text-tertiary uppercase">© 2124 ARCHIVE OF DESTINY. ALL REALITIES RESERVED.</div>
+<div class="flex space-x-12">
+<span class="text-outline">Void Status: <span class="text-tertiary">Nominal</span></span>
+<span class="text-outline">Active Synchro: <span class="text-tertiary">98.4%</span></span>
+<span class="text-tertiary animate-pulse">Decrypting...</span>
+</div>
+</footer>
+<!-- Scene micro-interactions -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const timer = document.getElementById('choice-timer');
+            let width = 100;
+            const interval = setInterval(() => {
+                width -= 0.1;
+                if (width <= 0) {
+                    clearInterval(interval);
+                    // Force a random choice or neutral path
+                }
+                timer.style.width = width + '%';
+            }, 10);
+
+            // Button click interaction
+            const buttons = document.querySelectorAll('.choice-button');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    clearInterval(interval);
+                    btn.classList.add('scale-95', 'opacity-50');
+                    setTimeout(() => {
+                        alert('Your path has been carved into the Scriptorium.');
+                        location.reload();
+                    }, 500);
+                });
+            });
+        });
+    </script>
+</body></html>

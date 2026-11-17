@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS | Project Ledger v6.8</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Orbitron:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#d1bcff",
+                        "surface-variant": "#343535",
+                        "error": "#ffb4ab",
+                        "surface-container-lowest": "#0d0e0f",
+                        "surface-container-highest": "#343535",
+                        "primary-fixed-dim": "#accccf",
+                        "outline": "#8b9292",
+                        "on-background": "#e3e2e2",
+                        "primary-container": "#c8e9ec",
+                        "on-primary": "#163538",
+                        "tertiary-container": "#e9ddff",
+                        "surface-tint": "#accccf",
+                        "inverse-surface": "#e3e2e2",
+                        "on-secondary-container": "#00686f",
+                        "on-tertiary-container": "#7829ff",
+                        "on-secondary": "#00363a",
+                        "secondary-fixed-dim": "#00dbe9",
+                        "secondary-container": "#00eefc",
+                        "on-surface": "#e3e2e2",
+                        "surface": "#121414",
+                        "surface-container": "#1e2020",
+                        "on-secondary-fixed": "#002022",
+                        "on-secondary-fixed-variant": "#004f54",
+                        "primary": "#ffffff",
+                        "on-surface-variant": "#c1c8c8",
+                        "on-tertiary-fixed-variant": "#5700c9",
+                        "outline-variant": "#414849",
+                        "surface-container-low": "#1a1c1c",
+                        "background": "#121414",
+                        "on-error": "#690005",
+                        "on-tertiary": "#3c0090",
+                        "surface-container-high": "#292a2a",
+                        "primary-fixed": "#c8e9ec",
+                        "surface-bright": "#383939",
+                        "on-primary-container": "#4b6a6c",
+                        "tertiary": "#ffffff",
+                        "secondary": "#d3fbff",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-fixed": "#002022",
+                        "tertiary-fixed": "#e9ddff",
+                        "on-primary-fixed-variant": "#2e4c4e",
+                        "surface-dim": "#121414",
+                        "on-tertiary-fixed": "#23005b",
+                        "inverse-primary": "#456366",
+                        "secondary-fixed": "#7df4ff",
+                        "error-container": "#93000a",
+                        "inverse-on-surface": "#2f3131"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "margin-lg": "48px",
+                        "margin-md": "32px",
+                        "unit": "4px",
+                        "margin-sm": "16px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Space Grotesk"],
+                        "body-md": ["Orbitron"],
+                        "code-label": ["JetBrains Mono"],
+                        "data-lg": ["Orbitron"],
+                        "headline-md": ["Space Grotesk"],
+                        "headline-md-mobile": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "code-label": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "data-lg": ["20px", {"lineHeight": "28px", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                        "headline-md": ["32px", {"lineHeight": "40px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #121414;
+            color: #e3e2e2;
+            overflow-x: hidden;
+        }
+        
+        .scanline-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%,
+                rgba(0, 0, 0, 0.1) 50%
+            ), linear-gradient(
+                90deg,
+                rgba(255, 0, 0, 0.02),
+                rgba(0, 255, 0, 0.01),
+                rgba(0, 0, 255, 0.02)
+            );
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.3;
+        }
+
+        .glass-panel {
+            background: rgba(18, 20, 20, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(141, 146, 146, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-panel::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(0, 219, 233, 0.5), transparent);
+        }
+
+        .neon-glow {
+            box-shadow: 0 0 15px rgba(0, 219, 233, 0.2);
+        }
+
+        .segmented-progress {
+            display: flex;
+            gap: 2px;
+        }
+        .progress-cell {
+            height: 8px;
+            flex: 1;
+            background: rgba(65, 72, 73, 0.3);
+        }
+        .progress-cell.active-cyan { background: #00dbe9; box-shadow: 0 0 8px #00dbe9; }
+        .progress-cell.active-magenta { background: #ffb4ab; box-shadow: 0 0 8px #ffb4ab; }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #414849; border-radius: 2px; }
+
+        @keyframes pulse-cyan {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .animate-pulse-cyan { animation: pulse-cyan 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    </style>
+</head>
+<body class="font-body-md text-body-md select-none">
+<div class="scanline-overlay"></div>
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/60 backdrop-blur-xl text-primary font-headline-md text-headline-md border-b border-outline-variant/30 shadow-[0_0_15px_rgba(172,204,207,0.1)] flex justify-between items-center px-6 h-16 w-full">
+<div class="flex items-center gap-8">
+<div class="font-display-lg text-display-lg tracking-tighter text-primary">MagnopVS</div>
+<div class="hidden md:flex gap-6 items-center">
+<span class="text-secondary font-bold font-code-label text-code-label cursor-pointer active:scale-95 transition-colors">LEDGER</span>
+<span class="text-on-surface-variant font-code-label text-code-label hover:text-secondary-fixed-dim transition-colors cursor-pointer active:scale-95">RESOURCES</span>
+<span class="text-on-surface-variant font-code-label text-code-label hover:text-secondary-fixed-dim transition-colors cursor-pointer active:scale-95">KARMIC</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-secondary cursor-pointer transition-colors" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-secondary cursor-pointer transition-colors" data-icon="monitoring">monitoring</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-secondary cursor-pointer transition-colors" data-icon="sync">sync</span>
+</div>
+<div class="w-10 h-10 rounded-full border border-secondary p-0.5 overflow-hidden">
+<img class="w-full h-full object-cover rounded-full" data-alt="A futuristic portrait of a high-ranking system executive wearing high-tech aviator gear. The lighting is dominated by sharp cyan and deep blue hues, reflecting off sleek carbon-fiber textures. The background shows a blurry digital command center with floating holographic interfaces and data streams in a professional dark-mode environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdARhoZBCniDlJ4HmhO-9zHM3BBvgiFEyzSfo01XbGaDfb1ARZRHQLbvADUk2rCYU0AY09QVV-JiYQqAFSLwafH25GcP0DjMAnyaVelosA8Q26Pt5x_kS6LZ16B7ma7AwDZ30wPYRNYOoLtQyQ2KZiqzvSTd3eYgmz3syUcM42qKVFoK_NAqUw5jZkntPPwrms1j47Z-o3J7wyFohw24bZgFPmseuN-viLHtsHQvivILQUmZyWE19b6w"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-surface-container-low/80 backdrop-blur-md text-secondary-fixed-dim font-body-md text-body-md border-r border-outline-variant/20 flex flex-col py-4 hidden md:flex">
+<div class="px-6 mb-8">
+<div class="font-code-label text-code-label uppercase tracking-widest text-outline">13 HOUSES</div>
+<div class="text-[10px] text-outline-variant font-code-label">Venture Protocol v4.02</div>
+</div>
+<nav class="flex-1 space-y-2 px-2">
+<div class="flex items-center gap-3 px-4 py-3 bg-secondary-container/20 text-secondary border-r-2 border-secondary transition-all duration-200 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined" data-icon="business_center">business_center</span>
+<span class="font-code-label">Ventures</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 text-on-surface-variant/70 hover:bg-surface-variant/40 hover:text-primary transition-all duration-200 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-code-label">Inventory</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 text-on-surface-variant/70 hover:bg-surface-variant/40 hover:text-primary transition-all duration-200 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="font-code-label">Ledger</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 text-on-surface-variant/70 hover:bg-surface-variant/40 hover:text-primary transition-all duration-200 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined" data-icon="biotech">biotech</span>
+<span class="font-code-label">Incubator</span>
+</div>
+</nav>
+<div class="mt-auto px-2 space-y-1">
+<div class="flex items-center gap-3 px-4 py-2 text-on-surface-variant/70 hover:bg-surface-variant/40 hover:text-primary transition-all duration-200 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined text-sm" data-icon="security">security</span>
+<span class="text-xs font-code-label">Security</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 text-on-surface-variant/70 hover:bg-surface-variant/40 hover:text-primary transition-all duration-200 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined text-sm" data-icon="settings">settings</span>
+<span class="text-xs font-code-label">Settings</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 mt-16 p-6 pb-20 min-h-screen">
+<div class="grid grid-cols-12 gap-6">
+<!-- Incubation Timeline -->
+<section class="col-span-12 lg:col-span-8 glass-panel p-6 neon-glow rounded-lg">
+<div class="flex justify-between items-center mb-6">
+<div class="flex items-center gap-3">
+<span class="text-xs font-code-label text-secondary px-2 py-0.5 border border-secondary/30 rounded">SYS-LDR-77</span>
+<h2 class="font-headline-md text-primary text-2xl uppercase tracking-wider">Incubation Timeline</h2>
+</div>
+<div class="flex items-center gap-2 text-outline font-code-label text-xs">
+<span class="w-2 h-2 bg-secondary rounded-full animate-pulse"></span>
+                        LIVE SYNC
+                    </div>
+</div>
+<div class="space-y-6">
+<!-- Project Item 1 -->
+<div class="group cursor-pointer">
+<div class="flex justify-between items-end mb-2">
+<div class="font-code-label text-sm text-secondary">PROJECT: BUILD NEW TEMPLE <span class="text-outline-variant ml-2">[PHASE 04]</span></div>
+<div class="font-code-label text-xs text-on-surface-variant">74% COMPLETE</div>
+</div>
+<div class="segmented-progress">
+<div class="progress-cell active-cyan"></div>
+<div class="progress-cell active-cyan"></div>
+<div class="progress-cell active-cyan"></div>
+<div class="progress-cell active-cyan"></div>
+<div class="progress-cell active-cyan"></div>
+<div class="progress-cell active-cyan"></div>
+<div class="progress-cell active-cyan"></div>
+<div class="progress-cell"></div>
+<div class="progress-cell"></div>
+<div class="progress-cell"></div>
+</div>
+</div>
+<!-- Project Item 2 -->
+<div class="group cursor-pointer">
+<div class="flex justify-between items-end mb-2">
+<div class="font-code-label text-sm text-secondary">PROJECT: ALBEDO PRODUCTION <span class="text-outline-variant ml-2">[SCALING]</span></div>
+<div class="font-code-label text-xs text-on-surface-variant">32% COMPLETE</div>
+</div>
+<div class="segmented-progress">
+<div class="progress-cell active-cyan"></div>
+<div class="progress-cell active-cyan"></div>
+<div class="progress-cell active-cyan"></div>
+<div class="progress-cell"></div>
+<div class="progress-cell"></div>
+<div class="progress-cell"></div>
+<div class="progress-cell"></div>
+<div class="progress-cell"></div>
+<div class="progress-cell"></div>
+<div class="progress-cell"></div>
+</div>
+</div>
+<!-- Project Item 3 (Debt/Warning) -->
+<div class="group cursor-pointer">
+<div class="flex justify-between items-end mb-2">
+<div class="font-code-label text-sm text-error">PROJECT: VOID RECLAMATION <span class="text-outline-variant ml-2">[CRITICAL STALL]</span></div>
+<div class="font-code-label text-xs text-error">91% DEBT RATIO</div>
+</div>
+<div class="segmented-progress">
+<div class="progress-cell active-magenta"></div>
+<div class="progress-cell active-magenta"></div>
+<div class="progress-cell active-magenta"></div>
+<div class="progress-cell active-magenta"></div>
+<div class="progress-cell active-magenta"></div>
+<div class="progress-cell active-magenta"></div>
+<div class="progress-cell active-magenta"></div>
+<div class="progress-cell active-magenta"></div>
+<div class="progress-cell active-magenta"></div>
+<div class="progress-cell"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Resource Allocation (Circular Charts) -->
+<section class="col-span-12 lg:col-span-4 glass-panel p-6 rounded-lg">
+<div class="text-xs font-code-label text-outline mb-4">RESOURCE_ALLOCATION_V6.8</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col items-center justify-center p-4 border border-outline-variant/20 rounded relative">
+<div class="absolute top-1 left-2 text-[8px] font-code-label text-outline-variant">TIME</div>
+<svg class="w-20 h-20 -rotate-90">
+<circle class="text-surface-variant" cx="40" cy="40" fill="transparent" r="32" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-secondary" cx="40" cy="40" fill="transparent" r="32" stroke="currentColor" stroke-dasharray="201" stroke-dashoffset="60" stroke-width="4"></circle>
+</svg>
+<div class="mt-2 font-data-lg text-secondary">70%</div>
+</div>
+<div class="flex flex-col items-center justify-center p-4 border border-outline-variant/20 rounded relative">
+<div class="absolute top-1 left-2 text-[8px] font-code-label text-outline-variant">ENERGY</div>
+<svg class="w-20 h-20 -rotate-90">
+<circle class="text-surface-variant" cx="40" cy="40" fill="transparent" r="32" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-tertiary-fixed-dim" cx="40" cy="40" fill="transparent" r="32" stroke="currentColor" stroke-dasharray="201" stroke-dashoffset="120" stroke-width="4"></circle>
+</svg>
+<div class="mt-2 font-data-lg text-tertiary-fixed-dim">40%</div>
+</div>
+<div class="col-span-2 p-4 border border-outline-variant/20 rounded bg-secondary/5">
+<div class="flex justify-between items-center mb-2">
+<span class="font-code-label text-xs">MAGNOCOINS (MC)</span>
+<span class="text-secondary font-bold font-data-lg">1,240,092.00</span>
+</div>
+<div class="h-1 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[85%]"></div>
+</div>
+<div class="flex justify-between mt-1 text-[10px] font-code-label text-outline-variant">
+<span>RESERVE: 1.2M</span>
+<span>LIQUID: 400K</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Karmic Ledger (Directory) -->
+<section class="col-span-12 lg:col-span-4 glass-panel p-6 rounded-lg max-h-[500px] overflow-hidden flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-xl tracking-tighter">KARMIC LEDGER</h3>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer" data-icon="search">search</span>
+</div>
+<div class="space-y-4 overflow-y-auto custom-scrollbar flex-1 pr-2">
+<!-- Partner 1 -->
+<div class="p-3 border-l-4 border-secondary bg-surface-container/30 hover:bg-surface-container-high transition-colors cursor-pointer group">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-surface-variant flex items-center justify-center font-code-label text-secondary rounded">AO</div>
+<div class="flex-1">
+<div class="text-sm font-bold font-code-label">ALPHA OMEGA CORP</div>
+<div class="flex items-center gap-1">
+<span class="text-[10px] font-code-label text-outline">TRUST:</span>
+<div class="flex gap-0.5">
+<div class="w-2 h-2 bg-secondary rounded-full"></div>
+<div class="w-2 h-2 bg-secondary rounded-full"></div>
+<div class="w-2 h-2 bg-secondary rounded-full"></div>
+<div class="w-2 h-2 bg-outline-variant rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-xs font-code-label text-secondary">+12.4K MC</div>
+<div class="text-[10px] text-outline-variant">CREDIT</div>
+</div>
+</div>
+</div>
+<!-- Partner 2 -->
+<div class="p-3 border-l-4 border-error bg-error/5 hover:bg-error/10 transition-colors cursor-pointer group">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-surface-variant flex items-center justify-center font-code-label text-error rounded">NB</div>
+<div class="flex-1">
+<div class="text-sm font-bold font-code-label">NEBULA BASIN</div>
+<div class="flex items-center gap-1">
+<span class="text-[10px] font-code-label text-outline">TRUST:</span>
+<div class="flex gap-0.5">
+<div class="w-2 h-2 bg-error rounded-full"></div>
+<div class="w-2 h-2 bg-outline-variant rounded-full"></div>
+<div class="w-2 h-2 bg-outline-variant rounded-full"></div>
+<div class="w-2 h-2 bg-outline-variant rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-xs font-code-label text-error">-44.9K MC</div>
+<div class="text-[10px] text-outline-variant">DEBT</div>
+</div>
+</div>
+</div>
+<!-- Partner 3 -->
+<div class="p-3 border-l-4 border-secondary bg-surface-container/30 hover:bg-surface-container-high transition-colors cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-surface-variant flex items-center justify-center font-code-label text-secondary rounded">SD</div>
+<div class="flex-1">
+<div class="text-sm font-bold font-code-label">SOLAR DYNAMICS</div>
+<div class="flex items-center gap-1 text-[10px] font-code-label">
+<span class="text-outline">TRUST:</span>
+<span class="text-secondary">MAX</span>
+</div>
+</div>
+<div class="text-right">
+<div class="text-xs font-code-label text-secondary">0.00 MC</div>
+<div class="text-[10px] text-outline-variant">BALANCED</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Project Console (Detailed View) -->
+<section class="col-span-12 lg:col-span-8 glass-panel p-6 rounded-lg relative min-h-[500px]">
+<div class="absolute top-0 right-0 p-4">
+
+</div>
+<div class="mb-8">
+<div class="text-xs font-code-label text-secondary-fixed-dim mb-1 tracking-widest">SELECTED_VENTURE:BUILD_NEW_TEMPLE</div>
+<h1 class="font-display-lg text-4xl uppercase tracking-tighter text-primary">Project Console</h1>
+<div class="flex gap-4 mt-2">
+<span class="px-3 py-1 bg-secondary/10 border border-secondary text-secondary text-[10px] font-code-label uppercase">Priority: High</span>
+<span class="px-3 py-1 bg-surface-variant border border-outline-variant text-on-surface-variant text-[10px] font-code-label uppercase">Cycle: 11-B</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<!-- Manifestation Milestones -->
+<div>
+<h4 class="font-code-label text-sm text-outline mb-4 border-b border-outline-variant/30 pb-2">MANIFESTATION MILESTONES</h4>
+<div class="space-y-4 relative">
+<div class="absolute left-2.5 top-2 bottom-2 w-px bg-outline-variant/30"></div>
+<div class="flex gap-6 relative">
+<div class="w-5 h-5 rounded-full bg-secondary flex items-center justify-center z-10 neon-glow">
+<span class="material-symbols-outlined text-[10px] text-on-secondary" data-icon="check" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<div class="flex-1">
+<div class="text-sm font-bold font-code-label">Site Selection &amp; Sanctity Check</div>
+<div class="text-xs text-outline-variant">Completed on Cycle 04</div>
+</div>
+</div>
+<div class="flex gap-6 relative">
+<div class="w-5 h-5 rounded-full bg-secondary flex items-center justify-center z-10 neon-glow">
+<span class="material-symbols-outlined text-[10px] text-on-secondary" data-icon="check" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<div class="flex-1">
+<div class="text-sm font-bold font-code-label">Lattice Core Installation</div>
+<div class="text-xs text-outline-variant">Completed on Cycle 07</div>
+</div>
+</div>
+<div class="flex gap-6 relative">
+<div class="w-5 h-5 rounded-full border-2 border-secondary bg-surface animate-pulse-cyan z-10"></div>
+<div class="flex-1">
+<div class="text-sm font-bold font-code-label text-secondary">Aura Calibration</div>
+<div class="text-xs text-outline-variant">In Progress - 42% Remaining</div>
+</div>
+</div>
+<div class="flex gap-6 relative">
+<div class="w-5 h-5 rounded-full border-2 border-outline-variant bg-surface z-10"></div>
+<div class="flex-1">
+<div class="text-sm font-bold font-code-label text-outline-variant">Final Manifestation</div>
+<div class="text-xs text-outline-variant italic">Locked</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Task Dependencies / Wireframe Card -->
+<div class="glass-panel p-4 border-secondary/20 bg-secondary/5 rounded flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-4">
+<div class="font-code-label text-xs uppercase text-outline">Network Dependencies</div>
+<span class="material-symbols-outlined text-secondary" data-icon="hub">hub</span>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between text-[11px] font-code-label">
+<span class="text-outline">AURA_SYNC</span>
+<span class="text-secondary">ACTIVE</span>
+</div>
+<div class="flex justify-between text-[11px] font-code-label">
+<span class="text-outline">GEODESIC_BASE</span>
+<span class="text-secondary">STABLE</span>
+</div>
+<div class="flex justify-between text-[11px] font-code-label">
+<span class="text-outline">RESONANCE_CHAMBER</span>
+<span class="text-error">OFFLINE</span>
+</div>
+</div>
+</div>
+<div class="mt-8 border-t border-outline-variant/30 pt-4">
+<button class="w-full bg-secondary text-on-secondary py-2 font-code-label text-xs font-bold uppercase tracking-widest hover:bg-secondary-fixed transition-colors active:scale-95">Initiate Sequence</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer Status Bar -->
+<footer class="fixed bottom-0 w-full h-8 z-50 bg-surface-container-lowest text-on-surface-variant font-code-label text-code-label border-t border-outline-variant/10 flex items-center justify-between px-4 uppercase tracking-tighter">
+<div class="flex items-center gap-4">
+<span class="text-secondary">STABILITY: 99.98%</span>
+<span class="opacity-40">|</span>
+<span class="text-secondary">REALITY-SYNC: ACTIVE</span>
+</div>
+<div class="flex items-center gap-6">
+<a class="hover:text-secondary opacity-80 hover:opacity-100 transition-colors" href="#">System Logs</a>
+<span class="text-on-surface-variant">Latency: 14ms</span>
+<div class="flex gap-1">
+<div class="w-1 h-3 bg-secondary"></div>
+<div class="w-1 h-3 bg-secondary"></div>
+<div class="w-1 h-3 bg-secondary"></div>
+<div class="w-1 h-3 bg-outline-variant"></div>
+</div>
+</div>
+</footer>
+<!-- Atmosphere & Interactivity Scripts -->
+<script>
+        // Micro-interaction for hover states on segments
+        document.querySelectorAll('.progress-cell').forEach(cell => {
+            cell.addEventListener('mouseenter', () => {
+                cell.style.filter = 'brightness(1.5)';
+            });
+            cell.addEventListener('mouseleave', () => {
+                cell.style.filter = 'none';
+            });
+        });
+
+        // Toggle focus state for "Selected Venture"
+        const projectItems = document.querySelectorAll('.group.cursor-pointer');
+        projectItems.forEach(item => {
+            item.addEventListener('click', () => {
+                projectItems.forEach(i => i.classList.remove('bg-secondary/5'));
+                item.classList.add('bg-secondary/5');
+                // Simulate console data update
+                const projectName = item.querySelector('.font-code-label.text-sm').innerText.split(':')[1].trim();
+                document.querySelector('.text-secondary-fixed-dim.mb-1').innerText = `SELECTED_VENTURE:${projectName.replace(/ /g, '_')}`;
+            });
+        });
+    </script>
+</body></html>

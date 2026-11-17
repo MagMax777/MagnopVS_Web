@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · User Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Hanken+Grotesk:wght@300;400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #0a0b12;
+            color: #e0e3e6;
+            overflow-x: hidden;
+        }
+        .cyber-grid {
+            background-image: 
+                linear-gradient(to right, rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(127, 208, 255, 0.2);
+            box-shadow: 0 0 15px rgba(45, 168, 224, 0.1);
+        }
+        .hex-bg {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC7VZW30MiOmWD3rBZNX6qwiJiF19lDB5VfntzJ0J2ePprEMHm7QWldxONSxv-WxZoxzoMUjlPlYdileEtIfvENxn-fQLKP6r1IJ6uKofblstHe7P7vtdiwJ0J7KzMsMGTgEWs86tZC1Jg28BTBwAq5oeQbhUAjNjGwFKI8XuPBSwx0agu_2l5XKNw-UlHw_jqcHlUHvRynvJGjAtCSWeMQUZbVuFHWYxHEFVYVYPsoaCddKmXbvohroLlqKxcQ25u30GirWbnBstLe');
+            background-repeat: repeat;
+            background-size: 400px;
+            opacity: 0.15;
+            mix-blend-mode: overlay;
+        }
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 10;
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(127, 208, 255, 0.05) 50%, rgba(0, 0, 0, 0) 100%);
+            opacity: 0.1;
+            position: fixed;
+            bottom: 100%;
+            pointer-events: none;
+            animation: scanline 8s linear infinite;
+        }
+        @keyframes scanline {
+            0% { bottom: 100%; }
+            100% { bottom: -100px; }
+        }
+        .font-audiowide { font-family: 'Audiowide', cursive; }
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+        
+        .progress-segment {
+            height: 8px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 2px;
+        }
+        .progress-block {
+            flex: 1;
+            height: 100%;
+        }
+        .progress-block.active-cyan { background-color: #2da8e0; box-shadow: 0 0 8px #2da8e0; }
+        .progress-block.active-magenta { background-color: #ffafd4; box-shadow: 0 0 8px #ffafd4; }
+        .progress-block.active-aquamarine { background-color: #47ddc1; box-shadow: 0 0 8px #47ddc1; }
+
+        /* Hexagonal Clipping */
+        .hexagon-clip {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "background-deep": "#0a0b12",
+                        "surface": "#101417",
+                        "primary": "#c5e7ff",
+                        "secondary": "#47ddc1",
+                        "tertiary": "#ffafd4",
+                        "glow-cyan": "#2da8e0",
+                        "outline": "#899299",
+                        "outline-variant": "#3f484e"
+                    },
+                    fontFamily: {
+                        "label-caps": ["JetBrains Mono"],
+                        "display-lg": ["Space Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "mono-data": ["JetBrains Mono"]
+                    },
+                    spacing: {
+                        "margin-desktop": "40px",
+                        "margin-mobile": "20px"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="dark font-body-md bg-background-deep selection:bg-primary selection:text-background-deep">
+<!-- Background Elements -->
+<div class="fixed inset-0 cyber-grid pointer-events-none opacity-40"></div>
+<div class="fixed inset-0 hex-bg pointer-events-none"></div>
+<div class="scanline"></div>
+<!-- Navigation Shells -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/30 backdrop-blur-xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="font-display-lg text-primary tracking-widest uppercase">
+            MagnopVS <span class="opacity-50">·</span> Life Hero
+        </div>
+<nav class="hidden md:flex gap-8 items-center font-label-caps">
+<a class="text-primary drop-shadow-[0_0_8px_#7fd0ff] hover:text-secondary hover:drop-shadow-[0_0_8px_#48ddc1] transition-all" href="#">Dashboard</a>
+<a class="text-outline hover:text-secondary hover:drop-shadow-[0_0_8px_#48ddc1] transition-all" href="#">13 Houses</a>
+<a class="text-outline hover:text-secondary hover:drop-shadow-[0_0_8px_#48ddc1] transition-all" href="#">Missions</a>
+</nav>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary scale-95 active:scale-90 transition-transform cursor-pointer">stars</span>
+<span class="material-symbols-outlined text-primary scale-95 active:scale-90 transition-transform cursor-pointer">bolt</span>
+<span class="material-symbols-outlined text-primary scale-95 active:scale-90 transition-transform cursor-pointer">account_circle</span>
+</div>
+</header>
+<aside class="hidden lg:flex flex-col fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-low/50 backdrop-blur-2xl border-r border-primary/20 pt-24 px-6 gap-12">
+<div class="flex flex-col gap-1">
+<div class="font-audiowide text-primary text-xl tracking-wider">OPERATOR_01</div>
+<div class="font-orbitron text-[10px] text-secondary tracking-[0.2em]">LVL 42 // TITAN</div>
+</div>
+<nav class="flex flex-col gap-4 font-label-caps text-xs">
+<div class="flex items-center gap-3 p-3 rounded-lg text-primary border-l-2 border-primary bg-primary/5 font-bold shadow-[inset_4px_0_10px_rgba(127,208,255,0.1)] transition-all">
+<span class="material-symbols-outlined">grid_view</span> Dashboard
+            </div>
+<div class="flex items-center gap-3 p-3 rounded-lg text-outline-variant hover:text-primary hover:bg-white/5 transition-all cursor-pointer">
+<span class="material-symbols-outlined">account_tree</span> 13 Houses
+            </div>
+<div class="flex items-center gap-3 p-3 rounded-lg text-outline-variant hover:text-primary hover:bg-white/5 transition-all cursor-pointer">
+<span class="material-symbols-outlined">military_tech</span> Missions
+            </div>
+<div class="flex items-center gap-3 p-3 rounded-lg text-outline-variant hover:text-primary hover:bg-white/5 transition-all cursor-pointer">
+<span class="material-symbols-outlined">psychology</span> Attributes
+            </div>
+<div class="flex items-center gap-3 p-3 rounded-lg text-outline-variant hover:text-primary hover:bg-white/5 transition-all cursor-pointer">
+<span class="material-symbols-outlined">vitals</span> Alchemy
+            </div>
+</nav>
+<div class="mt-auto pb-10 flex flex-col gap-4">
+<div class="glass-panel p-4 rounded-xl flex flex-col gap-2">
+<div class="flex justify-between items-center text-[10px] font-orbitron uppercase text-outline">System Log</div>
+<div class="font-mono-data text-[10px] text-primary/70">
+<p class="animate-pulse">&gt;&gt; Syncing Nodes...</p>
+<p>&gt;&gt; Vitality at 98%</p>
+<p>&gt;&gt; Cycle Complete</p>
+</div>
+</div>
+</div>
+</aside>
+<main class="lg:ml-64 pt-32 pb-24 px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto">
+<!-- Hero Section -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+<!-- Avatar & Profile Summary -->
+<div class="lg:col-span-4 glass-panel p-8 rounded-2xl relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-32 h-32 bg-primary/5 blur-3xl group-hover:bg-primary/10 transition-colors"></div>
+<div class="relative flex flex-col items-center text-center gap-6">
+<div class="relative w-40 h-40">
+<div class="absolute inset-0 border-2 border-primary/30 hexagon-clip animate-[spin_20s_linear_infinite]"></div>
+<div class="absolute inset-2 border border-secondary/40 hexagon-clip animate-[spin_12s_linear_reverse_infinite]"></div>
+<div class="absolute inset-4 overflow-hidden hexagon-clip bg-surface flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="A stylized, futuristic high-tech male hero avatar portrait with cybernetic glowing markings on the face, short sharp neon blue hair, wearing sleek black matte carbon fiber armor. The character has an intense, focused expression. The background is a digital dark void with faint hexagonal grid patterns and aquamarine light leaks, matching a triple-A gaming dashboard aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtj8p0wycDcHiaitJio25L9lxyXOJhnWmAkwgfOMxPHqq24sGZbYCA3s-G_kn-JOuuX-EUouzh8VCVSp9M0yRmIW6Zyw6LP2jMtgOt51zDQiMhv7FAVQ6pdIYnunOkabgG4-o3Clq3-uXXZx4OR5-mOqEcgLCKmX4bStfXtDacs7Whg68U0dAfo256wtdfkCi9oyW8sqhXzVaZZwC-_ar7jAdfgo_sqtPHrfMmnjdjntzgLbNqJHCZBmDEjpYBJU-0D74HN_Rly1tR"/>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<h1 class="font-audiowide text-4xl text-primary drop-shadow-[0_0_10px_rgba(197,231,255,0.4)]">JEAN-42</h1>
+<p class="font-orbitron text-xs text-secondary tracking-[0.3em]">RANK: TITAN / EQUILIBRIO</p>
+</div>
+<div class="flex gap-3 mt-2">
+<img alt="Nivel Icons" class="h-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpeBcJTT86U1Udr6GiGDbd4RrQ5fD8_DiRlpr9otN2QrMcN61bo1frfwvL7go8I3_kDdT4BmdJfDBFEZzcRYO6bQsKytnVESuVcH1qsRMgXvoBWpQbH-zSdNPzmezLxAu4kRMRfQqaKgDTA8yaPZMSWRVKT4nVNJ9N8Te9Q7SnjF0q7QBn4b3mlx0Utofo1VNmL1UOE7LZH96tUKgm9V89lT6LKs5tmo6owca4grIuk3cSy2fWhyZp4YaACzwVk0nEX_0vMNgz23Jh"/>
+</div>
+</div>
+</div>
+<!-- Dashboard Overview Stats -->
+<div class="lg:col-span-8 glass-panel p-8 rounded-2xl flex flex-col justify-between">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+<div class="flex flex-col items-center gap-2 group cursor-default">
+<div class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-all border border-primary/20">
+<img alt="XP" class="w-8 h-8" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6-mEhJbwV5V7xdYjAXLnlJEdC3BS6xsJkEQgIe3JzHDtyOKvUeALI6m5HO2mFAkHtFZWtSXqXfZQlfYobi9YDyU402gTWFcE4aICnHvOS-mXBM88iCqyTNsxOhA6PfvOvkYteGx9l2p-1CWFZ9_FkKK1qDEX9WCJY_iRdEGz9U0QrWwvdip7jz2CLjjzkTLzZzI72TldjqnRxE2PuFIrk4-2Zsp3jLNZEPWG43Bz5I1z_DjUoDhuc7lulr2Dx-Mwvg7oqEQIXhNeV"/>
+</div>
+<span class="font-orbitron text-[10px] text-outline">XP GAIN</span>
+<span class="font-audiowide text-xl text-primary">12.5K</span>
+</div>
+<div class="flex flex-col items-center gap-2 group cursor-default">
+<div class="w-12 h-12 flex items-center justify-center bg-secondary/10 rounded-lg group-hover:bg-secondary/20 transition-all border border-secondary/20">
+<img alt="LP" class="w-8 h-8" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAy-3dmkpaCob3fC72dvGeGM63uTmNU7MptrJzJlwT3XjpUjgTeOr8Rsprpm9rlPLcwYUAL8pqaz4iCgzeVJZXMSqMkunz6nM80LAPpKb5AxY3wRzgIYJYVJs-qEbhcmDdslvU06JFRpl9pbYIBsNrNPnTj_1sISr5jypb9LIZFlRmhvMMcmsJgKEq0_XN_-EqtgCUjzztJe4bzuQa4qj9M7vtd5nPLYmtlvwdIhlq51NNqRuf1wmppipKwNPeqIvoJHG6uhvCRd57f"/>
+</div>
+<span class="font-orbitron text-[10px] text-outline">LIFE POINTS</span>
+<span class="font-audiowide text-xl text-secondary">8,420</span>
+</div>
+<div class="flex flex-col items-center gap-2 group cursor-default">
+<div class="w-12 h-12 flex items-center justify-center bg-tertiary/10 rounded-lg group-hover:bg-tertiary/20 transition-all border border-tertiary/20">
+<img alt="MC" class="w-8 h-8" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEp-nDnpoeIbwmM0OwYvUf94GenWXjM1k89JrSp-fTMsLhrCCbgYpdX1t4voxojUkj1I2c6aHC17vlfGpdacZ8S2_lx_f0_c-H5Q48oS5nW_rO-7x8_yqtymxAaIRG58ZhC2MlPmLgpWgjiOoPFz_KB4H5QkZD6Ntmo238Rm2gcjdLR1yMp6C31HxRXaNrLUReScTMHf-oE4oExNTMEgJ3IwksBo_vRDCDiGJZ0s465-VErkcKRv-Zso9kV1qOG1h-WkMOoj4uVov4"/>
+</div>
+<span class="font-orbitron text-[10px] text-outline">MAGIC CREDITS</span>
+<span class="font-audiowide text-xl text-tertiary">340</span>
+</div>
+<div class="flex flex-col items-center gap-2 group cursor-default">
+<div class="w-12 h-12 flex items-center justify-center bg-glow-cyan/10 rounded-lg group-hover:bg-glow-cyan/20 transition-all border border-glow-cyan/20">
+<img alt="MP" class="w-8 h-8" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB88MGQESaCWssC1SseGjqW4eH2wZbB5wMzeAOPJxNmVULcSsIHe-zQ6hsXc6V5dmARxWnFc532BWYP07jaBwJsQT8ltmqMopLAiJiPcy7SLdhdfuMoI1oQrcy_PYahmMvHurLdL17Evo2sHgsQdafPZp7FC4pAZUGqv7rbZP-Fj30d7rlknDTYxEqUwr1Te6Za55qjZIpDcryXdfdJ7ZzxWFS_sVKM3h1pwCV0adNH_s9vZPC8SoipEYW49iGdJrpXBnMtTMDdj8a9"/>
+</div>
+<span class="font-orbitron text-[10px] text-outline">MANA POOL</span>
+<span class="font-audiowide text-xl text-glow-cyan">2.1K</span>
+</div>
+</div>
+<div class="mt-8 pt-8 border-t border-outline-variant/20 grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center text-[10px] font-orbitron text-outline">
+<span>VITALIDAD</span>
+<span class="text-secondary">98%</span>
+</div>
+<div class="progress-segment">
+<div class="progress-block active-aquamarine"></div>
+<div class="progress-block active-aquamarine"></div>
+<div class="progress-block active-aquamarine"></div>
+<div class="progress-block active-aquamarine"></div>
+<div class="progress-block active-aquamarine"></div>
+<div class="progress-block active-aquamarine"></div>
+<div class="progress-block active-aquamarine"></div>
+<div class="progress-block active-aquamarine"></div>
+<div class="progress-block active-aquamarine"></div>
+<div class="progress-block"></div>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center text-[10px] font-orbitron text-outline">
+<span>PODER</span>
+<span class="text-primary">74%</span>
+</div>
+<div class="progress-segment">
+<div class="progress-block active-cyan"></div>
+<div class="progress-block active-cyan"></div>
+<div class="progress-block active-cyan"></div>
+<div class="progress-block active-cyan"></div>
+<div class="progress-block active-cyan"></div>
+<div class="progress-block active-cyan"></div>
+<div class="progress-block active-cyan"></div>
+<div class="progress-block"></div>
+<div class="progress-block"></div>
+<div class="progress-block"></div>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center text-[10px] font-orbitron text-outline">
+<span>ALINEACIÓN</span>
+<span class="text-tertiary">BALANCE</span>
+</div>
+<div class="progress-segment">
+<div class="progress-block"></div>
+<div class="progress-block"></div>
+<div class="progress-block"></div>
+<div class="progress-block active-magenta"></div>
+<div class="progress-block active-magenta"></div>
+<div class="progress-block active-magenta"></div>
+<div class="progress-block active-magenta"></div>
+<div class="progress-block"></div>
+<div class="progress-block"></div>
+<div class="progress-block"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Radar Chart and Tactical HUD -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Radar Chart Section -->
+<div class="lg:col-span-8 glass-panel p-8 rounded-2xl min-h-[500px] flex flex-col">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h2 class="font-audiowide text-2xl text-primary">Rueda de las 13 Casas</h2>
+<p class="font-orbitron text-[10px] text-outline tracking-widest uppercase">Mapa de Alta Resolución del Avatar</p>
+</div>
+<button class="px-4 py-2 bg-primary/10 border border-primary/30 text-primary text-[10px] font-orbitron hover:bg-primary hover:text-black transition-all">RE-SCAN SYSTEM</button>
+</div>
+<div class="flex-1 flex items-center justify-center relative">
+<!-- Placeholder for Radar Chart matching visual style of https://lh3.googleusercontent.com/aida-public/AB6AXuDOan8lJ9_GDUP0oDBdp2FcSlKtlJHAYJh7Gekv5qG_wqyXwwJHIkFXcRV7kRsAMA_hdJtGWpwx8BwvmIQw_vzHg_PIYf038ZCUu96t7ZpwEL2UzjMVC2u_vTE6ncmkBN6MVpk71RVpYZL_Bs6ifFoA3aRHdetAaCTTwovOIl8YiRFy94f8hBkzFZ4vPSmwaZpts2qthjRzKNhoNMc1HMxiyCaL0q611OY-iU6-_7DmBcJbemUKcNrYnjuS0c32Pj5k_sRDRKqpwrlm -->
+<img class="w-full max-w-lg object-contain opacity-90" data-alt="A futuristic radar spider chart showing thirteen attributes like Purpose, Health, Finace, and Spirit. The chart lines are glowing cyan against a dark black background with delicate concentric grid lines. The central polygon is filled with a semi-transparent aquamarine glow with bright data points at each vertex. The typography is monospaced and technological." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6pdQOB0pI6xVYTgqRMChYUisaM0G3v7CANFw3Yv5PpOOBZbR8XBqJjgxRBDh3pXyjlHbjv-Nm7-D6V7PIM5Eo45Tvt3c8LJzBxVAPY-FJZUuAPmWNb-8T6pK-vljsDONuaVU5Woy80iIYnwtM0yCbQ-GUtZqHVuCRqmGJJgMtt2Y9-evRWZriMbHm3kUGP8JjTlo4SPvgps-0EKY5JJhU8BPsAlUQ2BKlGu4aNrk5SweCfqRTkRMoAmuuZjfgKQ3pl-SElOwcV8e0"/>
+</div>
+</div>
+<!-- Stats & Assistant -->
+<div class="lg:col-span-4 flex flex-col gap-8">
+<!-- Secondary Attributes Grid -->
+<div class="glass-panel p-6 rounded-2xl">
+<h3 class="font-audiowide text-sm text-secondary mb-6 tracking-wider">STATS_MONITOR</h3>
+<div class="grid grid-cols-3 gap-4">
+<div class="flex flex-col items-center gap-1">
+<img alt="Force" class="w-10 h-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0aXrWikJSvd8cDLzNX-Pz7TUnLFb0u92tlxxuRhgzpNxKIhm7k8fj3p5yElfnxf550pa-8qyrKTRIFufR0gENsVpkQtLnVL0uzd4Ft7VPLS35gAqllqQ8t4V6c2ZcUbgeBgBFGlHr9W-Eux1SLdDyYk6wbLlkK0IFkvPTZfjJVI4iJ20J7JkVvOZXmZ_9YKThDFM0D3MtAa7s55wHRxkBH56Rkdkh_KohV7NynGYet4UGWu1sVNxdzn_Q_aX0-XRub-e_tqOvf96R"/>
+<span class="font-mono-data text-[10px] text-outline">FORCE</span>
+<span class="font-orbitron text-xs">88</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<img alt="Defense" class="w-10 h-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJlyakzr950DZUa3BifXBn3fZLIotujk0nmf7XdpTJ4RWViB2h2U9FolI4Q1bX9ONg2bPixSuRTmydIpWQ4YV4y7mJxjjIcc7r1IZS8HBcgPlL-KruC4WS5uz5zcwuhxYCguROD0wo07uI6eK9mukQAZxF1DxdVQ-OsQjLIWdei0wuaI1rFbmczY9O3Ln0NXC5qyzAvEF8OTXhcF0VRsWfMnTobC2oMRROH-DapiypkX6XGW2FdAbXQSmIg6xd1oWjLgZBMfmbrF0m"/>
+<span class="font-mono-data text-[10px] text-outline">DEFENSE</span>
+<span class="font-orbitron text-xs">92</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<img alt="Agility" class="w-10 h-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFPSLnu6fskVcJT8ek4aLzv2RTliNvyXqS1FGQF7Cc-aHKhyKKqiOGL8ltHJt9z0HmFjYGLnODqc_tIEfLL18RiNMciD6c_4NiuewmSnG-pDdKTrQreLJ7HwoCK4KSSwNSxSpYVKh-mzCL4zHfXa5ak15RmS_PeZTLyRp3ft_JwW72eR3AlNWI4VLlw8SAMWAYSB6bI15emNKo6iC-tCc9GqrCFflANzEhXfGMtVAk_8CchWgcLTKQujK_WLY8ECwoHDk68ZyYg3uU"/>
+<span class="font-mono-data text-[10px] text-outline">AGILITY</span>
+<span class="font-orbitron text-xs">75</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<img alt="Energy" class="w-10 h-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqgj8RpMYz8YE5cbDe6m5kXmxtnwuk6lpuFTQQb8_6YqYd6CRYT9TX9IbcqtqafltiaQVVs5nOc6by4IecWqymEuL5Nwgt6E4U1n3FWzM57aSBjziDRRHkfAFqfNnugCkHOm7lnb8e4z4y0WIKY8x2AVOhrYi6tDUPYLOAGLt6UugLSopbJHW8nf_YuzUH5caXVRVngW-9muzW3HUWOtJjw0Zf0QW75K0ZytR-ShJvyHbmmFR8wuFTQb-6P1bFo3Br6enyWOt4WUJS"/>
+<span class="font-mono-data text-[10px] text-outline">ENERGY</span>
+<span class="font-orbitron text-xs">64</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<img alt="Live" class="w-10 h-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsjbLhg2qvM6m-urifX4r-eG9I2V22hgyN6DHR30S5J5_2JxDIxjg3ixWHdQ5eZd0U9djhldTUNI0odBiVEnEX5Pk_o6dhieN0oog6EdFmP5rI0l0iRd01Ag7xEJCLFKxyW3dcDxG-u5WLYrYZKWasAF0JmvaZ5S77nTrNrAwaFrRrILGMfYd6EGBlAkTN0RA7pLZBEWYJ36AwdnZXQJd6ta_q_pyYo8jaxUuxSJzi-j9XaNXOmb9h-ozkDY-gJ5F29RnsrR3HnsUG"/>
+<span class="font-mono-data text-[10px] text-outline">LIVE</span>
+<span class="font-orbitron text-xs">100</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<img alt="Diamond" class="w-10 h-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDayG3ChVqBs8SyOHvaQUdXfxo8Yb0oLvz824y_XD2Gw0ewaxsJPB7teMiPMoVBJGPXZgxdC7q8WiEl1nAaXC99L7MVI3CHEM92hi1raef6X1MQ70jy4ZIEfBw295k8VdEhB2NKB1d4tmuIZzUXCFb0phE6cEP6vRIn0DTBOhzKSfeh1LXv3idQboE88JV-N9OhQAFXrwL6vCSNHaXk6PJboJHqZWaCd-YZvrcsL9Ap4K2EK6LD07DUEWYOgE_eSxRjMqS9bzMyIdXQ"/>
+<span class="font-mono-data text-[10px] text-outline">GEMS</span>
+<span class="font-orbitron text-xs">12</span>
+</div>
+</div>
+</div>
+<!-- Tactical Assistant Widget -->
+<div class="glass-panel p-6 rounded-2xl flex-1 border-tertiary/20 relative group overflow-hidden">
+<div class="absolute inset-0 pointer-events-none bg-gradient-to-br from-tertiary/5 to-transparent"></div>
+<div class="relative">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-2 h-2 rounded-full bg-tertiary animate-ping"></div>
+<h3 class="font-audiowide text-sm text-tertiary tracking-widest">SOF.IA_TACTICAL</h3>
+</div>
+<div class="bg-surface/50 p-4 rounded-lg border border-outline-variant/20 mb-4">
+<p class="font-mono-data text-xs leading-relaxed text-on-surface-variant">
+<span class="text-tertiary">WARNING:</span> Entropy levels detected in sector 7. Recommendation: Perform Alchemy Ritual "Aether-Link" to stabilize alignment. 
+                            </p>
+</div>
+<div class="flex flex-wrap gap-2">
+<div class="px-2 py-1 bg-surface-container border border-outline-variant/30 font-micro-tag text-[9px] uppercase tracking-wider">LOG_4290</div>
+<div class="px-2 py-1 bg-surface-container border border-outline-variant/30 font-micro-tag text-[9px] uppercase tracking-wider">THREAT_NONE</div>
+<div class="px-2 py-1 bg-surface-container border border-outline-variant/30 font-micro-tag text-[9px] uppercase tracking-wider">SYNC_STABLE</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Achievement Badges Footer -->
+<div class="mt-12 glass-panel p-8 rounded-2xl overflow-hidden">
+<h3 class="font-audiowide text-primary mb-8 text-center text-sm tracking-[0.4em] uppercase">Honors &amp; Artifacts</h3>
+<div class="flex flex-wrap justify-center gap-12 opacity-80 hover:opacity-100 transition-opacity">
+<div class="flex flex-col items-center gap-2">
+<div class="w-16 h-16 glass-panel rounded-full flex items-center justify-center border-glow-cyan/50 shadow-[0_0_15px_rgba(45,168,224,0.3)]">
+<img alt="Diamond" class="w-10 h-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDayG3ChVqBs8SyOHvaQUdXfxo8Yb0oLvz824y_XD2Gw0ewaxsJPB7teMiPMoVBJGPXZgxdC7q8WiEl1nAaXC99L7MVI3CHEM92hi1raef6X1MQ70jy4ZIEfBw295k8VdEhB2NKB1d4tmuIZzUXCFb0phE6cEP6vRIn0DTBOhzKSfeh1LXv3idQboE88JV-N9OhQAFXrwL6vCSNHaXk6PJboJHqZWaCd-YZvrcsL9Ap4K2EK6LD07DUEWYOgE_eSxRjMqS9bzMyIdXQ"/>
+</div>
+<span class="font-orbitron text-[9px] tracking-widest">AEON_GEM</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-16 h-16 glass-panel rounded-full flex items-center justify-center border-tertiary/50 shadow-[0_0_15px_rgba(255,175,212,0.3)]">
+<img alt="Hearts" class="w-10 h-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlLXBep7bLvfEDN_iCAHCHPtffrKEGt_LaQ1CRaBM1Q_BqU-tjk7JcbQkApcWlunCYcXMz_AuabbCgJ1LcdEMsvFQN2nlM6OyOzvbFnf4K-j4zP0W_kbZ7t6jD0Oqc-RbQzGbyiCX-unOXvAhpZQddNOcyBRK3yR9lAPbA0Uq3i9-g71KTxMjssZGb59P0em39a0yXDTnmezzTdZZIchuX8MZe4e7bIeLI1r9-4KrtDjoAV-RIDxoYLw1bYqu5DFtNJN8EkoaDVmYM"/>
+</div>
+<span class="font-orbitron text-[9px] tracking-widest">CORE_VITAL</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-16 h-16 glass-panel rounded-full flex items-center justify-center border-secondary/50 shadow-[0_0_15px_rgba(71,221,193,0.3)]">
+<span class="material-symbols-outlined text-secondary text-4xl">military_tech</span>
+</div>
+<span class="font-orbitron text-[9px] tracking-widest">ELITE_OP</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-16 h-16 glass-panel rounded-full flex items-center justify-center border-primary/50 shadow-[0_0_15px_rgba(197,231,255,0.3)]">
+<span class="material-symbols-outlined text-primary text-4xl">cycle</span>
+</div>
+<span class="font-orbitron text-[9px] tracking-widest">CYBER_REBORN</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mobile only) -->
+<footer class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 pb-safe px-4 bg-surface-container/80 backdrop-blur-lg border-t border-primary/20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+<div class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-110">
+<span class="material-symbols-outlined">space_dashboard</span>
+<span class="font-label-caps text-[10px]">Dash</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">temple_hindu</span>
+<span class="font-label-caps text-[10px]">Houses</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">assignment_late</span>
+<span class="font-label-caps text-[10px]">Missions</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-caps text-[10px]">Stats</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">autorenew</span>
+<span class="font-label-caps text-[10px]">Cycle</span>
+</div>
+</footer>
+<!-- System Footer -->
+<footer class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-12 flex flex-col items-center gap-2 opacity-40 hover:opacity-100 transition-opacity duration-500">
+<div class="font-mono-data text-[10px] text-outline tracking-wider">MAGNOPVS OS v4.2.0 // SYSTEM_STABLE</div>
+<div class="flex gap-6 font-mono-data text-[10px] text-outline-variant">
+<a class="hover:text-primary transition-colors" href="#">System Reset</a>
+<a class="hover:text-primary transition-colors" href="#">Log Export</a>
+<a class="hover:text-primary transition-colors" href="#">Protocol-9</a>
+</div>
+</footer>
+<script>
+        // Micro-interaction for status pulsing
+        document.addEventListener('DOMContentLoaded', () => {
+            const scanline = document.querySelector('.scanline');
+            // Adding variation to scanline
+            setInterval(() => {
+                scanline.style.opacity = (Math.random() * 0.1 + 0.05).toString();
+            }, 500);
+        });
+    </script>
+</body></html>

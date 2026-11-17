@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOPVS | Neuro-Nexus</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@300;400;600;700&amp;family=Audiowide&amp;family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --glow-cyan: rgba(45, 168, 224, 0.4);
+            --glow-violet: rgba(139, 92, 246, 0.4);
+        }
+        
+        body {
+            background-color: #101417;
+            color: #e0e3e6;
+            overflow-x: hidden;
+        }
+
+        .cyber-grid {
+            background-image: 
+                linear-gradient(to right, rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(137, 146, 153, 0.2);
+        }
+
+        .neon-border-cyan {
+            border: 1px solid rgba(45, 168, 224, 0.3);
+            box-shadow: 0 0 15px rgba(45, 168, 224, 0.1);
+        }
+
+        .neon-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 5px rgba(45, 168, 224, 0.8)); }
+            50% { opacity: .7; filter: drop-shadow(0 0 2px rgba(45, 168, 224, 0.3)); }
+        }
+
+        .hex-clip {
+            clip-path: polygon(92% 0, 100% 25%, 100% 100%, 8% 100%, 0% 75%, 0 0);
+        }
+
+        .slanted-edge {
+            clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+        }
+
+        .font-audiowide { font-family: 'Audiowide', cursive; }
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#c5e7ff",
+                        "primary-container": "#7fd0ff",
+                        "on-primary-container": "#00597b",
+                        "secondary": "#47ddc1",
+                        "surface": "#101417",
+                        "surface-container": "#1c2023",
+                        "surface-variant": "#313538",
+                        "outline-variant": "#3f484e",
+                        "on-surface-variant": "#bfc8cf",
+                        "glow-cyan": "#2da8e0",
+                    },
+                    spacing: {
+                        "gutter": "16px",
+                        "section-padding": "128px",
+                        "margin-desktop": "40px",
+                        "margin-mobile": "20px",
+                        "panel-gap": "12px",
+                    },
+                    fontFamily: {
+                        "display-lg": ["Space Grotesk"],
+                        "headline-sm": ["Space Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "mono-data": ["JetBrains Mono"],
+                        "body-md": ["Hanken Grotesk"],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-body-md antialiased">
+<!-- Cyber Grid Background -->
+<div class="fixed inset-0 cyber-grid pointer-events-none z-0"></div>
+<div class="fixed inset-0 bg-gradient-to-b from-transparent via-background to-background-deep pointer-events-none z-0"></div>
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20 shadow-[0_0_15px_rgba(0,240,255,0.1)] flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16">
+<div class="font-display-lg text-[24px] md:text-display-lg text-primary tracking-widest font-audiowide">MAGNOPVS</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant font-label-caps hover:text-primary-fixed-dim transition-colors duration-300 cursor-pointer active:scale-95" href="#">TELEMETRY</a>
+<a class="text-on-surface-variant font-label-caps hover:text-primary-fixed-dim transition-colors duration-300 cursor-pointer active:scale-95" href="#">LOGS</a>
+<a class="text-primary border-b-2 border-primary-container pb-1 font-label-caps cursor-pointer active:scale-95" href="#">SOF.IA</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:text-white transition-all">notifications</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:text-white transition-all">settings</span>
+<div class="w-8 h-8 rounded-full border border-primary/30 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A high-fidelity digital portrait of a futuristic cybernetic user with glowing blue ocular implants and silver biological circuitry on the skin, set against a dark technological background with neon cyan highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsH4Xn5dKfXPgeioKxYB3W8r0O3tngjoS9G1chswfiDiXnTuChAPV30R13s_vzNXmBqKbfy4nCRgJ3QMF0trurTmWApyxF6ht9ZGodafDnTxAnuSramyf-r4dPzZn1_U-00MG-D0kzSL2lwJvPc-Jea1mKaQCgi8FYPjBmVYY2PcG2glFHW0nrguhSGiSVNiWSb4H1D6zJsrJM85UuAIZ_5xzxJd8Ehl4Q1GQ8CkWYIP-G9I3I-fKVzg"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar (Scholar's Dashboard Integration) -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-20 md:w-72 z-40 bg-surface-container/60 backdrop-blur-2xl border-r border-outline-variant/20 flex flex-col py-panel-gap overflow-y-auto">
+<!-- Profile Mini-HUD -->
+<div class="px-6 py-4 mb-4 hidden md:block">
+<div class="flex items-center gap-3 mb-4">
+<div class="p-1 bg-primary/10 border border-primary/20 rounded-lg">
+<img class="w-10 h-10" data-alt="A detailed crystalline icon representing a high-level rank in a sci-fi interface, glowing with internal violet and cyan energy, sharp geometric edges, 8k resolution digital art." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5FaPrPO323shXOTllfss7MEAMw1SCqGEplI6_fBu2VM0VXKJdFnjbkzJLlB2SpgSLB2_8oHJwIA8EJkIpxDGCppZAJXnehzK6Ybu16GBdPFxUbiwBFPVd5WE5w40yh5cXdl_Genb9y1OiNMT2xNWdHD5QFDMa2Tb8MDfKK1H1Vqx_gdiCv9CYxleqPOd87gY0GqHz5fu5co-KGizhG6grNbh_Pt7BO-4i-zgPhHexhEMlnRbBlwivJQ"/>
+</div>
+<div>
+<div class="font-orbitron text-primary text-sm tracking-wider">ONEIRONAUT_01</div>
+<div class="text-[10px] text-secondary font-mono-data opacity-70">RANK: PRESTIGIOUS ARCHIVIST</div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="glass-panel p-3 border-l-2 border-primary">
+<div class="text-[10px] font-label-caps text-on-surface-variant mb-1">INTELLECT ♣</div>
+<div class="font-orbitron text-lg text-primary">12,480</div>
+</div>
+<div class="glass-panel p-3 border-l-2 border-secondary">
+<div class="text-[10px] font-label-caps text-on-surface-variant mb-1">BRILLIANCE ★</div>
+<div class="font-orbitron text-lg text-secondary">8,920</div>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-2">
+<!-- Navigation Links from JSON logic -->
+<div class="bg-primary-container/10 text-primary-container border-l-4 border-primary shadow-[0_0_10px_rgba(0,240,255,0.2)] flex items-center gap-4 p-3 group cursor-pointer">
+<span class="material-symbols-outlined">psychology</span>
+<span class="hidden md:inline font-label-caps">NEURAL</span>
+</div>
+<div class="text-on-surface-variant hover:text-primary/70 hover:bg-surface-variant/30 transition-all duration-200 flex items-center gap-4 p-3 group cursor-pointer">
+<span class="material-symbols-outlined">vital_signs</span>
+<span class="hidden md:inline font-label-caps">SOMATIC</span>
+</div>
+<div class="text-on-surface-variant hover:text-primary/70 hover:bg-surface-variant/30 transition-all duration-200 flex items-center gap-4 p-3 group cursor-pointer">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="hidden md:inline font-label-caps">ASTRAL</span>
+</div>
+<div class="text-on-surface-variant hover:text-primary/70 hover:bg-surface-variant/30 transition-all duration-200 flex items-center gap-4 p-3 group cursor-pointer">
+<span class="material-symbols-outlined">memory</span>
+<span class="hidden md:inline font-label-caps">RECALL</span>
+</div>
+<div class="text-on-surface-variant hover:text-primary/70 hover:bg-surface-variant/30 transition-all duration-200 flex items-center gap-4 p-3 group cursor-pointer">
+<span class="material-symbols-outlined">cloud_off</span>
+<span class="hidden md:inline font-label-caps">VOID</span>
+</div>
+</nav>
+<div class="mt-auto p-4 hidden md:block">
+<button class="w-full bg-primary text-on-primary py-3 font-label-caps slanted-edge font-bold tracking-widest hover:brightness-110 active:scale-95 transition-all">
+                INITIATE_REM
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-20 md:ml-72 pt-24 px-margin-mobile md:px-margin-desktop pb-20 relative z-10">
+<!-- Dashboard Header -->
+<div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<div class="text-secondary font-mono-data text-[10px] tracking-[0.3em] mb-2">ACCESSING_CENTRAL_NEURAL_NODE...</div>
+<h1 class="font-audiowide text-4xl md:text-5xl text-primary drop-shadow-[0_0_10px_rgba(197,231,255,0.4)]">NEURO-NEXUS HUB</h1>
+</div>
+<div class="flex gap-4">
+<div class="glass-panel px-6 py-2 flex items-center gap-3">
+<img alt="XP" class="w-6 h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLwB1KyHEhA_-60nkHNm59POC-cVr2kpvWxD74_xFAO-sQbSFSd8Tt8Pc0JLvHOH0Dn-1rSwsr_vozwB23w_mW2ZZVsHOWCEvNFZFG2HHxTosCUfJLwV-5iYFfBAXJALbnl6fN3_mF-xZQZCVODxqsaxFrzpOihU-dYPRsvdpimoQG-T-mJznrQAdWl5TsOg2ANh47I6D3tuqVmEAqp-VFfmpjjek1KdX7s6HtPNOsvanxzHt7psMsqpZakcABHV43VII"/>
+<div>
+<div class="text-[10px] font-label-caps opacity-50">SYNC_XP</div>
+<div class="font-orbitron text-primary">45,000</div>
+</div>
+</div>
+<div class="glass-panel px-6 py-2 flex items-center gap-3">
+<img alt="Credits" class="w-6 h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXQD6dyZwI1kaU8eRntZYuWYC0mC-5ibPYe6vwnfJSHDPL_3rCdrCZU5rTPvvYpQ693ONxX4ZHr3OfkAh2UCaoYMN4UHJrMF7kRXDJF44vEvODM5mrCn1ytgnbphMVjAR3ZNDh45JOcLmrkaNzVTsvSbdjrYbvD9GjnIbKWFMb2TVZ-fCtgGXNKKmCvQq2Q94SYOPcUL_BeyM563GFxv0FUccKxCpp0hfdBwV0CKMJm4lUt2N2GW735eCpvFekSjmGMoE"/>
+<div>
+<div class="text-[10px] font-label-caps opacity-50">META_CREDITS</div>
+<div class="font-orbitron text-secondary">1.2M</div>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- 1. The Question Stream (Quantum Inquiry) -->
+<section class="lg:col-span-8 space-y-6">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary neon-pulse">hub</span>
+<h2 class="font-orbitron text-xl tracking-widest">QUANTUM_INQUIRY_STREAM</h2>
+</div>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-variant text-[10px] font-label-caps border border-outline-variant/30">ALL_MODES</span>
+<span class="px-3 py-1 bg-primary/10 text-primary text-[10px] font-label-caps border border-primary/30">PRIORITY_SYNC</span>
+</div>
+</div>
+<!-- Mission Cards -->
+<div class="grid grid-cols-1 gap-4">
+<!-- Mission 01 -->
+<div class="glass-panel p-6 neon-border-cyan group hover:bg-primary/5 transition-all relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2">
+<div class="text-[10px] font-mono-data text-secondary">DIFF: OMEGA</div>
+</div>
+<div class="flex flex-col md:flex-row gap-6">
+<div class="w-full md:w-32 h-32 glass-panel border border-primary/20 p-2 shrink-0">
+<img class="w-full h-full object-cover" data-alt="A macro photography shot of an organic-synthetic hybrid brain cell with glowing axons reaching out like lightning across a dark space. Deep indigo and neon cyan lighting, cinematic rendering, extremely detailed." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQm5nJiTe_yO3vaCI6V4qvVvslgoCEe5o8ssl2exuThrIP1977c02xwTO_n83lzowBA_2tXjWvNN_7V9Jv-qQeUxn1pdbo6x6DCZAwozX2jV9etxIhffojJ8EF4snzU08XbjKjOXkrg8LMZHNUoZwF8_5hhhGH5BOFr26R6K3lATy_dy8OsgdDOdG29wUIGNCqe6z_57_FJaKa7CmTAKyhm7TJbLOwF-cs-N979utLYAVNDqtFiXZixg"/>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-2">
+<span class="text-[10px] font-label-caps text-primary border border-primary/30 px-2 py-0.5">NEURO_BIO</span>
+<span class="text-[10px] font-label-caps text-on-surface-variant">NODE_ID: #FF-091</span>
+</div>
+<h3 class="font-headline-sm text-primary mb-2">How do bio-synthetic synapses handle emotional data packets in the Astral plane?</h3>
+<p class="text-sm text-on-surface-variant mb-4 line-clamp-2">Seeking enlightenment on the conversion ratio between neuro-hormonal spikes and digital resonance frequencies. Current models show 4% variance...</p>
+<div class="flex flex-wrap gap-6 items-center">
+<div class="flex items-center gap-2">
+<img class="w-4 h-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDR05OGCLN5SydUyT2E1evWqA7TmfN9XhW_pmT8a7jfQ2BbQN__S3SC4kfPY9ieUeALL1IopH7pPUaRlXCl-E6lDY0scBe65hjeWdqfvRCywPZqClH6zYz-GnYQ6OBTczFwlYEmU8YAb6QUE9XjXIDGIWr89QgGjxnEhe6Wo3wSC1kWxSVjSRZyoUkrnYhKEa9qdgsVuisvtRV80g5JPKRDW_TOs8RAQ9cdjij7CQNAdIFjnelFvgADQcNSpZu7pB5BGE8"/>
+<span class="font-orbitron text-sm text-primary">+2,500 XP</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-sm">schedule</span>
+<span class="font-mono-data text-xs text-secondary">SYNC_TIME: 04:12:09</span>
+</div>
+<button class="ml-auto bg-primary text-on-primary px-4 py-1.5 slanted-edge font-label-caps text-[10px] font-bold hover:scale-105 transition-transform">
+                                        INITIATE_SYNC
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Mission 02 -->
+<div class="glass-panel p-6 border border-outline-variant/30 group hover:bg-surface-variant/50 transition-all relative">
+<div class="flex flex-col md:flex-row gap-6">
+<div class="w-full md:w-32 h-32 glass-panel border border-outline-variant/30 p-2 shrink-0 opacity-60">
+<img class="w-full h-full object-cover" data-alt="Abstract visualization of a data stream flowing into a dark void, represented by millions of small, luminous points forming a complex vortex. Monochromatic blue and deep purple color scheme, technological feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgjW53fTPYtNSCyYXh3WWWfoql5JLpJJNs4oHm1_q1JlllT6M3zfLjrSYKNQShtMMArmicn89Hl5aRDKES6cPDz1lCgWWygakJkf6DZ0faRmgQIJK1iV-XHt9z12IQZOm3oHSk8guk55BFrBuJTNxwtGpJdsjmE-wlnjgDPd3qPQhgj5tJSi-uH_ihjNoLPqFyj-Zq9R3FWlzTksgXku2jnffvecHCnuEPW6GjYFafKfT_HcSokFVRrA"/>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-2">
+<span class="text-[10px] font-label-caps text-on-surface-variant border border-outline-variant/30 px-2 py-0.5">SYSTEM_LOG</span>
+<span class="text-[10px] font-label-caps text-on-surface-variant">NODE_ID: #XX-204</span>
+</div>
+<h3 class="font-headline-sm text-on-surface mb-2">Optimizing memory recall for long-term void suspension cycles.</h3>
+<p class="text-sm text-on-surface-variant mb-4 line-clamp-2">The last recall batch failed to stabilize during the REM-initiation phase. I need a somatic bypass algorithm that prioritizes core identity logs...</p>
+<div class="flex flex-wrap gap-6 items-center">
+<div class="flex items-center gap-2">
+<img class="w-4 h-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAozn4Sb47zeJfsW9DWDyXX-uTZDOUVFJgAYf78z_GrTNJbP1FoV6xHK7PXyva2A9lZVKfxwqH8laRIJFWyqw2z2aBBStx9Gexr5hHHdmCUKvUZ3GZWcKAys0Wa4mB27HMNHug10HclLZuP4PgG5MAjFEwDWHvRDpt067TteuxNMJZL80HuSqTCN-9PkLHWA0LAyekKFEDi2vKJvN-OyuhS3zwiOxDi11uMJDn8zRmSJzDMz4ltxc3X6BovYhfEk7t7K1Q"/>
+<span class="font-orbitron text-sm text-primary">+850 XP</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">schedule</span>
+<span class="font-mono-data text-xs text-on-surface-variant">SYNC_TIME: 12:45:00</span>
+</div>
+<button class="ml-auto border border-primary/50 text-primary px-4 py-1.5 slanted-edge font-label-caps text-[10px] font-bold hover:bg-primary/10 transition-colors">
+                                        INITIATE_SYNC
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Sidebar Column -->
+<aside class="lg:col-span-4 space-y-6">
+<!-- 3. SOF.IA Academic Guide -->
+<section class="glass-panel p-6 border-t-2 border-primary overflow-hidden relative">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-primary/5 rounded-full blur-3xl"></div>
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">chevron_forward</span>
+<h2 class="font-orbitron text-sm tracking-[0.2em] text-primary">SOF.IA_ACADEMIC_GUIDE</h2>
+</div>
+<div class="space-y-4">
+<div class="p-3 bg-surface-variant/30 border border-outline-variant/20 rounded">
+<p class="text-xs text-primary/80 font-mono-data leading-relaxed">"Based on your profile in the **House of Whispers**, you have a 94% affinity for solving **Astral Recall** anomalies. Three new missions have been filtered for your bio-signature."</p>
+</div>
+<div class="space-y-2">
+<div class="text-[10px] font-label-caps text-on-surface-variant opacity-60 mb-2">RECOMMENDED_COLLABORATORS</div>
+<div class="flex items-center justify-between p-2 hover:bg-white/5 transition-colors cursor-pointer border-b border-outline-variant/10">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-gradient-to-br from-primary to-secondary p-[1px]">
+<div class="w-full h-full bg-surface rounded flex items-center justify-center">
+<span class="text-[10px] font-bold text-primary">AX</span>
+</div>
+</div>
+<div>
+<div class="text-xs font-bold">AXON_RAIDER</div>
+<div class="text-[9px] text-secondary">LVL 45 SOMATIC</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-sm text-primary">add_circle</span>
+</div>
+<div class="flex items-center justify-between p-2 hover:bg-white/5 transition-colors cursor-pointer border-b border-outline-variant/10">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-gradient-to-br from-violet-500 to-primary p-[1px]">
+<div class="w-full h-full bg-surface rounded flex items-center justify-center">
+<span class="text-[10px] font-bold text-violet-400">VM</span>
+</div>
+</div>
+<div>
+<div class="text-xs font-bold">VOID_MANTRA</div>
+<div class="text-[9px] text-violet-400">LVL 82 ASTRAL</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-sm text-primary">add_circle</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. The Scholar's Dashboard (Quick Stats) -->
+<section class="glass-panel p-6 border-l-4 border-secondary">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-secondary">military_tech</span>
+<h2 class="font-orbitron text-sm tracking-[0.2em] text-secondary">SCHOLAR_STATS</h2>
+</div>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between items-end mb-2">
+<span class="text-[10px] font-label-caps opacity-60">ENLIGHTENED_SOLUTIONS</span>
+<span class="font-orbitron text-secondary">342</span>
+</div>
+<div class="h-1 w-full bg-surface-variant">
+<div class="h-full bg-secondary" style="width: 72%;"></div>
+</div>
+</div>
+<div>
+<div class="text-[10px] font-label-caps opacity-60 mb-2">CONSISTENCY_STREAK</div>
+<div class="flex gap-1">
+<!-- Segmented Progress Bar -->
+<div class="h-4 w-full flex gap-1">
+<div class="flex-1 bg-secondary shadow-[0_0_8px_rgba(71,221,193,0.5)]"></div>
+<div class="flex-1 bg-secondary shadow-[0_0_8px_rgba(71,221,193,0.5)]"></div>
+<div class="flex-1 bg-secondary shadow-[0_0_8px_rgba(71,221,193,0.5)]"></div>
+<div class="flex-1 bg-secondary shadow-[0_0_8px_rgba(71,221,193,0.5)]"></div>
+<div class="flex-1 bg-secondary shadow-[0_0_8px_rgba(71,221,193,0.5)]"></div>
+<div class="flex-1 bg-secondary shadow-[0_0_8px_rgba(71,221,193,0.5)]"></div>
+<div class="flex-1 bg-surface-variant"></div>
+<div class="flex-1 bg-surface-variant"></div>
+<div class="flex-1 bg-surface-variant"></div>
+<div class="flex-1 bg-surface-variant"></div>
+</div>
+</div>
+<div class="mt-2 text-right text-[9px] font-mono-data text-secondary">6-DAY STREAK ACTIVE</div>
+</div>
+<div class="pt-4 border-t border-outline-variant/20">
+<div class="text-[10px] font-label-caps opacity-60 mb-3">CURRENT_GLOBAL_RANK</div>
+<div class="flex items-center gap-4">
+<div class="text-3xl font-audiowide text-primary">#128</div>
+<div class="text-[10px] font-mono-data text-secondary">TOP 1.2% NEURO-LINKERS</div>
+</div>
+</div>
+</div>
+</section>
+<!-- System Terminal Log -->
+<div class="p-4 border border-outline-variant/10 rounded font-mono-data text-[9px] text-primary/40 leading-tight">
+<div>[SYS_LOG] 04:15:22 - NEURAL_SYNC_ESTABLISHED</div>
+<div>[SYS_LOG] 04:15:24 - SCANNING_QUANTUM_STREAM...</div>
+<div>[SYS_LOG] 04:15:25 - 12_NEW_MISSIONS_DETECTED</div>
+<div class="text-secondary">[SYS_LOG] 04:16:01 - SOF.IA_UPDATED_RECORDS</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Background Decoration: Floating HUD Elements -->
+<div class="fixed bottom-10 right-10 pointer-events-none opacity-20">
+<svg class="animate-spin-slow" height="200" viewbox="0 0 200 200" width="200">
+<circle class="text-primary" cx="100" cy="100" fill="none" r="80" stroke="currentColor" stroke-dasharray="10 5" stroke-width="0.5"></circle>
+<circle class="text-secondary" cx="100" cy="100" fill="none" r="60" stroke="currentColor" stroke-dasharray="5 15" stroke-width="1"></circle>
+<path class="text-primary" d="M100 20 L100 40 M100 160 L100 180 M20 100 L40 100 M160 100 L180 100" stroke="currentColor" stroke-width="1"></path>
+</svg>
+</div>
+<style>
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: spin-slow 20s linear infinite;
+        }
+    </style>
+<script>
+        // Micro-interactions
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mouseenter', () => {
+                panel.style.transform = 'translateY(-2px)';
+                panel.style.transition = 'transform 0.3s ease';
+            });
+            panel.addEventListener('mouseleave', () => {
+                panel.style.transform = 'translateY(0px)';
+            });
+        });
+
+        // Time ticker for missions
+        setInterval(() => {
+            document.querySelectorAll('.font-mono-data.text-secondary').forEach(timer => {
+                if(timer.innerText.includes('SYNC_TIME:')) {
+                    // Just a visual simulation
+                }
+            });
+        }, 1000);
+    </script>
+</body></html>

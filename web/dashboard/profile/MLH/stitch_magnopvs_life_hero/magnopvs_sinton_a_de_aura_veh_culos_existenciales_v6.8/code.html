@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOPVS | Módulo de Sintonía Energética v6.8</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&amp;family=JetBrains+Mono:wght@400;700&amp;family=Space+Grotesk:wght@300;500;700&amp;family=Audiowide&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#ffdad6",
+                        "inverse-primary": "#006970",
+                        "outline": "#849495",
+                        "error-container": "#93000a",
+                        "on-primary-container": "#006970",
+                        "error": "#ffb4ab",
+                        "on-primary": "#00363a",
+                        "secondary-container": "#7000ff",
+                        "on-background": "#e3e1e9",
+                        "primary-fixed": "#7df4ff",
+                        "primary": "#dbfcff",
+                        "on-surface": "#e3e1e9",
+                        "on-secondary-fixed": "#23005b",
+                        "tertiary-fixed": "#f0dbff",
+                        "on-tertiary-container": "#6e5388",
+                        "on-secondary-fixed-variant": "#5700c9",
+                        "on-secondary": "#3c0090",
+                        "tertiary-fixed-dim": "#dabaf7",
+                        "surface-container-low": "#1a1b21",
+                        "primary-fixed-dim": "#00dbe9",
+                        "surface-container": "#1e1f25",
+                        "surface-bright": "#38393f",
+                        "secondary-fixed-dim": "#d1bcff",
+                        "on-surface-variant": "#b9cacb",
+                        "on-tertiary-fixed": "#280e40",
+                        "surface-container-lowest": "#0d0e13",
+                        "on-error": "#690005",
+                        "primary-container": "#00f0ff",
+                        "outline-variant": "#3b494b",
+                        "on-tertiary-fixed-variant": "#553b6f",
+                        "tertiary": "#fdf2ff",
+                        "surface": "#121318",
+                        "surface-container-high": "#292a2f",
+                        "tertiary-container": "#eacfff",
+                        "secondary-fixed": "#e9ddff",
+                        "secondary": "#d1bcff",
+                        "on-secondary-container": "#ddcdff",
+                        "on-primary-fixed": "#002022",
+                        "inverse-surface": "#e3e1e9",
+                        "on-tertiary": "#3e2457",
+                        "on-primary-fixed-variant": "#004f54",
+                        "surface-container-highest": "#34343a",
+                        "surface-variant": "#34343a",
+                        "inverse-on-surface": "#2f3036",
+                        "surface-dim": "#121318",
+                        "background": "#121318",
+                        "surface-tint": "#00dbe9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "panel-gap": "12px",
+                        "unit": "4px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Orbitron"],
+                        "headline-md": ["Orbitron"],
+                        "display-lg": ["Orbitron"],
+                        "mono-data": ["JetBrains Mono"],
+                        "label-caps": ["Space Grotesk"],
+                        "body-lg": ["Geist"],
+                        "body-md": ["Geist"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                        "headline-md": ["32px", {"lineHeight": "40px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.2em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0d0e13;
+            color: #e3e1e9;
+            overflow-x: hidden;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .hud-grid {
+            background-image: radial-gradient(circle at 2px 2px, rgba(0, 240, 255, 0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+
+        .glass-panel {
+            background: rgba(26, 0, 51, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .glass-panel:hover {
+            border-color: rgba(0, 240, 255, 0.4);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
+        }
+
+        .chakra-node {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+        }
+
+        .chakra-node:hover {
+            transform: scale(1.2);
+            filter: brightness(1.2);
+        }
+
+        .scan-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, rgba(0, 240, 255, 0.5), transparent);
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0%; opacity: 0; }
+            5% { opacity: 1; }
+            95% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        .pulse-glow {
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { filter: drop-shadow(0 0 5px currentColor); opacity: 0.8; }
+            50% { filter: drop-shadow(0 0 15px currentColor); opacity: 1; }
+        }
+
+        .fidelity-bar {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fidelity-fill {
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            transition: width 1s ease-out;
+        }
+
+        .title-aura {
+            font-family: 'Audiowide', cursive;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .hex-bg {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+    </style>
+</head>
+<body class="hud-grid min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20 shadow-[0_0_15px_rgba(0,240,255,0.1)] flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16">
+<div class="flex items-center gap-4">
+<img alt="MAGNOPVS Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1Hyus4OFNPSojheE847H2HAEoxTT-7NvrM75JVOUc_vwy14_JsFDdziPzi9KI9Ls_eCs1iYMTbMCfQ3TnjqXEk1w2eZY3BHrwC1ZHLm-sPsZ8Awqs9bBTPnmEbOeiT1Xj59FBnFaXgN00U8FCT1xVwMRv4eVD6mSB-ukbnQ3DnUQPU8X_fhbaLWmS0ewYeXvR6EnweuTjGwALi-hd4GLis_ZH5_GgKG-5VQIMGq9yEyTlJ7hUdYxfA9bi7z4q0GAoAFOl6iOIUMXD"/>
+<span class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-widest">MAGNOPVS</span>
+</div>
+<nav class="hidden md:flex gap-8">
+<a class="text-on-surface-variant font-label-caps hover:text-primary-fixed-dim transition-colors duration-300 cursor-pointer active:scale-95" href="#">TELEMETRY</a>
+<a class="text-on-surface-variant font-label-caps hover:text-primary-fixed-dim transition-colors duration-300 cursor-pointer active:scale-95" href="#">LOGS</a>
+<a class="text-primary border-b-2 border-primary-container pb-1 font-label-caps cursor-pointer" href="#">SOF.IA</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:text-primary-fixed-dim" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:text-primary-fixed-dim" data-icon="settings">settings</span>
+</div>
+</header>
+<!-- Side Navigation -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-20 md:w-64 z-40 bg-surface-container/60 backdrop-blur-2xl border-r border-outline-variant/20 flex flex-col py-panel-gap">
+<div class="px-6 py-4 border-b border-outline-variant/10 hidden md:block">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full border border-primary/30 p-0.5">
+<div class="w-full h-full rounded-full bg-gradient-to-br from-primary/20 to-secondary/20"></div>
+</div>
+<div>
+<p class="font-headline-sm text-[12px] text-primary">ONEIRONAUT_01</p>
+<p class="font-mono-data text-[10px] text-on-surface-variant">LUCIDITY_94%</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-1 mt-4 px-2">
+<div class="group cursor-pointer flex items-center gap-4 p-3 rounded-lg text-on-surface-variant hover:bg-surface-variant/30 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+<span class="hidden md:block font-label-caps">NEURAL</span>
+</div>
+<div class="group cursor-pointer flex items-center gap-4 p-3 rounded-lg text-on-surface-variant hover:bg-surface-variant/30 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="vital_signs">vital_signs</span>
+<span class="hidden md:block font-label-caps">SOMATIC</span>
+</div>
+<div class="group cursor-pointer flex items-center gap-4 p-3 rounded-lg bg-primary-container/10 text-primary-container border-l-4 border-primary shadow-[0_0_10px_rgba(0,240,255,0.2)]">
+<span class="material-symbols-outlined" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="hidden md:block font-label-caps">ASTRAL</span>
+</div>
+<div class="group cursor-pointer flex items-center gap-4 p-3 rounded-lg text-on-surface-variant hover:bg-surface-variant/30 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="memory">memory</span>
+<span class="hidden md:block font-label-caps">RECALL</span>
+</div>
+<div class="group cursor-pointer flex items-center gap-4 p-3 rounded-lg text-on-surface-variant hover:bg-surface-variant/30 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="cloud_off">cloud_off</span>
+<span class="hidden md:block font-label-caps">VOID</span>
+</div>
+</div>
+<div class="mt-auto px-4 pb-8 space-y-4">
+<button class="w-full py-2 bg-primary-container text-on-primary-fixed font-label-caps text-[10px] tracking-tighter hover:bg-primary-fixed transition-colors active:scale-95 hidden md:block">INITIATE_REM</button>
+<div class="flex justify-around text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer" data-icon="inventory_2">inventory_2</span>
+<span class="material-symbols-outlined cursor-pointer" data-icon="sync_alt">sync_alt</span>
+</div>
+</div>
+</aside>
+<!-- Main HUD Content -->
+<main class="ml-20 md:ml-64 pt-24 px-margin-mobile md:px-gutter pb-24 grid grid-cols-12 gap-gutter min-h-screen">
+<!-- Header Section -->
+<div class="col-span-12 flex flex-col md:flex-row justify-between items-end border-b border-primary/20 pb-4 mb-4">
+<div>
+<h1 class="title-aura text-display-lg-mobile md:text-headline-md text-primary-container">Módulo de Sintonía Energética v6.8</h1>
+<p class="font-mono-data text-on-surface-variant tracking-widest text-[12px]">ESTADO DE SINCRONIZACIÓN: ÓPTIMO // SECTOR_ASTRAL_09</p>
+</div>
+<div class="text-right hidden md:block">
+<p class="font-label-caps text-secondary">AETHER_LINK: ACTIVE</p>
+<div class="flex gap-2 justify-end mt-1">
+<div class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></div>
+<div class="w-2 h-2 rounded-full bg-primary-container/40"></div>
+<div class="w-2 h-2 rounded-full bg-primary-container/20"></div>
+</div>
+</div>
+</div>
+<!-- Left Column: Aura Telemetry -->
+<div class="col-span-12 lg:col-span-3 space-y-panel-gap">
+<h3 class="font-label-caps text-primary/60 border-l-2 border-primary pl-2 mb-4">AURA TELEMETRY</h3>
+<!-- Metric Card: Radius -->
+<div class="glass-panel p-4 relative overflow-hidden">
+<div class="scan-line"></div>
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-[10px] text-on-surface-variant">AURA RADIUS</span>
+<span class="material-symbols-outlined text-primary text-sm" data-icon="radar">radar</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-headline-md text-primary">12.4</span>
+<span class="font-mono-data text-on-surface-variant text-xs">METERS</span>
+</div>
+<div class="w-full bg-white/5 h-1 mt-4">
+<div class="bg-primary h-full w-[78%]"></div>
+</div>
+</div>
+<!-- Metric Card: Frequency -->
+<div class="glass-panel p-4">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-[10px] text-on-surface-variant">FRECUENCIA VIBRATORIA</span>
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="waves">waves</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-headline-md text-secondary">528.0</span>
+<span class="font-mono-data text-on-surface-variant text-xs">HZ</span>
+</div>
+<p class="text-[9px] font-mono-data text-secondary/70 mt-2">SOLFEGGIO_MIRACLE_REPAIR</p>
+</div>
+<!-- Metric Card: Radiance -->
+<div class="glass-panel p-4 border-l-4 border-l-tertiary-container">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-[10px] text-on-surface-variant">RADIANCE INDEX</span>
+<span class="material-symbols-outlined text-tertiary-container text-sm" data-icon="flare">flare</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-headline-md text-tertiary-container">0.92</span>
+<span class="font-mono-data text-on-surface-variant text-xs">LUX/SR</span>
+</div>
+<div class="flex gap-1 mt-3">
+<div class="h-1 flex-1 bg-tertiary-container/80"></div>
+<div class="h-1 flex-1 bg-tertiary-container/80"></div>
+<div class="h-1 flex-1 bg-tertiary-container/80"></div>
+<div class="h-1 flex-1 bg-tertiary-container/20"></div>
+</div>
+</div>
+<!-- SOF.IA Insight Card -->
+<div class="glass-panel p-6 mt-8 border-primary/40 bg-primary/5">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary animate-spin" data-icon="settings_b_roll" style="animation-duration: 8s">settings_b_roll</span>
+<h4 class="font-headline-sm text-[14px] text-primary">SOF.IA INSIGHT</h4>
+</div>
+<p class="font-body-md text-on-surface text-[13px] leading-relaxed italic">
+                    "Detecting dissonance in the <span class="text-primary-container font-bold">Vishuddha (Throat)</span> node. Astral density is 12% higher than baseline. Recommend immediate sonic purification or 5-minute blue-ray meditation to stabilize the communication bridge."
+                </p>
+<button class="mt-4 w-full border border-primary/30 py-2 font-label-caps text-[10px] hover:bg-primary/20 transition-all uppercase tracking-widest">Execute Purification</button>
+</div>
+</div>
+<!-- Center Column: Avatar Visualization -->
+<div class="col-span-12 lg:col-span-6 flex flex-col items-center justify-center relative min-h-[600px]">
+<h2 class="title-aura text-headline-sm text-center mb-12">RESONANCIA CHAKRA</h2>
+<!-- Avatar SVG Placeholder + Animated Field -->
+<div class="relative w-full max-w-md aspect-[1/2] flex flex-col items-center justify-between py-10">
+<!-- Central Figure Visualization (Abstract CSS shapes for HUD look) -->
+<div class="absolute inset-0 flex justify-center opacity-30 pointer-events-none">
+<div class="w-1/2 h-full bg-gradient-to-b from-primary/20 via-transparent to-primary/5 rounded-full blur-3xl"></div>
+</div>
+<!-- 7 Chakras Interactive Nodes -->
+<!-- Crown -->
+<div class="chakra-node z-10 text-violet-400 flex flex-col items-center group" onclick="this.classList.toggle('scale-110')">
+<div class="w-12 h-12 rounded-full border-2 border-current flex items-center justify-center bg-black pulse-glow">
+<span class="font-mono-data text-[10px] font-bold">98%</span>
+</div>
+<span class="font-label-caps text-[9px] mt-2 opacity-0 group-hover:opacity-100 transition-opacity">SAHASRARA</span>
+</div>
+<!-- Third Eye -->
+<div class="chakra-node z-10 text-indigo-400 flex flex-col items-center group">
+<div class="w-10 h-10 rounded-full border-2 border-current flex items-center justify-center bg-black pulse-glow" style="animation-delay: 0.2s">
+<span class="font-mono-data text-[10px] font-bold">85%</span>
+</div>
+<span class="font-label-caps text-[9px] mt-2 opacity-0 group-hover:opacity-100 transition-opacity">AJNA</span>
+</div>
+<!-- Throat -->
+<div class="chakra-node z-10 text-cyan-400 flex flex-col items-center group">
+<div class="w-10 h-10 rounded-full border-2 border-cyan-500/50 flex items-center justify-center bg-black animate-pulse" style="animation-delay: 0.4s">
+<span class="font-mono-data text-[10px] font-bold text-error">42%</span>
+</div>
+<span class="font-label-caps text-[9px] mt-2 text-error">VISHUDDHA</span>
+</div>
+<!-- Heart -->
+<div class="chakra-node z-10 text-emerald-400 flex flex-col items-center group">
+<div class="w-12 h-12 rounded-full border-2 border-current flex items-center justify-center bg-black pulse-glow" style="animation-delay: 0.6s">
+<span class="font-mono-data text-[10px] font-bold">91%</span>
+</div>
+<span class="font-label-caps text-[9px] mt-2 opacity-0 group-hover:opacity-100 transition-opacity">ANAHATA</span>
+</div>
+<!-- Solar Plexus -->
+<div class="chakra-node z-10 text-yellow-400 flex flex-col items-center group">
+<div class="w-10 h-10 rounded-full border-2 border-current flex items-center justify-center bg-black pulse-glow" style="animation-delay: 0.8s">
+<span class="font-mono-data text-[10px] font-bold">77%</span>
+</div>
+<span class="font-label-caps text-[9px] mt-2 opacity-0 group-hover:opacity-100 transition-opacity">MANIPURA</span>
+</div>
+<!-- Sacral -->
+<div class="chakra-node z-10 text-orange-500 flex flex-col items-center group">
+<div class="w-10 h-10 rounded-full border-2 border-current flex items-center justify-center bg-black pulse-glow" style="animation-delay: 1.0s">
+<span class="font-mono-data text-[10px] font-bold">88%</span>
+</div>
+<span class="font-label-caps text-[9px] mt-2 opacity-0 group-hover:opacity-100 transition-opacity">SVADHISTHANA</span>
+</div>
+<!-- Root -->
+<div class="chakra-node z-10 text-red-500 flex flex-col items-center group">
+<div class="w-14 h-14 rounded-full border-4 border-current flex items-center justify-center bg-black pulse-glow" style="animation-delay: 1.2s">
+<span class="font-mono-data text-[12px] font-bold">100%</span>
+</div>
+<span class="font-label-caps text-[9px] mt-2 opacity-0 group-hover:opacity-100 transition-opacity">MULADHARA</span>
+</div>
+<!-- Orbital Calibration Rings -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 border border-primary/10 rounded-full animate-spin" style="animation-duration: 20s"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 border border-secondary/10 rounded-full animate-spin" style="animation-duration: 15s; direction: reverse;"></div>
+</div>
+<!-- Reality Check Chips -->
+<div class="flex gap-4 mt-8">
+<div class="px-4 py-1 border border-primary/20 rounded-full font-mono-data text-[10px] text-primary/60">IS_THIS_A_DREAM?</div>
+<div class="px-4 py-1 border border-primary/20 rounded-full font-mono-data text-[10px] text-primary/60">SYNC_STATUS: 0.94</div>
+</div>
+</div>
+<!-- Right Column: Vessel Management -->
+<div class="col-span-12 lg:col-span-3 space-y-gutter">
+<div class="flex justify-between items-center mb-2">
+<h3 class="font-label-caps text-primary/60 border-r-2 border-primary pr-2 text-right w-full">VEHÍCULOS EXISTENCIALES</h3>
+</div>
+<div class="glass-panel p-4 space-y-6">
+<!-- Body 1: Physical -->
+<div class="space-y-2">
+<div class="flex justify-between items-center text-[11px] font-label-caps">
+<span class="text-on-surface">1. PHYSICAL</span>
+<span class="text-primary">94% FIDELITY</span>
+</div>
+<div class="fidelity-bar">
+<div class="fidelity-fill bg-primary w-[94%]"></div>
+</div>
+</div>
+<!-- Body 2: Etheric -->
+<div class="space-y-2">
+<div class="flex justify-between items-center text-[11px] font-label-caps">
+<span class="text-on-surface">2. ETHERIC</span>
+<span class="text-primary-container">82% SYNC</span>
+</div>
+<div class="fidelity-bar">
+<div class="fidelity-fill bg-primary-container w-[82%]"></div>
+</div>
+</div>
+<!-- Body 3: Astral -->
+<div class="space-y-2">
+<div class="flex justify-between items-center text-[11px] font-label-caps">
+<span class="text-on-surface">3. ASTRAL</span>
+<span class="text-error">58% DENSITY</span>
+</div>
+<div class="fidelity-bar">
+<div class="fidelity-fill bg-error w-[58%]"></div>
+</div>
+</div>
+<!-- Body 4: Mental -->
+<div class="space-y-2">
+<div class="flex justify-between items-center text-[11px] font-label-caps">
+<span class="text-on-surface">4. MENTAL</span>
+<span class="text-secondary">71% CLARITY</span>
+</div>
+<div class="fidelity-bar">
+<div class="fidelity-fill bg-secondary w-[71%]"></div>
+</div>
+</div>
+<!-- Body 5: Causal -->
+<div class="space-y-2">
+<div class="flex justify-between items-center text-[11px] font-label-caps">
+<span class="text-on-surface">5. CAUSAL</span>
+<span class="text-on-surface-variant">44% RECALL</span>
+</div>
+<div class="fidelity-bar">
+<div class="fidelity-fill bg-outline w-[44%]"></div>
+</div>
+</div>
+<!-- Body 6: Buddhic -->
+<div class="space-y-2">
+<div class="flex justify-between items-center text-[11px] font-label-caps">
+<span class="text-on-surface">6. BUDDHIC</span>
+<span class="text-tertiary-fixed-dim">12% AWAKENED</span>
+</div>
+<div class="fidelity-bar">
+<div class="fidelity-fill bg-tertiary-container w-[12%] opacity-50"></div>
+</div>
+</div>
+<!-- Body 7: Atmic -->
+<div class="space-y-2">
+<div class="flex justify-between items-center text-[11px] font-label-caps">
+<span class="text-on-surface">7. ATMIC</span>
+<span class="text-white/20">LOCKED</span>
+</div>
+<div class="fidelity-bar">
+<div class="fidelity-fill bg-white/10 w-[2%]"></div>
+</div>
+</div>
+</div>
+<!-- Calibration Controls -->
+<div class="glass-panel p-6 border-secondary/30">
+<h4 class="font-label-caps text-[12px] mb-4 text-secondary">ACTIVE CALIBRATION</h4>
+<div class="space-y-4">
+<div class="flex flex-col gap-1">
+<label class="text-[9px] font-mono-data text-on-surface-variant">FOCUS INTENSITY</label>
+<input class="accent-primary-container bg-surface-variant/20 appearance-none h-1" type="range"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-[9px] font-mono-data text-on-surface-variant">VIBRATIONAL OFFSET</label>
+<input class="accent-secondary bg-surface-variant/20 appearance-none h-1" type="range"/>
+</div>
+<button class="w-full mt-4 bg-transparent border border-secondary text-secondary py-3 font-label-caps text-[11px] hover:bg-secondary/10 transition-colors">START SINTONÍA DE AURA</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Stats -->
+<footer class="fixed bottom-0 left-0 md:left-64 right-0 h-10 bg-surface/90 backdrop-blur-md border-t border-outline-variant/10 flex items-center px-6 justify-between z-50">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>
+<span class="font-mono-data text-[10px] text-on-surface-variant uppercase tracking-tighter">VIBRATIONAL_SYNC: ACTIVE</span>
+</div>
+<div class="hidden sm:flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-primary" data-icon="hub">hub</span>
+<span class="font-mono-data text-[10px] text-on-surface-variant uppercase tracking-tighter">AETHER_LINK: ESTABLISHED</span>
+</div>
+</div>
+<div class="flex gap-4 font-mono-data text-[10px] text-primary/40">
+<span>LATENCY: 0.003ms</span>
+<span class="hidden md:inline">DIMENSION: 4D-ASTRAL</span>
+</div>
+</footer>
+<script>
+        // Micro-interactions and atmospheric logic
+        document.addEventListener('DOMContentLoaded', () => {
+            // Randomize telemetry values slightly for "live" feel
+            setInterval(() => {
+                const elements = document.querySelectorAll('.font-display-lg');
+                elements.forEach(el => {
+                    if (el.innerText.includes('.')) {
+                        let val = parseFloat(el.innerText);
+                        val += (Math.random() - 0.5) * 0.05;
+                        el.innerText = val.toFixed(el.innerText.split('.')[1].length);
+                    }
+                });
+            }, 3000);
+
+            // Interaction for Calibration
+            const chakraNodes = document.querySelectorAll('.chakra-node');
+            chakraNodes.forEach(node => {
+                node.addEventListener('click', () => {
+                    const label = node.querySelector('.font-label-caps').innerText;
+                    console.log(`Calibrating ${label}...`);
+                    node.classList.add('animate-ping');
+                    setTimeout(() => node.classList.remove('animate-ping'), 500);
+                });
+            });
+        });
+    </script>
+</body></html>

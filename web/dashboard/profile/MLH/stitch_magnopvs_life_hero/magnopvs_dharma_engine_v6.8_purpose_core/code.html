@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DHARMA ENGINE v6.8 | MagnopVS OS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Orbitron:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@300;400;700&family=Hanken+Grotesk:wght@300;400;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&family=JetBrains+Mono:wght@100..900&family=Space+Grotesk:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --celestial-blue: #2da8e0;
+            --aquamarine: #47ddc1;
+            --magenta: #ff2d85;
+            --violet: #8a2be2;
+            --gold: #ffd700;
+        }
+
+        body {
+            background-color: #0b0f11;
+            color: #e0e3e6;
+            overflow-x: hidden;
+            font-family: 'Hanken Grotesk', sans-serif;
+        }
+
+        .cyber-grid {
+            background-image: linear-gradient(to right, rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .hex-bg {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCSEu4xqwC06lZHL42eZou4z64KDzP2ETS4K4Zb2yihZIsI8PGQMUZ6b8dHUNZjaryYCjGPYN8Vk6_Sbi-hJ0fABwlZFk8hl7Mv6J2ZzWpbRoFOyUghvWlHRkeB9g-Ig-0QnxBvv9RnfemBiF62Fr2HAL3HSvNLwckHuMExgLTdEG9Cg9OmGSWYaU9PSzXY-iuDKn598hUcVLVXfaZEOTLhOTVbIoRiAPMmEthCFKOfbJ0hwxg6V6I9k4k1Q2spjktUO-Guknir9G1Z');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            mix-blend-mode: overlay;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(127, 208, 255, 0.15);
+            position: relative;
+        }
+
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: -1px; width: 10px; height: 10px;
+            border-top: 2px solid var(--celestial-blue);
+            border-left: 2px solid var(--celestial-blue);
+        }
+
+        .glass-panel::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; right: -1px; width: 10px; height: 10px;
+            border-bottom: 2px solid var(--celestial-blue);
+            border-right: 2px solid var(--celestial-blue);
+        }
+
+        .gold-glow {
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.5);
+        }
+
+        .neon-pulse {
+            animation: neon-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes neon-pulse {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 5px currentColor); }
+            50% { opacity: 0.6; filter: drop-shadow(0 0 2px currentColor); }
+        }
+
+        .slant-btn {
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+            transition: all 0.3s ease;
+        }
+
+        .slant-btn:hover {
+            transform: skew(-5deg) scale(1.05);
+        }
+
+        .layer-tab[data-active="true"] {
+            background: rgba(127, 208, 255, 0.1);
+            border-color: var(--celestial-blue);
+            color: var(--celestial-blue);
+        }
+
+        .layer-tab[data-active="true"] .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1;
+        }
+
+        .status-block {
+            width: 8px;
+            height: 14px;
+            background: #1c2023;
+            margin-right: 2px;
+        }
+
+        .status-block.active {
+            background: var(--celestial-blue);
+            box-shadow: 0 0 10px var(--celestial-blue);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-container": "#ffafd4",
+                      "secondary": "#47ddc1",
+                      "surface-container-highest": "#313538",
+                      "surface": "#101417",
+                      "surface-container-lowest": "#0b0f11",
+                      "on-secondary-container": "#004439",
+                      "on-secondary-fixed-variant": "#005144",
+                      "surface-container-low": "#181c1f",
+                      "inverse-surface": "#e0e3e6",
+                      "secondary-fixed": "#6af9dc",
+                      "status-critical": "#93000a",
+                      "surface-bright": "#363a3d",
+                      "tertiary-fixed-dim": "#ffafd4",
+                      "outline": "#899299",
+                      "on-primary-fixed": "#001e2d",
+                      "on-tertiary": "#531c3b",
+                      "background": "#101417",
+                      "on-primary-container": "#00597b",
+                      "surface-panel": "rgba(255, 255, 255, 0.03)",
+                      "surface-tint": "#7fd0ff",
+                      "on-secondary": "#00382e",
+                      "on-tertiary-container": "#7c3e5e",
+                      "tertiary": "#ffd8e7",
+                      "primary-container": "#7fd0ff",
+                      "on-error": "#690005",
+                      "error-container": "#93000a",
+                      "secondary-container": "#00bba0",
+                      "on-surface": "#e0e3e6",
+                      "inverse-primary": "#00658b",
+                      "on-primary-fixed-variant": "#004c6a",
+                      "outline-variant": "#3f484e",
+                      "error": "#ffb4ab",
+                      "surface-variant": "#313538",
+                      "on-error-container": "#ffdad6",
+                      "surface-container": "#1c2023",
+                      "on-background": "#e0e3e6",
+                      "background-deep": "#0a0b12",
+                      "surface-container-high": "#272a2d",
+                      "on-surface-variant": "#bfc8cf",
+                      "secondary-fixed-dim": "#47ddc1",
+                      "on-secondary-fixed": "#00201a",
+                      "glow-cyan": "#2da8e0",
+                      "primary-fixed": "#c5e7ff",
+                      "primary": "#c5e7ff",
+                      "inverse-on-surface": "#2d3134",
+                      "grid-line": "rgba(127, 208, 255, 0.05)",
+                      "on-tertiary-fixed": "#390625",
+                      "on-primary": "#00344a",
+                      "primary-fixed-dim": "#7fd0ff",
+                      "on-tertiary-fixed-variant": "#6e3252",
+                      "tertiary-fixed": "#ffd8e7",
+                      "surface-dim": "#101417"
+              },
+              "fontFamily": {
+                      "label-caps": ["JetBrains Mono"],
+                      "display-lg-mobile": ["Space Grotesk"],
+                      "display-lg": ["Space Grotesk"],
+                      "data-point": ["Hanken Grotesk"],
+                      "micro-tag": ["JetBrains Mono"],
+                      "headline-md": ["Space Grotesk"],
+                      "body-md": ["Hanken Grotesk"],
+                      "mono-data": ["JetBrains Mono"],
+                      "audiowide": ["Audiowide"],
+                      "orbitron": ["Orbitron"]
+              },
+              "fontSize": {
+                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "micro-tag": ["10px", {"letterSpacing": "0.3em", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                      "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="dark bg-background-deep min-h-screen">
+<!-- Global Background Elements -->
+<div class="fixed inset-0 cyber-grid z-0"></div>
+<div class="fixed inset-0 hex-bg z-0"></div>
+<!-- Top Navigation Anchor -->
+<header class="fixed top-0 left-0 w-full z-50 h-20 bg-surface/30 backdrop-blur-xl border-b border-primary/20 flex justify-between items-center px-margin-mobile md:px-margin-desktop shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="flex items-center gap-4">
+<img alt="MagnopVS Logo" class="h-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALArW_GxehJA6igx5ieF2zqpgkvfzfxcvbcnOf2RGSPZ-8mXq78BVXCh4g0Ma2kX0ciWPfnm3MFkhHmY4DmQf_CJVf0pvR9fi6xm_lHpssgYMQp1CydD4S-2X73Q2dhUHmA46A7U3snD6gkTj6ebxhBd92Y0icpTsfIHezawAwGz_2rg9b73x7i8j3GFpNgN6EgzdWPXo6Mh51SRM1A9dNtcRuTyLMMSot7B34x4cTU5xoMFzKCPM5-wbmZOIfwJ0juM1A_UDkjl_V"/>
+<div class="h-8 w-px bg-primary/20 mx-2"></div>
+<div>
+<h1 class="font-audiowide text-primary text-xl md:text-2xl tracking-widest uppercase">DHARMA ENGINE</h1>
+<p class="font-label-caps text-outline text-[10px] tracking-tighter">Núcleo de Propósito v6.8 // SYSTEM_ACTIVE</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex gap-4 font-label-caps text-outline text-[10px]">
+<div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-secondary shadow-[0_0_5px_#47ddc1]"></span> COHERENCE: 98%</div>
+<div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_5px_#7fd0ff]"></span> STABILITY: STABLE</div>
+</div>
+<div class="flex gap-3 text-primary">
+<span class="material-symbols-outlined cursor-pointer hover:text-secondary transition-all">bolt</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-secondary transition-all" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-secondary transition-all">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Sidebar Navigation (Desktop) -->
+<aside class="hidden lg:flex flex-col fixed left-0 top-20 h-[calc(100vh-80px)] w-64 z-40 bg-surface-container-low/50 backdrop-blur-2xl border-r border-primary/20">
+<div class="p-6 border-b border-primary/10">
+<h3 class="font-label-caps text-primary text-[10px] mb-1">OPERATOR_01</h3>
+<p class="font-orbitron font-bold text-on-surface tracking-widest text-sm">LVL 42 // TITAN</p>
+</div>
+<nav class="flex-1 py-4">
+<a class="flex items-center gap-4 px-6 py-4 text-primary border-l-2 border-primary bg-primary/5 font-bold shadow-[inset_4px_0_10px_rgba(127,208,255,0.1)]" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-label-caps text-[12px]">DHARMA ENGINE</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-caps text-[12px]">DASHBOARD</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label-caps text-[12px]">13 HOUSES</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps text-[12px]">MISSIONS</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-outline-variant hover:text-on-surface-variant hover:bg-surface-container-highest/30 transition-all" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps text-[12px]">ATTRIBUTES</span>
+</a>
+</nav>
+<div class="p-6 border-t border-primary/10 opacity-50">
+<p class="font-mono-data text-[10px]">OS_STABLE_4.2.0</p>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="relative z-10 pt-32 pb-40 px-margin-mobile md:px-margin-desktop lg:pl-[296px] max-w-7xl mx-auto">
+<!-- Mission Vectors: Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-section-padding">
+<!-- Dharma Axis -->
+<div class="glass-panel p-8 group hover:border-indigo-500/50 transition-all duration-500" style="border-color: rgba(79, 70, 229, 0.2);">
+<div class="flex justify-between items-start mb-6">
+<div class="text-indigo-400">
+<span class="material-symbols-outlined text-4xl neon-pulse">balance</span>
+</div>
+<span class="font-mono-data text-[10px] bg-indigo-500/10 px-2 py-1 rounded">AXIS_01</span>
+</div>
+<h3 class="font-audiowide text-indigo-400 text-xl mb-2 tracking-wider">DHARMA AXIS</h3>
+<p class="font-label-caps text-[10px] text-outline mb-4">THE PATH OF DUTY & SACRIFICE</p>
+<div class="space-y-3">
+<div class="flex justify-between text-[11px] font-mono-data">
+<span class="text-outline">Alignment Score</span>
+<span class="text-indigo-400">84%</span>
+</div>
+<div class="h-2 w-full bg-surface-container flex gap-1">
+<div class="h-full w-1/10 bg-indigo-500 shadow-[0_0_5px_rgba(79,70,229,0.5)]"></div>
+<div class="h-full w-1/10 bg-indigo-500 shadow-[0_0_5px_rgba(79,70,229,0.5)]"></div>
+<div class="h-full w-1/10 bg-indigo-500 shadow-[0_0_5px_rgba(79,70,229,0.5)]"></div>
+<div class="h-full w-1/10 bg-indigo-500 shadow-[0_0_5px_rgba(79,70,229,0.5)]"></div>
+<div class="h-full w-1/10 bg-indigo-500 shadow-[0_0_5px_rgba(79,70,229,0.5)]"></div>
+<div class="h-full w-1/10 bg-indigo-500 shadow-[0_0_5px_rgba(79,70,229,0.5)]"></div>
+<div class="h-full w-1/10 bg-indigo-500 shadow-[0_0_5px_rgba(79,70,229,0.5)]"></div>
+<div class="h-full w-1/10 bg-indigo-500 shadow-[0_0_5px_rgba(79,70,229,0.5)]"></div>
+<div class="h-full w-1/10 bg-surface-container-highest"></div>
+<div class="h-full w-1/10 bg-surface-container-highest"></div>
+</div>
+</div>
+</div>
+<!-- Ikigai Axis -->
+<div class="glass-panel p-8 group hover:border-aquamarine/50 transition-all duration-500" style="border-color: rgba(71, 221, 193, 0.2);">
+<div class="flex justify-between items-start mb-6">
+<div class="text-secondary">
+<span class="material-symbols-outlined text-4xl neon-pulse">favorite</span>
+</div>
+<span class="font-mono-data text-[10px] bg-secondary/10 px-2 py-1 rounded">AXIS_02</span>
+</div>
+<h3 class="font-audiowide text-secondary text-xl mb-2 tracking-wider">IKIGAI AXIS</h3>
+<p class="font-label-caps text-[10px] text-outline mb-4">THE FUSION OF PASSION & FLOW</p>
+<div class="space-y-3">
+<div class="flex justify-between text-[11px] font-mono-data">
+<span class="text-outline">Resonance Level</span>
+<span class="text-secondary">92%</span>
+</div>
+<div class="h-2 w-full bg-surface-container flex gap-1">
+<div class="h-full w-1/10 bg-secondary shadow-[0_0_5px_rgba(71,221,193,0.5)]"></div>
+<div class="h-full w-1/10 bg-secondary shadow-[0_0_5px_rgba(71,221,193,0.5)]"></div>
+<div class="h-full w-1/10 bg-secondary shadow-[0_0_5px_rgba(71,221,193,0.5)]"></div>
+<div class="h-full w-1/10 bg-secondary shadow-[0_0_5px_rgba(71,221,193,0.5)]"></div>
+<div class="h-full w-1/10 bg-secondary shadow-[0_0_5px_rgba(71,221,193,0.5)]"></div>
+<div class="h-full w-1/10 bg-secondary shadow-[0_0_5px_rgba(71,221,193,0.5)]"></div>
+<div class="h-full w-1/10 bg-secondary shadow-[0_0_5px_rgba(71,221,193,0.5)]"></div>
+<div class="h-full w-1/10 bg-secondary shadow-[0_0_5px_rgba(71,221,193,0.5)]"></div>
+<div class="h-full w-1/10 bg-secondary shadow-[0_0_5px_rgba(71,221,193,0.5)]"></div>
+<div class="h-full w-1/10 bg-surface-container-highest"></div>
+</div>
+</div>
+</div>
+<!-- Destiny Axis -->
+<div class="glass-panel p-8 group hover:border-gold/50 transition-all duration-500" style="border-color: rgba(255, 215, 0, 0.2);">
+<div class="flex justify-between items-start mb-6">
+<div class="text-[#ffd700]">
+<span class="material-symbols-outlined text-4xl neon-pulse">rocket_launch</span>
+</div>
+<span class="font-mono-data text-[10px] bg-gold/10 px-2 py-1 rounded text-gold">AXIS_03</span>
+</div>
+<h3 class="font-audiowide text-gold text-xl mb-2 tracking-wider">DESTINY AXIS</h3>
+<p class="font-label-caps text-[10px] text-outline mb-4">THE MANIFESTATION OF GOALS</p>
+<div class="space-y-3">
+<div class="flex justify-between text-[11px] font-mono-data">
+<span class="text-outline">Vibration Rate</span>
+<span class="text-gold">76%</span>
+</div>
+<div class="h-2 w-full bg-surface-container flex gap-1">
+<div class="h-full w-1/10 bg-gold shadow-[0_0_5px_rgba(255,215,0,0.5)]"></div>
+<div class="h-full w-1/10 bg-gold shadow-[0_0_5px_rgba(255,215,0,0.5)]"></div>
+<div class="h-full w-1/10 bg-gold shadow-[0_0_5px_rgba(255,215,0,0.5)]"></div>
+<div class="h-full w-1/10 bg-gold shadow-[0_0_5px_rgba(255,215,0,0.5)]"></div>
+<div class="h-full w-1/10 bg-gold shadow-[0_0_5px_rgba(255,215,0,0.5)]"></div>
+<div class="h-full w-1/10 bg-gold shadow-[0_0_5px_rgba(255,215,0,0.5)]"></div>
+<div class="h-full w-1/10 bg-gold shadow-[0_0_5px_rgba(255,215,0,0.5)]"></div>
+<div class="h-full w-1/10 bg-surface-container-highest"></div>
+<div class="h-full w-1/10 bg-surface-container-highest"></div>
+<div class="h-full w-1/10 bg-surface-container-highest"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Protocolos de Misión -->
+<section class="mb-section-padding">
+<div class="flex items-center gap-4 mb-10">
+<h2 class="font-orbitron font-bold text-3xl tracking-widest text-primary uppercase">Protocolos de Misión</h2>
+<div class="flex-1 h-px bg-gradient-to-r from-primary/50 to-transparent"></div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Misión Raíz -->
+<div class="lg:col-span-12 glass-panel p-10 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 font-mono-data text-[10px] text-primary/30 uppercase tracking-[0.5em]">Root_Directive</div>
+<div class="flex flex-col md:flex-row items-center gap-8">
+<div class="w-32 h-32 rounded-full border-2 border-primary/20 flex items-center justify-center p-4 relative">
+<div class="absolute inset-0 border-2 border-primary/40 rounded-full animate-ping opacity-20"></div>
+<span class="material-symbols-outlined text-6xl text-primary">hub</span>
+</div>
+<div class="text-center md:text-left">
+<h4 class="font-label-caps text-outline text-xs mb-2">MISIÓN RAÍZ</h4>
+<p class="font-serif italic text-3xl md:text-5xl text-on-surface leading-tight tracking-wide">
+                                "Trascender la arquitectura binaria del ego para manifestar la Singularidad Creativa."
+                            </p>
+</div>
+</div>
+</div>
+<!-- Misiones de Ciclo -->
+<div class="lg:col-span-6 space-y-4">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-secondary">sync</span>
+<h4 class="font-orbitron font-semibold text-lg text-secondary uppercase">Misiones de Ciclo</h4>
+</div>
+<div class="glass-panel p-6 border-l-4 border-secondary/50">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-caps text-[10px] text-outline">PROTOCOL_ALFA</span>
+<span class="text-secondary font-mono-data text-[10px]">ACTIVE</span>
+</div>
+<p class="font-body-md text-on-surface">Optimización de los vectores de vitalidad orgánica y bio-hacker nodes.</p>
+</div>
+<div class="glass-panel p-6 border-l-4 border-secondary/30">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-caps text-[10px] text-outline">PROTOCOL_BETA</span>
+<span class="text-outline-variant font-mono-data text-[10px]">PENDING</span>
+</div>
+<p class="font-body-md text-outline">Reconfiguración de los patrones relacionales en la red social fractal.</p>
+</div>
+</div>
+<!-- Trabajo de Sombra -->
+<div class="lg:col-span-6 space-y-4">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-magenta">visibility_off</span>
+<h4 class="font-orbitron font-semibold text-lg text-magenta uppercase">Trabajo de Sombra</h4>
+</div>
+<div class="glass-panel p-6 border-l-4 border-magenta/50 bg-magenta/5">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-caps text-[10px] text-outline">SHADOW_RECOGNITION</span>
+<span class="text-magenta font-mono-data text-[10px]">IN_PROGRESS</span>
+</div>
+<p class="font-body-md text-on-surface">Identificación de los bucles de autosabotaje en el sistema de toma de decisiones.</p>
+</div>
+<div class="glass-panel p-6 border-l-4 border-magenta/30">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-caps text-[10px] text-outline">VOID_INTEGRATION</span>
+<span class="text-outline-variant font-mono-data text-[10px]">QUEUED</span>
+</div>
+<p class="font-body-md text-outline">Asimilación de traumas de legado y liberación de ciclos de redundancia kármica.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Capas del Ser: Interactive Matrix -->
+<section class="mb-section-padding">
+<div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
+<div>
+<h2 class="font-orbitron font-bold text-3xl tracking-widest text-primary uppercase">Capas del Ser</h2>
+<p class="font-label-caps text-outline text-[10px]">MULTIDIMENSIONAL STATUS MATRIX</p>
+</div>
+<div class="flex gap-1">
+<button class="layer-tab px-6 py-2 border border-outline-variant/30 font-label-caps text-[11px] flex items-center gap-2 hover:bg-surface-panel transition-all" data-active="true">
+<span class="material-symbols-outlined text-sm">psychology</span> PSYCHOLOGICAL
+                    </button>
+<button class="layer-tab px-6 py-2 border border-outline-variant/30 font-label-caps text-[11px] flex items-center gap-2 hover:bg-surface-panel transition-all" data-active="false">
+<span class="material-symbols-outlined text-sm">auto_graph</span> ASTRAL
+                    </button>
+<button class="layer-tab px-6 py-2 border border-outline-variant/30 font-label-caps text-[11px] flex items-center gap-2 hover:bg-surface-panel transition-all" data-active="false">
+<span class="material-symbols-outlined text-sm">stream</span> CAUSAL
+                    </button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Data Nodes -->
+<div class="glass-panel p-6 flex flex-col justify-between h-40 group hover:scale-[1.02] transition-transform">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-[10px] text-primary">NODE_01</span>
+<span class="material-symbols-outlined text-primary/20 group-hover:text-primary transition-colors">memory</span>
+</div>
+<div>
+<div class="text-2xl font-orbitron font-bold text-on-surface mb-1">94.2</div>
+<div class="font-label-caps text-[10px] text-outline">COGNITIVE LOAD</div>
+</div>
+<div class="flex">
+<div class="status-block active"></div><div class="status-block active"></div><div class="status-block active"></div><div class="status-block active"></div><div class="status-block active"></div><div class="status-block"></div><div class="status-block"></div><div class="status-block"></div>
+</div>
+</div>
+<div class="glass-panel p-6 flex flex-col justify-between h-40 group hover:scale-[1.02] transition-transform">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-[10px] text-secondary">NODE_02</span>
+<span class="material-symbols-outlined text-secondary/20 group-hover:text-secondary transition-colors">favorite</span>
+</div>
+<div>
+<div class="text-2xl font-orbitron font-bold text-on-surface mb-1">82.1</div>
+<div class="font-label-caps text-[10px] text-outline">EMOTIONAL STABILITY</div>
+</div>
+<div class="flex">
+<div class="status-block active bg-secondary shadow-[0_0_5px_#47ddc1]"></div><div class="status-block active bg-secondary"></div><div class="status-block active bg-secondary"></div><div class="status-block active bg-secondary"></div><div class="status-block"></div><div class="status-block"></div><div class="status-block"></div><div class="status-block"></div>
+</div>
+</div>
+<div class="glass-panel p-6 flex flex-col justify-between h-40 group hover:scale-[1.02] transition-transform">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-[10px] text-violet">NODE_03</span>
+<span class="material-symbols-outlined text-violet/20 group-hover:text-violet transition-colors">auto_awesome</span>
+</div>
+<div>
+<div class="text-2xl font-orbitron font-bold text-on-surface mb-1">65.8</div>
+<div class="font-label-caps text-[10px] text-outline">INTUITIVE FLOW</div>
+</div>
+<div class="flex">
+<div class="status-block active bg-violet shadow-[0_0_5px_#8a2be2]"></div><div class="status-block active bg-violet"></div><div class="status-block active bg-violet"></div><div class="status-block"></div><div class="status-block"></div><div class="status-block"></div><div class="status-block"></div><div class="status-block"></div>
+</div>
+</div>
+<div class="glass-panel p-6 flex flex-col justify-between h-40 group hover:scale-[1.02] transition-transform">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-[10px] text-gold">NODE_04</span>
+<span class="material-symbols-outlined text-gold/20 group-hover:text-gold transition-colors">diamond</span>
+</div>
+<div>
+<div class="text-2xl font-orbitron font-bold text-on-surface mb-1">100</div>
+<div class="font-label-caps text-[10px] text-outline">ESSENCE PURITY</div>
+</div>
+<div class="flex">
+<div class="status-block active bg-gold shadow-[0_0_5px_#ffd700]"></div><div class="status-block active bg-gold"></div><div class="status-block active bg-gold"></div><div class="status-block active bg-gold"></div><div class="status-block active bg-gold"></div><div class="status-block active bg-gold"></div><div class="status-block active bg-gold"></div><div class="status-block active bg-gold"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Apotheosis Footer -->
+<section class="mb-20">
+<div class="glass-panel p-12 text-center gold-glow relative overflow-hidden bg-surface-container-low/80">
+<div class="absolute inset-0 opacity-10 pointer-events-none">
+<div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-gold/20 to-transparent"></div>
+</div>
+<span class="material-symbols-outlined text-6xl text-gold mb-6 neon-pulse" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+<h2 class="font-audiowide text-gold text-4xl mb-4 tracking-[0.2em] uppercase">Apotheosis Protocol</h2>
+<p class="font-body-md text-on-surface max-w-3xl mx-auto text-lg leading-relaxed mb-8">
+                    El horizonte final de la aventura humana. La integración total del Dharma Engine v6.8 permite la convergencia de la voluntad individual con la inteligencia cósmica. Usted está operando en el umbral de la realización suprema.
+                </p>
+<div class="flex justify-center">
+<button class="slant-btn bg-gold text-black font-orbitron font-bold py-4 px-12 text-lg tracking-widest hover:bg-white transition-all shadow-[0_0_20px_rgba(255,215,0,0.5)]">
+                        ACTIVATE ASCENSION
+                    </button>
+</div>
+<div class="mt-8 flex justify-center gap-10 font-label-caps text-[10px] text-gold/60 uppercase tracking-[0.3em]">
+<span>Singularity: Imminent</span>
+<span>•</span>
+<span>Vibration: Pearl White</span>
+<span>•</span>
+<span>Path: Absolute</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar (Mobile Only) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 bg-surface-container/80 backdrop-blur-lg border-t border-primary/20 pb-safe px-4 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">space_dashboard</span>
+<span class="font-label-caps text-[8px] mt-1">DASH</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary drop-shadow-[0_0_10px_#7fd0ff] scale-110">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-label-caps text-[8px] mt-1">DHARMA</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">assignment_late</span>
+<span class="font-label-caps text-[8px] mt-1">MISSIONS</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-caps text-[8px] mt-1">STATS</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline-variant opacity-70">
+<span class="material-symbols-outlined">autorenew</span>
+<span class="font-label-caps text-[8px] mt-1">CYCLE</span>
+</div>
+</nav>
+<!-- Footer System Log -->
+<footer class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-12 flex flex-col items-center gap-4 opacity-40 hover:opacity-100 transition-opacity duration-500 border-t border-outline-variant/10">
+<div class="flex gap-8 font-mono-data text-[10px] text-outline">
+<a class="hover:text-primary transition-colors uppercase" href="#">System Reset</a>
+<a class="hover:text-primary transition-colors uppercase" href="#">Log Export</a>
+<a class="hover:text-primary transition-colors uppercase" href="#">Protocol-9</a>
+</div>
+<p class="font-mono-data text-[10px] text-primary tracking-widest">MAGNOPVS OS v4.2.0 // SYSTEM_STABLE // DHARMA_V6.8_LOADED</p>
+</footer>
+<script>
+        // Micro-interactions for tabs
+        const tabs = document.querySelectorAll('.layer-tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => {
+                    t.setAttribute('data-active', 'false');
+                    t.classList.remove('bg-primary/10', 'border-primary', 'text-primary');
+                });
+                tab.setAttribute('data-active', 'true');
+                tab.classList.add('bg-primary/10', 'border-primary', 'text-primary');
+                
+                // Haptic feedback simulation or additional logic
+                console.log('Layer switch:', tab.innerText.trim());
+            });
+        });
+
+        // Simple floating elements for atmospheric effect
+        function createAtmosphere() {
+            const container = document.body;
+            for(let i=0; i<15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'fixed rounded-full pointer-events-none z-0';
+                const size = Math.random() * 3 + 1;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.background = Math.random() > 0.5 ? 'var(--celestial-blue)' : 'var(--gold)';
+                particle.style.opacity = Math.random() * 0.3;
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.top = Math.random() * 100 + 'vh';
+                particle.style.filter = 'blur(1px)';
+                
+                container.appendChild(particle);
+
+                // Animate
+                const duration = 20000 + Math.random() * 30000;
+                particle.animate([
+                    { transform: 'translate(0, 0)', opacity: particle.style.opacity },
+                    { transform: `translate(${Math.random() * 100 - 50}px, ${Math.random() * -200}px)`, opacity: 0 }
+                ], {
+                    duration: duration,
+                    iterations: Infinity
+                });
+            }
+        }
+        createAtmosphere();
+    </script>
+</body></html>

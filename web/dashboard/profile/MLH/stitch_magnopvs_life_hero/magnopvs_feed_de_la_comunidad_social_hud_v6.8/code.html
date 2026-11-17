@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --glow-cyan: rgba(45, 168, 224, 0.5);
+            --glow-magenta: rgba(255, 175, 212, 0.4);
+        }
+        body {
+            background-color: #101417;
+            color: #e0e3e6;
+            overflow-x: hidden;
+        }
+        .cyber-grid {
+            background-image: 
+                linear-gradient(to right, rgba(127, 208, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(127, 208, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(127, 208, 255, 0.15);
+        }
+        .hex-clip {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+        .text-glow-cyan {
+            text-shadow: 0 0 10px var(--glow-cyan);
+        }
+        .neon-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; filter: brightness(1); }
+            50% { opacity: 0.7; filter: brightness(1.3); }
+        }
+        .slanted-edge {
+            clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+        }
+        .segmented-progress div {
+            height: 8px;
+            width: 10%;
+            background: rgba(127, 208, 255, 0.1);
+            border-radius: 1px;
+        }
+        .segmented-progress div.active {
+            background: #c5e7ff;
+            box-shadow: 0 0 8px #7fd0ff;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-container": "#00597b",
+                        "on-secondary-fixed": "#00201a",
+                        "inverse-primary": "#00658b",
+                        "tertiary-fixed-dim": "#ffafd4",
+                        "inverse-surface": "#e0e3e6",
+                        "surface-bright": "#363a3d",
+                        "secondary": "#47ddc1",
+                        "on-secondary-container": "#004439",
+                        "on-tertiary-container": "#7c3e5e",
+                        "secondary-container": "#00bba0",
+                        "grid-line": "rgba(127, 208, 255, 0.05)",
+                        "outline-variant": "#3f484e",
+                        "on-background": "#e0e3e6",
+                        "background": "#101417",
+                        "primary-fixed": "#c5e7ff",
+                        "glow-cyan": "#2da8e0",
+                        "on-surface": "#e0e3e6",
+                        "surface-container-lowest": "#0b0f11",
+                        "on-error-container": "#ffdad6",
+                        "secondary-fixed": "#6af9dc",
+                        "primary": "#c5e7ff",
+                        "on-tertiary": "#531c3b",
+                        "on-primary-fixed": "#001e2d",
+                        "error": "#ffb4ab",
+                        "tertiary": "#ffd8e7",
+                        "on-surface-variant": "#bfc8cf",
+                        "surface-container-high": "#272a2d",
+                        "on-secondary-fixed-variant": "#005144",
+                        "surface-container-low": "#181c1f",
+                        "on-secondary": "#00382e",
+                        "on-error": "#690005",
+                        "status-critical": "#93000a",
+                        "surface-container": "#1c2023",
+                        "tertiary-fixed": "#ffd8e7",
+                        "surface-tint": "#7fd0ff",
+                        "outline": "#899299",
+                        "on-tertiary-fixed-variant": "#6e3252",
+                        "tertiary-container": "#ffafd4",
+                        "error-container": "#93000a",
+                        "surface-container-highest": "#313538",
+                        "on-tertiary-fixed": "#390625",
+                        "on-primary-fixed-variant": "#004c6a",
+                        "background-deep": "#0a0b12",
+                        "primary-container": "#7fd0ff",
+                        "surface-dim": "#101417",
+                        "surface-panel": "rgba(255, 255, 255, 0.03)",
+                        "secondary-fixed-dim": "#47ddc1",
+                        "inverse-on-surface": "#2d3134",
+                        "surface": "#101417",
+                        "on-primary": "#00344a",
+                        "surface-variant": "#313538",
+                        "primary-fixed-dim": "#7fd0ff"
+                    },
+                    "fontFamily": {
+                        "micro-tag": ["JetBrains Mono"],
+                        "display-lg": ["Space Grotesk"],
+                        "headline-md": ["Space Grotesk"],
+                        "mono-data": ["JetBrains Mono"],
+                        "data-point": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "display-lg-mobile": ["Space Grotesk"],
+                        "body-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "micro-tag": ["10px", {"letterSpacing": "0.3em", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "data-point": ["20px", {"lineHeight": "28px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-body-md">
+<!-- Background Layer -->
+<div class="fixed inset-0 cyber-grid opacity-30 z-0"></div>
+<div class="fixed inset-0 bg-gradient-to-tr from-background-deep via-transparent to-primary/5 pointer-events-none z-0"></div>
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-3xl border-b border-primary/20 shadow-[0_0_15px_rgba(45,168,224,0.1)]">
+<div class="flex justify-between items-center px-margin-desktop py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-4">
+<img alt="MagnopVS Logo" class="h-10 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8591hNzGG-84oiNddlnqMZTDZ48nD9kO-Qeb0HYy7Izh-BnuG6GaXnk7zs_pMRZN10ADq0xDa-Mqo7Ds204O64UouSZH_AhXEJakoy0X4jXg_7y1qfI1MSOO5qkoGTjr7qy0GKonwHiYaqAfB4piwzwY8MjQ1FvECUjBLfSJUNNnKCan7_Deb2oEGWYeZ89xyG6VZDyFxB4kCHak-776gH999gtVZadmx0_At6A9iEEkd24d5EHDtZI2WbcuG6Q4l6EJ8CSG3pTAc"/>
+<h1 class="font-display-lg text-[24px] tracking-tighter text-primary uppercase">El Codex de los Grandes</h1>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant font-medium hover:text-secondary-fixed transition-colors" href="#">Codex</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1" href="#">Community</a>
+<a class="text-on-surface-variant font-medium hover:text-secondary-fixed transition-colors" href="#">Builds</a>
+<a class="text-on-surface-variant font-medium hover:text-secondary-fixed transition-colors" href="#">Missions</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="hidden lg:flex items-center bg-surface-container-low px-4 py-2 border border-primary/10 rounded-full">
+<span class="material-symbols-outlined text-primary text-sm mr-2">search</span>
+<input class="bg-transparent border-none text-sm focus:ring-0 text-on-surface placeholder:text-outline w-48" placeholder="Buscar en el Nexo..." type="text"/>
+</div>
+<div class="flex gap-2">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">settings</button>
+<div class="w-10 h-10 rounded-full border border-primary/50 overflow-hidden ml-2">
+<img class="w-full h-full object-cover" data-alt="A detailed portrait of a futuristic cyberpunk operator with neon ocular implants, wearing a high-collared techwear jacket with glowing fiber-optic patterns. The lighting is dominated by cold blue and hot pink neons, creating a cinematic hero shot style. The background shows blurred data streams and holographic interfaces." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIbQgDGS90Bi7jz22cVtI8sMj_Zmf9D8sgyL1Samq_QWqVeDFGufMHhuNLSEoM8p4dGSuN_g7vFRbgxi1vXdIdfjfjIePoKk0eQlE7cPRhvkZqY_9J4FbhNP7Nzy91-Uzqq3CXkCffnnf10FavawsZVuT8YNHBrAFiaGdfrRYd7nL2SlYQOo2K7jx4G-_zY6Fl3Uj3kjPGTbPq0Av8JDBJHwkpM6ulBPnAeH0HboRMXZ88M5adb8tr2BaBvS8gQrgaPLTnyDi4Ulz_"/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-full w-64 z-40 bg-surface-container-low/90 backdrop-blur-2xl border-r border-primary/10 flex flex-col pt-24 hidden lg:flex">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-2 h-2 rounded-full bg-secondary neon-pulse"></div>
+<span class="font-micro-tag text-micro-tag text-secondary uppercase">Legacy_Protocol</span>
+</div>
+<h2 class="font-display-lg text-2xl text-primary tracking-widest uppercase">Social HUD</h2>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-caps text-label-caps">Codex</span>
+</a>
+<a class="flex items-center gap-4 bg-primary/10 text-primary border-l-4 border-primary px-6 py-4" href="#">
+<span class="material-symbols-outlined">public</span>
+<span class="font-label-caps text-label-caps">Community</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">architecture</span>
+<span class="font-label-caps text-label-caps">Builds</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-caps text-label-caps">Missions</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-6 py-4 hover:bg-primary/5 hover:text-secondary-fixed transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">terminal</span>
+<span class="font-label-caps text-label-caps">System Logs</span>
+</a>
+</nav>
+<div class="p-6">
+<button class="w-full py-3 bg-primary text-on-primary-container font-bold uppercase tracking-widest text-xs slanted-edge hover:opacity-90 transition-opacity">
+                Initialize Sync
+            </button>
+</div>
+</aside>
+<!-- Main Content Grid -->
+<main class="lg:pl-64 pt-24 min-h-screen relative z-10">
+<div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-8 grid grid-cols-1 xl:grid-cols-12 gap-8">
+<!-- Central Feed Section -->
+<section class="xl:col-span-8 space-y-8">
+<!-- Status Composer -->
+<div class="glass-panel p-6 border-l-4 border-l-secondary">
+<div class="flex gap-4">
+<div class="w-12 h-12 flex-shrink-0 hex-clip bg-surface-container-highest flex items-center justify-center border border-primary/20">
+<span class="material-symbols-outlined text-primary">add_comment</span>
+</div>
+<div class="flex-1">
+<textarea class="w-full bg-transparent border-none focus:ring-0 text-body-md placeholder:text-outline/50 resize-none h-16" placeholder="Transmitir pensamiento al Nexo de Almas..."></textarea>
+<div class="flex justify-between items-center mt-4">
+<div class="flex gap-4">
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors text-xl">image</button>
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors text-xl">link</button>
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors text-xl">location_on</button>
+</div>
+<button class="px-6 py-2 bg-surface-container-high border border-primary/30 text-primary font-mono-data text-xs uppercase tracking-tighter hover:bg-primary/10 transition-all">Broadcast</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Feed Items -->
+<div class="space-y-6">
+<!-- Post 1: Achievement -->
+<article class="glass-panel group relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4">
+<span class="font-micro-tag text-micro-tag text-secondary/60">TS: 2024.08.21 // 14:02</span>
+</div>
+<div class="p-6">
+<div class="flex gap-4 items-start mb-6">
+<div class="relative">
+<div class="w-14 h-14 rounded-full border-2 border-secondary shadow-[0_0_10px_rgba(71,221,193,0.3)] p-1">
+<img class="w-full h-full rounded-full object-cover" data-alt="A portrait of a futuristic female explorer in a desert-themed survival suit. She wears a visor that reflects a binary star system. Her expression is determined. The art style is hyper-detailed digital painting with a strong focus on metallic textures and atmospheric light scattering in a warm orange and teal color grade." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOrvhKp0Y14Njd5XBoyZ7ljyEdamllL7iFGbKp134lbShoAz6x3XdpUG7AUus3oF_b91XrSRKxoZrqcQK9q7J6-IXZBuUz10PoQ71hxcQWlQCh3dWX9sdGqcOIEQE0CRWbzCCIaXMETw1pBiE3PNqD00WZ743493keRolJf-WAihEuCSwkqRteyvDmOgCGQWX1HLI_OxwNSguWNA4goD59LjBmLkOf5i-THmkXgSufd2-Ftt8WoneRYbj3FjvWSvmdkiZSCymkPzJX"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-secondary text-on-secondary-fixed text-[10px] font-bold px-1.5 rounded">LVL 42</div>
+</div>
+<div>
+<h3 class="font-headline-md text-lg text-primary">Operador_Xyla</h3>
+<p class="font-micro-tag text-[10px] text-outline uppercase tracking-widest">Casa del Sol // Eléctrico</p>
+</div>
+</div>
+<div class="mb-6">
+<p class="text-body-md text-on-surface/90 leading-relaxed italic border-l-2 border-primary/20 pl-4 mb-4">
+                                    "La frecuencia en el Sector 7 se ha estabilizado. Hemos recuperado el artefacto de la Casa 9. La sincronía es inminente."
+                                </p>
+<div class="relative rounded-lg overflow-hidden border border-primary/10 group-hover:border-primary/30 transition-colors">
+<img class="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-700" data-alt="A cinematic wide shot of a futuristic data monolith rising from a digital ocean. The monolith is covered in glowing cyan circuit patterns and ancient alchemical symbols. Swirls of magenta mist surround the base. The lighting is moody and ethereal, with deep blacks and vibrant glowing accents typical of high-fidelity sci-fi concept art." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBESQ0yK85Kzd4TmiXiDh45_rKL_HLlqRaa1Ub9LJFk7mkyBmKu7-VHUDRZ4DiHty412bhtpxkUPop1-N2R6o45A300dkQWcIyimJeycgW3E1YGByunr5ONu-7zPl_kydzXsXp1Tc6a6E9-5Qn6qDVHVS33DcZx22YfKccPWXOQsekvkinUHbKy1AwHC6W4JNUY5gXelj3nSzDWIFGp1qi5YaP1IMYf4S1SMkEwLx60ahKT4Y5XnIZgmIlzyZsAgfixtjvb1kKwZKk8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div>
+<div class="absolute bottom-4 left-4 flex gap-4">
+<div class="flex items-center gap-2 bg-surface/60 backdrop-blur-md px-3 py-1 border border-primary/20">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span class="font-mono-data text-xs text-primary">+1,200 XP</span>
+</div>
+<div class="flex items-center gap-2 bg-surface/60 backdrop-blur-md px-3 py-1 border border-secondary/20">
+<span class="material-symbols-outlined text-secondary text-sm" style="font-variation-settings: 'FILL' 1;">monetization_on</span>
+<span class="font-mono-data text-xs text-secondary">450 MC</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-8 border-t border-primary/5 pt-4">
+<button class="flex items-center gap-2 text-outline hover:text-primary transition-all group/btn">
+<span class="material-symbols-outlined group-hover/btn:scale-110 transition-transform">leak_add</span>
+<span class="font-label-caps text-[11px]">Resonancia [312]</span>
+</button>
+<button class="flex items-center gap-2 text-outline hover:text-secondary transition-all group/btn">
+<span class="material-symbols-outlined group-hover/btn:scale-110 transition-transform">wifi_tethering</span>
+<span class="font-label-caps text-[11px]">Signal Boost</span>
+</button>
+<button class="flex items-center gap-2 text-outline hover:text-primary-fixed transition-all ml-auto">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Post 2: Mission Log -->
+<article class="glass-panel border-r-4 border-r-primary">
+<div class="p-6">
+<div class="flex gap-4 items-center mb-4">
+<div class="w-12 h-12 flex-shrink-0 hex-clip bg-primary/20 flex items-center justify-center border border-primary/40">
+<span class="material-symbols-outlined text-primary">security</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-headline-md text-lg text-primary">Protocolo_Zero</h3>
+<span class="text-xs bg-primary/10 text-primary px-2 py-0.5 font-mono-data">MODERADOR</span>
+</div>
+<p class="font-micro-tag text-[10px] text-outline uppercase">Casa de las Sombras // Iniciado</p>
+</div>
+</div>
+<div class="space-y-3 font-mono-data text-sm text-on-surface-variant">
+<p>&gt; INICIO DE TRANSMISIÓN</p>
+<p>&gt; Detectada anomalía en el flujo de datos del Cuadrante Delta.</p>
+<p>&gt; Se solicita a todos los operadores de la Casa 13 realizar escaneo de integridad.</p>
+<p>&gt; Recompensa por reporte: <span class="text-secondary">2.5k MC</span></p>
+<p>&gt; FIN DE TRANSMISIÓN_</p>
+</div>
+<div class="mt-6 flex items-center justify-between">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border border-background bg-surface-container"></div>
+<div class="w-8 h-8 rounded-full border border-background bg-surface-container"></div>
+<div class="w-8 h-8 rounded-full border border-background bg-surface-container"></div>
+<div class="w-8 h-8 rounded-full border border-background flex items-center justify-center bg-surface-container text-[10px] text-outline">+14</div>
+</div>
+<button class="text-primary font-label-caps text-[11px] hover:underline">Sincronizar con Misión</button>
+</div>
+</div>
+</article>
+</div>
+</section>
+<!-- Sidebar Widgets -->
+<aside class="xl:col-span-4 space-y-8">
+<!-- Global Resonance Meter -->
+<div class="glass-panel p-6 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -mr-16 -mt-16"></div>
+<h3 class="font-label-caps text-label-caps text-primary mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">sensors</span>
+                        Resonancia Global
+                    </h3>
+<div class="space-y-4">
+<div class="flex justify-between items-end">
+<span class="text-4xl font-display-lg text-glow-cyan">84.2<span class="text-lg">%</span></span>
+<span class="text-secondary text-xs font-mono-data mb-2">SYNC ACTIVE</span>
+</div>
+<div class="segmented-progress flex gap-1">
+<div class="active"></div>
+<div class="active"></div>
+<div class="active"></div>
+<div class="active"></div>
+<div class="active"></div>
+<div class="active"></div>
+<div class="active"></div>
+<div class="active"></div>
+<div></div>
+<div></div>
+</div>
+<p class="text-xs text-outline font-body-md leading-tight">
+                            El Nexo de Almas se encuentra en estado de alta vibración. Las recompensas de misión han aumentado un 15%.
+                        </p>
+</div>
+</div>
+<!-- SOF.IA Social Advisor -->
+<div class="glass-panel p-6 border-t border-t-tertiary/30">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-full bg-gradient-to-br from-tertiary/20 to-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary neon-pulse">psychology</span>
+</div>
+<div>
+<h3 class="font-headline-md text-sm text-tertiary">SOF.IA Advisor</h3>
+<p class="font-micro-tag text-[9px] text-outline uppercase">AI_V-6.8_ACTIVE</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-4 border border-white/5 rounded italic text-sm text-on-surface/80 mb-6">
+                        "He detectado una alineación del 89% con el <span class="text-primary">Gremio de Alquimistas</span>. Tu estilo de juego y builds de energía sugieren que tu resonancia sería óptima con ellos."
+                    </div>
+<button class="w-full py-2 border border-tertiary/30 text-tertiary text-xs font-label-caps hover:bg-tertiary/10 transition-colors uppercase">
+                        Ver Sugerencias de Nexo
+                    </button>
+</div>
+<!-- Trending Cónclaves -->
+<div class="glass-panel p-6">
+<h3 class="font-label-caps text-label-caps text-primary mb-6">Cónclaves en Sincronía</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between group cursor-pointer">
+<div class="flex items-center gap-3">
+<span class="text-primary font-mono-data text-xs">01</span>
+<div class="w-8 h-8 hex-clip bg-secondary/10 border border-secondary/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-sm">flare</span>
+</div>
+<span class="font-headline-md text-sm group-hover:text-primary transition-colors">Luz Neón</span>
+</div>
+<span class="font-mono-data text-[10px] text-outline">12.4k Ops</span>
+</div>
+<div class="flex items-center justify-between group cursor-pointer">
+<div class="flex items-center gap-3">
+<span class="text-primary font-mono-data text-xs">02</span>
+<div class="w-8 h-8 hex-clip bg-primary/10 border border-primary/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm">token</span>
+</div>
+<span class="font-headline-md text-sm group-hover:text-primary transition-colors">Codex Prime</span>
+</div>
+<span class="font-mono-data text-[10px] text-outline">9.8k Ops</span>
+</div>
+<div class="flex items-center justify-between group cursor-pointer">
+<div class="flex items-center gap-3">
+<span class="text-primary font-mono-data text-xs">03</span>
+<div class="w-8 h-8 hex-clip bg-tertiary/10 border border-tertiary/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary text-sm">vpn_key</span>
+</div>
+<span class="font-headline-md text-sm group-hover:text-primary transition-colors">The Void Walkers</span>
+</div>
+<span class="font-mono-data text-[10px] text-outline">6.1k Ops</span>
+</div>
+</div>
+</div>
+<!-- System Stats Footer Widget -->
+<div class="p-6 bg-surface-container-lowest border border-grid-line">
+<div class="grid grid-cols-2 gap-4">
+<div>
+<p class="font-micro-tag text-[9px] text-outline uppercase mb-1">Ping del Nexo</p>
+<p class="font-mono-data text-sm text-secondary">14ms</p>
+</div>
+<div>
+<p class="font-micro-tag text-[9px] text-outline uppercase mb-1">Uptime Global</p>
+<p class="font-mono-data text-sm text-primary">99.9%</p>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Footer -->
+<footer class="lg:pl-64 w-full py-12 bg-surface-container-lowest border-t border-grid-line mt-12 relative z-10">
+<div class="max-w-7xl mx-auto px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-panel-gap">
+<div class="flex flex-col items-center md:items-start gap-2">
+<p class="font-label-caps text-label-caps tracking-widest text-primary">MLH v6.4 // LEGACY_PROTOCOL</p>
+<p class="font-mono-data text-xs text-outline opacity-60">© 2024 El Codex de los Grandes. All Rights Reserved.</p>
+</div>
+<div class="flex gap-8">
+<a class="font-micro-tag text-micro-tag text-outline hover:text-primary transition-all" href="#">PRIVACY_MD</a>
+<a class="font-micro-tag text-micro-tag text-outline hover:text-primary transition-all" href="#">SECURITY_OS</a>
+<a class="font-micro-tag text-micro-tag text-outline hover:text-primary transition-all" href="#">TERMINAL_LOG</a>
+</div>
+</div>
+</footer>
+<!-- Bottom Nav for Mobile -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container-low/95 backdrop-blur-xl border-t border-primary/20 px-4 py-2 z-50 flex justify-around items-center">
+<button class="flex flex-col items-center gap-1 p-2 text-on-surface-variant">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="text-[10px] font-label-caps uppercase">Codex</span>
+</button>
+<button class="flex flex-col items-center gap-1 p-2 text-primary">
+<span class="material-symbols-outlined">public</span>
+<span class="text-[10px] font-label-caps uppercase">Feed</span>
+</button>
+<div class="relative -top-6">
+<button class="w-14 h-14 bg-primary text-on-primary-container rounded-full flex items-center justify-center shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+</div>
+<button class="flex flex-col items-center gap-1 p-2 text-on-surface-variant">
+<span class="material-symbols-outlined">architecture</span>
+<span class="text-[10px] font-label-caps uppercase">Builds</span>
+</button>
+<button class="flex flex-col items-center gap-1 p-2 text-on-surface-variant">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-label-caps uppercase">System</span>
+</button>
+</nav>
+<script>
+        // Micro-interaction for resonance button pulse
+        document.querySelectorAll('article button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.classList.add('scale-95');
+                setTimeout(() => button.classList.remove('scale-95'), 150);
+            });
+        });
+
+        // Simple animation for the grid scroll effect
+        window.addEventListener('scroll', () => {
+            const scrollPos = window.scrollY;
+            document.querySelector('.cyber-grid').style.backgroundPositionY = `${scrollPos * 0.1}px`;
+        });
+    </script>
+</body></html>

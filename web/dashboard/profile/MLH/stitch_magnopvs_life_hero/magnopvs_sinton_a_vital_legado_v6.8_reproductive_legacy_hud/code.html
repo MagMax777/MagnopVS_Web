@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · Sintonía Vital &amp; Legado (v6.8)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Space+Grotesk:wght@300;400;500;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#00dbe9",
+                        "inverse-surface": "#e3e1e9",
+                        "secondary": "#ffabf3",
+                        "on-tertiary-fixed-variant": "#5700c9",
+                        "error": "#ffb4ab",
+                        "secondary-fixed": "#ffd7f5",
+                        "on-secondary": "#5b005b",
+                        "on-error-container": "#ffdad6",
+                        "surface-container": "#1e1f25",
+                        "on-secondary-fixed-variant": "#810081",
+                        "on-primary-fixed": "#002022",
+                        "on-primary-container": "#006970",
+                        "surface-dim": "#121318",
+                        "surface-container-high": "#292a2f",
+                        "primary": "#dbfcff",
+                        "on-primary-fixed-variant": "#004f54",
+                        "tertiary-fixed": "#e9ddff",
+                        "tertiary-container": "#e1d2ff",
+                        "outline-variant": "#3b494b",
+                        "secondary-container": "#fe00fe",
+                        "on-error": "#690005",
+                        "on-secondary-fixed": "#380038",
+                        "on-secondary-container": "#500050",
+                        "on-background": "#e3e1e9",
+                        "primary-container": "#00f0ff",
+                        "on-tertiary": "#3c0090",
+                        "surface": "#121318",
+                        "on-primary": "#00363a",
+                        "tertiary-fixed-dim": "#d1bcff",
+                        "surface-bright": "#38393f",
+                        "inverse-on-surface": "#2f3036",
+                        "error-container": "#93000a",
+                        "on-surface": "#e3e1e9",
+                        "tertiary": "#faf3ff",
+                        "primary-fixed-dim": "#00dbe9",
+                        "surface-container-low": "#1a1b21",
+                        "secondary-fixed-dim": "#ffabf3",
+                        "on-tertiary-container": "#7213ff",
+                        "on-tertiary-fixed": "#23005b",
+                        "inverse-primary": "#006970",
+                        "background": "#121318",
+                        "outline": "#849495",
+                        "surface-container-highest": "#34343a",
+                        "on-surface-variant": "#b9cacb",
+                        "primary-fixed": "#7df4ff",
+                        "surface-variant": "#34343a",
+                        "surface-container-lowest": "#0d0e13"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "panel-padding": "20px",
+                        "gutter": "24px",
+                        "unit": "4px",
+                        "margin-desktop": "64px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Space Grotesk"],
+                        "data-mono": ["Space Mono"],
+                        "label-caps": ["Space Mono"],
+                        "display-lg": ["Audiowide"],
+                        "body-lg": ["Space Grotesk"],
+                        "headline-md": ["Audiowide"],
+                        "display-lg-mobile": ["Audiowide"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "data-mono": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.15em", "fontWeight": "700"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                        "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.6; filter: blur(8px); }
+            50% { opacity: 1; filter: blur(12px); }
+        }
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        @keyframes flicker {
+            0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% { opacity: 1; }
+            20%, 21.999%, 63%, 63.999%, 65%, 69.999% { opacity: 0.4; }
+        }
+        .scanline-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, transparent 50%, rgba(219, 252, 255, 0.05) 50.5%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .glass-panel {
+            background: rgba(219, 252, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(219, 252, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .hud-bracket::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 10px; height: 10px;
+            border-top: 2px solid #00dbe9; border-left: 2px solid #00dbe9;
+        }
+        .hud-bracket::after {
+            content: ''; position: absolute; bottom: 0; right: 0; width: 10px; height: 10px;
+            border-bottom: 2px solid #00dbe9; border-right: 2px solid #00dbe9;
+        }
+        .clip-corner {
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 90% 100%, 0 100%);
+        }
+        .rotating-radar {
+            animation: rotate 20s linear infinite;
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md selection:bg-primary/30 min-h-screen overflow-x-hidden">
+<!-- Background Layer -->
+<div class="fixed inset-0 z-[-1] opacity-40">
+<div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBTZWRpe-rM34t7Gdl-l9F6IgxUlHqamwMKt5KGV1NO6BXatM9dN1Sy_kwaujCwnGWuwgUlwaVTUuKgo3fT-wch7t8EzpmASQb2anSm81T5FLVj37qX-ykJ7fw009D7nfXPGfcrZ7ztPmoTP-eEHvhDDgtRYH21wA-aXfdEP_AQlzNngiP_o315k5mZCSj2qzRubqJq8RBZ6oBt1qyreo6HUYyGa73rxllFGxKQYHhFoSqSTB2dlITeI2ZOYYubsP1ZGtdNskdIYMeu')"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-surface via-transparent to-surface"></div>
+<div class="scanline-overlay"></div>
+</div>
+<!-- Top Navigation Bar (Shared Components) -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 bg-surface/10 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(0,219,233,0.2)]">
+<div class="flex items-center gap-4">
+<img alt="COSMOS_OS" class="h-10 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZ-216bfznukZSGrBVl4CT9KykX3NnvbkwXvNPRgEStnxfFjcoFjCxoh6mJzuycSxtB31miV9JagwSmae17uETtnSIdUZP1M3WFWuMsTrSvHou2bGsSyns_YVM485J6TeYsSvzssZhO_eEZ8gp4oUldvk6tpGLpItKqdhnP_tfe1vZuL1ihGymy2coj3Ukp8gG1wMq8YsMPYpCmPGKJ2hArLHXoKL-1rwjRfuiKSlm-ppgN3I17lSvTpy5CcB2HFAuvcL5s6Cvqe75"/>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-widest uppercase">COSMOS_OS</h1>
+</div>
+<div class="hidden md:flex gap-8 items-center font-label-caps text-label-caps uppercase tracking-tighter">
+<span class="text-primary font-bold cursor-pointer hover:text-primary-fixed-dim transition-colors duration-300">Sintonía Vital</span>
+<span class="text-on-surface-variant cursor-pointer hover:text-primary-fixed-dim transition-colors duration-300">Biometría</span>
+<span class="text-on-surface-variant cursor-pointer hover:text-primary-fixed-dim transition-colors duration-300">Legado</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95 transition-transform" data-icon="fingerprint">fingerprint</span>
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95 transition-transform" data-icon="radar">radar</span>
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95 transition-transform" data-icon="notifications">notifications</span>
+</div>
+<div class="w-10 h-10 rounded-full border border-primary/40 overflow-hidden shadow-[0_0_10px_rgba(0,219,233,0.3)]">
+<img class="w-full h-full object-cover" data-alt="A futuristic biometric profile photo of a person in a sleek spacesuit helmet, bathed in cyan and magenta neon light, high-tech interface reflections on the glass, cinematic lighting, 8k resolution." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDH-mJIGSIzwKEC2BxEHLS3WC_HMF4xSHaPRZhvmJzDGIJ273PS0M7T7A4eUkZJ6l0KE6v0JMEXNVpa4BBRjcsXiJuhRGNgJY90r-7-RQOEwyAtKrrWwNkhcKdZbdc_qFF8_X5gCVMOxbtJfLCg9eMYR3F6_V-dtm2C3_T-kbkiIz9aTCb4i5W7wA_a00aR9bwOJCX7GGXg-KOs0ns3b63E20FCC-RLQ6JSB1lu00ipyNCRBOs-vMJ_-P3rMaCATLbPFrxbq4psJV22"/>
+</div>
+</div>
+</header>
+<!-- Side Navigation (Shared Components) -->
+<aside class="fixed left-0 top-0 h-full z-40 hidden md:flex flex-col pt-24 pb-8 bg-surface-container-lowest/40 backdrop-blur-2xl border-r border-outline-variant/20 w-64 shadow-2xl shadow-primary/5">
+<div class="px-6 mb-8">
+<p class="font-label-caps text-label-caps text-primary tracking-tighter">SECTOR_04</p>
+<p class="text-[10px] text-on-surface-variant font-data-mono">PILOT_ID: 8829-X</p>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<div class="text-on-surface-variant hover:text-primary px-4 py-3 flex items-center gap-4 transition-all hover:bg-primary/5 hover:translate-x-1 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+<span class="font-label-caps text-label-caps uppercase">Neural</span>
+</div>
+<div class="bg-primary-container/20 text-primary border-l-4 border-primary px-4 py-3 flex items-center gap-4 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="fitness_center">fitness_center</span>
+<span class="font-label-caps text-label-caps uppercase">Somatic</span>
+</div>
+<div class="text-on-surface-variant hover:text-primary px-4 py-3 flex items-center gap-4 transition-all hover:bg-primary/5 hover:translate-x-1 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-label-caps text-label-caps uppercase">Astral</span>
+</div>
+<div class="text-on-surface-variant hover:text-primary px-4 py-3 flex items-center gap-4 transition-all hover:bg-primary/5 hover:translate-x-1 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-caps text-label-caps uppercase">Recall</span>
+</div>
+</nav>
+<div class="mt-auto px-4">
+<button class="w-full py-3 bg-primary text-on-primary font-label-caps text-label-caps uppercase clip-corner transition-all hover:brightness-110 active:scale-95">SYNC_NEURAL</button>
+<div class="mt-4 pt-4 border-t border-outline-variant/20 flex items-center gap-4 text-on-surface-variant px-2 hover:text-primary cursor-pointer transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-caps text-label-caps uppercase">Settings</span>
+</div>
+</div>
+</aside>
+<!-- Main HUD Content -->
+<main class="pt-28 pb-20 md:ml-64 px-margin-mobile md:px-gutter lg:px-margin-desktop">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
+<div class="w-full md:w-auto">
+<div class="flex items-center gap-2 text-primary font-label-caps text-[10px] mb-1">
+<span class="w-2 h-2 bg-primary animate-pulse"></span>
+<span>MAGNOPVS OS // SYSTEM_STATUS: SYNCHRONIZED</span>
+</div>
+<h2 class="font-display-lg text-display-lg-mobile md:text-headline-md text-primary drop-shadow-[0_0_10px_rgba(0,219,233,0.5)] uppercase">
+                    Sintonía Vital &amp; Legado (v6.8)
+                </h2>
+<p class="text-on-surface-variant font-data-mono text-xs opacity-70">REPRODUCTIVE_HUD // PILOT_SYNC: 98.2%</p>
+</div>
+<div class="flex gap-4">
+<div class="text-right">
+<p class="font-label-caps text-label-caps text-secondary-fixed mb-1">ESTADO_CIERZO</p>
+<p class="font-data-mono text-xl text-primary">FASE_LÚTEA</p>
+</div>
+<div class="w-px h-12 bg-outline-variant/30"></div>
+<div class="text-right">
+<p class="font-label-caps text-label-caps text-secondary-fixed mb-1">DÍA_CICLO</p>
+<p class="font-data-mono text-xl text-primary">18 / 28</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- CENTRAL HUD: VITAL_CYCLE_RADAR (Left/Center) -->
+<div class="md:col-span-8 grid grid-cols-1 lg:grid-cols-2 gap-gutter">
+<!-- RADAR VISUALIZER -->
+<div class="lg:col-span-2 glass-panel p-panel-padding rounded-xl min-h-[400px] flex flex-col items-center justify-center border-primary/20 bg-gradient-to-tr from-surface via-surface-container-lowest to-primary/5">
+<div class="absolute top-4 left-4 font-label-caps text-[10px] text-primary/60 border-l border-primary pl-2">VITAL_CYCLE_RADAR</div>
+<div class="absolute top-4 right-4 font-label-caps text-[10px] text-secondary/60 text-right">TELEMETRY_STREAM<br/>ACTIVE_NODE_B4</div>
+<!-- Radar Core -->
+<div class="relative w-72 h-72 md:w-80 md:h-80">
+<!-- Orbitals -->
+<div class="absolute inset-0 border border-primary/10 rounded-full"></div>
+<div class="absolute inset-[15%] border border-primary/20 rounded-full"></div>
+<div class="absolute inset-[30%] border border-primary/30 rounded-full"></div>
+<!-- Rotating Sweep -->
+<div class="absolute inset-0 rotating-radar origin-center">
+<div class="w-1/2 h-1 bg-gradient-to-r from-transparent to-primary absolute top-1/2 left-0 shadow-[0_0_15px_#00dbe9]"></div>
+</div>
+<!-- Central Biometric Nodes -->
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center border border-primary animate-pulse">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="favorite">favorite</span>
+</div>
+</div>
+<!-- Data Constellations (Simulation) -->
+<div class="absolute top-[20%] left-[20%] w-2 h-2 bg-magenta rounded-full shadow-[0_0_8px_#fe00fe] animate-bounce"></div>
+<div class="absolute bottom-[30%] right-[15%] w-2 h-2 bg-primary rounded-full shadow-[0_0_8px_#00dbe9] animate-pulse" style="animation-delay: 1s;"></div>
+<div class="absolute top-[60%] left-[10%] w-2 h-2 bg-secondary rounded-full shadow-[0_0_8px_#ffabf3] animate-pulse" style="animation-delay: 0.5s;"></div>
+</div>
+<!-- Metrics Grid below Radar -->
+<div class="grid grid-cols-3 gap-12 mt-12 w-full max-w-lg">
+<div class="text-center">
+<p class="font-label-caps text-[10px] text-on-surface-variant mb-2">HORMONAL_BAL</p>
+<p class="font-data-mono text-2xl text-primary">0.94</p>
+<div class="w-full bg-outline-variant/30 h-1 mt-2">
+<div class="bg-primary w-[94%] h-full shadow-[0_0_5px_#00dbe9]"></div>
+</div>
+</div>
+<div class="text-center">
+<p class="font-label-caps text-[10px] text-on-surface-variant mb-2">VITALITY_CORE</p>
+<p class="font-data-mono text-2xl text-secondary">88%</p>
+<div class="w-full bg-outline-variant/30 h-1 mt-2">
+<div class="bg-secondary w-[88%] h-full shadow-[0_0_5px_#ffabf3]"></div>
+</div>
+</div>
+<div class="text-center">
+<p class="font-label-caps text-[10px] text-on-surface-variant mb-2">METABOLIC_FLUX</p>
+<p class="font-data-mono text-2xl text-primary-fixed-dim">+4.2</p>
+<div class="w-full bg-outline-variant/30 h-1 mt-2">
+<div class="bg-primary-fixed-dim w-[65%] h-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- FERTILITY_INDEX & TELEMETRY -->
+<div class="glass-panel p-panel-padding rounded-xl hud-bracket">
+<h3 class="font-label-caps text-label-caps text-primary mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="insights">insights</span>
+                        FERTILITY_INDEX &amp; TELEMETRY
+                    </h3>
+<div class="space-y-6">
+<div class="flex justify-between items-center p-3 bg-surface-container/30 border border-outline-variant/10 rounded-lg">
+<div>
+<p class="text-[10px] font-label-caps text-on-surface-variant">FERTILITY_WINDOW</p>
+<p class="font-headline-md text-primary">FAVORABLE</p>
+</div>
+<span class="material-symbols-outlined text-secondary text-4xl" data-icon="flare">flare</span>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between font-label-caps text-[10px]">
+<span class="text-on-surface-variant">HORMONAL SYNC %</span>
+<span class="text-primary">92.4%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-high rounded-full overflow-hidden flex">
+<div class="h-full bg-primary shadow-[0_0_10px_#00dbe9]" style="width: 92%;"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between font-label-caps text-[10px]">
+<span class="text-on-surface-variant">REPRODUCTIVE SCORE</span>
+<span class="text-secondary">98 / 100</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-high rounded-full overflow-hidden flex">
+<div class="h-full bg-secondary shadow-[0_0_10px_#fe00fe]" style="width: 98%;"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- BIO_SYNCHRONIZER -->
+<div class="glass-panel p-panel-padding rounded-xl hud-bracket">
+<h3 class="font-label-caps text-label-caps text-primary mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span>
+                        BIO_SYNCHRONIZER
+                    </h3>
+<div class="space-y-4">
+<div class="flex gap-4 items-center group cursor-pointer border-b border-outline-variant/20 pb-3 hover:border-primary/50 transition-colors">
+<div class="w-10 h-10 flex-shrink-0 flex flex-col items-center justify-center bg-primary/10 border border-primary/20 text-primary rounded">
+<span class="text-xs font-data-mono">JUL</span>
+<span class="text-sm font-bold">12</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">Neural Treatment A-1</p>
+<p class="text-[10px] text-on-surface-variant font-data-mono">PILOT_CLINIC // 09:00</p>
+</div>
+<span class="material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transition-opacity" data-icon="arrow_forward">arrow_forward</span>
+</div>
+<div class="flex gap-4 items-center group cursor-pointer border-b border-outline-variant/20 pb-3 hover:border-primary/50 transition-colors">
+<div class="w-10 h-10 flex-shrink-0 flex flex-col items-center justify-center bg-secondary/10 border border-secondary/20 text-secondary rounded">
+<span class="text-xs font-data-mono">JUL</span>
+<span class="text-sm font-bold">14</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold text-on-surface group-hover:text-secondary transition-colors">Legacy Sync Check</p>
+<p class="text-[10px] text-on-surface-variant font-data-mono">REMOTE_MONITOR // 21:00</p>
+</div>
+<span class="material-symbols-outlined text-secondary opacity-0 group-hover:opacity-100 transition-opacity" data-icon="arrow_forward">arrow_forward</span>
+</div>
+<button class="w-full py-2 border border-primary/40 text-primary font-label-caps text-[10px] rounded hover:bg-primary/10 transition-colors">ADD_NEW_PROTOCOL</button>
+</div>
+</div>
+</div>
+<!-- RIGHT PANEL: SOF.IA & PROTOCOLS -->
+<div class="md:col-span-4 flex flex-col gap-gutter">
+<!-- SOF.IA_INSIGHT -->
+<div class="glass-panel p-panel-padding rounded-xl border-secondary/20 relative">
+<div class="absolute top-0 right-0 p-2">
+<div class="w-2 h-2 rounded-full bg-secondary shadow-[0_0_10px_#fe00fe] animate-flicker"></div>
+</div>
+<div class="flex items-center gap-3 mb-4">
+<div class="w-12 h-12 bg-surface-container-high rounded-full flex items-center justify-center overflow-hidden border border-secondary/30">
+
+</div>
+<div>
+<h3 class="font-label-caps text-label-caps text-secondary">SOF.IA_INSIGHT</h3>
+<p class="text-[9px] text-on-surface-variant font-data-mono">STATUS: AI_CONNECTED</p>
+</div>
+</div>
+<div class="bg-surface/30 p-4 rounded-lg border border-outline-variant/10 text-xs leading-relaxed font-body-md text-primary/90">
+                        "Detecto una fluctuación positiva en tus niveles de estrógeno. Es el momento óptimo para la <span class="text-secondary font-bold">Protocolización del Legado</span>. He ajustado tu plan de nutrición somática para compensar el gasto energético proyectado en las próximas 48 horas. Mantén la hidratación en niveles críticos."
+                    </div>
+<div class="mt-4 flex gap-2">
+<span class="px-2 py-1 bg-primary/10 border border-primary/30 text-[10px] text-primary font-label-caps">OPTIMIZAR</span>
+<span class="px-2 py-1 bg-secondary/10 border border-secondary/30 text-[10px] text-secondary font-label-caps">MÁS_TIPS</span>
+</div>
+</div>
+<!-- FAMILY_PLANNING_PROTOCOLS -->
+<div class="glass-panel p-panel-padding rounded-xl flex-1 flex flex-col">
+<h3 class="font-label-caps text-label-caps text-primary mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="dna">dns</span>
+                        FAMILY_PLANNING_PROTOCOLS
+                    </h3>
+<div class="space-y-4 flex-1">
+<!-- Protocol 1 -->
+<div class="p-4 border-l-2 border-primary bg-primary/5 rounded-r-lg group cursor-pointer hover:bg-primary/10 transition-colors">
+<div class="flex justify-between items-start mb-2">
+<p class="font-bold text-sm tracking-wide">Contraceptive Sync</p>
+<span class="font-data-mono text-[10px] text-primary">ACTIVE</span>
+</div>
+<p class="text-[11px] text-on-surface-variant mb-3">Sincronización automatizada con implante subdérmico v4.2. Eficacia: 99.9%</p>
+<div class="flex gap-2">
+<span class="w-full h-1 bg-primary rounded-full"></span>
+<span class="w-full h-1 bg-primary rounded-full"></span>
+<span class="w-full h-1 bg-primary rounded-full opacity-30"></span>
+</div>
+</div>
+<!-- Protocol 2 -->
+<div class="p-4 border-l-2 border-secondary bg-secondary/5 rounded-r-lg group cursor-pointer hover:bg-secondary/10 transition-colors">
+<div class="flex justify-between items-start mb-2">
+<p class="font-bold text-sm tracking-wide">Legacy Building</p>
+<span class="font-data-mono text-[10px] text-secondary">PAUSED</span>
+</div>
+<p class="text-[11px] text-on-surface-variant mb-3">Preparación de entorno genético para replicación futura. Fase: Pre-concepción.</p>
+<div class="flex gap-2">
+<span class="w-full h-1 bg-secondary opacity-30 rounded-full"></span>
+<span class="w-full h-1 bg-secondary opacity-30 rounded-full"></span>
+<span class="w-full h-1 bg-secondary opacity-30 rounded-full"></span>
+</div>
+</div>
+<!-- Protocol 3 -->
+<div class="p-4 border-l-2 border-primary-fixed-dim bg-primary-fixed-dim/5 rounded-r-lg group cursor-pointer hover:bg-primary-fixed-dim/10 transition-colors">
+<div class="flex justify-between items-start mb-2">
+<p class="font-bold text-sm tracking-wide">Hormonal Alignment</p>
+<span class="font-data-mono text-[10px] text-primary-fixed-dim">STANDBY</span>
+</div>
+<p class="text-[11px] text-on-surface-variant mb-3">Ajuste de ciclos circadianos para estabilidad endocrina global.</p>
+</div>
+</div>
+<div class="mt-6">
+<div class="glass-panel p-4 rounded-lg bg-surface-container-high/40 text-center">
+<p class="font-label-caps text-[9px] text-on-surface-variant mb-2">PRÓXIMO REFUERZO</p>
+<p class="font-data-mono text-xl text-primary animate-pulse">04d 12h 08m</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Shared Components) -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface/5 backdrop-blur-lg border-t border-primary/30 rounded-t-xl shadow-[0_-5px_20px_rgba(0,219,233,0.15)] md:hidden">
+<div class="flex flex-col items-center justify-center text-outline px-6 py-2 cursor-pointer hover:text-primary-fixed">
+<span class="material-symbols-outlined" data-icon="home_pin">home_pin</span>
+<span class="font-label-caps text-label-caps">Hoy</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-primary text-on-primary-fixed-variant rounded-xl px-6 py-2 shadow-[0_0_10px_#00dbe9] cursor-pointer active:scale-90 transition-all duration-150">
+<span class="material-symbols-outlined" data-icon="person_filled" style="font-variation-settings: 'FILL' 1;">person_filled</span>
+<span class="font-label-caps text-label-caps">Tu Héroe</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline px-6 py-2 cursor-pointer hover:text-primary-fixed">
+<span class="material-symbols-outlined" data-icon="memory">memory</span>
+<span class="font-label-caps text-label-caps">Sistema</span>
+</div>
+</footer>
+<!-- Decorative HUD Elements -->
+<div class="fixed top-24 right-4 w-48 pointer-events-none opacity-20 hidden lg:block">
+<div class="text-[8px] font-data-mono space-y-1">
+<div class="flex justify-between border-b border-primary/30 pb-1"><span>BUFFER_X</span><span>100.0%</span></div>
+<div class="flex justify-between border-b border-primary/30 pb-1"><span>LATENCY_Y</span><span>0.02ms</span></div>
+<div class="flex justify-between border-b border-primary/30 pb-1"><span>PACKET_Z</span><span>STABLE</span></div>
+</div>
+</div>
+<script>
+        // Micro-interactions for HUD
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mouseenter', () => {
+                panel.style.boxShadow = '0 0 25px rgba(0, 219, 233, 0.15)';
+                panel.style.borderColor = 'rgba(0, 219, 233, 0.4)';
+            });
+            panel.addEventListener('mouseleave', () => {
+                panel.style.boxShadow = 'none';
+                panel.style.borderColor = 'rgba(219, 252, 255, 0.1)';
+            });
+        });
+
+        // Simulating data updates
+        setInterval(() => {
+            const sync = document.querySelector('.text-xs.opacity-70');
+            if(sync) {
+                const val = (98 + Math.random() * 1).toFixed(1);
+                sync.innerText = `REPRODUCTIVE_HUD // PILOT_SYNC: ${val}%`;
+            }
+        }, 3000);
+    </script>
+</body></html>

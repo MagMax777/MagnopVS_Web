@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+<!-- STITCH_SHADER_START:ANIMATION_18 class="fixed inset-0 w-full h-full" -->
+<div class="fixed inset-0 w-full h-full" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_18" style="display:block;width:100%;height:100%"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_18');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+uniform float u_time;
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+
+// The Great Evolutionary Timeline Procedural Matrix
+// Continuum from Primordial Void -> Matter -> Life -> Intelligence -> Civilization -> Cosmos -> Transcendent
+// Palette: Void Obsidian #050505, Imperial Gold #C9A227, Royal Gold #E6C45A, Azure Bioluminescence #00E5FF, Warning Solar #FFD400, Sacred Ivory #F4F1E8
+
+float hash(vec2 p) {
+    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+}
+
+float noise(vec2 p) {
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    vec2 u = f * f * (3.0 - 2.0 * f);
+    return mix(mix(hash(i + vec2(0.0, 0.0)), hash(i + vec2(1.0, 0.0)), u.x),
+               mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
+}
+
+void main() {
+    vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution.xy) / min(u_resolution.y, u_resolution.x);
+    vec2 mouse = (u_mouse - 0.5 * u_resolution.xy) / min(u_resolution.y, u_resolution.x);
+    
+    float dist = length(uv);
+    float t = u_time * 0.12;
+
+    // Void baseline
+    vec3 col = vec3(0.018, 0.018, 0.022);
+
+    // Horizontal Evolutionary Spine (The Great Timeline Axis)
+    float axisDist = abs(uv.y);
+    float spineGlow = smoothstep(0.18, 0.0, axisDist) * 0.35;
+    float spineCore = smoothstep(0.008, 0.0, axisDist);
+
+    // Dynamic Micro-Lattice Chrono Grid (Epoch demarcations)
+    vec2 gridUV = uv * vec2(18.0, 10.0);
+    vec2 gridF = abs(fract(gridUV - 0.5) - 0.5) / fwidth(gridUV);
+    float grid = 1.0 - min(min(gridF.x, gridF.y), 1.0);
+    col += vec3(0.04, 0.05, 0.07) * grid * 0.4;
+
+    // Branching Tree Ley-Lines (Phylogenetic & Technological Dendrogram)
+    float branches = abs(sin(uv.x * 12.0 + sin(uv.y * 14.0 + t * 0.5) * 2.0));
+    branches = smoothstep(0.92, 0.995, branches) * smoothstep(0.8, 0.0, abs(uv.y)) * 0.3;
+
+    // Concentric Epoch Rings (Evolutionary Gates 0->25)
+    float ring1 = abs(sin(dist * 16.0 - t * 0.5));
+    ring1 = smoothstep(0.965, 0.995, ring1) * 0.28;
+
+    // Bioluminescent & Stellar Particle Drift (Consciousness embers)
+    vec2 pDust = uv * 14.0 + vec2(-t * 0.3, sin(t * 0.2) * 0.2);
+    float embers = pow(noise(pDust), 6.0) * 0.5;
+
+    // Interactive Node Glow on Mouse Proximity
+    float mDist = length(uv - mouse * 0.3);
+    float mPulse = smoothstep(0.35, 0.0, mDist) * 0.25;
+
+    // Color mixing by epoch bands
+    vec3 gold = vec3(0.79, 0.63, 0.15);     // Imperial Gold
+    vec3 azure = vec3(0.0, 0.9, 1.0);       // Bioluminescent Azure
+    vec3 amber = vec3(1.0, 0.83, 0.0);      // Warning Solar
+    vec3 ivory = vec3(0.96, 0.94, 0.91);    // Sacred Ivory
+
+    col += gold * (spineCore * 0.8 + spineGlow * 0.5 + ring1 * 0.6);
+    col += azure * (branches * 1.2 + mPulse * 0.8);
+    col += amber * (spineGlow * 0.3);
+    col += ivory * embers;
+
+    // Deep peripheral vignette
+    col *= smoothstep(1.3, 0.25, dist);
+
+    gl_FragColor = vec4(col, 1.0);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_18 -->
+</body>
+</html>

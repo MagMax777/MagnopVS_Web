@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAGNOPVS // BIO-CHEMISTRY HUD</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Space+Grotesk:wght@300;400;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @font-face {
+            font-family: 'Orbitron';
+            src: url('https://fonts.gstatic.com/s/orbitron/v25/yY9m0mrb3a4Njk8-1W9a.woff2') format('woff2');
+        }
+
+        :root {
+            --primary-glow: rgba(0, 240, 255, 0.3);
+            --secondary-glow: rgba(254, 0, 254, 0.2);
+        }
+
+        body {
+            background-color: #121318;
+            color: #e3e1e9;
+            overflow-x: hidden;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .font-mono-data { font-family: 'Space Mono', monospace; }
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+
+        /* HUD Glassmorphism */
+        .hud-panel {
+            background: rgba(219, 252, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-left: 2px solid #dbfcff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hud-panel::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(219, 252, 255, 0.03) 3px);
+            pointer-events: none;
+        }
+
+        .hex-bg {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBlqNlyCCvHwrjLDiRdgyAkDTS2yugB3gUnpWGYk3kaCcKCQpl1LFgnPsClrET0H3TR9QKAvfYZtzffYvOiBISWRsin72B3dyYDuftqe_PpzZv-rdgwIqa14SFe68LTJ6I8fU13t3cOkR4sqqwnaUat8ugQaVRdciCLncXZfnd4xeaiZbo7K-C7iiC131QyC5edncaERF8bEOvfVdyJVjEHU7UafYl7h-lhkcfIzpgqs3xX4blIJiSkgg1MYpSt-fL40fFDDBy7Jp1a');
+            background-size: cover;
+            background-attachment: fixed;
+            opacity: 0.4;
+        }
+
+        .clipped-corner {
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
+        }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(219, 252, 255, 0.1);
+            position: absolute;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
+
+        .pulse-glow {
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { filter: drop-shadow(0 0 5px var(--primary-glow)); }
+            50% { filter: drop-shadow(0 0 15px var(--primary-glow)); }
+        }
+
+        .glitch-hover:hover {
+            animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-surface": "#e3e1e9",
+                      "primary-fixed": "#7df4ff",
+                      "error": "#ffb4ab",
+                      "surface-container-low": "#1a1b21",
+                      "on-surface-variant": "#b9cacb",
+                      "on-error-container": "#ffdad6",
+                      "primary": "#dbfcff",
+                      "surface-variant": "#34343a",
+                      "secondary-fixed-dim": "#ffabf3",
+                      "tertiary-fixed-dim": "#d1bcff",
+                      "primary-fixed-dim": "#00dbe9",
+                      "on-secondary-fixed-variant": "#810081",
+                      "on-primary-container": "#006970",
+                      "inverse-on-surface": "#2f3036",
+                      "on-error": "#690005",
+                      "error-container": "#93000a",
+                      "on-tertiary-container": "#7213ff",
+                      "secondary-container": "#fe00fe",
+                      "outline-variant": "#3b494b",
+                      "on-primary": "#00363a",
+                      "on-secondary-fixed": "#380038",
+                      "inverse-primary": "#006970",
+                      "on-background": "#e3e1e9",
+                      "surface": "#121318",
+                      "on-secondary-container": "#500050",
+                      "surface-container": "#1e1f25",
+                      "on-tertiary": "#3c0090",
+                      "tertiary": "#faf3ff",
+                      "background": "#121318",
+                      "on-tertiary-fixed": "#23005b",
+                      "on-secondary": "#5b005b",
+                      "surface-container-high": "#292a2f",
+                      "secondary": "#ffabf3",
+                      "surface-bright": "#38393f",
+                      "surface-container-lowest": "#0d0e13",
+                      "surface-tint": "#00dbe9",
+                      "primary-container": "#00f0ff",
+                      "tertiary-fixed": "#e9ddff",
+                      "surface-container-highest": "#34343a",
+                      "tertiary-container": "#e1d2ff",
+                      "on-primary-fixed": "#002022",
+                      "on-tertiary-fixed-variant": "#5700c9",
+                      "surface-dim": "#121318",
+                      "secondary-fixed": "#ffd7f5",
+                      "outline": "#849495",
+                      "inverse-surface": "#e3e1e9",
+                      "on-primary-fixed-variant": "#004f54"
+              },
+              "fontFamily": {
+                      "display-lg": ["Audiowide"],
+                      "body-md": ["Space Grotesk"],
+                      "label-caps": ["Space Mono"],
+                      "headline-md": ["Audiowide"],
+                      "data-mono": ["Space Mono"],
+                      "display-lg-mobile": ["Audiowide"],
+                      "body-lg": ["Space Grotesk"]
+              },
+              "fontSize": {
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.15em", "fontWeight": "700"}],
+                      "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                      "data-mono": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                      "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface">
+<!-- Background Layer -->
+<div class="fixed inset-0 hex-bg z-[-1]"></div>
+<div class="fixed inset-0 bg-gradient-to-tr from-background via-transparent to-primary/5 z-[-1]"></div>
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20 shadow-[0_0_15px_rgba(0,240,255,0.1)] flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16">
+<div class="flex items-center gap-6">
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-widest">MAGNOPVS</h1>
+<nav class="hidden md:flex gap-8">
+<a class="text-primary border-b-2 border-primary-container pb-1 font-label-caps text-label-caps cursor-pointer active:scale-95 transition-colors duration-300" href="#">TELEMETRY</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary-fixed-dim transition-colors duration-300 cursor-pointer active:scale-95" href="#">LOGS</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-primary-fixed-dim transition-colors duration-300 cursor-pointer active:scale-95" href="#">SOF.IA</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-fixed-dim cursor-pointer active:scale-95">notifications</span>
+<span class="material-symbols-outlined text-primary-fixed-dim cursor-pointer active:scale-95">settings</span>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-20 md:w-64 z-40 bg-surface-container/60 backdrop-blur-2xl border-r border-outline-variant/20 flex flex-col py-panel-gap">
+<div class="px-6 py-8 border-b border-outline-variant/10">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full border border-primary/40 bg-primary/10 flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">person</span>
+</div>
+<div class="hidden md:block">
+<p class="font-headline-sm text-headline-sm text-primary font-orbitron">ONEIRONAUT_01</p>
+<p class="text-[10px] font-mono-data text-primary-container tracking-tighter">LUCIDITY_94%</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-2 py-4 space-y-2">
+<div class="group cursor-pointer flex items-center gap-4 px-4 py-3 bg-primary-container/10 text-primary-container border-l-4 border-primary shadow-[0_0_10px_rgba(0,240,255,0.2)]">
+<span class="material-symbols-outlined">psychology</span>
+<span class="hidden md:block font-label-caps text-label-caps">NEURAL</span>
+</div>
+<div class="group cursor-pointer flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:text-primary/70 hover:bg-surface-variant/30 transition-all duration-200">
+<span class="material-symbols-outlined">vital_signs</span>
+<span class="hidden md:block font-label-caps text-label-caps">SOMATIC</span>
+</div>
+<div class="group cursor-pointer flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:text-primary/70 hover:bg-surface-variant/30 transition-all duration-200">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="hidden md:block font-label-caps text-label-caps">ASTRAL</span>
+</div>
+<div class="group cursor-pointer flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:text-primary/70 hover:bg-surface-variant/30 transition-all duration-200">
+<span class="material-symbols-outlined">memory</span>
+<span class="hidden md:block font-label-caps text-label-caps">RECALL</span>
+</div>
+<div class="group cursor-pointer flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:text-primary/70 hover:bg-surface-variant/30 transition-all duration-200">
+<span class="material-symbols-outlined">cloud_off</span>
+<span class="hidden md:block font-label-caps text-label-caps">VOID</span>
+</div>
+</nav>
+<div class="px-6 py-6 space-y-4">
+<button class="w-full py-2 bg-primary-container text-on-primary font-label-caps text-[11px] font-bold tracking-widest clipped-corner pulse-glow hover:brightness-110 active:scale-95 transition-all">INITIATE_REM</button>
+<div class="flex justify-around pt-4 border-t border-outline-variant/10">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">inventory_2</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">sync_alt</span>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-20 md:ml-64 mt-16 p-4 md:p-8 min-h-screen">
+<div class="max-w-7xl mx-auto">
+<!-- Header Section -->
+<header class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<p class="font-label-caps text-label-caps text-primary/60 mb-1">SYSTEM_CORE // BIO_CHEM</p>
+<h2 class="font-display-lg text-display-lg-mobile md:text-headline-md text-primary font-orbitron uppercase">Gestión Química</h2>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-2 bg-surface-container/40 p-2 border border-primary/20 rounded">
+<img alt="Energy" class="w-8 h-8" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBh8rlUntwwTD14JEvEpickFOtiicpmDnxLHAqxY00rkevifzUtWlTfBOjebhefDQSBHEMwFjvfeWagJjHVCyluBhyjlFtz-6gR-9IfcFOfQZKN2T5UHY6m4EDuw7uw8zNIlQnjWZQ3zoVUgfcm5jUHqB4VSirJqHkL6T8Mitz9-YISUnl-v8NWYaK4Urlxg5g1TC-4KA0GoTEETABwvi8YZ4IcLahDh8J4Oxo9P7ZZ9KqpjDEaWIo_p0VY0YjWK9jQHorjde9v-a-7"/>
+<div>
+<p class="text-[10px] font-mono-data leading-none">ENERGY</p>
+<p class="text-primary font-orbitron text-sm">98.4%</p>
+</div>
+</div>
+<div class="flex items-center gap-2 bg-surface-container/40 p-2 border border-secondary/20 rounded">
+<img alt="MP" class="w-8 h-8" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDI0D8v7mEQatJmw6edoysNGcBRZ6skwS7am0enI31n_RpKPd_X-RD2MkL-dfJ98KSplR3ya3jYbV-EjOxvFGE5WEhDWkjYS2zTgG7bo0AIe6CyDl9A7O4QbMs4N0KA56wX4EtZKhsRPueO8yWDEsg1iRq0a_EaN5ChpUapfEff8Hc-zdrxIESCG28Hz0w6zchRd0tMKBDQe7qTHrq8_f9emM_q1sPxrU52rP83BDW8koZp1EbVnwOlsguSkPS8X8YoqwSFXxW5yuTq"/>
+<div>
+<p class="text-[10px] font-mono-data leading-none">NEURAL_MP</p>
+<p class="text-secondary font-orbitron text-sm">2,450</p>
+</div>
+</div>
+</div>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Central Reactor Module -->
+<section class="md:col-span-8 hud-panel p-6 clipped-corner border-aquamarine/30">
+<div class="flex justify-between items-start mb-6">
+<div>
+<span class="text-[10px] font-label-caps bg-primary/10 px-2 py-1 border border-primary/30">REACTOR_VISUALIZATION</span>
+<h3 class="font-orbitron text-primary mt-2">Bio-Chemical Reactor</h3>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-mono-data text-primary-fixed-dim">ESTADO: ÓPTIMO</p>
+<p class="text-xs text-on-surface-variant font-mono-data">SYNC_LEVEL: 0.992ms</p>
+</div>
+</div>
+<div class="relative flex items-center justify-center py-12">
+<!-- Simulated Circular Diagram -->
+<div class="relative w-64 h-64 md:w-80 md:h-80 rounded-full border border-primary/10 flex items-center justify-center">
+<!-- Inner glow circles -->
+<div class="absolute inset-4 rounded-full border border-primary/20 animate-pulse"></div>
+<div class="absolute inset-12 rounded-full border border-secondary/20"></div>
+<div class="absolute inset-24 rounded-full border border-tertiary/10"></div>
+<!-- Rotating data nodes -->
+<div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-4 flex flex-col items-center">
+<span class="w-3 h-3 bg-primary rounded-full shadow-[0_0_10px_#dbfcff]"></span>
+<p class="text-[9px] font-label-caps mt-2">DOPAMINA</p>
+<p class="text-xs font-orbitron text-primary">82%</p>
+</div>
+<div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-4 flex flex-col items-center">
+<span class="w-3 h-3 bg-secondary rounded-full shadow-[0_0_10px_#ffabf3]"></span>
+<p class="text-[9px] font-label-caps mt-2">SEROTONINA</p>
+<p class="text-xs font-orbitron text-secondary">65%</p>
+</div>
+<div class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 flex flex-col items-center">
+<span class="w-3 h-3 bg-error rounded-full shadow-[0_0_10px_#ffb4ab]"></span>
+<p class="text-[9px] font-label-caps mt-2 text-error">CORTISOL</p>
+<p class="text-xs font-orbitron text-error">12%</p>
+</div>
+<div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 flex flex-col items-center">
+<span class="w-3 h-3 bg-tertiary rounded-full shadow-[0_0_10px_#faf3ff]"></span>
+<p class="text-[9px] font-label-caps mt-2">OXITOCINA</p>
+<p class="text-xs font-orbitron text-tertiary">45%</p>
+</div>
+<!-- Center Core -->
+<div class="z-10 text-center">
+<span class="material-symbols-outlined text-4xl text-primary-fixed animate-pulse" style="font-variation-settings: 'FILL' 1;">fluid_med</span>
+<p class="font-orbitron text-lg leading-none mt-1">94.2</p>
+<p class="text-[9px] font-mono-data opacity-50">BAL_IDX</p>
+</div>
+<!-- Geometric Overlay Lines -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none opacity-30" viewbox="0 0 100 100">
+<line stroke="currentColor" stroke-width="0.2" x1="50" x2="50" y1="10" y2="90"></line>
+<line stroke="currentColor" stroke-width="0.2" x1="10" x2="90" y1="50" y2="50"></line>
+<circle cx="50" cy="50" fill="none" r="35" stroke="currentColor" stroke-dasharray="2,2" stroke-width="0.1"></circle>
+</svg>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 border-t border-primary/10 pt-6">
+<div class="p-2 border-l border-primary/40 bg-primary/5">
+<p class="text-[10px] font-label-caps text-on-surface-variant">INSULINA</p>
+<p class="text-lg font-orbitron">0.85 <span class="text-[10px] text-primary/50">uU/mL</span></p>
+</div>
+<div class="p-2 border-l border-secondary/40 bg-secondary/5">
+<p class="text-[10px] font-label-caps text-on-surface-variant">TESTOSTERONA</p>
+<p class="text-lg font-orbitron">742 <span class="text-[10px] text-secondary/50">ng/dL</span></p>
+</div>
+<div class="p-2 border-l border-tertiary/40 bg-tertiary/5">
+<p class="text-[10px] font-label-caps text-on-surface-variant">MELATONINA</p>
+<p class="text-lg font-orbitron">3.2 <span class="text-[10px] text-tertiary/50">pg/mL</span></p>
+</div>
+<div class="p-2 border-l border-aquamarine/40 bg-primary/5">
+<p class="text-[10px] font-label-caps text-on-surface-variant">ESTRÓGENO</p>
+<p class="text-lg font-orbitron">124 <span class="text-[10px] text-primary/50">pg/mL</span></p>
+</div>
+</div>
+</section>
+<!-- Hormonal Telemetry (Right Column Top) -->
+<section class="md:col-span-4 hud-panel p-5 border-secondary/30 clipped-corner">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-secondary text-sm">analytics</span>
+<h4 class="font-label-caps text-label-caps uppercase text-secondary">Telemetría Endócrina</h4>
+</div>
+<div class="space-y-6">
+<div class="space-y-2">
+<div class="flex justify-between text-[10px] font-mono-data">
+<span>GROWTH_HORMONE</span>
+<span class="text-primary">8.2 ng/mL</span>
+</div>
+<div class="h-1.5 w-full bg-surface-variant/50 rounded-full overflow-hidden flex">
+<div class="h-full bg-primary" style="width: 75%"></div>
+<div class="h-full bg-primary/20" style="width: 10%"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-[10px] font-mono-data">
+<span>THYROID_T3</span>
+<span class="text-secondary">115 ng/dL</span>
+</div>
+<div class="h-1.5 w-full bg-surface-variant/50 rounded-full overflow-hidden flex">
+<div class="h-full bg-secondary" style="width: 62%"></div>
+<div class="h-full bg-secondary/20" style="width: 15%"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-[10px] font-mono-data">
+<span>ADRENALINE_LVL</span>
+<span class="text-error">CRITICAL</span>
+</div>
+<div class="h-1.5 w-full bg-surface-variant/50 rounded-full overflow-hidden flex">
+<div class="h-full bg-error animate-pulse" style="width: 92%"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 p-4 bg-surface-container border border-outline-variant/30 rounded">
+<p class="text-[10px] font-label-caps text-on-surface-variant mb-2">WAVE_PATTERN // SOMATIC_RHYTHM</p>
+<div class="h-16 flex items-end gap-1 px-1">
+<div class="flex-1 bg-primary/40 h-[40%]" style="animation: barPulse 2s infinite 0.1s"></div>
+<div class="flex-1 bg-primary/60 h-[70%]" style="animation: barPulse 2s infinite 0.3s"></div>
+<div class="flex-1 bg-primary/30 h-[30%]" style="animation: barPulse 2s infinite 0.5s"></div>
+<div class="flex-1 bg-primary/80 h-[90%]" style="animation: barPulse 2s infinite 0.2s"></div>
+<div class="flex-1 bg-primary/50 h-[50%]" style="animation: barPulse 2s infinite 0.4s"></div>
+<div class="flex-1 bg-primary/70 h-[60%]" style="animation: barPulse 2s infinite 0.6s"></div>
+<div class="flex-1 bg-primary/40 h-[45%]" style="animation: barPulse 2s infinite 0.1s"></div>
+</div>
+<style>@keyframes barPulse { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(0.7); } }</style>
+</div>
+</section>
+<!-- Metabolic Flux (Bottom Left/Center) -->
+<section class="md:col-span-4 hud-panel p-5 border-tertiary/30 clipped-corner">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-tertiary text-sm">biotech</span>
+<h4 class="font-label-caps text-label-caps uppercase text-tertiary">Metabolic Flux</h4>
+</div>
+<div class="grid grid-cols-1 gap-4">
+<div class="flex items-center justify-between p-3 bg-surface-variant/20 border border-outline-variant/10">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed-dim">opacity</span>
+<span class="text-xs font-mono-data uppercase">Hydration</span>
+</div>
+<span class="font-orbitron text-primary">88%</span>
+</div>
+<div class="flex items-center justify-between p-3 bg-surface-variant/20 border border-outline-variant/10">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">glucose</span>
+<span class="text-xs font-mono-data uppercase">Blood Glucose</span>
+</div>
+<span class="font-orbitron text-secondary">94 mg/dL</span>
+</div>
+<div class="flex items-center justify-between p-3 bg-surface-variant/20 border border-outline-variant/10">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary">science</span>
+<span class="text-xs font-mono-data uppercase">pH Level</span>
+</div>
+<span class="font-orbitron text-tertiary">7.38</span>
+</div>
+</div>
+</section>
+<!-- Alchemy Lab Recommendations (Bottom Mid) -->
+<section class="md:col-span-5 hud-panel p-5 border-primary/30 clipped-corner">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary text-sm">bolt</span>
+<h4 class="font-label-caps text-label-caps uppercase text-primary">Alchemy Lab: SOF.IA Insight</h4>
+</div>
+<div class="space-y-3">
+<div class="p-3 border-l-2 border-primary bg-primary/5 group cursor-pointer hover:bg-primary/10 transition-all">
+<p class="text-[10px] font-label-caps text-primary mb-1">PROTOCOLO: NIVEL_ADRENAL_ALTO</p>
+<p class="text-xs text-on-surface leading-tight italic">"Detectado pico de Cortisol. Sugerencia: Exposición al frío (3 min) o Respiración Box (4-4-4-4) para estabilizar pulso neural."</p>
+</div>
+<div class="p-3 border-l-2 border-secondary bg-secondary/5 group cursor-pointer hover:bg-secondary/10 transition-all">
+<p class="text-[10px] font-label-caps text-secondary mb-1">OPT_DOPAMINA // AYUNO</p>
+<p class="text-xs text-on-surface leading-tight italic">"Nivel de glucosa estable. Mantener ayuno intermitente 4h adicionales para maximizar la síntesis de catecolaminas."</p>
+</div>
+</div>
+<div class="mt-4 flex gap-2">
+<button class="flex-1 py-1 text-[10px] font-label-caps border border-primary/40 hover:bg-primary/20 transition-all uppercase">Aplicar Protocolo</button>
+<button class="flex-1 py-1 text-[10px] font-label-caps border border-outline-variant/40 hover:bg-surface-variant/40 transition-all uppercase">Archivar</button>
+</div>
+</section>
+<!-- Chemical Buffs/Debuffs (Bottom Right) -->
+<section class="md:col-span-3 hud-panel p-5 border-error/30 clipped-corner">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">shield_with_heart</span>
+<h4 class="font-label-caps text-label-caps uppercase">Buffs &amp; Debuffs</h4>
+</div>
+<div class="space-y-2">
+<div class="flex items-center gap-3 p-2 bg-primary/10 border border-primary/20 rounded-sm glitch-hover cursor-help">
+<div class="w-8 h-8 flex items-center justify-center bg-primary text-black font-bold text-xs clipped-corner">ADR</div>
+<div>
+<p class="text-[10px] font-orbitron uppercase text-primary">Adrenaline Rush</p>
+<p class="text-[8px] font-mono-data text-primary-container leading-none">+25% SPD // -10% PRE</p>
+</div>
+</div>
+<div class="flex items-center gap-3 p-2 bg-error/10 border border-error/20 rounded-sm glitch-hover cursor-help">
+<div class="w-8 h-8 flex items-center justify-center bg-error text-black font-bold text-xs clipped-corner">COR</div>
+<div>
+<p class="text-[10px] font-orbitron uppercase text-error">Cortisol Spike</p>
+<p class="text-[8px] font-mono-data text-on-error-container leading-none">+15% STRESS // FOCUS_DMG</p>
+</div>
+</div>
+<div class="flex items-center gap-3 p-2 bg-secondary/10 border border-secondary/20 rounded-sm glitch-hover cursor-help opacity-60">
+<div class="w-8 h-8 flex items-center justify-center bg-secondary text-black font-bold text-xs clipped-corner">MEL</div>
+<div>
+<p class="text-[10px] font-orbitron uppercase text-secondary">Melatonin Sleep</p>
+<p class="text-[8px] font-mono-data text-secondary-fixed leading-none">RECOVERY_MODE [INACTIVE]</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Visual Artifacts -->
+<div class="scanline"></div>
+<!-- Footer/Mobile Navigation Shell separation (Implicit) -->
+<div class="fixed bottom-0 left-0 w-full h-1 bg-gradient-to-r from-primary/50 via-secondary/50 to-primary/50 opacity-20"></div>
+<script>
+        // Simple micro-interaction for the circular diagram
+        document.addEventListener('mousemove', (e) => {
+            const panels = document.querySelectorAll('.hud-panel');
+            const mouseX = e.clientX / window.innerWidth - 0.5;
+            const mouseY = e.clientY / window.innerHeight - 0.5;
+            
+            panels.forEach(panel => {
+                const depth = 5;
+                const moveX = mouseX * depth;
+                const moveY = mouseY * depth;
+                panel.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+        });
+    </script>
+</body></html>

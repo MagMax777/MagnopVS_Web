@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>WHITE BROTHERHOOD // THE CHAPTER ENGINE</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Cinzel:wght@400..900&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400..900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "void-obsidian": "#05070b",
+        "panel-surface": "#0c1119",
+        "surface-container-low": "#111925",
+        "surface-container": "#182232",
+        "surface-container-high": "#223046",
+        "sacred-ivory": "#f4f1e8",
+        "imperial-gold": "#c9a227",
+        "royal-gold": "#e6c45a",
+        "surveillance-warning": "#ffd400",
+        "cyan-resonance": "#55e7ff",
+        "outline": "#8993a5",
+        "outline-variant": "rgba(255,255,255,0.12)"
+      },
+      fontFamily: {
+        cinzel: ['Cinzel', 'serif'],
+        bodoni: ['Bodoni Moda', 'serif'],
+        orbitron: ['Orbitron', 'sans-serif'],
+        mono: ['Space Mono', 'monospace'],
+        plex: ['IBM Plex Mono', 'monospace'],
+        body: ['Inter', 'sans-serif']
+      }
+    }
+  }
+}
+</script>
+<style>
+:root {
+  --bg: #05070b;
+  --panel: #0c1119;
+  --panel2: #111925;
+  --line: rgba(255,255,255,.10);
+  --text: #f4f1e8;
+  --muted: #8993a5;
+  --gold: #c9a227;
+  --yellow: #ffd400;
+  --cyan: #55e7ff;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(201,162,39,.08), transparent 30%),
+    radial-gradient(circle at 20% 80%, rgba(85,231,255,.05), transparent 30%),
+    var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.scanlines-overlay {
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.45) 50%);
+  background-size: 100% 3px;
+}
+
+.corner-bracket { position: relative; }
+.corner-bracket::before {
+  content: ''; position: absolute; top: -1px; left: -1px; width: 6px; height: 6px;
+  border-top: 1px solid #c9a227; border-left: 1px solid #c9a227; pointer-events: none;
+}
+.corner-bracket::after {
+  content: ''; position: absolute; bottom: -1px; right: -1px; width: 6px; height: 6px;
+  border-bottom: 1px solid #c9a227; border-right: 1px solid #c9a227; pointer-events: none;
+}
+
+.cosmic-orb {
+  width: min(440px, 50vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #fff,
+      rgba(255,255,255,.85) 2%,
+      rgba(201,162,39,.55) 8%,
+      rgba(85,231,255,.25) 22%,
+      rgba(201,162,39,.12) 35%,
+      transparent 64%
+    );
+  box-shadow:
+    0 0 60px rgba(201,162,39,.2),
+    0 0 160px rgba(85,231,255,.12);
+  animation: breathe 5s infinite ease-in-out;
+}
+
+@keyframes breathe {
+  0%,100% {
+    transform: scale(.95);
+    opacity: .85;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+    box-shadow:
+      0 0 80px rgba(201,162,39,.35),
+      0 0 200px rgba(85,231,255,.22);
+  }
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(0.9); opacity: 1; }
+  100% { transform: translateY(-35px) scale(1.1); opacity: 0; }
+}
+.floating-text {
+  position: absolute; animation: floatUp 1.2s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+  pointer-events: none; z-index: 100;
+}
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: #070a0f; }
+::-webkit-scrollbar-thumb { background: #1e2837; }
+::-webkit-scrollbar-thumb:hover { background: #c9a227; }
+</style>
+</head>
+
+<body class="selection:bg-imperial-gold selection:text-void-obsidian">
+
+<!-- Dynamic Scanlines & HUD Feedback Anchor -->
+<div class="fixed inset-0 pointer-events-none z-[1] scanlines-overlay opacity-25"></div>
+<div class="fixed inset-0 pointer-events-none z-[99]" id="feedback-anchor"></div>
+
+<div class="min-h-screen flex flex-col justify-between relative z-10">
+
+  <!-- ===================================================
+       1. TOP COMMAND DECK / INSTITUTIONAL HEADER
+  ==================================================== -->
+  <header class="h-[72px] px-6 md:px-8 border-b border-imperial-gold/30 bg-[#05070b]/90 backdrop-blur-xl flex items-center justify-between sticky top-0 z-50">
+    <div class="flex items-center gap-4">
+      <div class="w-10 h-10 border border-imperial-gold flex items-center justify-center rotate-45 bg-[#0c1119] shadow-[0_0_12px_rgba(201,162,39,0.3)]">
+        <span class="-rotate-45 font-cinzel font-bold text-royal-gold text-[16px]">WB</span>
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="font-cinzel text-sacred-ivory font-bold text-[15px] tracking-widest">THE CHAPTER ENGINE</span>
+          <span class="px-1.5 py-0.5 bg-surface-container-low text-royal-gold text-[8px] font-plex border border-imperial-gold/40">EPISODE OS v3.2</span>
+        </div>
+        <div class="text-[9px] font-plex text-outline tracking-wider">// WHITE BROTHERHOOD AETERNITAS ARCHIVE</div>
+      </div>
+    </div>
+
+    <!-- Navigation Hub Tabs -->
+    <div class="hidden md:flex items-center gap-2 border-x border-imperial-gold/20 px-4">
+      <button onclick="quickNav('s02c01')" class="px-3 py-1 bg-surface-container-low border border-imperial-gold/40 text-royal-gold font-plex text-[10px] tracking-wider uppercase">S02: GENESIS</button>
+      <button onclick="quickNav('s03c04')" class="px-3 py-1 text-outline hover:text-sacred-ivory font-plex text-[10px] tracking-wider uppercase transition-colors">S03: LIFE (CH.04)</button>
+      <button onclick="toggleResonanceAudio()" id="btn-audio-engine" class="px-2.5 py-1 text-outline hover:text-royal-gold font-plex text-[10px] flex items-center gap-1 border border-outline-variant transition-colors">
+        <span class="material-symbols-outlined text-[13px]">graphic_eq</span> 432Hz
+      </button>
+    </div>
+
+    <div class="text-right">
+      <div class="text-royal-gold text-[10px] font-plex tracking-widest font-bold" id="headerSeason">SEASON 02 · GENESIS</div>
+      <div class="font-cinzel text-sacred-ivory text-[14px] tracking-wider" id="headerChapter">CHAPTER 01 · THE FIRST SIGNAL</div>
+    </div>
+  </header>
+
+  <!-- ===================================================
+       2. MAIN WORKSPACE (STAGE + RIGHT HUD)
+  ==================================================== -->
+  <main class="grid grid-cols-1 lg:grid-cols-12 flex-grow min-h-[calc(100vh-100px)]">
+
+    <!-- LEFT STAGE / NARRATIVE VISOR (8 cols) -->
+    <section class="lg:col-span-8 flex flex-col justify-between border-r border-imperial-gold/20 bg-[#070a0f] relative overflow-hidden">
+      
+      <!-- Scene Viewport -->
+      <div class="relative flex-grow min-h-[500px] flex items-center justify-center p-6 md:p-10 overflow-hidden" id="sceneContainer">
+        <!-- Interactive Cosmic Orb / Canvas Visualizer -->
+        <div class="cosmic-orb transition-all duration-700 cursor-pointer" onclick="pulseOrb()" title="Click para sintonizar resonancia"></div>
+
+        <!-- Dynamic Particle Field Elements -->
+        <div class="absolute inset-0 pointer-events-none opacity-20">
+          <div class="absolute top-1/4 left-1/4 w-32 h-32 border border-royal-gold/40 rounded-full animate-spin" style="animation-duration: 30s;"></div>
+          <div class="absolute top-1/3 right-1/4 w-48 h-48 border border-cyan-resonance/30 rotate-45"></div>
+          <div class="absolute inset-x-0 top-1/2 h-[1px] bg-imperial-gold/20"></div>
+          <div class="absolute inset-y-0 left-1/2 w-[1px] bg-imperial-gold/20"></div>
+        </div>
+
+        <!-- Diegetic Scene Overlay Content -->
+        <div class="absolute inset-0 p-6 md:p-8 flex flex-col justify-between pointer-events-none">
+          <div class="pointer-events-auto">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 bg-royal-gold animate-ping"></span>
+              <span class="text-royal-gold text-[10px] font-plex tracking-[0.25em] font-bold">ARCHIVE TRANSMISSION // SEC-0</span>
+            </div>
+
+            <h1 id="sceneTitle" class="font-cinzel text-sacred-ivory text-3xl md:text-5xl lg:text-6xl font-bold leading-tight mt-3 max-w-2xl drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
+              THE FIRST SIGNAL
+            </h1>
+
+            <p id="sceneNarration" class="text-sacred-ivory/80 text-sm md:text-base leading-relaxed mt-4 max-w-2xl font-light bg-void-obsidian/40 backdrop-blur-sm p-3 border-l-2 border-imperial-gold">
+              Before life, before memory, before civilization, there was only possibility.
+            </p>
+          </div>
+
+          <div class="flex justify-between items-end pointer-events-auto">
+            <div class="text-[9px] font-plex text-outline">
+              <span>FRECUENCIA ARMÓNICA: <strong class="text-royal-gold" id="freqIndicator">432.08 Hz</strong></span><br/>
+              <span>ESTADO DE ENTROPÍA: <strong class="text-cyan-resonance">REVERSIBLE</strong></span>
+            </div>
+            <div class="text-right text-[11px] font-plex text-outline">
+              PANEL <span id="panelNumber" class="text-royal-gold font-bold text-[14px]">01</span> / 09
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chapter Progress Bar -->
+      <div class="px-6 py-2.5 bg-[#080c12] border-t border-b border-imperial-gold/20">
+        <div class="flex justify-between text-[10px] font-plex text-outline mb-1.5">
+          <span class="tracking-wider">// CHAPTER NARRATIVE PROGRESSION</span>
+          <span id="progressText" class="text-royal-gold font-bold">11%</span>
+        </div>
+        <div class="w-full h-1.5 bg-[#182232] rounded-none overflow-hidden">
+          <div id="progressFill" class="h-full bg-gradient-to-r from-imperial-gold via-royal-gold to-surveillance-warning transition-all duration-500" style="width: 11%;"></div>
+        </div>
+      </div>
+
+      <!-- Mode Selector Bar (4 Interactive Modes) -->
+      <div class="p-4 bg-[#080c12] border-t border-imperial-gold/20 grid grid-cols-2 md:grid-cols-4 gap-2">
+        <button onclick="setEngineMode('comic')" id="btn-mode-comic" class="py-2.5 px-3 border border-imperial-gold bg-imperial-gold/10 text-royal-gold text-[10px] font-plex font-bold tracking-widest transition-all">
+          COMIC MODE
+        </button>
+        <button onclick="setEngineMode('rpg')" id="btn-mode-rpg" class="py-2.5 px-3 border border-white/10 hover:border-imperial-gold text-outline hover:text-sacred-ivory text-[10px] font-plex tracking-widest transition-all">
+          RPG MODE
+        </button>
+        <button onclick="setEngineMode('codex')" id="btn-mode-codex" class="py-2.5 px-3 border border-white/10 hover:border-imperial-gold text-outline hover:text-sacred-ivory text-[10px] font-plex tracking-widest transition-all">
+          CODEX MODE
+        </button>
+        <button onclick="setEngineMode('simulation')" id="btn-mode-simulation" class="py-2.5 px-3 border border-white/10 hover:border-imperial-gold text-outline hover:text-sacred-ivory text-[10px] font-plex tracking-widest transition-all">
+          SIMULATION
+        </button>
+      </div>
+    </section>
+
+    <!-- RIGHT HUD / DOSSIER & DECISION DECK (4 cols) -->
+    <aside class="lg:col-span-4 bg-[#070a0f]/95 border-l border-imperial-gold/30 flex flex-col justify-between overflow-y-auto">
+      
+      <div class="divide-y divide-imperial-gold/20">
+
+        <!-- 1. Homunculus Dossier & Vitals -->
+        <div class="p-5">
+          <div class="text-[9px] font-plex text-outline tracking-[0.2em] uppercase mb-3 flex justify-between items-center">
+            <span>// HOMÚNCULO ACTIVO</span>
+            <span class="text-royal-gold font-bold">NODE: Ω-09</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-14 h-14 border border-imperial-gold bg-[#0c1119] flex items-center justify-center font-cinzel text-royal-gold text-2xl shadow-[0_0_12px_rgba(201,162,39,0.2)]">
+              ◈
+            </div>
+            <div>
+              <div class="font-cinzel text-sacred-ivory font-bold text-[15px]" id="charName">HOMÚNCULO PRIMORDIAL</div>
+              <div class="text-royal-gold text-[9px] font-plex tracking-widest mt-0.5" id="charClass">ARQUETIPO: BRUJO DE LA RED</div>
+              <div class="text-cyan-resonance text-[8px] font-plex mt-0.5">ESTADO: CONECTADO AL ATANOR</div>
+            </div>
+          </div>
+
+          <!-- Dynamic Stats -->
+          <div class="mt-4 space-y-2 text-[9px] font-plex">
+            <div>
+              <div class="flex justify-between text-outline mb-0.5">
+                <span>ENERGÍA VITAL (HP)</span>
+                <span class="text-sacred-ivory font-bold" id="valEnergy">78 / 100</span>
+              </div>
+              <div class="w-full h-1 bg-[#182232]"><div id="barEnergy" class="h-full bg-sacred-ivory transition-all duration-300" style="width: 78%;"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-royal-gold mb-0.5">
+                <span>AGENCIA SOBERANA</span>
+                <span class="text-royal-gold font-bold" id="valAgency">43 / 100</span>
+              </div>
+              <div class="w-full h-1 bg-[#182232]"><div id="barAgency" class="h-full bg-royal-gold transition-all duration-300" style="width: 43%;"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-outline mb-0.5">
+                <span>CONOCIMIENTO ARCANO</span>
+                <span class="text-sacred-ivory font-bold" id="valKnowledge">67 / 100</span>
+              </div>
+              <div class="w-full h-1 bg-[#182232]"><div id="barKnowledge" class="h-full bg-outline transition-all duration-300" style="width: 67%;"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-cyan-resonance mb-0.5">
+                <span>RESONANCIA 432Hz</span>
+                <span class="text-cyan-resonance font-bold" id="valResonance">29 / 100</span>
+              </div>
+              <div class="w-full h-1 bg-[#182232]"><div id="barResonance" class="h-full bg-cyan-resonance transition-all duration-300" style="width: 29%;"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Current Objective Tracker -->
+        <div class="p-5">
+          <div class="text-[9px] font-plex text-outline tracking-[0.2em] uppercase mb-2">
+            // OBJETIVO OPERATIVO
+          </div>
+          <div class="border-l-2 border-imperial-gold pl-3 py-0.5 bg-[#0c1119]/60">
+            <h4 class="font-cinzel text-sacred-ivory text-[13px] font-bold" id="objectiveTitle">
+              Estabilizar la Primera Reacción
+            </h4>
+            <p class="text-[9px] font-plex text-outline mt-1 leading-relaxed" id="objectiveDesc">
+              Algo dentro del campo primordial ha comenzado a replicarse de forma autónoma. Determina si el patrón es meramente accidental o intencionado.
+            </p>
+          </div>
+        </div>
+
+        <!-- 3. Decision Point Matrix -->
+        <div class="p-5">
+          <div class="text-[9px] font-plex text-royal-gold tracking-[0.2em] uppercase mb-2 flex justify-between items-center">
+            <span>// PUNTO DE DECISIÓN CRÍTICO</span>
+            <span class="text-[8px] bg-imperial-gold/20 text-royal-gold px-1.5 py-0.5">BIFURCACIÓN</span>
+          </div>
+
+          <div class="font-cinzel text-sacred-ivory text-[14px] leading-snug mb-3" id="decisionQuestion">
+            La reacción es inestable. ¿Cuál es tu protocolo de acción?
+          </div>
+
+          <div class="space-y-1.5" id="choicesContainer">
+            <button onclick="pickChoice('OBSERVE')" class="choice-btn w-full p-2.5 text-left border border-white/10 hover:border-imperial-gold bg-[#0c1119] text-sacred-ivory/80 hover:text-sacred-ivory text-[9px] font-plex flex items-center justify-between transition-all">
+              <span><strong>01</strong> · OBSERVAR EL PATRÓN (+10 Conocimiento)</span>
+              <span class="material-symbols-outlined text-[14px] text-outline">visibility</span>
+            </button>
+            <button onclick="pickChoice('INTERVENE')" class="choice-btn w-full p-2.5 text-left border border-white/10 hover:border-imperial-gold bg-[#0c1119] text-sacred-ivory/80 hover:text-sacred-ivory text-[9px] font-plex flex items-center justify-between transition-all">
+              <span><strong>02</strong> · INTERVENIR CON ÉTER (+12 Agencia Soberana)</span>
+              <span class="material-symbols-outlined text-[14px] text-royal-gold">auto_fix_high</span>
+            </button>
+            <button onclick="pickChoice('RECORD')" class="choice-btn w-full p-2.5 text-left border border-white/10 hover:border-imperial-gold bg-[#0c1119] text-sacred-ivory/80 hover:text-sacred-ivory text-[9px] font-plex flex items-center justify-between transition-all">
+              <span><strong>03</strong> · GRABAR EN EL CODEX (+15 Resonancia 432Hz)</span>
+              <span class="material-symbols-outlined text-[14px] text-cyan-resonance">terminal</span>
+            </button>
+          </div>
+
+          <!-- Controls: Previous & Continue -->
+          <div class="flex gap-2 mt-4">
+            <button onclick="stepPrevious()" id="btnPrevious" class="px-3 py-2 border border-imperial-gold/30 hover:border-imperial-gold text-sacred-ivory text-[10px] font-plex transition-colors" title="Retroceder Panel">
+              ← PREV
+            </button>
+            <button onclick="stepContinue()" id="btnContinue" class="flex-grow py-2 px-4 bg-imperial-gold hover:bg-royal-gold text-void-obsidian font-cinzel font-bold text-[11px] tracking-wider transition-colors shadow-[0_0_12px_rgba(201,162,39,0.4)] flex items-center justify-center gap-1">
+              <span>CONTINUAR</span>
+              <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4. Mode Descriptor & Lore Discovered -->
+        <div class="p-5">
+          <div class="text-[9px] font-plex text-outline tracking-[0.2em] uppercase mb-2">
+            // DESCRIPCIÓN DEL MODO DE MOTOR
+          </div>
+          <div id="modeDescription" class="text-[9px] font-plex text-outline leading-relaxed bg-[#0c1119] p-3 border border-imperial-gold/20">
+            <strong class="text-royal-gold font-cinzel text-[11px] block mb-1">COMIC MODE</strong>
+            El capítulo se presenta como una novela gráfica interactiva y diegética. Viñetas, narración, diálogos y pistas visuales configuran el tejido de la escena actual.
+          </div>
+        </div>
+
+        <!-- 5. Discovered Codex Vault -->
+        <div class="p-5">
+          <div class="text-[9px] font-plex text-outline tracking-[0.2em] uppercase mb-2 flex justify-between items-center">
+            <span>// CODEX DESBLOQUEADO</span>
+            <span class="text-royal-gold text-[8px]">2 ENTRADAS</span>
+          </div>
+          <div class="space-y-2 text-[9px] font-plex">
+            <div class="p-2 border border-imperial-gold/20 bg-[#0c1119] cursor-pointer hover:border-royal-gold transition-colors" onclick="inspectCodexItem('PRIMORDIAL FIELD')">
+              <div class="text-royal-gold font-bold">PRIMORDIAL FIELD</div>
+              <div class="text-outline text-[8px] mt-0.5">Estado de la realidad previo a la diferenciación biológica celular.</div>
+            </div>
+            <div class="p-2 border border-imperial-gold/20 bg-[#0c1119] cursor-pointer hover:border-royal-gold transition-colors" onclick="inspectCodexItem('FIRST SIGNAL')">
+              <div class="text-cyan-resonance font-bold">FIRST SIGNAL (432Hz)</div>
+              <div class="text-outline text-[8px] mt-0.5">Anomalía cuántica de repetición infinita detectada en el Mar Somático.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Persistent Footer in Sidebar -->
+      <div class="p-3 bg-[#05070b] border-t border-imperial-gold/20 text-center text-[8px] font-plex text-outline">
+        CONSECUENCIAS PERMANENTES: <span class="text-royal-gold font-bold">GRABADAS EN AETERNITAS</span>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- ===================================================
+       3. DIEGETIC FOOTER
+  ==================================================== -->
+  <footer class="h-8 px-6 bg-[#05070b] border-t border-imperial-gold/30 flex items-center justify-between text-[8px] font-plex text-outline">
+    <div>
+      SHA-4096-ASTRALIS // ENLACE AL ARCHIVO CÓSMICO // PANARQUÍA 54.2% : SINARQUÍA 45.8%
+    </div>
+    <div class="flex items-center gap-4">
+      <span class="text-royal-gold cursor-pointer hover:underline" onclick="pulseOrb()">RESONANCIA: SOBERANA</span>
+      <span>CLEARANCE: TIER-IV ARCHON</span>
+      <span>ESTADO: ONLINE</span>
+    </div>
+  </footer>
+
+</div>
+
+<!-- =====================================================
+     4. COMPREHENSIVE JAVASCRIPT ENGINE
+===================================================== -->
+<script>
+const panels = [
+  {
+    title: "THE FIRST SIGNAL",
+    narration: "Before life, before memory, before civilization, there was only possibility. In the depths of the void, an unmeasured harmonic began to vibrate at exactly 432 Hz.",
+    objective: "Detect the First Resonance",
+    question: "The harmonic wave echoes through the void. What is your initial stance?",
+    choices: [
+      { id: "OBSERVE", label: "OBSERVE THE PATTERN", stat: "knowledge", val: 8, feedback: "+8 CONOCIMIENTO // PATRÓN RECONOCIDO" },
+      { id: "INTERVENE", label: "INTERVENE WITH ÉTER", stat: "agency", val: 12, feedback: "+12 AGENCIA SOBERANA // PULSO ENVIADO" },
+      { id: "RECORD", label: "RECORD IN VOX CODEX", stat: "resonance", val: 15, feedback: "+15 RESONANCIA // GRABACIÓN CANÓNICA" }
+    ]
+  },
+  {
+    title: "THE REACTION",
+    narration: "Two simple structures collide. The result should disappear into static. Instead, something repeats itself with mathematical intent.",
+    objective: "Stabilize the Reaction Matrix",
+    question: "The two structures threaten to tear apart. How do you anchor them?",
+    choices: [
+      { id: "CATALYST", label: "INJECT BIOGOLD CATALYST", stat: "energy", val: 10, feedback: "+10 ENERGÍA // CATALIZADOR ACTIVADO" },
+      { id: "GEOMETRY", label: "ENFORCE SACRED GEOMETRY", stat: "agency", val: 10, feedback: "+10 AGENCIA // GEOMETRÍA IMPUESTA" },
+      { id: "RESONATE", label: "SINTONIZE 432Hz FREQUENCY", stat: "resonance", val: 12, feedback: "+12 RESONANCIA // SINTONÍA ARMÓNICA" }
+    ]
+  },
+  {
+    title: "THE MEMORY",
+    narration: "The pattern survives its own destruction. For the first time in the history of the universe, reality begins to remember.",
+    objective: "Preserve the Engram",
+    question: "The surviving memory carries entropy. Where do you inscribe its core?",
+    choices: [
+      { id: "CELL", label: "INSIDE A PRIMORDIAL VESICLE", stat: "knowledge", val: 10, feedback: "+10 CONOCIMIENTO // VESÍCULA FORJADA" },
+      { id: "CIPHER", label: "ENCRYPT IN QUANTUM CIPHER", stat: "agency", val: 14, feedback: "+14 AGENCIA // CIPHER SELLADO" },
+      { id: "BROADCAST", label: "BROADCAST TO ORBITAL ARCHIVE", stat: "resonance", val: 10, feedback: "+10 RESONANCIA // ARCHIVO ASTRAL" }
+    ]
+  },
+  {
+    title: "THE THRESHOLD OF LIFE",
+    narration: "Chemistry begins to behave like architecture. The sacred boundary between inert matter and sovereign biology becomes uncertain.",
+    objective: "Transmute Matter into Life",
+    question: "Abiogenesis commences. Which doctrine shall govern the metabolic tree?",
+    choices: [
+      { id: "PANARCHY", label: "DECENTRALIZED SYMBIOSIS (PANARCHY)", stat: "agency", val: 15, feedback: "+15 AGENCIA // SOBERANÍA PANÁRQUICA" },
+      { id: "SYNARCHY", label: "MONOLITHIC DIRECTIVE (SYNARCHY)", stat: "energy", val: 15, feedback: "+15 ENERGÍA // COHESIÓN COLECTIVA" },
+      { id: "EQUILIBRIUM", label: "HARMONIC GOLDEN RATIO", stat: "resonance", val: 18, feedback: "+18 RESONANCIA // EQUILIBRIO ÁUREO" }
+    ]
+  },
+  {
+    title: "THE FIRST CELL",
+    narration: "A lipid membrane closes around the reaction. Inside, the first sovereign cellular system begins to persist against external entropy.",
+    objective: "Fortify the Somatic Boundary",
+    question: "Osmotic pressure rises. How do you defend the membrane?",
+    choices: [
+      { id: "CHANNELS", label: "BUILD ION TRANSPORT GATES", stat: "knowledge", val: 12, feedback: "+12 CONOCIMIENTO // CANALES ACTIVOS" },
+      { id: "ARMOR", label: "HARDEN BASAL MEMBRANE", stat: "energy", val: 10, feedback: "+10 ENERGÍA // BLINDAJE SOMÁTICO" },
+      { id: "HARMONIZE", label: "PULSE 432Hz SHIELDING", stat: "resonance", val: 14, feedback: "+14 RESONANCIA // ESCUDO DE ONDA" }
+    ]
+  },
+  {
+    title: "THE CODE",
+    narration: "The system discovers a method for storing mutable instructions. Information is no longer abstract math; it is biological.",
+    objective: "Inscribe the Genome",
+    question: "Codons are forming into helix chains. What core instruction do you encode?",
+    choices: [
+      { id: "SURVIVE", label: "UNCONDITIONAL SELF-REPAIR", stat: "energy", val: 15, feedback: "+15 ENERGÍA // AUTORREPARACIÓN" },
+      { id: "TRANSCEND", label: "SEEK METAPHYSICAL AGENCY", stat: "agency", val: 16, feedback: "+16 AGENCIA // PROTOCOLO SOBERANO" },
+      { id: "CONNECT", label: "EMIT HARMONIC BEACONS", stat: "resonance", val: 12, feedback: "+12 RESONANCIA // SEÑAL EMITIDA" }
+    ]
+  },
+  {
+    title: "THE DIVISION",
+    narration: "One becomes two. Two become four. Repetition ceases to be duplication and becomes an immortal, unbroken lineage.",
+    objective: "Guide Mitotic Speciation",
+    question: "Cellular bifurcation approaches. Do you segregate somatic and germline fates?",
+    choices: [
+      { id: "SEGREGATE", label: "SEPARATE BODY AND IMMORTALITY", stat: "knowledge", val: 14, feedback: "+14 CONOCIMIENTO // LINAJE GERMINAL" },
+      { id: "UNIFY", label: "KEEP EVERY CELL TOTIPOTENT", stat: "energy", val: 12, feedback: "+12 ENERGÍA // TOTIPOTENCIA TOTAL" },
+      { id: "SENSORY", label: "SPAWN AXONAL PROTO-NERVES", stat: "agency", val: 15, feedback: "+15 AGENCIA // NERVIOS SINÁPTICOS" }
+    ]
+  },
+  {
+    title: "THE POSSIBILITY",
+    narration: "Billions of evolutionary futures emerge from one microscopic decision. The primordial sea prepares for the dawn of the mind.",
+    objective: "Choose the Evolutionary Apex",
+    question: "The great divergence is here. What apex destiny do you designate?",
+    choices: [
+      { id: "PREDATOR", label: "APEX SENSORY HUNTER", stat: "agency", val: 18, feedback: "+18 AGENCIA // VECTOR DEPREDADOR" },
+      { id: "COMMUNION", label: "COLONIAL SYMBIOTE WEB", stat: "energy", val: 16, feedback: "+16 ENERGÍA // RED COLECTIVA" },
+      { id: "ORACLE", label: "CONSCIOUS TRANSCENDENT NODE", stat: "resonance", val: 20, feedback: "+20 RESONANCIA // NODO ORACULAR" }
+    ]
+  },
+  {
+    title: "THE ARCHIVE",
+    narration: "The chapter concludes. The universe has fundamentally changed. The Great Aeternitas Archive will forever remember every choice you made.",
+    objective: "Seal the Historical Codex",
+    question: "All 9 panels completed. Consecrate your decisions into the White Brotherhood Archive.",
+    choices: [
+      { id: "SEAL_SOVEREIGN", label: "DECRETO SOBERANO (PANARQUÍA)", stat: "agency", val: 25, feedback: "+25 AGENCIA // CAPÍTULO CONSAGRADO" },
+      { id: "SEAL_SYNARCHY", label: "CONSIGN TO CENTRAL APEX (SINARQUÍA)", stat: "energy", val: 25, feedback: "+25 ENERGÍA // ORDEN MONOLÍTICO" },
+      { id: "SEAL_CODEX", label: "ELEVATE TO TRANSCENDENCE TIER-V", stat: "resonance", val: 30, feedback: "+30 RESONANCIA // TRASCENDENCIA TOTAL" }
+    ]
+  }
+];
+
+let currentPanel = 0;
+let selectedChoice = null;
+let stats = {
+  energy: 78,
+  agency: 43,
+  knowledge: 67,
+  resonance: 29
+};
+
+function renderPanel() {
+  const p = panels[currentPanel];
+  document.getElementById("sceneTitle").innerText = p.title;
+  document.getElementById("sceneNarration").innerText = p.narration;
+  document.getElementById("panelNumber").innerText = String(currentPanel + 1).padStart(2, "0");
+  document.getElementById("objectiveTitle").innerText = p.objective;
+  document.getElementById("decisionQuestion").innerText = p.question;
+
+  const pct = Math.round(((currentPanel + 1) / panels.length) * 100);
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").innerText = pct + "%";
+
+  // Render choices
+  const container = document.getElementById("choicesContainer");
+  container.innerHTML = "";
+  p.choices.forEach((c, idx) => {
+    const btn = document.createElement("button");
+    btn.className = "choice-btn w-full p-2.5 text-left border border-white/10 hover:border-imperial-gold bg-[#0c1119] text-sacred-ivory/80 hover:text-sacred-ivory text-[9px] font-plex flex items-center justify-between transition-all";
+    btn.innerHTML = `
+      <span><strong>0${idx+1}</strong> · ${c.label}</span>
+      <span class="material-symbols-outlined text-[14px] text-royal-gold">arrow_forward</span>
+    `;
+    btn.onclick = () => {
+      document.querySelectorAll(".choice-btn").forEach(b => {
+        b.className = "choice-btn w-full p-2.5 text-left border border-white/10 hover:border-imperial-gold bg-[#0c1119] text-sacred-ivory/80 hover:text-sacred-ivory text-[9px] font-plex flex items-center justify-between transition-all";
+      });
+      btn.className = "choice-btn w-full p-2.5 text-left border-2 border-royal-gold bg-imperial-gold/15 text-royal-gold text-[9px] font-plex font-bold flex items-center justify-between transition-all shadow-[0_0_10px_rgba(201,162,39,0.3)]";
+      selectedChoice = c;
+      showCombatFeedback(c.feedback, "#ffd400");
+      applyStat(c.stat, c.val);
+    };
+    container.appendChild(btn);
+  });
+
+  const btnCont = document.getElementById("btnContinue");
+  if (currentPanel === panels.length - 1) {
+    btnCont.innerHTML = `<span>CONSAGRAR CAPÍTULO</span><span class="material-symbols-outlined text-[14px]">verified</span>`;
+  } else {
+    btnCont.innerHTML = `<span>CONTINUAR</span><span class="material-symbols-outlined text-[14px]">arrow_forward</span>`;
+  }
+}
+
+function applyStat(statName, val) {
+  if (stats[statName] !== undefined) {
+    stats[statName] = Math.min(100, stats[statName] + val);
+    updateStatsDisplay();
+  }
+}
+
+function updateStatsDisplay() {
+  document.getElementById("valEnergy").innerText = stats.energy + " / 100";
+  document.getElementById("barEnergy").style.width = stats.energy + "%";
+
+  document.getElementById("valAgency").innerText = stats.agency + " / 100";
+  document.getElementById("barAgency").style.width = stats.agency + "%";
+
+  document.getElementById("valKnowledge").innerText = stats.knowledge + " / 100";
+  document.getElementById("barKnowledge").style.width = stats.knowledge + "%";
+
+  document.getElementById("valResonance").innerText = stats.resonance + " / 100";
+  document.getElementById("barResonance").style.width = stats.resonance + "%";
+}
+
+function stepContinue() {
+  if (currentPanel < panels.length - 1) {
+    currentPanel++;
+    selectedChoice = null;
+    renderPanel();
+    pulseOrb();
+    showCombatFeedback("PANEL " + (currentPanel + 1) + " CARGADO", "#c9a227");
+  } else {
+    showCombatFeedback("¡CAPÍTULO CONSAGRADO EN EL ARCHIVO!", "#ffd400");
+    alert("WHITE BROTHERHOOD // TRANSMISIÓN FINALIZADA\n\nEl Capítulo 01 'THE FIRST SIGNAL' ha sido sellado con éxito. Las elecciones y cicatrices han quedado registradas en Aeternitas Cycle 884.");
+  }
+}
+
+function stepPrevious() {
+  if (currentPanel > 0) {
+    currentPanel--;
+    selectedChoice = null;
+    renderPanel();
+    showCombatFeedback("RETROCEDIENDO AL PANEL " + (currentPanel + 1), "#8993a5");
+  }
+}
+
+function pulseOrb() {
+  const orb = document.querySelector(".cosmic-orb");
+  if (orb) {
+    orb.classList.add("scale-110", "brightness-125");
+    setTimeout(() => orb.classList.remove("scale-110", "brightness-125"), 300);
+  }
+  showCombatFeedback("RESONANCIA 432Hz PULSADA", "#55e7ff");
+}
+
+const engineDescriptions = {
+  comic: {
+    title: "COMIC MODE",
+    desc: "El capítulo se presenta como una novela gráfica interactiva y diegética. Viñetas, narración, diálogos y pistas visuales configuran el tejido de la escena actual."
+  },
+  rpg: {
+    title: "RPG MODE",
+    desc: "La narrativa se transforma en un entorno jugable directo. Inspecciona atributos, despliega habilidades de arquetipo, administra el maná éterico y resuelve desafíos tácticos."
+  },
+  codex: {
+    title: "CODEX MODE",
+    desc: "Inspecciona el lore clasificado, tecnologías esotéricas, biografías de Arcontes de la Hermandad Blanca y las implicaciones secretas del Vértice Sinárquico."
+  },
+  simulation: {
+    title: "SIMULATION MODE",
+    desc: "Conéctate al Atanor y simula las ecuaciones de química primordial, diferenciación somática y flujo gravitacional a través de las matrices del Genesis Engine."
+  }
+};
+
+function setEngineMode(mode) {
+  ['comic', 'rpg', 'codex', 'simulation'].forEach(m => {
+    const btn = document.getElementById("btn-mode-" + m);
+    if (btn) {
+      if (m === mode) {
+        btn.className = "py-2.5 px-3 border border-imperial-gold bg-imperial-gold/15 text-royal-gold text-[10px] font-plex font-bold tracking-widest transition-all";
+      } else {
+        btn.className = "py-2.5 px-3 border border-white/10 hover:border-imperial-gold text-outline hover:text-sacred-ivory text-[10px] font-plex tracking-widest transition-all";
+      }
+    }
+  });
+
+  const d = engineDescriptions[mode];
+  document.getElementById("modeDescription").innerHTML = `
+    <strong class="text-royal-gold font-cinzel text-[11px] block mb-1">${d.title}</strong>
+    ${d.desc}
+  `;
+  showCombatFeedback("MODO ACTIVADO: " + d.title, "#c9a227");
+}
+
+function quickNav(target) {
+  if (target === 's02c01') {
+    currentPanel = 0;
+    document.getElementById("headerSeason").innerText = "SEASON 02 · GENESIS";
+    document.getElementById("headerChapter").innerText = "CHAPTER 01 · THE FIRST SIGNAL";
+    renderPanel();
+    showCombatFeedback("S02: GENESIS CARGADA", "#c9a227");
+  } else if (target === 's03c04') {
+    currentPanel = 3;
+    document.getElementById("headerSeason").innerText = "SEASON 03 · LIFE";
+    document.getElementById("headerChapter").innerText = "CHAPTER 04 · THE BODY";
+    renderPanel();
+    showCombatFeedback("S03: LIFE (CH.04) CARGADA", "#55e7ff");
+  }
+}
+
+function toggleResonanceAudio() {
+  const btn = document.getElementById("btn-audio-engine");
+  btn.classList.toggle("text-royal-gold");
+  btn.classList.toggle("border-royal-gold");
+  showCombatFeedback("AUDIO 432Hz: RESONANCIA " + (btn.classList.contains("text-royal-gold") ? "CONECTADA" : "SILENCIADA"), "#55e7ff");
+}
+
+function inspectCodexItem(title) {
+  showCombatFeedback("CODEX: " + title + " DESPLEGADO", "#c9a227");
+}
+
+function showCombatFeedback(text, color) {
+  const anchor = document.getElementById("feedback-anchor");
+  if (!anchor) return;
+  const el = document.createElement("div");
+  el.className = "floating-text font-plex text-[11px] font-bold tracking-wider";
+  el.style.color = color || "#c9a227";
+  el.style.left = (window.innerWidth / 2 - 120 + (Math.random() * 80 - 40)) + "px";
+  el.style.top = (window.innerHeight / 2 - 40 + (Math.random() * 40 - 20)) + "px";
+  el.innerText = "⚡ " + text;
+  anchor.appendChild(el);
+  setTimeout(() => el.remove(), 1200);
+}
+
+// Initial render
+renderPanel();
+updateStatsDisplay();
+</script>
+</body>
+</html>

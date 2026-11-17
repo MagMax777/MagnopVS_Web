@@ -1,0 +1,100 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "MagnopVS Player Profile and Authentication Record",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "name": { "type": "string", "description": "Display name of the user", "maxLength": 100 },
+        "email": { "type": "string", "description": "User email address", "maxLength": 150 },
+        "avatarUrl": { "type": "string", "description": "Avatar image URL", "maxLength": 500 },
+        "faction": { "type": "string", "description": "Quantvm faction chosen by the user", "maxLength": 50 },
+        "level": { "type": "number", "description": "Player level" },
+        "karma": { "type": "number", "description": "Cosmic karma score" },
+        "title": { "type": "string", "description": "Honorific player title", "maxLength": 100 },
+        "magnoPoints": { "type": "number", "description": "Current MagnoPoints (MP)" },
+        "microCoins": { "type": "number", "description": "Current MicroCoins (µC)" },
+        "createdAt": { "type": "string", "description": "Creation timestamp" },
+        "updatedAt": { "type": "string", "description": "Last update timestamp" }
+      },
+      "required": ["uid", "name", "faction"]
+    },
+    "Wallet": {
+      "title": "Wallet",
+      "description": "MagnopVS Economic Wallet entity for a player",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Wallet ID" },
+        "playerId": { "type": "string", "description": "Player ID or UID" },
+        "magnoPoints": { "type": "number", "description": "Current MP balance" },
+        "microCoins": { "type": "number", "description": "Current MicroCoins balance" },
+        "totalEarnedMp": { "type": "number", "description": "All-time MP earned" },
+        "totalSpentMp": { "type": "number", "description": "All-time MP spent" },
+        "totalConvertedMp": { "type": "number", "description": "All-time MP converted to MicroCoins" },
+        "totalEarnedMicroCoins": { "type": "number", "description": "All-time MicroCoins earned" },
+        "totalSpentMicroCoins": { "type": "number", "description": "All-time MicroCoins spent" },
+        "updatedAt": { "type": "string", "description": "Timestamp of last balance change" }
+      },
+      "required": ["id", "playerId", "magnoPoints", "microCoins"]
+    },
+    "WalletTransaction": {
+      "title": "WalletTransaction",
+      "description": "Immutable ledger transaction entry in MagnopVS",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Transaction unique ID" },
+        "playerId": { "type": "string", "description": "Player ID or UID" },
+        "transactionType": { "type": "string", "description": "Type of transaction", "enum": ["REWARD", "CONVERSION", "PURCHASE", "ADJUSTMENT", "TIP", "REFUND"] },
+        "currency": { "type": "string", "description": "Currency used", "enum": ["MP", "MICROCOIN"] },
+        "amount": { "type": "number", "description": "Amount credited or debited" },
+        "balanceBefore": { "type": "number", "description": "Balance prior to operation" },
+        "balanceAfter": { "type": "number", "description": "Balance resulting from operation" },
+        "source": { "type": "string", "description": "Originating gameplay system or activity", "maxLength": 100 },
+        "sourceReference": { "type": "string", "description": "Optional correlated transaction or mission ID", "maxLength": 100 },
+        "idempotencyKey": { "type": "string", "description": "Key preventing duplicate executions", "maxLength": 128 },
+        "description": { "type": "string", "description": "User-facing description", "maxLength": 255 },
+        "status": { "type": "string", "description": "Status of transaction", "enum": ["COMPLETED", "PENDING", "FAILED"] },
+        "createdAt": { "type": "string", "description": "Timestamp of transaction" }
+      },
+      "required": ["id", "playerId", "transactionType", "currency", "amount", "balanceBefore", "balanceAfter", "source", "description", "status"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Real-time message inside a live stream or public channel",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Message ID" },
+        "roomId": { "type": "string", "description": "Room identifier", "maxLength": 64 },
+        "senderId": { "type": "string", "description": "Sender user ID" },
+        "senderName": { "type": "string", "description": "Sender display name", "maxLength": 100 },
+        "senderAvatar": { "type": "string", "description": "Avatar URL", "maxLength": 500 },
+        "content": { "type": "string", "description": "Message content", "maxLength": 1000 },
+        "senderRole": { "type": "string", "description": "Sender role in room", "maxLength": 30 },
+        "senderLevel": { "type": "number", "description": "Player level" },
+        "tipAmount": { "type": "number", "description": "Optional tip amount attached" },
+        "tipCurrency": { "type": "string", "description": "Optional tip currency" },
+        "createdAt": { "type": "string", "description": "Timestamp" }
+      },
+      "required": ["id", "roomId", "senderId", "senderName", "content"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profile collection stored by Firebase Auth UID"
+    },
+    "/wallets/{walletId}": {
+      "schema": { "$ref": "#/entities/Wallet" },
+      "description": "Persistent player wallets for MagnoPoints and MicroCoins"
+    },
+    "/wallets/{walletId}/transactions/{transactionId}": {
+      "schema": { "$ref": "#/entities/WalletTransaction" },
+      "description": "Subcollection of transaction ledger records for a wallet"
+    },
+    "/chat_rooms/{roomId}/messages/{messageId}": {
+      "schema": { "$ref": "#/entities/ChatMessage" },
+      "description": "Messages inside public live stream chat rooms"
+    }
+  }
+}

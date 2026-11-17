@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>COSMOS_OS // SINCRONIZADOR DE ENCUENTROS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Space+Mono:wght@400;700&amp;family=Space+Grotesk:wght@300;400;700&amp;family=Orbitron:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#3b494b",
+                        "outline": "#849495",
+                        "surface-container-highest": "#34343a",
+                        "primary-container": "#00f0ff",
+                        "on-surface-variant": "#b9cacb",
+                        "surface-bright": "#38393f",
+                        "on-secondary-fixed-variant": "#810081",
+                        "on-secondary-fixed": "#380038",
+                        "on-secondary-container": "#500050",
+                        "on-tertiary-fixed-variant": "#5700c9",
+                        "secondary-fixed-dim": "#ffabf3",
+                        "on-background": "#e3e1e9",
+                        "surface": "#121318",
+                        "secondary-container": "#fe00fe",
+                        "surface-dim": "#121318",
+                        "inverse-primary": "#006970",
+                        "tertiary-fixed": "#e9ddff",
+                        "on-tertiary": "#3c0090",
+                        "secondary-fixed": "#ffd7f5",
+                        "on-primary-fixed-variant": "#004f54",
+                        "primary-fixed": "#7df4ff",
+                        "surface-variant": "#34343a",
+                        "surface-tint": "#00dbe9",
+                        "on-primary": "#00363a",
+                        "error-container": "#93000a",
+                        "surface-container-lowest": "#0d0e13",
+                        "tertiary": "#faf3ff",
+                        "surface-container": "#1e1f25",
+                        "primary-fixed-dim": "#00dbe9",
+                        "on-tertiary-container": "#7213ff",
+                        "inverse-on-surface": "#2f3036",
+                        "tertiary-fixed-dim": "#d1bcff",
+                        "error": "#ffb4ab",
+                        "on-tertiary-fixed": "#23005b",
+                        "on-secondary": "#5b005b",
+                        "on-error": "#690005",
+                        "tertiary-container": "#e1d2ff",
+                        "background": "#121318",
+                        "on-surface": "#e3e1e9",
+                        "on-primary-fixed": "#002022",
+                        "secondary": "#ffabf3",
+                        "surface-container-high": "#292a2f",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-container": "#006970",
+                        "inverse-surface": "#e3e1e9",
+                        "surface-container-low": "#1a1b21",
+                        "primary": "#dbfcff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "panel-padding": "20px",
+                        "margin-desktop": "64px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Audiowide"],
+                        "data-mono": ["Orbitron"],
+                        "label-caps": ["Space Mono"],
+                        "headline-md": ["Audiowide"],
+                        "body-lg": ["Space Grotesk"],
+                        "display-lg-mobile": ["Audiowide"],
+                        "body-md": ["Space Grotesk"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #0d0e13;
+            color: #e3e1e9;
+            overflow-x: hidden;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .hex-grid-bg {
+            background-image: 
+                linear-gradient(30deg, #1a1b21 12%, transparent 12.5%, transparent 87%, #1a1b21 87.5%, #1a1b21),
+                linear-gradient(150deg, #1a1b21 12%, transparent 12.5%, transparent 87%, #1a1b21 87.5%, #1a1b21),
+                linear-gradient(30deg, #1a1b21 12%, transparent 12.5%, transparent 87%, #1a1b21 87.5%, #1a1b21),
+                linear-gradient(150deg, #1a1b21 12%, transparent 12.5%, transparent 87%, #1a1b21 87.5%, #1a1b21),
+                linear-gradient(60deg, #34343a 25%, transparent 25.5%, transparent 75%, #34343a 75.5%, #34343a),
+                linear-gradient(60deg, #34343a 25%, transparent 25.5%, transparent 75%, #34343a 75.5%, #34343a);
+            background-size: 80px 140px;
+            background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+            opacity: 0.15;
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        .glass-panel {
+            background: rgba(219, 252, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-panel::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(255, 255, 255, 0.03) 1px, rgba(255, 255, 255, 0.03) 2px);
+            pointer-events: none;
+        }
+
+        .primary-action {
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+            transition: all 0.3s ease;
+        }
+
+        .primary-action:hover {
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+            transform: scale(1.02);
+        }
+
+        .pulse-glow {
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; filter: drop-shadow(0 0 2px #00f0ff); }
+            50% { opacity: 1; filter: drop-shadow(0 0 8px #00f0ff); }
+        }
+
+        .glitch-text:hover {
+            animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .cal-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .resonance-indicator {
+            height: 4px;
+            background: #1e1f25;
+            position: relative;
+            margin-top: 4px;
+        }
+        .resonance-fill {
+            height: 100%;
+            background: #00f0ff;
+            box-shadow: 0 0 10px #00f0ff;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+<div class="scanlines"></div>
+<div class="hex-grid-bg fixed inset-0 z-0"></div>
+<!-- TopNavBar -->
+<nav class="w-full top-0 sticky z-40 bg-surface/10 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(0,240,255,0.2)] flex justify-between items-center px-margin-desktop py-4">
+<div class="flex items-center gap-4">
+<img alt="MagnopVS Logo" class="h-10 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzTQcbiZFU-UrHdlOht50NzHGNG-16ac49TLZ2VUd3F6U_AQs9sOaaSrwh-gWzZTNmbKXKEdIr7xZ8vUT-A90AT1MrZcRs_t6II_dIhe7khirsZetf2oQiiE91hzYqYEvPC_OivMO6itVdeeHBuZRqZJoSdHTD1bUc-p4JMQgJP9ZTzB1zH98jHDkQqqsligjDr9kVc9_JSm-oDPAMXYaWKgMJNqVuGpklJlj_bxiLwx7MCIytIIUSBgDq-vMhfAWQL8X_GfoSmWHf"/>
+<h1 class="font-display-lg text-display-lg-mobile tracking-widest text-primary-container">COSMOS_OS</h1>
+</div>
+<div class="hidden md:flex gap-8">
+<a class="font-label-caps text-label-caps text-primary-container cursor-pointer hover:text-primary transition-all">TERMINAL</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant cursor-pointer hover:text-primary transition-all">ARCHIVES</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant cursor-pointer hover:text-primary transition-all">NETWORK</a>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative hidden sm:block">
+<input class="bg-surface-container-low border-b border-primary-container/30 text-on-surface px-4 py-1 text-sm font-data-mono focus:border-primary-container outline-none" placeholder="QUERY_SECTOR..." type="text"/>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary-container cursor-pointer hover:scale-110 duration-300">notifications</span>
+<span class="material-symbols-outlined text-primary-container cursor-pointer hover:scale-110 duration-300">settings</span>
+<div class="w-8 h-8 bg-primary-container/20 rounded-full flex items-center justify-center border border-primary-container">
+<span class="material-symbols-outlined text-xs">person</span>
+</div>
+</div>
+</div>
+</nav>
+<!-- SideNavBar -->
+<aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 pt-24 flex-col bg-surface/10 backdrop-blur-2xl border-r border-outline-variant/30 shadow-[5px_0_15px_rgba(0,240,255,0.1)] z-30">
+<div class="px-6 mb-12">
+<div class="text-[10px] font-label-caps text-secondary-container mb-1">SECTOR_04</div>
+<div class="font-headline-md text-headline-md text-secondary-container mb-1">PILOT NODE</div>
+<div class="text-[10px] font-label-caps text-on-surface-variant opacity-70">STATUS: RESONANT</div>
+</div>
+<div class="flex flex-col flex-1">
+<div class="group px-6 py-4 flex items-center gap-4 bg-primary-container/20 text-primary-container border-l-4 border-primary-container cursor-pointer transition-all duration-200">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps text-label-caps">NEURAL</span>
+</div>
+<div class="group px-6 py-4 flex items-center gap-4 text-on-surface-variant opacity-70 hover:bg-surface-container-highest/50 hover:text-primary transition-all duration-200 cursor-pointer">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="font-label-caps text-label-caps">SOMATIC</span>
+</div>
+<div class="group px-6 py-4 flex items-center gap-4 text-on-surface-variant opacity-70 hover:bg-surface-container-highest/50 hover:text-primary transition-all duration-200 cursor-pointer">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-label-caps text-label-caps">ASTRAL</span>
+</div>
+</div>
+<div class="p-6">
+<button class="w-full bg-secondary-container text-background font-label-caps py-3 tracking-widest text-xs primary-action">SYNC RESONANCE</button>
+</div>
+<div class="mt-auto p-6 border-t border-outline-variant/20 flex justify-around">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">history</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">terminal</span>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="md:ml-64 p-margin-mobile md:p-12 relative z-10">
+<header class="mb-12">
+<div class="inline-block px-3 py-1 bg-primary-container/10 border border-primary-container text-primary-container font-label-caps text-[10px] mb-4">MAGNOPVS_V6.8 // SUB_SYS: SCHEDULER</div>
+<h2 class="font-display-lg text-display-lg-mobile text-primary mb-2">SINCRONIZADOR DE ENCUENTROS</h2>
+<p class="font-body-md text-on-surface-variant max-w-2xl">Alinee su frecuencia con los expertos del núcleo. Seleccione un conducto de conexión para iniciar la resonancia bi-direccional.</p>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Column: Session Selection & Filters -->
+<div class="lg:col-span-8 space-y-gutter">
+<!-- Section 1: Session Types -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="glass-panel p-6 cursor-pointer group hover:bg-primary-container/10 transition-colors border-l-4 border-l-primary-container">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary-container text-3xl group-hover:scale-110 duration-300">settings_input_antenna</span>
+<div class="text-[9px] font-label-caps text-on-surface-variant">TYPE_01</div>
+</div>
+<h3 class="font-data-mono text-lg text-primary mb-1">SESIÓN VIRTUAL</h3>
+<p class="text-[11px] text-on-surface-variant/60 font-body-md uppercase tracking-tighter">Holographic sync link</p>
+</div>
+<div class="glass-panel p-6 cursor-pointer group hover:bg-secondary-container/10 transition-colors">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-secondary text-3xl group-hover:scale-110 duration-300">location_on</span>
+<div class="text-[9px] font-label-caps text-on-surface-variant">TYPE_02</div>
+</div>
+<h3 class="font-data-mono text-lg text-secondary mb-1">PRESENCIAL</h3>
+<p class="text-[11px] text-on-surface-variant/60 font-body-md uppercase tracking-tighter">Sanctuary node visit</p>
+</div>
+<div class="glass-panel p-6 cursor-pointer group hover:bg-tertiary-container/10 transition-colors">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-tertiary text-3xl group-hover:scale-110 duration-300">flight_takeoff</span>
+<div class="text-[9px] font-label-caps text-on-surface-variant">TYPE_03</div>
+</div>
+<h3 class="font-data-mono text-lg text-tertiary mb-1">A DOMICILIO</h3>
+<p class="text-[11px] text-on-surface-variant/60 font-body-md uppercase tracking-tighter">Drone transport node</p>
+</div>
+</div>
+<!-- Section 2: Cosmic Calendar -->
+<div class="glass-panel p-panel-padding">
+<div class="flex justify-between items-center mb-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container">calendar_month</span>
+<h4 class="font-data-mono text-primary-container tracking-widest">CALENDARIO COSMICO // OCT_2026</h4>
+</div>
+<div class="flex gap-2">
+<button class="w-8 h-8 border border-outline-variant hover:border-primary-container transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="w-8 h-8 border border-outline-variant hover:border-primary-container transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="cal-grid text-center mb-2">
+<div class="font-label-caps text-[10px] text-on-surface-variant">LUN</div>
+<div class="font-label-caps text-[10px] text-on-surface-variant">MAR</div>
+<div class="font-label-caps text-[10px] text-on-surface-variant">MIE</div>
+<div class="font-label-caps text-[10px] text-on-surface-variant">JUE</div>
+<div class="font-label-caps text-[10px] text-on-surface-variant">VIE</div>
+<div class="font-label-caps text-[10px] text-on-surface-variant">SAB</div>
+<div class="font-label-caps text-[10px] text-on-surface-variant">DOM</div>
+</div>
+<div class="cal-grid">
+<!-- Simplified Calendar Loop -->
+<div class="aspect-square glass-panel flex flex-col justify-between p-2 opacity-30">
+<span class="text-[10px] font-data-mono">28</span>
+</div>
+<div class="aspect-square glass-panel flex flex-col justify-between p-2 opacity-30">
+<span class="text-[10px] font-data-mono">29</span>
+</div>
+<div class="aspect-square glass-panel flex flex-col justify-between p-2 opacity-30">
+<span class="text-[10px] font-data-mono">30</span>
+</div>
+<div class="aspect-square glass-panel flex flex-col justify-between p-2 border-primary-container/60 hover:bg-primary-container/10 cursor-pointer">
+<span class="text-[10px] font-data-mono">01</span>
+<div class="resonance-indicator"><div class="resonance-fill w-[82%]"></div></div>
+</div>
+<div class="aspect-square glass-panel flex flex-col justify-between p-2 border-primary-container/60 hover:bg-primary-container/10 cursor-pointer bg-primary-container/20">
+<span class="text-[10px] font-data-mono text-primary-container font-bold">02</span>
+<div class="resonance-indicator"><div class="resonance-fill w-[95%]"></div></div>
+</div>
+<!-- ... rest of the days ... -->
+<script>
+                            const grid = document.querySelector('.cal-grid:last-of-type');
+                            for(let i=3; i<=31; i++) {
+                                const day = document.createElement('div');
+                                day.className = "aspect-square glass-panel flex flex-col justify-between p-2 hover:bg-primary-container/10 cursor-pointer";
+                                const resonance = Math.floor(Math.random() * 90) + 10;
+                                day.innerHTML = `
+                                    <span class="text-[10px] font-data-mono">${i < 10 ? '0'+i : i}</span>
+                                    <div class="resonance-indicator"><div class="resonance-fill" style="width: ${resonance}%"></div></div>
+                                `;
+                                grid.appendChild(day);
+                            }
+                        </script>
+</div>
+</div>
+<!-- Section 3: Time Slot Matrix -->
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<h4 class="font-data-mono text-on-surface tracking-widest text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container">schedule</span>
+                            SLOTS DISPONIBLES // 02 OCT
+                        </h4>
+<div class="flex gap-4">
+<select class="bg-transparent border border-outline-variant text-[10px] font-label-caps px-2 py-1 outline-none text-on-surface-variant">
+<option>DR. VANCE NEURAL</option>
+<option>AIA RESONANCE</option>
+</select>
+</div>
+</div>
+<div class="space-y-2">
+<div class="glass-panel p-4 flex flex-col sm:flex-row items-center justify-between group hover:border-primary-container transition-all">
+<div class="flex items-center gap-6 mb-4 sm:mb-0">
+<div class="text-2xl font-data-mono text-primary group-hover:scale-110 duration-300">09:00</div>
+<div>
+<div class="text-xs font-label-caps text-on-surface-variant">EXPERT_LINK</div>
+<div class="font-data-mono text-on-surface">DR. VANCE NEURAL</div>
+</div>
+</div>
+<div class="flex items-center gap-8">
+<div class="text-right">
+<div class="text-[9px] font-label-caps text-secondary-container">RESONANCE SCORE</div>
+<div class="font-data-mono text-secondary text-sm">98.4% OPTIMAL</div>
+</div>
+<button class="px-6 py-2 bg-primary-container text-background font-label-caps text-[10px] tracking-widest primary-action">SELECT</button>
+</div>
+</div>
+<div class="glass-panel p-4 flex flex-col sm:flex-row items-center justify-between group hover:border-primary-container transition-all">
+<div class="flex items-center gap-6 mb-4 sm:mb-0">
+<div class="text-2xl font-data-mono text-primary">11:30</div>
+<div>
+<div class="text-xs font-label-caps text-on-surface-variant">EXPERT_LINK</div>
+<div class="font-data-mono text-on-surface">AIA RESONANCE</div>
+</div>
+</div>
+<div class="flex items-center gap-8">
+<div class="text-right">
+<div class="text-[9px] font-label-caps text-on-surface-variant">RESONANCE SCORE</div>
+<div class="font-data-mono text-on-surface-variant text-sm">72.1% STABLE</div>
+</div>
+<button class="px-6 py-2 border border-primary-container/30 text-primary-container font-label-caps text-[10px] tracking-widest primary-action hover:bg-primary-container hover:text-background">SELECT</button>
+</div>
+</div>
+<div class="glass-panel p-4 flex flex-col sm:flex-row items-center justify-between opacity-50 grayscale">
+<div class="flex items-center gap-6 mb-4 sm:mb-0">
+<div class="text-2xl font-data-mono">14:00</div>
+<div>
+<div class="text-xs font-label-caps">EXPERT_LINK</div>
+<div class="font-data-mono">DR. VANCE NEURAL</div>
+</div>
+</div>
+<div class="flex items-center gap-8">
+<div class="text-right">
+<div class="text-[9px] font-label-caps">RESONANCE SCORE</div>
+<div class="font-data-mono text-sm">COLLISION DETECTED</div>
+</div>
+<button class="px-6 py-2 bg-outline-variant text-on-surface-variant font-label-caps text-[10px] tracking-widest cursor-not-allowed" disabled="">RESERVED</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Column: Sidebar Summary -->
+<div class="lg:col-span-4 space-y-gutter">
+<div class="glass-panel sticky top-28">
+<div class="bg-primary-container/10 p-4 border-b border-primary-container/30">
+<h3 class="font-data-mono text-primary text-center tracking-[0.2em]">CONFIGURACIÓN DE PULSO</h3>
+</div>
+<div class="p-6 space-y-8">
+<!-- Expert Profile Mini -->
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 border-2 border-primary-container/50 p-1">
+<div class="w-full h-full bg-cover bg-center" data-alt="A portrait of a futuristic neural scientist with glowing cybernetic implants on their temples, wearing sleek white carbon fiber clothing, set against a dark void filled with blue geometric light patterns, cinematic lighting, ultra-high resolution." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD4RFkABFnGUDB2RbuT0Ib4DDe6kXR2gAXMFI4KJceg8C8eU_TjYModOdiDHOAAx1RXwQlM_fJ-aB333zk-Z_qmVdAmU-XNaskxtQ-QrDOy27xw76SoIl73RQOzLJ3DpWzru_A7qOVQaFgMiukNH9-kZYraKGf7PObS-cUfB-Pf4bxwP6M9HCmXv5zrJvnzbqMt5wzFFig_agbUo4k0mXU-dKsgxsrejFzKbu8GVfM3pJzNcgUqUCXpdHWxVDlciWPrdfHWgx-MR7Do')"></div>
+</div>
+<div>
+<div class="text-[10px] font-label-caps text-primary">SELECTED_EXPERT</div>
+<div class="font-headline-md text-on-surface text-lg">DR. VANCE NEURAL</div>
+<div class="text-[10px] font-data-mono text-on-surface-variant">LEVEL 9 ARCHITECT</div>
+</div>
+</div>
+<!-- Details Grid -->
+<div class="space-y-4 border-t border-outline-variant/30 pt-6">
+<div class="flex justify-between items-center">
+<span class="text-[10px] font-label-caps text-on-surface-variant">SESSION_TYPE</span>
+<span class="text-xs font-data-mono text-primary">VIRTUAL_SYNC</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-[10px] font-label-caps text-on-surface-variant">CHRONO_INDEX</span>
+<span class="text-xs font-data-mono text-on-surface">02 OCT // 09:00</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-[10px] font-label-caps text-on-surface-variant">ALIGNMENT_MODE</span>
+<span class="text-xs font-data-mono text-secondary">DEEP_RESONANCE</span>
+</div>
+</div>
+<!-- Visual Indicator -->
+<div class="relative h-24 border border-outline-variant/30 flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 opacity-20">
+
+</div>
+<div class="z-10 text-center">
+<div class="text-[8px] font-label-caps text-on-surface-variant mb-1">STABILITY_FORECAST</div>
+<div class="text-xl font-data-mono text-primary pulse-glow">OPTIMAL_LINK</div>
+</div>
+</div>
+<!-- Cost & Confirm -->
+<div class="pt-4 border-t border-outline-variant/30">
+<div class="flex justify-between items-end mb-6">
+<div>
+<div class="text-[10px] font-label-caps text-on-surface-variant">KARMIC_VALUE</div>
+<div class="font-data-mono text-2xl text-primary tracking-tighter">450.00 M_VS</div>
+</div>
+<div class="text-[10px] font-label-caps text-secondary text-right">ENERGY TAX INC.</div>
+</div>
+<button class="w-full bg-primary-container text-background font-display-lg py-5 text-sm tracking-[0.3em] primary-action hover:bg-white transition-colors">
+                                CONFIRMAR SINCRONIZACIÓN
+                            </button>
+</div>
+</div>
+<!-- HUD Tag -->
+<div class="absolute top-0 right-0 p-1 text-[8px] font-label-caps text-on-surface-variant opacity-30 transform rotate-90 origin-top-right translate-x-full translate-y-4">
+                        REF_ID: MAG-9922-SYNC
+                    </div>
+</div>
+<!-- Secondary Panel: Filters -->
+<div class="glass-panel p-6 space-y-4">
+<h5 class="text-[10px] font-label-caps text-primary border-b border-primary/20 pb-2">ACTIVE_MODULATORS</h5>
+<div class="space-y-3">
+<label class="block">
+<span class="text-[10px] font-label-caps text-on-surface-variant block mb-1">SPECIALTY</span>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-primary-container/20 border border-primary-container text-[9px] font-data-mono text-primary cursor-pointer">NEURO_LINK</span>
+<span class="px-2 py-1 border border-outline-variant text-[9px] font-data-mono text-on-surface-variant cursor-pointer hover:border-primary-container">KARMIC_OS</span>
+<span class="px-2 py-1 border border-outline-variant text-[9px] font-data-mono text-on-surface-variant cursor-pointer hover:border-primary-container">VOID_WALKER</span>
+</div>
+</label>
+<div class="pt-2">
+<span class="text-[10px] font-label-caps text-on-surface-variant block mb-1">LOCATION RADIUS (KM)</span>
+<input class="w-full h-1 bg-surface-container-highest appearance-none cursor-pointer accent-primary-container" type="range"/>
+<div class="flex justify-between text-[8px] font-data-mono text-on-surface-variant mt-1">
+<span>0KM</span>
+<span>50KM</span>
+<span>100KM</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB for Quick Sync -->
+<div class="fixed bottom-8 right-8 z-50">
+<button class="w-16 h-16 bg-primary-container text-background rounded-none primary-action shadow-[0_0_20px_#00f0ff] flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+</div>
+<!-- Background Decoration -->
+<div class="fixed top-0 right-0 w-[500px] h-[500px] bg-primary-container/5 rounded-full blur-[120px] -z-10"></div>
+<div class="fixed bottom-0 left-0 w-[400px] h-[400px] bg-secondary-container/5 rounded-full blur-[100px] -z-10"></div>
+<script>
+        // Micro-interaction for resonance scores
+        document.querySelectorAll('.resonance-fill').forEach(fill => {
+            setInterval(() => {
+                const currentWidth = parseFloat(fill.style.width);
+                const jitter = (Math.random() - 0.5) * 2;
+                fill.style.width = Math.max(10, Math.min(100, currentWidth + jitter)) + '%';
+            }, 3000);
+        });
+
+        // Toggle session active state
+        const sessionCards = document.querySelectorAll('.glass-panel.cursor-pointer');
+        sessionCards.forEach(card => {
+            card.addEventListener('click', () => {
+                sessionCards.forEach(c => {
+                    c.classList.remove('border-l-4', 'border-l-primary-container', 'border-l-secondary', 'border-l-tertiary');
+                    c.classList.remove('bg-primary-container/10', 'bg-secondary-container/10', 'bg-tertiary-container/10');
+                });
+                
+                const title = card.querySelector('h3').textContent;
+                if(title.includes('VIRTUAL')) {
+                    card.classList.add('border-l-4', 'border-l-primary-container', 'bg-primary-container/10');
+                } else if(title.includes('PRESENCIAL')) {
+                    card.classList.add('border-l-4', 'border-l-secondary', 'bg-secondary-container/10');
+                } else {
+                    card.classList.add('border-l-4', 'border-l-tertiary', 'bg-tertiary-container/10');
+                }
+            });
+        });
+    </script>
+</body></html>

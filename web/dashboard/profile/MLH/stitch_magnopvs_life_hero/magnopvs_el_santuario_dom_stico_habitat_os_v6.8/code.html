@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MagnopVS · El Santuario Doméstico (Habitat-OS v6.8)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&amp;family=Orbitron:wght@400;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide:wght@100..900&amp;family=Orbitron:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --neon-primary: #abc7ff;
+            --neon-secondary: #5adcb3;
+        }
+        body {
+            background-color: #0e0e0e;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(171, 199, 255, 0.05) 0%, transparent 80%),
+                repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.01) 0px, rgba(255, 255, 255, 0.01) 1px, transparent 1px, transparent 2px);
+            background-size: 100% 100%, 100% 4px;
+            color: #e5e2e1;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(28, 27, 27, 0.6);
+            backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(90, 220, 179, 0.4), transparent);
+        }
+        .scan-line {
+            width: 100%;
+            height: 2px;
+            background: rgba(171, 199, 255, 0.1);
+            position: absolute;
+            top: 0;
+            animation: scan 8s linear infinite;
+            z-index: 10;
+            pointer-events: none;
+        }
+        @keyframes scan {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+        .hud-corner {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border: 1px solid var(--neon-secondary);
+        }
+        .hud-corner-tl { top: 0; left: 0; border-right: none; border-bottom: none; }
+        .hud-corner-br { bottom: 0; right: 0; border-left: none; border-top: none; }
+        
+        .pulse-glow {
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.6; filter: drop-shadow(0 0 5px var(--neon-secondary)); }
+            50% { opacity: 1; filter: drop-shadow(0 0 15px var(--neon-secondary)); }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-container": "#002859",
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface-container-highest": "#353534",
+                        "secondary": "#5adcb3",
+                        "on-primary": "#002f66",
+                        "surface-bright": "#393939",
+                        "primary-fixed-dim": "#abc7ff",
+                        "surface-dim": "#131313",
+                        "on-error": "#690005",
+                        "on-error-container": "#ffdad6",
+                        "inverse-surface": "#e5e2e1",
+                        "tertiary": "#ffabf3",
+                        "secondary-fixed-dim": "#5adcb3",
+                        "error-container": "#93000a",
+                        "on-surface-variant": "#c1c6d7",
+                        "primary-container": "#448fff",
+                        "on-surface": "#e5e2e1",
+                        "background": "#131313",
+                        "secondary-container": "#00a782",
+                        "outline": "#8b91a0",
+                        "outline-variant": "#414754",
+                        "on-background": "#e5e2e1",
+                        "surface-container-low": "#1c1b1b",
+                        "surface": "#131313",
+                        "surface-container": "#201f1f",
+                        "on-secondary-container": "#003326",
+                        "primary": "#abc7ff",
+                        "error": "#ffb4ab",
+                        "surface-tint": "#abc7ff",
+                        "surface-variant": "#353534",
+                        "tertiary-container": "#fe00fe",
+                        "inverse-primary": "#005cbc"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "48px",
+                        "container-max": "1440px",
+                        "margin-mobile": "16px",
+                        "unit": "4px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Audiowide"],
+                        "body-lg": ["Orbitron"],
+                        "label-caps": ["Orbitron"],
+                        "headline-md": ["Audiowide"],
+                        "display-lg": ["Audiowide"],
+                        "data-num": ["Orbitron"],
+                        "body-md": ["Orbitron"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.15em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                        "data-num": ["20px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop py-4 bg-background/80 backdrop-blur-xl border-b border-outline-variant/15 shadow-[0_0_15px_rgba(171,199,255,0.1)]">
+<div class="flex items-center gap-6">
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-widest uppercase">MAGNOPVS LIFE HERO</h1>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="text-on-surface-variant font-medium hover:text-secondary hover:bg-surface-container-high/30 transition-all duration-300 px-3 py-1" href="#">Macro System 6</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-bold" href="#">Vital Management</a>
+<a class="text-on-surface-variant font-medium hover:text-secondary hover:bg-surface-container-high/30 transition-all duration-300 px-3 py-1" href="#">Quantvm Matrix</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative group">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">settings</span>
+</div>
+<div class="relative group">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">notifications</span>
+<span class="absolute -top-1 -right-1 w-2 h-2 bg-error rounded-full"></span>
+</div>
+<div class="w-10 h-10 rounded-full border border-primary/50 overflow-hidden ml-4">
+<img class="w-full h-full object-cover" data-alt="A cinematic portrait of a high-ranking tactical operator with futuristic cybernetic ocular implants, glowing celestial blue light reflecting on their skin, set against a dark obsidian background with faint UI elements floating in the periphery. Deep shadows and high-contrast lighting create a Noir-Tech atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLbW43-nnIibkSAdJZlves-6a2OPwa-G2Bqk8Zhijkk7o538DV9sX1PvNm1v-ffgnKhZgp9Ceu6fXxgEa3DPwFF8HSv1IO7ngDqO3gnPbtfRs745uUM07FoZoAkV7iIkYYcsxvCBWR972Uj6fw8WhxTH3jOargNZZs-C2e6SAPd1SfQSzmADggbgM_KI7ZmfNuTTC61H8YpS1ZQ6O-B0AnaWvTmZa7svWTL9yAfXeYvOQ-NeE1STCn_g"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full z-40 flex flex-col pt-24 pb-8 w-64 bg-surface-container-lowest/90 backdrop-blur-2xl border-r border-outline-variant/10">
+<div class="px-6 mb-10">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-8 h-8 flex items-center justify-center bg-primary-container/20 border border-primary/30 rounded-lg">
+<span class="material-symbols-outlined text-primary text-sm">shield_with_heart</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-secondary">OPERATOR</p>
+<p class="text-[10px] text-outline">Rank: Patriarch/Matriarch</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 flex flex-col">
+<a class="flex items-center gap-4 px-6 py-4 text-outline hover:text-on-surface hover:bg-surface-container-highest/20 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 bg-primary-container/20 text-primary border-r-4 border-primary transition-transform translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="home_work">home_work</span>
+<span class="font-label-caps text-label-caps">Sanctuary</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-outline hover:text-on-surface hover:bg-surface-container-highest/20 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="pets">pets</span>
+<span class="font-label-caps text-label-caps">Entity Protocol</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-outline hover:text-on-surface hover:bg-surface-container-highest/20 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-caps text-label-caps">Vault</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-outline hover:text-on-surface hover:bg-surface-container-highest/20 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+<span class="font-label-caps text-label-caps">System Log</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full py-3 bg-secondary text-on-secondary font-label-caps text-label-caps tracking-widest rounded-lg hover:brightness-110 active:scale-95 transition-all mb-8">
+                INITIATE PROTOCOL
+            </button>
+<div class="space-y-4">
+<a class="flex items-center gap-4 text-outline hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-caps text-label-caps">Support</span>
+</a>
+<a class="flex items-center gap-4 text-outline hover:text-error transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-caps text-label-caps">Log Out</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 pt-24 px-margin-desktop pb-24 min-h-screen">
+<!-- Header Hero -->
+<section class="mb-12 relative">
+<div class="absolute -top-20 -left-20 w-96 h-96 bg-primary/10 blur-[100px] pointer-events-none"></div>
+<div class="flex justify-between items-end mb-6">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">El Santuario Doméstico</h2>
+<div class="flex items-center gap-3">
+<span class="px-3 py-1 bg-secondary/10 border border-secondary/30 text-secondary text-[10px] font-label-caps">Habitat-OS v6.8</span>
+<span class="px-3 py-1 bg-primary/10 border border-primary/30 text-primary text-[10px] font-label-caps">System Nominal</span>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-caps text-label-caps text-outline mb-1">LOCAL TIME (ZULU+1)</p>
+<p class="font-data-num text-headline-md text-primary" id="current-clock">00:00:00</p>
+</div>
+</div>
+</section>
+<!-- Bento Grid Main Content -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- 1. Sanctuary Health: Telemetry (Row 1, Span 8) -->
+<div class="col-span-12 lg:col-span-8 glass-card p-6 min-h-[300px]">
+<div class="scan-line"></div>
+<div class="hud-corner hud-corner-tl"></div>
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="font-label-caps text-label-caps text-primary tracking-[0.2em]">01_SANCTUARY_HEALTH</h3>
+<p class="text-xs text-outline mt-1 uppercase">Environmental Telemetry Cluster</p>
+</div>
+<span class="material-symbols-outlined text-secondary pulse-glow">query_stats</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="flex flex-col gap-4 p-4 border border-outline-variant/10 bg-white/5 rounded-lg">
+<div class="flex justify-between items-center">
+<span class="text-xs font-label-caps text-outline">AIR QUALITY</span>
+<span class="material-symbols-outlined text-secondary text-sm">air</span>
+</div>
+<div class="text-center py-2">
+<p class="font-data-num text-display-lg text-secondary">98<span class="text-sm ml-1">%</span></p>
+<p class="text-[10px] text-outline-variant tracking-widest mt-2 uppercase">Purification Active</p>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-[98%] shadow-[0_0_10px_#5adcb3]"></div>
+</div>
+</div>
+<div class="flex flex-col gap-4 p-4 border border-outline-variant/10 bg-white/5 rounded-lg">
+<div class="flex justify-between items-center">
+<span class="text-xs font-label-caps text-outline">ENERGY SYNC</span>
+<span class="material-symbols-outlined text-primary text-sm">electric_bolt</span>
+</div>
+<div class="text-center py-2">
+<p class="font-data-num text-display-lg text-primary">1.2<span class="text-sm ml-1">kW</span></p>
+<p class="text-[10px] text-outline-variant tracking-widest mt-2 uppercase">Solar Yield Positive</p>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[65%] shadow-[0_0_10px_#abc7ff]"></div>
+</div>
+</div>
+<div class="flex flex-col gap-4 p-4 border border-outline-variant/10 bg-white/5 rounded-lg">
+<div class="flex justify-between items-center">
+<span class="text-xs font-label-caps text-outline">STRUCTURAL</span>
+<span class="material-symbols-outlined text-tertiary text-sm">home_repair_service</span>
+</div>
+<div class="text-center py-2">
+<p class="font-data-num text-display-lg text-tertiary">00<span class="text-sm ml-1">FL</span></p>
+<p class="text-[10px] text-outline-variant tracking-widest mt-2 uppercase">Failures Detected</p>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full w-[100%] shadow-[0_0_10px_#ffabf3]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- 4. Automations & Alerts (Row 1, Span 4) -->
+<div class="col-span-12 lg:col-span-4 glass-card p-6 overflow-y-auto max-h-[300px]">
+<div class="hud-corner hud-corner-br"></div>
+<h3 class="font-label-caps text-label-caps text-primary tracking-[0.2em] mb-4">04_SECURITY_LOG</h3>
+<div class="space-y-3">
+<div class="p-3 border-l-2 border-secondary bg-secondary/5 flex justify-between items-start">
+<div>
+<p class="text-[10px] text-secondary font-bold">14:02:11 · ENTRY_GRANTED</p>
+<p class="text-xs text-on-surface">Main Perimeter: Operator Primary</p>
+</div>
+<span class="material-symbols-outlined text-secondary text-sm">verified_user</span>
+</div>
+<div class="p-3 border-l-2 border-primary bg-primary/5 flex justify-between items-start">
+<div>
+<p class="text-[10px] text-primary font-bold">13:45:00 · AUTO_CLEAN</p>
+<p class="text-xs text-on-surface">Unit 04 initiated sector Kitchen</p>
+</div>
+<span class="material-symbols-outlined text-primary text-sm">smart_toy</span>
+</div>
+<div class="p-3 border-l-2 border-outline-variant bg-white/5 flex justify-between items-start opacity-60">
+<div>
+<p class="text-[10px] text-outline font-bold">12:30:52 · LIGHT_SYNC</p>
+<p class="text-xs text-on-surface">Sunset sequence primed</p>
+</div>
+<span class="material-symbols-outlined text-outline text-sm">wb_twilight</span>
+</div>
+<div class="p-3 border-l-2 border-error bg-error/5 flex justify-between items-start">
+<div>
+<p class="text-[10px] text-error font-bold">10:15:22 · UNKNOWN_OBJECT</p>
+<p class="text-xs text-on-surface">Front Deck Camera: Potential Cat detected</p>
+</div>
+<span class="material-symbols-outlined text-error text-sm">warning</span>
+</div>
+</div>
+</div>
+<!-- 2. Logistic Flow: Domestic Inventory (Row 2, Span 4) -->
+<div class="col-span-12 lg:col-span-4 glass-card p-6 flex flex-col">
+<h3 class="font-label-caps text-label-caps text-primary tracking-[0.2em] mb-6">02_LOGISTIC_FLOW</h3>
+<div class="space-y-6 flex-1">
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-xs">
+<span class="text-outline uppercase">Inventory Criticality</span>
+<span class="text-secondary">Optimal</span>
+</div>
+<div class="flex gap-1 h-3">
+<div class="flex-1 bg-secondary shadow-[inset_0_0_5px_rgba(0,0,0,0.5)]"></div>
+<div class="flex-1 bg-secondary shadow-[inset_0_0_5px_rgba(0,0,0,0.5)]"></div>
+<div class="flex-1 bg-secondary shadow-[inset_0_0_5px_rgba(0,0,0,0.5)]"></div>
+<div class="flex-1 bg-secondary/20 border border-secondary/30"></div>
+<div class="flex-1 bg-secondary/20 border border-secondary/30"></div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-4 border border-outline-variant/10 rounded-lg">
+<p class="font-label-caps text-[10px] text-outline mb-1">TASKS</p>
+<p class="font-data-num text-xl text-primary">07</p>
+<p class="text-[9px] text-outline-variant mt-1">Pending Sync</p>
+</div>
+<div class="p-4 border border-outline-variant/10 rounded-lg">
+<p class="font-label-caps text-[10px] text-outline mb-1">FINANCES</p>
+<p class="font-data-num text-xl text-primary">€2.1k</p>
+<p class="text-[9px] text-outline-variant mt-1">Overhead Current</p>
+</div>
+</div>
+<button class="w-full mt-auto flex items-center justify-between p-4 bg-white/5 border border-primary/20 hover:bg-primary/10 transition-colors group">
+<span class="font-label-caps text-xs tracking-widest group-hover:text-primary transition-colors">ACCESS VAULT</span>
+<span class="material-symbols-outlined text-primary">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- 3. Room Management: Sector Layout (Row 2, Span 8) -->
+<div class="col-span-12 lg:col-span-8 glass-card p-6 min-h-[400px] relative overflow-hidden">
+<div class="absolute inset-0 z-0 opacity-10">
+
+</div>
+<div class="relative z-10">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="font-label-caps text-label-caps text-primary tracking-[0.2em]">03_SECTOR_OPTIMIZATION</h3>
+<p class="text-xs text-outline mt-1 uppercase">Environmental Strategy Grid</p>
+</div>
+<div class="flex gap-2">
+<button class="px-3 py-1 bg-primary/20 border border-primary/50 text-primary text-[10px] font-label-caps hover:bg-primary hover:text-on-primary transition-colors">PLAN VIEW</button>
+<button class="px-3 py-1 bg-white/5 border border-outline-variant/30 text-outline text-[10px] font-label-caps">STATS OVERLAY</button>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+<!-- Kitchen Sector -->
+<div class="group relative aspect-square border border-outline-variant/20 hover:border-secondary/50 transition-all cursor-pointer bg-black/40 p-4">
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-label-caps text-outline group-hover:text-secondary">SC_01</span>
+<span class="material-symbols-outlined text-sm text-outline group-hover:text-secondary group-hover:rotate-12 transition-all">restaurant</span>
+</div>
+<div class="mt-4">
+<h4 class="font-label-caps text-xs">Kitchen Sector</h4>
+<div class="mt-2 space-y-1">
+<div class="flex justify-between items-center text-[10px]">
+<span class="text-outline-variant">Nutrition Buff</span>
+<span class="text-secondary">+15%</span>
+</div>
+<div class="w-full bg-surface-container-highest h-[2px]">
+<div class="bg-secondary h-full w-[85%]"></div>
+</div>
+</div>
+</div>
+<div class="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="text-[8px] text-secondary font-bold">READY TO OPTIMIZE</span>
+</div>
+</div>
+<!-- Sanctuary Core (Living Room) -->
+<div class="group relative aspect-square border border-secondary/40 bg-secondary/5 p-4">
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-label-caps text-secondary">SC_02</span>
+<span class="material-symbols-outlined text-sm text-secondary animate-pulse">spa</span>
+</div>
+<div class="mt-4">
+<h4 class="font-label-caps text-xs">Sanctuary Core</h4>
+<div class="mt-2 space-y-1">
+<div class="flex justify-between items-center text-[10px]">
+<span class="text-outline-variant">Serenity Index</span>
+<span class="text-secondary">Maximized</span>
+</div>
+<div class="w-full bg-surface-container-highest h-[2px]">
+<div class="bg-secondary h-full w-[100%] shadow-[0_0_5px_#5adcb3]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Entity Quarters (Bedrooms) -->
+<div class="group relative aspect-square border border-outline-variant/20 hover:border-primary/50 transition-all cursor-pointer bg-black/40 p-4">
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-label-caps text-outline group-hover:text-primary">SC_03</span>
+<span class="material-symbols-outlined text-sm text-outline group-hover:text-primary transition-all">bed</span>
+</div>
+<div class="mt-4">
+<h4 class="font-label-caps text-xs">Entity Quarters</h4>
+<div class="mt-2 space-y-1">
+<div class="flex justify-between items-center text-[10px]">
+<span class="text-outline-variant">Rest Multiplier</span>
+<span class="text-primary">x1.5</span>
+</div>
+<div class="w-full bg-surface-container-highest h-[2px]">
+<div class="bg-primary h-full w-[70%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Command Deck (Office) -->
+<div class="group relative aspect-square border border-outline-variant/20 hover:border-primary/50 transition-all cursor-pointer bg-black/40 p-4">
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-label-caps text-outline group-hover:text-primary">SC_04</span>
+<span class="material-symbols-outlined text-sm text-outline group-hover:text-primary transition-all">terminal</span>
+</div>
+<div class="mt-4">
+<h4 class="font-label-caps text-xs">Command Deck</h4>
+<div class="mt-2 space-y-1">
+<div class="flex justify-between items-center text-[10px]">
+<span class="text-outline-variant">Focus Output</span>
+<span class="text-primary">Staging</span>
+</div>
+<div class="w-full bg-surface-container-highest h-[2px]">
+<div class="bg-primary h-full w-[45%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bio-Zone (Garden/Plants) -->
+<div class="group relative aspect-square border border-outline-variant/20 hover:border-secondary/50 transition-all cursor-pointer bg-black/40 p-4">
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-label-caps text-outline group-hover:text-secondary">SC_05</span>
+<span class="material-symbols-outlined text-sm text-outline group-hover:text-secondary transition-all">potted_plant</span>
+</div>
+<div class="mt-4">
+<h4 class="font-label-caps text-xs">Bio-Zone</h4>
+<div class="mt-2 space-y-1">
+<div class="flex justify-between items-center text-[10px]">
+<span class="text-outline-variant">Oxygen Yield</span>
+<span class="text-secondary">+2.4%</span>
+</div>
+<div class="w-full bg-surface-container-highest h-[2px]">
+<div class="bg-secondary h-full w-[60%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- The Void (Utility/Storage) -->
+<div class="group relative aspect-square border border-outline-variant/20 hover:border-outline/50 transition-all cursor-pointer bg-black/40 p-4">
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-label-caps text-outline">SC_06</span>
+<span class="material-symbols-outlined text-sm text-outline">inventory_2</span>
+</div>
+<div class="mt-4">
+<h4 class="font-label-caps text-xs">The Void</h4>
+<div class="mt-2 space-y-1">
+<div class="flex justify-between items-center text-[10px]">
+<span class="text-outline-variant">Volume Cap</span>
+<span class="text-outline">88%</span>
+</div>
+<div class="w-full bg-surface-container-highest h-[2px]">
+<div class="bg-outline h-full w-[88%]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-6 px-margin-desktop flex justify-between items-center bg-black/40 border-t border-outline-variant/5">
+<p class="font-label-caps text-label-caps text-outline">© 2024 MAGNOPVS CORP. NEURAL-LINK ESTABLISHED.</p>
+<div class="flex gap-8">
+<a class="font-label-caps text-label-caps text-outline hover:text-primary transition-opacity" href="#">Privacy Protocol</a>
+<a class="font-label-caps text-label-caps text-outline hover:text-primary transition-opacity" href="#">Terms of Engagement</a>
+<a class="font-label-caps text-label-caps text-outline hover:text-primary transition-opacity" href="#">System Status</a>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-secondary animate-pulse"></div>
+<span class="font-label-caps text-label-caps text-secondary">LIVE_HUB_LINK_STABLE</span>
+</div>
+</footer>
+<script>
+        // Simple Clock micro-interaction
+        function updateClock() {
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0');
+            const s = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('current-clock').textContent = `${h}:${m}:${s}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Mouse trailing glow effect (Canvas-less)
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            // No direct DOM manipulation for performance, but we can update CSS variables if needed for more complex effects.
+        });
+    </script>
+</body></html>
