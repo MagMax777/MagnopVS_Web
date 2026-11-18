@@ -153,7 +153,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ onEnterQuantvm, isInitia
         <div className="fixed inset-0 z-[1000] flex flex-col items-center justify-center bg-[#000000] overflow-hidden select-none">
           
           {/* WebGL Shader Portal Background */}
-          <ShaderPortalCanvas />
+          {/* <ShaderPortalCanvas /> */}
 
           {/* Particle drift effect layer */}
           <div className="absolute inset-0 pointer-events-none z-0 opacity-40">
@@ -167,8 +167,8 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ onEnterQuantvm, isInitia
           </div>
 
           {/* Glowing Hypercube Rings around the Sphere */}
-          <div className="absolute w-64 h-64 sm:w-80 sm:h-80 rounded-full border border-white/20 shadow-[0_0_80px_rgba(0,240,255,0.25)] pointer-events-none animate-spin-slow z-10" />
-          <div className="absolute w-48 h-48 sm:w-60 sm:h-60 rounded-full border border-[#00f0ff]/40 shadow-[inset_0_0_50px_rgba(0,240,255,0.2)] pointer-events-none z-10" />
+          
+          
 
           {/* Boot Sequence Card Overlay */}
           {showBootCard ? (
@@ -273,9 +273,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ onEnterQuantvm, isInitia
       {/* Ambient Shader Canvas in lower opacity */}
       <div className="opacity-30">
         <ShaderPortalCanvas />
-      </div>
-
-      {/* Main Banner Content */}
+      </div>      {/* Main Banner Content */}
       <section id="hero-banner" className="relative z-10 w-full min-h-[85vh] flex justify-center items-center py-12 px-4 sm:px-6">
         <div className="w-full max-w-5xl flex flex-col gap-8">
           
