@@ -33,6 +33,10 @@ jobs:
         run: |
           mkdir -p dist/web
           cp -a frames dist/web/frames
+      - name: Copy Marketplace
+        run: |
+          mkdir -p web/dist/database
+          cp -a database/marketplace web/dist/database/marketplace
       - name: Remove server bundle
         working-directory: web
         run: rm -f dist/server.cjs dist/server.cjs.map
@@ -44,4 +48,5 @@ jobs:
           path: web/dist
       - name: Deploy
         uses: actions/deploy-pages@v5
+
 
